@@ -28,7 +28,7 @@ class VoskModel:
             print(status, file=sys.stderr)
         self._q.put(bytes(indata))
 
-    def escuchar_latente(self, frase_despertar: str = "cerrar dav") -> None:
+    def escuchar_latente(self, frase_despertar: str = "cerrar", callback_texto=None) -> None:
         """
         Ejecución continua hasta que se dice la frase de activación/despertar.
         """
@@ -47,6 +47,10 @@ class VoskModel:
                     
                     if texto:
                         print(f"Detectado: {texto}")
+                        
+                        # Le mandamos el texto detectado a la ventana (si existe el callback)
+                        if callback_texto:
+                            callback_texto(texto)
                         
                         if frase_despertar in texto:
                             print(f"\n¡Frase '{frase_despertar}' detectada! Saliendo de la escucha latente...")
