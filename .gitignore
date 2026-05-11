@@ -1,7 +1,3 @@
-models/
-*.pyc
-__pycache__/
-*.zip
-local_config.py
-.idea/
-*.log
+
+dav/
+MODELO/vosk-model-small-es-0.42/
