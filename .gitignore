@@ -82,14 +82,20 @@ CLAUDE.md
 *.autosave
 
 # =============================================================
-# Archivos grandes / modelos (MODELO/)
+# Archivos grandes / modelos (MODELO/ y models/)
 # Estos binarios pesados no deben estar en git; usar Git LFS
 # o almacenamiento externo.
 # =============================================================
+models/
 MODELO/*.zip
 MODELO/*.tar.gz
 MODELO/*.gz
 MODELO/*.whl
+
+# =============================================================
+# Configuración local
+# =============================================================
+local_config.py
 
 # =============================================================
 # FreeCAD específico
