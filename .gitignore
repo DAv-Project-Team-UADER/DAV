@@ -135,3 +135,6 @@ FREECAD/ChangeLog.txt
 coverage/
 .coverage
 htmlcov/
+MODELO/vosk-model-small-es-0.42/
+__pycache__/
+*.pyc

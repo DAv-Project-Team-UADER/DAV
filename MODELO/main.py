@@ -5,7 +5,8 @@ from src.threads.GestorDeHilos import GestorDeHilos
 from src.Command.command import Command
 
 def main():
-    model_path = "vosk-model-small-es-0.42"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(BASE_DIR, "vosk-model-small-es-0.42")
 
     if not os.path.exists(model_path):
         print(f"ERROR: No se encuentra la carpeta '{model_path}'")
