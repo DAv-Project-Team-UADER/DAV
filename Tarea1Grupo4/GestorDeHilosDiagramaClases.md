@@ -38,31 +38,3 @@ classDiagram
     GestorDeHilos --> Thread : crea y gestiona
     GestorDeHilos --> Event : usa para sincronizar
 ```
-
----
-
-## Diagrama de flujo
-
-```mermaid
-flowchart TD
-    A([Inicio]) --> B[GestorDeHilos.iniciar]
-    B --> C{i < maxHilos?}
-    C -- Sí --> D[Crear Event i]
-    D --> E[Crear Thread i]
-    E --> F[Thread i arranca y espera evento]
-    F --> G[Imprimir 'Hilo i activo']
-    G --> C
-    C -- No --> H[GestorDeHilos.detener]
-    H --> I{quedan hilos?}
-    I -- Sí, i menor a maxHilos-1 --> J[Imprimir i+1]
-    J --> K[evento.set]
-    K --> L[sleep 1s]
-    L --> M[Thread i imprime 'Hilo i cerrando']
-    M --> I
-    I -- último hilo --> N[evento.set]
-    N --> O[sleep 1s]
-    O --> P[Thread i imprime 'Hilo i cerrando']
-    P --> Q[Imprimir 'listo']
-    Q --> R[join todos los hilos]
-    R --> S([Fin])
-```

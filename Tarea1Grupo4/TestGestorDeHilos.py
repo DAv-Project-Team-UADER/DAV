@@ -14,7 +14,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from GestorDeHilos import GestorDeHilos
+from Tarea1Grupo4.GestorDeHilos import GestorDeHilos
 
 if __name__ == "__main__":
     gestor = GestorDeHilos(maxHilos=10)

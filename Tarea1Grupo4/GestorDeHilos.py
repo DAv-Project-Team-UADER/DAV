@@ -19,7 +19,20 @@ import time
 
 
 class GestorDeHilos:
-    """Gestiona el ciclo de vida de hasta N hilos de trabajo."""
+    """Manages the lifecycle of up to N worker threads.
+
+    Creates daemon threads identified as ``DAV-Hilo-N``. Each thread blocks on
+    an :class:`threading.Event` and exits as soon as that event is set.
+
+    Args:
+        maxHilos: Maximum number of threads to spawn. Defaults to 10.
+
+    Example::
+
+        gestor = GestorDeHilos(maxHilos=5)
+        gestor.iniciar()
+        gestor.detener()
+    """
 
     def __init__(self, maxHilos: int = 10):
         self._maxHilos = maxHilos
@@ -27,7 +40,11 @@ class GestorDeHilos:
         self._eventos: list[threading.Event] = []
 
     def iniciar(self) -> None:
-        """Crea y arranca cada hilo de forma secuencial."""
+        """Create and start each thread sequentially.
+
+        Each thread is a daemon so it does not prevent the process from
+        exiting. Prints a confirmation line per thread once it is running.
+        """
         for i in range(self._maxHilos):
             evento = threading.Event()
             self._eventos.append(evento)
@@ -39,20 +56,25 @@ class GestorDeHilos:
             )
             self._hilos.append(hilo)
             hilo.start()
-            print(f"Hilo {i + 1} activo")
+            print(f"Thread {i + 1} active")
 
     def detener(self) -> None:
-        """Cierra cada hilo uno por segundo; imprime 1..9 y luego 'listo'."""
+        """Stop all threads, signalling one per second.
+
+        Prints the thread index (1 … N-1) before signalling each event, then
+        prints ``'ready'`` once all threads have been joined.
+        """
         for i, evento in enumerate(self._eventos):
             if i < self._maxHilos - 1:
                 print(i + 1)
             evento.set()
             time.sleep(1)
-        print("listo")
+        print("ready")
 
         for hilo in self._hilos:
             hilo.join()
 
     def _tareaHilo(self, indice: int, evento: threading.Event) -> None:
+        # Bloquea hasta recibir la señal de detención
         evento.wait()
-        print(f"  Hilo {indice} cerrando")
+        print(f"  Thread {indice} closing")
