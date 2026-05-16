@@ -1,0 +1,181 @@
+EXPLICACIONES:
+
+## 1. Diagrama de clases
+
+**Propósito**: Muestra la estructura estática del sistema: las clases, sus atributos, métodos y las relaciones entre ellas.
+
+**Clases principales**:
+
+- **`ParamSpec`**  
+  Representa la especificación de un parámetro de función: nombre, tipo, si es obligatorio, longitud máxima (para strings), valores permitidos. Su método `validar()` lanza excepción si el valor no cumple.
+
+- **`EnvoltorioFuncion`**  
+  Envuelve una función real (ej: `Point`, `CircleFromRadius`). Almacena las especificaciones de sus parámetros y la firma (usando `inspect`).  
+  - `obtener_orden_parametros()` devuelve la lista de nombres de parámetros en el orden original.  
+  - `ejecutar()` valida los argumentos y luego invoca la función real. Si la función tiene un parámetro llamado `context_keys`, se lo inyecta automáticamente.
+
+- **`NodoContexto`**  
+  Representa un nivel en la jerarquía de herramientas (ej: `Dibujo`, `Geometria`, `Circulos`).  
+  - `elementos`: diccionario que asocia claves (nombres reales) con `EnvoltorioFuncion` o con otros `NodoContexto`.  
+  - `traducciones`: diccionario de sinónimos (palabra_hablada → nombre_real).  
+  - `obtener_nombre_real()` busca en las traducciones del nodo.  
+  - `obtener_todas_las_llaves()` recolecta recursivamente hacia arriba los nombres reales (claves).  
+  - Permite agregar funciones o subcontextos, y mantener la relación padre-hijo para la búsqueda ascendente.
+
+- **`Navegador`**  
+  Orquestador principal. Mantiene `contexto_actual` (el nodo donde está el usuario).  
+  - `establecer_contexto()`: cambia a una raíz.  
+  - `navegar()`: cambia el contexto siguiendo una ruta como `"Dibujo-Geometria-Circulos"`.  
+  - `buscar_funcion_ascendente()`: sube desde el contexto actual hasta la raíz de la herramienta y retorna el nodo y el envoltorio si encuentra la función.  
+  - `llamar()`: usa el método anterior, obtiene todas las llaves del contexto (para pasarlas si la función lo requiere) y ejecuta. Actualiza `contexto_actual` al nodo donde se encontró la función.
+
+- **`Command`**  
+  Clase original del repositorio DAV.  
+  - `ExclusiveListening(word_vector)`: escucha al usuario mediante `ModeloVoz`, normaliza el texto (quita tildes, convierte números hablados a dígitos) y solo acepta palabras que estén en `word_vector`. Además, gestiona los comandos especiales `cancelar`, `enter`, `enviar` según la lógica del repositorio (acumulación de palabras, confirmación con enter, etc.).  
+  - Retorna la palabra final reconocida (o `None` si se canceló).  
+  - `_normalizar_texto()`: prepara la frase eliminando acentos y transformando números.
+
+- **`ModeloVoz`**  
+  Encapsula la captura de audio y el reconocimiento con Vosk. Su método `escuchar_una_palabra()` devuelve un string con lo que se dijo.
+
+- **`Idioma`**  
+  Contiene las palabras clave para el modo parámetros (dígitos: "cero"..."nueve", "menos", "coma", "punto", "enter", "cancelar", "enviar") según el código de idioma (`es`, `en`, `fr`). Facilita la externalización de estos comandos.
+
+- **`ExploradorVoz`**  
+  Orquesta el bucle principal.  
+  - Mantiene el estado (`modo_parametros`), la función pendiente, los parámetros recolectados y los acumuladores para entrada numérica (signo, parte entera, decimales).  
+  - `actualizar_vocabulario()`: según el modo, devuelve la lista de palabras válidas para `ExclusiveListening`.  
+  - `_obtener_nombre_real_ascendente()`: busca en el nodo actual y sus padres la traducción de una palabra hablada. Si no existe, retorna la misma palabra (fallback).  
+  - `iniciar_parametros()`: cambia al modo parámetros y prepara la lista de parámetros pendientes de la función seleccionada.  
+  - `procesar_token_parametro()`: procesa cada token (número, signo, coma, enter, enviar) y construye el número concatenando dígitos.  
+  - `bucle_comando()`: el bucle infinito que obtiene el vocabulario, llama a `Command.ExclusiveListening`, y según el resultado ejecuta la navegación o la recolección de parámetros.
+
+- **`CargadorConTraducciones`**  
+  Escanea la carpeta `dic/` y construye la jerarquía de nodos. Por cada carpeta, busca un archivo `TraduceTo{Idioma}.py` (ej: `TraduceToEs.py`). Si existe, lo importa y espera un diccionario `TRADUCCIONES` que asigna palabras habladas a nombres reales. Luego recorre recursivamente los archivos `.py` (excepto los de traducción) y carga las funciones que tengan el atributo `_param_specs`. Finalmente, ensambla los nodos y devuelve el diccionario de raíces (`{"Dibujo": nodoDibujo, ...}`).
+
+**Relaciones**:
+- `ExploradorVoz` contiene un `Command` y un `Navegador`.
+- `Command` utiliza `ModeloVoz`.
+- `Navegador` gestiona `NodoContexto`.
+- `NodoContexto` contiene `EnvoltorioFuncion` y otros `NodoContexto`.
+- `EnvoltorioFuncion` usa `ParamSpec`.
+- `CargadorConTraducciones` crea `NodoContexto`.
+
+Este diagrama es el mapa estático de todo el sistema.
+
+---
+
+## 2. Diagrama de estados (máquina de estados)
+
+**Propósito**: Muestra los estados del explorador y las transiciones entre ellos, centrándose en el comportamiento dinámico del bucle de voz.
+
+**Estados**:
+
+- **Navegación**  
+  Estado inicial. En este modo, el vocabulario activo es el conjunto de **todas las palabras entendidas** (nombres reales de funciones y subcontextos, más las traducciones definidas en los nodos).  
+  - El usuario puede decir una palabra que corresponda a una **función** (inicia la transición a `Parámetros`) o a un **subcontexto** (permanece en Navegación, solo cambia el contexto actual).  
+  - Si dice `cancelar` (comando especial de `Command`), no hay transición; sigue en Navegación.  
+  - El sistema espera en este estado hasta que se seleccione una función.
+
+- **Parámetros**  
+  Estado compuesto (con sub‑estados). Se activa cuando el usuario selecciona una función.  
+  - El vocabulario se reduce a números (`cero`…`nueve`), `menos`, `coma`/`punto`, `enter`, `cancelar`, `enviar`.  
+  - Sub‑estados internos:  
+    - **EsperandoNumero**: se espera el primer dígito o signo.  
+    - **Signo**: transitorio, luego vuelve a EsperandoNumero.  
+    - **Decimal**: se activa al recibir `coma` o `punto`; los dígitos posteriores se acumulan en la parte decimal.  
+    - **ConfirmarNumero**: al recibir `enter`, se convierte la cadena acumulada (entera + decimal) a número y se guarda en el parámetro actual.  
+    - **GuardarParametro**: se pasa al siguiente parámetro o, si es el último, se queda a la espera de `enviar`.  
+  - Desde cualquier sub‑estado, `cancelar` regresa al estado **Navegación**.  
+  - Cuando se han guardado todos los parámetros y el usuario dice `enviar`, se transita a **Ejecución**.
+
+- **Ejecución**  
+  Estado transitorio. Aquí se invoca `EnvoltorioFuncion.ejecutar()` con los parámetros recolectados.  
+  - Si la ejecución es exitosa, se muestra el resultado y automáticamente se vuelve al estado **Navegación** (con el contexto actual actualizado al nodo donde se encontró la función).  
+  - Si hay error (validación de parámetros falla o excepción en la función), se maneja el error y también se retorna a **Navegación**.
+
+**Transiciones**:
+- `Navegación → Parámetros`: cuando `ExclusiveListening` devuelve una palabra que se traduce a una función existente.
+- `Parámetros → Navegación`: por `cancelar` o después de la ejecución.
+- `Parámetros → Ejecución`: al recibir `enviar` y no quedar parámetros pendientes.
+- `Ejecución → Navegación`: automático al terminar.
+
+Este diagrama es ideal para entender el comportamiento del bucle principal sin perderse en los detalles de la implementación.
+
+---
+
+## 3. Diagrama de flujo (actividad)
+
+**Propósito**: Describe paso a paso el algoritmo del bucle de comandos, incluyendo decisiones, acciones y flujo de control, considerando los dos modos.
+
+**Estructura**:
+
+- **Inicio**: se ejecuta `bucle_comando()`.
+- **Primera decisión** (diamante): ¿Modo parámetros?  
+  - **No (modo navegación)**:  
+    1. Obtener todas las palabras entendidas del contexto actual (llamando a `obtener_todas_palabras_entendidas()` que mezcla claves reales y traducciones).  
+    2. Llamar a `Command.ExclusiveListening` con ese vector.  
+    3. Si retorna `None` (usuario dijo cancelar), volver a escuchar.  
+    4. Si retorna una palabra, traducirla ascendente a nombre real (`_obtener_nombre_real_ascendente`).  
+    5. Verificar si ese nombre real corresponde a una función (usando `navegador.buscar_funcion_ascendente`).  
+       - Sí → `iniciar_parametros()`, cambiar modo parámetros a `True` y volver al inicio.  
+       - No → verificar si es un subcontexto hijo.  
+         - Sí → `navegador.contexto_actual = hijo`, volver a escuchar.  
+         - No → mostrar error y volver a escuchar.  
+  - **Sí (modo parámetros)**:  
+    1. Vocabulario fijo = `idioma.todos_comandos`.  
+    2. Llamar a `Command.ExclusiveListening` con ese vector.  
+    3. Según el token retornado:  
+       - `cancelar` → resetear modo navegación.  
+       - `enviar` → si faltan parámetros, avisar; si no, `confirmar_y_ejecutar()` y resetear.  
+       - `menos` → activar signo negativo (si es primero).  
+       - `coma` o `punto` → activar modo decimal.  
+       - dígito → acumular en entero o decimales según el estado.  
+       - `enter` → convertir acumuladores a número, guardar en parámetro actual, limpiar acumuladores y pasar al siguiente parámetro.  
+    4. Después de cada acción, volver a esperar el siguiente token (el bucle continúa).
+
+**Flujo continuo**: El bucle no termina nunca (a menos que se interrumpa externamente). La lógica asegura que el vocabulario se actualiza dinámicamente con cada cambio de contexto o modo.
+
+---
+
+## 4. Diagrama de secuencia – Caso concreto
+
+**Propósito**: Muestra la interacción temporal entre objetos para un escenario de uso real. En el ejemplo se representa cómo el usuario dice `"punto"` (en español) y el sistema termina ejecutando la función `Point` en inglés.
+
+**Participantes**:
+- Usuario
+- `ExploradorVoz`
+- `Command`
+- `ModeloVoz`
+- `Navegador`
+- `NodoContexto` (el contexto actual, que en el ejemplo es `Geometria`)
+
+**Pasos**:
+
+1. `ExploradorVoz` obtiene del `NodoContexto` actual todas las palabras entendidas (por ejemplo: `["Point","Line","punto","linea","CircleFromRadius","circulo desde radio"]`).
+2. Llama a `Command.ExclusiveListening` con esa lista.
+3. `Command` invoca a `ModeloVoz.escuchar_una_palabra()` y recibe `"punto"`.
+4. `Command` normaliza y verifica que `"punto"` esté en el vector de palabras permitidas.
+5. `Command` retorna `"punto"` a `ExploradorVoz`.
+6. `ExploradorVoz` llama a `_obtener_nombre_real_ascendente("punto")`, que recorre el nodo actual y sus padres buscando una entrada en `traducciones`. Encuentra `"punto": "Point"`.
+7. Con el nombre real `"Point"`, llama a `navegador.buscar_funcion_ascendente("Point")`, que sube desde el contexto actual y retorna el nodo y el envoltorio.
+8. `ExploradorVoz` ejecuta `iniciar_parametros("Point")`, cambia el estado a modo parámetros y almacena la función pendiente.
+9. A partir de ahí, seguiría con la recolección de parámetros (x e y) usando el modo parámetros.
+
+Este diagrama es útil para depurar y entender el flujo de llamadas entre módulos.
+
+---
+
+## 5. Explicación general del sistema (para un tercero)
+
+El sistema está diseñado para **controlar por voz** una aplicación que tiene una estructura jerárquica de herramientas (como un software CAD). Utiliza la clase `Command` del repositorio DAV para el reconocimiento exclusivo de palabras (solo las que tienen sentido en el momento actual). Además, incorpora:
+
+- **Navegación por contexto**: mantiene un `contexto_actual` que cambia cuando el usuario navega a submenús o ejecuta funciones. La búsqueda de comandos es **ascendente** (desde el nodo actual hacia la raíz) y nunca sale de la herramienta actual.
+- **Soporte multilingüe sin duplicación**: mediante archivos `TraduceTo{Idioma}.py` dentro de cada carpeta, se definen equivalencias (ej: `"punto":"Point"`). El sistema las carga y las utiliza para traducir la voz del usuario al nombre real de la función o subcontexto. Si falta una traducción, se usa el nombre real como fallback.
+- **Entrada de parámetros numérica concatenada**: cuando se selecciona una función, el sistema cambia a un modo especial donde solo entiende dígitos, signo, coma/punto, `enter`, `cancelar`, `enviar`. El usuario puede formar números como `-12.34` diciendo dígito por dígito: `"menos"`, `"uno"`, `"dos"`, `"coma"`, `"tres"`, `"cuatro"`, `"enter"`. `enter` confirma el número y pasa al siguiente parámetro. Finalmente, `enviar` ejecuta la función.
+- **Validación de parámetros**: cada función declara sus parámetros con `ParamSpec`. Antes de ejecutar, `EnvoltorioFuncion` valida tipos, obligatoriedad, longitudes máximas y valores permitidos, lanzando excepciones claras en caso de error.
+- **Escalabilidad**: añadir un nuevo idioma solo requiere agregar archivos `TraduceToNuevoIdioma.py` en las carpetas necesarias. Añadir una nueva herramienta consiste en crear una carpeta con sus funciones y especificaciones, sin modificar el núcleo.
+
+**Tecnologías**: Python, Vosk (reconocimiento de voz offline), PyAudio. Patrones: Service Locator, Máquina de Estados, Carga dinámica de módulos.
+
+Con estos diagramas y explicaciones, cualquier desarrollador puede entender, mantener o extender el sistema sin dificultad.
