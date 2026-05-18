@@ -1,0 +1,20 @@
+{"kind": "parsed_command", "label": "create_point", "parameters": {"x": 5.0, "y": 3.0}, "source": "partial", "raw_text": "crear punto cinco en tres", "ts": 1778964003.599627, "ts_iso": "2026-05-16T17:40:03"}
+{"kind": "parsed_command", "label": "create_point", "parameters": {"x": 5.0, "y": 3.0}, "source": "final", "raw_text": "crear punto cinco en tres", "ts": 1778964005.1709912, "ts_iso": "2026-05-16T17:40:05"}
+{"kind": "parsed_command", "label": "toggle_grid", "parameters": {}, "source": "partial", "raw_text": "mostrar cuadrícula", "ts": 1778964025.1125379, "ts_iso": "2026-05-16T17:40:25"}
+{"kind": "parsed_command", "label": "toggle_grid", "parameters": {}, "source": "final", "raw_text": "mostrar cuadrícula", "ts": 1778964026.678161, "ts_iso": "2026-05-16T17:40:26"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Redo')", "parameters": {}, "source": "partial", "raw_text": "rehacer", "ts": 1778964033.0498886, "ts_iso": "2026-05-16T17:40:33"}
+{"kind": "parsed_command", "label": "doc.redo()", "parameters": {}, "source": "partial", "raw_text": "rehacer lógica", "ts": 1778964033.809417, "ts_iso": "2026-05-16T17:40:33"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Redo')", "parameters": {}, "source": "partial", "raw_text": "rehacer", "ts": 1778964040.2410238, "ts_iso": "2026-05-16T17:40:40"}
+{"kind": "parsed_command", "label": "doc.redo()", "parameters": {}, "source": "partial", "raw_text": "rehacer lógica", "ts": 1778964040.7194834, "ts_iso": "2026-05-16T17:40:40"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_CloseActiveWindow')", "parameters": {}, "source": "partial", "raw_text": "cerrar proyecto", "ts": 1778964323.6346073, "ts_iso": "2026-05-16T17:45:23"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_CloseActiveWindow')", "parameters": {}, "source": "final", "raw_text": "cerrar proyecto", "ts": 1778964324.6807935, "ts_iso": "2026-05-16T17:45:24"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Cut')", "parameters": {}, "source": "partial", "raw_text": "cortar", "ts": 1778964330.7973871, "ts_iso": "2026-05-16T17:45:30"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Cut')", "parameters": {"target": "casa"}, "source": "partial", "raw_text": "cortar casa", "ts": 1778964331.323482, "ts_iso": "2026-05-16T17:45:31"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Cut')", "parameters": {"target": "casa"}, "source": "final", "raw_text": "cortar casa", "ts": 1778964332.6099188, "ts_iso": "2026-05-16T17:45:32"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_New')", "parameters": {}, "source": "partial", "raw_text": "nuevo proyecto", "ts": 1778964337.4477606, "ts_iso": "2026-05-16T17:45:37"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_New')", "parameters": {}, "source": "final", "raw_text": "nuevo proyecto", "ts": 1778964339.0246818, "ts_iso": "2026-05-16T17:45:39"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Paste')", "parameters": {"target": "á en"}, "source": "partial", "raw_text": "pegará en", "ts": 1778964340.5276618, "ts_iso": "2026-05-16T17:45:40"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Paste')", "parameters": {"target": "á en la"}, "source": "partial", "raw_text": "pegará en la", "ts": 1778964340.793904, "ts_iso": "2026-05-16T17:45:40"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Paste')", "parameters": {"target": "á en la piscina"}, "source": "partial", "raw_text": "pegará en la piscina", "ts": 1778964341.0287786, "ts_iso": "2026-05-16T17:45:41"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Paste')", "parameters": {"target": "a lapicera"}, "source": "partial", "raw_text": "pegara lapicera", "ts": 1778964341.288845, "ts_iso": "2026-05-16T17:45:41"}
+{"kind": "parsed_command", "label": "Gui.runCommand('Std_Paste')", "parameters": {"target": "a en la pizzera"}, "source": "final", "raw_text": "pegara en la pizzera", "ts": 1778964342.8129508, "ts_iso": "2026-05-16T17:45:42"}
