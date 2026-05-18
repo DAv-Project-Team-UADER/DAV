@@ -1,4 +1,5 @@
 import sys
+import os
 import json
 import threading
 import queue
@@ -14,7 +15,7 @@ import sounddevice as sd
 
 
 # ================================================================
-# VENTANA DE AYUDA
+# HELP WINDOW
 # ================================================================
 class HelpWindow(QDialog):
     def __init__(self, parent=None):
@@ -68,8 +69,7 @@ class HelpWindow(QDialog):
         help_text.setWordWrap(True)
         help_text.setStyleSheet("color: #e2e2e2; line-height: 1.6;")
         layout.addWidget(help_text)
-        
-        # Botón que dice "CERRAR AYUDA"
+    
         close_btn = QPushButton("CERRAR AYUDA")
         close_btn.setStyleSheet("""
             QPushButton {
@@ -88,7 +88,7 @@ class HelpWindow(QDialog):
 
 
 # ================================================================
-# HILO DE VOZ CON VOSK
+# VOSK VOICE THREAD 
 # ================================================================
 class VoiceWorker(QObject):
     finished = Signal()
@@ -152,7 +152,7 @@ class VoiceWorker(QObject):
 
 
 # ================================================================
-# VENTANA PRINCIPAL
+# PRINCIPAL WINDOW
 # ================================================================
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(900, 650)
         
         self.help_window = None
-        self.history_scroll_position = 0  # Posición actual en el historial (para navegación)
+        self.history_scroll_position = 0  
         
         self.setStyleSheet("""
             QMainWindow {
@@ -193,21 +193,21 @@ class MainWindow(QMainWindow):
         main_layout.setSpacing(15)
         main_layout.setContentsMargins(25, 25, 25, 25)
         
-        # Título
+        # Title
         title = QLabel("🎙️ ASISTENTE DE VOZ PARA TÉCNICOS")
         title.setFont(QFont("Arial", 18, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         title.setStyleSheet("color: #7c3aed; padding: 10px;")
         main_layout.addWidget(title)
         
-        # Estado
+        # Status
         self.status_label = QLabel("🎤 Iniciando...")
         self.status_label.setFont(QFont("Arial", 11))
         self.status_label.setAlignment(Qt.AlignCenter)
         self.status_label.setStyleSheet("background-color: #1a1a2e; border-radius: 10px; padding: 8px; color: #fbbf24;")
         main_layout.addWidget(self.status_label)
         
-        # Lo que dice el usuario
+        # User speech
         label_escuchando = QLabel("🔊 LO QUE ESTÁS DICIENDO:")
         label_escuchando.setFont(QFont("Arial", 12, QFont.Bold))
         label_escuchando.setStyleSheet("color: #a78bfa; margin-top: 10px;")
@@ -221,7 +221,7 @@ class MainWindow(QMainWindow):
         self.current_text.setReadOnly(True)
         main_layout.addWidget(self.current_text)
         
-        # Historial
+        # History
         label_historial = QLabel("📜 HISTORIAL DE COMANDOS:")
         label_historial.setFont(QFont("Arial", 12, QFont.Bold))
         label_historial.setStyleSheet("color: #a78bfa; margin-top: 10px;")
@@ -233,7 +233,7 @@ class MainWindow(QMainWindow):
         self.history_list.setReadOnly(True)
         main_layout.addWidget(self.history_list)
         
-        # Comandos sugeridos
+        # Suggested Commands
         label_sugerencias = QLabel("💡 COMANDOS SUGERIDOS:")
         label_sugerencias.setFont(QFont("Arial", 12, QFont.Bold))
         label_sugerencias.setStyleSheet("color: #a78bfa; margin-top: 10px;")
@@ -272,7 +272,7 @@ class MainWindow(QMainWindow):
         
         main_layout.addLayout(buttons_layout)
         
-        # Botón de ayuda
+        # Help Button
         help_button = QPushButton("❓ AYUDA (o decí 'ayuda')")
         help_button.setStyleSheet("""
             QPushButton {
@@ -292,19 +292,36 @@ class MainWindow(QMainWindow):
         help_layout.addWidget(help_button, alignment=Qt.AlignCenter)
         main_layout.addLayout(help_layout)
         
+
     def start_voice_recognition(self):
-        MODEL_PATH = "vosk-model-small-es-0.42"
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        MODEL_PATH = os.path.join(BASE_DIR, "vosk-model-small-es-0.42")
+        print("\n==============================")
+        print("DIRECTORIO ACTUAL:")
+        print(os.getcwd())
+        print("\nDIRECTORIO DEL SCRIPT:")
+        print(BASE_DIR)
+        print("\nRUTA DEL MODELO:")
+        print(MODEL_PATH)
+        print("\n¿EXISTE EL MODELO?:")
+        print(os.path.exists(MODEL_PATH))
+        
+        if os.path.exists(MODEL_PATH):
+            print("\nCONTENIDO DEL MODELO:")
+            print(os.listdir(MODEL_PATH))
+        else:
+            print("\n⚠️ NO SE ENCONTRÓ LA CARPETA DEL MODELO")
+        
+        print("==============================\n")
         
         self.voice_worker = VoiceWorker(model_path=MODEL_PATH)
         self.voice_thread = threading.Thread(target=self.voice_worker.run)
         self.voice_thread.daemon = True
-        
         self.voice_worker.partial_result.connect(self.update_current_text)
         self.voice_worker.final_result.connect(self.process_voice_command)
         self.voice_worker.status_signal.connect(self.update_status)
-        
         self.voice_thread.start()
-        
+
     def update_status(self, msg):
         self.status_label.setText(msg)
         if "activo" in msg or "Escuchando" in msg:
