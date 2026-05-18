@@ -1,7 +1,140 @@
-models/
-*.pyc
+# =============================================================
+# Build outputs
+# =============================================================
+build/
+Build/
+BUILD/
+out/
+dist/
+_build/
+cmake-build-*/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pyd
+*.pyo
+
+# =============================================================
+# CMake
+# =============================================================
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_CPack_Packages/
+*.cmake.user
+
+# =============================================================
+# Python
+# =============================================================
 __pycache__/
-*.zip
-local_config.py
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+venv/
+.venv/
+env/
+.env/
+pip-log.txt
+pip-delete-this-directory.txt
+.Python
+
+# =============================================================
+# IDE / Editor
+# =============================================================
+.vscode/settings.json
+.vscode/launch.json
 .idea/
+*.suo
+*.user
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj.filters
+*.vcxproj.user
+*.sln.docstates
+.DS_Store
+Thumbs.db
+
+# =============================================================
+# Claude Code
+# =============================================================
+CLAUDE.md
+
+# =============================================================
+# Logs & temporales
+# =============================================================
 *.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.autosave
+
+# =============================================================
+# Archivos grandes / modelos (MODELO/ y models/)
+# Estos binarios pesados no deben estar en git; usar Git LFS
+# o almacenamiento externo.
+# =============================================================
+models/
+MODELO/*.zip
+MODELO/*.tar.gz
+MODELO/*.gz
+MODELO/*.whl
+
+# =============================================================
+# Configuración local
+# =============================================================
+local_config.py
+
+# =============================================================
+# DAV específico
+# =============================================================
+dav/
+
+# =============================================================
+# FreeCAD específico
+# =============================================================
+*.FCBak
+*.FCStd1
+*.lock
+FREECAD/src/3rdParty/
+FREECAD/ChangeLog.txt
+
+# =============================================================
+# Compiled Qt / translations
+# =============================================================
+*.qm
+
+# =============================================================
+# Packaging
+# =============================================================
+*.deb
+*.rpm
+*.AppImage
+*.dmg
+*.pkg
+*.msi
+
+# =============================================================
+# Cobertura / análisis
+# =============================================================
+*.gcov
+*.gcda
+*.gcno
+coverage/
+.coverage
+htmlcov/
+MODELO/vosk-model-small-es-0.42/
+__pycache__/
+*.pyc
