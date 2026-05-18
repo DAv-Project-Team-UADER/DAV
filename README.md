@@ -77,7 +77,7 @@ El script los detectará automáticamente buscando los siguientes patrones:
 Ejecutá el siguiente comando desde tu terminal:
 
 ```bash
-python src.py
+python captura_voz.py
 ```
 
 Luego:
