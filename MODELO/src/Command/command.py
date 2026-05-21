@@ -1,6 +1,4 @@
 import threading
-import token
-import token
 import unicodedata
 from typing import Optional, Union
 
@@ -71,10 +69,12 @@ class Command:
                     self._done.set()
                     return
                 if token == _CMD_ENTER:
-                    last_token = _CMD_ENTER
+                    last_token = _CMD_ENTER  
                     continue
-
+                if token == last_token:
+                    continue
                 accumulated.append(token)
+                last_token = token
 
     def exclusive_listen(self, vector_index: int) -> Union[str, bool, None]:
         self._result = None
@@ -88,3 +88,14 @@ class Command:
 
     def systematic_fill(self) -> None:
         pass
+
+    def print_test(self, vector_index: int) -> None:
+        print(f"\n--- RUNNING TEST (Vector {vector_index}) ---")
+        res = self.exclusive_listen(vector_index)
+
+        if res is False:
+            print(">>> w = False")
+        elif res is None:
+            print(">>> w = null")
+        else:
+            print(f">>> w = '{res}'")
