@@ -1,4 +1,4 @@
-🇺🇸 English | [🇦🇷 Español](README.es.md)
+[<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1fa-1f1f8.png" width="18" style="vertical-align: middle;"> English](README.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e6-1f1f7.png" width="18" style="vertical-align: middle;"> Español](README.es.md)
 # DAV — Voice-Assisted Design in FreeCAD
 
 **DAV** is an academic project developed as part of a **Territorial Educational Practice (PET)** at the **Universidad Autónoma de Entre Ríos (UADER)**. It is focused on integrating voice commands into the FreeCAD modeling software.
