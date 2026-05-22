@@ -1,0 +1,12 @@
+def ayuda():
+    print('Comandos y subconjuntos disponibles en el nivel raíz de Draft:')
+    print('  annotation - Subconjunto para la gestión de anotaciones y estilos.')
+    print('  arc        - Subconjunto para la creación de arcos (centro, 3 puntos).')
+    print('  curve      - Subconjunto para la creación de curvas (Bézier, B-Spline, cúbica).')
+    print('  circle     - Subconjunto para la creación de círculos.')
+    print('  array      - Subconjunto para crear matrices de objetos (circulares, etc.).')
+    print('  modify     - Subconjunto para modificar o convertir figuras (clonar, editar, redondeo, etc.).')
+    print('  dimension  - Subconjunto para la creación y edición de cotas (lineal, invertir).')
+    print('  ellipse    - Subconjunto para la creación de elipses.')
+    print('  facebinder - Subconjunto para crear superficies vinculadas a partir de caras.')
+    print('               (Ejecutar ayuda de cada subconjunto para ver sus comandos en detalle)')
