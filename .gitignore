@@ -139,3 +139,6 @@ htmlcov/
 MODELO/vosk-model-small-es-0.42/
 __pycache__/
 *.pyc
+vosk-model*/
+vosk-model-es-0.42/
+vosk-model-small-es-0.42/

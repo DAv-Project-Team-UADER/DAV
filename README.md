@@ -1,41 +1,36 @@
-# DAVCore - Grupo 1
+[<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1fa-1f1f8.png" width="18" style="vertical-align: middle;"> English](README.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e6-1f1f7.png" width="18" style="vertical-align: middle;"> Español](README.es.md)
+# DAV — Voice-Assisted Design in FreeCAD
 
-## Estado Actual del Proyecto
+**DAV** is an academic project developed as part of a **Territorial Educational Practice (PET)** at the **Universidad Autónoma de Entre Ríos (UADER)**. It is focused on integrating voice commands into the FreeCAD modeling software.
 
-Este repositorio contiene la implementación funcional de la escucha latente, gestión de hilos y procesamiento de comandos de voz.
+The goal of the project is to enable people with motor disabilities to create and modify 3D models, drawings, and parts through spoken instructions. In doing so, it seeks to reduce exclusive reliance on keyboard and mouse, complementing traditional interaction within the CAD environment and promoting technological accessibility.
 
-### 1. Escucha Latente (VoskModel)
-- **Ubicación:** `src/modelo/VoskModel.py`
-- El sistema utiliza el modelo pequeño de Vosk para reconocer audio en tiempo real.
-- Incluye un sistema de *callbacks* global (`set_callback_texto`) que permite actualizar la interfaz gráfica sin importar el modo de escucha activo.
-
-### 2. Gestión Multihilo (GestorDeHilos)
-- **Ubicación:** `src/hilos/GestorDeHilos.py`
-- Al iniciar, se levantan **3 hilos paralelos** reales, cada uno con su propia ventana de Tkinter:
-  1. **Mostrar texto dictado:** Actualiza su contenido dinámicamente con lo captado por el micrófono.
-  2. **Traducir en instrucciones:** (Esqueleto funcional).
-  3. **Ejecutar instrucciones:** (Esqueleto funcional).
-- **Cierre Secuencial:** Al detectar el comando de cierre, el Gestor destruye las ventanas de forma ordenada con **1 segundo de diferencia**.
-
-### 3. Lógica de Comandos (Command)
-- **Ubicación:** `src/comando/Comando.py`
-- **ExclusiveListening:** Implementa la lógica de filtrado por vectores. 
-  - Soporta conversión de números hablados a dígitos (ej: "uno" -> "1").
-  - Maneja comandos especiales: `Enter` (acumular), `Cancelar` (abortar) y `Enviar` (finalizar).
-  - Incluye filtro de duplicados consecutivos.
-- **PrintTest:** Método de prueba que ejecuta la escucha exclusiva y muestra el resultado final por consola.
+DAV works as an assistance layer on top of FreeCAD, integrating through Python and leveraging its native API and architecture. Voice recognition is processed locally using **Vosk**, an open-source ASR (*Automatic Speech Recognition*) engine.
 
 ---
 
-## ¿Cómo ejecutar el proyecto?
+## Project Status
 
-1. Instalar dependencias:
-   ```bash
-   pip install vosk sounddevice
-   ```
-2. Modelo de voz: Colocar el modelo en `MODELO/vosk-model-small-es-0.42`.
-3. Ejecutar:
-   ```bash
-   python main.py
-   ```
-   *Nota: Por defecto, al ejecutar main.py se iniciará el modo de prueba de Comandos (Vector 0).*
+DAV is currently in an early **MVP** (*Minimum Viable Product*) stage, focusing on command recognition, FreeCAD integration, and interface development.
+
+## Key Features
+
+- **Accessibility:** Creation and modification of basic geometry through voice commands.
+- **Seamless Integration:** Direct communication with the FreeCAD environment.
+- **Real-time Feedback:** Visual and textual feedback within the interface.
+- **Complementary Use:** Works alongside traditional keyboard and mouse input.
+
+## Technologies Used
+
+- **Primary Language:** Python
+- **CAD Environment:** FreeCAD API
+- **Voice Recognition:** Vosk
+- **Audio Capture:** SoundDevice
+- **Graphical Interface:** PySide6
+- **Version Control:** Git
+
+## License
+
+This project is distributed under the **GNU GPL v3** license.
+
+It also makes use of third-party technologies and libraries under various open-source licenses, including components associated with FreeCAD, Qt/PySide, and Vosk.
