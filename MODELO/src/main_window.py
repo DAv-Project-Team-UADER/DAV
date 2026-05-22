@@ -5,8 +5,6 @@ from PySide6.QtWidgets import QApplication
 
 from MODELO.src.VoskModel.voskModel import VoskModel  # If wrapper usage is enforced
 from MODELO.src.Command.command import Command
-from MODELO.src.GUI.voice_adapter import VoiceCommandAdapter
-from MODELO.src.GUI.asistente_voz import MainWindow
 
 def run_exclusive_listening_pipeline(command_service: Command) -> None:
     """
