@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Optional, List, Dict, Any
 
 from PruebaIntegracion.core.Comando import Command
+from PruebaIntegracion.core.Idioma import Idioma
 from PruebaIntegracion.core.Navegador import Navegador
 from PruebaIntegracion.core.NodoContexto import NodoContexto
         
@@ -39,6 +40,7 @@ class ExploradorVoz:
     def _vocabulario_navegacion(self) -> List[str]:
         # Combina nombres reales (claves) y traducciones habladas del contexto actual
         vocab = set()
+        idioma = self._obtener_idioma_activo()
         nodo = self.navegador.contexto_actual
         while nodo is not None:
             for spoken in nodo.traducciones.keys():
@@ -46,21 +48,25 @@ class ExploradorVoz:
             for key in nodo.elementos.keys():
                 vocab.add(key)
             nodo = nodo.parent
-        vocab.update({"cancelar", "enviar", "enter"})
+        vocab.update(idioma.lista_comandos)
         vocabulario = list(vocab)
         self._log(f"vocabulario activo ({len(vocabulario)}): {sorted(vocabulario)}")
         return vocabulario
+
+    def _obtener_idioma_activo(self) -> Idioma:
+        idioma = getattr(self.command, "idioma", None)
+        if isinstance(idioma, Idioma):
+            return idioma
+        return Idioma()
 
     def _parse_number(self, phrase: str) -> Optional[float]:
         """Intenta convertir una frase hablada a número (soporta 'uno', 'dos', 'coma', 'punto')."""
         if not phrase:
             return None
+        idioma = self._obtener_idioma_activo()
         text = phrase.lower()
-        # mapping básico
-        mapa = {
-            'cero': '0','uno': '1','un': '1','dos': '2','tres': '3','cuatro': '4','cinco': '5',
-            'seis': '6','siete': '7','ocho': '8','nueve': '9','diez': '10'
-        }
+        mapa = idioma.mapa_numeros
+        mapa.update({'un': '1', 'una': '1', 'diez': '10'})
         parts = []
         for w in text.replace(',', ' ').split():
             if w in mapa:
@@ -105,9 +111,8 @@ class ExploradorVoz:
             self._log(f"escuchando parametro '{spec.nombre}'")
             
             # Vocabulario para parámetros: números, cancelar, enviar, punto, coma
-            vocab_parametros = ["cancelar", "enviar", "enter", "cero", "uno", "dos", "tres", 
-                               "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", 
-                               "punto", "coma"]
+            idioma = self._obtener_idioma_activo()
+            vocab_parametros = idioma.lista_digitos + idioma.lista_comandos + ["punto", "coma"]
             
             # Usamos Command.exclusive_listen para filtrar contra vocabulario
             phrase = self.command.exclusive_listen(vocab_parametros)

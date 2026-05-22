@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Iterable
 
 from PruebaIntegracion.core.CargadorConTraducciones import CargadorConTraducciones
+from PruebaIntegracion.core.Comando import Command
 from PruebaIntegracion.core.EnvoltorioFuncion import EnvoltorioFuncion
 from PruebaIntegracion.core.ExploradorVoz import ExploradorVoz
 from PruebaIntegracion.core.Navegador import Navegador
@@ -81,6 +82,7 @@ def construir_modelo_de_voz(args: argparse.Namespace):
 def parse_args() -> argparse.Namespace:
 	parser = argparse.ArgumentParser(description="Arranque de PruebaIntegracion")
 	parser.add_argument("--modelo", default=os.environ.get("PRUEBAINTEGRACION_MODEL_PATH", r"MODELO\vosk-model-small-es-0.42"))
+	parser.add_argument("--idioma", default=os.environ.get("PRUEBAINTEGRACION_LANGUAGE", "ES"), help="Idioma base para números y comandos de control")
 	parser.add_argument("--demo", action="store_true", help="Ejecuta con un modelo de voz simulado por consola")
 	parser.add_argument("--gui", action="store_true", help="Usa la GUI de MODELO como fuente de voz")
 	parser.add_argument("--script", nargs="*", help="Frases usadas por el modo demo, en orden")
@@ -124,7 +126,8 @@ def main() -> None:
 		voice_model = voice_adapter
 		if args.debug:
 			print("[main] voice_model=VoiceCommandAdapter (GUI)")
-		explorador = ExploradorVoz(voice_model, navegador, debug=args.debug)
+		command = Command(voice_model, debug=args.debug, modelo=args.modelo, idioma=args.idioma)
+		explorador = ExploradorVoz(voice_model, navegador, command=command, debug=args.debug)
 		threading.Thread(target=_run_gui_loop, args=(explorador, args.debug), daemon=True).start()
 		window.show()
 		sys.exit(app.exec())
@@ -133,7 +136,8 @@ def main() -> None:
 	if args.debug:
 		print(f"[main] voice_model={voice_model.__class__.__name__}")
 
-	explorador = ExploradorVoz(voice_model, navegador, debug=args.debug)
+	command = Command(voice_model, debug=args.debug, modelo=args.modelo, idioma=args.idioma)
+	explorador = ExploradorVoz(voice_model, navegador, command=command, debug=args.debug)
 	if args.debug:
 		print("[main] explorador inicializado, entrando al bucle")
 

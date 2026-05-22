@@ -2,22 +2,7 @@ import threading
 import unicodedata
 from typing import Iterable, Optional, Union
 
-_SPOKEN_DIGITS: dict[str, str] = {
-    "cero": "0",
-    "uno": "1",
-    "dos": "2",
-    "tres": "3",
-    "cuatro": "4",
-    "cinco": "5",
-    "seis": "6",
-    "siete": "7",
-    "ocho": "8",
-    "nueve": "9",
-}
-
-_CMD_CANCEL = "cancelar"
-_CMD_SEND = "enviar"
-_CMD_ENTER = "enter"
+from PruebaIntegracion.core.Idioma import Idioma
 
 
 class Command:
@@ -29,29 +14,26 @@ class Command:
     """
 
     VECTORS: tuple[tuple[str, ...], ...] = (
-        (_CMD_CANCEL, _CMD_SEND, _CMD_ENTER, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"),
-        (_CMD_CANCEL, _CMD_SEND, "linea fina", "linea punteada", "linea normal", "linea gruesa"),
+        ("cancelar", "enviar", "enter", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"),
+        ("cancelar", "enviar", "linea fina", "linea punteada", "linea normal", "linea gruesa"),
     )
 
-    def __init__(self, voice_model, debug: bool = False) -> None:
+    def __init__(self, voice_model, debug: bool = False, modelo: str = "", idioma: str = "ES") -> None:
         self._voice_model = voice_model
         self._debug = debug
         self._result: Union[str, bool, None] = None
         self._done = threading.Event()
+        self.idioma = Idioma(modelo=modelo, idioma=idioma)
+        self._cmd_cancel = self.idioma.comando_cancelar
+        self._cmd_send = self.idioma.comando_enviar
+        self._cmd_enter = self.idioma.comando_enter
 
     def _log(self, mensaje: str) -> None:
         if self._debug:
             print(f"[Command] {mensaje}")
 
-    @staticmethod
-    def _normalize(text: str) -> str:
-        without_accents = (
-            unicodedata.normalize("NFKD", text)
-            .encode("ASCII", "ignore")
-            .decode()
-            .lower()
-        )
-        return " ".join(_SPOKEN_DIGITS.get(word, word) for word in without_accents.split())
+    def _normalize(self, text: str) -> str:
+        return self.idioma.normalizar_texto(text)
 
     @staticmethod
     def _extract_tokens(phrase: str, active_vector: tuple[str, ...]) -> list[str]:
@@ -89,19 +71,19 @@ class Command:
             self._log(f"frase normalizada: {normalized!r} -> tokens: {tokens}")
 
             for token in tokens:
-                if token == _CMD_CANCEL:
+                if token == self._cmd_cancel:
                     self._log("cancelar detectado")
                     self._result = False
                     self._done.set()
                     return
-                if token == _CMD_SEND:
+                if token == self._cmd_send:
                     self._log(f"enviar detectado; devolviendo acumulado={accumulated}")
                     self._result = "".join(accumulated)
                     self._done.set()
                     return
-                if token == _CMD_ENTER:
+                if token == self._cmd_enter:
                     self._log("enter detectado")
-                    last_token = _CMD_ENTER
+                    last_token = self._cmd_enter
                     continue
                 if token == last_token:
                     self._log(f"token repetido ignorado: {token!r}")
