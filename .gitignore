@@ -100,7 +100,8 @@ local_config.py
 # =============================================================
 # DAV específico
 # =============================================================
-dav/
+# No usar "dav/" aquí: en Windows ignora también Dav/ (fuentes del workbench).
+freecad_mod_runtime/
 
 # =============================================================
 # FreeCAD específico
