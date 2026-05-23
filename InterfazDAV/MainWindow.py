@@ -30,7 +30,7 @@ from Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
 from Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
 from HelpWindow import HelpWindow
 from VoiceWorker import VoiceWorker
-
+from FlashOverlay import FlashOverlay
 
 def quitar_acentos(texto):
     return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
@@ -113,6 +113,8 @@ class MainWindow(QMainWindow):
         TopLayout.setContentsMargins(40, 20, 40, 12)
 
         LogoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Logos", "color.svg")
+        icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Icons")
+
         TitleRow = QHBoxLayout()
         TitleRow.setSpacing(10)
         if os.path.exists(LogoPath):
@@ -130,12 +132,20 @@ class MainWindow(QMainWindow):
         self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
         self._ThemeButton.clicked.connect(self.ToggleTheme)
         TitleRow.addWidget(self._ThemeButton)
-        self._HelpButton = QPushButton("❓")
-        self._HelpButton.setFont(QFont(FONT_SANS, 14, QFont.Bold))
+        self._HelpButton = QPushButton()
         self._HelpButton.setFixedSize(40, 36)
         self._HelpButton.setToolTip("Ayuda")
         self._HelpButton.setStyleSheet(self._BtnQss())
         self._HelpButton.clicked.connect(self.OpenHelpWindow)
+        HelpIconPath = os.path.join(icons_dir, "Help_WhatsThis.svg")
+        if os.path.exists(HelpIconPath):
+            HelpSvg = QSvgWidget(HelpIconPath)
+            HelpSvg.setFixedSize(18, 18)
+            self._HelpButton.setLayout(QVBoxLayout())
+            self._HelpButton.layout().addWidget(HelpSvg, alignment=Qt.AlignCenter)
+            self._HelpButton.layout().setContentsMargins(6, 6, 6, 6)
+        else:
+            self._HelpButton.setText("?")
         TitleRow.addWidget(self._HelpButton)
         TopLayout.addLayout(TitleRow)
         MainLayout.addWidget(TopWidget)
@@ -249,8 +259,6 @@ class MainWindow(QMainWindow):
             ]),
         ]
 
-        icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Icons")
-
         for parent_text, icon_name, parent_cmd, children in menus_data:
             btn = QPushButton()
             btn.setFixedSize(54, 54)
@@ -303,7 +311,16 @@ class MainWindow(QMainWindow):
 
         BottomLayout.addLayout(ToolRow)
         MainLayout.addWidget(BottomWidget)
+
+        self._Flash = FlashOverlay(CentralWidget)
+        self._Flash.setGeometry(CentralWidget.rect())
+
         self._PopulateModel()
+
+    def _TriggerFlash(self):
+        self._Flash.setGeometry(self.centralWidget().rect())
+        self._Flash.raise_()
+        self._Flash.Trigger()
 
     def _OpenMenu(self, btn, menu_name):
         """Abre un menú y guarda la referencia global"""
@@ -619,6 +636,8 @@ class MainWindow(QMainWindow):
         Cursor = self._HistoryList.textCursor()
         Cursor.movePosition(QTextCursor.End)
         self._HistoryList.setTextCursor(Cursor)
+        if not unknown:
+            QTimer.singleShot(0, self._TriggerFlash)
 
     def OpenHelpWindow(self):
         if self._HelpWindow is None:
@@ -641,3 +660,8 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'voice_thread'):
             self.voice_thread.join(timeout=1)
         event.accept()
+
+    def resizeEvent(self, Event):
+        super().resizeEvent(Event)
+        if hasattr(self, '_Flash'):
+            self._Flash.setGeometry(self.centralWidget().rect())
