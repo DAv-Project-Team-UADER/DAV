@@ -1,0 +1,10 @@
+def ayuda():
+    print("Ayuda del Workbench TechDraw")
+    print("Este workbench se utiliza para crear planos técnicos 2D. Está organizado en:")
+    print("")
+    print("- Views: Comandos para insertar vistas del modelo en la hoja.")
+    print("- Dimensions: Herramientas para colocar cotas y medidas.")
+    print("- AddLines: Herramientas para marcar ejes de simetría y centros.")
+    print("- Symbols: Símbolos técnicos (como soldaduras) para el plano.")
+    print("")
+    print("Di el nombre de la carpeta y luego 'help' para ver sus herramientas.")

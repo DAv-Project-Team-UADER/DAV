@@ -1,0 +1,10 @@
+def ayuda():
+    print("Ayuda del Workbench Draft")
+    print("Este workbench está organizado en tres categorías principales:")
+    print("")
+    print("- Annotation: Comandos para añadir texto y anotaciones al dibujo.")
+    print("- Drafting: Herramientas principales de creación y dibujo de formas.")
+    print("- Modification: Herramientas para transformar y editar objetos existentes.")
+    print("")
+    print("Para ver los comandos de cada categoría, di el nombre de la carpeta")
+    print("y luego usa el comando 'help' dentro de ella.")

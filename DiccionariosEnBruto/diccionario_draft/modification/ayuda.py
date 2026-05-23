@@ -1,0 +1,26 @@
+# Copyright (C) 2026 El Equipo del Proyecto DAV
+# Universidad Autónoma de Entre Ríos (UADER)
+# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#
+# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+# bajo los términos de la Licencia Pública General GNU tal como fue publicada
+# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#
+# Este programa se distribuye con la esperanza de que sea útil,
+# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+# Licencia Pública General GNU para más detalles.
+#
+# Deberías haber recibido una copia de la Licencia Pública General GNU
+# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+from .array.ayuda import ayuda as ayuda_array
+
+def ayuda():
+    print("=== Modification ===")
+    print("clave  |  requerimientos")
+    print("join: Une varias líneas en una sola  | req: Lista de líneas o polilíneas (que se toquen en sus extremos)")
+    print("line: Crea una línea recta entre dos puntos  | req: p1 (Vector/Punto inicial), p2 (Vector/Punto final)")
+    print("move: Mueve una lista de objetos seleccionados usando un vector, puede hacer una copia de estos  | req: una lista de objetos y un vector")
+    print("offset: Hace una copia de una figura pero desplazada a cierta distancia  | req: Figura (wire), dirección y distancia (vector), copiar o no (bool)")
+    print("rotate: rota una lista de objetos seleccionados  | req: una lista de objetos, un centro de rotacion y un angulo de rotacion")
+    ayuda_array()
