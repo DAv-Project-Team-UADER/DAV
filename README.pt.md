@@ -1,8 +1,8 @@
 [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1fa-1f1f8.png" width="18" style="vertical-align: middle;"> English](README.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e6-1f1f7.png" width="18" style="vertical-align: middle;"> Español](README.es.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e7-1f1f7.png" width="18" style="vertical-align: middle;"> Português](README.pt.md)
 
-# DAV — Design Assistido por Voz no FreeCAD
+# DAV — Desenho Assistido por Voz no FreeCAD
 
-**DAV** é um projeto acadêmico desenvolvido no contexto de uma **Prática Educativa Territorial (PET)** da [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). O projeto é voltado para a integração de comandos de voz no software de modelagem [**FreeCAD**](https://www.freecad.org/index.php).
+**DAV** é um projeto acadêmico desenvolvido no contexto de uma **Prática Educativa Territorial (PET)** da [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). O projeto é voltado para integração de comandos de voz no software de modelagem [**FreeCAD**](https://www.freecad.org/index.php).
 
 O objetivo do projeto é permitir que pessoas com dificuldades motoras nos braços, mas sem distúrbios de fala, possam criar e modificar modelos, desenhos e peças 3D usando comandos de voz. Dessa forma, busca-se reduzir a dependência exclusiva do teclado e do mouse, complementando a interação tradicional dentro do ambiente CAD e tornando a tecnologia mais acessível pra galera.
 
