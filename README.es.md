@@ -35,29 +35,28 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 
 ### Cómo levantar DAV (integración FreeCAD + voz)
 
-Hoy el arranque es un **comando en PowerShell**, no un `.exe` propio del proyecto. FreeCAD sigue siendo el ejecutable CAD; DAV se engancha con un script del repo.
-
-**Primera vez en cada PC** (después de `git clone` y `git checkout Pruebas`):
+**Un solo comando** desde la raíz del repo (prepara venv, dependencias, modelos Vosk e inicia FreeCAD):
 
 ```powershell
-cd GUIFreeCad
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-python scripts/setup_models.py
-
-cd ..\scripts
-.\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
+.\iniciar_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
 ```
 
-**Uso habitual** (mismo comando):
+En Windows también podés **doble clic** en `iniciar_dav.bat` (si FreeCAD está en la ruta habitual o en el registro).
+
+Eso ejecuta, en orden:
+
+1. Crea `GUIFreeCad\.venv` si no existe e instala `requirements.txt`
+2. Descarga modelos Vosk si faltan (`scripts/setup_models.py`)
+3. Llama a `scripts/run_freecad_dav.ps1` (Mod DAV, deps en Python de FreeCAD, abre FreeCAD)
+
+Opciones útiles:
 
 ```powershell
-cd scripts
-.\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
+.\iniciar_dav.ps1 -InstallOnly          # solo instalar, sin abrir FreeCAD
+.\iniciar_dav.ps1 -SkipModels           # no descargar modelos esta vez
 ```
 
-Eso instala el workbench DAV, configura preferencias/voz y abre FreeCAD. Guía completa: [`GUIFreeCad/INTEGRACION_EQUIPO.md`](GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `.\verificar_pasos.ps1`.
+Guía completa: [`GUIFreeCad/INTEGRACION_EQUIPO.md`](GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `scripts\verificar_pasos.ps1`.
 
 Este proyecto se distribuye bajo la licencia **GNU GPL v3**.
 

@@ -158,6 +158,18 @@ Crea un junction `Mod\DAV` → `DAV-Luigi\Dav`. Requiere permisos de admin en el
 
 ## Ejecutar FreeCAD con DAV
 
+**Recomendado — un solo comando** (desde la raíz del repo, después de clonar):
+
+```powershell
+cd DAV-Luigi
+git checkout Pruebas
+.\iniciar_dav.ps1 -FreeCADExe "L:\Programas\Freecad\bin\FreeCAD.exe"
+```
+
+O doble clic en `iniciar_dav.bat`. Eso crea el venv, instala deps, descarga modelos si faltan y abre FreeCAD.
+
+**Alternativa manual** (solo el lanzador):
+
 ```powershell
 cd "...\DAV-Luigi\scripts"
 .\run_freecad_dav.ps1 -FreeCADExe "L:\Programas\Freecad\bin\FreeCAD.exe"
