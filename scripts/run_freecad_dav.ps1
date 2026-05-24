@@ -1,4 +1,4 @@
-# Arranca FreeCAD del repo DAV-Luigi con módulo DAV + preferencias GUIFreeCad.
+# Arranca FreeCAD del repo DAV con modulo DAV + preferencias GUIFreeCad.
 # Uso: .\scripts\run_freecad_dav.ps1
 #      .\scripts\run_freecad_dav.ps1 -BuildDir "C:\ruta\al\build"
 
@@ -9,25 +9,25 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$DavLuigi = Split-Path -Parent $PSScriptRoot
-# GUIFreeCad vive en Repositorio DAVFreeCad/ (no dentro de DAVFreecad-Pruebas/)
-$RepoRoot = Split-Path -Parent (Split-Path -Parent $DavLuigi)
-$GuiRoot = Join-Path $RepoRoot "GUIFreeCad"
-$DavMod = Join-Path $DavLuigi "Dav"
-$FreecadRoot = Join-Path $DavLuigi "FREECAD"
 
-if (-not (Test-Path $GuiRoot)) {
-    Write-Error "No se encontró GUIFreeCad en: $GuiRoot"
-}
-if (-not (Test-Path (Join-Path $DavMod "InitGui.py"))) {
-    Write-Error "No se encontró el módulo Dav en: $DavMod"
-}
+function Get-DavRepoPaths {
+    $repo = Split-Path -Parent $PSScriptRoot
+    $gui = Join-Path $repo "GUIFreeCad"
+    if (-not (Test-Path -LiteralPath $gui)) {
+        $parent = Split-Path -Parent (Split-Path -Parent $repo)
+        $fallback = Join-Path $parent "GUIFreeCad"
+        if (Test-Path -LiteralPath $fallback) {
+            $gui = $fallback
+        }
+    }
 
-$env:DAV_GUI_FREECAD_ROOT = $GuiRoot
-$env:DAV_MOD_ROOT = $DavMod
-# Preferencias solo con el boton/engranaje; workbench DAV si al arranque
-$env:DAV_OPEN_PREFS_ON_START = "0"
-$env:DAV_AUTOLOAD_WORKBENCH = "1"
+    return @{
+        DavRepo     = $repo
+        GuiRoot     = $gui
+        DavMod      = Join-Path $repo "Dav"
+        FreecadRoot = Join-Path $repo "FREECAD"
+    }
+}
 
 function Install-DavModLink {
     param(
@@ -61,7 +61,8 @@ function Get-FreeCADFromRegistry {
     )
     foreach ($key in $keys) {
         try {
-            $value = (Get-ItemProperty -LiteralPath $key -ErrorAction Stop)."(default)"
+            $props = Get-ItemProperty -LiteralPath $key -ErrorAction Stop
+            $value = $props.'(default)'
             if ($value -and (Test-Path -LiteralPath $value)) {
                 return (Resolve-Path -LiteralPath $value).Path
             }
@@ -73,9 +74,14 @@ function Get-FreeCADFromRegistry {
 }
 
 function Search-FreeCADOnDisk {
+    param([string]$FreecadRoot)
+
+    $programFiles = $env:ProgramFiles
+    $programFilesX86 = (Get-Item -LiteralPath 'Env:ProgramFiles(x86)' -ErrorAction SilentlyContinue).Value
+
     $roots = @(
-        ${env:ProgramFiles},
-        ${env:ProgramFiles(x86)},
+        $programFiles,
+        $programFilesX86,
         (Join-Path $env:LOCALAPPDATA "Programs"),
         "C:\FreeCAD",
         $FreecadRoot
@@ -93,61 +99,129 @@ function Search-FreeCADOnDisk {
     return $null
 }
 
-$buildCandidates = @()
-if ($BuildDir) {
+function Install-DavWorkbench {
+    param(
+        [string]$DavMod,
+        [string]$FcHome
+    )
+
+    $systemModRoot = Join-Path $FcHome "Mod"
+    $installedPath = ""
+
+    try {
+        if (Install-DavModLink -ModRoot $systemModRoot -SourceDir $DavMod) {
+            $installedPath = Join-Path $systemModRoot "DAV"
+            Write-Host "DAV instalado en Mod del sistema: $installedPath" -ForegroundColor Green
+        }
+    } catch {
+        $err = $_.Exception.Message
+        Write-Host "No se pudo escribir en Mod del sistema (ejecutar PowerShell como admin?): $err" -ForegroundColor Yellow
+    }
+
+    if (-not $installedPath) {
+        $userModRoot = Join-Path $env:APPDATA 'FreeCAD\v1-1\Mod'
+        try {
+            if (Install-DavModLink -ModRoot $userModRoot -SourceDir $DavMod) {
+                $installedPath = Join-Path $userModRoot "DAV"
+                Write-Host "DAV instalado en Mod de usuario: $installedPath" -ForegroundColor Green
+            }
+        } catch {
+            $err = $_.Exception.Message
+            Write-Host "Tampoco se pudo instalar en Mod de usuario: $err" -ForegroundColor Yellow
+        }
+    } else {
+        $userDav = Join-Path $env:APPDATA 'FreeCAD\v1-1\Mod\DAV'
+        if (Test-Path $userDav) {
+            Remove-Item $userDav -Force -Recurse -ErrorAction SilentlyContinue
+            Write-Host "Enlace duplicado eliminado: $userDav" -ForegroundColor DarkGray
+        }
+    }
+
+    return $installedPath
+}
+
+function Resolve-FreeCADExe {
+    param(
+        [string]$FreeCADExe,
+        [string]$BuildDir,
+        [string]$FreecadRoot
+    )
+
+    $buildCandidates = @()
+    if ($BuildDir) {
+        $buildCandidates += @(
+            (Join-Path $BuildDir "bin\FreeCAD.exe"),
+            (Join-Path $BuildDir "Release\bin\FreeCAD.exe"),
+            (Join-Path $BuildDir "bin\FreeCAD.exe")
+        )
+    }
     $buildCandidates += @(
-        (Join-Path $BuildDir "bin\FreeCAD.exe"),
-        (Join-Path $BuildDir "Release\bin\FreeCAD.exe"),
-        (Join-Path $BuildDir "bin\FreeCAD.exe")
+        (Join-Path $FreecadRoot "build\bin\FreeCAD.exe"),
+        (Join-Path $FreecadRoot "build\Release\bin\FreeCAD.exe"),
+        (Join-Path $FreecadRoot "build\windows\bin\FreeCAD.exe"),
+        (Join-Path $FreecadRoot "build\Windows\bin\FreeCAD.exe")
     )
-}
-$buildCandidates += @(
-    (Join-Path $FreecadRoot "build\bin\FreeCAD.exe"),
-    (Join-Path $FreecadRoot "build\Release\bin\FreeCAD.exe"),
-    (Join-Path $FreecadRoot "build\windows\bin\FreeCAD.exe"),
-    (Join-Path $FreecadRoot "build\Windows\bin\FreeCAD.exe")
-)
 
-if ($FreeCADExe) {
-    $fcExe = Find-FreeCADExe @($FreeCADExe)
-} elseif ($env:DAV_FREECAD_EXE) {
-    $fcExe = Find-FreeCADExe @($env:DAV_FREECAD_EXE)
-} else {
-    $fcExe = $null
-}
+    if ($FreeCADExe) {
+        $found = Find-FreeCADExe @($FreeCADExe)
+        if ($found) { return $found }
+    } elseif ($env:DAV_FREECAD_EXE) {
+        $found = Find-FreeCADExe @($env:DAV_FREECAD_EXE)
+        if ($found) { return $found }
+    }
 
-if (-not $fcExe) {
-    $fcExe = Get-FreeCADFromRegistry
-}
-if (-not $fcExe) {
-    $fcExe = Find-FreeCADExe $buildCandidates
-}
-if (-not $fcExe) {
-    $fcExe = Find-FreeCADExe @(
-        "${env:ProgramFiles}\FreeCAD 1.2\bin\FreeCAD.exe",
-        "${env:ProgramFiles}\FreeCAD 1.0\bin\FreeCAD.exe",
-        "${env:ProgramFiles}\FreeCAD 0.21\bin\FreeCAD.exe",
-        "${env:ProgramFiles}\FreeCAD\bin\FreeCAD.exe",
-        "${env:ProgramFiles(x86)}\FreeCAD 1.0\bin\FreeCAD.exe"
+    $found = Get-FreeCADFromRegistry
+    if ($found) { return $found }
+
+    $found = Find-FreeCADExe $buildCandidates
+    if ($found) { return $found }
+
+    $programFiles = $env:ProgramFiles
+    $programFilesX86 = (Get-Item -LiteralPath 'Env:ProgramFiles(x86)' -ErrorAction SilentlyContinue).Value
+
+    $found = Find-FreeCADExe @(
+        "$programFiles\FreeCAD 1.2\bin\FreeCAD.exe",
+        "$programFiles\FreeCAD 1.0\bin\FreeCAD.exe",
+        "$programFiles\FreeCAD 0.21\bin\FreeCAD.exe",
+        "$programFiles\FreeCAD\bin\FreeCAD.exe",
+        "$programFilesX86\FreeCAD 1.0\bin\FreeCAD.exe"
     )
-}
-if (-not $fcExe) {
-    $fcExe = Search-FreeCADOnDisk
+    if ($found) { return $found }
+
+    return Search-FreeCADOnDisk -FreecadRoot $FreecadRoot
 }
 
+$paths = Get-DavRepoPaths
+$GuiRoot = $paths.GuiRoot
+$DavMod = $paths.DavMod
+$FreecadRoot = $paths.FreecadRoot
+
+if (-not (Test-Path -LiteralPath $GuiRoot)) {
+    throw "No se encontro GUIFreeCad en: $GuiRoot"
+}
+if (-not (Test-Path -LiteralPath (Join-Path $DavMod "InitGui.py"))) {
+    throw "No se encontro el modulo Dav en: $DavMod"
+}
+
+$env:DAV_GUI_FREECAD_ROOT = $GuiRoot
+$env:DAV_MOD_ROOT = $DavMod
+$env:DAV_OPEN_PREFS_ON_START = "0"
+$env:DAV_AUTOLOAD_WORKBENCH = "1"
+
+$fcExe = Resolve-FreeCADExe -FreeCADExe $FreeCADExe -BuildDir $BuildDir -FreecadRoot $FreecadRoot
 if (-not $fcExe) {
     Write-Host ""
     Write-Host "No se encontro FreeCAD.exe en este equipo." -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Opciones:" -ForegroundColor Cyan
     Write-Host "  1) Instalar FreeCAD: https://www.freecad.org/downloads.php"
-    Write-Host "  2) Compilar DAV-Luigi\FREECAD y usar:"
+    Write-Host "  2) Compilar FREECAD del repo y usar:"
     Write-Host '       .\run_freecad_dav.ps1 -BuildDir "C:\ruta\al\build"'
     Write-Host "  3) Si ya esta instalado en otra ruta:"
     Write-Host '       .\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"'
     Write-Host ""
     Write-Host "Mientras tanto, proba solo la GUI de preferencias:" -ForegroundColor Cyan
-    Write-Host "  cd ..\..\..\GUIFreeCad"
+    Write-Host "  cd ..\GUIFreeCad"
     Write-Host "  .\.venv\Scripts\activate"
     Write-Host "  python main.py"
     exit 1
@@ -156,52 +230,20 @@ if (-not $fcExe) {
 $fcDir = Split-Path -Parent $fcExe
 $fcPython = Join-Path $fcDir "python.exe"
 $env:DAV_FREECAD_PYTHON = $fcPython
-$fcHome = (Resolve-Path (Join-Path $fcDir "..")).Path
-$systemModRoot = Join-Path $fcHome "Mod"
-$installedPath = ""
+$fcHome = Split-Path -Parent $fcDir
 
-# 1) Mod del sistema (como Part, PartDesign…) — lo que recomienda FreeCAD
-try {
-    if (Install-DavModLink -ModRoot $systemModRoot -SourceDir $DavMod) {
-        $installedPath = Join-Path $systemModRoot "DAV"
-        Write-Host "DAV instalado en Mod del sistema: $installedPath" -ForegroundColor Green
-    }
-} catch {
-    Write-Host "No se pudo escribir en Mod del sistema (¿ejecutar PowerShell como admin?): $($_.Exception.Message)" -ForegroundColor Yellow
-}
-
-# 2) Respaldo: Mod del usuario solo si fallo el del sistema (evitar cargar DAV dos veces)
+$installedPath = Install-DavWorkbench -DavMod $DavMod -FcHome $fcHome
 if (-not $installedPath) {
-    $userModRoot = Join-Path $env:APPDATA "FreeCAD\v1-1\Mod"
-    try {
-        if (Install-DavModLink -ModRoot $userModRoot -SourceDir $DavMod) {
-            $installedPath = Join-Path $userModRoot "DAV"
-            Write-Host "DAV instalado en Mod de usuario: $installedPath" -ForegroundColor Green
-        }
-    } catch {
-        Write-Host "Tampoco se pudo instalar en Mod de usuario: $($_.Exception.Message)" -ForegroundColor Yellow
-    }
-} else {
-    # Si uso Mod del sistema, quitar enlace duplicado en AppData
-    $userDav = Join-Path $env:APPDATA "FreeCAD\v1-1\Mod\DAV"
-    if (Test-Path $userDav) {
-        Remove-Item $userDav -Force -Recurse -ErrorAction SilentlyContinue
-        Write-Host "Enlace duplicado eliminado: $userDav" -ForegroundColor DarkGray
-    }
-}
-
-if (-not $installedPath) {
-    Write-Error "No se pudo instalar el enlace DAV en Mod de FreeCAD."
+    throw 'No se pudo instalar el enlace DAV en Mod de FreeCAD.'
 }
 
 $env:DAV_MOD_ROOT = $installedPath
 
+$settingsPath = Join-Path $GuiRoot "config\settings.json"
 Write-Host "FreeCAD: $fcExe"
 Write-Host "GUIFreeCad: $GuiRoot"
-Write-Host "Preferencias: $(Join-Path $GuiRoot 'config\settings.json')"
+Write-Host "Preferencias: $settingsPath"
 Write-Host ""
-
-$fcArgs = @()
 
 $depsScript = Join-Path $PSScriptRoot "check_freecad_deps.ps1"
 if (Test-Path $depsScript) {
@@ -210,7 +252,7 @@ if (Test-Path $depsScript) {
         Write-Host "Instalando dependencias de voz en Python de FreeCAD..." -ForegroundColor Yellow
         & $depsScript -FreeCADExe $fcExe -Install
         if ($LASTEXITCODE -ne 0) {
-            Write-Warning "No se pudieron instalar sounddevice/vosk. El microfono fallara en Preferencias."
+            Write-Warning "No se pudieron instalar sounddevice ni vosk. El microfono fallara en Preferencias."
         }
     }
 }
@@ -220,5 +262,5 @@ if ($InstallOnly) {
     exit 0
 }
 
-& $fcExe @fcArgs
+& $fcExe
 exit $LASTEXITCODE

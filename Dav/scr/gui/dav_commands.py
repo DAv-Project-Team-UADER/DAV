@@ -15,11 +15,18 @@ def _guifreecad_root() -> Path:
             return path
     mod = os.environ.get("DAV_MOD_ROOT", "").strip()
     if mod:
-        sibling = Path(mod).parent.parent.parent / "GUIFreeCad"
+        dav_repo = Path(mod).resolve().parent
+        embedded = dav_repo / "GUIFreeCad"
+        if embedded.is_dir():
+            return embedded
+        sibling = dav_repo.parent.parent / "GUIFreeCad"
         if sibling.is_dir():
             return sibling
     try:
         here = Path(__file__).resolve()
+        embedded = here.parents[4] / "GUIFreeCad"
+        if embedded.is_dir():
+            return embedded
         sibling = here.parents[5] / "GUIFreeCad"
         if sibling.is_dir():
             return sibling

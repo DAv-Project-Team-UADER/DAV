@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 22">
+  <rect width="32" height="22" fill="#B22234"/>
+  <rect y="1.69" width="32" height="1.69" fill="#fff"/>
+  <rect y="5.08" width="32" height="1.69" fill="#fff"/>
+  <rect y="8.46" width="32" height="1.69" fill="#fff"/>
+  <rect y="11.85" width="32" height="1.69" fill="#fff"/>
+  <rect y="15.23" width="32" height="1.69" fill="#fff"/>
+  <rect y="18.62" width="32" height="1.69" fill="#fff"/>
+  <rect width="12.8" height="11.54" fill="#3C3B6E"/>
+  <g fill="#fff">
+    <circle cx="2.2" cy="2.2" r="0.55"/>
+    <circle cx="4.8" cy="2.2" r="0.55"/>
+    <circle cx="7.4" cy="2.2" r="0.55"/>
+    <circle cx="10" cy="2.2" r="0.55"/>
+    <circle cx="3.5" cy="3.9" r="0.55"/>
+    <circle cx="6.1" cy="3.9" r="0.55"/>
+    <circle cx="8.7" cy="3.9" r="0.55"/>
+    <circle cx="2.2" cy="5.6" r="0.55"/>
+    <circle cx="4.8" cy="5.6" r="0.55"/>
+    <circle cx="7.4" cy="5.6" r="0.55"/>
+    <circle cx="10" cy="5.6" r="0.55"/>
+    <circle cx="3.5" cy="7.3" r="0.55"/>
+    <circle cx="6.1" cy="7.3" r="0.55"/>
+    <circle cx="8.7" cy="7.3" r="0.55"/>
+    <circle cx="2.2" cy="9" r="0.55"/>
+    <circle cx="4.8" cy="9" r="0.55"/>
+    <circle cx="7.4" cy="9" r="0.55"/>
+    <circle cx="10" cy="9" r="0.55"/>
+  </g>
+</svg>

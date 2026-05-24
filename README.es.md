@@ -32,6 +32,33 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 ## Licencia: GPLV3
 ## Documentación
 ## Manual de uso
-Este proyecto se distribuye bajo la licencia **GNU GPL v3**. 
+
+### Cómo levantar DAV (integración FreeCAD + voz)
+
+Hoy el arranque es un **comando en PowerShell**, no un `.exe` propio del proyecto. FreeCAD sigue siendo el ejecutable CAD; DAV se engancha con un script del repo.
+
+**Primera vez en cada PC** (después de `git clone` y `git checkout Pruebas`):
+
+```powershell
+cd GUIFreeCad
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+python scripts/setup_models.py
+
+cd ..\scripts
+.\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
+```
+
+**Uso habitual** (mismo comando):
+
+```powershell
+cd scripts
+.\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
+```
+
+Eso instala el workbench DAV, configura preferencias/voz y abre FreeCAD. Guía completa: [`GUIFreeCad/INTEGRACION_EQUIPO.md`](GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `.\verificar_pasos.ps1`.
+
+Este proyecto se distribuye bajo la licencia **GNU GPL v3**.
 
 Además, utiliza tecnologías y bibliotecas de terceros bajo distintas licencias open source, incluyendo componentes asociados a FreeCAD, Qt/PySide y Vosk.

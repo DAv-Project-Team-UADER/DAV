@@ -96,6 +96,7 @@ MODELO/*.whl
 # Configuración local
 # =============================================================
 local_config.py
+GUIFreeCad/config/settings.json
 
 # =============================================================
 # DAV específico

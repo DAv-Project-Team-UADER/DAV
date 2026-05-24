@@ -20,7 +20,7 @@ DAV/
   ...
 ```
 
-**GUIFreeCad** no va dentro de `Mod`: sigue en `Repositorio DAVFreeCad\GUIFreeCad`. DAV solo enlaza a esa carpeta para preferencias y voz.
+**GUIFreeCad** vive en `GUIFreeCad\` (mismo repo). DAV enlaza a esa carpeta para preferencias y voz.
 
 ---
 
@@ -61,7 +61,7 @@ Si falla el Mod del sistema, ejecutá PowerShell **como administrador** una vez.
    Enlace (cmd como admin):
 
    ```cmd
-   mklink /J "L:\Programas\Freecad\Mod\DAV" "C:\Users\Luigi\OneDrive\Escritorio\Facultad\Yo\PET\Repositorio DAVFreeCad\DAVFreecad-Pruebas\DAV-Luigi\Dav"
+   mklink /J "L:\Programas\Freecad\Mod\DAV" "C:\ruta\al\repo\Dav"
    ```
 
 3. Definí variable de usuario (opcional pero útil):
@@ -69,6 +69,27 @@ Si falla el Mod del sistema, ejecutá PowerShell **como administrador** una vez.
    `DAV_GUI_FREECAD_ROOT` = ruta a `GUIFreeCad`
 
 4. Abrí FreeCAD → workbench **DAV** → **Preferencias DAV**.
+
+---
+
+## Comandos de voz en FreeCAD (integración)
+
+1. Configurá idioma y modelo en **Preferencias DAV** (usa `GUIFreeCad/config/settings.json`).
+2. En la barra **DAV** → **Iniciar voz DAV**.
+3. Decí comandos del diccionario, por ejemplo:
+   - `file` → `enviar` → `new` → `enviar` (documento nuevo)
+4. **Detener voz DAV** para parar el motor.
+5. Opcional: en Preferencias, activá **Arrancar voz al abrir FreeCAD** (`startup_enabled`).
+
+El motor usa `PruebaIntegracion/diccionario/` y los modelos Vosk de `GUIFreeCad/models/`.
+
+**Abrir preferencias por voz** (con voz DAV activa):
+
+```
+preferencias enviar
+```
+
+También: `configuracion enviar`, `ajustes enviar`, `settings enviar` (inglés).
 
 ---
 

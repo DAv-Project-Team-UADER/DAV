@@ -22,12 +22,19 @@ def guifreecad_root() -> Path:
 
     mod = _mod_dir()
     if mod is not None:
+        embedded = mod.parent / "GUIFreeCad"
+        if embedded.is_dir():
+            return embedded
         sibling = mod.parent.parent.parent / "GUIFreeCad"
         if sibling.is_dir():
             return sibling
 
     try:
         here = Path(__file__).resolve()
+        repo_root = here.parents[4]
+        embedded = repo_root / "GUIFreeCad"
+        if embedded.is_dir():
+            return embedded
         dev_root = here.parents[5] / "GUIFreeCad"
         if dev_root.is_dir():
             return dev_root
