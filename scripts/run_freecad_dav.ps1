@@ -10,16 +10,25 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Resolve-GuiFreeCadRoot {
+    param([string]$RepoRoot)
+
+    $candidates = @(
+        (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
+        (Join-Path $RepoRoot "GUIFreeCad")
+    )
+    foreach ($path in $candidates) {
+        if (Test-Path -LiteralPath $path) { return $path }
+    }
+    $parent = Split-Path -Parent (Split-Path -Parent $RepoRoot)
+    $sibling = Join-Path $parent "GUIFreeCad"
+    if (Test-Path -LiteralPath $sibling) { return $sibling }
+    return $candidates[0]
+}
+
 function Get-DavRepoPaths {
     $repo = Split-Path -Parent $PSScriptRoot
-    $gui = Join-Path $repo "GUIFreeCad"
-    if (-not (Test-Path -LiteralPath $gui)) {
-        $parent = Split-Path -Parent (Split-Path -Parent $repo)
-        $fallback = Join-Path $parent "GUIFreeCad"
-        if (Test-Path -LiteralPath $fallback) {
-            $gui = $fallback
-        }
-    }
+    $gui = Resolve-GuiFreeCadRoot -RepoRoot $repo
 
     return @{
         DavRepo     = $repo
@@ -221,7 +230,7 @@ if (-not $fcExe) {
     Write-Host '       .\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"'
     Write-Host ""
     Write-Host "Mientras tanto, proba solo la GUI de preferencias:" -ForegroundColor Cyan
-    Write-Host "  cd ..\GUIFreeCad"
+    Write-Host "  cd ..\luigiIntegracionV1\GUIFreeCad"
     Write-Host "  .\.venv\Scripts\activate"
     Write-Host "  python main.py"
     exit 1

@@ -20,7 +20,7 @@ DAV/
   ...
 ```
 
-**GUIFreeCad** vive en `GUIFreeCad\` (mismo repo). DAV enlaza a esa carpeta para preferencias y voz.
+**GUIFreeCad** vive en `luigiIntegracionV1\GUIFreeCad\` (mismo repo). DAV enlaza a esa carpeta para preferencias y voz.
 
 ---
 

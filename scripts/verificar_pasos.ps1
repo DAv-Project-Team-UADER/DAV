@@ -8,11 +8,23 @@ param(
 
 $ErrorActionPreference = "Continue"
 $DavRepo = Split-Path -Parent $PSScriptRoot
-$GuiRoot = Join-Path $DavRepo "GUIFreeCad"
-if (-not (Test-Path $GuiRoot)) {
-    $ParentRoot = Split-Path -Parent (Split-Path -Parent $DavRepo)
-    $GuiRoot = Join-Path $ParentRoot "GUIFreeCad"
+
+function Resolve-GuiFreeCadRoot {
+    param([string]$RepoRoot)
+    $candidates = @(
+        (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
+        (Join-Path $RepoRoot "GUIFreeCad")
+    )
+    foreach ($path in $candidates) {
+        if (Test-Path -LiteralPath $path) { return $path }
+    }
+    $parent = Split-Path -Parent (Split-Path -Parent $RepoRoot)
+    $sibling = Join-Path $parent "GUIFreeCad"
+    if (Test-Path -LiteralPath $sibling) { return $sibling }
+    return $candidates[0]
 }
+
+$GuiRoot = Resolve-GuiFreeCadRoot -RepoRoot $DavRepo
 $GuiPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"
 
 function Step($n, $title) {
@@ -85,7 +97,7 @@ if ((Test-Path $FreeCADExe) -and (Test-Path $modPath)) {
 
 Write-Host ""
 Write-Host "Siguiente: probar manualmente" -ForegroundColor Cyan
-Write-Host "  1) GUIFreeCad:  cd GUIFreeCad && .venv\Scripts\activate && python main.py"
-Write-Host "  2) InterfazDAV: cd InterfazDAV && ..\GUIFreeCad\.venv\Scripts\python.exe main.py"
+Write-Host "  1) GUIFreeCad:  cd luigiIntegracionV1\GUIFreeCad && .venv\Scripts\activate && python main.py"
+Write-Host "  2) InterfazDAV: cd InterfazDAV && ..\luigiIntegracionV1\GUIFreeCad\.venv\Scripts\python.exe main.py"
 Write-Host "  3) FreeCAD:     cd scripts && .\run_freecad_dav.ps1 -FreeCADExe `"$FreeCADExe`""
 Write-Host ""

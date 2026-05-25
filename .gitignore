@@ -96,6 +96,7 @@ MODELO/*.whl
 # Configuración local
 # =============================================================
 local_config.py
+luigiIntegracionV1/GUIFreeCad/config/settings.json
 GUIFreeCad/config/settings.json
 
 # =============================================================

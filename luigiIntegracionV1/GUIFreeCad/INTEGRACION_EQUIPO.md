@@ -23,15 +23,17 @@ Hay **dos formas válidas** (el script y las rutas las detectan solas):
 
 ### Opción A — Un solo clone del equipo (recomendada para compañeros)
 
-Copiá o subí la carpeta **GUIFreeCad completa** dentro del repo DAV-Luigi:
+Todo el paquete de integración vive en **`luigiIntegracionV1/`**:
 
 ```
 DAV-Luigi/                    ← un solo git clone
-├── GUIFreeCad/               ← tu trabajo (carpeta entera, no archivos sueltos)
+├── luigiIntegracionV1/
+│   ├── GUIFreeCad/            ← preferencias + voz unificada
+│   ├── iniciar_dav.ps1
+│   └── iniciar_dav.bat
 ├── Dav/
 ├── PruebaIntegracion/
-├── scripts/
-└── ...
+└── scripts/
 ```
 
 ### Opción B — Dos repos hermanos (desarrollo local)
@@ -166,7 +168,7 @@ git checkout Pruebas
 .\iniciar_dav.ps1 -FreeCADExe "L:\Programas\Freecad\bin\FreeCAD.exe"
 ```
 
-O doble clic en `iniciar_dav.bat`. Eso crea el venv, instala deps, descarga modelos si faltan y abre FreeCAD.
+O desde `luigiIntegracionV1\` con el mismo script. Doble clic en `iniciar_dav.bat`.
 
 **Alternativa manual** (solo el lanzador):
 

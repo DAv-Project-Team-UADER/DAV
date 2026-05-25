@@ -5,6 +5,22 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+_INTEGRATION_DIR = "luigiIntegracionV1"
+
+
+def _gui_roots_from_dav_repo(dav_repo: Path) -> list[Path]:
+    return [
+        dav_repo / _INTEGRATION_DIR / "GUIFreeCad",
+        dav_repo / "GUIFreeCad",
+    ]
+
+
+def _first_gui_root(candidates: list[Path]) -> Path | None:
+    for path in candidates:
+        if path.is_dir():
+            return path
+    return None
+
 
 def _mod_dir() -> Path | None:
     from scr.gui.mod_paths import get_mod_dir
@@ -22,9 +38,10 @@ def guifreecad_root() -> Path:
 
     mod = _mod_dir()
     if mod is not None:
-        embedded = mod.parent / "GUIFreeCad"
-        if embedded.is_dir():
-            return embedded
+        dav_repo = mod.parent
+        found = _first_gui_root(_gui_roots_from_dav_repo(dav_repo))
+        if found is not None:
+            return found
         sibling = mod.parent.parent.parent / "GUIFreeCad"
         if sibling.is_dir():
             return sibling
@@ -32,9 +49,9 @@ def guifreecad_root() -> Path:
     try:
         here = Path(__file__).resolve()
         repo_root = here.parents[4]
-        embedded = repo_root / "GUIFreeCad"
-        if embedded.is_dir():
-            return embedded
+        found = _first_gui_root(_gui_roots_from_dav_repo(repo_root))
+        if found is not None:
+            return found
         dev_root = here.parents[5] / "GUIFreeCad"
         if dev_root.is_dir():
             return dev_root

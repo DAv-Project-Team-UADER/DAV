@@ -41,11 +41,11 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 .\iniciar_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
 ```
 
-En Windows también podés **doble clic** en `iniciar_dav.bat` (si FreeCAD está en la ruta habitual o en el registro).
+En Windows también podés **doble clic** en `iniciar_dav.bat`. Todo el paquete de integración vive en **`luigiIntegracionV1/`** (GUIFreeCad + scripts de arranque).
 
 Eso ejecuta, en orden:
 
-1. Crea `GUIFreeCad\.venv` si no existe e instala `requirements.txt`
+1. Crea `luigiIntegracionV1\GUIFreeCad\.venv` si no existe e instala `requirements.txt`
 2. Descarga modelos Vosk si faltan (`scripts/setup_models.py`)
 3. Llama a `scripts/run_freecad_dav.ps1` (Mod DAV, deps en Python de FreeCAD, abre FreeCAD)
 
@@ -56,7 +56,7 @@ Opciones útiles:
 .\iniciar_dav.ps1 -SkipModels           # no descargar modelos esta vez
 ```
 
-Guía completa: [`GUIFreeCad/INTEGRACION_EQUIPO.md`](GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `scripts\verificar_pasos.ps1`.
+Guía completa: [`luigiIntegracionV1/GUIFreeCad/INTEGRACION_EQUIPO.md`](luigiIntegracionV1/GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `scripts\verificar_pasos.ps1`.
 
 Este proyecto se distribuye bajo la licencia **GNU GPL v3**.
 

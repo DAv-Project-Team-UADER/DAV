@@ -10,6 +10,23 @@ _GUI_ROOT: Path | None = None
 _DAV_REPO_ROOT: Path | None = None
 
 
+_INTEGRATION_DIR = "luigiIntegracionV1"
+
+
+def _gui_roots_from_dav_repo(dav_repo: Path) -> list[Path]:
+    return [
+        dav_repo / _INTEGRATION_DIR / "GUIFreeCad",
+        dav_repo / "GUIFreeCad",
+    ]
+
+
+def _first_gui_root(candidates: list[Path]) -> Path | None:
+    for path in candidates:
+        if path.is_dir():
+            return path
+    return None
+
+
 def guifreecad_root() -> Path:
     global _GUI_ROOT
     if _GUI_ROOT is not None:
@@ -29,10 +46,10 @@ def guifreecad_root() -> Path:
             norm = Path(mod_dir).resolve()
             if norm.name.upper() == "DAV":
                 dav_repo = norm.parent
-                embedded = dav_repo / "GUIFreeCad"
-                if embedded.is_dir():
-                    _GUI_ROOT = embedded
-                    return embedded
+                found = _first_gui_root(_gui_roots_from_dav_repo(dav_repo))
+                if found is not None:
+                    _GUI_ROOT = found
+                    return found
                 sibling = norm.parent.parent.parent / "GUIFreeCad"
                 if sibling.is_dir():
                     _GUI_ROOT = sibling
@@ -46,10 +63,11 @@ def guifreecad_root() -> Path:
         _GUI_ROOT = sibling
         return sibling
 
-    sibling = here.parents[2] / "GUIFreeCad"
-    if sibling.is_dir():
-        _GUI_ROOT = sibling
-        return sibling
+    for parent in here.parents:
+        found = _first_gui_root(_gui_roots_from_dav_repo(parent))
+        if found is not None:
+            _GUI_ROOT = found
+            return found
 
     _GUI_ROOT = here.parents[1]
     return _GUI_ROOT
