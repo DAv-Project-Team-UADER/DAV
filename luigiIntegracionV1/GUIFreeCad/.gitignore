@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+config/settings.json
+models/*.zip
+models/vosk-model*/
+!.gitkeep
+!models/README.md
