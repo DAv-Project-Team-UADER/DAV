@@ -5,7 +5,9 @@
 param(
     [string]$BuildDir = "",
     [string]$FreeCADExe = "",
-    [switch]$InstallOnly
+    [switch]$InstallOnly,
+    [switch]$StartVoice,
+    [switch]$NoStartVoice
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,6 +38,55 @@ function Get-DavRepoPaths {
         DavMod      = Join-Path $repo "Dav"
         FreecadRoot = Join-Path $repo "FREECAD"
     }
+}
+
+function Get-DavLaunchConfig {
+    param([string]$GuiRoot)
+
+    $path = Join-Path $GuiRoot "config\dav_launch.json"
+    if (-not (Test-Path -LiteralPath $path)) { return $null }
+    try {
+        return Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+    } catch {
+        return $null
+    }
+}
+
+function Save-DavLaunchConfig {
+    param(
+        [string]$GuiRoot,
+        [string]$FcExe
+    )
+
+    $configDir = Join-Path $GuiRoot "config"
+    New-Item -ItemType Directory -Force -Path $configDir | Out-Null
+    $path = Join-Path $configDir "dav_launch.json"
+    (@{ freecad_exe = $FcExe } | ConvertTo-Json) | Set-Content -LiteralPath $path -Encoding UTF8
+}
+
+function Test-StartupVoiceEnabled {
+    param([string]$GuiRoot)
+
+    $path = Join-Path $GuiRoot "config\settings.json"
+    if (-not (Test-Path -LiteralPath $path)) { return $false }
+    try {
+        $settings = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+        return [bool]$settings.startup_enabled
+    } catch {
+        return $false
+    }
+}
+
+function Resolve-VoiceAutostart {
+    param(
+        [string]$GuiRoot,
+        [switch]$StartVoice,
+        [switch]$NoStartVoice
+    )
+
+    if ($NoStartVoice) { return $false }
+    if ($StartVoice) { return $true }
+    return (Test-StartupVoiceEnabled -GuiRoot $GuiRoot)
 }
 
 function Install-DavModLink {
@@ -217,6 +268,13 @@ $env:DAV_MOD_ROOT = $DavMod
 $env:DAV_OPEN_PREFS_ON_START = "0"
 $env:DAV_AUTOLOAD_WORKBENCH = "1"
 
+if (-not $FreeCADExe) {
+    $savedLaunch = Get-DavLaunchConfig -GuiRoot $GuiRoot
+    if ($savedLaunch -and $savedLaunch.freecad_exe) {
+        $FreeCADExe = [string]$savedLaunch.freecad_exe
+    }
+}
+
 $fcExe = Resolve-FreeCADExe -FreeCADExe $FreeCADExe -BuildDir $BuildDir -FreecadRoot $FreecadRoot
 if (-not $fcExe) {
     Write-Host ""
@@ -247,11 +305,21 @@ if (-not $installedPath) {
 }
 
 $env:DAV_MOD_ROOT = $installedPath
+Save-DavLaunchConfig -GuiRoot $GuiRoot -FcExe $fcExe
+
+$voiceAutostart = Resolve-VoiceAutostart -GuiRoot $GuiRoot -StartVoice:$StartVoice -NoStartVoice:$NoStartVoice
+if ($voiceAutostart) {
+    $env:DAV_AUTO_START_VOICE = "1"
+} else {
+    Remove-Item Env:DAV_AUTO_START_VOICE -ErrorAction SilentlyContinue
+}
 
 $settingsPath = Join-Path $GuiRoot "config\settings.json"
 Write-Host "FreeCAD: $fcExe"
 Write-Host "GUIFreeCad: $GuiRoot"
 Write-Host "Preferencias: $settingsPath"
+Write-Host "Modulo DAV: $installedPath"
+Write-Host "Voz al abrir: $(if ($voiceAutostart) { 'si (Preferencias o -StartVoice)' } else { 'no (activar en barra DAV o Preferencias)' })"
 Write-Host ""
 
 $depsScript = Join-Path $PSScriptRoot "check_freecad_deps.ps1"

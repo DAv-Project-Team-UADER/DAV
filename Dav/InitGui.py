@@ -39,4 +39,19 @@ class DAVWorkbench(Gui.Workbench):
         return "Gui::PythonWorkbench"
 
 
-Gui.addWorkbench(DAVWorkbench())
+# InitGui se ejecuta con exec(): no usar funciones auxiliares aqui.
+_wb_registered = False
+try:
+    _wb_registered = Gui.getWorkbench("DAVWorkbench") is not None
+except Exception:
+    _wb_registered = False
+if not _wb_registered:
+    Gui.addWorkbench(DAVWorkbench())
+
+if os.environ.get("DAV_AUTOLOAD_WORKBENCH") == "1":
+    try:
+        from PySide6.QtCore import QTimer
+    except ImportError:
+        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
+
+    QTimer.singleShot(500, lambda: Gui.activateWorkbench("DAVWorkbench"))

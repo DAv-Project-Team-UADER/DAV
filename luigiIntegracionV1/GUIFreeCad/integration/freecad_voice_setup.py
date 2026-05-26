@@ -108,11 +108,12 @@ def _print_voice_startup_hint() -> None:
         auto = os.environ.get("DAV_AUTO_START_VOICE") == "1" or settings.startup_enabled
         if auto:
             App.Console.PrintMessage(
-                "[DAV] Arranque de voz programado (~1 s). Esperá «Voz activa» en Informe.\n"
+                "[DAV] Arranque de voz programado (~1,5 s). Esperá «Voz activa» en Informe.\n"
             )
         else:
             App.Console.PrintMessage(
-                "[DAV] Micrófono inactivo. Clic en «Iniciar voz DAV» en la barra DAV.\n"
+                "[DAV] Micrófono inactivo. Activá «Iniciar DAV y FreeCAD al encender la PC» "
+                "en Preferencias, o clic en «Iniciar voz DAV».\n"
             )
     except Exception:
         pass

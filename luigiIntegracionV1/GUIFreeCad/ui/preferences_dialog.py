@@ -30,6 +30,7 @@ from core.model_manager import (
 from core.network_utils import has_internet
 from core.settings import settings
 from speech.voice_commands import VoiceCommandListener
+from integration.windows_startup import sync_windows_startup
 from ui.download_dialog import DownloadDialog
 from ui.lang_icons import apply_lang_flag
 from ui.model_prompt_dialog import UnavailableModelDialog, UpdateModelDialog
@@ -67,7 +68,8 @@ class PreferencesDialog(QDialog):
         self._update_dialog: UpdateModelDialog | None = None
         self._unavailable_dialog: UnavailableModelDialog | None = None
 
-        self.setMinimumSize(480, 420)
+        self.setMinimumSize(640, 520)
+        self.resize(720, 580)
         self._build_ui()
         self._load_from_settings()
         self.retranslate()
@@ -126,6 +128,7 @@ class PreferencesDialog(QDialog):
         self._startup_group_box = QGroupBox(self)
         startup_layout = QVBoxLayout(self._startup_group_box)
         self._chk_startup = QCheckBox(self)
+        self._chk_startup.toggled.connect(self._on_startup_toggled)
         startup_layout.addWidget(self._chk_startup)
 
         root.addWidget(self._lang_group_box)
@@ -335,12 +338,34 @@ class PreferencesDialog(QDialog):
         finally:
             dlg.close()
 
+    def _on_startup_toggled(self, checked: bool) -> None:
+        self._chk_startup.setText(
+            tr("startup_on", self._lang) if checked else tr("startup_off", self._lang)
+        )
+
     def _apply(self) -> None:
+        previous_startup = settings.startup_enabled
         settings.language = self._current_language()
         settings.model_size = self._pending_model_size
         settings.theme = "dark" if self._rb_dark.isChecked() else "light"
         settings.startup_enabled = self._chk_startup.isChecked()
         settings.save()
+
+        if previous_startup != settings.startup_enabled:
+            ok, msg = sync_windows_startup(settings.startup_enabled)
+            if not ok:
+                QMessageBox.warning(
+                    self,
+                    tr("preferences_title", self._lang),
+                    tr("startup_windows_error", self._lang, detail=msg),
+                )
+            elif msg:
+                self._voice_label.setText(
+                    tr("startup_windows_ok", self._lang)
+                    if settings.startup_enabled
+                    else tr("startup_windows_removed", self._lang)
+                )
+
         self.settings_changed.emit()
 
     def _on_accept(self) -> None:
@@ -527,7 +552,7 @@ class PreferencesDialog(QDialog):
         self._pulse_timer.stop()
         self._restart_voice_timer.stop()
         if self._voice:
-            self._voice.stop(wait=True, timeout=3.0)
+            self._voice.stop(wait=False)
             self._voice = None
         self._voice_bridge.blockSignals(True)
         super().closeEvent(event)

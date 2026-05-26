@@ -173,4 +173,5 @@ class VoiceCommandListener:
             self._attached = False
         else:
             self._service.set_preferences_listening(False)
+        # wait/timeout kept for API compatibility; detach is non-blocking when CAD resumes
 

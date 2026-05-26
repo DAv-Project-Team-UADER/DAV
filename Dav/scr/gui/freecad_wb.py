@@ -41,30 +41,10 @@ def setup_workbench(workbench) -> None:
         workbench.appendMenu("DAV", ["DAV_OpenPreferences"])
         workbench.appendToolbar("DAV", ["DAV_OpenPreferences"])
         _apply_saved_theme()
-        _schedule_autoload_workbench()
+        _schedule_dav_ui_bootstrap()
     except Exception:
         App.Console.PrintError("[DAV] Error al inicializar workbench:\n")
         App.Console.PrintError(traceback.format_exc())
-
-
-def _schedule_autoload_workbench() -> None:
-    """Activa workbench DAV al abrir FreeCAD (no abre preferencias)."""
-    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") != "1":
-        return
-    try:
-        from PySide6.QtCore import QTimer
-    except ImportError:
-        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
-
-    def _activate() -> None:
-        import FreeCADGui as Gui
-
-        try:
-            Gui.activateWorkbench("DAVWorkbench")
-        except Exception:
-            pass
-
-    QTimer.singleShot(400, _activate)
 
 
 def _apply_saved_theme() -> None:
@@ -77,3 +57,24 @@ def _apply_saved_theme() -> None:
         apply_saved_settings()
     except Exception:
         pass
+
+
+def _schedule_dav_ui_bootstrap() -> None:
+    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") != "1":
+        return
+    try:
+        from PySide6.QtCore import QTimer
+    except ImportError:
+        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
+
+    def _apply_ui() -> None:
+        try:
+            dav_commands = importlib.import_module("scr.gui.dav_commands")
+            dav_commands._ensure_gui_path()
+            from integration.freecad_ui_setup import apply_dav_freecad_ui
+
+            apply_dav_freecad_ui()
+        except Exception:
+            pass
+
+    QTimer.singleShot(250, _apply_ui)

@@ -119,7 +119,7 @@ class DavVoiceService:
         if restore_cad:
             self.resume_cad_voice()
             return
-        self.stop(wait=True)
+        self.stop(wait=False)
 
     def resume_cad_voice(self) -> None:
         """Return to CAD routing after preferences (keep the same mic thread)."""
@@ -150,7 +150,7 @@ class DavVoiceService:
         if enabled and prefs and not self._running:
             self._ensure_mic(prefs.language, settings.model_size)
         elif not enabled and self._cad_adapter is None:
-            self.stop(wait=True)
+            self.stop(wait=False)
 
     def preferences_listening(self) -> bool:
         with self._lock:

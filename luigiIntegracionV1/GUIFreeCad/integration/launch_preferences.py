@@ -28,8 +28,10 @@ def open_preferences(parent=None) -> None:
     dlg.exec()
 
     if in_freecad():
+        from integration.freecad_ui_setup import show_report_view_instead_of_python
         from speech.dav_voice_service import DavVoiceService
 
+        show_report_view_instead_of_python(persist_prefs=False)
         DavVoiceService.get().resume_cad_voice()
         _hint_after_preferences()
 

@@ -48,6 +48,9 @@ class MainWindow(QMainWindow):
         layout.addStretch()
         self.setCentralWidget(central)
 
+        self.setMinimumSize(1024, 800)
+        self.resize(1024, 800)
+
         menubar = self.menuBar()
         self._menu_file = menubar.addMenu("")
         self._act_prefs = QAction(self)

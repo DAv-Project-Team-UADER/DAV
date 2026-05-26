@@ -4,6 +4,7 @@ __pycache__/
 venv/
 .env
 config/settings.json
+config/dav_launch.json
 models/*.zip
 models/vosk-model*/
 !.gitkeep

@@ -3,13 +3,18 @@
 #   .\iniciar_dav.ps1
 #   .\iniciar_dav.ps1 -FreeCADExe "L:\Programas\Freecad\bin\FreeCAD.exe"
 #   .\iniciar_dav.ps1 -InstallOnly
+#   .\iniciar_dav.ps1 -StartVoice
+#   .\iniciar_dav.ps1 -RegistrarInicioWindows
 #   Doble clic en iniciar_dav.bat (equivalente)
 
 param(
     [string]$FreeCADExe = "",
     [string]$BuildDir = "",
     [switch]$InstallOnly,
-    [switch]$SkipModels
+    [switch]$SkipModels,
+    [switch]$StartVoice,
+    [switch]$NoStartVoice,
+    [switch]$RegistrarInicioWindows
 )
 
 $ErrorActionPreference = "Stop"
@@ -106,6 +111,21 @@ function Ensure-VoskModels {
     Write-Ok "Modelos Vosk listos"
 }
 
+function Register-DavWindowsStartup {
+    param([switch]$Remove)
+
+    $py = $VenvPy
+    if (-not (Test-Path -LiteralPath $py)) {
+        throw "No hay .venv en GUIFreeCad para configurar el inicio de Windows."
+    }
+    $flag = if ($Remove) { "False" } else { "True" }
+    & $py -c "import sys; sys.path.insert(0, r'$GuiRoot'); from integration.windows_startup import sync_windows_startup; ok, msg = sync_windows_startup($flag); print(msg); raise SystemExit(0 if ok else 1)"
+    if ($LASTEXITCODE -ne 0) {
+        throw "No se pudo configurar el inicio de Windows."
+    }
+    Write-Ok "Inicio de Windows configurado"
+}
+
 Write-Host "DAV - inicio unificado" -ForegroundColor White
 Write-Host "Integracion: $IntegrationRoot"
 Write-Host "Repo: $RepoRoot"
@@ -129,11 +149,21 @@ Ensure-GuiVenv -SystemPython $sysPy
 Ensure-GuiDependencies -GuiPython $VenvPy
 Ensure-VoskModels -GuiPython $VenvPy
 
-Write-Step "3/3 FreeCAD + workbench DAV"
+Write-Step "3/3 FreeCAD + workbench DAV (sistema completo)"
 $runArgs = @()
 if ($FreeCADExe) { $runArgs += "-FreeCADExe"; $runArgs += $FreeCADExe }
 if ($BuildDir) { $runArgs += "-BuildDir"; $runArgs += $BuildDir }
 if ($InstallOnly) { $runArgs += "-InstallOnly" }
+if ($StartVoice) { $runArgs += "-StartVoice" }
+if ($NoStartVoice) { $runArgs += "-NoStartVoice" }
 
 & $RunScript @runArgs
-exit $LASTEXITCODE
+$exitCode = $LASTEXITCODE
+
+if ($RegistrarInicioWindows) {
+    Write-Step "Inicio automatico con Windows"
+    Register-DavWindowsStartup
+    if ($InstallOnly) { exit 0 }
+}
+
+exit $exitCode
