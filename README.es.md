@@ -32,32 +32,6 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 ## Licencia: GPLV3
 ## Documentación
 ## Manual de uso
-
-### Cómo levantar DAV (integración FreeCAD + voz)
-
-**Un solo comando** desde la raíz del repo (prepara venv, dependencias, modelos Vosk e inicia FreeCAD):
-
-```powershell
-.\iniciar_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"
-```
-
-En Windows también podés **doble clic** en `iniciar_dav.bat`. Todo el paquete de integración vive en **`luigiIntegracionV1/`** (GUIFreeCad + scripts de arranque).
-
-Eso ejecuta, en orden:
-
-1. Crea `luigiIntegracionV1\GUIFreeCad\.venv` si no existe e instala `requirements.txt`
-2. Descarga modelos Vosk si faltan (`scripts/setup_models.py`)
-3. Llama a `scripts/run_freecad_dav.ps1` (Mod DAV, deps en Python de FreeCAD, abre FreeCAD)
-
-Opciones útiles:
-
-```powershell
-.\iniciar_dav.ps1 -InstallOnly          # solo instalar, sin abrir FreeCAD
-.\iniciar_dav.ps1 -SkipModels           # no descargar modelos esta vez
-```
-
-Guía completa: [`luigiIntegracionV1/GUIFreeCad/INTEGRACION_EQUIPO.md`](luigiIntegracionV1/GUIFreeCad/INTEGRACION_EQUIPO.md). Verificación opcional: `scripts\verificar_pasos.ps1`.
-
-Este proyecto se distribuye bajo la licencia **GNU GPL v3**.
+Este proyecto se distribuye bajo la licencia **GNU GPL v3**. 
 
 Además, utiliza tecnologías y bibliotecas de terceros bajo distintas licencias open source, incluyendo componentes asociados a FreeCAD, Qt/PySide y Vosk.

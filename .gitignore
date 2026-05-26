@@ -96,14 +96,11 @@ MODELO/*.whl
 # Configuración local
 # =============================================================
 local_config.py
-luigiIntegracionV1/GUIFreeCad/config/settings.json
-GUIFreeCad/config/settings.json
 
 # =============================================================
 # DAV específico
 # =============================================================
-# No usar "dav/" aquí: en Windows ignora también Dav/ (fuentes del workbench).
-freecad_mod_runtime/
+dav/
 
 # =============================================================
 # FreeCAD específico
