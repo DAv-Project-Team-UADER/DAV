@@ -14,11 +14,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
+from .annotation_style_editor.annotation import annotation
+from .arc.arc import arc
+from .curve.curve import curve
+from .circle.circle import circle
+from .circular_array.array import array
+from .modify.modify import modify
+from .dimension.dimension import dimension
+from .ellipse.ellipse import ellipse
+from .facebinder.facebinder import facebinder
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+draft = {
+    'annotation': annotation,
+    'arc': arc,
+    'curve': curve,
+    'circle': circle,
+    'array': array,
+    'modify': modify,
+    'dimension': dimension,
+    'ellipse': ellipse,
+    'facebinder': facebinder,
+    'help': ayuda,
+}

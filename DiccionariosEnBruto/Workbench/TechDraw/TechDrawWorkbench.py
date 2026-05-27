@@ -14,11 +14,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+from .Views.view import views
+from .Dimensions.dimensions import dimensions
+from .AddLines.addLines import centerlines
+from .Symbols.weld import symbols
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+techdraw = {
+    'views':      views,
+    'dimensions': dimensions,
+    'lines':      centerlines,
+    'symbols':    symbols,
+    'help':       ayuda,
+}

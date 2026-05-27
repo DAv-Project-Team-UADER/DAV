@@ -14,11 +14,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCAD
+import FreeCADGui as Gui
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+file = {
+    'new':      lambda: FreeCAD.newDocument(),
+    'open':     lambda: Gui.runCommand('Std_Open', 0),
+    'save':     lambda: FreeCAD.activeDocument().save(),
+    'saveas':   lambda: Gui.runCommand('Std_SaveAs', 0),
+    'savecopy': lambda: Gui.runCommand('Std_SaveCopy', 0),
+    'revert':   lambda: Gui.runCommand('Std_Revert', 0),
+    'merge':    lambda: Gui.runCommand('Std_MergeProjects', 0),
+    'import':   lambda: Gui.runCommand('Std_Import', 0),
+    'export':   lambda: Gui.runCommand('Std_Export', 0),
+    'help':     ayuda,
+}

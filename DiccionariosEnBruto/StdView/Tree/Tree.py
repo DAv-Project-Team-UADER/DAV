@@ -14,11 +14,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+# Diccionario DAV - StdView / Tree
+tree = {
+    'collapse': lambda: Gui.runCommand('Std_TreeCollapseDocument', 0),
+    'preselection': lambda: Gui.runCommand('Std_TreePreSelection', 0),
+    'recordselection': lambda: Gui.runCommand('Std_TreeRecordSelection', 0),
+    'singleexpand': lambda: Gui.runCommand('Std_TreeSingleExpand', 0),
+    'syncplacement': lambda: Gui.runCommand('Std_TreeSyncPlacement', 0),
+    'syncselection': lambda: Gui.runCommand('Std_TreeSyncSelection', 0),
+    'syncview': lambda: Gui.runCommand('Std_TreeSyncView', 0),
+}

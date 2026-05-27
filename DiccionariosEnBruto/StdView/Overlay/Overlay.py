@@ -14,11 +14,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+# Diccionario DAV - StdView / Overlay
+overlay = {
+    'bottom':     lambda: Gui.runCommand('Std_OverlayToggleBottom', 0),
+    'float':      lambda: Gui.runCommand('Std_OverlayToggleFloating', 0),
+    'left':       lambda: Gui.runCommand('Std_OverlayToggleLeft', 0),
+    'right':      lambda: Gui.runCommand('Std_OverlayToggleRight', 0),
+    'axis':       lambda: Gui.runCommand('Std_AxisCross', 0),
+    'navigation': lambda: Gui.runCommand('Std_ToggleNavigation', 0),
+    'toggle':     lambda: Gui.runCommand('Std_ToggleOverlay', 0),
+}
