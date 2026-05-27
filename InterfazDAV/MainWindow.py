@@ -74,6 +74,8 @@ class MainWindow(QMainWindow):
         self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
         for Btn in self._ToolButtons:
             Btn.setStyleSheet(self._BtnQss())
+        for Btn in getattr(self, '_TopBarButtons', []):
+            Btn.setStyleSheet(self._BtnQss())
         self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
         self._HelpButton.setStyleSheet(self._BtnQss())
         self._PopulateModel()
@@ -114,6 +116,7 @@ class MainWindow(QMainWindow):
 
         LogoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Logos", "color.svg")
         icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Icons")
+        system_icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons", "system")
 
         TitleRow = QHBoxLayout()
         TitleRow.setSpacing(10)
@@ -132,12 +135,13 @@ class MainWindow(QMainWindow):
         self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
         self._ThemeButton.clicked.connect(self.ToggleTheme)
         TitleRow.addWidget(self._ThemeButton)
+
         self._HelpButton = QPushButton()
         self._HelpButton.setFixedSize(40, 36)
-        self._HelpButton.setToolTip("Ayuda")
+        self._HelpButton.setToolTip("Información")
         self._HelpButton.setStyleSheet(self._BtnQss())
         self._HelpButton.clicked.connect(self.OpenHelpWindow)
-        HelpIconPath = os.path.join(icons_dir, "Help_WhatsThis.svg")
+        HelpIconPath = os.path.join(system_icons_dir, "info.svg")
         if os.path.exists(HelpIconPath):
             HelpSvg = QSvgWidget(HelpIconPath)
             HelpSvg.setFixedSize(18, 18)
@@ -146,6 +150,31 @@ class MainWindow(QMainWindow):
             self._HelpButton.layout().setContentsMargins(6, 6, 6, 6)
         else:
             self._HelpButton.setText("?")
+
+        self._TopBarButtons = []
+        extra_top_icons = [
+            ("nuevo documento.svg", "Nuevo documento"),
+            ("abrir documento.svg", "Abrir documento"),
+            ("guardar como.svg", "Guardar como"),
+            ("imprimir.svg", "Imprimir"),
+        ]
+        for icon_filename, tooltip in extra_top_icons:
+            btn = QPushButton()
+            btn.setFixedSize(40, 36)
+            btn.setToolTip(tooltip)
+            btn.setStyleSheet(self._BtnQss())
+            icon_path = os.path.join(system_icons_dir, icon_filename)
+            if os.path.exists(icon_path):
+                svg = QSvgWidget(icon_path)
+                svg.setFixedSize(18, 18)
+                btn.setLayout(QVBoxLayout())
+                btn.layout().addWidget(svg, alignment=Qt.AlignCenter)
+                btn.layout().setContentsMargins(6, 6, 6, 6)
+            else:
+                btn.setText("?")
+            TitleRow.addWidget(btn)
+            self._TopBarButtons.append(btn)
+
         TitleRow.addWidget(self._HelpButton)
         TopLayout.addLayout(TitleRow)
         MainLayout.addWidget(TopWidget)
