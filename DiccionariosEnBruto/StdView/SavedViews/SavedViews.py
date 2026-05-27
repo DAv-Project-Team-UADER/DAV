@@ -14,11 +14,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+# Diccionario DAV - StdView / SavedViews
+savedviews = {
+    'clear':   lambda: Gui.runCommand('Std_ClearViews', 0),
+    'freeze':  lambda: Gui.runCommand('Std_FreezeView', 0),
+    'restore': lambda: Gui.runCommand('Std_FreezeViewsRestore', 0),
+    'recall':  lambda: Gui.runCommand('Std_RecallWorkingView', 0),
+    'load':    lambda: Gui.runCommand('Std_RestoreView', 0),
+    'save':    lambda: Gui.runCommand('Std_FreezeViewsSave', 0),
+    'store':   lambda: Gui.runCommand('Std_StoreWorkingView', 0),
+}

@@ -14,11 +14,9 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+# ayuda.py - StdView / Camera
 
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+    print("=== Camera ===")
+    print("  orthographic: Cambia el tipo de cámara de la vista 3D activa al modo ortográfico (proyección p | Req: Una vista 3D activa en el documento.")
+    print("  perspective: Cambia el tipo de cámara de la vista 3D activa al modo perspectiva (proyección c | Req: Una vista 3D activa en el documento.")

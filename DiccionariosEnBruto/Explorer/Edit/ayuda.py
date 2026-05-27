@@ -14,11 +14,8 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
-
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+    print('Comandos disponibles en Edit:')
+    print('  note       - Crea un documento de texto')
+    print('  undo       - Deshace la última acción')
+    print('  screenshot - Captura la vista activa')
