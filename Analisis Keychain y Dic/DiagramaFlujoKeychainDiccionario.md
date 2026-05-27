@@ -8,8 +8,9 @@ El objetivo es:
 2. Recibir un idioma, por ejemplo espanol.
 3. Recuperar los comandos de voz disponibles para ese idioma.
 4. Cambiar de contexto si el comando reconocido apunta a un subdiccionario.
-5. Si no hay coincidencia en el archivo de traduccion, buscar en el archivo `.py` base de esa misma capa.
-6. Si no hay coincidencia en ningun lado, imprimir error.
+5. Si no hay coincidencia en el contexto actual, buscar de forma ascendente en los contextos superiores.
+6. Diferenciar comandos repetidos segun la carpeta o contexto donde fueron encontrados.
+7. Si no hay coincidencia en ningun nivel, imprimir error.
 
 ## Diagrama Principal
 
@@ -17,46 +18,55 @@ El objetivo es:
 flowchart TD
     A([Inicio]) --> B[Recibir diccionario raiz e idioma]
     B --> C[Ubicar carpeta del diccionario raiz]
-    C --> D[Definir contexto actual = raiz]
+    C --> D[Crear pila de contextos]
+    D --> E[Contexto actual = raiz]
 
-    D --> E[Buscar archivo de idioma en el contexto actual]
-    E --> F{Existe archivo de idioma?}
+    E --> F[Buscar archivo de idioma en el contexto actual]
+    F --> G{Existe archivo de idioma?}
 
-    F -- Si --> G[Usar Keychain sobre archivo de idioma]
-    G --> H[Obtener comandos de voz del idioma]
+    G -- Si --> H[Usar Keychain sobre archivo de idioma]
+    H --> I[Obtener comandos de voz del idioma]
 
-    F -- No --> I[Usar Keychain sobre archivo base del contexto]
-    I --> J[Obtener comandos base]
+    G -- No --> J[Usar Keychain sobre archivo base del contexto]
+    J --> K[Obtener comandos base]
 
-    H --> K[Esperar comando de voz]
-    J --> K
+    I --> L[Esperar comando de voz]
+    K --> L
 
-    K --> L[Normalizar comando reconocido]
-    L --> M{Coincide con comandos del idioma?}
+    L --> M[Normalizar comando reconocido]
+    M --> N[Iniciar busqueda desde contexto actual]
 
-    M -- Si --> N[Recuperar valor asociado al comando]
-    M -- No --> O[Buscar archivo base de la capa actual]
+    N --> O[Buscar en archivo de idioma del contexto evaluado]
+    O --> P{Coincide en idioma?}
 
-    O --> P[Archivo .py que no inicia con TraduceTo/TranslateTo y no es ayuda.py]
-    P --> Q[Usar Keychain sobre archivo base]
-    Q --> R{Coincide con comandos base?}
+    P -- Si --> Q[Recuperar resultado con ruta del contexto]
+    P -- No --> R[Buscar en archivo base del contexto evaluado]
 
-    R -- Si --> N
-    R -- No --> S[Imprimir error: comando no reconocido]
-    S --> K
+    R --> S[Archivo .py que no inicia con TraduceTo/TranslateTo y no es ayuda.py]
+    S --> T[Usar Keychain sobre archivo base]
+    T --> U{Coincide en archivo base?}
 
-    N --> T{El valor asociado es un subdiccionario?}
+    U -- Si --> Q
+    U -- No --> V{Hay contexto padre?}
 
-    T -- Si --> U[Cambiar contexto al subdiccionario]
-    U --> V[Entrar a la carpeta del subdiccionario]
-    V --> E
+    V -- Si --> W[Subir al contexto padre]
+    W --> O
 
-    T -- No --> W{El valor asociado es un comando ejecutable?}
-    W -- Si --> X[Ejecutar comando]
-    X --> K
+    V -- No --> X[Imprimir error: comando no reconocido]
+    X --> L
 
-    W -- No --> Y[Imprimir error: accion invalida]
-    Y --> K
+    Q --> Y{El resultado es un subdiccionario?}
+
+    Y -- Si --> Z[Cambiar contexto al subdiccionario encontrado]
+    Z --> AA[Actualizar pila de contextos]
+    AA --> F
+
+    Y -- No --> AB{El resultado es un comando ejecutable?}
+    AB -- Si --> AC[Ejecutar comando]
+    AC --> L
+
+    AB -- No --> AD[Imprimir error: accion invalida]
+    AD --> L
 ```
 
 ## Version Resumida del Flujo
@@ -65,17 +75,18 @@ flowchart TD
 flowchart LR
     A[Diccionario raiz + idioma] --> B[Cargar comandos del idioma]
     B --> C[Escuchar comando de voz]
-    C --> D{Coincide?}
-    D -- Si --> E{Es subdiccionario?}
-    E -- Si --> F[Cambiar contexto]
-    F --> B
-    E -- No --> G[Ejecutar comando]
-    G --> C
-    D -- No --> H[Buscar en archivo base de la capa actual]
-    H --> I{Coincide?}
-    I -- Si --> E
-    I -- No --> J[Error]
-    J --> C
+    C --> D[Buscar desde contexto actual]
+    D --> E{Coincide en idioma o base?}
+    E -- Si --> F{Es subdiccionario?}
+    F -- Si --> G[Cambiar contexto]
+    G --> B
+    F -- No --> H[Ejecutar comando]
+    H --> C
+    E -- No --> I{Hay contexto padre?}
+    I -- Si --> J[Subir un nivel]
+    J --> E
+    I -- No --> K[Error]
+    K --> C
 ```
 
 ## Explicacion Paso a Paso
@@ -217,9 +228,9 @@ ayuda
 
 Esto cumple la condicion B: cuando se entra a un subdiccionario, cambian los comandos que acepta el programa.
 
-### 6. Si no coincide con el archivo de idioma
+### 6. Si no coincide en el contexto actual
 
-Si el comando no aparece en el archivo de traduccion, el programa debe buscar en el archivo base de esa misma capa.
+Si el comando no aparece en el archivo de traduccion del contexto actual, el programa debe buscar en el archivo base de esa misma capa.
 
 El archivo base es el `.py` principal del contexto, excluyendo:
 
@@ -264,9 +275,58 @@ Si el usuario dijo `file`, aunque no haya usado la traduccion `Archivo`, igual p
 
 Esto cumple la condicion C.
 
-### 7. Si coincide con el archivo base
+### 7. Busqueda ascendente
 
-Si el comando coincide con una clave del archivo base, se aplica la misma decision:
+Si el comando no aparece ni en el archivo de idioma ni en el archivo base del contexto actual, el programa debe subir al contexto padre y repetir la busqueda.
+
+Por ejemplo, si el contexto actual es:
+
+```text
+explorer/file
+```
+
+el orden de busqueda seria:
+
+```text
+1. file/TraduceToEs.py
+2. file/file.py
+3. TraduceToEs.py
+4. explorer.py
+```
+
+Si el contexto actual fuera mas profundo, el programa seguiria subiendo nivel por nivel hasta llegar a la raiz.
+
+La regla principal es:
+
+```text
+Siempre gana la coincidencia encontrada en el contexto mas cercano al actual.
+```
+
+Esto permite diferenciar comandos repetidos. Por ejemplo, si `edit` y `doc` tuvieran un comando llamado `undo`, no alcanza con saber que existe `undo`; tambien hay que saber desde que contexto se lo encontro.
+
+Ejemplo:
+
+```text
+explorer/edit/undo
+explorer/doc/undo
+```
+
+Aunque ambos se llamen `undo`, pueden ejecutar acciones diferentes.
+
+Por eso el resultado de la busqueda deberia guardar informacion como:
+
+```python
+{
+    "comando": "undo",
+    "contexto": "explorer/edit",
+    "archivo": "edit.py",
+    "accion": accion_encontrada
+}
+```
+
+### 8. Si coincide con el archivo de idioma o con el archivo base
+
+Si el comando coincide con una clave del archivo de idioma o del archivo base, se aplica la misma decision:
 
 ```text
 Es subdiccionario? -> cambiar contexto
@@ -287,12 +347,14 @@ En `explorer.py` existe:
 
 Entonces el programa ejecuta la captura de pantalla.
 
-### 8. Si no coincide con nada
+### 9. Si no coincide con nada
 
 Si no coincide con:
 
-1. El archivo de idioma.
-2. El archivo base de la capa actual.
+1. El archivo de idioma del contexto actual.
+2. El archivo base del contexto actual.
+3. Los archivos de idioma de los contextos superiores.
+4. Los archivos base de los contextos superiores.
 
 Entonces el programa imprime error:
 
@@ -306,33 +368,71 @@ Esto cumple la condicion D.
 
 ```python
 def ejecutar_programa(diccionario_raiz, idioma):
-    contexto = crear_contexto(diccionario_raiz)
+    pila_contextos = [crear_contexto(diccionario_raiz)]
 
     while True:
-        comandos_idioma = cargar_comandos_idioma(contexto, idioma)
-        comandos_base = cargar_comandos_base(contexto)
-
         comando = escuchar_comando()
         comando = normalizar(comando)
 
-        resultado = buscar(comando, comandos_idioma)
-
-        if resultado is None:
-            resultado = buscar(comando, comandos_base)
+        resultado = buscar_ascendente(
+            comando=comando,
+            pila_contextos=pila_contextos,
+            idioma=idioma,
+        )
 
         if resultado is None:
             print("Error: comando no reconocido")
             continue
 
-        if es_subdiccionario(resultado):
-            contexto = cambiar_a_subdiccionario(contexto, resultado)
+        accion = resultado["accion"]
+
+        if es_subdiccionario(accion):
+            nuevo_contexto = cambiar_a_subdiccionario(
+                contexto_origen=resultado["contexto"],
+                subdiccionario=accion,
+            )
+            pila_contextos.append(nuevo_contexto)
             continue
 
-        if es_comando_ejecutable(resultado):
-            resultado()
+        if es_comando_ejecutable(accion):
+            accion()
             continue
 
         print("Error: accion invalida")
+
+
+def buscar_ascendente(comando, pila_contextos, idioma):
+    for contexto in reversed(pila_contextos):
+        resultado = buscar_en_contexto(comando, contexto, idioma)
+
+        if resultado is not None:
+            return resultado
+
+    return None
+
+
+def buscar_en_contexto(comando, contexto, idioma):
+    comandos_idioma = cargar_comandos_idioma(contexto, idioma)
+    resultado = buscar(comando, comandos_idioma)
+
+    if resultado is not None:
+        return {
+            "accion": resultado,
+            "contexto": contexto,
+            "origen": "idioma",
+        }
+
+    comandos_base = cargar_comandos_base(contexto)
+    resultado = buscar(comando, comandos_base)
+
+    if resultado is not None:
+        return {
+            "accion": resultado,
+            "contexto": contexto,
+            "origen": "base",
+        }
+
+    return None
 ```
 
 ## Regla Para Encontrar El Archivo Base
@@ -376,4 +476,6 @@ Con este flujo, el programa puede:
 3. Entrar a subdiccionarios como `file`, `edit`, `print` o `doc`.
 4. Cambiar dinamicamente los comandos aceptados segun el contexto.
 5. Buscar comandos base si no hay coincidencia con la traduccion.
-6. Informar error si el comando no existe en ningun nivel valido.
+6. Subir a contextos superiores si no encuentra el comando en la capa actual.
+7. Diferenciar comandos repetidos por ruta, por ejemplo `explorer/edit/undo` y `explorer/doc/undo`.
+8. Informar error si el comando no existe en ningun nivel valido.
