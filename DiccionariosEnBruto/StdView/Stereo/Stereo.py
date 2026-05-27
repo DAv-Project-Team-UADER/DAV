@@ -14,11 +14,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+# Diccionario DAV - StdView / Stereo
+stereo = {
+    'camerapos': lambda: Gui.runCommand('Std_ViewIvIssueCamPos', 0),
+    'stereocolumns': lambda: Gui.runCommand('Std_ViewIvStereoInterleavedColumns', 0),
+    'stereorows': lambda: Gui.runCommand('Std_ViewIvStereoInterleavedRows', 0),
+    'stereooff': lambda: Gui.runCommand('Std_ViewIvStereoOff', 0),
+    'stereoquad': lambda: Gui.runCommand('Std_ViewIvStereoQuadBuff', 0),
+    'stereoanaglyph': lambda: Gui.runCommand('Std_ViewIvStereoRedGreen', 0),
+}

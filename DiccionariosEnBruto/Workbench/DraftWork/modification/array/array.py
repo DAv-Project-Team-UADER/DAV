@@ -14,11 +14,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCad as Gui
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+array = {
+    "help" : ayuda,
+    "orthogonal" : lambda: Gui.runCommand('Draft_ArrayTools',0),
+    "polar" : lambda: Gui.runCommand('Draft_ArrayTools',1),
+    "path" : lambda: Gui.runCommand('Draft_ArrayTools',3),
+    "pathlink": lambda: Gui.runCommand('Draft_ArrayTools',4),
+    "point" : lambda: Gui.runCommand('Draft_ArrayTools',5),
+    "pointlink" : lambda: Gui.runCommand('Draft_ArrayTools',6),
+}

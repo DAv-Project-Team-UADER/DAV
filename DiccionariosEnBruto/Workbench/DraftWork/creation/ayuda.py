@@ -14,11 +14,10 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
-
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+    print("=== Creation ===")
+    print("clave  |  requerimientos")
+    print("hatch: crea un objeto hatch a partir de un objeto base y un patron de relleno  |  req: un objeto base ")
+    print("point: crea un punto en las coordenadas X, Y, Z  |  req: coordenadas X, Y, Z")
+    print("polygon: crea un polígono regular  |  req: nfaces (int/caras), radius (float/radio)")
+    print("rectangle: crea un rectángulo  |  req: length (float/largo), height (float/ancho)")

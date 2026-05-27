@@ -14,11 +14,17 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+assembly = {
+    'create':      lambda: Gui.runCommand('Assembly_CreateAssembly', 0),
+    'newpart':     lambda: Gui.runCommand('Assembly_InsertNewPart', 0),
+    'link':        lambda: Gui.runCommand('Assembly_InsertLink', 0),
+    'solve':       lambda: Gui.runCommand('Assembly_SolveAssembly', 0),
+    'view':        lambda: Gui.runCommand('Assembly_CreateView', 0),
+    'simulation':  lambda: Gui.runCommand('Assembly_CreateSimulation', 0),
+    'bom':         lambda: Gui.runCommand('Assembly_CreateBom', 0),
+    'preferences': lambda: Gui.runCommand('Assembly_Preferences', 0),
+    'help':        ayuda,
+}

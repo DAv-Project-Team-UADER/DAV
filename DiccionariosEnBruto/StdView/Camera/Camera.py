@@ -14,11 +14,10 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCADGui as Gui
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+# Diccionario DAV - StdView / Camera
+camera = {
+    'orthographic': lambda: Gui.runCommand('Std_OrthographicCamera', 1),
+    'perspective': lambda: Gui.runCommand('Std_PerspectiveCamera', 1),
+}

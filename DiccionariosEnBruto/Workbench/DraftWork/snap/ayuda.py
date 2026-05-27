@@ -14,11 +14,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
-
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+    print("=== Snap ===")
+    print("clave  |  requerimientos")
+    print("mirror: crea una copia espejada de una lista de objetos seleccionados segun una recta  |  req: una lista de objetos y una recta")
