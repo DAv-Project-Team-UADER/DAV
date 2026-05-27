@@ -92,11 +92,23 @@ def _extend_workbench_ui(Gui) -> None:
         return
     if wb is None:
         return
+    cmds = [
+        c
+        for c in ("DAV_OpenPreferences", "DAV_StartVoice", "DAV_StopVoice")
+        if Gui.listCommands().count(c) > 0
+    ]
+    if not cmds:
+        return
     try:
-        wb.appendMenu("DAV", ["DAV_OpenPreferences", "DAV_StartVoice", "DAV_StopVoice"])
-        wb.appendToolbar("DAV", ["DAV_OpenPreferences", "DAV_StartVoice", "DAV_StopVoice"])
+        wb.appendMenu("DAV", cmds)
+        wb.appendToolbar("DAV", cmds)
     except Exception:
-        pass
+        import traceback
+
+        import FreeCAD as App
+
+        App.Console.PrintWarning("[DAV] No se pudo actualizar menu/barra DAV:\n")
+        App.Console.PrintWarning(traceback.format_exc())
 
 
 def _print_voice_startup_hint() -> None:

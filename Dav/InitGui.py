@@ -54,4 +54,13 @@ if os.environ.get("DAV_AUTOLOAD_WORKBENCH") == "1":
     except ImportError:
         from PySide2.QtCore import QTimer  # type: ignore[no-redef]
 
-    QTimer.singleShot(500, lambda: Gui.activateWorkbench("DAVWorkbench"))
+    def _activate_dav_workbench() -> None:
+        try:
+            Gui.activateWorkbench("DAVWorkbench")
+        except Exception:
+            import traceback
+
+            App.Console.PrintError("[DAV] No se pudo activar el workbench DAV:\n")
+            App.Console.PrintError(traceback.format_exc())
+
+    QTimer.singleShot(500, _activate_dav_workbench)
