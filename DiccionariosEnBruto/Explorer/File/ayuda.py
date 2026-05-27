@@ -14,11 +14,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
-
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+    print('Comandos disponibles en File:')
+    print('  new       - Crea un nuevo documento')
+    print('  open      - Abre un archivo existente')
+    print('  save      - Guarda el documento activo')
+    print('  saveas    - Guarda con un nuevo nombre')
+    print('  savecopy  - Guarda una copia del documento')
+    print('  revert    - Revierte al último guardado')
+    print('  merge     - Combina proyectos')
+    print('  import    - Importa un archivo externo')
+    print('  export    - Exporta el documento')

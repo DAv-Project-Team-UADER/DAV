@@ -14,11 +14,13 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
+import FreeCad as Gui
+from .ayuda import ayuda
 
-def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
+creation = {
+    "help" : ayuda,
+    "hatch" : lambda: Gui.runCommand('Draft_Hatch',0),
+    "point" : lambda: Gui.runCommand('Draft_Point',0),
+    "polygon" : lambda: Gui.runCommand('Draft_Polygon',0),
+    "rectangle" : lambda: Gui.runCommand('Draft_Rectangle',0),
+}

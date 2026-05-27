@@ -14,13 +14,13 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from Archivos.Archivos       import archivos
-from Ventanas.Ventanas       import ventanas
-from Intercambio.Intercambio import intercambio
-from Herramientas.Herramientas import herramientas
+from .File.File       import file
+from .Edit.Edit       import edit
+from .Windows.Windows import windows
+from .ayuda           import ayuda
 
 explorer = {}
-explorer.update(archivos)
-explorer.update(ventanas)
-explorer.update(intercambio)
-explorer.update(herramientas)
+explorer.update(file)
+explorer.update(edit)
+explorer.update(windows)
+explorer.update({'help': ayuda})
