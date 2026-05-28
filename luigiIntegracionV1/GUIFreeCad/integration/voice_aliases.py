@@ -81,7 +81,7 @@ ALIASES_PT: dict[str, dict[str, str]] = {
 
 
 def _apply_to_node(node: Any, table: dict[str, dict[str, str]]) -> None:
-    from PruebaIntegracion.core.NodoContexto import NodoContexto
+    from PruebaIntegracion.core.ContextNode import NodoContexto
 
     for spoken, real in table.get(node.nombre, {}).items():
         node.agregar_traduccion(spoken, real)

@@ -1,3 +1,18 @@
+#  Copyright (C) 2026 The DAV Project Team-                                 |#  Copyright (C) 2026 El Equipo del Proyecto DAV
+#  Universidad Autónoma de Entre Ríos (UADER)                               |#  Universidad Autónoma de Entre Ríos (UADER)
+#  Directed by Gerard Guillermo and Gallo Fabricio David                    |#  Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#                                                                           |#
+#  This program is free software: you can redistribute it and/or modify     |#  Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+#  it under the terms of the GNU General Public License as published by     |#  bajo los términos de la Licencia Pública General GNU tal como fue publicada 
+#  the Free Software Foundation, in GLPv3 version  of the License           |#  por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#                                                                           |#
+#  This program is distributed in the hope that it will be useful,          |#  Este programa se distribuye con la esperanza de que sea útil,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of           |#  pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            |#  MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+#  GNU General Public License for more details.                             |#  Licencia Pública General GNU para más detalles.
+#                                                                           |#
+#  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 from __future__ import annotations
 
 import argparse
@@ -7,143 +22,142 @@ import threading
 from pathlib import Path
 from typing import Iterable
 
-from PruebaIntegracion.core.CargadorConTraducciones import CargadorConTraducciones
-from PruebaIntegracion.core.Comando import Command
-from PruebaIntegracion.core.EnvoltorioFuncion import EnvoltorioFuncion
-from PruebaIntegracion.core.ExploradorVoz import ExploradorVoz
-from PruebaIntegracion.core.Navegador import Navegador
-from PruebaIntegracion.core.NodoContexto import NodoContexto
+from PruebaIntegracion.core.LoaderWithTranslations import LoaderWithTranslations
+from PruebaIntegracion.core.Command import Command
+from PruebaIntegracion.core.FunctionWrapper import FunctionWrapper
+from PruebaIntegracion.core.VoiceExplorer import VoiceExplorer
+from PruebaIntegracion.core.Navigator import Navigator
+from PruebaIntegracion.core.ContextNode import ContextNode
 from PruebaIntegracion.core.ParamSpec import ParamSpec
 from PruebaIntegracion.gui_adapter import load_modelo_gui
 
 
 class DemoVoiceModel:
-	"""Modelo mínimo para ejecutar el flujo sin micrófono ni Vosk."""
+    """Minimal model to run the flow without a microphone or Vosk."""
 
-	def __init__(self, frases: Iterable[str] | None = None, debug: bool = False) -> None:
-		self._frases = list(frases or [])
-		self._indice = 0
-		self._debug = debug
+    def __init__(self, phrases: Iterable[str] | None = None, debug: bool = False) -> None:
+        self._phrases = list(phrases or [])
+        self._index = 0
+        self._debug = debug
 
-	def escuchar_una_palabra(self) -> str:
-		if self._indice < len(self._frases):
-			texto = self._frases[self._indice]
-			self._indice += 1
-			if self._debug:
-				print(f"[demo] emitir frase {self._indice}/{len(self._frases)}: {texto}")
-			else:
-				print(f"[demo] {texto}")
-			return texto
-		if self._debug:
-			print("[demo] sin frases disponibles")
-		return ""
-
-
-def _crear_funcion_demo(nombre: str):
-	def funcion_demo(valor: float, context_keys=None):
-		print(f"{nombre} ejecutada con valor={valor} context_keys={context_keys}")
-		return {"nombre": nombre, "valor": valor, "context_keys": context_keys}
-
-	funcion_demo.__name__ = nombre
-	funcion_demo._param_specs = (ParamSpec("valor", float),)
-	return funcion_demo
+    def listen_for_one_word(self) -> str:
+        if self._index < len(self._phrases):
+            text = self._phrases[self._index]
+            self._index += 1
+            if self._debug:
+                print(f"[demo] emit phrase {self._index}/{len(self._phrases)}: {text}")
+            else:
+                print(f"[demo] {text}")
+            return text
+        if self._debug:
+            print("[demo] no phrases available")
+        return ""
 
 
-def construir_raiz_principal() -> NodoContexto:
-	cargador = CargadorConTraducciones()
-	roots = cargador.cargar()
+def _create_demo_function(name: str):
+    def demo_function(value: float, context_keys=None):
+        print(f"{name} executed with value={value} context_keys={context_keys}")
+        return {"name": name, "value": value, "context_keys": context_keys}
 
-	if roots:
-		raiz = NodoContexto("DAVCore")
-		for nombre, nodo in roots.items():
-			raiz.agregar_subcontexto(nombre, nodo)
-		return raiz
-
-	raiz = NodoContexto("DAVCore")
-	demo = NodoContexto("Demo")
-	demo.agregar_funcion("crear_punto", EnvoltorioFuncion(_crear_funcion_demo("crear_punto")))
-	demo.agregar_traduccion("crear punto", "crear_punto")
-	raiz.agregar_subcontexto("Demo", demo)
-	raiz.agregar_traduccion("demo", "Demo")
-	return raiz
+    demo_function.__name__ = name
+    demo_function._param_specs = (ParamSpec("value", float),)
+    return demo_function
 
 
-def construir_modelo_de_voz(args: argparse.Namespace):
-	if args.demo:
-		return DemoVoiceModel(args.script or ["demo enviar", "crear punto enviar", "1"], debug=args.debug)
+def build_main_root() -> ContextNode:
+    loader = LoaderWithTranslations()
+    roots = loader.load()
 
-	ruta_modelo = Path(args.modelo)
-	if not ruta_modelo.exists():
-		raise FileNotFoundError(f"No se encontró el modelo de Vosk en '{ruta_modelo}'")
-	from PruebaIntegracion.modelo.VoskModel import VoskModel
-	return VoskModel(str(ruta_modelo), debug=args.debug)
+    if roots:
+        root = ContextNode("DAVCore")
+        for name, node in roots.items():
+            root.add_subcontext(name, node)
+        return root
+
+    root = ContextNode("DAVCore")
+    demo = ContextNode("Demo")
+    demo.add_function("crear_punto", FunctionWrapper(_create_demo_function("crear_punto")))
+    demo.add_translation("crear punto", "crear_punto")
+    root.add_subcontext("Demo", demo)
+    root.add_translation("demo", "Demo")
+    return root
+
+
+def build_voice_model(args: argparse.Namespace):
+    if args.demo:
+        return DemoVoiceModel(args.script or ["demo send", "crear punto send", "1"], debug=args.debug)
+
+    model_path = Path(args.model)
+    if not model_path.exists():
+        raise FileNotFoundError(f"Vosk model not found at '{model_path}'")
+    from PruebaIntegracion.modelo.VoskModel import VoskModel
+    return VoskModel(str(model_path), debug=args.debug)
 
 
 def parse_args() -> argparse.Namespace:
-	parser = argparse.ArgumentParser(description="Arranque de PruebaIntegracion")
-	parser.add_argument("--modelo", default=os.environ.get("PRUEBAINTEGRACION_MODEL_PATH", r"MODELO\vosk-model-small-es-0.42"))
-	parser.add_argument("--idioma", default=os.environ.get("PRUEBAINTEGRACION_LANGUAGE", "ES"), help="Idioma base para números y comandos de control")
-	parser.add_argument("--demo", action="store_true", help="Ejecuta con un modelo de voz simulado por consola")
-	parser.add_argument("--gui", action="store_true", help="Usa la GUI de MODELO como fuente de voz")
-	parser.add_argument("--script", nargs="*", help="Frases usadas por el modo demo, en orden")
-	parser.add_argument("--max-iter", type=int, default=3, help="Límite de iteraciones del bucle principal en modo demo")
-	parser.add_argument("--debug", action="store_true", help="Imprime trazas detalladas del flujo de voz")
-	return parser.parse_args()
+    parser = argparse.ArgumentParser(description="PruebaIntegracion startup")
+    parser.add_argument("--model", default=os.environ.get("PRUEBAINTEGRACION_MODEL_PATH", r"MODELO\vosk-model-small-es-0.42"))
+    parser.add_argument("--language", default=os.environ.get("PRUEBAINTEGRACION_LANGUAGE", "ES"), help="Base language for numbers and control commands")
+    parser.add_argument("--demo", action="store_true", help="Run with a simulated console voice model")
+    parser.add_argument("--gui", action="store_true", help="Use the GUI model as the voice source")
+    parser.add_argument("--script", nargs="*", help="Phrases used by demo mode, in order")
+    parser.add_argument("--max-iter", type=int, default=3, help="Maximum loop iterations in demo mode")
+    parser.add_argument("--debug", action="store_true", help="Print detailed voice flow traces")
+    return parser.parse_args()
 
 
-def _run_gui_loop(explorador: ExploradorVoz, debug: bool) -> None:
-	if debug:
-		print("[gui] iniciando bucle de explorador en hilo dedicado")
-	explorador.bucle_comando()
+def _run_gui_loop(explorer: VoiceExplorer, debug: bool) -> None:
+    if debug:
+        print("[gui] starting explorer loop in dedicated thread")
+    explorer.command_loop()
 
 
 def main() -> None:
-	args = parse_args()
+    args = parse_args()
 
-	if args.debug:
-		print("[main] iniciando PruebaIntegracion")
-		print(f"[main] demo={args.demo} modelo={args.modelo} max_iter={args.max_iter}")
+    if args.debug:
+        print("[main] starting PruebaIntegracion")
+        print(f"[main] demo={args.demo} model={args.model} max_iter={args.max_iter}")
 
-	raiz = construir_raiz_principal()
+    root = build_main_root()
 
-	if args.debug:
-		print(f"[main] raiz construida: {raiz.nombre} con hijos {list(raiz.elementos.keys())}")
+    if args.debug:
+        print(f"[main] root built: {root.name} with children {list(root.elements.keys())}")
 
-	navegador = Navegador(raiz)
+    navigator = Navigator(root)
 
-	print("Se ejecuto navegador con raiz:", navegador.obtener_contexto_actual().nombre)
+    print("Navigator created with root:", navigator.get_current_context().name)
 
-	if args.gui:
-		if args.demo and args.debug:
-			print("[main] --gui ignora --demo; usando GUI como fuente de voz")
-		MainWindow, VoiceCommandAdapter = load_modelo_gui()
-		from PySide6.QtWidgets import QApplication
+    if args.gui:
+        if args.demo and args.debug:
+            print("[main] --gui overrides --demo; using GUI as voice source")
+        MainWindow, VoiceCommandAdapter = load_modelo_gui()
+        from PySide6.QtWidgets import QApplication
 
-		app = QApplication(sys.argv)
-		window = MainWindow()
-		voice_adapter = VoiceCommandAdapter()
-		window.voice_worker.final_result.connect(voice_adapter.receive_gui_phrase)
-		voice_model = voice_adapter
-		if args.debug:
-			print("[main] voice_model=VoiceCommandAdapter (GUI)")
-		command = Command(voice_model, debug=args.debug, modelo=args.modelo, idioma=args.idioma)
-		explorador = ExploradorVoz(voice_model, navegador, command=command, debug=args.debug)
-		threading.Thread(target=_run_gui_loop, args=(explorador, args.debug), daemon=True).start()
-		window.show()
-		sys.exit(app.exec())
+        app = QApplication(sys.argv)
+        window = MainWindow()
+        voice_adapter = VoiceCommandAdapter()
+        window.voice_worker.final_result.connect(voice_adapter.receive_gui_phrase)
+        voice_model = voice_adapter
+        if args.debug:
+            print("[main] voice_model=VoiceCommandAdapter (GUI)")
+        command = Command(voice_model, debug=args.debug, model=args.model, language=args.language)
+        explorer = VoiceExplorer(voice_model, navigator, command=command, debug=args.debug)
+        threading.Thread(target=_run_gui_loop, args=(explorer, args.debug), daemon=True).start()
+        window.show()
+        sys.exit(app.exec())
 
-	voice_model = construir_modelo_de_voz(args)
-	if args.debug:
-		print(f"[main] voice_model={voice_model.__class__.__name__}")
+    voice_model = build_voice_model(args)
+    if args.debug:
+        print(f"[main] voice_model={voice_model.__class__.__name__}")
 
-	command = Command(voice_model, debug=args.debug, modelo=args.modelo, idioma=args.idioma)
-	explorador = ExploradorVoz(voice_model, navegador, command=command, debug=args.debug)
-	if args.debug:
-		print("[main] explorador inicializado, entrando al bucle")
+    command = Command(voice_model, debug=args.debug, model=args.model, language=args.language)
+    explorer = VoiceExplorer(voice_model, navigator, command=command, debug=args.debug)
+    if args.debug:
+        print("[main] explorer initialized, entering loop")
 
-	explorador.bucle_comando(max_iterations=args.max_iter if args.demo else None)
+    explorer.command_loop(max_iterations=args.max_iter if args.demo else None)
 
 
 if __name__ == "__main__":
-	main()
-
+    main()

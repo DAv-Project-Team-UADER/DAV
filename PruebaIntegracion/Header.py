@@ -13,14 +13,3 @@
 #                                                                           |#
 #  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
-import FreeCADGui as Gui
-from .ayuda import ayuda
-
-file = {
-    'new':    lambda: Gui.runCommand('Std_New', 0),
-    'open':   lambda: Gui.runCommand('Std_Open', 0),
-    'close':  lambda: Gui.runCommand('Std_CloseActiveWindow', 0),
-    'save':   lambda: Gui.runCommand('Std_Save', 0),
-    'saveas': lambda: Gui.runCommand('Std_SaveAs', 0),
-    'help':   ayuda,
-}

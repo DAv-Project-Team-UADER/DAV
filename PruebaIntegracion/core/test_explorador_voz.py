@@ -1,108 +1,123 @@
+#  Copyright (C) 2026 The DAV Project Team-                                 |#  Copyright (C) 2026 El Equipo del Proyecto DAV
+#  Universidad Autónoma de Entre Ríos (UADER)                               |#  Universidad Autónoma de Entre Ríos (UADER)
+#  Directed by Gerard Guillermo and Gallo Fabricio David                    |#  Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#                                                                           |#
+#  This program is free software: you can redistribute it and/or modify     |#  Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+#  it under the terms of the GNU General Public License as published by     |#  bajo los términos de la Licencia Pública General GNU tal como fue publicada 
+#  the Free Software Foundation, in GLPv3 version  of the License           |#  por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#                                                                           |#
+#  This program is distributed in the hope that it will be useful,          |#  Este programa se distribuye con la esperanza de que sea útil,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of           |#  pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            |#  MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+#  GNU General Public License for more details.                             |#  Licencia Pública General GNU para más detalles.
+#                                                                           |#
+#  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 import pytest
 from unittest.mock import MagicMock
 
-# Importamos las clases reales de tu proyecto
-from PruebaIntegracion.core.NodoContexto import NodoContexto
-from PruebaIntegracion.core.Navegador import Navegador
+# Import the actual classes from your project
+from PruebaIntegracion.core.ContextNode import ContextNode
+from PruebaIntegracion.core.Navigator import Navigator
 from PruebaIntegracion.core.ParamSpec import ParamSpec
-from PruebaIntegracion.core.ExploradorVoz import ExploradorVoz
+from PruebaIntegracion.core.VoiceExplorer import VoiceExplorer
 
 
 def test_parse_number():
-    """Prueba que la conversión de texto hablado a números funcione correctamente."""
-    nav = Navegador(NodoContexto("raiz"))
-    # Mockeamos el modelo de voz porque no lo usaremos aquí
-    exp = ExploradorVoz(voice_model=MagicMock(), navegador=nav)
+    """Test that spoken text to number conversion works correctly."""
+    nav = Navigator(ContextNode("root"))
+    # We mock the voice model because we won't use it here
+    exp = VoiceExplorer(voice_model=MagicMock(), navigator=nav)
     
     assert exp._parse_number("uno punto cinco") == 1.5
     assert exp._parse_number("dos coma cinco") == 2.5
     assert exp._parse_number("diez") == 10.0
     assert exp._parse_number("cero") == 0.0
     assert exp._parse_number("uno dos tres") == 123.0
-    # Textos inválidos deberían devolver None
+    # Invalid texts should return None
     assert exp._parse_number("palabra_rara") is None
 
 
-def test_vocabulario_y_traducciones():
-    """Prueba que el explorador recolecte vocabulario del nodo actual y sus padres."""
-    raiz = NodoContexto("raiz")
-    hijo = NodoContexto("hijo")
-    raiz.agregar_subcontexto("hijo", hijo)
+def test_vocabulary_and_translations():
+    """Test that the explorer collects vocabulary from the current node and its parents."""
+    root = ContextNode("root")
+    child = ContextNode("child")
+    root.add_subcontext("child", child)
     
-    # Agregamos traducciones en distintos niveles
-    raiz.agregar_traduccion("volver", "comando_volver")
-    hijo.agregar_traduccion("dibujar", "comando_dibujar")
+    # Add translations at different levels
+    root.add_translation("volver", "return_command")
+    child.add_translation("dibujar", "draw_command")
     
-    nav = Navegador(raiz)
-    nav.establecer_contexto(hijo)  # Nos situamos en el hijo
+    nav = Navigator(root)
+    nav.set_context(child)  # We place ourselves in the child
     
-    exp = ExploradorVoz(voice_model=MagicMock(), navegador=nav)
+    exp = VoiceExplorer(voice_model=MagicMock(), navigator=nav)
     
-    # 1. Prueba de traducción ascendente
-    assert exp._obtener_nombre_real_ascendente("dibujar") == "comando_dibujar" # Encontrado en hijo
-    assert exp._obtener_nombre_real_ascendente("volver") == "comando_volver"   # Encontrado en raíz
-    assert exp._obtener_nombre_real_ascendente("desconocido") == "desconocido" # No existe
+    # 1. Ascending translation test
+    assert exp._get_real_name_ascending("dibujar") == "draw_command"   # Found in child
+    assert exp._get_real_name_ascending("volver") == "return_command"  # Found in root
+    assert exp._get_real_name_ascending("unknown") == "unknown"        # Does not exist
     
-    # 2. Prueba de vocabulario activo
-    vocab = exp._vocabulario_navegacion()
+    # 2. Active vocabulary test
+    vocab = exp._navigation_vocabulary()
     assert "volver" in vocab
     assert "dibujar" in vocab
-    assert "hijo" in vocab       # La clave del subcontexto en la raíz
-    assert "cancelar" in vocab   # Palabra por defecto añadida por ExploradorVoz
+    assert "child" in vocab        # The key of the subcontext in the root
+    assert "cancelar" in vocab     # Default word added by VoiceExplorer
 
 
-def test_procesar_parametros_exitoso():
-    """Prueba la recolección de parámetros por voz y su ejecución."""
-    raiz = NodoContexto("raiz")
-    nav = Navegador(raiz)
+def test_process_parameters_successful():
+    """Test voice parameter collection and execution."""
+    root = ContextNode("root")
+    nav = Navigator(root)
     
-    # Simulamos el objeto Command para que devuelva lo que diría el usuario
+    # Simulate the Command object to return what the user would say
     mock_command = MagicMock()
-    # Hacemos que cuando el sistema pida el parámetro, escuche "cinco"
+    # Make it so that when the system asks for the parameter, it hears "cinco"
     mock_command.exclusive_listen.return_value = "cinco"
     
-    exp = ExploradorVoz(voice_model=MagicMock(), navegador=nav, command=mock_command)
+    exp = VoiceExplorer(voice_model=MagicMock(), navigator=nav, command=mock_command)
     
-    # Simulamos una función (EnvoltorioFuncion) que requiere 1 parámetro (radio)
-    mock_envoltorio = MagicMock()
-    mock_envoltorio.nombre = "dibujar_circulo"
-    mock_envoltorio.param_specs = (ParamSpec(nombre="radio", tipo=int),)
+    # Simulate a function (FunctionWrapper) that requires 1 parameter (radius)
+    mock_wrapper = MagicMock()
+    mock_wrapper.name = "draw_circle"
+    mock_wrapper.param_specs = (ParamSpec(name="radius", param_type=int),)
     
-    # Mockeamos el método llamar del navegador para que no intente ejecutar nada real
-    nav.llamar = MagicMock(return_value="Circulo dibujado con exito")
+    # Mock the navigator's call method so it doesn't actually execute anything
+    nav.call = MagicMock(return_value="Circle drawn successfully")
     
-    # Preparamos el explorador en modo parámetros
-    exp.iniciar_parametros(mock_envoltorio)
+    # Prepare the explorer in parameter mode
+    exp.start_parameters(mock_wrapper)
     
-    # Ejecutamos el procesamiento
-    resultado = exp.procesar_parametros()
+    # Run the processing
+    result = exp.process_parameters()
     
-    # Verificaciones
-    assert resultado is True
-    # Debería haber convertido "cinco" a un entero (5) y llamado a la función
-    nav.llamar.assert_called_once_with("dibujar_circulo", 5, context_keys=["raiz"])
-    assert exp.modo_parametros is False # Debería haberse reseteado
+    # Verifications
+    assert result is True
+    # It should have converted "cinco" to an integer (5) and called the function
+    nav.call.assert_called_once_with("draw_circle", 5, context_keys=["root"])
+    assert exp.parameter_mode is False  # Should have been reset
 
 
-def test_bucle_comando_navegacion_y_cancelacion():
-    """Prueba el flujo principal: entrar a un subcontexto y luego cancelar."""
-    raiz = NodoContexto("raiz")
-    hijo = NodoContexto("Geometria")
-    raiz.agregar_subcontexto("Geometria", hijo)
+def test_command_loop_navigation_and_cancellation():
+    """Test the main flow: entering a subcontext and then cancelling."""
+    root = ContextNode("root")
+    child = ContextNode("Geometry")
+    root.add_subcontext("Geometry", child)
     
-    nav = Navegador(raiz)
+    nav = Navigator(root)
     mock_command = MagicMock()
     
-    # Simulamos que el usuario dice primero "Geometria" y luego "cancelar"
-    # side_effect permite devolver un valor distinto en cada llamada
-    mock_command.exclusive_listen.side_effect = ["Geometria", False]
+    # Simulate the user saying first "Geometry" and then "cancel"
+    # side_effect allows returning a different value on each call
+    mock_command.exclusive_listen.side_effect = ["Geometry", False]
     
-    exp = ExploradorVoz(voice_model=MagicMock(), navegador=nav, command=mock_command)
+    exp = VoiceExplorer(voice_model=MagicMock(), navigator=nav, command=mock_command)
     
-    # Ejecutamos el bucle (se detendrá solo por el "cancelar")
-    exp.bucle_comando()
+    # Run the loop (it will stop automatically on "cancel")
+    exp.command_loop()
     
-    # Verificamos que efectivamente se cambió el contexto al hijo
-    assert nav.contexto_actual.nombre == "Geometria"
-    # Verificamos que escuchó exactamente 2 veces antes de salir
+    # Verify that the context was indeed changed to the child
+    assert nav.current_context.name == "Geometry"
+    # Verify that it listened exactly 2 times before exiting
     assert mock_command.exclusive_listen.call_count == 2
