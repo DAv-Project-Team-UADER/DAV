@@ -13,14 +13,55 @@
 #                                                                           |#
 #  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from __future__ import annotations
 
-file = {
-    'new':    lambda: Gui.runCommand('Std_New', 0),
-    'open':   lambda: Gui.runCommand('Std_Open', 0),
-    'close':  lambda: Gui.runCommand('Std_CloseActiveWindow', 0),
-    'save':   lambda: Gui.runCommand('Std_Save', 0),
-    'saveas': lambda: Gui.runCommand('Std_SaveAs', 0),
-    'help':   ayuda,
-}
+from typing import Any, Dict, Optional, Iterable
+
+from PruebaIntegracion.core.FunctionWrapper import FunctionWrapper
+
+
+class ContextNode:
+    """Node in the tools hierarchy.
+
+    - `elements` maps real names -> FunctionWrapper or ContextNode
+    - `translations` maps spoken_word -> real_name
+    - `parent` reference to the parent node (or None if root)
+    """
+
+    def __init__(self, name: str, parent: Optional[ContextNode] = None):
+        self.name = name
+        self.parent = parent
+        self.elements: Dict[str, Any] = {}
+        self.translations: Dict[str, str] = {}
+
+    def add_function(self, key: str, wrapper: FunctionWrapper) -> None:
+        """Adds a wrapped function to the node under the given key."""
+        self.elements[key] = wrapper
+
+    def add_subcontext(self, key: str, node: "ContextNode") -> None:
+        """Adds a subcontext (another ContextNode)."""
+        node.parent = self
+        self.elements[key] = node
+
+    def add_translation(self, spoken_word: str, real_name: str) -> None:
+        """Adds a local translation from spoken word to real name."""
+        self.translations[spoken_word] = real_name
+
+    def get_real_name(self, spoken_word: str) -> Optional[str]:
+        """Looks up the translation in this node; returns None if not found."""
+        return self.translations.get(spoken_word)
+
+    def get_all_keys(self) -> Iterable[str]:
+        """Returns all real keys available in this node (not translations)."""
+        yield from self.elements.keys()
+
+    def get_child(self, key: str) -> Optional["ContextNode"]:
+        """If `key` corresponds to a subcontext, returns the ContextNode, otherwise None."""
+        val = self.elements.get(key)
+        if isinstance(val, ContextNode):
+            return val
+        return None
+
+    def __repr__(self) -> str:
+        return f"ContextNode({self.name!r}, elements={list(self.elements.keys())})"
+
