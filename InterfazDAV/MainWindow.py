@@ -80,14 +80,15 @@ class MainWindow(QMainWindow):
     def _UpdateStyles(self):
         T = self._T
         self._TitleLabel.setStyleSheet(f"color: {T['black']};")
-        self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
+        self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
         self._ListenLabel.setStyleSheet(f"color: {T['black']};")
         self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
         self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
         self._HistLabel.setStyleSheet(f"color: {T['black']};")
         self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
-        self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
+        if hasattr(self, '_CmdsLabel'):
+            self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
         for Btn in self._ToolButtons:
             Btn.setStyleSheet(self._BtnQss())
         for Btn in getattr(self, '_TopBarButtons', []):
@@ -140,7 +141,7 @@ class MainWindow(QMainWindow):
             Logo = QSvgWidget(LogoPath)
             Logo.setFixedSize(40, 36)
             TitleRow.addWidget(Logo)
-        self._TitleLabel = QLabel(L["title"])
+        self._TitleLabel = QLabel("DAV")
         self._TitleLabel.setFont(QFont(FONT_SANS, 16, QFont.Bold))
         self._TitleLabel.setStyleSheet(f"color: {T['black']};")
         TitleRow.addWidget(self._TitleLabel, stretch=1)
@@ -173,6 +174,7 @@ class MainWindow(QMainWindow):
             ("abrir documento.svg", "Abrir documento"),
             ("guardar como.svg", "Guardar como"),
             ("imprimir.svg", "Imprimir"),
+            ("configuraciones.svg", "Configuraciones"),
         ]
         for icon_filename, tooltip in extra_top_icons:
             btn = QPushButton()
@@ -195,18 +197,19 @@ class MainWindow(QMainWindow):
         TopLayout.addLayout(TitleRow)
         MainLayout.addWidget(TopWidget)
 
-        self._StatusLabel = QLabel(L["mic_active"])
+        # Status stripe (placeholder empty until real status updates)
+        self._StatusLabel = QLabel("esperando microfono")
         self._StatusLabel.setFont(QFont(FONT_SANS, 13, QFont.DemiBold))
         self._StatusLabel.setAlignment(Qt.AlignCenter)
         self._StatusLabel.setFixedHeight(54)
         self._StatusLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
+        self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
         MainLayout.addWidget(self._StatusLabel)
 
         BottomWidget = QWidget()
         BottomLayout = QVBoxLayout(BottomWidget)
         BottomLayout.setSpacing(12)
-        BottomLayout.setContentsMargins(40, 12, 40, 20)
+        BottomLayout.setContentsMargins(40, 20, 40, 20)
 
         self._ListenLabel = QLabel(L["section_listen"])
         self._ListenLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
@@ -251,14 +254,10 @@ class MainWindow(QMainWindow):
         PanelRow.addLayout(HistCol, stretch=2)
 
         BottomLayout.addLayout(PanelRow, stretch=1)
-        self._CmdsLabel = QLabel(L["section_cmds"])
-        self._CmdsLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
-        self._CmdsLabel.setAlignment(Qt.AlignCenter)
-        self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
-        BottomLayout.addWidget(self._CmdsLabel)
 
         ToolRow = QHBoxLayout()
         ToolRow.setSpacing(10)
+        ToolRow.setContentsMargins(0, 12, 0, 12)
         self._ToolButtons = []
         self._buttons_map = {}
 
@@ -270,6 +269,7 @@ class MainWindow(QMainWindow):
 
         ToolRow = QHBoxLayout()
         ToolRow.setSpacing(10)
+        ToolRow.setContentsMargins(0, 12, 0, 12)
         self._ToolButtons = []
         self._buttons_map = {}
 
