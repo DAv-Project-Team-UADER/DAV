@@ -106,6 +106,9 @@ GUIFreeCad/config/settings.json
 # No usar "dav/" aquí: en Windows ignora también Dav/ (fuentes del workbench).
 freecad_mod_runtime/
 
+# Diccionario de ejemplo (solo para desarrollo local, no va al repo)
+luigiIntegracionV1/ejemplo de diccionario terminado/
+
 # =============================================================
 # FreeCAD específico
 # =============================================================
