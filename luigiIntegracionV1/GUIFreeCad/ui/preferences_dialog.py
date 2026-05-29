@@ -28,6 +28,8 @@ from core.model_manager import (
     verify_small_models,
 )
 from core.network_utils import has_internet
+from core.language_code import LanguageCode
+from core.preferences import preferences
 from core.settings import settings
 from speech.voice_commands import VoiceCommandListener
 from integration.windows_startup import sync_windows_startup
@@ -130,6 +132,9 @@ class PreferencesDialog(QDialog):
         self._chk_startup = QCheckBox(self)
         self._chk_startup.toggled.connect(self._on_startup_toggled)
         startup_layout.addWidget(self._chk_startup)
+        self._chk_auto_voice = QCheckBox(self)
+        self._chk_auto_voice.toggled.connect(self._on_auto_voice_toggled)
+        startup_layout.addWidget(self._chk_auto_voice)
 
         root.addWidget(self._lang_group_box)
         root.addWidget(self._model_group_box)
@@ -194,6 +199,8 @@ class PreferencesDialog(QDialog):
         else:
             self._rb_light.setChecked(True)
         self._chk_startup.setChecked(settings.startup_enabled)
+        self._chk_auto_voice.setChecked(settings.auto_voice)
+        self._on_auto_voice_toggled(settings.auto_voice)
         self._pending_model_size = settings.model_size
 
     def retranslate(self) -> None:
@@ -240,6 +247,7 @@ class PreferencesDialog(QDialog):
         if new_lang == self._lang:
             return
         self._lang = new_lang
+        preferences.SetLanguage = LanguageCode.FromStorage(new_lang)
         clear_cache()
         self.retranslate()
         self._restart_voice_timer.start(450)
@@ -343,12 +351,26 @@ class PreferencesDialog(QDialog):
             tr("startup_on", self._lang) if checked else tr("startup_off", self._lang)
         )
 
+    _AUTO_VOICE_LABELS: dict[str, tuple[str, str]] = {
+        "es": ("Micrófono: iniciar al abrir FreeCAD ✓", "Micrófono: iniciar al abrir FreeCAD"),
+        "en": ("Microphone: start on FreeCAD open ✓", "Microphone: start on FreeCAD open"),
+        "pt": ("Microfone: iniciar ao abrir FreeCAD ✓", "Microfone: iniciar ao abrir FreeCAD"),
+    }
+
+    def _on_auto_voice_toggled(self, checked: bool) -> None:
+        on_label, off_label = self._AUTO_VOICE_LABELS.get(
+            self._lang, self._AUTO_VOICE_LABELS["es"]
+        )
+        self._chk_auto_voice.setText(on_label if checked else off_label)
+
     def _apply(self) -> None:
         previous_startup = settings.startup_enabled
         settings.language = self._current_language()
+        preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
         settings.model_size = self._pending_model_size
         settings.theme = "dark" if self._rb_dark.isChecked() else "light"
         settings.startup_enabled = self._chk_startup.isChecked()
+        settings.auto_voice = self._chk_auto_voice.isChecked()
         settings.save()
 
         if previous_startup != settings.startup_enabled:

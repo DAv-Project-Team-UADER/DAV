@@ -34,9 +34,18 @@ def start_voice_engine(*, debug: bool = False) -> bool:
             _print_message("[DAV] El motor de voz ya está activo.\n")
             return True
 
+        from core.language_code import LanguageCode
+        from core.preferences import preferences
         from integration.cad_session import build_explorador_voz
         from integration.cad_voice_adapter import CadStreamingAdapter
 
+        preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
+
+        # TODO Developer 4: replace CadStreamingAdapter with BrowserVoiceAdapter
+        # once the Browser search engine (Developer 3) is implemented.
+        # Example:
+        #   from integration.browser_voice_adapter import BrowserVoiceAdapter
+        #   adapter = BrowserVoiceAdapter()
         explorador = build_explorador_voz(model, settings.language, debug=debug)
         adapter = CadStreamingAdapter(explorador)
         if not svc.start_cad(adapter):

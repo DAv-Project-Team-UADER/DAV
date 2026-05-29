@@ -17,6 +17,7 @@ DEFAULTS: dict[str, Any] = {
     "model_size": "small",
     "theme": "light",
     "startup_enabled": False,
+    "auto_voice": False,
 }
 
 
@@ -75,6 +76,14 @@ class Settings:
     @startup_enabled.setter
     def startup_enabled(self, value: bool) -> None:
         self._data["startup_enabled"] = bool(value)
+
+    @property
+    def auto_voice(self) -> bool:
+        return bool(self._data.get("auto_voice", False))
+
+    @auto_voice.setter
+    def auto_voice(self, value: bool) -> None:
+        self._data["auto_voice"] = bool(value)
 
     def as_dict(self) -> dict[str, Any]:
         return deepcopy(self._data)

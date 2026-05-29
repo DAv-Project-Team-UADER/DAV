@@ -124,6 +124,51 @@ def _schedule_dav_ui_bootstrap() -> None:
     QTimer.singleShot(250, _apply_ui)
 
 
+def _force_show_dav_toolbar() -> None:
+    """Force-show the DAV toolbar via Qt (survives FreeCAD toolbar-hide memory)."""
+    try:
+        import FreeCADGui as Gui
+
+        mw = Gui.getMainWindow()
+        if mw is None:
+            return
+        try:
+            from PySide6.QtWidgets import QToolBar
+        except ImportError:
+            from PySide2.QtWidgets import QToolBar  # type: ignore[no-redef]
+        for tb in mw.findChildren(QToolBar):
+            if tb.windowTitle() == "DAV":
+                tb.setVisible(True)
+                tb.setEnabled(True)
+                break
+    except Exception:
+        pass
+
+
+def _auto_start_voice_if_needed() -> None:
+    """Start voice automatically when the workbench loads if auto_voice is set."""
+    try:
+        import sys
+        from pathlib import Path
+
+        _dav_commands = importlib.import_module("scr.gui.dav_commands")
+        gui_root = _dav_commands._guifreecad_root()
+        if str(gui_root) not in sys.path:
+            sys.path.insert(0, str(gui_root))
+
+        from core.settings import settings
+
+        settings.load()
+        if not settings.auto_voice:
+            return
+
+        from integration.voice_bootstrap import start_voice_engine
+
+        start_voice_engine()
+    except Exception:
+        pass
+
+
 def _schedule_toolbar_refresh() -> None:
     """Reaplica la barra DAV tras activar el workbench (evita barra vacia)."""
     try:
@@ -144,9 +189,15 @@ def _schedule_toolbar_refresh() -> None:
             wb = Gui.getWorkbench("DAVWorkbench")
             if wb is not None:
                 apply_dav_toolbar(wb)
+            _force_show_dav_toolbar()
         except Exception:
             App.Console.PrintError("[DAV] Error refrescando barra DAV:\n")
             App.Console.PrintError(traceback.format_exc())
 
+    def _refresh_and_autovoice() -> None:
+        _refresh()
+        _auto_start_voice_if_needed()
+
     for delay_ms in (600, 1500):
         QTimer.singleShot(delay_ms, _refresh)
+    QTimer.singleShot(2000, _auto_start_voice_if_needed)

@@ -11,7 +11,7 @@ from integration.voice_aliases import apply_voice_aliases
 LANG_TO_IDIOMA: dict[str, str] = {
     "en": "EN",
     "es": "ES",
-    "pt": "ES",
+    "pt": "PT",
 }
 
 
