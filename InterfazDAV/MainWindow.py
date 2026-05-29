@@ -31,10 +31,16 @@ from Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
 from HelpWindow import HelpWindow
 from VoiceWorker import VoiceWorker
 from FlashOverlay import FlashOverlay
+from Keychain import Keychain
+
+LANG_FILE = {
+    "es": "TraduceToEs.py",
+    "en": "TraduceToEn.py",
+    "pt": "TraduceToPt.py",
+}
 
 def quitar_acentos(texto):
     return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
-
 
 class MainWindow(QMainWindow):
     def __init__(self, color="light", lang="es"):
@@ -43,7 +49,7 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(900, 650)
         self._HelpWindow = None
         self._buttons_map = {}
-        self._current_menu = None  # Menú actualmente abierto
+        self._current_menu = None 
         self._current_theme = color
 
         self.SetColor(color)
@@ -60,6 +66,9 @@ class MainWindow(QMainWindow):
 
     def SetLanguage(self, lang):
         self._Texts = TEXTS.get(lang, TEXTS["es"])
+        self._current_lang = lang
+        if hasattr(self, '_ToolButtons'):
+            self._ReloadToolButtons()
 
     def _UpdateStyles(self):
         T = self._T
@@ -241,102 +250,76 @@ class MainWindow(QMainWindow):
         self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
         BottomLayout.addWidget(self._CmdsLabel)
 
-        # ==================== BOTONES CON SUBMENUS ====================
         ToolRow = QHBoxLayout()
         ToolRow.setSpacing(10)
         self._ToolButtons = []
         self._buttons_map = {}
 
-        menus_data = [
-            ("Punto", "Sketcher_CreatePoint", "punto", []),
-            ("Línea", "Sketcher_CreateLine", "linea", []),
-            ("Arco", "Sketcher_CreateArc", "arco", [
-                ("Arco (centro, radio)", "arco centro", "Sketcher_CreateArc"),
-                ("Arco por 3 puntos", "arco por 3 puntos", "Sketcher_Create3PointArc"),
-                ("Arco elíptico", "arco eliptico", "Sketcher_CreateArcOfEllipse"),
-                ("Arco de hipérbola", "arco hiperbola", "Sketcher_CreateArcOfHyperbola"),
-                ("Arco de parábola", "arco parabola", "Sketcher_CreateArcOfParabola"),
-            ]),
-            ("Círculo", "Sketcher_CreateCircle", "circulo", [
-                ("Círculo (centro, radio)", "circulo centro", "Sketcher_CreateCircle"),
-                ("Círculo por 3 puntos", "circulo por 3 puntos", "Sketcher_Create3PointCircle"),
-                ("Elipse (centro)", "elipse centro", "Sketcher_CreateEllipseByCenter"),
-                ("Elipse por 3 puntos", "elipse 3 puntos", "Sketcher_CreateEllipseBy3Points"),
-            ]),
-            ("Rectángulo", "Sketcher_CreateRectangle", "rectangulo", [
-                ("Rectángulo por esquinas", "rectangulo esquinas", "Sketcher_CreateRectangle"),
-                ("Rectángulo centrado", "rectangulo centrado", "Sketcher_CreateRectangle_Center"),
-                ("Rectángulo redondeado", "rectangulo redondeado", "Sketcher_CreateOblong"),
-            ]),
-            ("Polígono", "Sketcher_CreateHexagon", "poligono", [
-                ("Triángulo", "triangulo", "Sketcher_CreateTriangle"),
-                ("Cuadrado", "cuadrado", "Sketcher_CreateSquare"),
-                ("Pentágono", "pentagono", "Sketcher_CreatePentagon"),
-                ("Hexágono", "hexagono", "Sketcher_CreateHexagon"),
-                ("Heptágono", "heptagono", "Sketcher_CreateHeptagon"),
-                ("Octágono", "octagono", "Sketcher_CreateOctagon"),
-                ("Polígono regular...", "poligono regular", "Sketcher_CreateRegularPolygon"),
-            ]),
-            ("Ranura", "Sketcher_CreateSlot", "ranura", [
-                ("Ranura recta", "ranura recta", "Sketcher_CreateSlot"),
-                ("Ranura arqueada", "ranura arco", "Sketcher_CreateArcSlot"),
-            ]),
-            ("Curva", "Sketcher_CreateBSpline", "curva", [
-                ("Curva por puntos de control", "curva por puntos", "Sketcher_CreateBSpline"),
-                ("Curva cerrada", "curva cerrada", "Sketcher_CreatePeriodicBSpline"),
-                ("Curva por nudos", "curva por nudos", "Sketcher_CreateBSplineByInterpolation"),
-            ]),
-        ]
+        DicDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DiccionarioPrueba')
+        ExplorerPath = os.path.join(DicDir, 'explorer.py')
 
-        for parent_text, icon_name, parent_cmd, children in menus_data:
+        GroupKeychain = Keychain(ExplorerPath)
+        GroupKeys = GroupKeychain.GetKeys()
+
+        ToolRow = QHBoxLayout()
+        ToolRow.setSpacing(10)
+        self._ToolButtons = []
+        self._buttons_map = {}
+
+        for i, GroupName in enumerate([k for k in GroupKeys if k != 'doc'][:12]):
+            GroupFolder = os.path.join(DicDir, GroupName)
+            GroupDictPath = os.path.join(GroupFolder, f'{GroupName}.py')
+            if not os.path.exists(GroupDictPath):
+                GroupDictPath = os.path.join(GroupFolder, f'{GroupName}_cmds.py')
+
             btn = QPushButton()
             btn.setFixedSize(54, 54)
-            btn.setToolTip(parent_text)
-            btn.parent_cmd = parent_cmd
-            btn.parent_name = parent_text
-            
-            icon_path = os.path.join(icons_dir, icon_name + ".svg")
-            if not os.path.exists(icon_path) and icon_name == "Sketcher_CreateSlot":
-                icon_path = os.path.join(icons_dir, "Sketcher_CreateOblong.svg")
-            
-            if os.path.exists(icon_path):
-                svg_widget = QSvgWidget(icon_path)
-                svg_widget.setFixedSize(42, 42)
+            btn.setToolTip(GroupName)
+            btn.setStyleSheet(self._BtnQss())
+
+            IconPath = os.path.join(DicDir, f'{GroupName}.svg')
+            if os.path.exists(IconPath):
+                SvgWidget = QSvgWidget(IconPath)
+                SvgWidget.setFixedSize(42, 42)
                 btn.setLayout(QVBoxLayout())
-                btn.layout().addWidget(svg_widget, alignment=Qt.AlignCenter)
+                btn.layout().addWidget(SvgWidget, alignment=Qt.AlignCenter)
                 btn.layout().setContentsMargins(6, 6, 6, 6)
             else:
-                btn.setText(parent_text[:3])
-            
-            btn.setStyleSheet(self._BtnQss())
-            self._buttons_map[parent_cmd] = btn
-            
-            if children:
+                btn.setText(GroupName[:4])
+
+            if os.path.exists(GroupDictPath):
+                ActionKeychain = Keychain(GroupDictPath)
+                ActionKeys = ActionKeychain.GetKeys()
+                ActionIcons = ActionKeychain.GetIcons(base_dir=GroupFolder)
+
                 menu = QMenu(self)
                 menu.setStyleSheet(f"""
                     QMenu {{ background-color: {self._T['panel']}; border: 1px solid {self._T['panel_border']}; border-radius: 5px; padding: 5px; }}
                     QMenu::item {{ padding: 8px 25px 8px 10px; color: {self._T['black']}; font-family: {FONT_SANS}; font-size: 11px; }}
                     QMenu::item:selected {{ background-color: {self._T['highlight']}; }}
                 """)
-                
-                for child_text, child_cmd, child_icon_name in children:
-                    child_icon_path = os.path.join(icons_dir, child_icon_name + ".svg")
-                    if os.path.exists(child_icon_path):
-                        child_icon = QIcon(child_icon_path)
-                        action = menu.addAction(child_icon, child_text)
+
+                for ActionKey in ActionKeys[:12]:
+                    ActionIconPath = os.path.join(GroupFolder, f'{ActionKey.replace(" ", "_")}.svg')
+                    if os.path.exists(ActionIconPath):
+                        action = menu.addAction(QIcon(ActionIconPath), ActionKey)
                     else:
-                        action = menu.addAction(child_text)
-                    action.setData((parent_text, child_text, child_cmd))
+                        action = menu.addAction(ActionKey)
+                    action.setData((GroupName, ActionKey))
                     action.triggered.connect(self._OnChildAction)
-                
+
                 btn.setMenu(menu)
-                # Guardar referencia al menú en el botón
                 btn.custom_menu = menu
+                menu.aboutToShow.connect(lambda g=GroupName: self._OnMenuShown(g))
+                menu.aboutToHide.connect(self._OnMenuHidden)
             else:
-                btn.clicked.connect(lambda checked, cmd=parent_cmd, name=parent_text: self._OnDirectAction(name))
-            
-            ToolRow.addWidget(btn)
+                btn.clicked.connect(lambda checked, name=GroupName: self._OnDirectAction(name))
+
+            btn.parent_name = GroupName
+            btn.parent_cmd = GroupName
+            self._buttons_map[GroupName] = btn
             self._ToolButtons.append(btn)
+            ToolRow.addWidget(btn)
 
         BottomLayout.addLayout(ToolRow)
         MainLayout.addWidget(BottomWidget)
@@ -352,20 +335,31 @@ class MainWindow(QMainWindow):
         self._Flash.Trigger()
 
     def _OpenMenu(self, btn, menu_name):
-        """Abre un menú y guarda la referencia global"""
         if btn and hasattr(btn, 'custom_menu'):
             self._current_menu = btn.custom_menu
+            self._current_group = btn.parent_name
+            btn.custom_menu.aboutToHide.connect(lambda: self._OnMenuHidden())
             self.AddToHistory(f"Menú: {menu_name}")
-            # Usar QTimer para evitar bloqueo
             QTimer.singleShot(10, lambda: btn.custom_menu.exec(btn.mapToGlobal(QPoint(0, btn.height()))))
             return True
         return False
+    
+    def _OnMenuHidden(self):
+        if self._current_menu is not None:
+            self.AddToHistory(f"Cerrar menú: {self._current_group}")
+        self._current_menu = None
+        self._current_group = None
+
+    def _OnMenuShown(self, group_name):
+        self._current_menu = self._buttons_map[group_name].custom_menu
+        self._current_group = group_name
+        self.AddToHistory(f"Menú: {group_name}")
 
     def _CloseCurrentMenu(self):
-        """Cierra el menú actual si está abierto"""
         if self._current_menu:
-            self._current_menu.close()
-            self._current_menu = None
+            menu = self._current_menu
+            self._current_menu = None  # primero None, así _OnMenuHidden no duplica
+            menu.close()
             return True
         return False
 
@@ -379,7 +373,6 @@ class MainWindow(QMainWindow):
                 if btn.parent_name == parent_name:
                     self._FlashButton(btn)
                     break
-            # Cerrar el menú después de seleccionar un hijo
             self._CloseCurrentMenu()
 
     def _OnDirectAction(self, command_name):
@@ -455,7 +448,7 @@ class MainWindow(QMainWindow):
         """
 
     # ----------------------------------------------------------
-    # Voz
+    # Voice
     # ----------------------------------------------------------
 
     def _StartVoiceRecognition(self):
@@ -487,7 +480,6 @@ class MainWindow(QMainWindow):
         L = self._Texts
         self._CurrentText.setText(f"{L['detected']} {command}")
 
-        # Comandos de control
         if command_lower == "ayuda":
             self.OpenHelpWindow()
             self.AddToHistory(command)
@@ -520,7 +512,6 @@ class MainWindow(QMainWindow):
             self.AddToHistory(command)
             return
 
-        # Cambio de tema
         if command_lower == "modo claro":
             if self._current_theme != "light":
                 self.ToggleTheme()
@@ -534,7 +525,6 @@ class MainWindow(QMainWindow):
                 self.AddToHistory("Ya está en modo oscuro")
             return
 
-        # Cerrar menú (ahora sí funciona)
         if command_lower in ("atras", "cerrar menu", "cerrar menú", "salir menu", "salir menú"):
             if self._CloseCurrentMenu():
                 self.AddToHistory("Cerrar menú")
@@ -542,102 +532,33 @@ class MainWindow(QMainWindow):
                 self.AddToHistory("No hay menú abierto")
             return
 
-        # Abrir menús con voz
-        if command_lower == "arco":
-            btn = self._buttons_map.get("arco")
-            if btn:
-                self._OpenMenu(btn, "Arco")
-            return
-        if command_lower == "circulo":
-            btn = self._buttons_map.get("circulo")
-            if btn:
-                self._OpenMenu(btn, "Círculo")
-            return
-        if command_lower == "rectangulo":
-            btn = self._buttons_map.get("rectangulo")
-            if btn:
-                self._OpenMenu(btn, "Rectángulo")
-            return
-        if command_lower == "poligono":
-            btn = self._buttons_map.get("poligono")
-            if btn:
-                self._OpenMenu(btn, "Polígono")
-            return
-        if command_lower == "ranura":
-            btn = self._buttons_map.get("ranura")
-            if btn:
-                self._OpenMenu(btn, "Ranura")
-            return
-        if command_lower == "curva":
-            btn = self._buttons_map.get("curva")
-            if btn:
-                self._OpenMenu(btn, "Curva")
-            return
+        DicDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DiccionarioPrueba')
+        LangFile = LANG_FILE.get(self._current_lang, "TraduceToEs.py")
 
-        # Comandos directos
-        if command_lower == "punto":
-            btn = self._buttons_map.get("punto")
-            if btn:
-                self._FlashButton(btn)
-            self.AddToHistory("Punto")
-            return
-        if command_lower == "linea":
-            btn = self._buttons_map.get("linea")
-            if btn:
-                self._FlashButton(btn)
-            self.AddToHistory("Línea")
-            return
-
-        # Comandos de hijos
-        hijos_map = {
-            "arco centro": ("Arco", "Arco (centro, radio)"),
-            "arco por 3 puntos": ("Arco", "Arco por 3 puntos"),
-            "arco por tres puntos": ("Arco", "Arco por 3 puntos"),
-            "arco eliptico": ("Arco", "Arco elíptico"),
-            "arco hiperbola": ("Arco", "Arco de hipérbola"),
-            "arco parabola": ("Arco", "Arco de parábola"),
-            "circulo centro": ("Círculo", "Círculo (centro, radio)"),
-            "circulo por 3 puntos": ("Círculo", "Círculo por 3 puntos"),
-            "circulo por tres puntos": ("Círculo", "Círculo por 3 puntos"),
-            "elipse centro": ("Círculo", "Elipse (centro)"),
-            "elipse por 3 puntos": ("Círculo", "Elipse por 3 puntos"),
-            "elipse por tres puntos": ("Círculo", "Elipse por 3 puntos"),
-            "rectangulo esquinas": ("Rectángulo", "Rectángulo por esquinas"),
-            "rectangulo centrado": ("Rectángulo", "Rectángulo centrado"),
-            "rectangulo redondeado": ("Rectángulo", "Rectángulo redondeado"),
-            "ranura recta": ("Ranura", "Ranura recta"),
-            "ranura arco": ("Ranura", "Ranura arqueada"),
-            "triangulo": ("Polígono", "Triángulo"),
-            "cuadrado": ("Polígono", "Cuadrado"),
-            "pentagono": ("Polígono", "Pentágono"),
-            "hexagono": ("Polígono", "Hexágono"),
-            "heptagono": ("Polígono", "Heptágono"),
-            "octagono": ("Polígono", "Octágono"),
-            "poligono regular": ("Polígono", "Polígono regular..."),
-            "curva por puntos": ("Curva", "Curva por puntos de control"),
-            "curva cerrada": ("Curva", "Curva cerrada"),
-            "curva por nudos": ("Curva", "Curva por nudos"),
-        }
-
-        for palabra, (parent_name, child_display) in hijos_map.items():
-            if palabra in command_lower:
-                self.AddToHistory(f"Menú {parent_name}: {child_display}")
-                for btn in self._buttons_map.values():
-                    if btn.parent_name == parent_name:
+        if self._current_menu is None:
+            GroupFolders = [f for f in os.listdir(DicDir) if os.path.isdir(os.path.join(DicDir, f)) and f != 'doc']
+            for GroupFolder in GroupFolders:
+                DictPath = os.path.join(DicDir, GroupFolder, LangFile)
+                if not os.path.exists(DictPath):
+                    continue
+                Keys = Keychain(DictPath).GetKeys()
+                if command_lower in [quitar_acentos(k.lower()) for k in Keys]:
+                    btn = self._buttons_map.get(GroupFolder)
+                    if btn:
+                        self._OpenMenu(btn, GroupFolder)
+                    return
+        else:
+            ActiveGroup = self._current_group
+            DictPath = os.path.join(DicDir, ActiveGroup, LangFile)
+            if os.path.exists(DictPath):
+                Keys = Keychain(DictPath).GetKeys()
+                if command_lower in [quitar_acentos(k.lower()) for k in Keys]:
+                    btn = self._buttons_map.get(ActiveGroup)
+                    if btn:
                         self._FlashButton(btn)
-                        break
-                self._CloseCurrentMenu()  # Cerrar menú si estaba abierto
-                return
-
-        # Navegación en modelo
-        GoTo = L["go_to"]
-        if command_lower.startswith(GoTo + " "):
-            Target = command_lower[len(GoTo) + 1:].strip()
-            ResolvedPart = MODEL_PARTS_ALIASES.get(Target)
-            if ResolvedPart and self._HighlightModelPart(ResolvedPart):
-                self.AddToHistory(command)
-            else:
-                self.AddToHistory(command, unknown=True)
+                    self.AddToHistory(command)
+                    return
+            self.AddToHistory(f"'{command}' no disponible en menú {ActiveGroup}", unknown=True)
             return
 
         self.AddToHistory(command, unknown=True)
