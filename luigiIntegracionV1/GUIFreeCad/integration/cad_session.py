@@ -29,10 +29,10 @@ def build_explorador_voz(
     debug: bool = False,
 ):
     ensure_dav_repo_on_path()
-    from PruebaIntegracion.core.Comando import Command
-    from PruebaIntegracion.core.EnvoltorioFuncion import EnvoltorioFuncion
-    from PruebaIntegracion.core.ExploradorVoz import ExploradorVoz
-    from PruebaIntegracion.core.Navegador import Navegador
+    from PruebaIntegracion.core.Command import Command
+    from PruebaIntegracion.core.FunctionWrapper import EnvoltorioFuncion
+    from PruebaIntegracion.core.VoiceExplorer import ExploradorVoz
+    from PruebaIntegracion.core.Navigator import Navegador
     from PruebaIntegracion.main import construir_raiz_principal
     from PruebaIntegracion.modelo.VoskModel import VoskModel
 

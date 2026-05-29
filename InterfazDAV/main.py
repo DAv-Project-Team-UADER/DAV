@@ -15,6 +15,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 
 import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'Keychain'))
+
 from PySide6.QtWidgets import QApplication
 from MainWindow import MainWindow
 

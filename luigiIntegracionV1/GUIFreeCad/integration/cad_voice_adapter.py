@@ -112,7 +112,7 @@ class CadStreamingAdapter:
             exp.procesar_parametros()
             return
 
-        from PruebaIntegracion.core.NodoContexto import NodoContexto
+        from PruebaIntegracion.core.ContextNode import NodoContexto
 
         hijo = exp.navegador.contexto_actual.elementos.get(nombre_real)
         if isinstance(hijo, NodoContexto):
