@@ -39,6 +39,13 @@ LANG_FILE = {
     "pt": "TraduceToPt.py",
 }
 
+VALUE_TO_GROUP = {
+    'file':       'file',
+    'edit':       'edit',
+    'print_cmds': 'print',
+    'ayuda':      None,  # no tiene grupo
+}
+
 def quitar_acentos(texto):
     return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
 
@@ -536,17 +543,19 @@ class MainWindow(QMainWindow):
         LangFile = LANG_FILE.get(self._current_lang, "TraduceToEs.py")
 
         if self._current_menu is None:
-            GroupFolders = [f for f in os.listdir(DicDir) if os.path.isdir(os.path.join(DicDir, f)) and f != 'doc']
-            for GroupFolder in GroupFolders:
-                DictPath = os.path.join(DicDir, GroupFolder, LangFile)
-                if not os.path.exists(DictPath):
-                    continue
-                Keys = Keychain(DictPath).GetKeys()
-                if command_lower in [quitar_acentos(k.lower()) for k in Keys]:
-                    btn = self._buttons_map.get(GroupFolder)
-                    if btn:
-                        self._OpenMenu(btn, GroupFolder)
-                    return
+            RootDictPath = os.path.join(DicDir, LangFile)
+            if os.path.exists(RootDictPath):
+                RootKeychain = Keychain(RootDictPath)
+                RootKeys = RootKeychain.GetKeys()
+                RootValues = RootKeychain.GetValues()
+                for Key, Value in zip(RootKeys, RootValues):
+                    if quitar_acentos(Key.lower()) == command_lower:
+                        GroupName = VALUE_TO_GROUP.get(Value.strip("'\""))
+                        if GroupName:
+                            btn = self._buttons_map.get(GroupName)
+                            if btn:
+                                self._OpenMenu(btn, GroupName)
+                        return
         else:
             ActiveGroup = self._current_group
             DictPath = os.path.join(DicDir, ActiveGroup, LangFile)
