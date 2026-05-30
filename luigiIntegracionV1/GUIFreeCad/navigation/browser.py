@@ -150,8 +150,6 @@ class Browser:
         # Requirement 2 (Developer 2): direct jump for BaseContext commands
         base_hit = self._ResolveBaseJump(normalized)
         if base_hit is not None:
-            # TODO Developer 3: call _DescendToSubContext(base_hit) here
-            # For now, update Context so the jump is reflected
             self._ApplyBaseJump(base_hit)
             return BrowserResult(
                 True,
@@ -159,24 +157,16 @@ class Browser:
                 f"Context set to {base_hit.InternalKey}",
             )
 
-        # TODO Developer 3 — implement descend and upward search:
-        #
-        # entry = FindBySpoken(self.Context, normalized)
-        # if entry is not None:
-        #     if entry.IsSubContext():
-        #         self._DescendToSubContext(entry)
-        #         return BrowserResult(True, "descend", ...)
-        #     if entry.IsCallable():
-        #         self._ExecuteEntry(entry)
-        #         return BrowserResult(True, "execute", ...)
-        #
-        # return self._SearchUpwardAndExecute(normalized)
+        entry = FindBySpoken(self.Context, normalized)
+        if entry is not None:
+            if entry.IsSubContext():
+                self._DescendToSubContext(entry)
+                return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+            if entry.IsCallable():
+                self._ExecuteEntry(entry)
+                return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
 
-        return BrowserResult(
-            False,
-            "not_implemented",
-            "Descend/ascend search — to be implemented by Developer 3",
-        )
+        return self._SearchUpwardAndExecute(normalized)
 
     # ------------------------------------------------------------------
     # Internal helpers (Developer 2)
@@ -251,22 +241,50 @@ class Browser:
         return None
 
     def _ApplyBaseJump(self, entry: ContextEntry) -> None:
-        """
-        Partial base jump: update Context to show entry's sub-commands.
-        Full stack navigation will be wired by Developer 3 via _DescendToSubContext.
-        """
-        if isinstance(entry.Target, dict):
+        """Jump directly to a BaseContext entry."""
+        if entry.IsSubContext():
             self._stack = [self._stack[0]]
-            frame = _ContextFrame(
-                Folder=self._loader.ResolveSubFolder(
-                    self._loader.DictionaryRoot, entry.InternalKey
-                ),
-                ModuleDict=entry.Target,
-                InternalName=entry.InternalKey,
-            )
-            self._stack.append(frame)
-            self.Context = self._BuildContextForFrame(frame)
-            self.OriginalContext = None
+            self._DescendToSubContext(entry)
+        elif entry.IsCallable():
+            self._ExecuteEntry(entry)
+
+    def _DescendToSubContext(self, entry: ContextEntry) -> None:
+        """Descend manually into a sub-folder context."""
+        frame = _ContextFrame(
+            Folder=self._loader.ResolveSubFolder(self._stack[-1].Folder, entry.InternalKey),
+            ModuleDict=entry.Target,
+            InternalName=entry.InternalKey,
+        )
+        self._stack.append(frame)
+        self.Context = self._BuildContextForFrame(frame)
+
+    def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:
+        """Automatic ascending search."""
+        self.OriginalContext = self._SnapshotContext(self.Context)
+        temp_stack = list(self._stack)
+        
+        while len(temp_stack) > 1:
+            temp_stack.pop()
+            parent_frame = temp_stack[-1]
+            parent_context = self._BuildContextForFrame(parent_frame)
+            
+            entry = FindBySpoken(parent_context, normalized_spoken)
+            if entry is not None:
+                if entry.IsCallable():
+                    self._ExecuteEntry(entry)
+                    self._stack = temp_stack
+                    self.Context = parent_context
+                    self.OriginalContext = parent_context
+                    return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
+                elif entry.IsSubContext():
+                    self._stack = temp_stack
+                    self.Context = parent_context
+                    self._DescendToSubContext(entry)
+                    self.OriginalContext = self.Context
+                    return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
+        
+        self.Context = self.OriginalContext
+        return BrowserResult(False, "not_found", "Command not found in upward search")
 
     def _ExecuteEntry(self, entry: ContextEntry) -> None:
         """Execute a leaf command entry."""

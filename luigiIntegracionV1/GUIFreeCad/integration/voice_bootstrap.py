@@ -36,18 +36,14 @@ def start_voice_engine(*, debug: bool = False) -> bool:
 
         from core.language_code import LanguageCode
         from core.preferences import preferences
-        from integration.cad_session import build_explorador_voz
-        from integration.cad_voice_adapter import CadStreamingAdapter
+        from navigation.browser import Browser
+        from integration.browser_voice_adapter import BrowserVoiceAdapter
 
         preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
 
-        # TODO Developer 4: replace CadStreamingAdapter with BrowserVoiceAdapter
-        # once the Browser search engine (Developer 3) is implemented.
-        # Example:
-        #   from integration.browser_voice_adapter import BrowserVoiceAdapter
-        #   adapter = BrowserVoiceAdapter()
-        explorador = build_explorador_voz(model, settings.language, debug=debug)
-        adapter = CadStreamingAdapter(explorador)
+        browser = Browser(prefs=preferences)
+        adapter = BrowserVoiceAdapter(browser)
+        
         if not svc.start_cad(adapter):
             return False
 

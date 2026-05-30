@@ -14,24 +14,10 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCADGui as Gui
-from .dimension.dimension   import dimension
-from .length.length         import length
-from .horizontal.horizontal import horizontal
-from .extent.extent         import extent
-from .radius.radius         import radius
-from .diameter.diameter     import diameter
-from .angle.angle           import angle
-from .ayuda import ayuda
 
-dimensions = {
-    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
-}
-dimensions.update(dimension)
-dimensions.update(length)
-dimensions.update(horizontal)
-dimensions.update(extent)
-dimensions.update(radius)
-dimensions.update(diameter)
-dimensions['angle'] = angle
-dimensions['help']  = ayuda
+def ayuda():
+    print('=== Angle ===')
+    print('  angle:  Calcula y mide el angulo entre dos aristas en la pagina de dibujo tecnico.')
+    print('          Req: pagina TechDraw activa, vista con dos aristas seleccionables.')
+    print('  points: Calcula y mide el angulo entre tres vertices independientes.')
+    print('          Req: pagina TechDraw activa, vista con tres vertices seleccionables.')

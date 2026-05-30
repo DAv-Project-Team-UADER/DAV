@@ -195,12 +195,12 @@ class TestBrowserDeveloper2(unittest.TestCase):
         self.assertTrue(result.Success)
         self.assertEqual(result.Action, "base_jump")
 
-    def test_unknown_command_returns_not_implemented(self) -> None:
-        """Commands outside BaseContext return not_implemented until Developer 3 adds search."""
+    def test_unknown_command_returns_not_found(self) -> None:
+        """Commands not found anywhere return not_found."""
         browser, _ = self._make_browser()
         result = browser.ProcessPhrase("imprimir")
         self.assertFalse(result.Success)
-        self.assertEqual(result.Action, "not_implemented")
+        self.assertEqual(result.Action, "not_found")
 
     def test_language_change_reloads_base(self) -> None:
         from core.language_code import LanguageCode
@@ -223,6 +223,78 @@ class TestBrowserDeveloper2(unittest.TestCase):
         browser = Browser(dictionary_root="/nonexistent/path", prefs=p)
         self.assertEqual(browser.BaseContext, [])
         self.assertEqual(browser.Context, [])
+
+
+# ---------------------------------------------------------------------------
+# Tests — Developer 3 (Descend and Ascend)
+# ---------------------------------------------------------------------------
+
+class TestBrowserDeveloper3(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        _install_freecad_stub()
+
+    def _make_browser(self):
+        from core.language_code import LanguageCode
+        from core.preferences import Preferences
+        from navigation.browser import Browser
+
+        p = Preferences()
+        p.SetLanguage = LanguageCode.Es
+        return Browser(prefs=p, _loader=_MockDictionaryLoader())
+
+    def test_descend_to_subcontext(self) -> None:
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        
+        # say 'imprimir' -> descends to print (not a base command)
+        res = browser.ProcessPhrase("imprimir")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "descend")
+        self.assertEqual(len(browser._stack), 3)
+        self.assertEqual(browser._stack[-1].InternalName, "print")
+
+    def test_execute_in_subcontext(self) -> None:
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        
+        # now inside explorer, say 'refrescar'
+        res = browser.ProcessPhrase("refrescar")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "execute")
+
+    def test_search_upward_and_execute(self) -> None:
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        browser.ProcessPhrase("imprimir")
+        # now inside print (depth 3)
+        self.assertEqual(len(browser._stack), 3)
+        self.assertEqual(browser._stack[-1].InternalName, "print")
+        
+        # say 'refrescar' (exists in explorer, which is depth 2)
+        res = browser.ProcessPhrase("refrescar")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "execute")
+        # stack should have been popped back to explorer
+        self.assertEqual(len(browser._stack), 2)
+        self.assertEqual(browser._stack[-1].InternalName, "explorer")
+
+    def test_search_upward_not_found_reverts_context(self) -> None:
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        browser.ProcessPhrase("imprimir")
+        
+        # save original context
+        original_ctx = browser._SnapshotContext(browser.Context)
+        
+        # say completely unknown command
+        res = browser.ProcessPhrase("unknown")
+        self.assertFalse(res.Success)
+        self.assertEqual(res.Action, "not_found")
+        
+        # should revert to what it was
+        self.assertEqual(len(browser.Context), len(original_ctx))
+        self.assertEqual(browser.Context[0].InternalKey, original_ctx[0].InternalKey)
 
 
 if __name__ == "__main__":

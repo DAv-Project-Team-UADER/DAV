@@ -15,6 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from .joint.joint import joint
 from .ayuda import ayuda
 
 assembly = {
@@ -26,5 +27,7 @@ assembly = {
     'simulation':  lambda: Gui.runCommand('Assembly_CreateSimulation', 0),
     'bom':         lambda: Gui.runCommand('Assembly_CreateBom', 0),
     'preferences': lambda: Gui.runCommand('Assembly_Preferences', 0),
+    'grounded':    lambda: Gui.runCommand('Assembly_ToggleGrounded', 1),
+    'joint':       joint,
     'help':        ayuda,
 }

@@ -14,24 +14,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCADGui as Gui
-from .dimension.dimension   import dimension
-from .length.length         import length
-from .horizontal.horizontal import horizontal
-from .extent.extent         import extent
-from .radius.radius         import radius
-from .diameter.diameter     import diameter
-from .angle.angle           import angle
+import FreeCAD as App
+import TechDraw
 from .ayuda import ayuda
 
-dimensions = {
-    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
+
+def _create_radius(page_name="Page", view_name="View", edge="Edge1"):
+    doc  = App.activeDocument()
+    page = doc.getObject(page_name)
+    view = doc.getObject(view_name)
+    dim  = doc.addObject("TechDraw::DrawDimRadius", "RadiusDimension")
+    dim.Source       = view
+    dim.References2D = [(view, edge)]
+    dim.Page         = page
+    page.addView(dim)
+    doc.recompute()
+
+
+radius = {
+    'radius': lambda: _create_radius(),
+    'help':   ayuda,
 }
-dimensions.update(dimension)
-dimensions.update(length)
-dimensions.update(horizontal)
-dimensions.update(extent)
-dimensions.update(radius)
-dimensions.update(diameter)
-dimensions['angle'] = angle
-dimensions['help']  = ayuda
