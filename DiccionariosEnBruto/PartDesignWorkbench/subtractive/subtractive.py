@@ -16,5 +16,8 @@ subtractive = {
     'subtractivesphere':    lambda: Gui.runCommand('PartDesign_SubtractiveSphere', 0),
     'subtractivetorus':     lambda: Gui.runCommand('PartDesign_SubtractiveTorus', 0),
     'subtractivewedge':     lambda: Gui.runCommand('PartDesign_SubtractiveWedge', 0),
+    'boolean':              lambda: Gui.runCommand('PartDesign_Boolean', 0),
+    'thickness':            lambda: Gui.runCommand('PartDesign_Thickness', 0),
+    'wizardshaft':          lambda: Gui.runCommand('PartDesign_WizardShaft', 0),
     'help':                 ayuda,
 }
