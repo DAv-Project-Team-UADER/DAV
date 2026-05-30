@@ -19,15 +19,8 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-edit = {
-    'undo':       lambda: Gui.runCommand('Std_Undo', 0),
-    'redo':       lambda: Gui.runCommand('Std_Redo', 0),
-    'copy':       lambda: Gui.runCommand('Std_Copy', 0),
-    'cut':        lambda: Gui.runCommand('Std_Cut', 0),
-    'paste':      lambda: Gui.runCommand('Std_Paste', 0),
-    'delete':     lambda: Gui.runCommand('Std_Delete', 0),
-    'selectall':  lambda: Gui.runCommand('Std_SelectAll', 0),
-    'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
-    'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
-    'help':       ayuda,
+print_cmds = {
+    'print': lambda: Gui.runCommand('Std_Print', 0),
+    'pdf':   lambda: Gui.runCommand('Std_PrintPdf', 0),
+    'help':  ayuda,
 }

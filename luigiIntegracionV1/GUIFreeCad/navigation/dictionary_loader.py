@@ -131,6 +131,10 @@ class DictionaryLoader:
         return " ".join(stripped.lower().split())
 
     def _ImportTranslateModule(self, path: Path, stem: str) -> ModuleType:
-        rel = path.relative_to(self.DictionaryRoot).with_suffix("")
+        # resolve() returns the actual filesystem casing on Windows, so the
+        # computed module name matches what is already cached in sys.modules.
+        resolved_path = path.resolve()
+        resolved_root = self.DictionaryRoot.resolve()
+        rel = resolved_path.relative_to(resolved_root).with_suffix("")
         module_name = ".".join(rel.parts)
         return importlib.import_module(module_name)
