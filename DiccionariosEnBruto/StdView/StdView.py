@@ -16,7 +16,9 @@
 
 from .Appearance.Appearance       import appearance
 from .Camera.Camera               import camera
+from .Clipping.Clipping           import clipping
 from .DrawStyles.DrawStyles       import drawstyles
+from .Material.Material           import material
 from .Overlay.Overlay             import overlay
 from .Panels.Panels               import panels
 from .SavedViews.SavedViews       import savedviews
@@ -30,7 +32,9 @@ from .ayuda                       import ayuda
 stdview = {}
 stdview.update(appearance)
 stdview.update(camera)
+stdview.update(clipping)
 stdview.update(drawstyles)
+stdview.update(material)
 stdview.update(overlay)
 stdview.update(panels)
 stdview.update(savedviews)

@@ -18,7 +18,9 @@
 
 from Appearance.ayuda import ayuda as ayuda_appearance
 from Camera.ayuda import ayuda as ayuda_camera
+from Clipping.ayuda import ayuda as ayuda_clipping
 from DrawStyles.ayuda import ayuda as ayuda_drawstyles
+from Material.ayuda import ayuda as ayuda_material
 from Overlay.ayuda import ayuda as ayuda_overlay
 from Panels.ayuda import ayuda as ayuda_panels
 from SavedViews.ayuda import ayuda as ayuda_savedviews
@@ -32,7 +34,9 @@ def ayuda():
     print("=== StdView - Comandos de Vista ===")
     ayuda_appearance()
     ayuda_camera()
+    ayuda_clipping()
     ayuda_drawstyles()
+    ayuda_material()
     ayuda_overlay()
     ayuda_panels()
     ayuda_savedviews()

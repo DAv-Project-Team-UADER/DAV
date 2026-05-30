@@ -10,18 +10,13 @@
 # pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
 # MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
 # Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-addLines = {
-    'twoLines': lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),
-    'twoPoints': lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),
-    'cosmetic': lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),
-    'decorate': lambda: Gui.runCommand('TechDraw_DecorateLine', 0),
-    'center': lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),
+symbols = {
+    'weldSymbol': lambda: Gui.runCommand('TechDraw_WeldSymbol', 0),
+    'richText': lambda: Gui.runCommand('TechDraw_RichTextAnnotation', 0),
+    'finish': lambda: Gui.runCommand('TechDraw_SurfaceFinishSymbols', 0),
     'help': ayuda
 }

@@ -26,7 +26,10 @@ from .ayuda import ayuda
 
 dimensions = {
     'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
+    'area': lambda: Gui.runCommand('TechDraw_AreaDimension', 0),
+    'fit': lambda: Gui.runCommand('TechDraw_HoleShaftFit', 0)
 }
+
 dimensions.update(dimension)
 dimensions.update(length)
 dimensions.update(horizontal)
