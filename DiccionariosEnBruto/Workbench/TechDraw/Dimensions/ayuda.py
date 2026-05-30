@@ -22,11 +22,12 @@ from .radius.ayuda     import ayuda as ayuda_radius
 from .diameter.ayuda   import ayuda as ayuda_diameter
 from .angle.ayuda      import ayuda as ayuda_angle
 
-
 def ayuda():
     print('=== Dimensions ===')
-    print('  vertical: Acota la distancia vertical entre dos puntos o de una arista.')
-    print('            Req: Seleccionar una arista, o bien dos vertices en la vista.')
+    print('  vertical : Acota la distancia vertical entre dos puntos o de una arista.')
+    print('             Req: Seleccionar una arista, o bien dos vértices en la vista.')
+    print('  area     : Agrega una dimensión de área a una cara seleccionada en la vista. | Req: Cara seleccionada')
+    print('  fit      : Abre el panel interactivo para aplicar un ajuste normalizado ISO 286. | Req: Cota lineal seleccionada')
     print()
     ayuda_dimension()
     print()

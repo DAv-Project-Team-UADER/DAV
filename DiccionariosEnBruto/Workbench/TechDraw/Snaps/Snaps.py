@@ -14,10 +14,10 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-def ayuda():
-    print("=== Subgrupo TechDraw: AddLines ===")
-    print("  'twoLines'  : Agrega una línea de eje central entre dos aristas. | Req: Dos aristas seleccionadas")
-    print("  'twoPoints' : Agrega una línea de eje central entre dos puntos. | Req: Dos vértices seleccionados")
-    print("  'cosmetic'  : Traza una línea cosmética de referencia entre dos puntos. | Req: Vista base activa")
-    print("  'decorate'  : Permite alterar el color, grosor o visibilidad de aristas. | Req: Aristas seleccionadas")
-    print("  'center'    : Agrega una línea central o eje de simetría a una cara. | Req: Cara seleccionada")
+import FreeCADGui as Gui
+
+# Diccionario del subgrupo Snaps (Puntos de referencia geométricos)
+snaps = {
+    'midpoints': lambda: Gui.runCommand('TechDraw_Midpoints', 0),
+    'quadrants': lambda: Gui.runCommand('TechDraw_Quadrants', 0)
+}

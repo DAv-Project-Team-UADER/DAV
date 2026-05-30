@@ -10,19 +10,10 @@
 # pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
 # MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
 # Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
 
-# Diccionario DAV - StdView / Appearance
 appearance = {
-    'align':    lambda: Gui.runCommand('Std_AlignToSelection', 0),
-    'style':    lambda: Gui.runCommand('Std_SetAppearance', 0),
-    'facecolor': lambda: Gui.runCommand('Part_FaceColors', 0),
-    'clip':     lambda: Gui.runCommand('Std_ToggleClipPlane', 0),
-    'material': lambda: Gui.runCommand('Std_SetMaterial', 0),
-    'random':   lambda: Gui.runCommand('Std_RandomColor', 0),
-    'texture':  lambda: Gui.runCommand('Std_TextureMapping', 0),
+    'appearance': lambda: Gui.runCommand('Std_SetAppearance', 0),
+    'faceColors': lambda: Gui.runCommand('Part_FaceColors', 0)
 }
