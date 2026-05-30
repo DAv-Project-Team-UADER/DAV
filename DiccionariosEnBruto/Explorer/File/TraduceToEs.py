@@ -16,18 +16,19 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from .File import file
 
-edit = {
-    'undo':       lambda: Gui.runCommand('Std_Undo', 0),
-    'redo':       lambda: Gui.runCommand('Std_Redo', 0),
-    'copy':       lambda: Gui.runCommand('Std_Copy', 0),
-    'cut':        lambda: Gui.runCommand('Std_Cut', 0),
-    'paste':      lambda: Gui.runCommand('Std_Paste', 0),
-    'delete':     lambda: Gui.runCommand('Std_Delete', 0),
-    'selectall':  lambda: Gui.runCommand('Std_SelectAll', 0),
-    'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
-    'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
-    'help':       ayuda,
+TraduceToEs = {
+    'nuevo':           file['new'],
+    'abrir':           file['open'],
+    'guardar':         file['save'],
+    'guardar como':    file['saveas'],
+    'salvar':          file['save'],
+    'salvar como':     file['saveas'],
+    'guardar copia':   file['savecopy'],
+    'revertir':        file['revert'],
+    'combinar':        file['merge'],
+    'importar':        file['import'],
+    'exportar':        file['export'],
+    'ayuda':           file['help'],
 }

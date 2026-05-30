@@ -16,18 +16,28 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+"""Spanish spoken-word mapping for the Explorer context."""
 
-edit = {
-    'undo':       lambda: Gui.runCommand('Std_Undo', 0),
-    'redo':       lambda: Gui.runCommand('Std_Redo', 0),
-    'copy':       lambda: Gui.runCommand('Std_Copy', 0),
-    'cut':        lambda: Gui.runCommand('Std_Cut', 0),
-    'paste':      lambda: Gui.runCommand('Std_Paste', 0),
-    'delete':     lambda: Gui.runCommand('Std_Delete', 0),
-    'selectall':  lambda: Gui.runCommand('Std_SelectAll', 0),
-    'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
-    'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
-    'help':       ayuda,
+from .Explorer import explorer
+
+TraduceToEs = {
+    # Sub-contextos
+    'archivo':       explorer['file'],
+    'carpeta':       explorer['file'],
+    'editar':        explorer['edit'],
+    'edicion':       explorer['edit'],
+    'imprimir':      explorer['print'],
+    'impresion':     explorer['print'],
+    'impresora':     explorer['print'],
+    'ventanas':      explorer['windows'],
+    # Callables directos
+    'refrescar':     explorer['refresh'],
+    'recargar':      explorer['refresh'],
+    'actualizar':    explorer['refresh'],
+    'foto':          explorer['screenshot'],
+    'captura':       explorer['screenshot'],
+    'sacar foto':    explorer['screenshot'],
+    'documento':     explorer['textdoc'],
+    'texto':         explorer['textdoc'],
+    'ayuda':         explorer['help'],
 }

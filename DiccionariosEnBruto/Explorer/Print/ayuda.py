@@ -16,18 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
-
-edit = {
-    'undo':       lambda: Gui.runCommand('Std_Undo', 0),
-    'redo':       lambda: Gui.runCommand('Std_Redo', 0),
-    'copy':       lambda: Gui.runCommand('Std_Copy', 0),
-    'cut':        lambda: Gui.runCommand('Std_Cut', 0),
-    'paste':      lambda: Gui.runCommand('Std_Paste', 0),
-    'delete':     lambda: Gui.runCommand('Std_Delete', 0),
-    'selectall':  lambda: Gui.runCommand('Std_SelectAll', 0),
-    'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
-    'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
-    'help':       ayuda,
-}
+def ayuda():
+    print("Comandos disponibles en imprimir:")
+    print("  print  - Imprime el documento activo")
+    print("  pdf    - Exporta el documento a PDF")
