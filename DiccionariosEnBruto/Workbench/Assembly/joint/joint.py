@@ -15,23 +15,16 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
-from .dimension.dimension   import dimension
-from .length.length         import length
-from .horizontal.horizontal import horizontal
-from .extent.extent         import extent
-from .radius.radius         import radius
-from .diameter.diameter     import diameter
-from .angle.angle           import angle
 from .ayuda import ayuda
 
-dimensions = {
-    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
+joint = {
+    'angle':         lambda: Gui.runCommand('Assembly_CreateJointAngle', 0),
+    'ball':          lambda: Gui.runCommand('Assembly_CreateJointBall', 0),
+    'parallel':      lambda: Gui.runCommand('Assembly_CreateJointParallel', 0),
+    'perpendicular': lambda: Gui.runCommand('Assembly_CreateJointPerpendicular', 0),
+    'belt':          lambda: Gui.runCommand('Assembly_CreateJointBelt', 0),
+    'gears':         lambda: Gui.runCommand('Assembly_CreateJointGears', 0),
+    'rackpinion':    lambda: Gui.runCommand('Assembly_CreateJointRackPinion', 0),
+    'screw':         lambda: Gui.runCommand('Assembly_CreateJointScrew', 0),
+    'help':          ayuda,
 }
-dimensions.update(dimension)
-dimensions.update(length)
-dimensions.update(horizontal)
-dimensions.update(extent)
-dimensions.update(radius)
-dimensions.update(diameter)
-dimensions['angle'] = angle
-dimensions['help']  = ayuda

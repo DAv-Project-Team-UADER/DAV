@@ -14,24 +14,23 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCADGui as Gui
-from .dimension.dimension   import dimension
-from .length.length         import length
-from .horizontal.horizontal import horizontal
-from .extent.extent         import extent
-from .radius.radius         import radius
-from .diameter.diameter     import diameter
-from .angle.angle           import angle
+import FreeCAD as App
+import TechDraw
 from .ayuda import ayuda
 
-dimensions = {
-    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
+
+def _create_extent(view_name="View", edge1="Edge1", edge2="Edge2"):
+    doc  = App.activeDocument()
+    view = doc.getObject(view_name)
+    selection = [edge1, edge2]
+    TechDraw.makeExtentDim(view, selection, 0)
+    doc.DimExtent.Y         = -60
+    doc.DimExtent.X         = 10
+    doc.DimExtent.FormatSpec = "%.0f"
+    doc.recompute()
+
+
+extent = {
+    'extent': lambda: _create_extent(),
+    'help':   ayuda,
 }
-dimensions.update(dimension)
-dimensions.update(length)
-dimensions.update(horizontal)
-dimensions.update(extent)
-dimensions.update(radius)
-dimensions.update(diameter)
-dimensions['angle'] = angle
-dimensions['help']  = ayuda
