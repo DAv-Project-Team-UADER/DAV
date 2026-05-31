@@ -16,6 +16,16 @@
 
 def ayuda():
     print('Comandos disponibles en Edit:')
-    print('  note       - Crea un documento de texto')
     print('  undo       - Deshace la última acción')
+    print('  redo       - Rehace la última acción')
+    print('  cut        - Copia y elimina la selección')
+    print('  copy       - Copia la selección')
+    print('  paste      - Pega la selección')
+    print('  duplicate  - Duplica la selección')
+    print('  selectall  - Selecciona todo')
+    print('  delete     - Elimina la selección')
+    print('  placement  - Abre la ventana de colocación. Permite modificar la posición, rotación y escala de los objetos seleccionados')
+    print('  transform  - Abre la ventana de transformación. Permite modificar la posición, rotación y escala de los objetos seleccionados usando manipuladores gráficos en la vista 3D')
+    print('  align      - Abre la ventana de alineación. Permite alinear objetos seleccionados con otros objetos o con el sistema de coordenadas global')
+    print('  note       - Crea una nota de texto en la vista 3D')
     print('  screenshot - Captura la vista activa')
