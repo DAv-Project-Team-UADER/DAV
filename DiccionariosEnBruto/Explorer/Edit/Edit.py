@@ -33,5 +33,9 @@ edit = {
     'align':      lambda: Gui.runCommand('Std_Alignment', 0),
     'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
     'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
+    'preferences':lambda: Gui.runCommand('Std_DlgPreferences', 0),
+    'properties': lambda: Gui.runCommand('Std_Properties', 0),
+    'sendtopython': lambda: Gui.runCommand('Std_SendToPythonConsole', 0),
+    'editmode':   lambda: Gui.runCommand('Std_UserEditMode', 0),
     'help':       ayuda,
 }
