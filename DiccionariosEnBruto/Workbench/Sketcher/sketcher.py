@@ -1,4 +1,5 @@
 import FreeCADGui as Gui
+from .constraints.constraints import constraints
 from .line.line import line
 from .point.point import point
 from .polyline.polyline import polyline
@@ -31,5 +32,12 @@ sketcher = {
     'text': text,
     'hexagon': hexagon,
     'heptagon': heptagon,
+    'constraints': constraints,
+    'new': lambda: Gui.runCommand('Sketcher_NewSketch', 0),
+    'edit': lambda: Gui.runCommand('Sketcher_EditSketch', 0),
+    'attach': lambda: Gui.runCommand('Sketcher_MapSketch', 0),
+    'grid': lambda: Gui.runCommand('Sketcher_Grid', 0),
+    'stop': lambda: Gui.runCommand('Sketcher_StopOperation', 0),
+    'leave': lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
     'help':      ayuda,
 }
