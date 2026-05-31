@@ -29,3 +29,8 @@ def ayuda():
     print('  align      - Abre la ventana de alineación. Permite alinear objetos seleccionados con otros objetos o con el sistema de coordenadas global')
     print('  note       - Crea una nota de texto en la vista 3D')
     print('  screenshot - Captura la vista activa')
+    print('  preferences  - Abre el diálogo de Preferencias de FreeCAD')
+    print('  properties   - Muestra o enfoca el panel de propiedades (Datos y Vista) del objeto seleccionado.')
+    print('  sendtopython - Envía la selección actual a la consola Python')
+    print('  editmode     - Abre el modo de edición específico del objeto seleccionado')
+

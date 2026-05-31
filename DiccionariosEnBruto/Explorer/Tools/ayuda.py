@@ -20,4 +20,8 @@ def ayuda():
     print("Comandos disponibles en Tools:")
     print("  measure  - Mide distancias y ángulos")
     print("  clarify selection  - Muestra un menú desplegable que separa los objetos seleccionados por tipo, facilitando la selección de objetos específicos dentro de una selección mixta")
+    print("  demomode       - Activa o configura una rotación continua de la cámara en la vista 3D")
+    print("  customize      - Abre el diálogo de personalización de interfaz.")
+    print("  editparameters - Muestra el Parameter Editor y permite modificar parámetros")
+    print("  proyectutil    - Extrae el contenido de un FCStd a una carpeta")
     print("  help     - Muestra esta ayuda")

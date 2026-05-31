@@ -16,11 +16,9 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
-
-tools = {
-    'measure': lambda: Gui.runCommand('Std_Measure', 0),
-    'clarify selection': lambda: Gui.runCommand('Std_ClarifySelection', 0),
-    'help':  ayuda,
-}
+def ayuda():
+    print("Comandos disponibles en Expressions:")
+    print("  copyactdoc     - Copia todas las expresiones del documento activo para poder pegarlas en otro documento.")
+    print("  copyalldoc     - Copia todas las expresiones de todos los documentos abiertos en la sesión actual.")
+    print("  copyselected   - Las expresiones de los objetos seleccionados quedan en el portapapeles de expresiones.")
+    print("  paste          - Las expresiones copiadas se aplican a los objetos del documento activo.")
