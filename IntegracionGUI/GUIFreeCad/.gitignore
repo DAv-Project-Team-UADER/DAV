@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+config/settings.json
+config/dav_launch.json
+models/*.zip
+models/vosk-model*/
+!.gitkeep
+!models/README.md

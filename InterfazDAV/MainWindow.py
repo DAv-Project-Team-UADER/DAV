@@ -20,10 +20,10 @@ import unicodedata
 from datetime import datetime
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QTextEdit, QPushButton, QLabel, QSizePolicy, QMenu
+    QTextEdit, QPushButton, QLabel, QSizePolicy
 )
-from PySide6.QtCore import Qt, QTimer, QPoint
-from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush, QIcon
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush
 from PySide6.QtSvgWidgets import QSvgWidget
 
 from Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
@@ -33,87 +33,161 @@ from VoiceWorker import VoiceWorker
 from FlashOverlay import FlashOverlay
 from Keychain import Keychain
 
-LANG_FILE = {
-    "es": "TraduceToEs.py",
-    "en": "TraduceToEn.py",
-    "pt": "TraduceToPt.py",
+# ================================================================
+# HELPERS
+# ================================================================
+
+def _StripAccents(Text):
+    return ''.join(
+        C for C in unicodedata.normalize('NFD', Text)
+        if unicodedata.category(C) != 'Mn'
+    )
+
+
+def _NormCmd(Text):
+    return _StripAccents(Text.lower().strip())
+
+_VALUE_TO_GROUP_KEY = {
+    "file":               "file",
+    "edit":               "edit",
+    "print_cmds":         "print",
+    "doc":                "doc",
+    "ayuda":              "help",
+    "Std_Refresh":        "refresh",
+    "Std_ViewScreenShot": "screenshot",
+    "Std_TextDocument":   "textdoc",
 }
 
-VALUE_TO_GROUP = {
-    'file':       'file',
-    'edit':       'edit',
-    'print_cmds': 'print',
-    'ayuda':      None,  # no tiene grupo
-}
+def _RawValueToGroupKey(RawValue: str):
+    Stripped = RawValue.strip()
+    if Stripped in _VALUE_TO_GROUP_KEY:
+        return _VALUE_TO_GROUP_KEY[Stripped]
+    for FcCmd, GroupKey in _VALUE_TO_GROUP_KEY.items():
+        if FcCmd in Stripped:
+            return GroupKey
+    return None
 
-def quitar_acentos(texto):
-    return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
+
+# ================================================================
+# BUTTON LEVEL — controls which set of buttons is currently shown
+# ================================================================
+
+LEVEL_ROOT  = "root"
+LEVEL_GROUP = "group"
+
+
+# ================================================================
+# MAIN WINDOW
+# ================================================================
 
 class MainWindow(QMainWindow):
-    def __init__(self, color="light", lang="es"):
+
+    def __init__(self, color: str = "light", lang: str = "es"):
         super().__init__()
         self.setWindowTitle("Asistente de Voz - Control por Comandos")
         self.setMinimumSize(900, 650)
-        self._HelpWindow = None
-        self._buttons_map = {}
-        self._current_menu = None 
-        self._current_theme = color
+
+        self._HelpWindow   = None
+        self._Level        = LEVEL_ROOT
+        self._ActiveGroup  = None
+
+        self._ToolButtons  = []
+        self._GroupMeta    = {}
+        self._VoiceMap     = {}
 
         self.SetColor(color)
         self.SetLanguage(lang)
         self._SetupUi()
         self._StartVoiceRecognition()
 
-    def SetColor(self, mode):
-        self._T = LIGHT if mode == "light" else DARK
-        self._current_theme = mode
+    def SetColor(self, Mode: str):
+        self._T = LIGHT if Mode == "light" else DARK
+        self._CurrentTheme = Mode
         if hasattr(self, '_TitleLabel'):
             self.setStyleSheet(f"QMainWindow {{ background-color: {self._T['bg']}; }}")
             self._UpdateStyles()
 
-    def SetLanguage(self, lang):
-        self._Texts = TEXTS.get(lang, TEXTS["es"])
-        self._current_lang = lang
-        if hasattr(self, '_ToolButtons'):
-            self._ReloadToolButtons()
+    def SetLanguage(self, Lang: str):
+        self._Texts       = TEXTS.get(Lang, TEXTS["es"])
+        self._CurrentLang = Lang
+        self._LoadVoiceMap()
+        if hasattr(self, '_ToolRow'):
+            self._RebuildButtons()
 
-    def _UpdateStyles(self):
+    def _MicQss(self, Color: str) -> str:
         T = self._T
-        self._TitleLabel.setStyleSheet(f"color: {T['black']};")
-        self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
-        self._ListenLabel.setStyleSheet(f"color: {T['black']};")
-        self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
-        self._ModelLabel.setStyleSheet(f"color: {T['black']};")
-        self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
-        self._HistLabel.setStyleSheet(f"color: {T['black']};")
-        self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
-        if hasattr(self, '_CmdsLabel'):
-            self._CmdsLabel.setStyleSheet(f"color: {T['black']};")
-        for Btn in self._ToolButtons:
-            Btn.setStyleSheet(self._BtnQss())
-        for Btn in getattr(self, '_TopBarButtons', []):
-            Btn.setStyleSheet(self._BtnQss())
-        self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
-        self._HelpButton.setStyleSheet(self._BtnQss())
-        self._PopulateModel()
+        return (
+            f"QLabel {{ background-color: {T['mic']};"
+            f" border-top: 1.5px solid {T['mic_border']};"
+            f" border-bottom: 1.5px solid {T['mic_border']};"
+            f" border-left: none; border-right: none;"
+            f" padding: 8px; color: {Color};"
+            f" font-family: {FONT_SANS}; font-size: 13px; font-weight: 700; }}"
+        )
 
-    def _FlashButton(self, btn):
-        original_style = btn.styleSheet()
-        flash_color = "#3A7BFF" if self._current_theme == "light" else "#5B8CDE"
-        btn.setStyleSheet(f"QPushButton {{ background-color: {flash_color}; border: 2px solid {flash_color}; border-radius: 8px; }}")
-        QTimer.singleShot(300, lambda: btn.setStyleSheet(original_style))
-
-    def _ThemeBtnQss(self):
+    def _PanelQss(self, Font: str, Color: str, Size: int, Weight: int = 500) -> str:
         T = self._T
-        return f"""
-            QPushButton {{
-                background: qlineargradient(x1:0,y1:0,x2:0,y2:1, stop:0 {T['btn_top']}, stop:1 {T['btn_bot']});
-                border: 1.5px solid {T['btn_border']}; border-radius: 8px; color: {T['black']};
-                font-family: {FONT_SANS}; font-size: 14px; font-weight: bold;
-            }}
-            QPushButton:hover {{ background: qlineargradient(x1:0,y1:0,x2:0,y2:1, stop:0 {T['btn_bot']}, stop:1 {T['btn_hover']}); border: 1.5px solid {T['btn_border']}; }}
-            QPushButton:pressed {{ background: {T['btn_hover']}; }}
-        """
+        return (
+            f"QTextEdit {{ background-color: {T['panel']}; color: {Color};"
+            f" border: 1.5px solid {T['panel_border']}; border-radius: 0px;"
+            f" padding: 12px; font-family: {Font}; font-size: {Size}px;"
+            f" font-weight: {Weight}; }}"
+        )
+
+    def _BtnQss(self) -> str:
+        T = self._T
+        return (
+            f"QPushButton {{"
+            f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
+            f" stop:0 {T['btn_top']}, stop:1 {T['btn_bot']});"
+            f" border: 1.5px solid {T['btn_border']}; border-radius: 8px;"
+            f" color: {T['black']}; font-family: {FONT_SANS};"
+            f" font-size: 10px; font-weight: bold; }}"
+            f"QPushButton:hover {{"
+            f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
+            f" stop:0 {T['btn_bot']}, stop:1 {T['btn_hover']});"
+            f" border: 1.5px solid {T['btn_border']}; }}"
+            f"QPushButton:pressed {{ background: {T['btn_hover']}; }}"
+        )
+
+    def _BackBtnQss(self) -> str:
+        T = self._T
+        return (
+            f"QPushButton {{"
+            f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
+            f" stop:0 {T['highlight']}, stop:1 {T['btn_bot']});"
+            f" border: 1.5px solid {T['btn_border']}; border-radius: 8px;"
+            f" color: {T['black']}; font-family: {FONT_SANS};"
+            f" font-size: 18px; font-weight: bold; }}"
+            f"QPushButton:hover {{"
+            f" background: {T['highlight']};"
+            f" border: 1.5px solid {T['btn_border']}; }}"
+            f"QPushButton:pressed {{ background: {T['btn_hover']}; }}"
+        )
+
+    def _ThemeBtnQss(self) -> str:
+        T = self._T
+        return (
+            f"QPushButton {{"
+            f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
+            f" stop:0 {T['btn_top']}, stop:1 {T['btn_bot']});"
+            f" border: 1.5px solid {T['btn_border']}; border-radius: 8px;"
+            f" color: {T['black']}; font-family: {FONT_SANS}; font-size: 14px; font-weight: bold; }}"
+            f"QPushButton:hover {{"
+            f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
+            f" stop:0 {T['btn_bot']}, stop:1 {T['btn_hover']});"
+            f" border: 1.5px solid {T['btn_border']}; }}"
+            f"QPushButton:pressed {{ background: {T['btn_hover']}; }}"
+        )
+
+    def _FlashButton(self, Btn: QPushButton):
+        OriginalStyle = Btn.styleSheet()
+        FlashColor = "#3A7BFF" if self._CurrentTheme == "light" else "#5B8CDE"
+        Btn.setStyleSheet(
+            f"QPushButton {{ background-color: {FlashColor};"
+            f" border: 2px solid {FlashColor}; border-radius: 8px; }}"
+        )
+        QTimer.singleShot(300, lambda: Btn.setStyleSheet(OriginalStyle))
 
     def _SetupUi(self):
         T = self._T
@@ -131,9 +205,9 @@ class MainWindow(QMainWindow):
         TopLayout.setSpacing(12)
         TopLayout.setContentsMargins(40, 20, 40, 12)
 
-        LogoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Logos", "color.svg")
-        icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Icons")
-        system_icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons", "system")
+        BaseDir        = os.path.dirname(os.path.abspath(__file__))
+        LogoPath       = os.path.join(BaseDir, "..", "Logos", "color.svg")
+        SystemIconsDir = os.path.join(BaseDir, "icons", "system")
 
         TitleRow = QHBoxLayout()
         TitleRow.setSpacing(10)
@@ -141,10 +215,12 @@ class MainWindow(QMainWindow):
             Logo = QSvgWidget(LogoPath)
             Logo.setFixedSize(40, 36)
             TitleRow.addWidget(Logo)
+
         self._TitleLabel = QLabel("DAV")
         self._TitleLabel.setFont(QFont(FONT_SANS, 16, QFont.Bold))
         self._TitleLabel.setStyleSheet(f"color: {T['black']};")
         TitleRow.addWidget(self._TitleLabel, stretch=1)
+
         self._ThemeButton = QPushButton("🌙")
         self._ThemeButton.setFont(QFont(FONT_SANS, 14, QFont.Bold))
         self._ThemeButton.setFixedSize(40, 36)
@@ -158,47 +234,46 @@ class MainWindow(QMainWindow):
         self._HelpButton.setToolTip("Información")
         self._HelpButton.setStyleSheet(self._BtnQss())
         self._HelpButton.clicked.connect(self.OpenHelpWindow)
-        HelpIconPath = os.path.join(system_icons_dir, "info.svg")
+        HelpIconPath = os.path.join(SystemIconsDir, "info.svg")
         if os.path.exists(HelpIconPath):
             HelpSvg = QSvgWidget(HelpIconPath)
             HelpSvg.setFixedSize(18, 18)
-            self._HelpButton.setLayout(QVBoxLayout())
-            self._HelpButton.layout().addWidget(HelpSvg, alignment=Qt.AlignCenter)
-            self._HelpButton.layout().setContentsMargins(6, 6, 6, 6)
+            InnerLayout = QVBoxLayout(self._HelpButton)
+            InnerLayout.addWidget(HelpSvg, alignment=Qt.AlignCenter)
+            InnerLayout.setContentsMargins(6, 6, 6, 6)
         else:
             self._HelpButton.setText("?")
 
         self._TopBarButtons = []
-        extra_top_icons = [
-            ("nuevo documento.svg", "Nuevo documento"),
-            ("abrir documento.svg", "Abrir documento"),
-            ("guardar como.svg", "Guardar como"),
-            ("imprimir.svg", "Imprimir"),
-            ("configuraciones.svg", "Configuraciones"),
+        ExtraIcons = [
+            ("nuevo documento.svg",  "Nuevo documento"),
+            ("abrir documento.svg",  "Abrir documento"),
+            ("guardar como.svg",     "Guardar como"),
+            ("imprimir.svg",         "Imprimir"),
+            ("configuraciones.svg",  "Configuraciones"),
         ]
-        for icon_filename, tooltip in extra_top_icons:
-            btn = QPushButton()
-            btn.setFixedSize(40, 36)
-            btn.setToolTip(tooltip)
-            btn.setStyleSheet(self._BtnQss())
-            icon_path = os.path.join(system_icons_dir, icon_filename)
-            if os.path.exists(icon_path):
-                svg = QSvgWidget(icon_path)
-                svg.setFixedSize(18, 18)
-                btn.setLayout(QVBoxLayout())
-                btn.layout().addWidget(svg, alignment=Qt.AlignCenter)
-                btn.layout().setContentsMargins(6, 6, 6, 6)
+        for IconFile, Tooltip in ExtraIcons:
+            Btn = QPushButton()
+            Btn.setFixedSize(40, 36)
+            Btn.setToolTip(Tooltip)
+            Btn.setStyleSheet(self._BtnQss())
+            IconPath = os.path.join(SystemIconsDir, IconFile)
+            if os.path.exists(IconPath):
+                Svg = QSvgWidget(IconPath)
+                Svg.setFixedSize(18, 18)
+                IL = QVBoxLayout(Btn)
+                IL.addWidget(Svg, alignment=Qt.AlignCenter)
+                IL.setContentsMargins(6, 6, 6, 6)
             else:
-                btn.setText("?")
-            TitleRow.addWidget(btn)
-            self._TopBarButtons.append(btn)
+                Btn.setText("?")
+            TitleRow.addWidget(Btn)
+            self._TopBarButtons.append(Btn)
 
         TitleRow.addWidget(self._HelpButton)
         TopLayout.addLayout(TitleRow)
         MainLayout.addWidget(TopWidget)
 
-        # Status stripe (placeholder empty until real status updates)
-        self._StatusLabel = QLabel("esperando microfono")
+        self._StatusLabel = QLabel("Esperando micrófono…")
         self._StatusLabel.setFont(QFont(FONT_SANS, 13, QFont.DemiBold))
         self._StatusLabel.setAlignment(Qt.AlignCenter)
         self._StatusLabel.setFixedHeight(54)
@@ -255,147 +330,198 @@ class MainWindow(QMainWindow):
 
         BottomLayout.addLayout(PanelRow, stretch=1)
 
-        ToolRow = QHBoxLayout()
-        ToolRow.setSpacing(10)
-        ToolRow.setContentsMargins(0, 12, 0, 12)
-        self._ToolButtons = []
-        self._buttons_map = {}
+        self._ToolArea = QWidget()
+        self._ToolAreaLayout = QHBoxLayout(self._ToolArea)
+        self._ToolAreaLayout.setSpacing(25)
+        self._ToolAreaLayout.setContentsMargins(40, 12, 40, 12)
+        self._ToolAreaLayout.setAlignment(Qt.AlignHCenter)
+        BottomLayout.addWidget(self._ToolArea)
 
-        DicDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DiccionarioPrueba')
-        ExplorerPath = os.path.join(DicDir, 'explorer.py')
-
-        GroupKeychain = Keychain(ExplorerPath)
-        GroupKeys = GroupKeychain.GetKeys()
-
-        ToolRow = QHBoxLayout()
-        ToolRow.setSpacing(10)
-        ToolRow.setContentsMargins(0, 12, 0, 12)
-        self._ToolButtons = []
-        self._buttons_map = {}
-
-        for i, GroupName in enumerate([k for k in GroupKeys if k != 'doc'][:12]):
-            GroupFolder = os.path.join(DicDir, GroupName)
-            GroupDictPath = os.path.join(GroupFolder, f'{GroupName}.py')
-            if not os.path.exists(GroupDictPath):
-                GroupDictPath = os.path.join(GroupFolder, f'{GroupName}_cmds.py')
-
-            btn = QPushButton()
-            btn.setFixedSize(54, 54)
-            btn.setToolTip(GroupName)
-            btn.setStyleSheet(self._BtnQss())
-
-            IconPath = os.path.join(DicDir, f'{GroupName}.svg')
-            if os.path.exists(IconPath):
-                SvgWidget = QSvgWidget(IconPath)
-                SvgWidget.setFixedSize(42, 42)
-                btn.setLayout(QVBoxLayout())
-                btn.layout().addWidget(SvgWidget, alignment=Qt.AlignCenter)
-                btn.layout().setContentsMargins(6, 6, 6, 6)
-            else:
-                btn.setText(GroupName[:4])
-
-            if os.path.exists(GroupDictPath):
-                ActionKeychain = Keychain(GroupDictPath)
-                ActionKeys = ActionKeychain.GetKeys()
-                ActionIcons = ActionKeychain.GetIcons(base_dir=GroupFolder)
-
-                menu = QMenu(self)
-                menu.setStyleSheet(f"""
-                    QMenu {{ background-color: {self._T['panel']}; border: 1px solid {self._T['panel_border']}; border-radius: 5px; padding: 5px; }}
-                    QMenu::item {{ padding: 8px 25px 8px 10px; color: {self._T['black']}; font-family: {FONT_SANS}; font-size: 11px; }}
-                    QMenu::item:selected {{ background-color: {self._T['highlight']}; }}
-                """)
-
-                for ActionKey in ActionKeys[:12]:
-                    ActionIconPath = os.path.join(GroupFolder, f'{ActionKey.replace(" ", "_")}.svg')
-                    if os.path.exists(ActionIconPath):
-                        action = menu.addAction(QIcon(ActionIconPath), ActionKey)
-                    else:
-                        action = menu.addAction(ActionKey)
-                    action.setData((GroupName, ActionKey))
-                    action.triggered.connect(self._OnChildAction)
-
-                btn.setMenu(menu)
-                btn.custom_menu = menu
-                menu.aboutToShow.connect(lambda g=GroupName: self._OnMenuShown(g))
-                menu.aboutToHide.connect(self._OnMenuHidden)
-            else:
-                btn.clicked.connect(lambda checked, name=GroupName: self._OnDirectAction(name))
-
-            btn.parent_name = GroupName
-            btn.parent_cmd = GroupName
-            self._buttons_map[GroupName] = btn
-            self._ToolButtons.append(btn)
-            ToolRow.addWidget(btn)
-
-        BottomLayout.addLayout(ToolRow)
         MainLayout.addWidget(BottomWidget)
 
         self._Flash = FlashOverlay(CentralWidget)
         self._Flash.setGeometry(CentralWidget.rect())
 
+        self._LoadGroupMeta()
+        self._LoadVoiceMap()
         self._PopulateModel()
+        self._ShowRootButtons()
 
-    def _TriggerFlash(self):
-        self._Flash.setGeometry(self.centralWidget().rect())
-        self._Flash.raise_()
-        self._Flash.Trigger()
+    def _LoadGroupMeta(self):
+        self._GroupMeta = {}
+        BaseDir = os.path.dirname(os.path.abspath(__file__))
+        DicDir  = os.path.join(BaseDir, "DiccionarioPrueba")
 
-    def _OpenMenu(self, btn, menu_name):
-        if btn and hasattr(btn, 'custom_menu'):
-            self._current_menu = btn.custom_menu
-            self._current_group = btn.parent_name
-            btn.custom_menu.aboutToHide.connect(lambda: self._OnMenuHidden())
-            self.AddToHistory(f"Menú: {menu_name}")
-            QTimer.singleShot(10, lambda: btn.custom_menu.exec(btn.mapToGlobal(QPoint(0, btn.height()))))
-            return True
-        return False
-    
-    def _OnMenuHidden(self):
-        if self._current_menu is not None:
-            self.AddToHistory(f"Cerrar menú: {self._current_group}")
-        self._current_menu = None
-        self._current_group = None
+        if not os.path.isdir(DicDir):
+            return
 
-    def _OnMenuShown(self, group_name):
-        self._current_menu = self._buttons_map[group_name].custom_menu
-        self._current_group = group_name
-        self.AddToHistory(f"Menú: {group_name}")
+        ExplorerPath = os.path.join(DicDir, "explorer.py")
+        if not os.path.exists(ExplorerPath):
+            return
 
-    def _CloseCurrentMenu(self):
-        if self._current_menu:
-            menu = self._current_menu
-            self._current_menu = None  # primero None, así _OnMenuHidden no duplica
-            menu.close()
-            return True
-        return False
+        RootKeychain = Keychain(ExplorerPath)
+        GroupNames   = [K for K in RootKeychain.GetKeys() if K != "doc"]
 
-    def _OnChildAction(self):
-        action = self.sender()
-        if action and action.data():
-            parent_name, child_name, child_cmd = action.data()
-            self.AddToHistory(f"Menú {parent_name}: {child_name}")
-            print(f"[MENU {parent_name.upper()}: {child_name}]")
-            for btn in self._buttons_map.values():
-                if btn.parent_name == parent_name:
-                    self._FlashButton(btn)
-                    break
-            self._CloseCurrentMenu()
+        for GroupName in GroupNames:
+            GroupIconPath = os.path.join(DicDir, f"{GroupName}.svg")
+            if not os.path.exists(GroupIconPath):
+                continue
 
-    def _OnDirectAction(self, command_name):
-        self.AddToHistory(command_name)
+            GroupFolder  = os.path.join(DicDir, GroupName)
+            GroupDictPath = os.path.join(GroupFolder, f"{GroupName}.py")
+            if not os.path.exists(GroupDictPath):
+                GroupDictPath = os.path.join(GroupFolder, f"{GroupName}_cmds.py")
+
+            Children = []
+            if os.path.exists(GroupDictPath):
+                ActionKeychain = Keychain(GroupDictPath)
+                for ActionKey in ActionKeychain.GetKeys()[:12]:
+                    ChildIcon = os.path.join(GroupFolder, f"{ActionKey.replace(' ', '_')}.svg")
+                    if not os.path.exists(ChildIcon):
+                        continue
+                    Children.append({"key": ActionKey, "icon": ChildIcon})
+
+            self._GroupMeta[GroupName] = {
+                "icon":     GroupIconPath,
+                "children": Children,
+            }
+
+    def _LoadVoiceMap(self):
+        self._VoiceMap = {}
+        LangFiles = {"es": "TraduceToEs.py", "en": "TraduceToEn.py", "pt": "TraduceToPt.py"}
+        LangFile  = LangFiles.get(self._CurrentLang, "TraduceToEs.py")
+        DicDir    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DiccionarioPrueba")
+        TransPath = os.path.join(DicDir, LangFile)
+
+        if not os.path.exists(TransPath):
+            return
+
+        KC     = Keychain(TransPath)
+        Keys   = KC.GetKeys()
+        Values = KC.GetValues()
+
+        for Key, RawValue in zip(Keys, Values):
+            GroupKey = _RawValueToGroupKey(RawValue)
+            if GroupKey is not None:
+                self._VoiceMap[_NormCmd(Key)] = GroupKey
+
+    def _ClearToolArea(self):
+        while self._ToolAreaLayout.count():
+            Item = self._ToolAreaLayout.takeAt(0)
+            Widget = Item.widget()
+            if Widget:
+                Widget.setParent(None)
+                Widget.deleteLater()
+        self._ToolButtons = []
+
+    def _MakeSvgButton(self, IconPath: str, Tooltip: str, Size: int = 54) -> QPushButton:
+        Btn = QPushButton()
+        Btn.setFixedSize(Size, Size)
+        Btn.setToolTip(Tooltip)
+        Btn.setStyleSheet(self._BtnQss())
+        Svg = QSvgWidget(IconPath)
+        Svg.setFixedSize(Size - 12, Size - 12)
+        Layout = QVBoxLayout(Btn)
+        Layout.addWidget(Svg, alignment=Qt.AlignCenter)
+        Layout.setContentsMargins(6, 6, 6, 6)
+        return Btn
+
+    def _ShowRootButtons(self):
+        self._ClearToolArea()
+        self._Level       = LEVEL_ROOT
+        self._ActiveGroup = None
+
+        for GroupName, Meta in self._GroupMeta.items():
+            Btn = self._MakeSvgButton(Meta["icon"], GroupName)
+            Btn.clicked.connect(lambda Checked=False, G=GroupName: self._EnterGroup(G))
+            self._ToolButtons.append(Btn)
+            self._ToolAreaLayout.addWidget(Btn)
+
+    def _ShowGroupButtons(self, GroupName: str):
+        self._ClearToolArea()
+        self._Level       = LEVEL_GROUP
+        self._ActiveGroup = GroupName
+
+        Meta = self._GroupMeta.get(GroupName, {})
+        Children = Meta.get("children", [])
+
+        for Child in Children:
+            Btn = self._MakeSvgButton(Child["icon"], Child["key"])
+            Key = Child["key"]
+            Btn.clicked.connect(lambda Checked=False, K=Key, G=GroupName: self._ExecuteChildAction(G, K))
+            self._ToolButtons.append(Btn)
+            self._ToolAreaLayout.addWidget(Btn)
+
+        BackBtn = QPushButton("←")
+        BackBtn.setFixedSize(54, 54)
+        BackBtn.setToolTip("Volver")
+        BackBtn.setStyleSheet(self._BackBtnQss())
+        BackBtn.setFont(QFont(FONT_SANS, 18, QFont.Bold))
+        BackBtn.clicked.connect(self.GoBack)
+        self._ToolAreaLayout.addWidget(BackBtn)
+
+    def _RebuildButtons(self):
+        if self._Level == LEVEL_GROUP and self._ActiveGroup:
+            self._ShowGroupButtons(self._ActiveGroup)
+        else:
+            self._ShowRootButtons()
+
+    def _EnterGroup(self, GroupName: str):
+        Meta     = self._GroupMeta.get(GroupName, {})
+        Children = Meta.get("children", [])
+
+        if not Children:
+            self.AddToHistory(f"{GroupName}", FromVoice=False)
+            self._TriggerFlash()
+            return
+
+        self.AddToHistory(f"Menú: {GroupName}", FromVoice=False)
+        self._ShowGroupButtons(GroupName)
+        self._TriggerFlash()
+
+    def _ExecuteChildAction(self, GroupName: str, ActionKey: str):
+        self.AddToHistory(f"{GroupName} → {ActionKey}", FromVoice=False)
+        self._TriggerFlash()
+
+    def GoBack(self):
+        if self._Level == LEVEL_GROUP:
+            PrevGroup = self._ActiveGroup
+            self._ShowRootButtons()
+            self.AddToHistory(f"Volver (desde {PrevGroup})", FromVoice=False)
+
+    # ================================================================
+    # Theme / Model
+    # ================================================================
 
     def ToggleTheme(self):
-        if self._current_theme == "light":
+        if self._CurrentTheme == "light":
             self.SetColor("dark")
             self._ThemeButton.setText("🌞")
             self._ThemeButton.setToolTip("Cambiar a modo claro")
-            self.AddToHistory("Cambiar a modo oscuro")
+            self.AddToHistory("Modo oscuro", FromVoice=False)
         else:
             self.SetColor("light")
             self._ThemeButton.setText("🌙")
             self._ThemeButton.setToolTip("Cambiar a modo oscuro")
-            self.AddToHistory("Cambiar a modo claro")
+            self.AddToHistory("Modo claro", FromVoice=False)
+
+    def _UpdateStyles(self):
+        T = self._T
+        self._TitleLabel.setStyleSheet(f"color: {T['black']};")
+        self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
+        self._ListenLabel.setStyleSheet(f"color: {T['black']};")
+        self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
+        self._ModelLabel.setStyleSheet(f"color: {T['black']};")
+        self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
+        self._HistLabel.setStyleSheet(f"color: {T['black']};")
+        self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
+        self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
+        self._HelpButton.setStyleSheet(self._BtnQss())
+        for Btn in getattr(self, '_TopBarButtons', []):
+            Btn.setStyleSheet(self._BtnQss())
+        if hasattr(self, '_ToolAreaLayout'):
+            self._RebuildButtons()
+        self._PopulateModel()
 
     def _PopulateModel(self):
         self._ModelPanel.clear()
@@ -409,8 +535,8 @@ class MainWindow(QMainWindow):
             Cursor.insertText(Part + "\n", Fmt)
         self._ModelPanel.setTextCursor(Cursor)
 
-    def _HighlightModelPart(self, PartName):
-        T = self._T
+    def _HighlightModelPart(self, PartName: str) -> bool:
+        T   = self._T
         Doc = self._ModelPanel.document()
         ClearFmt = QTextCharFormat()
         ClearFmt.setBackground(QBrush(QColor(T["panel"])))
@@ -428,38 +554,21 @@ class MainWindow(QMainWindow):
             return True
         return False
 
-    def _MicQss(self, Color):
-        T = self._T
-        return f"""
-            QLabel {{ background-color: {T['mic']}; border-top: 1.5px solid {T['mic_border']}; border-bottom: 1.5px solid {T['mic_border']};
-            border-left: none; border-right: none; padding: 8px; color: {Color}; font-family: {FONT_SANS}; font-size: 13px; font-weight: 700; }}
-        """
+    # ================================================================
+    # Flash overlay
+    # ================================================================
 
-    def _PanelQss(self, Font, Color, Size, Weight=500):
-        T = self._T
-        return f"""
-            QTextEdit {{ background-color: {T['panel']}; color: {Color}; border: 1.5px solid {T['panel_border']}; border-radius: 0px;
-            padding: 12px; font-family: {Font}; font-size: {Size}px; font-weight: {Weight}; }}
-        """
+    def _TriggerFlash(self):
+        self._Flash.setGeometry(self.centralWidget().rect())
+        self._Flash.raise_()
+        self._Flash.Trigger()
 
-    def _BtnQss(self):
-        T = self._T
-        return f"""
-            QPushButton {{
-                background: qlineargradient(x1:0,y1:0,x2:0,y2:1, stop:0 {T['btn_top']}, stop:1 {T['btn_bot']});
-                border: 1.5px solid {T['btn_border']}; border-radius: 8px; color: {T['black']};
-                font-family: {FONT_SANS}; font-size: 10px; font-weight: bold;
-            }}
-            QPushButton:hover {{ background: qlineargradient(x1:0,y1:0,x2:0,y2:1, stop:0 {T['btn_bot']}, stop:1 {T['btn_hover']}); border: 1.5px solid {T['btn_border']}; }}
-            QPushButton:pressed {{ background: {T['btn_hover']}; }}
-        """
-
-    # ----------------------------------------------------------
+    # ================================================================
     # Voice
-    # ----------------------------------------------------------
+    # ================================================================
 
     def _StartVoiceRecognition(self):
-        BaseDir = os.path.dirname(os.path.abspath(__file__))
+        BaseDir   = os.path.dirname(os.path.abspath(__file__))
         ModelPath = os.path.join(BaseDir, "vosk-model-small-es-0.42")
         self.voice_worker = VoiceWorker(model_path=ModelPath)
         self.voice_thread = threading.Thread(target=self.voice_worker.run, daemon=True)
@@ -468,134 +577,122 @@ class MainWindow(QMainWindow):
         self.voice_worker.status_signal.connect(self.UpdateStatus)
         self.voice_thread.start()
 
-    def UpdateStatus(self, msg):
+    def UpdateStatus(self, Msg: str):
         T = self._T
         L = self._Texts
-        if msg == "active":
+        if Msg == "active":
             self._StatusLabel.setText(L["mic_active"])
             self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
-        elif msg.startswith("error:"):
+        elif Msg.startswith("error:"):
             self._StatusLabel.setText(L["mic_error"])
             self._StatusLabel.setStyleSheet(self._MicQss(T["red"]))
 
-    def UpdateCurrentText(self, text):
-        self._CurrentText.setText(text)
+    def UpdateCurrentText(self, Text: str):
+        self._CurrentText.setText(Text)
 
-    def ProcessVoiceCommand(self, command):
-        command_lower = command.lower().strip()
-        command_lower = quitar_acentos(command_lower)
-        L = self._Texts
-        self._CurrentText.setText(f"{L['detected']} {command}")
+    def ProcessVoiceCommand(self, Command: str):
+        CmdNorm = _NormCmd(Command)
+        L       = self._Texts
+        self._CurrentText.setText(f"{L['detected']} {Command}")
 
-        if command_lower == "ayuda":
+        if CmdNorm == "ayuda":
             self.OpenHelpWindow()
-            self.AddToHistory(command)
+            self.AddToHistory(Command)
             return
-        if command_lower in ("cerrar ayuda", "cerrar ventana"):
+        if CmdNorm in ("cerrar ayuda", "cerrar ventana"):
             self.CloseHelpWindow()
-            self.AddToHistory(command)
+            self.AddToHistory(Command)
             return
-        if command_lower == "minimizar":
+        if CmdNorm == "minimizar":
             self.showMinimized()
-            self.AddToHistory(command)
+            self.AddToHistory(Command)
             return
-        if command_lower == "maximizar":
-            if self.isMaximized():
-                self.showNormal()
-            else:
-                self.showMaximized()
-            self.AddToHistory(command)
+        if CmdNorm == "maximizar":
+            self.showMaximized() if not self.isMaximized() else self.showNormal()
+            self.AddToHistory(Command)
             return
-        if command_lower in ("cerrar programa", "cerrar app", "salir"):
-            self.AddToHistory(command)
+        if CmdNorm in ("cerrar programa", "cerrar app", "salir"):
+            self.AddToHistory(Command)
             self.close()
             return
-        if command_lower in ("subir", "arriba"):
-            self.ScrollHistory(up=True)
-            self.AddToHistory(command)
+        if CmdNorm in ("subir", "arriba"):
+            self.ScrollHistory(Up=True)
+            self.AddToHistory(Command)
             return
-        if command_lower in ("bajar", "abajo"):
-            self.ScrollHistory(up=False)
-            self.AddToHistory(command)
+        if CmdNorm in ("bajar", "abajo"):
+            self.ScrollHistory(Up=False)
+            self.AddToHistory(Command)
             return
-
-        if command_lower == "modo claro":
-            if self._current_theme != "light":
+        if CmdNorm == "modo claro":
+            if self._CurrentTheme != "light":
                 self.ToggleTheme()
-            else:
-                self.AddToHistory("Ya está en modo claro")
             return
-        if command_lower == "modo oscuro":
-            if self._current_theme != "dark":
+        if CmdNorm == "modo oscuro":
+            if self._CurrentTheme != "dark":
                 self.ToggleTheme()
-            else:
-                self.AddToHistory("Ya está en modo oscuro")
             return
 
-        if command_lower in ("atras", "cerrar menu", "cerrar menú", "salir menu", "salir menú"):
-            if self._CloseCurrentMenu():
-                self.AddToHistory("Cerrar menú")
+        if CmdNorm in ("volver", "atras", "atrás", "cerrar menu", "cerrar menú"):
+            if self._Level == LEVEL_GROUP:
+                self.GoBack()
+                self.AddToHistory("Volver")
             else:
-                self.AddToHistory("No hay menú abierto")
+                self.AddToHistory("Ya en nivel raíz", Unknown=True)
             return
 
-        DicDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'DiccionarioPrueba')
-        LangFile = LANG_FILE.get(self._current_lang, "TraduceToEs.py")
+        if self._Level == LEVEL_ROOT:
+            TargetGroup = None
+            if CmdNorm in ((_NormCmd(G)) for G in self._GroupMeta):
+                TargetGroup = next(G for G in self._GroupMeta if _NormCmd(G) == CmdNorm)
+            elif CmdNorm in self._VoiceMap:
+                Candidate = self._VoiceMap[CmdNorm]
+                if Candidate in self._GroupMeta:
+                    TargetGroup = Candidate
 
-        if self._current_menu is None:
-            RootDictPath = os.path.join(DicDir, LangFile)
-            if os.path.exists(RootDictPath):
-                RootKeychain = Keychain(RootDictPath)
-                RootKeys = RootKeychain.GetKeys()
-                RootValues = RootKeychain.GetValues()
-                for Key, Value in zip(RootKeys, RootValues):
-                    if quitar_acentos(Key.lower()) == command_lower:
-                        GroupName = VALUE_TO_GROUP.get(Value.strip("'\""))
-                        if GroupName:
-                            btn = self._buttons_map.get(GroupName)
-                            if btn:
-                                self._OpenMenu(btn, GroupName)
-                        return
-        else:
-            ActiveGroup = self._current_group
-            DictPath = os.path.join(DicDir, ActiveGroup, LangFile)
-            if os.path.exists(DictPath):
-                Keys = Keychain(DictPath).GetKeys()
-                if command_lower in [quitar_acentos(k.lower()) for k in Keys]:
-                    btn = self._buttons_map.get(ActiveGroup)
-                    if btn:
-                        self._FlashButton(btn)
-                    self.AddToHistory(command)
+            if TargetGroup is not None:
+                self._EnterGroup(TargetGroup)
+                if self._GroupMeta[TargetGroup].get("children"):
+                    self.AddToHistory(f"Menú: {TargetGroup}")
+                else:
+                    self.AddToHistory(TargetGroup)
+                return
+
+        elif self._Level == LEVEL_GROUP:
+            Meta     = self._GroupMeta.get(self._ActiveGroup, {})
+            Children = Meta.get("children", [])
+            for Child in Children:
+                if _NormCmd(Child["key"]) == CmdNorm:
+                    self._ExecuteChildAction(self._ActiveGroup, Child["key"])
+                    self.AddToHistory(f"{self._ActiveGroup} → {Child['key']}")
                     return
-            self.AddToHistory(f"'{command}' no disponible en menú {ActiveGroup}", unknown=True)
+            self.AddToHistory(f"'{Command}' no disponible en {self._ActiveGroup}", Unknown=True)
             return
 
-        self.AddToHistory(command, unknown=True)
+        self.AddToHistory(Command, Unknown=True)
 
-    def ScrollHistory(self, up=True):
+    def ScrollHistory(self, Up: bool = True):
         Scrollbar = self._HistoryList.verticalScrollBar()
         Step = Scrollbar.singleStep() * 5
-        if up:
-            Scrollbar.setValue(Scrollbar.value() - Step)
-        else:
-            Scrollbar.setValue(Scrollbar.value() + Step)
+        Scrollbar.setValue(Scrollbar.value() + (-Step if Up else Step))
 
-    def AddToHistory(self, text, unknown=False, from_voice=True):
-        T = self._T
-        L = self._Texts
+    def AddToHistory(self, Text: str, Unknown: bool = False, FromVoice: bool = True):
+        T         = self._T
+        L         = self._Texts
         Timestamp = datetime.now().strftime("%H:%M:%S")
-        Color = T["red"] if unknown else T["green"]
-        source = "Voz" if from_voice else "Boton"
-        if unknown:
-            DisplayText = f"{L['unknown']}: {text}"
-        else:
-            DisplayText = f"[{source}] {text.upper()}"
-        Html = f'<span style="color:{T["dark_text"]}; font-family:{FONT_MONO}; font-size:12px; font-weight:600;">[{Timestamp}]&nbsp;</span><span style="color:{Color}; font-family:{FONT_MONO}; font-size:12px; font-weight:600;">{DisplayText}</span>'
+        Color     = T["red"] if Unknown else T["green"]
+        Source    = "Voz" if FromVoice else "Btn"
+        Display   = f"{L['unknown']}: {Text}" if Unknown else f"[{Source}] {Text.upper()}"
+        Html = (
+            f'<span style="color:{T["dark_text"]}; font-family:{FONT_MONO};'
+            f' font-size:12px; font-weight:600;">[{Timestamp}]&nbsp;</span>'
+            f'<span style="color:{Color}; font-family:{FONT_MONO};'
+            f' font-size:12px; font-weight:600;">{Display}</span>'
+        )
         self._HistoryList.append(Html)
         Cursor = self._HistoryList.textCursor()
         Cursor.movePosition(QTextCursor.End)
         self._HistoryList.setTextCursor(Cursor)
-        if not unknown:
+        if not Unknown:
             QTimer.singleShot(0, self._TriggerFlash)
 
     def OpenHelpWindow(self):
@@ -613,14 +710,14 @@ class MainWindow(QMainWindow):
     def _OnHelpClosed(self):
         self._HelpWindow = None
 
-    def closeEvent(self, event):
-        if hasattr(self, 'voice_worker'):
-            self.voice_worker.stop()
-        if hasattr(self, 'voice_thread'):
-            self.voice_thread.join(timeout=1)
-        event.accept()
-
     def resizeEvent(self, Event):
         super().resizeEvent(Event)
         if hasattr(self, '_Flash'):
             self._Flash.setGeometry(self.centralWidget().rect())
+
+    def closeEvent(self, Event):
+        if hasattr(self, 'voice_worker'):
+            self.voice_worker.stop()
+        if hasattr(self, 'voice_thread'):
+            self.voice_thread.join(timeout=1)
+        Event.accept()

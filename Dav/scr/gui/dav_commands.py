@@ -93,6 +93,7 @@ class DAV_StartVoiceCommand:
         from integration.voice_bootstrap import start_voice_engine
 
         start_voice_engine()
+        _launch_interfaz_dav()
 
     def IsActive(self):
         return True
@@ -114,6 +115,79 @@ class DAV_StopVoiceCommand:
 
     def IsActive(self):
         return True
+
+
+_interfaz_proc = None
+
+
+def _find_system_python() -> str:
+    import subprocess as _sp
+
+    gui_root_env = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
+    if gui_root_env:
+        venv_py = Path(gui_root_env) / ".venv" / "Scripts" / "python.exe"
+        if venv_py.exists():
+            return str(venv_py)
+
+    for cmd in (["py", "-3"], ["python3"], ["python"]):
+        try:
+            out = _sp.check_output(
+                cmd + ["-c", "import sys; print(sys.executable)"],
+                stderr=_sp.DEVNULL,
+                timeout=3,
+            ).decode().strip()
+            if out and Path(out).exists():
+                return out
+        except Exception:
+            pass
+
+    import sys as _sys
+    return _sys.executable
+
+
+def _launch_interfaz_dav() -> None:
+    global _interfaz_proc
+    import subprocess
+
+    repo = _dav_repo_root()
+    if repo is None:
+        return
+    script = repo / "InterfazDAV" / "main.py"
+    if not script.exists():
+        try:
+            import FreeCAD as App
+            App.Console.PrintWarning(f"[DAV] InterfazDAV no encontrado en: {script}\n")
+        except ImportError:
+            print(f"[DAV] InterfazDAV no encontrado en: {script}")
+        return
+    if _interfaz_proc is not None and _interfaz_proc.poll() is None:
+        try:
+            import FreeCAD as App
+            App.Console.PrintMessage("[DAV] InterfazDAV ya esta corriendo.\n")
+        except ImportError:
+            print("[DAV] InterfazDAV ya esta corriendo.")
+        return
+    python = _find_system_python()
+    bat_path = script.parent / "run_interfaz.bat"
+    
+    try:
+        with open(bat_path, "w", encoding="utf-8") as f:
+            f.write(f'@echo off\n')
+            f.write(f'cd /d "{script.parent}"\n')
+            f.write(f'"{python}" "{script}"\n')
+            f.write(f'pause\n')
+    except Exception as e:
+        try:
+            import FreeCAD as App
+            App.Console.PrintError(f"[DAV] No se pudo crear el archivo batch: {e}\n")
+        except ImportError:
+            print(f"[DAV] No se pudo crear el archivo batch: {e}")
+        return
+
+    import subprocess
+    _interfaz_proc = subprocess.Popen(
+        ["explorer.exe", str(bat_path)]
+    )
 
 
 def register_commands() -> None:

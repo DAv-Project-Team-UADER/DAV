@@ -109,6 +109,9 @@ freecad_mod_runtime/
 # Diccionario de ejemplo (solo para desarrollo local, no va al repo)
 luigiIntegracionV1/ejemplo de diccionario terminado/
 
+# Archivo batch generado automáticamente por el launcher
+InterfazDAV/run_interfaz.bat
+
 # =============================================================
 # FreeCAD específico
 # =============================================================
@@ -148,3 +151,6 @@ __pycache__/
 vosk-model*/
 vosk-model-es-0.42/
 vosk-model-small-es-0.42/
+
+# Material de referencia del profe — no es código implementado por el equipo
+luigiIntegracionV1/archivo_tarea_grupo/
