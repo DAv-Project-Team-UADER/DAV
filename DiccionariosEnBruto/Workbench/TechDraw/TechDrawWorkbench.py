@@ -14,16 +14,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .Views.view import views
+from .Views.Views import views
 from .Dimensions.dimensions import dimensions
-from .AddLines.addLines import centerlines
-from .Symbols.weld import symbols
+from .AddLines.addLines import addLines
+from .Symbols.Symbols import symbols
+from .Snaps.Snaps import snaps
+from .Topology.Topology import topology
 from .ayuda import ayuda
 
-techdraw = {
-    'views':      views,
-    'dimensions': dimensions,
-    'lines':      centerlines,
-    'symbols':    symbols,
-    'help':       ayuda,
-}
+techdraw = {}
+techdraw.update(views)
+techdraw.update(dimensions)
+techdraw.update(addLines)
+techdraw.update(symbols)
+techdraw.update(snaps)
+techdraw.update(topology)
+techdraw.update({'ayuda': ayuda})
