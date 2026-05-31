@@ -14,10 +14,11 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-def ayuda():
-    print('Comandos disponibles en Sketcher:')
-    print('  validate - Subconjunto: validación de boceto')
-    print('  tools    - Subconjunto: herramientas varias (borrar geometría, restricciones, etc.)')
-    print('  select   - Subconjunto: selección rápida (ejes, origen)')
-    print('  external - Subconjunto: geometría externa (proyección, intersección)')
-    print('  view     - Subconjunto: alineación de cámara y secciones')
+import FreeCADGui as Gui
+from .ayuda import ayuda
+
+external = {
+    'help': ayuda,
+    'projection': lambda: Gui.runCommand('Sketcher_Projection', 0),
+    'intersection': lambda: Gui.runCommand('Sketcher_External', 0)
+}

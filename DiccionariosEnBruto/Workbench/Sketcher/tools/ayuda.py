@@ -15,9 +15,9 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 def ayuda():
-    print('Comandos disponibles en Sketcher:')
-    print('  validate - Subconjunto: validación de boceto')
-    print('  tools    - Subconjunto: herramientas varias (borrar geometría, restricciones, etc.)')
-    print('  select   - Subconjunto: selección rápida (ejes, origen)')
-    print('  external - Subconjunto: geometría externa (proyección, intersección)')
-    print('  view     - Subconjunto: alineación de cámara y secciones')
+    print('Comandos disponibles en tools:')
+    print('  deleteconstraints - Elimina todas las restricciones | Req: Sketch en edición')
+    print('  deletegeometry    - Elimina toda la geometría y restricciones | Req: Sketch en edición')
+    print('  merge             - Une geometría de múltiples bocetos | Req: Al menos dos bocetos seleccionados')
+    print('  reorient          - Reorienta el sketch seleccionado a otra cara | Req: Sketch seleccionado')
+    print('  removeaxes        - Elimina el alineamiento a los ejes del objeto | Req: Objeto con ejes alineados')

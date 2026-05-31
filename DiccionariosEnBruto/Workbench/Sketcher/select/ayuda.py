@@ -15,9 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 def ayuda():
-    print('Comandos disponibles en Sketcher:')
-    print('  validate - Subconjunto: validación de boceto')
-    print('  tools    - Subconjunto: herramientas varias (borrar geometría, restricciones, etc.)')
-    print('  select   - Subconjunto: selección rápida (ejes, origen)')
-    print('  external - Subconjunto: geometría externa (proyección, intersección)')
-    print('  view     - Subconjunto: alineación de cámara y secciones')
+    print('Comandos disponibles en select:')
+    print('  horizontal - Selecciona el eje horizontal | Req: Sketch en edición')
+    print('  vertical   - Selecciona el eje vertical | Req: Sketch en edición')
+    print('  origin     - Selecciona el origen del boceto | Req: Sketch en edición')
