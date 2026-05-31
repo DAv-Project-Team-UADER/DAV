@@ -43,8 +43,30 @@ def _StripAccents(Text):
         if unicodedata.category(C) != 'Mn'
     )
 
+
 def _NormCmd(Text):
     return _StripAccents(Text.lower().strip())
+
+_VALUE_TO_GROUP_KEY = {
+    "file":               "file",
+    "edit":               "edit",
+    "print_cmds":         "print",
+    "doc":                "doc",
+    "ayuda":              "help",
+    "Std_Refresh":        "refresh",
+    "Std_ViewScreenShot": "screenshot",
+    "Std_TextDocument":   "textdoc",
+}
+
+def _RawValueToGroupKey(RawValue: str):
+    Stripped = RawValue.strip()
+    if Stripped in _VALUE_TO_GROUP_KEY:
+        return _VALUE_TO_GROUP_KEY[Stripped]
+    for FcCmd, GroupKey in _VALUE_TO_GROUP_KEY.items():
+        if FcCmd in Stripped:
+            return GroupKey
+    return None
+
 
 # ================================================================
 # BUTTON LEVEL — controls which set of buttons is currently shown
@@ -71,6 +93,7 @@ class MainWindow(QMainWindow):
 
         self._ToolButtons  = []
         self._GroupMeta    = {}
+        self._VoiceMap     = {}
 
         self.SetColor(color)
         self.SetLanguage(lang)
@@ -87,6 +110,7 @@ class MainWindow(QMainWindow):
     def SetLanguage(self, Lang: str):
         self._Texts       = TEXTS.get(Lang, TEXTS["es"])
         self._CurrentLang = Lang
+        self._LoadVoiceMap()
         if hasattr(self, '_ToolRow'):
             self._RebuildButtons()
 
@@ -319,6 +343,7 @@ class MainWindow(QMainWindow):
         self._Flash.setGeometry(CentralWidget.rect())
 
         self._LoadGroupMeta()
+        self._LoadVoiceMap()
         self._PopulateModel()
         self._ShowRootButtons()
 
@@ -340,7 +365,7 @@ class MainWindow(QMainWindow):
         for GroupName in GroupNames:
             GroupIconPath = os.path.join(DicDir, f"{GroupName}.svg")
             if not os.path.exists(GroupIconPath):
-                continue  
+                continue
 
             GroupFolder  = os.path.join(DicDir, GroupName)
             GroupDictPath = os.path.join(GroupFolder, f"{GroupName}.py")
@@ -353,13 +378,32 @@ class MainWindow(QMainWindow):
                 for ActionKey in ActionKeychain.GetKeys()[:12]:
                     ChildIcon = os.path.join(GroupFolder, f"{ActionKey.replace(' ', '_')}.svg")
                     if not os.path.exists(ChildIcon):
-                        continue  # child without icon → not shown
+                        continue
                     Children.append({"key": ActionKey, "icon": ChildIcon})
 
             self._GroupMeta[GroupName] = {
                 "icon":     GroupIconPath,
                 "children": Children,
             }
+
+    def _LoadVoiceMap(self):
+        self._VoiceMap = {}
+        LangFiles = {"es": "TraduceToEs.py", "en": "TraduceToEn.py", "pt": "TraduceToPt.py"}
+        LangFile  = LangFiles.get(self._CurrentLang, "TraduceToEs.py")
+        DicDir    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DiccionarioPrueba")
+        TransPath = os.path.join(DicDir, LangFile)
+
+        if not os.path.exists(TransPath):
+            return
+
+        KC     = Keychain(TransPath)
+        Keys   = KC.GetKeys()
+        Values = KC.GetValues()
+
+        for Key, RawValue in zip(Keys, Values):
+            GroupKey = _RawValueToGroupKey(RawValue)
+            if GroupKey is not None:
+                self._VoiceMap[_NormCmd(Key)] = GroupKey
 
     def _ClearToolArea(self):
         while self._ToolAreaLayout.count():
@@ -444,6 +488,10 @@ class MainWindow(QMainWindow):
             PrevGroup = self._ActiveGroup
             self._ShowRootButtons()
             self.AddToHistory(f"Volver (desde {PrevGroup})", FromVoice=False)
+
+    # ================================================================
+    # Theme / Model
+    # ================================================================
 
     def ToggleTheme(self):
         if self._CurrentTheme == "light":
@@ -593,32 +641,21 @@ class MainWindow(QMainWindow):
             return
 
         if self._Level == LEVEL_ROOT:
-            for GroupName in self._GroupMeta:
-                if _NormCmd(GroupName) == CmdNorm:
-                    self._EnterGroup(GroupName)
-                    if self._GroupMeta[GroupName].get("children"):
-                        self.AddToHistory(f"Menú: {GroupName}")
-                    else:
-                        self.AddToHistory(GroupName)
-                    return
-            DicDir   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DiccionarioPrueba")
-            LangFile = {"es": "TraduceToEs.py", "en": "TraduceToEn.py", "pt": "TraduceToPt.py"}.get(
-                self._CurrentLang, "TraduceToEs.py"
-            )
-            TransPath = os.path.join(DicDir, LangFile)
-            if os.path.exists(TransPath):
-                KC   = Keychain(TransPath)
-                Keys = KC.GetKeys()
-                for Key in Keys:
-                    if _NormCmd(Key) == CmdNorm:
-                        Value = KC.GetValues()[Keys.index(Key)].strip("'\"")
-                        if Value in self._GroupMeta:
-                            self._EnterGroup(Value)
-                            if self._GroupMeta[Value].get("children"):
-                                self.AddToHistory(f"Menú: {Value}")
-                            else:
-                                self.AddToHistory(Value)
-                            return
+            TargetGroup = None
+            if CmdNorm in ((_NormCmd(G)) for G in self._GroupMeta):
+                TargetGroup = next(G for G in self._GroupMeta if _NormCmd(G) == CmdNorm)
+            elif CmdNorm in self._VoiceMap:
+                Candidate = self._VoiceMap[CmdNorm]
+                if Candidate in self._GroupMeta:
+                    TargetGroup = Candidate
+
+            if TargetGroup is not None:
+                self._EnterGroup(TargetGroup)
+                if self._GroupMeta[TargetGroup].get("children"):
+                    self.AddToHistory(f"Menú: {TargetGroup}")
+                else:
+                    self.AddToHistory(TargetGroup)
+                return
 
         elif self._Level == LEVEL_GROUP:
             Meta     = self._GroupMeta.get(self._ActiveGroup, {})
