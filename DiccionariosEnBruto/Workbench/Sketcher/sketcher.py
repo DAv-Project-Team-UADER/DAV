@@ -24,7 +24,7 @@ from .select.select import select
 from .external.external import external
 from .view.view import view
 
-# Importaciones de Stashed (Tu compañera)
+# Importaciones de Stashed 
 from .constraints.constraints import constraints
 from .line.line import line
 from .point.point import point
@@ -56,14 +56,12 @@ def _toggle_construction(sketch, geo_indices):
 
 
 sketcher = {
-    # === Comandos Upstream ===
     'validate': validate,
     'sketcher_tools': sketcher_tools,
     'select': select,
     'external': external,
     'view': view,
 
-    # === Comandos Tu Compañera ===
     'line':      line,
     'point':     point,
     'polyline':  polyline,
@@ -91,7 +89,6 @@ sketcher = {
     'stop': lambda: Gui.runCommand('Sketcher_StopOperation', 0),
     'leave': lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
 
-    # === NUESTROS 17 COMANDOS ===
     'toggleconstruction': _toggle_construction,
     'cancelediting': lambda: Gui.runCommand('Sketcher_StopEditing', 0),
     'carboncopy':   lambda: Gui.runCommand('Sketcher_CarbonCopy', 0),
@@ -109,7 +106,6 @@ sketcher = {
     'extendedge':   lambda: Gui.runCommand('Sketcher_Extend', 0),
     'fillet':       lambda: Gui.runCommand('Sketcher_CreateFillet', 0),
     'chamfer':      lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
-    
-    # === Ayuda General ===
+
     'help':      ayuda,
 }
