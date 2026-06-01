@@ -15,12 +15,13 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 
 import os
+import sys
 import threading
 import unicodedata
 from datetime import datetime
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QTextEdit, QPushButton, QLabel, QSizePolicy
+    QTextEdit, QPushButton, QLabel, QSizePolicy, QMessageBox
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush
@@ -221,14 +222,6 @@ class MainWindow(QMainWindow):
         self._TitleLabel.setStyleSheet(f"color: {T['black']};")
         TitleRow.addWidget(self._TitleLabel, stretch=1)
 
-        self._ThemeButton = QPushButton("🌙")
-        self._ThemeButton.setFont(QFont(FONT_SANS, 14, QFont.Bold))
-        self._ThemeButton.setFixedSize(40, 36)
-        self._ThemeButton.setToolTip("Cambiar a modo oscuro")
-        self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
-        self._ThemeButton.clicked.connect(self.ToggleTheme)
-        TitleRow.addWidget(self._ThemeButton)
-
         self._HelpButton = QPushButton()
         self._HelpButton.setFixedSize(40, 36)
         self._HelpButton.setToolTip("Información")
@@ -250,7 +243,7 @@ class MainWindow(QMainWindow):
             ("abrir documento.svg",  "Abrir documento"),
             ("guardar como.svg",     "Guardar como"),
             ("imprimir.svg",         "Imprimir"),
-            ("configuraciones.svg",  "Configuraciones"),
+            ("configuraciones.svg",  "Preferencias de Interfaz"),
         ]
         for IconFile, Tooltip in ExtraIcons:
             Btn = QPushButton()
@@ -266,6 +259,11 @@ class MainWindow(QMainWindow):
                 IL.setContentsMargins(6, 6, 6, 6)
             else:
                 Btn.setText("?")
+            
+            # Connect button handlers
+            if IconFile == "configuraciones.svg":
+                Btn.clicked.connect(self._OpenPreferences)
+            
             TitleRow.addWidget(Btn)
             self._TopBarButtons.append(Btn)
 
@@ -496,13 +494,9 @@ class MainWindow(QMainWindow):
     def ToggleTheme(self):
         if self._CurrentTheme == "light":
             self.SetColor("dark")
-            self._ThemeButton.setText("🌞")
-            self._ThemeButton.setToolTip("Cambiar a modo claro")
             self.AddToHistory("Modo oscuro", FromVoice=False)
         else:
             self.SetColor("light")
-            self._ThemeButton.setText("🌙")
-            self._ThemeButton.setToolTip("Cambiar a modo oscuro")
             self.AddToHistory("Modo claro", FromVoice=False)
 
     def _UpdateStyles(self):
@@ -515,7 +509,6 @@ class MainWindow(QMainWindow):
         self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
         self._HistLabel.setStyleSheet(f"color: {T['black']};")
         self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
-        self._ThemeButton.setStyleSheet(self._ThemeBtnQss())
         self._HelpButton.setStyleSheet(self._BtnQss())
         for Btn in getattr(self, '_TopBarButtons', []):
             Btn.setStyleSheet(self._BtnQss())
@@ -694,6 +687,95 @@ class MainWindow(QMainWindow):
         self._HistoryList.setTextCursor(Cursor)
         if not Unknown:
             QTimer.singleShot(0, self._TriggerFlash)
+
+    def _OpenPreferences(self):
+        """Open the preferences dialog from GUIFreeCad."""
+        try:
+            import importlib.util
+            
+            # Get path to preferences_dialog.py
+            # MainWindow.py is in DAV/InterfazDAV/, so dirname twice gets us to DAV/
+            CurrentDir = os.path.dirname(os.path.abspath(__file__))  # DAV/InterfazDAV
+            DavDir = os.path.dirname(CurrentDir)  # DAV/
+            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
+            PreferenceDialogPath = os.path.join(GUIFreeCadPath, "ui", "preferences_dialog.py")
+            SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
+            
+            # Add GUIFreeCad to path so preferences_dialog can import its dependencies
+            if GUIFreeCadPath not in sys.path:
+                sys.path.insert(0, GUIFreeCadPath)
+            
+            try:
+                # Load settings module first
+                spec_settings = importlib.util.spec_from_file_location("settings", SettingsPath)
+                settings_module = importlib.util.module_from_spec(spec_settings)
+                sys.modules["settings"] = settings_module
+                spec_settings.loader.exec_module(settings_module)
+                
+                # Load preferences_dialog module
+                spec = importlib.util.spec_from_file_location("preferences_dialog", PreferenceDialogPath)
+                prefs_module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(prefs_module)
+                PreferencesDialog = prefs_module.PreferencesDialog
+                
+                # Create preferences dialog
+                PrefsDialog = PreferencesDialog(self)
+                
+                # Load current theme from settings before showing
+                settings = settings_module.settings
+                if settings.theme == "dark":
+                    self.SetColor("dark")
+                else:
+                    self.SetColor("light")
+                
+                # Connect settings_changed signal to apply changes
+                PrefsDialog.settings_changed.connect(self._OnPreferencesChanged)
+                
+                # Show dialog
+                PrefsDialog.exec()
+            finally:
+                # Clean up sys.path
+                if GUIFreeCadPath in sys.path:
+                    sys.path.remove(GUIFreeCadPath)
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"No se pudo abrir las preferencias:\n{str(e)}"
+            )
+
+    def _OnPreferencesChanged(self):
+        """Apply preferences changes to the interface."""
+        try:
+            import importlib.util
+            
+            CurrentDir = os.path.dirname(os.path.abspath(__file__))
+            DavDir = os.path.dirname(CurrentDir)
+            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
+            SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
+            
+            if GUIFreeCadPath not in sys.path:
+                sys.path.insert(0, GUIFreeCadPath)
+            
+            try:
+                # Load settings to get current theme
+                spec_settings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
+                settings_module = importlib.util.module_from_spec(spec_settings)
+                spec_settings.loader.exec_module(settings_module)
+                settings = settings_module.settings
+                
+                # Apply theme only (as requested)
+                if settings.theme == "dark":
+                    self.SetColor("dark")
+                else:
+                    self.SetColor("light")
+                    
+                self.AddToHistory("Preferencias actualizadas", FromVoice=False)
+            finally:
+                if GUIFreeCadPath in sys.path:
+                    sys.path.remove(GUIFreeCadPath)
+        except Exception as e:
+            pass  # Silently fail if can't apply changes
 
     def OpenHelpWindow(self):
         if self._HelpWindow is None:
