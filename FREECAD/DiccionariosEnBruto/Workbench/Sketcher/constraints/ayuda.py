@@ -1,0 +1,21 @@
+# Licencia GPL v3
+
+def ayuda():
+    print("=== Sketcher · Restricciones geométricas ===")
+    print(" coincident              : Une puntos u objetos")
+    print(" coincident unified      : Coincidencia unificada")
+    print(" horizontal              : Restricción horizontal")
+    print(" vertical                : Restricción vertical")
+    print(" horizontal vertical     : Horizontal o vertical automática")
+    print(" parallel                : Paralelismo")
+    print(" perpendicular           : Perpendicularidad")
+    print(" tangent collinear       : Tangente o colineal")
+    print(" equal                   : Igualdad geométrica")
+    print(" symmetric               : Simetría")
+    print(" block                   : Bloquea geometría")
+    print(" lock position           : Bloquea posición")
+    print(" point on object         : Punto sobre objeto")
+    print(" group                   : Agrupa restricciones")
+    print(" refraction              : Restricción de refracción")
+    print(" toggle driving reference: Alterna referencia de conducción")
+    print(" toggle constraints      : Activa/desactiva restricciones")
