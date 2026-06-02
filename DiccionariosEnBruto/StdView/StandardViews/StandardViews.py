@@ -16,8 +16,8 @@
 
 import FreeCADGui as Gui
 
-# Diccionario DAV - StdView / StandardViews
-standardviews = {
+# Diccionario DAV - StdView / StandardViews (Corregido a CamelCase)
+StandardViews = {
     'bottom': lambda: Gui.runCommand('Std_ViewBottom', 0),
     'boxzoom': lambda: Gui.runCommand('Std_ViewBoxZoom', 0),
     'newview': lambda: Gui.runCommand('Std_ViewCreate', 0),
@@ -35,4 +35,10 @@ standardviews = {
     'trimetric': lambda: Gui.runCommand('Std_ViewTrimetric', 0),
     'zoomin': lambda: Gui.runCommand('Std_ViewZoomIn', 0),
     'zoomout': lambda: Gui.runCommand('Std_ViewZoomOut', 0),
+    
+    # --- Tus tickets agregados y verificados ---
+    'clearviews': lambda: Gui.runCommand('Std_ClearViews', 0),
+    'clippingview': lambda: Gui.runCommand('Std_ToggleClipPlane', 0),
+    'drawstyleasis': lambda: Gui.runCommand('Std_DrawStyleAsIs', 0),
+    'aligntoselection': lambda: Gui.runCommand('Std_AlignToSelection', 0),
 }
