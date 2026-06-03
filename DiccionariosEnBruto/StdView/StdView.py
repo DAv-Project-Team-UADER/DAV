@@ -14,7 +14,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .Appearance.Appearance       import Panels as AppearancePanels # Mapeado a Panels por consistencia
+from .Appearance.Appearance       import appearance
 from .Camera.Camera               import camera
 from .Clipping.Clipping           import clipping
 from .DrawStyles.DrawStyles       import drawstyles
@@ -29,18 +29,19 @@ from .Tree.Tree                   import tree
 from .Visibility.Visibility       import visibility
 from .ayuda                       import ayuda
 
-# Diccionario maestro del módulo corregido a CamelCase
+# Diccionario maestro del módulo StdView
 StdView = {}
+StdView.update(appearance)
 StdView.update(camera)
 StdView.update(clipping)
 StdView.update(drawstyles)
 StdView.update(material)
 StdView.update(overlay)
-StdView.update(Panels)           # Subgrupo Panels corregido y actualizado con tus tickets
+StdView.update(Panels)
 StdView.update(savedviews)
-StdView.update(StandardViews)     # Subgrupo StandardViews corregido y actualizado con tus tickets
+StdView.update(StandardViews)
 StdView.update(stereo)
 StdView.update(toolbars)
 StdView.update(tree)
 StdView.update(visibility)
-StdView.update({'ayuda': ayuda})
+StdView.update({'help': ayuda})

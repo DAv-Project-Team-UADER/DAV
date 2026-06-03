@@ -16,29 +16,26 @@
 
 import FreeCADGui as Gui
 
-# Diccionario DAV - StdView / StandardViews (Corregido a CamelCase)
+from .ayuda import ayuda
+
+# Diccionario DAV - StdView / StandardViews
 StandardViews = {
-    'bottom': lambda: Gui.runCommand('Std_ViewBottom', 0),
-    'boxzoom': lambda: Gui.runCommand('Std_ViewBoxZoom', 0),
-    'newview': lambda: Gui.runCommand('Std_ViewCreate', 0),
-    'dimetric': lambda: Gui.runCommand('Std_ViewDimetric', 0),
-    'fitall': lambda: Gui.runCommand('Std_ViewFitAll', 0),
+    'bottom':       lambda: Gui.runCommand('Std_ViewBottom', 0),
+    'boxzoom':      lambda: Gui.runCommand('Std_ViewBoxZoom', 0),
+    'newview':      lambda: Gui.runCommand('Std_ViewCreate', 0),
+    'dimetric':     lambda: Gui.runCommand('Std_ViewDimetric', 0),
+    'fitall':       lambda: Gui.runCommand('Std_ViewFitAll', 0),
     'fitselection': lambda: Gui.runCommand('Std_ViewFitSelection', 0),
-    'front': lambda: Gui.runCommand('Std_ViewFront', 0),
-    'fullscreen': lambda: Gui.runCommand('Std_ViewFullscreen', 0),
-    'home': lambda: Gui.runCommand('Std_ViewHome', 0),
-    'isometric': lambda: Gui.runCommand('Std_ViewIsometric', 0),
-    'left': lambda: Gui.runCommand('Std_ViewLeft', 0),
-    'rear': lambda: Gui.runCommand('Std_ViewRear', 0),
-    'right': lambda: Gui.runCommand('Std_ViewRight', 0),
-    'top': lambda: Gui.runCommand('Std_ViewTop', 0),
-    'trimetric': lambda: Gui.runCommand('Std_ViewTrimetric', 0),
-    'zoomin': lambda: Gui.runCommand('Std_ViewZoomIn', 0),
-    'zoomout': lambda: Gui.runCommand('Std_ViewZoomOut', 0),
-    
-    # --- Tus tickets agregados y verificados ---
-    'clearviews': lambda: Gui.runCommand('Std_ClearViews', 0),
-    'clippingview': lambda: Gui.runCommand('Std_ToggleClipPlane', 0),
-    'drawstyleasis': lambda: Gui.runCommand('Std_DrawStyleAsIs', 0),
-    'aligntoselection': lambda: Gui.runCommand('Std_AlignToSelection', 0),
+    'front':        lambda: Gui.runCommand('Std_ViewFront', 0),
+    'fullscreen':   lambda: Gui.runCommand('Std_ViewFullscreen', 0),
+    'home':         lambda: Gui.runCommand('Std_ViewHome', 0),
+    'isometric':    lambda: Gui.runCommand('Std_ViewIsometric', 0),
+    'left':         lambda: Gui.runCommand('Std_ViewLeft', 0),
+    'rear':         lambda: Gui.runCommand('Std_ViewRear', 0),
+    'right':        lambda: Gui.runCommand('Std_ViewRight', 0),
+    'top':          lambda: Gui.runCommand('Std_ViewTop', 0),
+    'trimetric':    lambda: Gui.runCommand('Std_ViewTrimetric', 0),
+    'zoomin':       lambda: Gui.runCommand('Std_ViewZoomIn', 0),
+    'zoomout':      lambda: Gui.runCommand('Std_ViewZoomOut', 0),
+    'help':         ayuda,
 }

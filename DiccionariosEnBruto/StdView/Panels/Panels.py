@@ -16,19 +16,22 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Panels
-panels = {
-    'panel': lambda: Gui.runCommand('Std_PanelView', 0),
-    'dock': lambda: Gui.runCommand('Std_DockView', 0),
-    'fullscreen': lambda: Gui.runCommand('Std_ViewFullscreen', 0),
-    'undock': lambda: Gui.runCommand('Std_UndockView', 0),
-    'dagview': lambda: Gui.runCommand('Std_DAGView', 0),
-    'comboview': lambda: Gui.runCommand('Std_ComboView', 0),
+Panels = {
+    'panel':         lambda: Gui.runCommand('Std_PanelView', 0),
+    'dock':          lambda: Gui.runCommand('Std_DockView', 0),
+    'fullscreen':    lambda: Gui.runCommand('Std_ViewFullscreen', 0),
+    'undock':        lambda: Gui.runCommand('Std_UndockView', 0),
+    'dagview':       lambda: Gui.runCommand('Std_DAGView', 0),
+    'comboview':     lambda: Gui.runCommand('Std_ComboView', 0),
     'selectionview': lambda: Gui.runCommand('Std_SelectionView', 0),
-    'tasks': lambda: Gui.runCommand('Std_TaskView', 0),
-    'properties': lambda: Gui.runCommand('Std_PropertyView', 0),
-    'console': lambda: Gui.runCommand('Std_PythonConsole', 0),
-    'report': lambda: Gui.runCommand('Std_ReportView', 0),
-    'treeview': lambda: Gui.runCommand('Std_TreeView', 0),
-    'statusbar': lambda: Gui.runCommand('Std_ViewStatusBar', 0),
+    'tasks':         lambda: Gui.runCommand('Std_TaskView', 0),
+    'properties':    lambda: Gui.runCommand('Std_PropertyView', 0),
+    'console':       lambda: Gui.runCommand('Std_PythonConsole', 0),
+    'report':        lambda: Gui.runCommand('Std_ReportView', 0),
+    'treeview':      lambda: Gui.runCommand('Std_TreeView', 0),
+    'statusbar':     lambda: Gui.runCommand('Std_ViewStatusBar', 0),
+    'help':          ayuda,
 }

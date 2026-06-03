@@ -35,7 +35,3 @@ def ayuda():
     print("  trimetric: Orienta la cámara a una vista trimétrica del modelo, donde los tres ejes tienen ángulos y escalas distintas. | Req: Una vista 3D activa en el documento.")
     print("  zoomin: Acerca la cámara en la vista 3D activa, aumentando el nivel de zoom sobre el modelo. | Req: Una vista 3D activa dentro del entorno de FreeCAD.")
     print("  zoomout: Aleja la cámara en la vista 3D activa, disminuyendo el nivel de zoom sobre el modelo. | Req: Una vista 3D activa dentro del entorno de FreeCAD.")
-    print("  clearviews: Elimina todas las vistas congeladas guardadas temporalmente en la sesión actual. | Req: Al menos una vista congelada con anterioridad.")
-    print("  clippingview: Recorta temporalmente los objetos mediante planos de corte configurables para inspeccionar el interior. | Req: Objetos 3D visibles en la escena.")
-    print("  drawstyleasis: Restablece y mantiene el modo de visualización y estilo de dibujo original individual de cada objeto. | Req: Una vista 3D activa con objetos.")
-    print("  aligntoselection: Reorienta la cámara de la vista 3D de forma perpendicular a la superficie seleccionada. | Req: Una vista 3D activa y una cara o elemento seleccionado.")
