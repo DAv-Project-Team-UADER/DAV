@@ -30,7 +30,7 @@ _gui_parent = str(Path(__file__).resolve().parents[2])
 if _gui_parent not in sys.path:
     sys.path.insert(0, _gui_parent)
 
-from Keychain.Keychain import Keychain  # noqa: E402
+from ComponentesDAV.Keychain.Keychain import Keychain  # noqa: E402
 
 
 class DictionaryLoader:

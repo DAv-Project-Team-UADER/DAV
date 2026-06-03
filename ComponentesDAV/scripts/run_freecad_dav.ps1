@@ -17,6 +17,7 @@ function Resolve-GuiFreeCadRoot {
 
     $candidates = @(
         (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
+        (Join-Path $RepoRoot "IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )

@@ -9,14 +9,14 @@ if ruta_actual not in sys.path:
 
 # Ahora importamos los archivos directo
 try:
-    from DraftWorkbench import DraftWorkbench as dw
-    from TechDrawWorkbench import TechDrawWorkbench as tw
+    from ComponentesDAV.Keychain.dic.DraftWorkbench import DraftWorkbench as dw
+    from ComponentesDAV.Keychain.dic.TechDrawWorkbench import TechDrawWorkbench as tw
     import ayuda
 except ImportError:
     # Si falla, intentamos la ruta por carpetas
     from .DraftWorkbench import DraftWorkbench as dw
     from .TechDrawWorkbench import TechDrawWorkbench as tw
-    from . import ayuda
+    from ....Keychain.dic import ayuda
 
 explorer = {
     'draft': dw.draft_workbench,

@@ -45,7 +45,7 @@ from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_AL
 from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
 from componentesDAV.InterfazDAV.VoiceWorker import VoiceWorker
 from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
-from Keychain import Keychain
+from componentesDAV.Keychain.Keychain import Keychain
 
 
 # ================================================================

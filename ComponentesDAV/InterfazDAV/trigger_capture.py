@@ -15,6 +15,22 @@ def ensure_macro_installed():
     project_dir = os.path.dirname(os.path.abspath(__file__))
     project_macro = os.path.join(project_dir, "capture_tree.FCMacro")
     
+    # Eliminar imagen de captura y archivo de señal anteriores para iniciar limpio
+    stale_image = os.path.join(project_dir, "tree_capture.png")
+    if os.path.exists(stale_image):
+        try:
+            os.remove(stale_image)
+            print("[INFO] Imagen de captura anterior eliminada para iniciar limpio")
+        except Exception as e:
+            print(f"[WARNING] No se pudo eliminar la imagen anterior: {e}")
+            
+    stale_signal = os.path.join(project_dir, "capture_signal.json")
+    if os.path.exists(stale_signal):
+        try:
+            os.remove(stale_signal)
+        except:
+            pass
+            
     # Verificar que existe en el proyecto
     if not os.path.exists(project_macro):
         print(f"[ERROR] Macro no encontrada en el proyecto: {project_macro}")
