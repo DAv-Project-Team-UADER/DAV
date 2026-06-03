@@ -14,29 +14,33 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .Appearance.Appearance       import appearance
+from .Appearance.Appearance       import Panels as AppearancePanels # Mapeado a Panels por consistencia
 from .Camera.Camera               import camera
+from .Clipping.Clipping           import clipping
 from .DrawStyles.DrawStyles       import drawstyles
+from .Material.Material           import material
 from .Overlay.Overlay             import overlay
-from .Panels.Panels               import panels
+from .Panels.Panels               import Panels
 from .SavedViews.SavedViews       import savedviews
-from .StandardViews.StandardViews import standardviews
+from .StandardViews.StandardViews import StandardViews
 from .Stereo.Stereo               import stereo
 from .Toolbars.Toolbars           import toolbars
 from .Tree.Tree                   import tree
 from .Visibility.Visibility       import visibility
 from .ayuda                       import ayuda
 
-stdview = {}
-stdview.update(appearance)
-stdview.update(camera)
-stdview.update(drawstyles)
-stdview.update(overlay)
-stdview.update(panels)
-stdview.update(savedviews)
-stdview.update(standardviews)
-stdview.update(stereo)
-stdview.update(toolbars)
-stdview.update(tree)
-stdview.update(visibility)
-stdview.update({'ayuda': ayuda})
+# Diccionario maestro del módulo corregido a CamelCase
+StdView = {}
+StdView.update(camera)
+StdView.update(clipping)
+StdView.update(drawstyles)
+StdView.update(material)
+StdView.update(overlay)
+StdView.update(Panels)           # Subgrupo Panels corregido y actualizado con tus tickets
+StdView.update(savedviews)
+StdView.update(StandardViews)     # Subgrupo StandardViews corregido y actualizado con tus tickets
+StdView.update(stereo)
+StdView.update(toolbars)
+StdView.update(tree)
+StdView.update(visibility)
+StdView.update({'ayuda': ayuda})

@@ -14,6 +14,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from .joint.ayuda import ayuda as ayuda_joint
 
 def ayuda():
     print('=== AssemblyWorkbench ===')
@@ -25,3 +26,7 @@ def ayuda():
     print('  simulation:  Crea un contenedor de simulacion para definir movimientos entre piezas.')
     print('  bom:         Genera una lista de materiales con todos los componentes del ensamblaje.')
     print('  preferences: Abre el panel de configuracion global del workbench Assembly.')
+    print('  grounded:    Fija/libera la posicion de una pieza en el ensamblaje (toggle).')
+    print('  joint:       Subconjunto de uniones entre piezas.')
+    print()
+    ayuda_joint()

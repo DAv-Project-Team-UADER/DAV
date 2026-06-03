@@ -1,3 +1,18 @@
+#  Copyright (C) 2026 The DAV Project Team-                                 |#  Copyright (C) 2026 El Equipo del Proyecto DAV
+#  Universidad Autónoma de Entre Ríos (UADER)                               |#  Universidad Autónoma de Entre Ríos (UADER)
+#  Directed by Gerard Guillermo and Gallo Fabricio David                    |#  Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#                                                                           |#
+#  This program is free software: you can redistribute it and/or modify     |#  Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+#  it under the terms of the GNU General Public License as published by     |#  bajo los términos de la Licencia Pública General GNU tal como fue publicada 
+#  the Free Software Foundation, in GLPv3 version  of the License           |#  por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#                                                                           |#
+#  This program is distributed in the hope that it will be useful,          |#  Este programa se distribuye con la esperanza de que sea útil,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of           |#  pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            |#  MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+#  GNU General Public License for more details.                             |#  Licencia Pública General GNU para más detalles.
+#                                                                           |#
+#  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -6,62 +21,62 @@ from typing import Any, Iterable
 
 @dataclass(slots=True)
 class ParamSpec:
-	"""Especificacion de un parametro esperado por una funcion."""
+    """Specification of a parameter expected by a function."""
 
-	nombre: str
-	tipo: type | tuple[type, ...] | None = None
-	requerido: bool = True
-	longitud_maxima: int | None = None
-	valores_permitidos: tuple[Any, ...] = field(default_factory=tuple)
+    name: str
+    param_type: type | tuple[type, ...] | None = None
+    required: bool = True
+    max_length: int | None = None
+    allowed_values: tuple[Any, ...] = field(default_factory=tuple)
 
-	def __post_init__(self) -> None:
-		if not self.nombre or not isinstance(self.nombre, str):
-			raise ValueError("El nombre del parametro debe ser una cadena no vacia.")
+    def __post_init__(self) -> None:
+        if not self.name or not isinstance(self.name, str):
+            raise ValueError("The parameter name must be a non-empty string.")
 
-		if self.longitud_maxima is not None and self.longitud_maxima < 0:
-			raise ValueError("La longitud maxima no puede ser negativa.")
+        if self.max_length is not None and self.max_length < 0:
+            raise ValueError("Maximum length cannot be negative.")
 
-		if not isinstance(self.valores_permitidos, tuple):
-			self.valores_permitidos = tuple(self.valores_permitidos)
+        if not isinstance(self.allowed_values, tuple):
+            self.allowed_values = tuple(self.allowed_values)
 
-	def validar(self, valor: Any, nombre_argumento: str | None = None) -> Any:
-		"""Valida un valor y devuelve el mismo valor si cumple las reglas."""
-		etiqueta = nombre_argumento or self.nombre
+    def validate(self, value: Any, argument_name: str | None = None) -> Any:
+        """Validates a value and returns it if it meets the rules."""
+        label = argument_name or self.name
 
-		if valor is None:
-			if self.requerido:
-				raise ValueError(f"El parametro '{etiqueta}' es obligatorio.")
-			return None
+        if value is None:
+            if self.required:
+                raise ValueError(f"The parameter '{label}' is required.")
+            return None
 
-		if self.tipo is not None and not isinstance(valor, self.tipo):
-			tipos_esperados = self._formatear_tipo_esperado()
-			raise TypeError(
-				f"El parametro '{etiqueta}' debe ser de tipo {tipos_esperados}, "
-				f"pero recibio {type(valor).__name__}."
-			)
+        if self.param_type is not None and not isinstance(value, self.param_type):
+            expected_types = self._format_expected_type()
+            raise TypeError(
+                f"The parameter '{label}' must be of type {expected_types}, "
+                f"but received {type(value).__name__}."
+            )
 
-		if isinstance(valor, str) and self.longitud_maxima is not None:
-			if len(valor) > self.longitud_maxima:
-				raise ValueError(
-					f"El parametro '{etiqueta}' excede la longitud maxima de {self.longitud_maxima}."
-				)
+        if isinstance(value, str) and self.max_length is not None:
+            if len(value) > self.max_length:
+                raise ValueError(
+                    f"The parameter '{label}' exceeds the maximum length of {self.max_length}."
+                )
 
-		if self.valores_permitidos and valor not in self.valores_permitidos:
-			permitidos = ", ".join(repr(item) for item in self.valores_permitidos)
-			raise ValueError(
-				f"El parametro '{etiqueta}' debe ser uno de: {permitidos}."
-			)
+        if self.allowed_values and value not in self.allowed_values:
+            allowed = ", ".join(repr(item) for item in self.allowed_values)
+            raise ValueError(
+                f"The parameter '{label}' must be one of: {allowed}."
+            )
 
-		return valor
+        return value
 
-	def _formatear_tipo_esperado(self) -> str:
-		if self.tipo is None:
-			return "cualquier tipo"
-		if isinstance(self.tipo, tuple):
-			return ", ".join(t.__name__ for t in self.tipo)
-		return self.tipo.__name__
+    def _format_expected_type(self) -> str:
+        if self.param_type is None:
+            return "any type"
+        if isinstance(self.param_type, tuple):
+            return ", ".join(t.__name__ for t in self.param_type)
+        return self.param_type.__name__
 
 
-def crear_param_specs(parametros: Iterable[ParamSpec]) -> tuple[ParamSpec, ...]:
-	"""Convierte una coleccion de especificaciones en una tupla inmutable."""
-	return tuple(parametros)
+def create_param_specs(parameters: Iterable[ParamSpec]) -> tuple[ParamSpec, ...]:
+    """Converts a collection of specifications into an immutable tuple."""
+    return tuple(parameters)

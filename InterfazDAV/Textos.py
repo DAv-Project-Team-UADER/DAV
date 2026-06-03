@@ -17,7 +17,7 @@ TEXTS = {
     "es": {
         "title":           "ASISTENTE DE VOZ PARA TECNICOS",
         "mic_active":      "Microfono activo - Escuchando...",
-        "mic_error":       "Error de microfono",
+        "mic_error":       "Esperando microfono",
         "section_listen":  "Escuchando:",
         "detected":        "Detectado:",
         "section_model":   "Modelo",
