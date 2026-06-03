@@ -14,27 +14,29 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+from FreeCAD import Vector
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _extrude(length=10):
-    doc = App.activeDocument()
-
-    sel = doc.getSelection() if hasattr(doc, "getSelection") else []
+def _extrude():
+    """Extrude the selected Part object 10 mm along the Z axis."""
+    sel = Gui.Selection.getSelection()
     if not sel:
         return
-
-    obj = doc.addObject("Part::Extrusion", "Extrude")
-    obj.LengthFwd = length
-    obj.Solid = True
-
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Extrusion", "Extrude")
+    f.Base = sel[0]
+    f.Dir = Vector(0, 0, 10)
+    f.Solid = True
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_extrude = {
-    'extruir': lambda: _extrude(),
-    'extrude': lambda: _extrude(),
-    'extruir objeto': lambda: _extrude(),
+    'extruir': _extrude,
+    'extrude': _extrude,
+    'extruir objeto': _extrude,
     'help': ayuda,
 }

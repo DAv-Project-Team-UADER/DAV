@@ -16,8 +16,11 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Camera
 camera = {
     'orthographic': lambda: Gui.runCommand('Std_OrthographicCamera', 1),
-    'perspective': lambda: Gui.runCommand('Std_PerspectiveCamera', 1),
+    'perspective':  lambda: Gui.runCommand('Std_PerspectiveCamera', 1),
+    'help':         ayuda,
 }

@@ -16,6 +16,8 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / SavedViews
 savedviews = {
     'clear':   lambda: Gui.runCommand('Std_ClearViews', 0),
@@ -25,4 +27,5 @@ savedviews = {
     'load':    lambda: Gui.runCommand('Std_RestoreView', 0),
     'save':    lambda: Gui.runCommand('Std_FreezeViewsSave', 0),
     'store':   lambda: Gui.runCommand('Std_StoreWorkingView', 0),
+    'help':    ayuda,
 }

@@ -14,21 +14,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
 def _ruled_surface():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::RuledSurface", "RuledSurface")
-
+    """Create a ruled surface between the two selected edges or wires."""
+    sel = Gui.Selection.getSelection()
+    if len(sel) < 2:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::RuledSurface", "RuledSurface")
+    f.Curve1 = (sel[0], ["Edge1"])
+    f.Curve2 = (sel[1], ["Edge1"])
+    for obj in sel:
+        obj.Visibility = False
     doc.recompute()
 
 
 part_ruled_surface = {
-    'superficie reglada': lambda: _ruled_surface(),
-    'unir curvas': lambda: _ruled_surface(),
-    'ruled surface': lambda: _ruled_surface(),
+    'superficie reglada': _ruled_surface,
+    'unir curvas': _ruled_surface,
+    'ruled surface': _ruled_surface,
     'help': ayuda,
 }

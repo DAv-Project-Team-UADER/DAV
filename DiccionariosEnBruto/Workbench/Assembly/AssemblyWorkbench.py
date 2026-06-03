@@ -18,7 +18,9 @@ import FreeCADGui as Gui
 from .joint.joint import joint
 from .ayuda import ayuda
 
-assembly = {
+assembly = {}
+assembly.update(joint)
+assembly.update({
     'create':      lambda: Gui.runCommand('Assembly_CreateAssembly', 0),
     'newpart':     lambda: Gui.runCommand('Assembly_InsertNewPart', 0),
     'link':        lambda: Gui.runCommand('Assembly_InsertLink', 0),
@@ -28,6 +30,5 @@ assembly = {
     'bom':         lambda: Gui.runCommand('Assembly_CreateBom', 0),
     'preferences': lambda: Gui.runCommand('Assembly_Preferences', 0),
     'grounded':    lambda: Gui.runCommand('Assembly_ToggleGrounded', 1),
-    'joint':       joint,
     'help':        ayuda,
-}
+})

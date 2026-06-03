@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -14,7 +13,6 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
-# SPDX-License-Identifier: GPL-3.0-or-later
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
@@ -23,5 +21,5 @@ expressions = {
     'copyactdoc': lambda: Gui.runCommand('Std_Expressions_CopyActiveDocument', 0),
     'copyalldoc': lambda: Gui.runCommand('Std_Expressions_CopyAllDocuments', 0),
     'copyselected': lambda: Gui.runCommand('Std_Expressions_CopySelected', 0),
-    'paste': lambda: Gui.runCommand('Std_Expressions_Paste', 0),
+    'pasteexpr': lambda: Gui.runCommand('Std_Expressions_Paste', 0),
 }

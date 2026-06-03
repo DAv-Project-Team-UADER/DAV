@@ -16,13 +16,16 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / DrawStyles
 drawstyles = {
-    'styleasis': lambda: Gui.runCommand('Std_DrawStyleAsIs', 0),
-    'flatlines': lambda: Gui.runCommand('Std_DrawStyleFlatLines', 0),
+    'styleasis':  lambda: Gui.runCommand('Std_DrawStyleAsIs', 0),
+    'flatlines':  lambda: Gui.runCommand('Std_DrawStyleFlatLines', 0),
     'hiddenline': lambda: Gui.runCommand('Std_DrawStyleHiddenLine', 0),
-    'noshading': lambda: Gui.runCommand('Std_DrawStyleNoShading', 0),
-    'points': lambda: Gui.runCommand('Std_DrawStylePoints', 0),
-    'shaded': lambda: Gui.runCommand('Std_DrawStyleShaded', 0),
-    'wireframe': lambda: Gui.runCommand('Std_DrawStyleWireframe', 0),
+    'noshading':  lambda: Gui.runCommand('Std_DrawStyleNoShading', 0),
+    'points':     lambda: Gui.runCommand('Std_DrawStylePoints', 0),
+    'shaded':     lambda: Gui.runCommand('Std_DrawStyleShaded', 0),
+    'wireframe':  lambda: Gui.runCommand('Std_DrawStyleWireframe', 0),
+    'help':       ayuda,
 }
