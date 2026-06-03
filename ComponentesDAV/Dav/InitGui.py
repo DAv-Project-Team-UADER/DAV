@@ -22,8 +22,35 @@ if not _d:
     _u = os.path.join(App.getUserAppDataDir(), "Mod", "DAV")
     if os.path.isdir(_u):
         _d = _u
-if _d and _d not in sys.path:
-    sys.path.insert(0, _d)
+if _d:
+    _d_real = os.path.realpath(_d)
+    if _d_real not in sys.path:
+        sys.path.insert(0, _d_real)
+    _curr = _d_real
+    for _ in range(4):
+        _parent = os.path.dirname(_curr)
+        if _parent == _curr:
+            break
+        found = False
+        for name in ("ComponentesDAV", "componentesDAV"):
+            if os.path.isdir(os.path.join(_parent, name)):
+                if _parent not in sys.path:
+                    sys.path.insert(0, _parent)
+                try:
+                    if name not in sys.modules:
+                        mod = __import__(name)
+                        sys.modules[name] = mod
+                    other_name = "componentesDAV" if name == "ComponentesDAV" else "ComponentesDAV"
+                    if other_name not in sys.modules and name in sys.modules:
+                        sys.modules[other_name] = sys.modules[name]
+                except Exception:
+                    pass
+                found = True
+                break
+        if found:
+            break
+        _curr = _parent
+
 
 
 class DAVWorkbench(Gui.Workbench):
@@ -31,9 +58,9 @@ class DAVWorkbench(Gui.Workbench):
     ToolTip = "DAV (UADER)"
 
     def Initialize(self):
-        import scr.gui.freecad_wb
+        import componentesDAV.Dav.scr.gui.freecad_wb
 
-        scr.gui.freecad_wb.setup_workbench(self)
+        componentesDAV.Dav.scr.gui.freecad_wb.setup_workbench(self)
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"

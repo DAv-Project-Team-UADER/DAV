@@ -104,6 +104,9 @@ def ensure_gui_on_path() -> Path:
     text = str(root)
     if text not in sys.path:
         sys.path.insert(0, text)
+    parent_text = str(root.parent)
+    if parent_text not in sys.path:
+        sys.path.insert(0, parent_text)
     return root
 
 

@@ -21,7 +21,13 @@ from pathlib import Path
 from typing import Any
 
 GUI_ROOT = Path(__file__).resolve().parents[1]
-REPO_ROOT = GUI_ROOT.parents[1]
+def _find_repo_root(gui_root: Path) -> Path:
+    for parent in (gui_root.parents[1], gui_root.parents[2], gui_root.parents[0]):
+        if (parent / "PruebaIntegracion").is_dir():
+            return parent
+    return gui_root.parents[1]
+
+REPO_ROOT = _find_repo_root(GUI_ROOT)
 
 if str(GUI_ROOT) not in sys.path:
     sys.path.insert(0, str(GUI_ROOT))

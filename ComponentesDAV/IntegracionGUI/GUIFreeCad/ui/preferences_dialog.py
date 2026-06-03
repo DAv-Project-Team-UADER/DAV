@@ -188,6 +188,7 @@ class PreferencesDialog(QDialog):
         return row
 
     def _load_from_settings(self) -> None:
+        settings.load()
         lang_map = {"en": self._rb_en, "es": self._rb_es, "pt": self._rb_pt}
         lang_map.get(settings.language, self._rb_es).setChecked(True)
         if settings.model_size == "large":

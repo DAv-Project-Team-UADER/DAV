@@ -16,6 +16,7 @@ function Resolve-GuiFreeCadRoot {
     param([string]$RepoRoot)
 
     $candidates = @(
+        (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )
@@ -32,10 +33,20 @@ function Get-DavRepoPaths {
     $repo = Split-Path -Parent $PSScriptRoot
     $gui = Resolve-GuiFreeCadRoot -RepoRoot $repo
 
+    $davCandidates = @(
+        (Join-Path $repo "Dav"),
+        (Join-Path $repo "componentesDAV\Dav")
+    )
+    $davMod = $davCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+
+    if (-not $davMod) {
+        $davMod = Join-Path $repo "Dav"
+    }
+
     return @{
         DavRepo     = $repo
         GuiRoot     = $gui
-        DavMod      = Join-Path $repo "Dav"
+        DavMod      = $davMod
         FreecadRoot = Join-Path $repo "FREECAD"
     }
 }

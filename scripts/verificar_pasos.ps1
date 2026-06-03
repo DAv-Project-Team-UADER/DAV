@@ -12,6 +12,7 @@ $DavRepo = Split-Path -Parent $PSScriptRoot
 function Resolve-GuiFreeCadRoot {
     param([string]$RepoRoot)
     $candidates = @(
+        (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )
@@ -53,7 +54,11 @@ else {
 }
 
 Step 2 "InterfazDAV (asistente compañeros)"
-Push-Location (Join-Path $DavRepo "InterfazDAV")
+$interfaceRoot = Join-Path $DavRepo "InterfazDAV"
+if (-not (Test-Path -LiteralPath $interfaceRoot)) {
+    $interfaceRoot = Join-Path $DavRepo "componentesDAV\InterfazDAV"
+}
+Push-Location $interfaceRoot
 & $GuiPy -c "from MainWindow import MainWindow; print('ok')" 2>$null
 if ($LASTEXITCODE -eq 0) { Ok "InterfazDAV importa con venv de GUIFreeCad" } else { Fail "InterfazDAV no importa" }
 Pop-Location
@@ -75,6 +80,9 @@ $modPath = ""
 if ($FreeCADExe -and (Test-Path $FreeCADExe)) {
     $fcHome = (Resolve-Path (Join-Path (Split-Path $FreeCADExe) "..")).Path
     $modPath = Join-Path $fcHome "Mod\DAV\InitGui.py"
+    if (-not (Test-Path $modPath)) {
+        $modPath = Join-Path $env:APPDATA "FreeCAD\v1-1\Mod\DAV\InitGui.py"
+    }
 }
 if ($modPath -and (Test-Path $modPath)) { Ok "Mod instalado: $modPath" }
 else { Warn "Mod DAV no instalado. Ejecuta: .\scripts\run_freecad_dav.ps1 -InstallOnly" }
@@ -97,7 +105,7 @@ if ((Test-Path $FreeCADExe) -and (Test-Path $modPath)) {
 
 Write-Host ""
 Write-Host "Siguiente: probar manualmente" -ForegroundColor Cyan
-Write-Host "  1) GUIFreeCad:  cd luigiIntegracionV1\GUIFreeCad && .venv\Scripts\activate && python main.py"
-Write-Host "  2) InterfazDAV: cd InterfazDAV && ..\luigiIntegracionV1\GUIFreeCad\.venv\Scripts\python.exe main.py"
+Write-Host "  1) GUIFreeCad:  cd componentesDAV\IntegracionGUI\GUIFreeCad && .venv\Scripts\activate && python main.py"
+Write-Host "  2) InterfazDAV: cd componentesDAV\InterfazDAV && ..\IntegracionGUI\GUIFreeCad\.venv\Scripts\python.exe main.py"
 Write-Host "  3) FreeCAD:     cd scripts && .\run_freecad_dav.ps1 -FreeCADExe `"$FreeCADExe`""
 Write-Host ""

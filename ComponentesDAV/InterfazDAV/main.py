@@ -17,7 +17,33 @@
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'Keychain'))
+_here = os.path.dirname(os.path.abspath(__file__))
+_curr = _here
+for _ in range(4):
+    _parent = os.path.dirname(_curr)
+    if _parent == _curr:
+        break
+    found = False
+    for name in ("ComponentesDAV", "componentesDAV"):
+        if os.path.isdir(os.path.join(_parent, name)):
+            if _parent not in sys.path:
+                sys.path.insert(0, _parent)
+            try:
+                if name not in sys.modules:
+                    mod = __import__(name)
+                    sys.modules[name] = mod
+                other_name = "componentesDAV" if name == "ComponentesDAV" else "ComponentesDAV"
+                if other_name not in sys.modules and name in sys.modules:
+                    sys.modules[other_name] = sys.modules[name]
+            except Exception:
+                pass
+            found = True
+            break
+    if found:
+        break
+    _curr = _parent
+
+sys.path.append(os.path.join(_here, '..', 'Keychain'))
 
 from PySide6.QtWidgets import QApplication
 from MainWindow import MainWindow

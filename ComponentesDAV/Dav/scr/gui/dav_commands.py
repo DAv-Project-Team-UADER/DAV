@@ -11,12 +11,17 @@ def _dav_repo_root() -> Path | None:
     mod = os.environ.get("DAV_MOD_ROOT", "").strip()
     if mod:
         mod_path = Path(mod).resolve()
+        if mod_path.is_file():
+            mod_path = mod_path.parent
         if mod_path.name.upper() == "DAV":
             return mod_path.parent
     try:
         here = Path(__file__).resolve()
-        if here.parents[2].name.upper() == "DAV":
-            return here.parents[3]
+        for ancestor in here.parents:
+            if ancestor.name.upper() == "COMPONENTESDAV":
+                return ancestor
+            if ancestor.name.upper() == "DAV":
+                return ancestor
     except (IndexError, NameError):
         pass
     return None
@@ -32,6 +37,8 @@ def _guifreecad_root() -> Path:
     repo = _dav_repo_root()
     if repo is not None:
         for candidate in (
+            repo / "IntegracionGUI" / "GUIFreeCad",
+            repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad",
             repo / "luigiIntegracionV1" / "GUIFreeCad",
             repo / "GUIFreeCad",
         ):
@@ -59,6 +66,9 @@ def _ensure_gui_path() -> Path:
         )
     if text not in sys.path:
         sys.path.insert(0, text)
+    parent_text = str(root.parent)
+    if parent_text not in sys.path:
+        sys.path.insert(0, parent_text)
     return root
 
 
@@ -193,6 +203,8 @@ def _launch_interfaz_dav() -> None:
     if repo is None:
         return
     script = repo / "InterfazDAV" / "main.py"
+    if not script.exists():
+        script = repo / "componentesDAV" / "InterfazDAV" / "main.py"
     if not script.exists():
         try:
             import FreeCAD as App

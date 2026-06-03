@@ -95,10 +95,12 @@ class Browser:
         If that folder does not exist DictionaryLoader.IsReady will be False
         and Browser starts with empty contexts — no crash.
         """
-        return (
-            Path(__file__).resolve().parents[3]
-            / "ejemplo de diccionario terminado"
-        )
+        here = Path(__file__).resolve()
+        for parent in (here.parents[3], here.parents[4], here.parents[2]):
+            candidate = parent / "ejemplo de diccionario terminado"
+            if candidate.is_dir():
+                return candidate
+        return here.parents[3] / "ejemplo de diccionario terminado"
 
     # ------------------------------------------------------------------
     # Public API

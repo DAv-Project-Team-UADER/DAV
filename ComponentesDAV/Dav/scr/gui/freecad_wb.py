@@ -251,8 +251,14 @@ def _schedule_settings_watcher() -> None:
 
             from pathlib import Path
             here = Path(__file__).resolve()
-            repo = here.parents[2]
-            settings_path = repo / "IntegracionGUI" / "GUIFreeCad" / "config" / "settings.json"
+            settings_path = None
+            for ancestor in here.parents:
+                candidate = ancestor / "IntegracionGUI" / "GUIFreeCad" / "config" / "settings.json"
+                if candidate.exists():
+                    settings_path = candidate
+                    break
+            if settings_path is None:
+                settings_path = here.parents[3] / "IntegracionGUI" / "GUIFreeCad" / "config" / "settings.json"
 
             last_mtime: list[float] = [settings_path.stat().st_mtime if settings_path.exists() else 0.0]
 

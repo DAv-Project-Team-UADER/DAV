@@ -22,8 +22,27 @@ $ErrorActionPreference = "Stop"
 $IntegrationRoot = $PSScriptRoot
 $RepoRoot = Split-Path -Parent $IntegrationRoot
 $GuiRoot = Join-Path $IntegrationRoot "GUIFreeCad"
-$ScriptsDir = Join-Path $RepoRoot "scripts"
-$RunScript = Join-Path $ScriptsDir "run_freecad_dav.ps1"
+
+function Find-RunScript([string]$StartDir) {
+    $dir = $StartDir
+    while ($dir) {
+        $candidate = Join-Path $dir "scripts\run_freecad_dav.ps1"
+        if (Test-Path -LiteralPath $candidate) { return $candidate }
+        $parent = Split-Path -Parent $dir
+        if ($parent -eq $dir) { break }
+        $dir = $parent
+    }
+    return $null
+}
+
+$RunScript = Find-RunScript $RepoRoot
+if ($RunScript) {
+    $ScriptsDir = Split-Path -Parent $RunScript
+    $RepoRoot = Split-Path -Parent $ScriptsDir
+} else {
+    $ScriptsDir = Join-Path $RepoRoot "scripts"
+}
+
 $VenvPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"
 $ReqFile = Join-Path $GuiRoot "requirements.txt"
 $SetupModels = Join-Path $GuiRoot "scripts\setup_models.py"

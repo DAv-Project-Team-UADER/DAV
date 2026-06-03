@@ -27,12 +27,60 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush
 from PySide6.QtSvgWidgets import QSvgWidget
 
-from Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
-from Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
-from HelpWindow import HelpWindow
-from VoiceWorker import VoiceWorker
-from FlashOverlay import FlashOverlay
+_here = os.path.dirname(os.path.abspath(__file__))
+_curr = _here
+for _ in range(4):
+    _parent = os.path.dirname(_curr)
+    if _parent == _curr:
+        break
+    found = False
+    for name in ("ComponentesDAV", "componentesDAV"):
+        if os.path.isdir(os.path.join(_parent, name)):
+            if _parent not in sys.path:
+                sys.path.insert(0, _parent)
+            try:
+                if name not in sys.modules:
+                    mod = __import__(name)
+                    sys.modules[name] = mod
+                other_name = "componentesDAV" if name == "ComponentesDAV" else "ComponentesDAV"
+                if other_name not in sys.modules and name in sys.modules:
+                    sys.modules[other_name] = sys.modules[name]
+            except Exception:
+                pass
+            found = True
+            break
+    if found:
+        break
+    _curr = _parent
+
+from componentesDAV.InterfazDAV.Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
+from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
+from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
+from componentesDAV.InterfazDAV.VoiceWorker import VoiceWorker
+from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
 from Keychain import Keychain
+
+
+# ================================================================
+# THEME DETECTION
+# ================================================================
+
+def _DetectFreeCADTheme() -> str:
+    """
+    Intenta detectar el tema de FreeCAD.
+    Retorna 'dark' o 'light' (por defecto 'light').
+    """
+    try:
+        import FreeCADGui as Gui
+        # Verificar la paleta de colores de la aplicación Qt
+        palette = Gui.getMainWindow().palette()
+        # Si el color de fondo es oscuro, asumimos tema oscuro
+        bg_color = palette.color(palette.ColorRole.Window)
+        # Calcular luminancia: si es baja, es oscuro
+        luminance = (0.299 * bg_color.red() + 0.587 * bg_color.green() + 0.114 * bg_color.blue()) / 255.0
+        return "dark" if luminance < 0.5 else "light"
+    except Exception:
+        return "light"
 
 # ================================================================
 # HELPERS
@@ -83,8 +131,12 @@ LEVEL_GROUP = "group"
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, color: str = "light", lang: str = "es"):
+    def __init__(self, color: str = None, lang: str = "es"):
         super().__init__()
+        # Si no se especifica color, detectar el tema de FreeCAD
+        if color is None:
+            color = _DetectFreeCADTheme()
+        
         self.setWindowTitle("Asistente de Voz - Control por Comandos")
         self.setMinimumSize(900, 650)
 
@@ -698,6 +750,7 @@ class MainWindow(QMainWindow):
         """Open the preferences dialog from GUIFreeCad."""
         try:
             import importlib.util
+            import json
             
             # Get path to preferences_dialog.py
             # MainWindow.py is in DAV/InterfazDAV/, so dirname twice gets us to DAV/
@@ -706,12 +759,34 @@ class MainWindow(QMainWindow):
             GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
             PreferenceDialogPath = os.path.join(GUIFreeCadPath, "ui", "preferences_dialog.py")
             SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
+            ConfigPath = os.path.join(GUIFreeCadPath, "config", "settings.json")
             
             # Add GUIFreeCad to path so preferences_dialog can import its dependencies
             if GUIFreeCadPath not in sys.path:
                 sys.path.insert(0, GUIFreeCadPath)
             
             try:
+                # Ensure config directory exists
+                ConfigDir = os.path.dirname(ConfigPath)
+                os.makedirs(ConfigDir, exist_ok=True)
+                
+                # Sincronizar el tema actual de MainWindow con settings.json
+                # esto asegura que el diálogo de preferencias abra con el tema correcto
+                try:
+                    if os.path.exists(ConfigPath):
+                        with open(ConfigPath, 'r', encoding='utf-8') as f:
+                            settings_data = json.load(f)
+                    else:
+                        settings_data = {}
+                    
+                    # Actualizar settings.json con el tema actual
+                    settings_data['theme'] = self._CurrentTheme
+                    
+                    with open(ConfigPath, 'w', encoding='utf-8') as f:
+                        json.dump(settings_data, f, indent=2, ensure_ascii=False)
+                except Exception as e:
+                    print(f"[Warning] No se pudo sincronizar theme con settings.json: {e}")
+                
                 # Load settings module first
                 spec_settings = importlib.util.spec_from_file_location("settings", SettingsPath)
                 settings_module = importlib.util.module_from_spec(spec_settings)
@@ -727,12 +802,13 @@ class MainWindow(QMainWindow):
                 # Create preferences dialog
                 PrefsDialog = PreferencesDialog(self)
                 
-                # Load current theme from settings before showing
-                settings = settings_module.settings
-                if settings.theme == "dark":
-                    self.SetColor("dark")
-                else:
-                    self.SetColor("light")
+                # Reload settings para asegurar que se aplicó el sync
+                settings_module.settings.load()
+                
+                # Verificar que el tema en el diálogo coincida con el de MainWindow
+                if settings_module.settings.theme != self._CurrentTheme:
+                    settings_module.settings.theme = self._CurrentTheme
+                    settings_module.settings.save()
                 
                 # Connect settings_changed signal to apply changes
                 PrefsDialog.settings_changed.connect(self._OnPreferencesChanged)
@@ -759,10 +835,17 @@ class MainWindow(QMainWindow):
                 return
             with open(path, encoding="utf-8") as f:
                 data = json.load(f)
-            theme    = data.get("theme", "light")
+            theme    = data.get("theme", self._CurrentTheme)
             language = data.get("language", "es")
-            self.SetColor(theme if theme in ("dark", "light") else "light")
-            self.SetLanguage(language if language in ("es", "en", "pt") else "es")
+            
+            # Aplicar tema — solo si cambió
+            if theme in ("dark", "light") and theme != self._CurrentTheme:
+                self.SetColor(theme)
+            
+            # Aplicar idioma — solo si cambió
+            if language in ("es", "en", "pt") and language != self._CurrentLang:
+                self.SetLanguage(language)
+            
             self.AddToHistory("Preferencias actualizadas", FromVoice=False)
         except Exception:
             pass

@@ -9,10 +9,15 @@ _INTEGRATION_DIR = "luigiIntegracionV1"
 
 
 def _gui_roots_from_dav_repo(dav_repo: Path) -> list[Path]:
-    return [
+    candidates = []
+    if dav_repo.name.upper() != "COMPONENTESDAV":
+        candidates.append(dav_repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad")
+    candidates.extend([
+        dav_repo / "IntegracionGUI" / "GUIFreeCad",
         dav_repo / _INTEGRATION_DIR / "GUIFreeCad",
         dav_repo / "GUIFreeCad",
-    ]
+    ])
+    return candidates
 
 
 def _first_gui_root(candidates: list[Path]) -> Path | None:
@@ -23,7 +28,7 @@ def _first_gui_root(candidates: list[Path]) -> Path | None:
 
 
 def _mod_dir() -> Path | None:
-    from scr.gui.mod_paths import get_mod_dir
+    from componentesDAV.Dav.scr.gui.mod_paths import get_mod_dir
 
     text = get_mod_dir()
     return Path(text) if text else None
@@ -42,7 +47,7 @@ def guifreecad_root() -> Path:
         found = _first_gui_root(_gui_roots_from_dav_repo(dav_repo))
         if found is not None:
             return found
-        sibling = mod.parent.parent.parent / "GUIFreeCad"
+        sibling = dav_repo.parent / "GUIFreeCad"
         if sibling.is_dir():
             return sibling
 

@@ -15,9 +15,20 @@ from typing import Any
 
 from core.language_code import LanguageCode
 
-_KEYCHAIN_ROOT = Path(__file__).resolve().parents[4]
+def _find_keychain_root() -> Path:
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        if (parent / "Keychain").is_dir():
+            return parent
+    return here.parents[4]
+
+_KEYCHAIN_ROOT = _find_keychain_root()
 if str(_KEYCHAIN_ROOT) not in sys.path:
     sys.path.insert(0, str(_KEYCHAIN_ROOT))
+
+_gui_parent = str(Path(__file__).resolve().parents[2])
+if _gui_parent not in sys.path:
+    sys.path.insert(0, _gui_parent)
 
 from Keychain.Keychain import Keychain  # noqa: E402
 
