@@ -21,7 +21,7 @@ from .linkActions import link
 
 structure = {
     'part': lambda: Gui.runCommand('Std_Part', 0),
-    'new Group': lambda: Gui.runCommand('Std_Group', 0),
-    'link actions': link,
+    'newgroup':    lambda: Gui.runCommand('Std_Group', 0),
+    'linkactions': link,
     'help':     ayuda,
 }
