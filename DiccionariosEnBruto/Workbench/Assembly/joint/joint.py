@@ -25,6 +25,11 @@ joint = {
     'belt':          lambda: Gui.runCommand('Assembly_CreateJointBelt', 0),
     'gears':         lambda: Gui.runCommand('Assembly_CreateJointGears', 0),
     'rackpinion':    lambda: Gui.runCommand('Assembly_CreateJointRackPinion', 0),
-    'screw':         lambda: Gui.runCommand('Assembly_CreateJointScrew', 0),
-    'help':          ayuda,
+    'screw':        lambda: Gui.runCommand('Assembly_CreateJointScrew', 0),
+    'cylindrical':  lambda: Gui.runCommand('Assembly_CreateJointCylindrical', 0),
+    'distance':     lambda: Gui.runCommand('Assembly_CreateJointDistance', 0),
+    'fixed':        lambda: Gui.runCommand('Assembly_CreateJointFixed', 0),
+    'revolute':     lambda: Gui.runCommand('Assembly_CreateJointRevolute', 0),
+    'slider':       lambda: Gui.runCommand('Assembly_CreateJointSlider', 0),
+    'help':         ayuda,
 }
