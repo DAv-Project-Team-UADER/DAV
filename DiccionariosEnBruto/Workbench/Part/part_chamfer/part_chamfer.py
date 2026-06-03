@@ -14,22 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _chamfer(distance=1.0):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Chamfer", "Chamfer")
-    obj.Size = distance
-
+def _chamfer():
+    """Apply chamfer to the selected Part object with default size 1.0 mm."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Chamfer", "Chamfer")
+    f.Base = sel[0]
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_chamfer = {
-    'chaflan': lambda: _chamfer(),
-    'chaflán': lambda: _chamfer(),
-    'biselar': lambda: _chamfer(),
+    'chaflan': _chamfer,
+    'chaflán': _chamfer,
+    'biselar': _chamfer,
     'help': ayuda,
 }

@@ -1,87 +1,50 @@
+# Copyright (C) 2026 El Equipo del Proyecto DAV
+# Universidad Autónoma de Entre Ríos (UADER)
+# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#
+# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+# bajo los términos de la Licencia Pública General GNU tal como fue publicada
+# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#
+# Este programa se distribuye con la esperanza de que sea útil,
+# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+# Licencia Pública General GNU para más detalles.
+#
+# Deberías haber recibido una copia de la Licencia Pública General GNU
+# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 import Sketcher
-from Common import Finish, GetActiveSketch, RequireGeometry, TryAddConstraint
+from .common import GetActiveSketch, RequireGeometry, TryAddConstraint, Finish
 from .ayuda import ayuda
+from .geometric.geometric import geometric
 
 
-def dimension():
+def _apply(constraint_type, args, min_geom, hint, label):
+    """Apply a dimensional Sketcher constraint to the active sketch.
+
+    Args:
+        constraint_type: Sketcher.Constraint type string (e.g. 'Distance').
+        args: Tuple of positional arguments passed after the type string.
+        min_geom: Minimum number of geometry elements required.
+        hint: Spanish description of required geometry shown on error.
+        label: Label printed on success.
+    """
     doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'una línea'):
-        line = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('Distance', line, 1, line, 2, 15.0))
-        Finish(doc, 'Dimension Constraint')
-
-
-def horizontal():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'una línea'):
-        line = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('DistanceX', line, 1, line, 2, 18.0))
-        Finish(doc, 'Horizontal Dimension')
-
-
-def vertical():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'una línea'):
-        line = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('DistanceY', line, 1, line, 2, 20.0))
-        Finish(doc, 'Vertical Dimension')
-
-
-def angle():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 2, 'dos líneas'):
-        line_one, line_two = 0, 1
-        TryAddConstraint(sketch, Sketcher.Constraint('Coincident', line_one, 1, line_two, 1))
-        TryAddConstraint(sketch, Sketcher.Constraint('Angle', line_one, line_two, 45.0))
-        Finish(doc, 'Angle Dimension')
-
-
-def radius():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'un arco o círculo'):
-        arc = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('Radius', arc, 10.0))
-        Finish(doc, 'Radius Dimension')
-
-
-def diameter():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'un círculo'):
-        circle = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('Diameter', circle, 14.0))
-        Finish(doc, 'Diameter Dimension')
-
-
-def radiam():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'un círculo'):
-        circle = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('Diameter', circle, 14.0))
-        Finish(doc, 'Radius/Diameter Dimension')
-        try:
-            import FreeCADGui as Gui
-            Gui.SendMsgToActiveView('ViewFit')
-        except Exception:
-            pass
-
-
-def distance():
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, 1, 'una línea'):
-        line = 0
-        TryAddConstraint(sketch, Sketcher.Constraint('Distance', line, 1, line, 2, 20.0))
-        Finish(doc, 'Distance Dimension')
+    if doc and sketch and RequireGeometry(sketch, min_geom, hint):
+        TryAddConstraint(sketch, Sketcher.Constraint(constraint_type, *args))
+        Finish(doc, label)
 
 
 constraints = {
-    'dimension':  dimension,
-    'horizontal': horizontal,
-    'vertical':   vertical,
-    'angle':      angle,
-    'radius':     radius,
-    'diameter':   diameter,
-    'radiam':     radiam,
-    'distance':   distance,
+    'dimension':  lambda: _apply('Distance',   (0, 1, 0, 2, 15.0),  1, 'una línea',           'Dimension'),
+    'horizontal': lambda: _apply('DistanceX',  (0, 1, 0, 2, 18.0),  1, 'una línea',           'Horizontal Dimension'),
+    'vertical':   lambda: _apply('DistanceY',  (0, 1, 0, 2, 20.0),  1, 'una línea',           'Vertical Dimension'),
+    'angle':      lambda: _apply('Angle',      (0, 1, 45.0),         2, 'dos líneas',           'Angle Dimension'),
+    'radius':     lambda: _apply('Radius',     (0, 10.0),            1, 'un arco o círculo',   'Radius Dimension'),
+    'diameter':   lambda: _apply('Diameter',   (0, 14.0),            1, 'un círculo',          'Diameter Dimension'),
+    'radiam':     lambda: _apply('Diameter',   (0, 14.0),            1, 'un círculo',          'Radius/Diameter Dimension'),
+    'distance':   lambda: _apply('Distance',   (0, 1, 0, 2, 20.0),  1, 'una línea',           'Distance Dimension'),
+    'geometric':  geometric,
     'help':       ayuda,
 }
-
