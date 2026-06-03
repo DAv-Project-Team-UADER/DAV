@@ -14,15 +14,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCad as Gui
+
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
-array = {
-    "help" : ayuda,
-    "orthogonal" : lambda: Gui.runCommand('Draft_ArrayTools',0),
-    "polar" : lambda: Gui.runCommand('Draft_ArrayTools',1),
-    "path" : lambda: Gui.runCommand('Draft_ArrayTools',3),
-    "pathlink": lambda: Gui.runCommand('Draft_ArrayTools',4),
-    "point" : lambda: Gui.runCommand('Draft_ArrayTools',5),
-    "pointlink" : lambda: Gui.runCommand('Draft_ArrayTools',6),
+bspline = {
+    'create':        lambda: Gui.runCommand('Sketcher_CreateBSpline', 0),
+    'interpolation': lambda: Gui.runCommand('Sketcher_CreateBSplineByInterpolation', 0),
+    'periodic':      lambda: Gui.runCommand('Sketcher_CreatePeriodicBSpline', 0),
+    'periodicinterp': lambda: Gui.runCommand('Sketcher_CreatePeriodicBSplineByInterpolation', 0),
+    'help':          ayuda,
 }

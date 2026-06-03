@@ -17,9 +17,11 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-polygon = {
-    'create pentagon': lambda: Gui.runCommand('Sketcher_CreatePentagon', 0),
-    'create octagon': lambda: Gui.runCommand('Sketcher_CreateOctagon', 0),
-    'create regular polygon': lambda: Gui.runCommand('Sketcher_CreateRegularPolygon', 0),
-    'ayuda':   ayuda
+bspline_tools = {
+    'tonurbs':    lambda: Gui.runCommand('Sketcher_BSplineConvertToNURBS', 0),
+    'decrease':   lambda: Gui.runCommand('Sketcher_BSplineDecreaseDegree', 0),
+    'increase':   lambda: Gui.runCommand('Sketcher_BSplineIncreaseDegree', 0),
+    'knot':       lambda: Gui.runCommand('Sketcher_BSplineInsertKnot', 0),
+    'join':       lambda: Gui.runCommand('Sketcher_BSplineJoinCurve', 0),
+    'help':       ayuda,
 }

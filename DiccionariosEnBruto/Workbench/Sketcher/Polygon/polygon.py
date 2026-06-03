@@ -14,15 +14,12 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-ellipse = {
-    'create by center': lambda: Gui.runCommand('Sketcher_CreateEllipseByCenter', 0),
-    'create by 3 points': lambda: Gui.runCommand('Sketcher_CreateEllipseBy3Points', 0),
-    'arc of ellipse': lambda: Gui.runCommand('Sketcher_CreatePeriodicEllipse', 0),
-    'arc of hyperbola': lambda: Gui.runCommand('Sketcher_CreateArcOfHyperbola', 0),
-    'arc of parabola': lambda: Gui.runCommand('Sketcher_CreateArcOfParabola', 0),
-    'ayuda':   ayuda
+polygon = {
+    'pentagon': lambda: Gui.runCommand('Sketcher_CreatePentagon', 0),
+    'octagon':  lambda: Gui.runCommand('Sketcher_CreateOctagon', 0),
+    'regular':  lambda: Gui.runCommand('Sketcher_CreateRegularPolygon', 0),
+    'help':     ayuda,
 }

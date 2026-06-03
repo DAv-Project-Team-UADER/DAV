@@ -18,10 +18,11 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-bspline = {
-    'create': lambda: Gui.runCommand('Sketcher_CreateBSpline', 0),
-    'interpolation': lambda: Gui.runCommand('Sketcher_CreateBSplineByInterpolation', 0),
-    'periodic': lambda: Gui.runCommand('Sketcher_CreatePeriodicBSpline', 0),
-    'periodic interpolation': lambda: Gui.runCommand('Sketcher_CreatePeriodicBSplineByInterpolation', 0),
-    'ayuda':   ayuda
+ellipse = {
+    'center':     lambda: Gui.runCommand('Sketcher_CreateEllipseByCenter', 0),
+    '3points':    lambda: Gui.runCommand('Sketcher_CreateEllipseBy3Points', 0),
+    'elliptic':   lambda: Gui.runCommand('Sketcher_CreateArcOfEllipse', 0),
+    'hyperbolic': lambda: Gui.runCommand('Sketcher_CreateArcOfHyperbola', 0),
+    'parabolic':  lambda: Gui.runCommand('Sketcher_CreateArcOfParabola', 0),
+    'help':       ayuda,
 }
