@@ -76,6 +76,8 @@ def setup_workbench(workbench) -> None:
         _schedule_autoload_workbench()
         _schedule_dav_ui_bootstrap()
         _schedule_toolbar_refresh()
+        _schedule_report_view()
+        _schedule_settings_watcher()
     except Exception:
         App.Console.PrintError("[DAV] Error al inicializar workbench:\n")
         App.Console.PrintError(traceback.format_exc())
@@ -201,3 +203,85 @@ def _schedule_toolbar_refresh() -> None:
     for delay_ms in (600, 1500):
         QTimer.singleShot(delay_ms, _refresh)
     QTimer.singleShot(2000, _auto_start_voice_if_needed)
+
+
+def _schedule_report_view() -> None:
+    try:
+        from PySide6.QtCore import QTimer
+    except ImportError:
+        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
+
+    def _show() -> None:
+        try:
+            import FreeCADGui as Gui
+            try:
+                from PySide6.QtWidgets import QDockWidget
+            except ImportError:
+                from PySide2.QtWidgets import QDockWidget  # type: ignore[no-redef]
+            mw = Gui.getMainWindow()
+            if mw is None:
+                return
+            for dock in mw.findChildren(QDockWidget):
+                if dock.objectName() in ("Std_ReportView", "Report view", "Informe"):
+                    dock.show()
+                    dock.raise_()
+                    return
+            Gui.runCommand("Std_ReportView", 0)
+        except Exception:
+            pass
+
+    QTimer.singleShot(1000, _show)
+
+
+def _schedule_settings_watcher() -> None:
+    """Watch IntegracionGUI settings.json so changes from InterfazDAV apply to FreeCAD."""
+    try:
+        from PySide6.QtCore import QTimer
+    except ImportError:
+        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
+
+    def _setup() -> None:
+        try:
+            import json
+            import FreeCAD as App
+            try:
+                from PySide6.QtWidgets import QApplication
+            except ImportError:
+                from PySide2.QtWidgets import QApplication  # type: ignore[no-redef]
+
+            from pathlib import Path
+            here = Path(__file__).resolve()
+            repo = here.parents[2]
+            settings_path = repo / "IntegracionGUI" / "GUIFreeCad" / "config" / "settings.json"
+
+            last_mtime: list[float] = [settings_path.stat().st_mtime if settings_path.exists() else 0.0]
+
+            def _poll() -> None:
+                try:
+                    mtime = settings_path.stat().st_mtime if settings_path.exists() else 0.0
+                    if mtime == last_mtime[0]:
+                        return
+                    last_mtime[0] = mtime
+                    with open(settings_path, encoding="utf-8") as fh:
+                        data = json.load(fh)
+                    app = QApplication.instance()
+                    if app is not None:
+                        dav_cmds = importlib.import_module("scr.gui.dav_commands")
+                        dav_cmds._ensure_gui_path()
+                        from ui.theme import apply_theme
+                        apply_theme(app, data.get("theme", "light"))
+                    App.Console.PrintMessage(
+                        f"[DAV] Preferencias actualizadas "
+                        f"(idioma={data.get('language','?')}, tema={data.get('theme','?')}).\n"
+                    )
+                except Exception:
+                    pass
+
+            poll_timer = QTimer()
+            poll_timer.timeout.connect(_poll)
+            poll_timer.start(1000)
+            App.__dav_settings_poll_timer = poll_timer  
+        except Exception:
+            pass
+
+    QTimer.singleShot(1500, _setup)

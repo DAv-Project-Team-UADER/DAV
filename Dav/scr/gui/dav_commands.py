@@ -62,6 +62,24 @@ def _ensure_gui_path() -> Path:
     return root
 
 
+def _show_report_view() -> None:
+    try:
+        import FreeCADGui as Gui
+        from PySide6.QtWidgets import QDockWidget
+        mw = Gui.getMainWindow()
+        if mw is None:
+            return
+        for dock in mw.findChildren(QDockWidget):
+            if dock.objectName() in ("Std_ReportView", "Report view", "Informe"):
+                dock.show()
+                dock.raise_()
+                return
+        # Fallback: use FreeCAD command to open it
+        Gui.runCommand("Std_ReportView", 0)
+    except Exception:
+        pass
+
+
 class DAV_OpenPreferencesCommand:
     def GetResources(self):
         return {
@@ -145,6 +163,28 @@ def _find_system_python() -> str:
     return _sys.executable
 
 
+def _find_pythonw(python_path: str) -> str:
+    p = Path(python_path)
+    candidate = p.parent / "pythonw.exe"
+    return str(candidate) if candidate.exists() else python_path
+
+
+_INTERFAZ_WINDOW_TITLE = "Asistente de Voz - Control por Comandos"
+
+
+def _bring_interfaz_to_front() -> bool:
+    try:
+        import ctypes
+        hwnd = ctypes.windll.user32.FindWindowW(None, _INTERFAZ_WINDOW_TITLE)
+        if hwnd:
+            ctypes.windll.user32.ShowWindow(hwnd, 9)   # SW_RESTORE
+            ctypes.windll.user32.SetForegroundWindow(hwnd)
+            return True
+    except Exception:
+        pass
+    return False
+
+
 def _launch_interfaz_dav() -> None:
     global _interfaz_proc
     import subprocess
@@ -160,34 +200,29 @@ def _launch_interfaz_dav() -> None:
         except ImportError:
             print(f"[DAV] InterfazDAV no encontrado en: {script}")
         return
-    if _interfaz_proc is not None and _interfaz_proc.poll() is None:
+    if _bring_interfaz_to_front():
         try:
             import FreeCAD as App
-            App.Console.PrintMessage("[DAV] InterfazDAV ya esta corriendo.\n")
+            App.Console.PrintMessage("[DAV] InterfazDAV ya esta corriendo — traida al frente.\n")
         except ImportError:
-            print("[DAV] InterfazDAV ya esta corriendo.")
+            print("[DAV] InterfazDAV ya esta corriendo — traida al frente.")
         return
     python = _find_system_python()
+    pythonw = _find_pythonw(python)
     bat_path = script.parent / "run_interfaz.bat"
-    
     try:
         with open(bat_path, "w", encoding="utf-8") as f:
-            f.write(f'@echo off\n')
+            f.write('@echo off\n')
             f.write(f'cd /d "{script.parent}"\n')
-            f.write(f'"{python}" "{script}"\n')
-            f.write(f'pause\n')
+            f.write(f'start "" "{pythonw}" "{script}"\n')
     except Exception as e:
         try:
             import FreeCAD as App
-            App.Console.PrintError(f"[DAV] No se pudo crear el archivo batch: {e}\n")
+            App.Console.PrintError(f"[DAV] No se pudo crear el bat: {e}\n")
         except ImportError:
-            print(f"[DAV] No se pudo crear el archivo batch: {e}")
+            print(f"[DAV] No se pudo crear el bat: {e}")
         return
-
-    import subprocess
-    _interfaz_proc = subprocess.Popen(
-        ["explorer.exe", str(bat_path)]
-    )
+    _interfaz_proc = subprocess.Popen(["explorer.exe", str(bat_path)])
 
 
 def register_commands() -> None:

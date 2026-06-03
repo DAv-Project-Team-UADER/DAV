@@ -100,6 +100,7 @@ class MainWindow(QMainWindow):
         self.SetLanguage(lang)
         self._SetupUi()
         self._StartVoiceRecognition()
+        self._StartSettingsWatcher()
 
     def SetColor(self, Mode: str):
         self._T = LIGHT if Mode == "light" else DARK
@@ -114,6 +115,11 @@ class MainWindow(QMainWindow):
         self._LoadVoiceMap()
         if hasattr(self, '_ToolRow'):
             self._RebuildButtons()
+        if hasattr(self, '_ListenLabel'):
+            L = self._Texts
+            self._ListenLabel.setText(L["section_listen"])
+            self._ModelLabel.setText(L["section_model"])
+            self._HistLabel.setText(L["section_history"])
 
     def _MicQss(self, Color: str) -> str:
         T = self._T
@@ -745,37 +751,44 @@ class MainWindow(QMainWindow):
             )
 
     def _OnPreferencesChanged(self):
-        """Apply preferences changes to the interface."""
+        """Apply preferences from the shared settings.json."""
         try:
-            import importlib.util
-            
-            CurrentDir = os.path.dirname(os.path.abspath(__file__))
-            DavDir = os.path.dirname(CurrentDir)
-            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
-            SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
-            
-            if GUIFreeCadPath not in sys.path:
-                sys.path.insert(0, GUIFreeCadPath)
-            
-            try:
-                # Load settings to get current theme
-                spec_settings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
-                settings_module = importlib.util.module_from_spec(spec_settings)
-                spec_settings.loader.exec_module(settings_module)
-                settings = settings_module.settings
-                
-                # Apply theme only (as requested)
-                if settings.theme == "dark":
-                    self.SetColor("dark")
-                else:
-                    self.SetColor("light")
-                    
-                self.AddToHistory("Preferencias actualizadas", FromVoice=False)
-            finally:
-                if GUIFreeCadPath in sys.path:
-                    sys.path.remove(GUIFreeCadPath)
-        except Exception as e:
-            pass  # Silently fail if can't apply changes
+            import json
+            path = self._SettingsPath()
+            if not os.path.exists(path):
+                return
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+            theme    = data.get("theme", "light")
+            language = data.get("language", "es")
+            self.SetColor(theme if theme in ("dark", "light") else "light")
+            self.SetLanguage(language if language in ("es", "en", "pt") else "es")
+            self.AddToHistory("Preferencias actualizadas", FromVoice=False)
+        except Exception:
+            pass
+
+    def _SettingsPath(self) -> str:
+        DavDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad", "config", "settings.json")
+
+    def _StartSettingsWatcher(self):
+        """Poll settings.json every second; apply if the file changed since last check."""
+        self._settings_mtime = self._ReadSettingsMtime()
+        self._settings_poll = QTimer(self)
+        self._settings_poll.timeout.connect(self._PollSettings)
+        self._settings_poll.start(1000)
+
+    def _ReadSettingsMtime(self) -> float:
+        try:
+            return os.path.getmtime(self._SettingsPath())
+        except OSError:
+            return 0.0
+
+    def _PollSettings(self):
+        mtime = self._ReadSettingsMtime()
+        if mtime != self._settings_mtime:
+            self._settings_mtime = mtime
+            self._OnPreferencesChanged()
 
     def OpenHelpWindow(self):
         if self._HelpWindow is None:
