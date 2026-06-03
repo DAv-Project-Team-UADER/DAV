@@ -1,18 +1,5 @@
-#  Copyright (C) 2026 The DAV Project Team-                                 |#  Copyright (C) 2026 El Equipo del Proyecto DAV
-#  Universidad Autónoma de Entre Ríos (UADER)                               |#  Universidad Autónoma de Entre Ríos (UADER)
-#  Directed by Gerard Guillermo and Gallo Fabricio David                    |#  Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#                                                                           |#
-#  This program is free software: you can redistribute it and/or modify     |#  Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-#  it under the terms of the GNU General Public License as published by     |#  bajo los términos de la Licencia Pública General GNU tal como fue publicada 
-#  the Free Software Foundation, in GLPv3 version  of the License           |#  por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#                                                                           |#
-#  This program is distributed in the hope that it will be useful,          |#  Este programa se distribuye con la esperanza de que sea útil,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of           |#  pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            |#  MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-#  GNU General Public License for more details.                             |#  Licencia Pública General GNU para más detalles.
-#                                                                           |#
-#  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
+# MainWindow.py
+# Asistente de Voz con captura automática del árbol de FreeCAD (cada 5 segundos)
 
 import os
 import sys
@@ -24,7 +11,7 @@ from PySide6.QtWidgets import (
     QTextEdit, QPushButton, QLabel, QSizePolicy, QMessageBox
 )
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush
+from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush, QPixmap
 from PySide6.QtSvgWidgets import QSvgWidget
 
 _here = os.path.dirname(os.path.abspath(__file__))
@@ -81,6 +68,8 @@ def _DetectFreeCADTheme() -> str:
         return "dark" if luminance < 0.5 else "light"
     except Exception:
         return "light"
+# Importar trigger de captura (también instala la macro automáticamente)
+import trigger_capture
 
 # ================================================================
 # HELPERS
@@ -118,7 +107,7 @@ def _RawValueToGroupKey(RawValue: str):
 
 
 # ================================================================
-# BUTTON LEVEL — controls which set of buttons is currently shown
+# BUTTON LEVEL
 # ================================================================
 
 LEVEL_ROOT  = "root"
@@ -148,10 +137,28 @@ class MainWindow(QMainWindow):
         self._GroupMeta    = {}
         self._VoiceMap     = {}
 
+        # Variables para la imagen del árbol
+        self._TreeImageLabel = None
+        self._last_image_mtime = None
+        self._macro_checked = False
+
         self.SetColor(color)
         self.SetLanguage(lang)
         self._SetupUi()
         self._StartVoiceRecognition()
+        
+        # Timer para auto-refrescar la imagen (cada 2 segundos)
+        self._RefreshTimer = QTimer()
+        self._RefreshTimer.timeout.connect(self._RefreshTreeImage)
+        self._RefreshTimer.start(2000)
+        
+        # Timer para auto-capturar (cada 5 SEGUNDOS)
+        self._CaptureTimer = QTimer()
+        self._CaptureTimer.timeout.connect(self._AutoCapture)
+        self._CaptureTimer.start(5000)
+        
+        # Verificar estado de la macro después de 3 segundos
+        QTimer.singleShot(3000, self._CheckMacroStatus)
         self._StartSettingsWatcher()
 
     def SetColor(self, Mode: str):
@@ -167,6 +174,8 @@ class MainWindow(QMainWindow):
         self._LoadVoiceMap()
         if hasattr(self, '_ToolRow'):
             self._RebuildButtons()
+        if hasattr(self, '_ModelLabel'):
+            self._ModelLabel.setText("Árbol de FreeCAD")
         if hasattr(self, '_ListenLabel'):
             L = self._Texts
             self._ListenLabel.setText(L["section_listen"])
@@ -318,7 +327,6 @@ class MainWindow(QMainWindow):
             else:
                 Btn.setText("?")
             
-            # Connect button handlers
             if IconFile == "configuraciones.svg":
                 Btn.clicked.connect(self._OpenPreferences)
             
@@ -357,19 +365,29 @@ class MainWindow(QMainWindow):
         PanelRow = QHBoxLayout()
         PanelRow.setSpacing(40)
 
-        ModelCol = QVBoxLayout()
-        ModelCol.setSpacing(4)
-        self._ModelLabel = QLabel(L["section_model"])
+        # ============================================================
+        # PANEL DEL ÁRBOL DE FREECAD
+        # ============================================================
+        TreeCol = QVBoxLayout()
+        TreeCol.setSpacing(4)
+        
+        self._ModelLabel = QLabel("Árbol de FreeCAD")
         self._ModelLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
-        ModelCol.addWidget(self._ModelLabel)
-        self._ModelPanel = QTextEdit()
-        self._ModelPanel.setReadOnly(True)
-        self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
-        self._ModelPanel.setMinimumHeight(160)
-        ModelCol.addWidget(self._ModelPanel, stretch=1)
-        PanelRow.addLayout(ModelCol, stretch=1)
+        TreeCol.addWidget(self._ModelLabel)
+        
+        self._TreeImageLabel = QLabel()
+        self._TreeImageLabel.setAlignment(Qt.AlignCenter)
+        self._TreeImageLabel.setMinimumHeight(160)
+        self._TreeImageLabel.setScaledContents(False)
+        self._ShowPlaceholderImage()
+        TreeCol.addWidget(self._TreeImageLabel, stretch=1)
+        
+        PanelRow.addLayout(TreeCol, stretch=1)
 
+        # ============================================================
+        # PANEL DE HISTORIAL
+        # ============================================================
         HistCol = QVBoxLayout()
         HistCol.setSpacing(4)
         self._HistLabel = QLabel(L["section_history"])
@@ -400,8 +418,79 @@ class MainWindow(QMainWindow):
 
         self._LoadGroupMeta()
         self._LoadVoiceMap()
-        self._PopulateModel()
         self._ShowRootButtons()
+
+    def _ShowPlaceholderImage(self):
+        if self._TreeImageLabel:
+            placeholder_text = "🌳 Árbol de FreeCAD\n\n"
+            placeholder_text += "📸 Captura automática cada 5 segundos\n\n"
+            placeholder_text += "Requisitos:\n"
+            placeholder_text += "1. FreeCAD ABIERTO\n"
+            placeholder_text += "2. Macro 'capture_tree' ejecutándose\n"
+            placeholder_text += "   (Macro → Macros → capture_tree → Ejecutar)\n\n"
+            placeholder_text += "⏳ Esperando primera captura..."
+            self._TreeImageLabel.setText(placeholder_text)
+            self._TreeImageLabel.setStyleSheet(f"""
+                background-color: {self._T['panel']};
+                border: 1.5px solid {self._T['panel_border']};
+                color: {self._T['dark_text']};
+                font-family: {FONT_SANS};
+                font-size: 11px;
+                padding: 20px;
+            """)
+
+    def _CheckMacroStatus(self):
+        """Verifica si la macro está respondiendo y muestra ayuda si es necesario"""
+        image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
+        
+        if not os.path.exists(image_path) or os.path.getsize(image_path) == 0:
+            self.AddToHistory("💡 Configuración necesaria para la captura del árbol:", System=True)
+            self.AddToHistory("   1. Abre FreeCAD", System=True)
+            self.AddToHistory("   2. Macro → Macros → capture_tree → Ejecutar", System=True)
+            self.AddToHistory("   3. La macro se quedará ejecutándose en segundo plano", System=True)
+            self.AddToHistory("   4. La imagen se actualizará automáticamente cada 5 segundos", System=True)
+            self._TriggerFlash()
+
+    def _AutoCapture(self):
+        """Ejecuta captura automática cada 5 segundos (solo envía señal)"""
+        try:
+            success = trigger_capture.trigger_capture()
+            if success:
+                print("[OK] Captura automatica exitosa")
+        except Exception as e:
+            print(f"[ERROR] Error en captura: {e}")
+
+    def _RefreshTreeImage(self):
+        """Actualiza la imagen del árbol si cambió"""
+        image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
+        
+        if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
+            current_mtime = os.path.getmtime(image_path)
+            if self._last_image_mtime == current_mtime:
+                return
+            
+            self._last_image_mtime = current_mtime
+            
+            pixmap = QPixmap(image_path)
+            if not pixmap.isNull():
+                label_width = self._TreeImageLabel.width() - 20
+                label_height = self._TreeImageLabel.height() - 20
+                if label_width > 0 and label_height > 0:
+                    scaled_pixmap = pixmap.scaled(
+                        label_width,
+                        label_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self._TreeImageLabel.setPixmap(scaled_pixmap)
+                else:
+                    self._TreeImageLabel.setPixmap(pixmap)
+                
+                self._TreeImageLabel.setStyleSheet(f"""
+                    background-color: {self._T['panel']};
+                    border: 1.5px solid {self._T['panel_border']};
+                    padding: 5px;
+                """)
 
     def _LoadGroupMeta(self):
         self._GroupMeta = {}
@@ -546,7 +635,7 @@ class MainWindow(QMainWindow):
             self.AddToHistory(f"Volver (desde {PrevGroup})", FromVoice=False)
 
     # ================================================================
-    # Theme / Model
+    # Theme / Tree Image Update
     # ================================================================
 
     def ToggleTheme(self):
@@ -563,8 +652,25 @@ class MainWindow(QMainWindow):
         self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
         self._ListenLabel.setStyleSheet(f"color: {T['black']};")
         self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
+        
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
-        self._ModelPanel.setStyleSheet(self._PanelQss(FONT_SANS, T["black"], 10, Weight=500))
+        if self._TreeImageLabel:
+            if self._TreeImageLabel.pixmap():
+                self._TreeImageLabel.setStyleSheet(f"""
+                    background-color: {T['panel']};
+                    border: 1.5px solid {T['panel_border']};
+                    padding: 5px;
+                """)
+            else:
+                self._TreeImageLabel.setStyleSheet(f"""
+                    background-color: {T['panel']};
+                    border: 1.5px solid {T['panel_border']};
+                    color: {T['dark_text']};
+                    font-family: {FONT_SANS};
+                    font-size: 11px;
+                    padding: 20px;
+                """)
+        
         self._HistLabel.setStyleSheet(f"color: {T['black']};")
         self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
         self._HelpButton.setStyleSheet(self._BtnQss())
@@ -572,38 +678,6 @@ class MainWindow(QMainWindow):
             Btn.setStyleSheet(self._BtnQss())
         if hasattr(self, '_ToolAreaLayout'):
             self._RebuildButtons()
-        self._PopulateModel()
-
-    def _PopulateModel(self):
-        self._ModelPanel.clear()
-        Cursor = self._ModelPanel.textCursor()
-        Fmt = QTextCharFormat()
-        Fmt.setFontWeight(QFont.Medium)
-        Fmt.setFontFamily(FONT_SANS)
-        Fmt.setFontPointSize(10)
-        Fmt.setForeground(QBrush(QColor(self._T["black"])))
-        for Part in MODEL_PARTS:
-            Cursor.insertText(Part + "\n", Fmt)
-        self._ModelPanel.setTextCursor(Cursor)
-
-    def _HighlightModelPart(self, PartName: str) -> bool:
-        T   = self._T
-        Doc = self._ModelPanel.document()
-        ClearFmt = QTextCharFormat()
-        ClearFmt.setBackground(QBrush(QColor(T["panel"])))
-        ClearFmt.setForeground(QBrush(QColor(T["black"])))
-        AllCursor = QTextCursor(Doc)
-        AllCursor.select(QTextCursor.Document)
-        AllCursor.mergeCharFormat(ClearFmt)
-        HighFmt = QTextCharFormat()
-        HighFmt.setBackground(QBrush(QColor(T["highlight"])))
-        HighFmt.setForeground(QBrush(QColor(T["black"])))
-        Cursor = Doc.find(PartName)
-        if not Cursor.isNull():
-            Cursor.mergeCharFormat(HighFmt)
-            self._ModelPanel.setTextCursor(Cursor)
-            return True
-        return False
 
     # ================================================================
     # Flash overlay
@@ -621,6 +695,11 @@ class MainWindow(QMainWindow):
     def _StartVoiceRecognition(self):
         BaseDir   = os.path.dirname(os.path.abspath(__file__))
         ModelPath = os.path.join(BaseDir, "vosk-model-small-es-0.42")
+        
+        if not os.path.exists(ModelPath):
+            print(f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado")
+            return
+        
         self.voice_worker = VoiceWorker(model_path=ModelPath)
         self.voice_thread = threading.Thread(target=self.voice_worker.run, daemon=True)
         self.voice_worker.partial_result.connect(self.UpdateCurrentText)
@@ -726,13 +805,17 @@ class MainWindow(QMainWindow):
         Step = Scrollbar.singleStep() * 5
         Scrollbar.setValue(Scrollbar.value() + (-Step if Up else Step))
 
-    def AddToHistory(self, Text: str, Unknown: bool = False, FromVoice: bool = True):
+    def AddToHistory(self, Text: str, Unknown: bool = False, FromVoice: bool = True, System: bool = False):
         T         = self._T
         L         = self._Texts
         Timestamp = datetime.now().strftime("%H:%M:%S")
-        Color     = T["red"] if Unknown else T["green"]
-        Source    = "Voz" if FromVoice else "Btn"
-        Display   = f"{L['unknown']}: {Text}" if Unknown else f"[{Source}] {Text.upper()}"
+        if System:
+            Color   = T["dark_text"]
+            Display = Text
+        else:
+            Color     = T["red"] if Unknown else T["green"]
+            Source    = "Voz" if FromVoice else "Btn"
+            Display   = f"{L['unknown']}: {Text}" if Unknown else f"[{Source}] {Text.upper()}"
         Html = (
             f'<span style="color:{T["dark_text"]}; font-family:{FONT_MONO};'
             f' font-size:12px; font-weight:600;">[{Timestamp}]&nbsp;</span>'
@@ -743,7 +826,7 @@ class MainWindow(QMainWindow):
         Cursor = self._HistoryList.textCursor()
         Cursor.movePosition(QTextCursor.End)
         self._HistoryList.setTextCursor(Cursor)
-        if not Unknown:
+        if not Unknown and not System:
             QTimer.singleShot(0, self._TriggerFlash)
 
     def _OpenPreferences(self):
@@ -752,16 +835,13 @@ class MainWindow(QMainWindow):
             import importlib.util
             import json
             
-            # Get path to preferences_dialog.py
-            # MainWindow.py is in DAV/InterfazDAV/, so dirname twice gets us to DAV/
-            CurrentDir = os.path.dirname(os.path.abspath(__file__))  # DAV/InterfazDAV
-            DavDir = os.path.dirname(CurrentDir)  # DAV/
+            CurrentDir = os.path.dirname(os.path.abspath(__file__))
+            DavDir = os.path.dirname(CurrentDir)
             GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
             PreferenceDialogPath = os.path.join(GUIFreeCadPath, "ui", "preferences_dialog.py")
             SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
             ConfigPath = os.path.join(GUIFreeCadPath, "config", "settings.json")
             
-            # Add GUIFreeCad to path so preferences_dialog can import its dependencies
             if GUIFreeCadPath not in sys.path:
                 sys.path.insert(0, GUIFreeCadPath)
             
@@ -793,13 +873,11 @@ class MainWindow(QMainWindow):
                 sys.modules["settings"] = settings_module
                 spec_settings.loader.exec_module(settings_module)
                 
-                # Load preferences_dialog module
                 spec = importlib.util.spec_from_file_location("preferences_dialog", PreferenceDialogPath)
                 prefs_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(prefs_module)
                 PreferencesDialog = prefs_module.PreferencesDialog
                 
-                # Create preferences dialog
                 PrefsDialog = PreferencesDialog(self)
                 
                 # Reload settings para asegurar que se aplicó el sync
@@ -809,14 +887,15 @@ class MainWindow(QMainWindow):
                 if settings_module.settings.theme != self._CurrentTheme:
                     settings_module.settings.theme = self._CurrentTheme
                     settings_module.settings.save()
+                settings = settings_module.settings
+                if settings.theme == "dark":
+                    self.SetColor("dark")
+                else:
+                    self.SetColor("light")
                 
-                # Connect settings_changed signal to apply changes
                 PrefsDialog.settings_changed.connect(self._OnPreferencesChanged)
-                
-                # Show dialog
                 PrefsDialog.exec()
             finally:
-                # Clean up sys.path
                 if GUIFreeCadPath in sys.path:
                     sys.path.remove(GUIFreeCadPath)
         except Exception as e:
@@ -829,6 +908,33 @@ class MainWindow(QMainWindow):
     def _OnPreferencesChanged(self):
         """Apply preferences from the shared settings.json."""
         try:
+            import importlib.util
+            
+            CurrentDir = os.path.dirname(os.path.abspath(__file__))
+            DavDir = os.path.dirname(CurrentDir)
+            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
+            SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
+            
+            if GUIFreeCadPath not in sys.path:
+                sys.path.insert(0, GUIFreeCadPath)
+            
+            try:
+                spec_settings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
+                settings_module = importlib.util.module_from_spec(spec_settings)
+                spec_settings.loader.exec_module(settings_module)
+                settings = settings_module.settings
+                
+                if settings.theme == "dark":
+                    self.SetColor("dark")
+                else:
+                    self.SetColor("light")
+                    
+                self.AddToHistory("Preferencias actualizadas", FromVoice=False)
+            finally:
+                if GUIFreeCadPath in sys.path:
+                    sys.path.remove(GUIFreeCadPath)
+        except Exception as e:
+            pass
             import json
             path = self._SettingsPath()
             if not os.path.exists(path):
@@ -892,6 +998,20 @@ class MainWindow(QMainWindow):
         super().resizeEvent(Event)
         if hasattr(self, '_Flash'):
             self._Flash.setGeometry(self.centralWidget().rect())
+        
+        if hasattr(self, '_TreeImageLabel') and self._TreeImageLabel:
+            current_pixmap = self._TreeImageLabel.pixmap()
+            if current_pixmap and not current_pixmap.isNull():
+                label_width = self._TreeImageLabel.width() - 20
+                label_height = self._TreeImageLabel.height() - 20
+                if label_width > 0 and label_height > 0:
+                    scaled_pixmap = current_pixmap.scaled(
+                        label_width,
+                        label_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self._TreeImageLabel.setPixmap(scaled_pixmap)
 
     def closeEvent(self, Event):
         if hasattr(self, 'voice_worker'):
