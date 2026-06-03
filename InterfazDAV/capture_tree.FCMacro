@@ -1,0 +1,81 @@
+# capture_tree.FCMacro
+# Macro en modo escucha - se ejecuta UNA VEZ y se queda esperando señales
+
+import FreeCADGui as Gui
+import os
+import json
+from PySide import QtCore, QtGui
+
+# Ruta del archivo de señal
+signal_file = r"C:\Users\Furor Fungi\Documents\GitHub\DAV\InterfazDAV\capture_signal.json"
+image_path = r"C:\Users\Furor Fungi\Documents\GitHub\DAV\InterfazDAV\tree_capture.png"
+
+waiting = False
+
+def capture_tree():
+    """Captura el árbol del modelo de FreeCAD"""
+    try:
+        mw = Gui.getMainWindow()
+        if not mw:
+            return {"success": False, "error": "No main window"}
+        
+        # Buscar el Combo View
+        combo_view = None
+        for dock in mw.findChildren(QtGui.QDockWidget):
+            if "Combo" in dock.windowTitle() or "Model" in dock.windowTitle():
+                combo_view = dock
+                break
+        
+        if combo_view:
+            pixmap = combo_view.grab()
+        else:
+            # Fallback: buscar TreeView más grande
+            all_tv = mw.findChildren(QtGui.QTreeView)
+            best = None
+            best_area = 0
+            for tv in all_tv:
+                if tv.objectName() != "propertyEditorView":
+                    area = tv.width() * tv.height()
+                    if area > best_area:
+                        best_area = area
+                        best = tv
+            if best:
+                pixmap = best.grab()
+            else:
+                return {"success": False, "error": "No tree view found"}
+        
+        pixmap.save(image_path, "PNG")
+        return {"success": True, "path": image_path}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+def check_signal():
+    global waiting
+    if waiting:
+        return
+    
+    if os.path.exists(signal_file):
+        try:
+            with open(signal_file, 'r') as f:
+                data = json.load(f)
+            
+            if data.get("command") == "capture":
+                waiting = True
+                print("📸 Señal recibida, capturando...")
+                result = capture_tree()
+                with open(signal_file, 'w') as f:
+                    json.dump({"status": "done", "result": result}, f)
+                waiting = False
+        except:
+            pass
+
+# Iniciar timer
+timer = QtCore.QTimer()
+timer.timeout.connect(check_signal)
+timer.start(500)  # Revisar cada 0.5 segundos
+
+print("="*50)
+print("🟢 Macro en modo escucha iniciada")
+print("📁 Esperando señal en:", signal_file)
+print("🖼️ Imagen se guardará en:", image_path)
+print("="*50)
