@@ -14,23 +14,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _offset(distance=1.0):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Offset", "Offset")
-    obj.Value = distance
-
+def _offset():
+    """Apply a 3D offset of 1.0 mm to the selected Part object."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Offset3D", "Offset3D")
+    f.Source = sel[0]
+    f.Value = 1.0
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_offset = {
-    'desfase': lambda: _offset(),
-    'offset': lambda: _offset(),
-    'ensanchar': lambda: _offset(),
-    'encoger': lambda: _offset(-1.0),
+    'desfase': _offset,
+    'offset': _offset,
+    'ensanchar': _offset,
+    'encoger': _offset,
     'help': ayuda,
 }

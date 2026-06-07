@@ -16,10 +16,10 @@ from .ayuda import ayuda
 
 views = {
     'view': lambda: Gui.runCommand('TechDraw_View', 0),
-    'detailView': lambda: Gui.runCommand('TechDraw_DetailView', 0),
-    'brokenView': lambda: Gui.runCommand('TechDraw_BrokenView', 0),
-    'clipGroup': lambda: Gui.runCommand('TechDraw_ClipGroup', 0),
-    'complexSection': lambda: Gui.runCommand('TechDraw_ComplexSection', 0),
+    'detailview': lambda: Gui.runCommand('TechDraw_DetailView', 0),
+    'brokenview': lambda: Gui.runCommand('TechDraw_BrokenView', 0),
+    'clipgroup': lambda: Gui.runCommand('TechDraw_ClipGroup', 0),
+    'complexsection': lambda: Gui.runCommand('TechDraw_ComplexSection', 0),
     'draft': lambda: Gui.runCommand('TechDraw_DraftView', 0),
     'spreadsheet': lambda: Gui.runCommand('TechDraw_SpreadsheetView', 0),
     'help': ayuda

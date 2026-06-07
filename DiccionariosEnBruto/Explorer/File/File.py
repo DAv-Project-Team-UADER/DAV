@@ -26,7 +26,9 @@ file = {
     'savecopy': lambda: Gui.runCommand('Std_SaveCopy', 0),
     'revert':   lambda: Gui.runCommand('Std_Revert', 0),
     'merge':    lambda: Gui.runCommand('Std_MergeProjects', 0),
-    'import':   lambda: Gui.runCommand('Std_Import', 0),
-    'export':   lambda: Gui.runCommand('Std_Export', 0),
-    'help':     ayuda,
+    'import':     lambda: Gui.runCommand('Std_Import', 0),
+    'export':     lambda: Gui.runCommand('Std_Export', 0),
+    'recent':     lambda: Gui.runCommand('Std_RecentFiles', 0),
+    'loadimage':  lambda: Gui.runCommand('Std_ViewLoadImage', 0),
+    'help':       ayuda,
 }

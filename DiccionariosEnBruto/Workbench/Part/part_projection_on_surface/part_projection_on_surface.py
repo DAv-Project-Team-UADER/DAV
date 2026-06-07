@@ -14,21 +14,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _project_on_surface():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::ProjectionOnSurface", "Projection")
-
+def _projection_on_surface():
+    """Project the selected shape onto a target surface via the Part API."""
+    sel = Gui.Selection.getSelection()
+    if len(sel) < 2:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::ProjectionOnSurface", "ProjectionOnSurface")
+    f.SupportObject = sel[0]
+    for obj in sel[1:]:
+        f.addProjectedObject(obj, "All")
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_projection_on_surface = {
-    'proyectar dibujo': lambda: _project_on_surface(),
-    'proyectar': lambda: _project_on_surface(),
-    'projection': lambda: _project_on_surface(),
+    'proyectar dibujo': _projection_on_surface,
+    'proyectar': _projection_on_surface,
+    'projection': _projection_on_surface,
     'help': ayuda,
 }

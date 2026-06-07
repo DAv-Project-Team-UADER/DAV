@@ -18,8 +18,8 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 
 addLines = {
-    'twoLines': lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),
-    'twoPoints': lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),
+    'twolines': lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),
+    'twopoints': lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),
     'cosmetic': lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),
     'decorate': lambda: Gui.runCommand('TechDraw_DecorateLine', 0),
     'center': lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),

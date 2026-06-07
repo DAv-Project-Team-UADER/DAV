@@ -24,17 +24,22 @@ from .modify.modify import modify
 from .dimension.dimension import dimension
 from .ellipse.ellipse import ellipse
 from .facebinder.facebinder import facebinder
+from .Drafting.drafting import drafting
+from .creation.creation import creation
+from .modification.modification import modification
 from .ayuda import ayuda
 
-draft = {
-    'annotation': annotation,
-    'arc': arc,
-    'curve': curve,
-    'circle': circle,
-    'array': array,
-    'modify': modify,
-    'dimension': dimension,
-    'ellipse': ellipse,
-    'facebinder': facebinder,
-    'help': ayuda,
-}
+draft = {}
+draft.update(annotation)
+draft.update(arc)
+draft.update(curve)
+draft.update(circle)
+draft.update(array)
+draft.update(modify)
+draft.update(dimension)
+draft.update(ellipse)
+draft.update(facebinder)
+draft.update(drafting)
+draft.update(creation)
+draft.update(modification)
+draft.update({'help': ayuda})

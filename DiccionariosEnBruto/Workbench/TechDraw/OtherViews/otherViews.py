@@ -1,7 +1,7 @@
 import FreeCADGui as Gui
-from .help import help
+from .ayuda import ayuda
 
 other_views = {
     'active_view': lambda: Gui.runCommand('TechDraw_ActiveView', 0),
-    'help': help
+    'help': ayuda
 }

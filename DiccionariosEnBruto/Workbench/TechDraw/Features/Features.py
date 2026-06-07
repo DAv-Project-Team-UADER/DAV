@@ -15,10 +15,12 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from .ayuda import ayuda
 
 # Diccionario del subgrupo Features (Anotaciones, imágenes e inserciones de plantillas)
 features = {
     'fields': lambda: Gui.runCommand('TechDraw_FillTemplateFields', 0),
     'image': lambda: Gui.runCommand('TechDraw_Image', 0),
-    'symbol': lambda: Gui.runCommand('TechDraw_Symbol', 0)
+    'symbol': lambda: Gui.runCommand('TechDraw_Symbol', 0),
+    'help': ayuda
 }
