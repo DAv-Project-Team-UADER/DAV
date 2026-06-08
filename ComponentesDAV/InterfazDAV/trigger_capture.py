@@ -147,8 +147,6 @@ def trigger_capture(timeout=5):
     
     return False
 
-# Al importar este módulo, asegurar que la macro esté instalada
-ensure_macro_installed()
 
 if __name__ == "__main__":
     success = trigger_capture()
