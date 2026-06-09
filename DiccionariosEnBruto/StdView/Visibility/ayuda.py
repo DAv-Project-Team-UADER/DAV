@@ -33,3 +33,4 @@ def ayuda():
     print("  selectability: Alterna la capacidad de selección (selectability) de los objetos elegidos. | Req: Objetos seleccionados en el árbol.")
     print("  transparency: Alterna la transparencia de los objetos seleccionados. | Req: Objetos seleccionados.")
     print("  toggle: Alterna la visibilidad de los objetos seleccionados. | Req: Tener uno o más objetos seleccionados en el árbol o en la vi")
+    print("  aligntoselection: Reorienta la cámara de la vista 3D de forma perpendicular a la superficie seleccionada. | Req: Una vista 3D activa y una cara o elemento seleccionado.")

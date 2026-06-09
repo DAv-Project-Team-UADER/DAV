@@ -14,7 +14,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCad as Gui
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 creation = {

@@ -15,6 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from .ayuda import ayuda
 
 # Diccionario del subgrupo Page (Gestión de lienzos de planos y salidas)
 page = {
@@ -23,5 +24,6 @@ page = {
     'redraw': lambda: Gui.runCommand('TechDraw_RedrawPage', 0),
     'print': lambda: Gui.runCommand('TechDraw_PrintAll', 0),
     'dxf': lambda: Gui.runCommand('TechDraw_ExportPageDXF', 0),
-    'svg': lambda: Gui.runCommand('TechDraw_ExportPageSVG', 0)
+    'svg': lambda: Gui.runCommand('TechDraw_ExportPageSVG', 0),
+    'help': ayuda
 }

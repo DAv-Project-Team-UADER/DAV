@@ -16,21 +16,25 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Visibility
 visibility = {
-    'hideobjects': lambda: Gui.runCommand('Std_HideObjects', 0),
-    'hide': lambda: Gui.runCommand('Std_HideSelection', 0),
-    'alllinks': lambda: Gui.runCommand('Std_LinkSelectAllLinks', 0),
-    'linked': lambda: Gui.runCommand('Std_LinkSelectLinked', 0),
-    'linkedfinal': lambda: Gui.runCommand('Std_LinkSelectLinkedFinal', 0),
-    'selback': lambda: Gui.runCommand('Std_SelBack', 0),
-    'boundingbox': lambda: Gui.runCommand('Std_SelBoundingBox', 0),
-    'selforward': lambda: Gui.runCommand('Std_SelForward', 0),
-    'selectvisible': lambda: Gui.runCommand('Std_SelectVisibleObjects', 0),
-    'showobjects': lambda: Gui.runCommand('Std_ShowObjects', 0),
-    'show': lambda: Gui.runCommand('Std_ShowSelection', 0),
-    'toggleall': lambda: Gui.runCommand('Std_ToggleObjects', 0),
-    'selectability': lambda: Gui.runCommand('Std_ToggleSelectability', 0),
-    'transparency': lambda: Gui.runCommand('Std_ToggleTransparency', 0),
-    'toggle': lambda: Gui.runCommand('Std_ToggleVisibility', 0),
+    'hideobjects':      lambda: Gui.runCommand('Std_HideObjects', 0),
+    'hide':             lambda: Gui.runCommand('Std_HideSelection', 0),
+    'alllinks':         lambda: Gui.runCommand('Std_LinkSelectAllLinks', 0),
+    'linked':           lambda: Gui.runCommand('Std_LinkSelectLinked', 0),
+    'linkedfinal':      lambda: Gui.runCommand('Std_LinkSelectLinkedFinal', 0),
+    'selback':          lambda: Gui.runCommand('Std_SelBack', 0),
+    'boundingbox':      lambda: Gui.runCommand('Std_SelBoundingBox', 0),
+    'selforward':       lambda: Gui.runCommand('Std_SelForward', 0),
+    'selectvisible':    lambda: Gui.runCommand('Std_SelectVisibleObjects', 0),
+    'showobjects':      lambda: Gui.runCommand('Std_ShowObjects', 0),
+    'show':             lambda: Gui.runCommand('Std_ShowSelection', 0),
+    'toggleall':        lambda: Gui.runCommand('Std_ToggleObjects', 0),
+    'selectability':    lambda: Gui.runCommand('Std_ToggleSelectability', 0),
+    'transparency':     lambda: Gui.runCommand('Std_ToggleTransparency', 0),
+    'toggle':           lambda: Gui.runCommand('Std_ToggleVisibility', 0),
+    'aligntoselection': lambda: Gui.runCommand('Std_AlignToSelection', 0),
+    'help':             ayuda,
 }

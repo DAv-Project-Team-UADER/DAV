@@ -16,13 +16,13 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Appearance
 appearance = {
-    'align':    lambda: Gui.runCommand('Std_AlignToSelection', 0),
-    'style':    lambda: Gui.runCommand('Std_SetAppearance', 0),
-    'facecolor': lambda: Gui.runCommand('Part_FaceColors', 0),
-    'clip':     lambda: Gui.runCommand('Std_ToggleClipPlane', 0),
-    'material': lambda: Gui.runCommand('Std_SetMaterial', 0),
-    'random':   lambda: Gui.runCommand('Std_RandomColor', 0),
-    'texture':  lambda: Gui.runCommand('Std_TextureMapping', 0),
+    'appearance':     lambda: Gui.runCommand('Std_SetAppearance', 0),
+    'facecolors':     lambda: Gui.runCommand('Part_FaceColors', 0),
+    'randomcolor':    lambda: Gui.runCommand('Std_RandomColor', 0),
+    'texturemapping': lambda: Gui.runCommand('Std_TextureMapping', 0),
+    'help':           ayuda,
 }

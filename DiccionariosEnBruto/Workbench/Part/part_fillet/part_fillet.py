@@ -14,22 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _fillet(radius=1.0):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Fillet", "Fillet")
-    obj.Radius = radius
-
+def _fillet():
+    """Apply fillet to the selected Part object with default radius 1.0 mm."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Fillet", "Fillet")
+    f.Base = sel[0]
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_fillet = {
-    'redondear bordes': lambda: _fillet(),
-    'fillet': lambda: _fillet(),
-    'redondear': lambda: _fillet(),
+    'redondear bordes': _fillet,
+    'fillet': _fillet,
+    'redondear': _fillet,
     'help': ayuda,
 }

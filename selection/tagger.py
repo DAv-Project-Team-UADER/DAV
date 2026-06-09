@@ -81,16 +81,34 @@ def ResolveLanguage(language: LanguageCode | str | None = None) -> LanguageCode:
 
 
 def _LanguageFromPreferences() -> LanguageCode:
-    try:
-        gui_root = Path(__file__).resolve().parents[1] / "luigiIntegracionV1" / "GUIFreeCad"
-        gui_text = str(gui_root)
-        if gui_root.is_dir() and gui_text not in sys.path:
-            sys.path.insert(0, gui_text)
-        from core.preferences import preferences
+    import os
 
-        return preferences.SetLanguage
-    except Exception:
-        return LanguageCode.Es
+    env = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
+    if env and Path(env).is_dir():
+        candidates = (Path(env),)
+    else:
+        repo = Path(__file__).resolve().parents[1]
+        candidates = (
+            repo / "ComponentesDAV" / "IntegracionGUI" / "GUIFreeCad",
+            repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad",
+            repo / "luigiIntegracionV1" / "GUIFreeCad",
+            repo / "GUIFreeCad",
+        )
+
+    for gui_root in candidates:
+        if not gui_root.is_dir():
+            continue
+        gui_text = str(gui_root)
+        if gui_text not in sys.path:
+            sys.path.insert(0, gui_text)
+        try:
+            from core.preferences import preferences
+
+            return preferences.SetLanguage
+        except Exception:
+            continue
+
+    return LanguageCode.Es
 
 
 class Tagger:

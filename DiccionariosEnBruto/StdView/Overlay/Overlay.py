@@ -16,6 +16,8 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Overlay
 overlay = {
     'bottom':     lambda: Gui.runCommand('Std_OverlayToggleBottom', 0),
@@ -25,4 +27,5 @@ overlay = {
     'axis':       lambda: Gui.runCommand('Std_AxisCross', 0),
     'navigation': lambda: Gui.runCommand('Std_ToggleNavigation', 0),
     'toggle':     lambda: Gui.runCommand('Std_ToggleOverlay', 0),
+    'help':       ayuda,
 }

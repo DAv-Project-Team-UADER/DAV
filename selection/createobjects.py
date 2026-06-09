@@ -18,7 +18,7 @@
 
 import FreeCAD as App
 
-from tagger import Tagger, ResolveLanguage
+from tagger import Tagger
 
 
 class CreateObjects:

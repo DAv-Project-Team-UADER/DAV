@@ -6,3 +6,6 @@ def ayuda():
     
     print("- shape_string: Crea un objeto físico (geometría) a partir de un texto.")
     print("  Requiere: Un texto, una fuente, un tamaño y una coordenada de origen.")
+    print("")
+    print("- label: Crea una etiqueta con texto y una línea de referencia apuntando a un objeto.")
+    print("  Requiere: Un objeto o subelemento seleccionado en la vista 3D.")

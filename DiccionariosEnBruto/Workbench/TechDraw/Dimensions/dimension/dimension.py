@@ -14,24 +14,10 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
-import TechDraw
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
-
-def _create_dimension(page_name="Page", view_name="View", vertex1="Vertex1", vertex2="Vertex2"):
-    doc  = App.activeDocument()
-    page = doc.getObject(page_name)
-    view = doc.getObject(view_name)
-    dim  = doc.addObject("TechDraw::DrawDimLine", "Dimension")
-    dim.Source       = view
-    dim.References2D = [(view, vertex1), (view, vertex2)]
-    dim.Page         = page
-    page.addView(dim)
-    doc.recompute()
-
-
 dimension = {
-    'dimension': lambda: _create_dimension(),
+    'dimension': lambda: Gui.runCommand('TechDraw_LengthDimension', 0),
     'help':      ayuda,
 }

@@ -14,21 +14,29 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+from FreeCAD import Vector
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
 def _mirror():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Mirroring", "Mirror")
-
+    """Mirror the selected Part object across the XY plane."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Mirroring", "Mirror")
+    f.Source = sel[0]
+    f.Normal = Vector(0, 0, 1)
+    f.Base = Vector(0, 0, 0)
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_mirror = {
-    'espejo': lambda: _mirror(),
-    'reflejar': lambda: _mirror(),
-    'mirror': lambda: _mirror(),
+    'espejo': _mirror,
+    'reflejar': _mirror,
+    'mirror': _mirror,
     'help': ayuda,
 }

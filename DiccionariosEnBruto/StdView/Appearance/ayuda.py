@@ -17,11 +17,8 @@
 # ayuda.py - StdView / Appearance
 
 def ayuda():
-    print("=== Appearance ===")
-    print("  align: Reorienta la cámara de la vista 3D para que quede alineada perpendicularmente a  | Req: Una vista 3D activa y una cara, arista o elemento selecciona")
-    print("  appearance: Establece las propiedades de visualización (color, brillo, transparencia) de los | Req: Objetos seleccionados.")
-    print("  partfacecolors: Establece las propiedades de visualización de caras individuales de un objeto, n | Req: Que el Workbench Part o PartDesign esté activo y haya un obj")
-    print("  toggleclipplane: Recorta temporalmente los objetos en la vista 3D utilizando planos de corte. | Req: Objetos 3D visibles en la escena.")
-    print("  setmaterial: Establece el material físico/visual de los objetos seleccionados. | Req: Objetos seleccionados y que el Workbench de Material (o Part")
-    print("  randomcolor: Aplica un color difuso aleatorio a los objetos seleccionados. | Req: Objetos seleccionados.")
-    print("  texture: Mapea temporalmente una textura sobre todos los objetos de la vista 3D. | Req: Objetos 3D visibles en la escena.")
+    print("=== Subgrupo StdView: Appearance ===")
+    print("  'appearance'     : Cambia propiedades visuales (color, transparencia) del objeto. | Req: Objeto seleccionado")
+    print("  'facecolors'     : Establece propiedades de visualización en caras individuales. | Req: Cara seleccionada")
+    print("  'randomcolor'    : Asigna un color aleatorio a los objetos seleccionados. | Req: Objeto seleccionado")
+    print("  'texturemapping' : Abre el diálogo de mapeo de texturas para aplicar una imagen al objeto. | Req: Objeto seleccionado con geometría de cara")
