@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -34,7 +33,7 @@ TraduceToEn = {
     '3 points':         lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
     'arc by 3 points':  lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
 
-    # Comandos de ayuda
+    # Comandos de ayuda integrados
     'help':             ayuda,
     'commands':         ayuda,
     'options':          ayuda
