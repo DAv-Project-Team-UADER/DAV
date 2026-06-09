@@ -16,7 +16,6 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-
 """English spoken-word mapping for PartDesign modify commands."""
 
 from .modify import modify
@@ -26,7 +25,6 @@ TraduceToEn = {
     # Fillet
     "fillet": modify["fillet"],
     "round": modify["fillet"],
-    "rounding": modify["fillet"],
 
     # Chamfer
     "chamfer": modify["chamfer"],
