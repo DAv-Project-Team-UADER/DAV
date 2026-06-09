@@ -34,37 +34,47 @@ TraduceToEn = {
     "hole": subtractive["hole"],
     "drill": subtractive["hole"],
 
-    # Subtractive primitives
+    # Subtractive Box
     "subtractivebox": subtractive["subtractivebox"],
     "cutbox": subtractive["subtractivebox"],
 
+    # Subtractive Cone
     "subtractivecone": subtractive["subtractivecone"],
     "cutcone": subtractive["subtractivecone"],
 
+    # Subtractive Cylinder
     "subtractivecylinder": subtractive["subtractivecylinder"],
     "cutcylinder": subtractive["subtractivecylinder"],
 
+    # Subtractive Ellipsoid
     "subtractiveellipsoid": subtractive["subtractiveellipsoid"],
     "cutellipsoid": subtractive["subtractiveellipsoid"],
 
+    # Subtractive Helix
     "subtractivehelix": subtractive["subtractivehelix"],
     "cuthelix": subtractive["subtractivehelix"],
 
+    # Subtractive Loft
     "subtractiveloft": subtractive["subtractiveloft"],
     "cutloft": subtractive["subtractiveloft"],
 
+    # Subtractive Pipe
     "subtractivepipe": subtractive["subtractivepipe"],
     "cutpipe": subtractive["subtractivepipe"],
 
+    # Subtractive Prism
     "subtractiveprism": subtractive["subtractiveprism"],
     "cutprism": subtractive["subtractiveprism"],
 
+    # Subtractive Sphere
     "subtractivesphere": subtractive["subtractivesphere"],
     "cutsphere": subtractive["subtractivesphere"],
 
+    # Subtractive Torus
     "subtractivetorus": subtractive["subtractivetorus"],
     "cuttorus": subtractive["subtractivetorus"],
 
+    # Subtractive Wedge
     "subtractivewedge": subtractive["subtractivewedge"],
     "cutwedge": subtractive["subtractivewedge"],
 
