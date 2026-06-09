@@ -25,12 +25,10 @@ TraduceToEn = {
     # Linear Pattern
     "linearpattern": transform["linearpattern"],
     "linear": transform["linearpattern"],
-    "pattern": transform["linearpattern"],
 
     # Mirrored
     "mirrored": transform["mirrored"],
     "mirror": transform["mirrored"],
-    "symmetry": transform["mirrored"],
 
     # Polar Pattern
     "polarpattern": transform["polarpattern"],
@@ -40,7 +38,6 @@ TraduceToEn = {
     # Multi Transform
     "multitransform": transform["multitransform"],
     "multi": transform["multitransform"],
-    "transform": transform["multitransform"],
 
     # Scaled
     "scaled": transform["scaled"],
