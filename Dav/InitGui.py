@@ -25,6 +25,13 @@ if not _d:
 if _d and _d not in sys.path:
     sys.path.insert(0, _d)
 
+try:
+    import scr.gui.dav_commands as _dav_commands
+
+    _dav_commands._ensure_selection_path()
+except Exception:
+    pass
+
 
 class DAVWorkbench(Gui.Workbench):
     MenuText = "DAV"

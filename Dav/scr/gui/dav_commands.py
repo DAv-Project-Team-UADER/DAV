@@ -62,6 +62,53 @@ def _ensure_gui_path() -> Path:
     return root
 
 
+def _selection_root() -> Path:
+    env = os.environ.get("DAV_SELECTION_ROOT", "").strip()
+    if env:
+        path = Path(env)
+        if path.is_dir():
+            return path.resolve()
+
+    repo = _dav_repo_root()
+    if repo is not None:
+        candidate = repo / "selection"
+        if candidate.is_dir():
+            return candidate.resolve()
+
+    try:
+        here = Path(__file__).resolve()
+        candidate = here.parents[3] / "selection"
+        if candidate.is_dir():
+            return candidate.resolve()
+    except (IndexError, NameError):
+        pass
+
+    return Path(".")
+
+
+def _ensure_selection_path() -> Path:
+    root = _selection_root()
+    text = str(root)
+    if root.is_dir() and text not in sys.path:
+        sys.path.insert(0, text)
+    return root
+
+
+def RunAlexSelectionPrueba(sketch_name: str | None = None):
+    """
+    Prueba completa selection/ para consola FreeCAD (sin configurar rutas).
+
+    Uso tras git pull + iniciar_dav.bat:
+        from scr.gui.dav_commands import RunAlexSelectionPrueba
+        selector = RunAlexSelectionPrueba()
+        selector.SelectOther = True
+    """
+    _ensure_selection_path()
+    from prueba_alex import RunFullDemo
+
+    return RunFullDemo(sketch_name=sketch_name)
+
+
 class DAV_OpenPreferencesCommand:
     def GetResources(self):
         return {

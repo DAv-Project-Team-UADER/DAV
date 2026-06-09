@@ -265,6 +265,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $DavMod "InitGui.py"))) {
 
 $env:DAV_GUI_FREECAD_ROOT = $GuiRoot
 $env:DAV_MOD_ROOT = $DavMod
+$env:DAV_SELECTION_ROOT = Join-Path $paths.DavRepo "selection"
 $env:DAV_OPEN_PREFS_ON_START = "0"
 $env:DAV_AUTOLOAD_WORKBENCH = "1"
 

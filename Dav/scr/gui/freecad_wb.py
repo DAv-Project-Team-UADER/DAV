@@ -66,6 +66,7 @@ def setup_workbench(workbench) -> None:
     setup_mod_path()
     try:
         dav_commands = importlib.import_module("scr.gui.dav_commands")
+        dav_commands._ensure_selection_path()
         dav_commands.register_commands()
         try:
             install_gui_integration()
