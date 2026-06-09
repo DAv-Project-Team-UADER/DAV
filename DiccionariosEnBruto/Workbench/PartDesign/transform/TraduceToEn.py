@@ -50,3 +50,4 @@ TraduceToEn = {
     "support": ayuda,
     "documentation": ayuda,
 }
+
