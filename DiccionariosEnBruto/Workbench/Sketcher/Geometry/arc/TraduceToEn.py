@@ -15,3 +15,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the arc dictionary."""
+
+import FreeCADGui as Gui
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Comandos para crear arco desde el centro
+    'center':           lambda: Gui.runCommand('Sketcher_CreateArc', 0),
+    'arc by center':    lambda: Gui.runCommand('Sketcher_CreateArc', 0),
+    'center arc':       lambda: Gui.runCommand('Sketcher_CreateArc', 0),
+
+    # Comandos para crear arco mediante 3 puntos
+    'three point':      lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+    'three points':     lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+    '3 point':          lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+    '3 points':         lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+    'arc by 3 points':  lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+
+    # Comandos de ayuda
+    'help':             ayuda,
+    'commands':         ayuda,
+    'options':          ayuda
+}
