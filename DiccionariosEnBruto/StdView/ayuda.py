@@ -14,21 +14,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-# ayuda.py - StdView
+# ayuda.py - StdView (Corregido con rutas de importación relativas)
 
-from Appearance.ayuda import ayuda as ayuda_appearance
-from Camera.ayuda import ayuda as ayuda_camera
-from Clipping.ayuda import ayuda as ayuda_clipping
-from DrawStyles.ayuda import ayuda as ayuda_drawstyles
-from Material.ayuda import ayuda as ayuda_material
-from Overlay.ayuda import ayuda as ayuda_overlay
-from Panels.ayuda import ayuda as ayuda_panels
-from SavedViews.ayuda import ayuda as ayuda_savedviews
-from StandardViews.ayuda import ayuda as ayuda_standardviews
-from Stereo.ayuda import ayuda as ayuda_stereo
-from Toolbars.ayuda import ayuda as ayuda_toolbars
-from Tree.ayuda import ayuda as ayuda_tree
-from Visibility.ayuda import ayuda as ayuda_visibility
+from .Appearance.ayuda import ayuda as ayuda_appearance
+from .Camera.ayuda import ayuda as ayuda_camera
+from .Clipping.ayuda import ayuda as ayuda_clipping
+from .DrawStyles.ayuda import ayuda as ayuda_drawstyles
+from .Material.ayuda import ayuda as ayuda_material
+from .Overlay.ayuda import ayuda as ayuda_overlay
+from .Panels.ayuda import ayuda as ayuda_panels
+from .SavedViews.ayuda import ayuda as ayuda_savedviews
+from .StandardViews.ayuda import ayuda as ayuda_standardviews
+from .Stereo.ayuda import ayuda as ayuda_stereo
+from .Toolbars.ayuda import ayuda as ayuda_toolbars
+from .Tree.ayuda import ayuda as ayuda_tree
+from .Visibility.ayuda import ayuda as ayuda_visibility
 
 def ayuda():
     print("=== StdView - Comandos de Vista ===")

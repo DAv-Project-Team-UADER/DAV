@@ -131,7 +131,7 @@ from .ayuda     import ayuda
 workbench = {}
 workbench.update(arc)
 workbench.update(line)
-workbench.update({'ayuda': ayuda})
+workbench.update({'help': ayuda})
 ```
 
 **Subconjunto (`arc/arc.py`) — usa dict literal con llaves:**
@@ -146,9 +146,50 @@ arc = {
     'center':   lambda: Gui.runCommand('Workbench_ArcByCenter', 0),
     'points':   lambda: Gui.runCommand('Workbench_Arc3Points', 0),
     'elliptic': lambda: Gui.runCommand('Workbench_EllipticArc', 0),
-    'ayuda':    ayuda,
+    'help':     ayuda,
 }
 ```
+
+---
+
+### Tres niveles de script para el valor de un dict
+
+El valor de cada llave puede ser uno de tres tipos según lo que requiere el ticket:
+
+**Nivel 1 — Comando simple (preferido):**
+Existe un `Gui.runCommand` directo. Usar siempre que el ticket lo indique.
+
+```python
+'front': lambda: Gui.runCommand('Std_ViewFront', 0),
+```
+
+**Nivel 2 — API Python con parámetros (objetos paramétricos):**
+El comando requiere pasar valores por voz (dimensiones, radios, puntos). Se usa la API de FreeCAD directamente.
+
+```python
+'new': lambda: FreeCAD.newDocument(),
+'save': lambda: FreeCAD.activeDocument().save(),
+'quit': lambda: Gui.getMainWindow().close(),
+```
+
+**Nivel 3 — API Qt / vista 3D (sin runCommand equivalente):**
+Para comandos que operan sobre la vista directamente o requieren Qt.
+
+```python
+'zoomin':  lambda: FreeCADGui.ActiveDocument.ActiveView.zoomIn(),
+'zoomout': lambda: FreeCADGui.ActiveDocument.ActiveView.zoomOut(),
+'workbench': lambda wb='PartDesign': Gui.activateWorkbench(wb),
+```
+
+**Regla:** Si el ticket tiene un `Gui.runCommand(...)` válido, usar Nivel 1 aunque el script del ticket use API compleja. La API compleja en el ticket es solo para entender qué hace, no la implementación obligatoria. Excepción: si necesita pasar parámetros variables por voz, usar Nivel 2.
+
+**Tickets que NO tienen `runCommand` equivalente** (deben usar Nivel 3):
+
+- `StdViewZoomIn/Out` → `view.zoomIn()` / `view.zoomOut()`
+- `StdSelBoundingBox` → `FreeCAD.ParamGet(...).SetBool(...)`
+- `StdWorkbench` → `Gui.activateWorkbench('NombreWorkbench')`
+- Stereo (Iv*) → `view.setStereoType('...')` aunque el dict puede usar `runCommand` (ambos funcionan)
+- Toolbar (Clipboard/Edit/File/etc.) → solo Qt; el dict usa `runCommand('Std_Toolbar*')` como aproximación válida
 
 **Archivo de ayuda (`ayuda.py`, en español):**
 
@@ -180,10 +221,12 @@ Importar el diccionario más exterior en la consola de Python de FreeCAD y naveg
 | --- | --- |
 | **Idioma** | Todo en inglés, excepto `ayuda.py` (que va en español) |
 | **Nombres** | Una sola palabra, sin repetir el contexto del padre |
+| **Llave de ayuda** | Siempre `'help': ayuda` — en inglés, igual que las demás llaves |
 | **ToolBar** | Los elementos de tipo ToolBar van sueltos, no en subconjunto |
 | **Subconjunto** | Siempre en su propia carpeta; la carpeta lleva el mismo nombre |
 | **`ayuda.py`** | Obligatorio en cada carpeta; contiene `print()` con las descripciones de los tickets |
 | **Valor del dict** | Es una lambda que ejecuta `Gui.runCommand('Nombre_Cmd', 0)` |
+| **Diccionario raíz** | Usa `dict = {}` + `.update(submodulo)` para cada subconjunto — nunca dict literal `{...}` |
 | **Script del ticket** | El campo `script nativo` del ticket indica exactamente el `Gui.runCommand` a usar |
 | **Prueba** | Siempre probar desde el diccionario más exterior hacia adentro, uno por uno |
 | **Sin IA (diseño)** | La estructura de conjuntos/subconjuntos se decide en papel, sin asistencia de IA |

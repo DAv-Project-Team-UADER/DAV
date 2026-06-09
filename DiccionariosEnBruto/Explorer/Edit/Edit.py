@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -14,7 +13,6 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
-# SPDX-License-Identifier: GPL-3.0-or-later
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
@@ -30,10 +28,8 @@ edit = {
     'delete':     lambda: Gui.runCommand('Std_Delete', 0),
     'placement': lambda: Gui.runCommand('Std_Placement', 0),
     'transform': lambda: Gui.runCommand('Std_TransformManip', 0),
-    'align':      lambda: Gui.runCommand('Std_Alignment', 0),
-    'screenshot': lambda: Gui.runCommand('Std_ViewScreenShot', 0),
-    'note':       lambda: Gui.runCommand('Std_TextDocument', 0),
-    'preferences':lambda: Gui.runCommand('Std_DlgPreferences', 0),
+    'align':       lambda: Gui.runCommand('Std_Alignment', 0),
+    'preferences': lambda: Gui.runCommand('Std_DlgPreferences', 0),
     'properties': lambda: Gui.runCommand('Std_Properties', 0),
     'sendtopython': lambda: Gui.runCommand('Std_SendToPythonConsole', 0),
     'editmode':   lambda: Gui.runCommand('Std_UserEditMode', 0),

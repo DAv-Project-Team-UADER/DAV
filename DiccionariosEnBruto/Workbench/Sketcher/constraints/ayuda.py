@@ -8,4 +8,5 @@ def ayuda():
     print('  diameter   - Aplica Diameter a un círculo.')
     print('  radiam     - Aplica la cota radio/diámetro del ticket y ajusta la vista.')
     print('  distance   - Aplica Distance entre extremos de una línea.')
+    print('  geometric  - Subconjunto: restricciones geométricas (coincident, lock, parallel, etc.)')
 

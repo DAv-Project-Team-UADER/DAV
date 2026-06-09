@@ -19,13 +19,22 @@ from .ayuda import ayuda
 
 
 def _color_per_face():
-    # Selección de objeto + caras debe hacerse en la GUI
-    Gui.runCommand("Std_SetAppearance", 0)
+    """Open the per-face color editor for the selected Part object.
+
+    There is no Document API equivalent for this tool — it is purely
+    a view-layer operation that requires the interactive color dialog.
+    """
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    vobj = Gui.ActiveDocument.getObject(sel[0].Name)
+    if hasattr(vobj, "DiffuseColor"):
+        Gui.runCommand('Part_ColorPerFace', 0)
 
 
 part_color_per_face = {
-    'pintar cara': lambda: _color_per_face(),
-    'color por cara': lambda: _color_per_face(),
-    'colorear cara': lambda: _color_per_face(),
+    'pintar cara': _color_per_face,
+    'color por cara': _color_per_face,
+    'colorear cara': _color_per_face,
     'help': ayuda,
 }

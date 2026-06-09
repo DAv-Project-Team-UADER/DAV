@@ -14,21 +14,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
 def _section():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Section", "Section")
-
+    """Create the section curve between the two selected Part objects."""
+    sel = Gui.Selection.getSelection()
+    if len(sel) < 2:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Section", "Section")
+    f.Base = sel[0]
+    f.Tool = sel[1]
+    for obj in sel:
+        obj.Visibility = False
     doc.recompute()
 
 
 part_section = {
-    'intersección': lambda: _section(),
-    'obtener sección': lambda: _section(),
-    'section': lambda: _section(),
+    'intersección': _section,
+    'obtener sección': _section,
+    'section': _section,
     'help': ayuda,
 }

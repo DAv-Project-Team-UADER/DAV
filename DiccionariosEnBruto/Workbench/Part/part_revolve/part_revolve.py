@@ -14,22 +14,31 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+from FreeCAD import Vector
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _revolve(angle=360):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Revolution", "Revolve")
-    obj.Angle = angle
-
+def _revolve():
+    """Revolve the selected Part object 360 degrees around the Z axis."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Revolution", "Revolve")
+    f.Source = sel[0]
+    f.Axis = Vector(0, 0, 1)
+    f.Base = Vector(0, 0, 0)
+    f.Angle = 360.0
+    f.Solid = True
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_revolve = {
-    'revolucion': lambda: _revolve(),
-    'revolución': lambda: _revolve(),
-    'revolve': lambda: _revolve(),
+    'revolucion': _revolve,
+    'revolución': _revolve,
+    'revolve': _revolve,
     'help': ayuda,
 }

@@ -19,10 +19,10 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 
 link = {
-    'make link': lambda: Gui.runCommand('Std_LinkMake', 0),
-    'relative link': lambda: Gui.runCommand('Std_LinkMakeRelative', 0),
-    'import link': lambda: Gui.runCommand('Std_LinkImport', 0),
-    'import all links': lambda: Gui.runCommand('Std_LinkImportAll', 0),
-    'replace link': lambda: Gui.runCommand('Std_LinkReplace', 0),
+    'makelink':       lambda: Gui.runCommand('Std_LinkMake', 0),
+    'relativelink':   lambda: Gui.runCommand('Std_LinkMakeRelative', 0),
+    'importlink':     lambda: Gui.runCommand('Std_LinkImport', 0),
+    'importalllinks': lambda: Gui.runCommand('Std_LinkImportAll', 0),
+    'replacelink':    lambda: Gui.runCommand('Std_LinkReplace', 0),
     'help': ayuda,
 }

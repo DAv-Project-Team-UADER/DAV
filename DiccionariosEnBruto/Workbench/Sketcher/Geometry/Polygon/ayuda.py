@@ -17,19 +17,14 @@
 def ayuda():
     print('=== Polygon ===')
 
-    print('  create pentagon - Crea un pentágono regular a partir')
-    print('                    de su centro y un radio de amplitud.')
-    print('                    Requiere: croquis activo, centro X/Y')
-    print('                               y radio.')
+    print('  pentagon - Crea un pentágono regular a partir')
+    print('             de su centro y un radio de amplitud.')
+    print('             Requiere: croquis activo, centro X/Y y radio.')
 
-    print('  create octagon - Crea un octágono regular a partir')
-    print('                   de su centro y un radio de amplitud.')
-    print('                   Requiere: croquis activo, centro X/Y')
-    print('                              y radio.')
+    print('  octagon  - Crea un octágono regular a partir')
+    print('             de su centro y un radio de amplitud.')
+    print('             Requiere: croquis activo, centro X/Y y radio.')
 
-    print('  create regular polygon - Crea un polígono regular')
-    print('                           con una cantidad de lados')
-    print('                           definida por el usuario.')
-    print('                           Requiere: croquis activo,')
-    print('                                      centro X/Y, radio')
-    print('                                      y cantidad de lados.')
+    print('  regular  - Crea un polígono regular con cantidad de lados')
+    print('             definida por el usuario.')
+    print('             Requiere: croquis activo, centro X/Y, radio y número de lados.')

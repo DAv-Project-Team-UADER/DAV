@@ -26,7 +26,7 @@ def ayuda():
     print('                 Requiere: croquis activo, lista de puntos y parámetro periódico.')
     print('  periodic - Crea una B-Spline periódica (cerrada) a partir de puntos de control.')
     print('            Requiere: croquis activo, lista de puntos de control y grado de curva.')
-    print('  periodic interpolation - Crea una B-Spline cerrada que interpola exactamente')
-    print('                          los puntos especificados.')
-    print('                          Requiere: croquis activo y lista de puntos.')
+    print('  periodicinterp - Crea una B-Spline cerrada que interpola exactamente')
+    print('                   los puntos especificados.')
+    print('                   Requiere: croquis activo y lista de puntos.')
     
