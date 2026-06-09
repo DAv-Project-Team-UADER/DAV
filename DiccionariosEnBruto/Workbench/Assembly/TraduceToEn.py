@@ -15,3 +15,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the DAV AssemblyWorkbench dictionary."""
+ 
+from .AssemblyWorkbench import assembly
+from .joint.joint import joint
+from .ayuda import ayuda
+ 
+TraduceToEn = {
+    "new assembly":      assembly["create"],
+    "create assembly":   assembly["create"],
+    "new part":          assembly["newpart"],
+    "insert part":       assembly["newpart"],
+    "insert link":       assembly["link"],
+    "link part":         assembly["link"],
+    "solve":             assembly["solve"],
+    "solve assembly":    assembly["solve"],
+    "exploded view":     assembly["view"],
+    "create view":       assembly["view"],
+    "simulation":        assembly["simulation"],
+    "create simulation": assembly["simulation"],
+    "bill of materials": assembly["bom"],
+    "bom":               assembly["bom"],
+    "preferences":       assembly["preferences"],
+    "settings":          assembly["preferences"],
+    "ground":            assembly["grounded"],
+    "toggle grounded":   assembly["grounded"],
+    "joint":             joint,
+    "help":              ayuda,
+}

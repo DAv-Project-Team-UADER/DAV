@@ -15,3 +15,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the DAV joint dictionary."""
+ 
+from .joint import joint
+from .ayuda import ayuda
+ 
+TraduceToEn = {
+    "angle joint":         joint["angle"],
+    "ball joint":          joint["ball"],
+    "sphere joint":        joint["ball"],
+    "parallel joint":      joint["parallel"],
+    "perpendicular joint": joint["perpendicular"],
+    "belt joint":          joint["belt"],
+    "chain joint":         joint["belt"],
+    "gear joint":          joint["gears"],
+    "rack pinion":         joint["rackpinion"],
+    "screw joint":         joint["screw"],
+    "lead screw":          joint["screw"],
+    "cylindrical joint":   joint["cylindrical"],
+    "distance joint":      joint["distance"],
+    "fixed joint":         joint["fixed"],
+    "revolute joint":      joint["revolute"],
+    "slider joint":        joint["slider"],
+    "help":                ayuda,
+}
