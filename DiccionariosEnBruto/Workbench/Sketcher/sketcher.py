@@ -23,24 +23,30 @@ from .select.select import select
 from .external.external import external
 from .view.view import view
 from .constraints.constraints import constraints
-from .line.line import line
+from .Geometry.line.line import line
 from .point.point import point
-from .polyline.polyline import polyline
-from .rectangle.rectangle import rectangle
+from .Geometry.polyline.polyline import polyline
+from .Geometry.rectangle.rectangle import rectangle
 from .square.square import square
 from .triangle.triangle import triangle
-from .circle.circle import circle
-from .arc.arc import arc
-from .arcslot.arcslot import arc_slot
+from .Geometry.circle.circle import circle
+from .Geometry.arc.arc import arc
+from .Geometry.arc_slot.arc_slot import arc_slot
 from .oblong.oblong import oblong
 from .text.text import text
-from .hexagon.hexagon import hexagon
-from .heptagon.heptagon import heptagon
+from .Geometry.hexagon.hexagon import hexagon
+from .Geometry.heptagon.heptagon import heptagon
 from .slot.slot import slot
-from .Ellipse.ellipse import ellipse
-from .Polygon.polygon import polygon
-from .BSpline.bspline import bspline
-from .bspline_tools.bspline_tools import bspline_tools
+from .Geometry.Ellipse._ellipse import ellipse
+from .Geometry.Polygon._polygon import polygon
+from .Geometry.BSpline._bspline import bspline
+from .Geometry.BSpline_Tools._tools import tools
+from .ayuda import ayuda
+from .validate.validate import validate
+from .tools.tools import tools
+from .select.select import select
+from .external.external import external
+from .view.view import view
 
 
 def _toggle_construction(sketch, geo_indices):

@@ -139,8 +139,8 @@ class MainWindow(QMainWindow):
 
         # Variables para la imagen del árbol
         self._TreeImageLabel = None
-        self._last_image_mtime = None
-        self._macro_checked = False
+        self._LastImageMtime = None
+        self._MacroChecked = False
 
         self.SetColor(color)
         self.SetLanguage(lang)
@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
         # Verificar estado de la macro después de 3 segundos
         QTimer.singleShot(3000, self._CheckMacroStatus)
         self._StartSettingsWatcher()
+        trigger_capture.ensure_macro_installed()
 
     def SetColor(self, Mode: str):
         self._T = LIGHT if Mode == "light" else DARK
@@ -466,10 +467,10 @@ class MainWindow(QMainWindow):
         
         if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
             current_mtime = os.path.getmtime(image_path)
-            if self._last_image_mtime == current_mtime:
+            if self._LastImageMtime == current_mtime:
                 return
-            
-            self._last_image_mtime = current_mtime
+
+            self._LastImageMtime = current_mtime
             
             pixmap = QPixmap(image_path)
             if not pixmap.isNull():
@@ -700,12 +701,12 @@ class MainWindow(QMainWindow):
             print(f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado")
             return
         
-        self.voice_worker = VoiceWorker(model_path=ModelPath)
-        self.voice_thread = threading.Thread(target=self.voice_worker.run, daemon=True)
-        self.voice_worker.partial_result.connect(self.UpdateCurrentText)
-        self.voice_worker.final_result.connect(self.ProcessVoiceCommand)
-        self.voice_worker.status_signal.connect(self.UpdateStatus)
-        self.voice_thread.start()
+        self._VoiceWorker = VoiceWorker(model_path=ModelPath)
+        self._VoiceThread = threading.Thread(target=self._VoiceWorker.run, daemon=True)
+        self._VoiceWorker.partial_result.connect(self.UpdateCurrentText)
+        self._VoiceWorker.final_result.connect(self.ProcessVoiceCommand)
+        self._VoiceWorker.status_signal.connect(self.UpdateStatus)
+        self._VoiceThread.start()
 
     def UpdateStatus(self, Msg: str):
         T = self._T
@@ -849,50 +850,50 @@ class MainWindow(QMainWindow):
                 # Ensure config directory exists
                 ConfigDir = os.path.dirname(ConfigPath)
                 os.makedirs(ConfigDir, exist_ok=True)
-                
+
                 # Sincronizar el tema actual de MainWindow con settings.json
                 # esto asegura que el diálogo de preferencias abra con el tema correcto
                 try:
                     if os.path.exists(ConfigPath):
-                        with open(ConfigPath, 'r', encoding='utf-8') as f:
-                            settings_data = json.load(f)
+                        with open(ConfigPath, 'r', encoding='utf-8') as F:
+                            SettingsData = json.load(F)
                     else:
-                        settings_data = {}
-                    
+                        SettingsData = {}
+
                     # Actualizar settings.json con el tema actual
-                    settings_data['theme'] = self._CurrentTheme
-                    
-                    with open(ConfigPath, 'w', encoding='utf-8') as f:
-                        json.dump(settings_data, f, indent=2, ensure_ascii=False)
-                except Exception as e:
-                    print(f"[Warning] No se pudo sincronizar theme con settings.json: {e}")
-                
+                    SettingsData['theme'] = self._CurrentTheme
+
+                    with open(ConfigPath, 'w', encoding='utf-8') as F:
+                        json.dump(SettingsData, F, indent=2, ensure_ascii=False)
+                except Exception as E:
+                    print(f"[Warning] No se pudo sincronizar theme con settings.json: {E}")
+
                 # Load settings module first
-                spec_settings = importlib.util.spec_from_file_location("settings", SettingsPath)
-                settings_module = importlib.util.module_from_spec(spec_settings)
-                sys.modules["settings"] = settings_module
-                spec_settings.loader.exec_module(settings_module)
-                
-                spec = importlib.util.spec_from_file_location("preferences_dialog", PreferenceDialogPath)
-                prefs_module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(prefs_module)
-                PreferencesDialog = prefs_module.PreferencesDialog
-                
+                SpecSettings = importlib.util.spec_from_file_location("settings", SettingsPath)
+                SettingsModule = importlib.util.module_from_spec(SpecSettings)
+                sys.modules["settings"] = SettingsModule
+                SpecSettings.loader.exec_module(SettingsModule)
+
+                Spec = importlib.util.spec_from_file_location("preferences_dialog", PreferenceDialogPath)
+                PrefsModule = importlib.util.module_from_spec(Spec)
+                Spec.loader.exec_module(PrefsModule)
+                PreferencesDialog = PrefsModule.PreferencesDialog
+
                 PrefsDialog = PreferencesDialog(self)
-                
+
                 # Reload settings para asegurar que se aplicó el sync
-                settings_module.settings.load()
-                
+                SettingsModule.settings.load()
+
                 # Verificar que el tema en el diálogo coincida con el de MainWindow
-                if settings_module.settings.theme != self._CurrentTheme:
-                    settings_module.settings.theme = self._CurrentTheme
-                    settings_module.settings.save()
-                settings = settings_module.settings
-                if settings.theme == "dark":
+                if SettingsModule.settings.theme != self._CurrentTheme:
+                    SettingsModule.settings.theme = self._CurrentTheme
+                    SettingsModule.settings.save()
+                Settings = SettingsModule.settings
+                if Settings.theme == "dark":
                     self.SetColor("dark")
                 else:
                     self.SetColor("light")
-                
+
                 PrefsDialog.settings_changed.connect(self._OnPreferencesChanged)
                 PrefsDialog.exec()
             finally:
@@ -919,38 +920,38 @@ class MainWindow(QMainWindow):
                 sys.path.insert(0, GUIFreeCadPath)
             
             try:
-                spec_settings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
-                settings_module = importlib.util.module_from_spec(spec_settings)
-                spec_settings.loader.exec_module(settings_module)
-                settings = settings_module.settings
-                
-                if settings.theme == "dark":
+                SpecSettings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
+                SettingsModule = importlib.util.module_from_spec(SpecSettings)
+                SpecSettings.loader.exec_module(SettingsModule)
+                Settings = SettingsModule.settings
+
+                if Settings.theme == "dark":
                     self.SetColor("dark")
                 else:
                     self.SetColor("light")
-                    
+
                 self.AddToHistory("Preferencias actualizadas", FromVoice=False)
             finally:
                 if GUIFreeCadPath in sys.path:
                     sys.path.remove(GUIFreeCadPath)
-        except Exception as e:
+        except Exception:
             pass
             import json
-            path = self._SettingsPath()
-            if not os.path.exists(path):
+            Path = self._SettingsPath()
+            if not os.path.exists(Path):
                 return
-            with open(path, encoding="utf-8") as f:
-                data = json.load(f)
-            theme    = data.get("theme", self._CurrentTheme)
-            language = data.get("language", "es")
+            with open(Path, encoding="utf-8") as F:
+                Data = json.load(F)
+            Theme    = Data.get("theme", self._CurrentTheme)
+            Language = Data.get("language", "es")
             
             # Aplicar tema — solo si cambió
-            if theme in ("dark", "light") and theme != self._CurrentTheme:
-                self.SetColor(theme)
-            
+            if Theme in ("dark", "light") and Theme != self._CurrentTheme:
+                self.SetColor(Theme)
+
             # Aplicar idioma — solo si cambió
-            if language in ("es", "en", "pt") and language != self._CurrentLang:
-                self.SetLanguage(language)
+            if Language in ("es", "en", "pt") and Language != self._CurrentLang:
+                self.SetLanguage(Language)
             
             self.AddToHistory("Preferencias actualizadas", FromVoice=False)
         except Exception:
@@ -1014,8 +1015,8 @@ class MainWindow(QMainWindow):
                     self._TreeImageLabel.setPixmap(scaled_pixmap)
 
     def closeEvent(self, Event):
-        if hasattr(self, 'voice_worker'):
-            self.voice_worker.stop()
-        if hasattr(self, 'voice_thread'):
-            self.voice_thread.join(timeout=1)
+        if hasattr(self, '_VoiceWorker'):
+            self._VoiceWorker.stop()
+        if hasattr(self, '_VoiceThread'):
+            self._VoiceThread.join(timeout=1)
         Event.accept()
