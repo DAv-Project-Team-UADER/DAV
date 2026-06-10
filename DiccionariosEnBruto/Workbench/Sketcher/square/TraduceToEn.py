@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Sketcher square dictionary."""
+
+from .square import square
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Help command
+    "help": ayuda,
+    "info": ayuda,
+    
+    # Square creation & synonyms
+    "create": square['create'],
+    "create_square": square['create'],
+    "draw_square": square['create'],
+    "square": square['create']
+}
