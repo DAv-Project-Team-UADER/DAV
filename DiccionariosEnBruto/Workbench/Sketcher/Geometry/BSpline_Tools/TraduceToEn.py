@@ -15,3 +15,38 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# English translations – Sketcher BSpline Tools
+# ============================================================
+
+TraduceToEn = {
+
+    # Main commands
+    "tonurbs": "tonurbs",
+    "decrease": "decrease",
+    "increase": "increase",
+    "knot": "knot",
+    "join": "join",
+    "help": "help",
+
+    # Synonyms
+    "convert to nurbs": "tonurbs",
+    "bspline to nurbs": "tonurbs",
+    "nurbs conversion": "tonurbs",
+
+    "decrease degree": "decrease",
+    "reduce degree": "decrease",
+
+    "increase degree": "increase",
+    "raise degree": "increase",
+
+    "insert knot": "knot",
+    "add knot": "knot",
+
+    "join curve": "join",
+    "join bspline": "join",
+    "merge bspline": "join",
+
+    "bspline tools help": "help",
+}
