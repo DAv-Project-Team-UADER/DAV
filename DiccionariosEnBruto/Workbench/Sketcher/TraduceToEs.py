@@ -37,5 +37,56 @@ from .validate.validate import validate
 from .view.view import view
 
 TraduceToEs = {
-  
+  "geometria": "geometry",
+  "geometría": "geometry",
+
+  "arco": "arc",
+  "arcos": "arcs",
+  "ranura de arco": "arcslot",
+
+  "restricciones": "constraints",
+  "restriccion": "constraint",
+  "restricción": "constraint",
+
+  "externo": "external",
+  "externa": "external",
+
+  "oblongo": "oblong",
+  "crear oblongo": "create oblong",
+
+  "punto": "point",
+  "crear punto": "create point",
+
+  "seleccionar": "select",
+  "seleccion": "selection",
+  "selección": "selection",
+
+  "ranura": "slot",
+  "crear ranura": "create slot",
+
+  "cuadrado": "square",
+  "crear cuadrado": "create square",
+  "dibujar cuadrado": "draw square",
+
+  "texto": "text",
+  "escribir texto": "write text",
+  "crear texto": "create text",
+
+  "herramientas": "tools",
+  "herramienta": "tool",
+
+  "triangulo": "triangle",
+  "triángulo": "triangle",
+  "crear triangulo": "create triangle",
+  "crear triángulo": "create triangle",
+  "dibujar triangulo": "draw triangle",
+  "dibujar triángulo": "draw triangle",
+
+  "validar": "validate",
+  "validar croquis": "validate sketch",
+
+  "vista": "view",
+  "ver croquis": "view sketch",
+  "ver seleccion": "view selection",
+  "ver selección": "view selection",
 }
