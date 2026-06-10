@@ -38,6 +38,55 @@ from .validate.validate import validate
 from .view.view import view
 
 TraduceToEn = {
+
+    # Carpetas de Sketcher
+    "geometry": geometry,
+    "geometric": geometry,
+
+    "arcslot": arcslot,
+    "arcs": arcslot,
+    "arc": arcslot,
+    
+    "constraints": constraints,
+    "constraint": constraints,
+    "restrictions": constraints,
+    
+    "external": external,
+    
+    "oblong": oblong,
+    "create oblong": oblong,
+    
+    "point": point,
+    "create point": point,
+    
+    "select": select,
+    "selection": select,
+    
+    "slot": slot,
+    "create slot": slot,
+    
+    "square": square,
+    "create square": square,
+    "draw square": square,
+    
+    "text": text,
+    "write text": text,
+    "create text": text,
+    
+    "tools": tools,
+    "tool": tools,
+    
+    "triangle": triangle,
+    "create triangle": triangle,
+    "draw triangle": triangle,
+    
+    "validate": validate,
+    "validate sketch": validate,
+    
+    "view": view,
+    "view sketch": view,
+    "view selection": view,
+    
     # --- Traducciones de la parte inferior de sketcher.py ---
     
     # Control del Boceto / Sketch
