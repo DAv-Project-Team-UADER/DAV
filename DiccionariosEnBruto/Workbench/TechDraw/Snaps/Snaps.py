@@ -15,9 +15,11 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from .ayuda import ayuda
 
 # Diccionario del subgrupo Snaps (Puntos de referencia geométricos)
 snaps = {
     'midpoints': lambda: Gui.runCommand('TechDraw_Midpoints', 0),
-    'quadrants': lambda: Gui.runCommand('TechDraw_Quadrants', 0)
+    'quadrants': lambda: Gui.runCommand('TechDraw_Quadrants', 0),
+    'help': ayuda
 }

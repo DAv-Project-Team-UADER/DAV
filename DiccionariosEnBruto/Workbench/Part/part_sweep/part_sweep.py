@@ -14,21 +14,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
 def _sweep():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Sweep", "Sweep")
-
+    """Sweep the first selected profile along the second selected path."""
+    sel = Gui.Selection.getSelection()
+    if len(sel) < 2:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Sweep", "Sweep")
+    f.Sections = [sel[0]]
+    f.Spine = (sel[1], ["Edge1"])
+    f.Solid = True
+    f.Frenet = False
+    for obj in sel:
+        obj.Visibility = False
     doc.recompute()
 
 
 part_sweep = {
-    'barrer perfil': lambda: _sweep(),
-    'sweep': lambda: _sweep(),
-    'barrido': lambda: _sweep(),
+    'barrer perfil': _sweep,
+    'sweep': _sweep,
+    'barrido': _sweep,
     'help': ayuda,
 }

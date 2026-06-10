@@ -18,12 +18,12 @@ from .File.ayuda    import ayuda as ayuda_file
 from .Edit.ayuda    import ayuda as ayuda_edit
 from .Windows.ayuda import ayuda as ayuda_windows
 from .Tools.ayuda   import ayuda as ayuda_tools
-from .Expression.ayuda import ayuda as ayuda_expression
+from .Expressions.ayuda import ayuda as ayuda_expressions
 
 def ayuda():
     ayuda_file()
     ayuda_edit()
     ayuda_windows()
     ayuda_tools()
-    ayuda_expression()
+    ayuda_expressions()
 

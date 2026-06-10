@@ -10,10 +10,16 @@
 # pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
 # MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
 # Licencia Pública General GNU para más detalles.
+#
+# Deberías haber recibido una copia de la Licencia Pública General GNU
+# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Material
 material = {
-    'material': lambda: Gui.runCommand('Std_SetMaterial', 0)
+    'material': lambda: Gui.runCommand('Std_SetMaterial', 0),
+    'help':     ayuda,
 }

@@ -16,12 +16,15 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Stereo
 stereo = {
-    'camerapos': lambda: Gui.runCommand('Std_ViewIvIssueCamPos', 0),
-    'stereocolumns': lambda: Gui.runCommand('Std_ViewIvStereoInterleavedColumns', 0),
-    'stereorows': lambda: Gui.runCommand('Std_ViewIvStereoInterleavedRows', 0),
-    'stereooff': lambda: Gui.runCommand('Std_ViewIvStereoOff', 0),
-    'stereoquad': lambda: Gui.runCommand('Std_ViewIvStereoQuadBuff', 0),
+    'camerapos':      lambda: Gui.runCommand('Std_ViewIvIssueCamPos', 0),
+    'stereocolumns':  lambda: Gui.runCommand('Std_ViewIvStereoInterleavedColumns', 0),
+    'stereorows':     lambda: Gui.runCommand('Std_ViewIvStereoInterleavedRows', 0),
+    'stereooff':      lambda: Gui.runCommand('Std_ViewIvStereoOff', 0),
+    'stereoquad':     lambda: Gui.runCommand('Std_ViewIvStereoQuadBuff', 0),
     'stereoanaglyph': lambda: Gui.runCommand('Std_ViewIvStereoRedGreen', 0),
+    'help':           ayuda,
 }

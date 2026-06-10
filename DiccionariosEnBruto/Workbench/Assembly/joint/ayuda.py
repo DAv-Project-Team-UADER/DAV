@@ -25,3 +25,8 @@ def ayuda():
     print('  gears:         Crea una union de engranajes que acopla dos Revolute joints.    | Req: dos Revolute joints previos.')
     print('  rackpinion:    Crea una union pinon-cremallera (Slider + Revolute).            | Req: un Slider y un Revolute joint previos.')
     print('  screw:         Crea una union helicoidal (tornillo de avance).                 | Req: un Slider y un Revolute joint previos.')
+    print('  cylindrical:   Crea una union cilindrica (rotacion + deslizamiento axial).    | Req: ensamblaje activo.')
+    print('  distance:      Crea una restriccion de distancia fija entre dos piezas.       | Req: ensamblaje activo.')
+    print('  fixed:         Fija una pieza al suelo del ensamblaje (sin movimiento).       | Req: ensamblaje activo.')
+    print('  revolute:      Crea una union de revolucion (bisagra) entre dos piezas.       | Req: ensamblaje activo.')
+    print('  slider:        Crea una union deslizante (prismática) entre dos piezas.       | Req: ensamblaje activo.')

@@ -14,21 +14,29 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import Part
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _make_face():
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Face", "Face")
-
+def _makeface():
+    """Create a planar face from the selected closed wire."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    shape = sel[0].Shape
+    face = Part.makeFilledFace(shape.Wires)
+    obj = doc.addObject("Part::Feature", "Face")
+    obj.Shape = face
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_makeface = {
-    'crear cara': lambda: _make_face(),
-    'make face': lambda: _make_face(),
-    'cara': lambda: _make_face(),
+    'crear cara': _makeface,
+    'make face': _makeface,
+    'cara': _makeface,
     'help': ayuda,
 }

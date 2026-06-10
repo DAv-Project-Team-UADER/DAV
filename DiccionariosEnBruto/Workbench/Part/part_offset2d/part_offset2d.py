@@ -14,22 +14,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _offset2d(distance=1.0):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Offset2D", "Offset2D")
-    obj.Value = distance
-
+def _offset2d():
+    """Apply a 2D offset of 1.0 mm to the selected wire or face."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Offset2D", "Offset2D")
+    f.Source = sel[0]
+    f.Value = 1.0
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_offset2d = {
-    'contorno': lambda: _offset2d(),
-    'borde': lambda: _offset2d(),
-    'offset 2d': lambda: _offset2d(),
+    'contorno': _offset2d,
+    'borde': _offset2d,
+    'offset 2d': _offset2d,
     'help': ayuda,
 }
