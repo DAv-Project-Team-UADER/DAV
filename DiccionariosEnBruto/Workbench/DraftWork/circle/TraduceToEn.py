@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Circle dictionary."""
+
+from .circle import circle
+
+TraduceToEn = {
+    "center":          circle['center'],
+    "circle":          circle['center'],
+    "create circle":   circle['center'],
+    "standard circle": circle['center'],
+    "center circle":   circle['center'],
+    "radius circle":   circle['center'],
+
+    "help":            circle['help'],
+    "info":            circle['help'],
+    "options":         circle['help']
+}

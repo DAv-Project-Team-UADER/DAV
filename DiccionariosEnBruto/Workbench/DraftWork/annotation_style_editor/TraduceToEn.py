@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Annotation Style Editor dictionary."""
+
+from .annotation import annotation
+
+TraduceToEn = {
+    "editor":                  annotation['editor'],
+    "style editor":            annotation['editor'],
+    "annotation editor":       annotation['editor'],
+    "annotation style editor": annotation['editor'],
+    "edit style":              annotation['editor'],
+    "styles":                  annotation['editor'],
+    
+    "help":                    annotation['help'],
+    "info":                    annotation['help'],
+    "options":                 annotation['help']
+}
