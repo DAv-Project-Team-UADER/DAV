@@ -14,23 +14,29 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCAD
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _scale(factor=1.0):
-    doc = App.activeDocument()
-
-    obj = doc.addObject("Part::Scaled", "Scale")
-    obj.ScaleFactor = factor
-
+def _scale():
+    """Scale the selected Part object uniformly by factor 2.0."""
+    sel = Gui.Selection.getSelection()
+    if not sel:
+        return
+    doc = FreeCAD.activeDocument()
+    f = doc.addObject("Part::Scale", "Scale")
+    f.Base = sel[0]
+    f.Uniform = True
+    f.UniformScale = 2.0
+    sel[0].Visibility = False
     doc.recompute()
 
 
 part_scale = {
-    'escalar': lambda: _scale(),
-    'agrandar': lambda: _scale(2.0),
-    'reducir': lambda: _scale(0.5),
-    'scale': lambda: _scale(),
+    'escalar': _scale,
+    'agrandar': _scale,
+    'reducir': _scale,
+    'scale': _scale,
     'help': ayuda,
 }

@@ -19,6 +19,6 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 
 additional = {
-    'linkGroups': lambda: Gui.runCommand('Std_LinkMakeGroup', 0),
+    'linkgroups': lambda: Gui.runCommand('Std_LinkMakeGroup', 0),
     'help':     ayuda,
 }

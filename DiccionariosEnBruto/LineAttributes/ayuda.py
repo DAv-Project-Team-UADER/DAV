@@ -16,4 +16,5 @@
 
 def ayuda():
     print('Comandos disponibles en LineAttributes:')
-    print('  attributes - Subconjunto: selección y aplicación de atributos de línea en TechDraw')
+    print('  select - Selecciona atributos a aplicar (paso 1) | Req: Workbench TechDraw activo')
+    print('  change - Aplica los atributos a líneas seleccionadas (paso 2) | Req: Líneas seleccionadas en la vista')

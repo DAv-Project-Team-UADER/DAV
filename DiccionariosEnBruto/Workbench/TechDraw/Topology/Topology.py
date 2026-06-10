@@ -12,8 +12,10 @@
 # Licencia Pública General GNU para más detalles.
 
 import FreeCADGui as Gui
+from .ayuda import ayuda
 
 # Diccionario del subgrupo Topology (Control de estados y aristas)
 topology = {
-    'showAll': lambda: Gui.runCommand('TechDraw_ShowAll', 0)
+    'showAll': lambda: Gui.runCommand('TechDraw_ShowAll', 0),
+    'help': ayuda
 }

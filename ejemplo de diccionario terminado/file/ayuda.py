@@ -5,3 +5,6 @@ def ayuda():
     print('  close   - Cierra el documento activo')
     print('  save    - Guarda el documento activo')
     print('  saveas  - Guarda el documento con otro nombre')
+    print('  quit    - Cierra la aplicación FreeCAD')
+    print('  revert  - Recarga la versión guardada en el disco')
+    print('  recent  - Muestra los archivos recientes')

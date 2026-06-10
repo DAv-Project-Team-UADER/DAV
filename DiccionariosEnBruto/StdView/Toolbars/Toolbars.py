@@ -16,16 +16,19 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Toolbars
 toolbars = {
-    'clipboard': lambda: Gui.runCommand('Std_ToolbarClipboard', 0),
-    'edit':      lambda: Gui.runCommand('Std_ToolbarEdit', 0),
-    'file':      lambda: Gui.runCommand('Std_ToolbarFile', 0),
-    'help':      lambda: Gui.runCommand('Std_ToolbarHelp', 0),
-    'views':     lambda: Gui.runCommand('Std_ToolbarIndividualViews', 0),
-    'lock':      lambda: Gui.runCommand('Std_ToggleToolbarsLock', 0),
-    'macro':     lambda: Gui.runCommand('Std_ToolbarMacro', 0),
-    'structure': lambda: Gui.runCommand('Std_ToolbarStructure', 0),
-    'view':      lambda: Gui.runCommand('Std_ToolbarView', 0),
-    'workbench': lambda: Gui.runCommand('Std_ToolbarWorkbench', 0),
+    'clipboard':    lambda: Gui.runCommand('Std_ToolbarClipboard', 0),
+    'edit':         lambda: Gui.runCommand('Std_ToolbarEdit', 0),
+    'file':         lambda: Gui.runCommand('Std_ToolbarFile', 0),
+    'toolbarshelp': lambda: Gui.runCommand('Std_ToolbarHelp', 0),
+    'views':        lambda: Gui.runCommand('Std_ToolbarIndividualViews', 0),
+    'lock':         lambda: Gui.runCommand('Std_ToggleToolbarsLock', 0),
+    'macro':        lambda: Gui.runCommand('Std_ToolbarMacro', 0),
+    'structure':    lambda: Gui.runCommand('Std_ToolbarStructure', 0),
+    'view':         lambda: Gui.runCommand('Std_ToolbarView', 0),
+    'workbench':    lambda: Gui.runCommand('Std_ToolbarWorkbench', 0),
+    'help':         ayuda,
 }

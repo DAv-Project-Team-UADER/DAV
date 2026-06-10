@@ -14,27 +14,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD as App
+import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
 def _cross_sections():
-    doc = App.activeDocument()
+    """Open the Cross Sections dialog for the selected Part object.
 
-    sel = App.Gui.Selection.getSelection() if hasattr(App, "Gui") else []
+    There is no Document API equivalent — this tool generates section
+    curves interactively via a panel; requires user input to define planes.
+    """
+    sel = Gui.Selection.getSelection()
     if not sel:
         return
-
-    base = sel[0]
-
-    obj = doc.addObject("Part::Compound", "CrossSections")
-    obj.Label = "Cross Sections"
-
-    doc.recompute()
+    Gui.runCommand('Part_CrossSections', 0)
 
 
 part_cross_sections = {
-    'secciones transversales': lambda: _cross_sections(),
-    'cross sections': lambda: _cross_sections(),
+    'secciones transversales': _cross_sections,
+    'cross sections': _cross_sections,
     'help': ayuda,
 }

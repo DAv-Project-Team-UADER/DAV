@@ -1,32 +1,41 @@
-#  Copyright (C) 2026 The DAV Project Team-                                 |#  Copyright (C) 2026 El Equipo del Proyecto DAV
-#  Universidad Autónoma de Entre Ríos (UADER)                               |#  Universidad Autónoma de Entre Ríos (UADER)
-#  Directed by Gerard Guillermo and Gallo Fabricio David                    |#  Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#                                                                           |#
-#  This program is free software: you can redistribute it and/or modify     |#  Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-#  it under the terms of the GNU General Public License as published by     |#  bajo los términos de la Licencia Pública General GNU tal como fue publicada 
-#  the Free Software Foundation, in GLPv3 version  of the License           |#  por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#                                                                           |#
-#  This program is distributed in the hope that it will be useful,          |#  Este programa se distribuye con la esperanza de que sea útil,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of           |#  pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            |#  MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-#  GNU General Public License for more details.                             |#  Licencia Pública General GNU para más detalles.
-#                                                                           |#
-#  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
+# Copyright (C) 2026 El Equipo del Proyecto DAV
+# Copyright (C) 2026 The DAV Project Team
+# Universidad Autónoma de Entre Ríos (UADER)
+# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#
+# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+# bajo los términos de la Licencia Pública General GNU tal como fue publicada
+# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#
+# Este programa se distribuye con la esperanza de que sea útil,
+# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+# Licencia Pública General GNU para más detalles.
+#
+# Deberías haber recibido una copia de la Licencia Pública General GNU
+# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import FreeCAD as App
-import Part
+
+from tagger import Tagger
+
 
 class CreateObjects:
-    def __init__(self, ObjectName, Is3D=False):
-        """
-        Initializes the class to extract geometric components.
-        :param ObjectName: String containing the internal name of the object.
-        :param Is3D: Boolean. True for 3D solids, False for 2D geometries.
-        """
+    """Extract tacit Part objects from an existing shape using Tagger names."""
+
+    def __init__(
+        self,
+        ObjectName: str,
+        Is3D: bool = False,
+        *,
+        TaggerInstance: Tagger | None = None,
+        Language=None,
+    ) -> None:
         self.ObjectName = ObjectName
         self.Is3D = Is3D
         self.ActiveDoc = App.ActiveDocument
+        self.Tagger = TaggerInstance or Tagger(Language, self.ActiveDoc)
         self.TargetObj = self.GetObjectByName()
 
     def GetObjectByName(self):
@@ -34,19 +43,19 @@ class CreateObjects:
         if not self.ActiveDoc:
             print("Error: No active document found in FreeCAD.")
             return None
-        
+
         FoundObject = self.ActiveDoc.getObject(self.ObjectName)
         if not FoundObject:
             print(f"Error: Object '{self.ObjectName}' not found in the document.")
             return None
-            
+
         if not hasattr(FoundObject, "Shape"):
             print(f"Error: Object '{self.ObjectName}' lacks a valid geometric Shape.")
             return None
-            
+
         return FoundObject
 
-    def Execute(self):
+    def Execute(self) -> None:
         """Triggers the extraction logic based on the dimensionality flag."""
         if not self.TargetObj:
             return
@@ -57,59 +66,54 @@ class CreateObjects:
             self.Process3D(TargetShape)
         else:
             self.Process2D(TargetShape)
-            
+
         self.ActiveDoc.recompute()
 
-    def Process3D(self, TargetShape):
+    def Process3D(self, TargetShape) -> None:
         """Extracts faces and edges from 3D solid objects."""
         print(f"Processing '{self.ObjectName}' as a 3D solid...")
-        
-        # 1. Extract and create all Surfaces / Faces
-        for Index, Face in enumerate(TargetShape.Faces):
-            FaceName = f"{self.TargetObj.Name}_Surface_{Index+1}"
+
+        for Face in TargetShape.Faces:
+            FaceName = self.Tagger.NextName("surface")
             NewFace = self.ActiveDoc.addObject("Part::Feature", FaceName)
             NewFace.Shape = Face
-            
-        # 2. Extract and create all Edges
-        for Index, Edge in enumerate(TargetShape.Edges):
-            EdgeName = f"{self.TargetObj.Name}_Edge_{Index+1}"
+            self.Tagger.ApplyLabel(NewFace, "surface")
+
+        for Edge in TargetShape.Edges:
+            EdgeName = self.Tagger.NextName("edge")
             NewEdge = self.ActiveDoc.addObject("Part::Feature", EdgeName)
             NewEdge.Shape = Edge
-            
-        print(f"Success: {len(TargetShape.Faces)} surfaces and {len(TargetShape.Edges)} edges created.")
+            self.Tagger.ApplyLabel(NewEdge, "edge")
 
-    def Process2D(self, TargetShape):
+        print(
+            f"Success: {len(TargetShape.Faces)} surfaces and "
+            f"{len(TargetShape.Edges)} edges created."
+        )
+
+    def Process2D(self, TargetShape) -> None:
         """Extracts wireframe edges and unique control vertices from 2D objects."""
         print(f"Processing '{self.ObjectName}' as a 2D geometry...")
-        
-        # 1. Extract and create all Edges (Lines/Arcs/Splines)
-        for Index, Edge in enumerate(TargetShape.Edges):
-            LineName = f"{self.TargetObj.Name}_Line_{Index+1}"
+
+        for Edge in TargetShape.Edges:
+            LineName = self.Tagger.NextName("line")
             NewLine = self.ActiveDoc.addObject("Part::Feature", LineName)
             NewLine.Shape = Edge
-            
-        # 2. Extract and create unique Vertices
+            self.Tagger.ApplyLabel(NewLine, "line")
+
         UniqueVertices = {}
-        for Vertex in TargetShape.Vertices:
-            # Rounding to 4 decimal places filters out duplicate overlapping vertex structures
+        for Vertex in TargetShape.Vertexes:
             PositionKey = (round(Vertex.X, 4), round(Vertex.Y, 4), round(Vertex.Z, 4))
             if PositionKey not in UniqueVertices:
                 UniqueVertices[PositionKey] = Vertex
-                
-                VertexName = f"{self.TargetObj.Name}_Point_{len(UniqueVertices)}"
+
+                VertexName = self.Tagger.NextName("point")
                 NewVertex = self.ActiveDoc.addObject("Part::Vertex", VertexName)
                 NewVertex.X = Vertex.X
                 NewVertex.Y = Vertex.Y
                 NewVertex.Z = Vertex.Z
-                
-        print(f"Success: {len(TargetShape.Edges)} lines and {len(UniqueVertices)} unique points created.")
+                self.Tagger.ApplyLabel(NewVertex, "point")
 
-## example for Batch Implementation
-#TargetsToProcess = [
-#    {"Name": "Pad", "Is3D": True},
-#    {"Name": "ProfileSketch", "Is3D": False}
-#]
-#
-#for Target in TargetsToProcess:
-#    Worker = CreateObjects(ObjectName=Target["Name"], Is3D=Target["Is3D"])
-#    Worker.Execute()
+        print(
+            f"Success: {len(TargetShape.Edges)} lines and "
+            f"{len(UniqueVertices)} unique points created."
+        )

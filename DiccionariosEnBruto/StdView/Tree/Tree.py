@@ -16,13 +16,16 @@
 
 import FreeCADGui as Gui
 
+from .ayuda import ayuda
+
 # Diccionario DAV - StdView / Tree
 tree = {
-    'collapse': lambda: Gui.runCommand('Std_TreeCollapseDocument', 0),
-    'preselection': lambda: Gui.runCommand('Std_TreePreSelection', 0),
+    'collapse':        lambda: Gui.runCommand('Std_TreeCollapseDocument', 0),
+    'preselection':    lambda: Gui.runCommand('Std_TreePreSelection', 0),
     'recordselection': lambda: Gui.runCommand('Std_TreeRecordSelection', 0),
-    'singleexpand': lambda: Gui.runCommand('Std_TreeSingleExpand', 0),
-    'syncplacement': lambda: Gui.runCommand('Std_TreeSyncPlacement', 0),
-    'syncselection': lambda: Gui.runCommand('Std_TreeSyncSelection', 0),
-    'syncview': lambda: Gui.runCommand('Std_TreeSyncView', 0),
+    'singleexpand':    lambda: Gui.runCommand('Std_TreeSingleExpand', 0),
+    'syncplacement':   lambda: Gui.runCommand('Std_TreeSyncPlacement', 0),
+    'syncselection':   lambda: Gui.runCommand('Std_TreeSyncSelection', 0),
+    'syncview':        lambda: Gui.runCommand('Std_TreeSyncView', 0),
+    'help':            ayuda,
 }

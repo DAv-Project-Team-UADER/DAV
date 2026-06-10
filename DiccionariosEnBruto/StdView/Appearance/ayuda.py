@@ -18,5 +18,7 @@
 
 def ayuda():
     print("=== Subgrupo StdView: Appearance ===")
-    print("  'appearance' : Cambia propiedades visuales (color, transparencia) del objeto. | Req: Objeto seleccionado")
-    print("  'faceColors' : Establece propiedades de visualización en caras individuales. | Req: Cara seleccionada")
+    print("  'appearance'     : Cambia propiedades visuales (color, transparencia) del objeto. | Req: Objeto seleccionado")
+    print("  'facecolors'     : Establece propiedades de visualización en caras individuales. | Req: Cara seleccionada")
+    print("  'randomcolor'    : Asigna un color aleatorio a los objetos seleccionados. | Req: Objeto seleccionado")
+    print("  'texturemapping' : Abre el diálogo de mapeo de texturas para aplicar una imagen al objeto. | Req: Objeto seleccionado con geometría de cara")
