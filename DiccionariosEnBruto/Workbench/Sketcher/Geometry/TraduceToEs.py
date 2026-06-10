@@ -18,24 +18,6 @@
 
 import FreeCADGui as Gui
 
-# Importaciones relativas porque estamos en la misma carpeta
-from .sketcher import _toggle_construction
-from .ayuda import ayuda as sketcher_ayuda
-from .Geometry.geometry import geometry
-from .arcslot.arcslot import arcslot
-from .constraints.constraints import constraints
-from .external.external import external
-from .oblong.oblong import oblong
-from .point.point import point
-from .select.select import select
-from .slot.slot import slot
-from .square.square import square
-from .text.text import text
-from .tools.tools import tools
-from .triangle.triangle import triangle
-from .validate.validate import validate
-from .view.view import view
-
 TraduceToEs = {
   
 }
