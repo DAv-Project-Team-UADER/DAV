@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part section commands."""
+
+from .part_section import part_section
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "section": part_section["section"],
+    "create section": part_section["section"],
+    "make section": part_section["section"],
+    "section curve": part_section["section"],
+    "intersection": part_section["section"],
+    "intersection curve": part_section["section"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

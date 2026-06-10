@@ -15,24 +15,23 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""English spoken-word mapping for the circle dictionary."""
+"""English spoken-word mapping for the arc_slot dictionary."""
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Comandos para crear un círculo desde el centro (create)
-    'create':           lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'circle':           lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'center circle':    lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'circle by center': lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
+    # Comandos para crear ranura curva con bordes redondeados (arc_ends)
+    'arc ends':         lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'rounded slot':     lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'curved slot':      lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'arc slot':         lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
 
-    # Comandos para crear un círculo mediante 3 puntos (3point)
-    'three point':      lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    'three points':     lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    '3 point':          lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    '3 points':         lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    'circle by 3 points': lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
+    # Comandos para crear ranura curva con bordes planos (flat_ends)
+    'flat ends':        lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'flat slot':        lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'square ends':      lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'flat arc slot':    lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
 
     # Comandos de ayuda integrados
     'help':             ayuda,

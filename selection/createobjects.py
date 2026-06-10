@@ -101,7 +101,7 @@ class CreateObjects:
             self.Tagger.ApplyLabel(NewLine, "line")
 
         UniqueVertices = {}
-        for Vertex in TargetShape.Vertices:
+        for Vertex in TargetShape.Vertexes:
             PositionKey = (round(Vertex.X, 4), round(Vertex.Y, 4), round(Vertex.Z, 4))
             if PositionKey not in UniqueVertices:
                 UniqueVertices[PositionKey] = Vertex
