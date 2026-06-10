@@ -15,3 +15,41 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .page import page
+from .ayuda import ayuda
+
+TraduceToEn = {
+
+    # Default Page
+    "default page": page["default"],
+    "new page": page["default"],
+    "create page": page["default"],
+
+    # Template Page
+    "template page": page["template"],
+    "page template": page["template"],
+    "new template page": page["template"],
+
+    # Redraw
+    "redraw page": page["redraw"],
+    "refresh page": page["redraw"],
+    "update page": page["redraw"],
+
+    # Print
+    "print": page["print"],
+    "print page": page["print"],
+    "print all": page["print"],
+
+    # Export DXF
+    "export dxf": page["dxf"],
+    "dxf": page["dxf"],
+    "save dxf": page["dxf"],
+
+    # Export SVG
+    "export svg": page["svg"],
+    "svg": page["svg"],
+    "save svg": page["svg"],
+
+    "help": ayuda,
+}
