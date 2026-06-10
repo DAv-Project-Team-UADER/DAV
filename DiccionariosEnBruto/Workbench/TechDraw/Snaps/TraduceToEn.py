@@ -15,3 +15,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+
+from .snaps import snaps
+from .ayuda import ayuda
+
+TraduceToEn = {
+
+    # Midpoints
+    "midpoint": snaps["midpoints"],
+    "midpoints": snaps["midpoints"],
+    "middle point": snaps["midpoints"],
+    "center point": snaps["midpoints"],
+
+    # Quadrants
+    "quadrant": snaps["quadrants"],
+    "quadrants": snaps["quadrants"],
+    "quarter point": snaps["quadrants"],
+    "quadrant point": snaps["quadrants"],
+
+    "help": ayuda,
+}
