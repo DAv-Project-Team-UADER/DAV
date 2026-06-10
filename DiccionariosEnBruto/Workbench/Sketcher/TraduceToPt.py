@@ -36,6 +36,61 @@ from .triangle.triangle import triangle
 from .validate.validate import validate
 from .view.view import view
 
-TraduceToPt = {
+TranslateToPt = {
   
+  # Carpetas de Sketcher  
+  "geometria": "geometry",
+
+  "arco": "arc",
+  "arcos": "arcs",
+  "ranhura de arco": "arcslot",
+
+  "restricoes": "constraints",
+  "restrições": "constraints",
+  "restricao": "constraint",
+  "restrição": "constraint",
+
+  "externo": "external",
+  "externa": "external",
+
+  "oblongo": "oblong",
+  "criar oblongo": "create oblong",
+
+  "ponto": "point",
+  "criar ponto": "create point",
+
+  "selecionar": "select",
+  "selecao": "selection",
+  "seleção": "selection",
+
+  "ranhura": "slot",
+  "criar ranhura": "create slot",
+
+  "quadrado": "square",
+  "criar quadrado": "create square",
+  "desenhar quadrado": "draw square",
+
+  "texto": "text",
+  "escrever texto": "write text",
+  "criar texto": "create text",
+
+  "ferramentas": "tools",
+  "ferramenta": "tool",
+
+  "triangulo": "triangle",
+  "triângulo": "triangle",
+  "criar triangulo": "create triangle",
+  "criar triângulo": "create triangle",
+  "desenhar triangulo": "draw triangle",
+  "desenhar triângulo": "draw triangle",
+
+  "validar": "validate",
+  "validar esboco": "validate sketch",
+  "validar esboço": "validate sketch",
+
+  "vista": "view",
+  "ver esboco": "view sketch",
+  "ver esboço": "view sketch",
+  "ver selecao": "view selection",
+  "ver seleção": "view selection",
 }
