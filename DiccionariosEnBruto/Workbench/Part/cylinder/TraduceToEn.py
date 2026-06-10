@@ -15,3 +15,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .cylinder import cylinder
+from .ayuda import ayuda
+
+TraduceToEn = {
+    'cylinder':           cylinder['cylinder'],
+    'primitive cylinder': cylinder['primitive cylinder'],
+    'tube':               cylinder['cylinder'],
+    'help':               ayuda,
+    'support':            ayuda,
+}
