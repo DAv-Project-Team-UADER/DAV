@@ -15,3 +15,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .modification import modification
+from .ayuda import ayuda
+
+TraduceToEn = {
+    'scale': modification['scale'],
+    'shape_2d_view': modification['shape_2d_view'],
+    'slope': modification['slope'],
+    'split': modification['split'],
+    'stretch': modification['stretch'],
+    'subelement_highlight': modification['subelement_highlight'],
+    'trimex': modification['trimex'],
+    'upgrade': modification['upgrade'],
+    'wire_to_bspline': modification['wire_to_bspline'],
+    'help': ayuda,
+}
