@@ -15,3 +15,41 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# English translations – PartDesign (folders only)
+# ============================================================
+
+TraduceToEn = {
+
+    # Main folders
+    "base": "base",
+    "additive": "additive",
+    "subtractive": "subtractive",
+    "modify": "modify",
+    "transform": "transform",
+    "manage": "manage",
+
+    # Synonyms → same folders
+    "basic": "base",
+    "fundamental": "base",
+
+    "add": "additive",
+    "adding": "additive",
+    "additions": "additive",
+
+    "subtract": "subtractive",
+    "remove": "subtractive",
+    "cut": "subtractive",
+
+    "edit": "modify",
+    "editing": "modify",
+    "modifiers": "modify",
+
+    "transformations": "transform",
+    "patterns": "transform",
+
+    "management": "manage",
+    "administration": "manage",
+    "settings": "manage",
+}
