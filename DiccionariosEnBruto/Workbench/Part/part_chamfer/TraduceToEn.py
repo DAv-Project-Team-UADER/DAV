@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part chamfer commands."""
+
+from .part_chamfer import part_chamfer
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "chamfer": part_chamfer["chaflan"],
+    "create chamfer": part_chamfer["chaflan"],
+    "make chamfer": part_chamfer["chaflan"],
+    "bevel": part_chamfer["chaflan"],
+    "create bevel": part_chamfer["chaflan"],
+    "make bevel": part_chamfer["chaflan"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

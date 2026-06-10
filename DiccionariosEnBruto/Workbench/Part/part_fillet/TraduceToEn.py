@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part fillet commands."""
+
+from .part_fillet import part_fillet
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "fillet": part_fillet["fillet"],
+    "create fillet": part_fillet["fillet"],
+    "make fillet": part_fillet["fillet"],
+    "round": part_fillet["fillet"],
+    "round edge": part_fillet["fillet"],
+    "round edges": part_fillet["fillet"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}
