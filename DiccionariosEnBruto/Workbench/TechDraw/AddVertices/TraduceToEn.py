@@ -15,3 +15,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import FreeCADGui as Gui
+from .ayuda import ayuda
+
+TraduceToEn = {
+    'cosmetic':          lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),
+    'cosmetic vertex':   lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
+    'reference point':   lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
+    'add vertex':        lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
+    'help':              ayuda,
+    'assistance':        ayuda,  # synonym
+}
