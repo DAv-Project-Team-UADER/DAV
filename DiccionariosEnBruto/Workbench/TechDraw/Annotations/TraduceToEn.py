@@ -19,7 +19,7 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
-TraduceToEnUs = {
+TraduceToEn = {
     'annotation':        lambda: Gui.runCommand('TechDraw_Annotation', 0),
     'note':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
     'text':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
