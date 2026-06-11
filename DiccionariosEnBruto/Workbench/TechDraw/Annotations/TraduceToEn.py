@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import FreeCADGui as Gui
+from .ayuda import ayuda
+
+TraduceToEnUs = {
+    'annotation':        lambda: Gui.runCommand('TechDraw_Annotation', 0),
+    'note':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
+    'text':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
+    'comment':           lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
+    'axo length':        lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),
+    'axonometric':       lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),  # synonym
+    'axo dimension':     lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),  # synonym
+    'balloon':           lambda: Gui.runCommand('TechDraw_Balloon', 0),
+    'callout':           lambda: Gui.runCommand('TechDraw_Balloon', 0),          # synonym
+    'bubble':            lambda: Gui.runCommand('TechDraw_Balloon', 0),          # synonym
+    'help':              ayuda,
+    'assistance':        ayuda,  # synonym
+}
