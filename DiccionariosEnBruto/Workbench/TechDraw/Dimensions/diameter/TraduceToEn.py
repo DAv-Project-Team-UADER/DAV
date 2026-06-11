@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import FreeCAD as App
+import FreeCADGui as Gui
+from .ayuda import ayuda
+from .diameter import _create_diameter
+
+TraduceToEn = {
+    'diameter':           lambda: _create_diameter(),
+    'circle dimension':   lambda: _create_diameter(),  # synonym
+    'diameter dimension': lambda: _create_diameter(),  # synonym
+    'help':               ayuda,
+    'assistance':         ayuda,  # synonym
+}
