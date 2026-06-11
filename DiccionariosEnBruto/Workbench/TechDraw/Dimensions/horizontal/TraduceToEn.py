@@ -15,3 +15,17 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import FreeCAD as App
+import FreeCADGui as Gui
+from .ayuda import ayuda
+from .horizontal import _create_horizontal
+
+TraduceToEn = {
+    'horizontal':            lambda: _create_horizontal(),
+    'horizontal dimension':  lambda: _create_horizontal(),  # synonym
+    'width':                 lambda: _create_horizontal(),  # synonym
+    'x distance':            lambda: _create_horizontal(),  # synonym
+    'help':                  ayuda,
+    'assistance':            ayuda,  # synonym
+}
