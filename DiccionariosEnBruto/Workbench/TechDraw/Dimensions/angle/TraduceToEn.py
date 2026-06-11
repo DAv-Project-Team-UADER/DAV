@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import FreeCAD as App
+import FreeCADGui as Gui
+from .ayuda import ayuda
+from .angle import _create_angle, _create_angle_3pt
+
+TraduceToEn = {
+    'angle':              lambda: _create_angle(),
+    'angular':            lambda: _create_angle(),        # synonym
+    'angle dimension':    lambda: _create_angle(),        # synonym
+    'points':             lambda: _create_angle_3pt(),
+    'three points':       lambda: _create_angle_3pt(),    # synonym
+    'angle three points': lambda: _create_angle_3pt(),    # synonym
+    '3 point angle':      lambda: _create_angle_3pt(),    # synonym
+    'help':               ayuda,
+    'assistance':         ayuda,  # synonym
+}
