@@ -21,4 +21,5 @@ def ayuda():
     print("  import link   - Importa el objeto enlazado seleccionado desde su documento externo al documento activo, convirtiendo el enlace externo en una copia local.")
     print("  import all links - Importa todos los objetos enlazados desde documentos externos al documento activo en una sola operación.")
     print("  replace link  - Reemplaza el objeto seleccionado en su contenedor padre por un enlace al mismo objeto, convirtiendo la copia directa en una referencia.")
+    print("  linkgroups    - Crea un grupo de enlaces a partir de los objetos seleccionados, agrupando múltiples enlaces en un contenedor.")
     print("  help     - Muestra esta ayuda")

@@ -24,5 +24,6 @@ link = {
     'importlink':     lambda: Gui.runCommand('Std_LinkImport', 0),
     'importalllinks': lambda: Gui.runCommand('Std_LinkImportAll', 0),
     'replacelink':    lambda: Gui.runCommand('Std_LinkReplace', 0),
+    'linkgroups':     lambda: Gui.runCommand('Std_LinkMakeGroup', 0),
     'help': ayuda,
 }

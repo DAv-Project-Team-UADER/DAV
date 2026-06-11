@@ -10,7 +10,6 @@ from .Windows.Windows                   import windows
 from .Expressions.Expressions           import expressions
 from .Tools.Tools                       import tools
 from .StructureToolbar.structure        import structure
-from .AdditionalTools.Additional        import additional
 from .ayuda                             import ayuda
 
 explorer = {}
@@ -21,7 +20,6 @@ explorer.update(windows)
 explorer.update(expressions)
 explorer.update(tools)
 explorer.update(structure)
-explorer.update(additional)
 explorer.update({
     'refresh':      lambda: Gui.runCommand('Std_Refresh', 0),
     'screenshot':   lambda: Gui.runCommand('Std_ViewScreenShot', 0),
@@ -32,3 +30,4 @@ explorer.update({
     'variableset':  lambda: Gui.runCommand('Std_VarSet', 0),
     'help':         ayuda,
 })
+
