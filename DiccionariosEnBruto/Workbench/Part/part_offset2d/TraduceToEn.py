@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the part_offset2d dictionary."""
+
+from .part_offset2d import part_offset2d
+from .ayuda import ayuda
+
+TraduceToEn = {
+    'offset 2d': part_offset2d['offset 2d'],
+    '2d offset': part_offset2d['offset 2d'],
+    'outline': part_offset2d['offset 2d'],
+    'border': part_offset2d['offset 2d'],
+
+    'help': ayuda,
+    'manual': ayuda,
+    'support': ayuda,
+    'documentation': ayuda,
+}
