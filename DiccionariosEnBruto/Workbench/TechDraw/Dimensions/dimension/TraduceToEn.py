@@ -15,3 +15,13 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .dimensions import dimension
+
+TraduceToEn = {
+    'dimension': dimension['dimension'],
+    'measure': dimension['dimension'],
+    'lengthdimension': dimension['dimension'],
+    'length_dimension': dimension['dimension'],
+    'help': dimension['help'],
+}
