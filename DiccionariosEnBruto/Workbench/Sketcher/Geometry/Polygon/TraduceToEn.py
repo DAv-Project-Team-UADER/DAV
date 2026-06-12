@@ -20,23 +20,18 @@
 # English translations – Sketcher Polygon
 # ============================================================
 
+from .polygon import polygon
+
 TraduceToEn = {
-
     # Main commands
-    "pentagon": "pentagon",
-    "octagon": "octagon",
-    "regular": "regular",
-    "help": "help",
+    "pentagon": polygon["pentagon"],
+    "octagon": polygon["octagon"],
+    "regular": polygon["regular"],
+    "help": polygon["help"],
 
-    # Synonyms
-    "five sided polygon": "pentagon",
-    "5 sided polygon": "pentagon",
-
-    "eight sided polygon": "octagon",
-    "8 sided polygon": "octagon",
-
-    "regular polygon": "regular",
-    "polygon": "regular",
-
-    "polygon help": "help",
+    # Aliases
+    "regular polygon": polygon["regular"],
+    "polygon": polygon["regular"],
+    "five sides": polygon["pentagon"],
+    "eight sides": polygon["octagon"],
 }
