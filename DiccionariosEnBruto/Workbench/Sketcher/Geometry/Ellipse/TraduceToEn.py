@@ -20,31 +20,21 @@
 # English translations – Sketcher Ellipse
 # ============================================================
 
+from .ellipse import ellipse
+
 TraduceToEn = {
-
     # Main commands
-    "center": "center",
-    "3points": "3points",
-    "elliptic": "elliptic",
-    "hyperbolic": "hyperbolic",
-    "parabolic": "parabolic",
-    "help": "help",
+    "center": ellipse["center"],
+    "3points": ellipse["3points"],
+    "elliptic": ellipse["elliptic"],
+    "hyperbolic": ellipse["hyperbolic"],
+    "parabolic": ellipse["parabolic"],
+    "help": ellipse["help"],
 
-    # Synonyms
-    "ellipse by center": "center",
-    "center ellipse": "center",
-
-    "ellipse by 3 points": "3points",
-    "three point ellipse": "3points",
-
-    "elliptic arc": "elliptic",
-    "ellipse arc": "elliptic",
-
-    "hyperbolic arc": "hyperbolic",
-    "hyperbola arc": "hyperbolic",
-
-    "parabolic arc": "parabolic",
-    "parabola arc": "parabolic",
-
-    "ellipse help": "help",
+    # Aliases
+    "ellipse center": ellipse["center"],
+    "ellipse 3 points": ellipse["3points"],
+    "ellipse arc": ellipse["elliptic"],
+    "hyperbola arc": ellipse["hyperbolic"],
+    "parabola arc": ellipse["parabolic"],
 }
