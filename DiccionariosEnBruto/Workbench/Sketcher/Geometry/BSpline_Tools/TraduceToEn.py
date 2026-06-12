@@ -20,33 +20,21 @@
 # English translations – Sketcher BSpline Tools
 # ============================================================
 
+from .bspline_tools import bspline_tools
+
 TraduceToEn = {
-
     # Main commands
-    "tonurbs": "tonurbs",
-    "decrease": "decrease",
-    "increase": "increase",
-    "knot": "knot",
-    "join": "join",
-    "help": "help",
+    "tonurbs": bspline_tools["tonurbs"],
+    "decrease": bspline_tools["decrease"],
+    "increase": bspline_tools["increase"],
+    "knot": bspline_tools["knot"],
+    "join": bspline_tools["join"],
+    "help": bspline_tools["help"],
 
-    # Synonyms
-    "convert to nurbs": "tonurbs",
-    "bspline to nurbs": "tonurbs",
-    "nurbs conversion": "tonurbs",
-
-    "decrease degree": "decrease",
-    "reduce degree": "decrease",
-
-    "increase degree": "increase",
-    "raise degree": "increase",
-
-    "insert knot": "knot",
-    "add knot": "knot",
-
-    "join curve": "join",
-    "join bspline": "join",
-    "merge bspline": "join",
-
-    "bspline tools help": "help",
+    # Aliases
+    "convert to nurbs": bspline_tools["tonurbs"],
+    "degree down": bspline_tools["decrease"],
+    "degree up": bspline_tools["increase"],
+    "insert knot": bspline_tools["knot"],
+    "join curve": bspline_tools["join"],
 }
