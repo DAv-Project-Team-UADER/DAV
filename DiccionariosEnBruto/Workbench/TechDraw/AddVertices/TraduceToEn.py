@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,14 +15,16 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+from .addVertices import add_vertices
 from .ayuda import ayuda
 
 TraduceToEn = {
-    'cosmetic':          lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),
-    'cosmetic vertex':   lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
-    'reference point':   lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
-    'add vertex':        lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),  # synonym
-    'help':              ayuda,
-    'assistance':        ayuda,  # synonym
+    # cosmetic
+    "cosmetic":        add_vertices["cosmetic"],
+    "cosmetic vertex": add_vertices["cosmetic"],  # synonym
+    "reference point": add_vertices["cosmetic"],  # synonym
+    "add vertex":      add_vertices["cosmetic"],  # synonym
+    # help
+    "help":            ayuda,
+    "assistance":      ayuda,                     # synonym
 }
