@@ -16,25 +16,12 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+from .addLines import addLines
 from .ayuda import ayuda
 
 TraduceToEn = {
-    'two lines':         lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),
-    'two line center':   lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),  # synonym
-    'center line':       lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),  # synonym
-    'two points':        lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),
-    'two point center':  lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),  # synonym
-    'point center line': lambda: Gui.runCommand('TechDraw_2PointCenterLine', 0),  # synonym
-    'cosmetic':          lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),
-    'cosmetic line':     lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),  # synonym
-    'construction line': lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),  # synonym
-    'decorate':          lambda: Gui.runCommand('TechDraw_DecorateLine', 0),
-    'line style':        lambda: Gui.runCommand('TechDraw_DecorateLine', 0),  # synonym
-    'change line':       lambda: Gui.runCommand('TechDraw_DecorateLine', 0),  # synonym
-    'center':            lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),
-    'face center':       lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),  # synonym
-    'face center line':  lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),  # synonym
-    'help':              ayuda,
-    'assistance':        ayuda,  # synonym
+    # twolines
+    "two lines":       addLines["twolines"],
+    "center line":     addLines["twolines"],    # synonym
+    "help":            ayuda,
 }
