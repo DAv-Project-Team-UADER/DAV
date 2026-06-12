@@ -17,25 +17,23 @@
 
 """English spoken-word mapping for the circle dictionary."""
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from .circle import circle
 
 TraduceToEn = {
-    # Comandos para crear un círculo desde el centro (create)
-    'create':           lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'circle':           lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'center circle':    lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
-    'circle by center': lambda: Gui.runCommand('Sketcher_CreateCircle', 0),
+    # Apunta a los elementos del diccionario original 'circle'
+    'create':           circle['create'],
+    'circle':           circle['create'],
+    'center circle':    circle['create'],
+    'circle by center': circle['create'],
 
-    # Comandos para crear un círculo mediante 3 puntos (3point)
-    'three point':      lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    'three points':     lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    '3 point':          lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    '3 points':         lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
-    'circle by 3 points': lambda: Gui.runCommand('Sketcher_Create3PointCircle', 0),
+    'three point':      circle['3point'],
+    'three points':     circle['3point'],
+    '3 point':          circle['3point'],
+    '3 points':         circle['3point'],
+    'circle by 3 points': circle['3point'],
 
-    # Comandos de ayuda integrados
-    'help':             ayuda,
-    'commands':         ayuda,
-    'options':          ayuda
+    # Sinónimos para la función ayuda
+    'help':             circle['help'],
+    'commands':         circle['help'],
+    'options':          circle['help']
 }
