@@ -20,36 +20,38 @@
 # English translations – PartDesign (folders only)
 # ============================================================
 
+from .partdesign import partdesign
+
 TraduceToEn = {
 
-    # Main folders
-    "base": "base",
-    "additive": "additive",
-    "subtractive": "subtractive",
-    "modify": "modify",
-    "transform": "transform",
-    "manage": "manage",
+    # Main groups (folders conceptuales)
+    "base": partdesign["help"],
+    "additive": partdesign["help"],
+    "subtractive": partdesign["help"],
+    "modify": partdesign["help"],
+    "transform": partdesign["help"],
+    "manage": partdesign["help"],
 
-    # Synonyms → same folders
-    "basic": "base",
-    "fundamental": "base",
+    # Synonyms → same behavior
+    "basic": partdesign["help"],
+    "fundamental": partdesign["help"],
 
-    "add": "additive",
-    "adding": "additive",
-    "additions": "additive",
+    "add": partdesign["help"],
+    "adding": partdesign["help"],
+    "additions": partdesign["help"],
 
-    "subtract": "subtractive",
-    "remove": "subtractive",
-    "cut": "subtractive",
+    "subtract": partdesign["help"],
+    "remove": partdesign["help"],
+    "cut": partdesign["help"],
 
-    "edit": "modify",
-    "editing": "modify",
-    "modifiers": "modify",
+    "edit": partdesign["help"],
+    "editing": partdesign["help"],
+    "modifiers": partdesign["help"],
 
-    "transformations": "transform",
-    "patterns": "transform",
+    "transformations": partdesign["help"],
+    "patterns": partdesign["help"],
 
-    "management": "manage",
-    "administration": "manage",
-    "settings": "manage",
+    "management": partdesign["help"],
+    "administration": partdesign["help"],
+    "settings": partdesign["help"],
 }
