@@ -15,15 +15,15 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCAD as App
-import FreeCADGui as Gui
+from .radius import radius
 from .ayuda import ayuda
-from .radius import _create_radius
 
 TraduceToEn = {
-    'radius':            lambda: _create_radius(),
-    'radius dimension':  lambda: _create_radius(),  # synonym
-    'arc radius':        lambda: _create_radius(),  # synonym
-    'help':              ayuda,
-    'assistance':        ayuda,  # synonym
+    # radius
+    "radius":           radius["radius"],
+    "radius dimension": radius["radius"],         # synonym
+    "arc radius":       radius["radius"],         # synonym
+    # help
+    "help":             ayuda,
+    "assistance":       ayuda,                    # synonym
 }
