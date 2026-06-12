@@ -20,33 +20,28 @@
 # English translations – Sketcher BSpline
 # ============================================================
 
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from .bspline import bspline
+
 TraduceToEn = {
-
     # Main commands
-    "create": "create",
-    "interpolation": "interpolation",
-    "periodic": "periodic",
-    "periodicinterp": "periodicinterp",
-    "help": "help",
+    "create": bspline["create"],
+    "interpolation": bspline["interpolation"],
+    "periodic": bspline["periodic"],
+    "periodicinterp": bspline["periodicinterp"],
+    "help": bspline["help"],
 
-    # Descriptive aliases / synonyms
-    "create bspline": "create",
-    "create b-spline": "create",
-    "bspline curve": "create",
-    "b-spline curve": "create",
-    "spline curve": "create",
+    # Aliases / synonyms
+    "create bspline": bspline["create"],
+    "create b-spline": bspline["create"],
+    "bspline curve": bspline["create"],
+    "b-spline curve": bspline["create"],
+    "spline curve": bspline["create"],
 
-    "interpolated bspline": "interpolation",
-    "interpolated b-spline": "interpolation",
-    "bspline by interpolation": "interpolation",
+    "interpolated": bspline["interpolation"],
+    "interpolated bspline": bspline["interpolation"],
 
-    "periodic bspline": "periodic",
-    "closed bspline": "periodic",
-    "closed b-spline": "periodic",
-
-    "periodic interpolated bspline": "periodicinterp",
-    "closed interpolated bspline": "periodicinterp",
-
-    "help bspline": "help",
-    "bspline help": "help",
+    "periodic bspline": bspline["periodic"],
+    "closed bspline": bspline["periodic"],
 }
