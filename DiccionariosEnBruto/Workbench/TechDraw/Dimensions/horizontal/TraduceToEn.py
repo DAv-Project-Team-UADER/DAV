@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,16 +15,16 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCAD as App
-import FreeCADGui as Gui
+from .horizontal import horizontal
 from .ayuda import ayuda
-from .horizontal import _create_horizontal
 
 TraduceToEn = {
-    'horizontal':            lambda: _create_horizontal(),
-    'horizontal dimension':  lambda: _create_horizontal(),  # synonym
-    'width':                 lambda: _create_horizontal(),  # synonym
-    'x distance':            lambda: _create_horizontal(),  # synonym
-    'help':                  ayuda,
-    'assistance':            ayuda,  # synonym
+    # horizontal
+    "horizontal":            horizontal["horizontal"],
+    "horizontal dimension":  horizontal["horizontal"],  # synonym
+    "width":                 horizontal["horizontal"],  # synonym
+    "x distance":            horizontal["horizontal"],  # synonym
+    # help
+    "help":                  ayuda,
+    "assistance":            ayuda,                     # synonym
 }
