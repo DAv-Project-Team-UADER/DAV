@@ -17,71 +17,43 @@
 
 """English spoken-word mapping for the constraints dictionary."""
 
-import Sketcher
-from .common import GetActiveSketch, RequireGeometry, TryAddConstraint, Finish
-from .ayuda import ayuda
-from .geometric.geometric import geometric
-
-
-def _apply(constraint_type, args, min_geom, hint, label):
-    """Apply a dimensional Sketcher constraint to the active sketch.
-
-    Args:
-        constraint_type: Sketcher.Constraint type string (e.g. 'Distance').
-        args: Tuple of positional arguments passed after the type string.
-        min_geom: Minimum number of geometry elements required.
-        hint: Spanish description of required geometry shown on error.
-        label: Label printed on success.
-    """
-    doc, sketch = GetActiveSketch()
-    if doc and sketch and RequireGeometry(sketch, min_geom, hint):
-        TryAddConstraint(sketch, Sketcher.Constraint(constraint_type, *args))
-        Finish(doc, label)
-
+from .constraints import constraints
 
 TraduceToEn = {
-    # Cota genérica de distancia
-    'dimension':            lambda: _apply('Distance',  (0, 1, 0, 2, 15.0),  1, 'una línea',            'Dimension'),
-    'add dimension':        lambda: _apply('Distance',  (0, 1, 0, 2, 15.0),  1, 'una línea',            'Dimension'),
-    'length':               lambda: _apply('Distance',  (0, 1, 0, 2, 15.0),  1, 'una línea',            'Dimension'),
+    # Apunta a los elementos del diccionario original 'constraints'
+    'dimension':            constraints['dimension'],
+    'add dimension':        constraints['dimension'],
+    'length':               constraints['dimension'],
 
-    # Distancia horizontal
-    'horizontal':           lambda: _apply('DistanceX', (0, 1, 0, 2, 18.0),  1, 'una línea',            'Horizontal Dimension'),
-    'horizontal dimension': lambda: _apply('DistanceX', (0, 1, 0, 2, 18.0),  1, 'una línea',            'Horizontal Dimension'),
-    'horizontal distance':  lambda: _apply('DistanceX', (0, 1, 0, 2, 18.0),  1, 'una línea',            'Horizontal Dimension'),
+    'horizontal':           constraints['horizontal'],
+    'horizontal dimension': constraints['horizontal'],
+    'horizontal distance':  constraints['horizontal'],
 
-    # Distancia vertical
-    'vertical':             lambda: _apply('DistanceY', (0, 1, 0, 2, 20.0),  1, 'una línea',            'Vertical Dimension'),
-    'vertical dimension':   lambda: _apply('DistanceY', (0, 1, 0, 2, 20.0),  1, 'una línea',            'Vertical Dimension'),
-    'vertical distance':    lambda: _apply('DistanceY', (0, 1, 0, 2, 20.0),  1, 'una línea',            'Vertical Dimension'),
+    'vertical':             constraints['vertical'],
+    'vertical dimension':   constraints['vertical'],
+    'vertical distance':    constraints['vertical'],
 
-    # Ángulo
-    'angle':                lambda: _apply('Angle',     (0, 1, 45.0),        2, 'dos líneas',           'Angle Dimension'),
-    'angle dimension':      lambda: _apply('Angle',     (0, 1, 45.0),        2, 'dos líneas',           'Angle Dimension'),
+    'angle':                constraints['angle'],
+    'angle dimension':      constraints['angle'],
 
-    # Radio
-    'radius':               lambda: _apply('Radius',    (0, 10.0),           1, 'un arco o círculo',    'Radius Dimension'),
-    'radius dimension':     lambda: _apply('Radius',    (0, 10.0),           1, 'un arco o círculo',    'Radius Dimension'),
+    'radius':               constraints['radius'],
+    'radius dimension':     constraints['radius'],
 
-    # Diámetro
-    'diameter':             lambda: _apply('Diameter',  (0, 14.0),           1, 'un círculo',           'Diameter Dimension'),
-    'diameter dimension':   lambda: _apply('Diameter',  (0, 14.0),           1, 'un círculo',           'Diameter Dimension'),
+    'diameter':             constraints['diameter'],
+    'diameter dimension':   constraints['diameter'],
 
-    # Radio / Diámetro (automático de ticket)
-    'radiam':               lambda: _apply('Diameter',  (0, 14.0),           1, 'un círculo',           'Radius/Diameter Dimension'),
-    'auto dimension':       lambda: _apply('Diameter',  (0, 14.0),           1, 'un círculo',           'Radius/Diameter Dimension'),
+    'radiam':               constraints['radiam'],
+    'auto dimension':       constraints['radiam'],
 
-    # Distancia específica
-    'distance':             lambda: _apply('Distance',  (0, 1, 0, 2, 20.0),  1, 'una línea',            'Distance Dimension'),
-    'distance dimension':   lambda: _apply('Distance',  (0, 1, 0, 2, 20.0),  1, 'una línea',            'Distance Dimension'),
+    'distance':             constraints['distance'],
+    'distance dimension':   constraints['distance'],
 
-    # Subconjunto geométrico
-    'geometric':            geometric,
-    'geometric constraints':geometric,
-    'geometry constraints': geometric,
+    'geometric':            constraints['geometric'],
+    'geometric constraints':constraints['geometric'],
+    'geometry constraints': constraints['geometric'],
 
-    # Comandos de ayuda
-    'help':                 ayuda,
-    'commands':             ayuda,
-    'options':              ayuda
+    # Sinónimos para la función ayuda
+    'help':                 constraints['help'],
+    'commands':             constraints['help'],
+    'options':              constraints['help']
 }
