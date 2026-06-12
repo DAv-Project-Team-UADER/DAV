@@ -17,74 +17,62 @@
 
 """English spoken-word mapping for the geometric dictionary."""
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from .geometric import geometric
 
 TraduceToEn = {
-    # Coincidencia
-    'coincident':           lambda: Gui.runCommand('Sketcher_ConstrainCoincident', 0),
-    'make coincident':      lambda: Gui.runCommand('Sketcher_ConstrainCoincident', 0),
-    'join points':          lambda: Gui.runCommand('Sketcher_ConstrainCoincident', 0),
+    # Apunta a los elementos del diccionario original 'geometric'
+    'coincident':           geometric['coincident'],
+    'make coincident':      geometric['coincident'],
+    'join points':          geometric['coincident'],
 
-    # Coincidencia unificada
-    'coincident unified':   lambda: Gui.runCommand('Sketcher_ConstrainCoincidentUnified', 0),
-    'unified coincident':   lambda: Gui.runCommand('Sketcher_ConstrainCoincidentUnified', 0),
+    'coincident unified':   geometric['coincidentunified'],
+    'unified coincident':   geometric['coincidentunified'],
 
-    # Bloqueo de posición (lock)
-    'lock':                 lambda: Gui.runCommand('Sketcher_ConstrainLock', 0),
-    'fix position':         lambda: Gui.runCommand('Sketcher_ConstrainLock', 0),
+    'lock':                 geometric['lock'],
+    'fix position':         geometric['lock'],
 
-    # Punto sobre objeto
-    'point on object':      lambda: Gui.runCommand('Sketcher_ConstrainPointOnObject', 0),
-    'fix to line':          lambda: Gui.runCommand('Sketcher_ConstrainPointOnObject', 0),
+    'point on object':      geometric['pointonobject'],
+    'fix to line':          geometric['pointonobject'],
 
-    # Horizontal y Vertical
-    'horizontal':           lambda: Gui.runCommand('Sketcher_ConstrainHorizontal', 0),
-    'make horizontal':      lambda: Gui.runCommand('Sketcher_ConstrainHorizontal', 0),
+    'horizontal':           geometric['horizontal'],
+    'make horizontal':      geometric['horizontal'],
     
-    'vertical':             lambda: Gui.runCommand('Sketcher_ConstrainVertical', 0),
-    'make vertical':        lambda: Gui.runCommand('Sketcher_ConstrainVertical', 0),
+    'vertical':             geometric['vertical'],
+    'make vertical':        geometric['vertical'],
     
-    'horizontal vertical':  lambda: Gui.runCommand('Sketcher_ConstrainHorVer', 0),
-    'auto orientation':     lambda: Gui.runCommand('Sketcher_ConstrainHorVer', 0),
+    'horizontal vertical':  geometric['horver'],
+    'auto orientation':     geometric['horver'],
 
-    # Paralelismo y Perpendicularidad
-    'parallel':             lambda: Gui.runCommand('Sketcher_ConstrainParallel', 0),
-    'make parallel':        lambda: Gui.runCommand('Sketcher_ConstrainParallel', 0),
+    'parallel':             geometric['parallel'],
+    'make parallel':        geometric['parallel'],
     
-    'perpendicular':        lambda: Gui.runCommand('Sketcher_ConstrainPerpendicular', 0),
-    'make perpendicular':   lambda: Gui.runCommand('Sketcher_ConstrainPerpendicular', 0),
+    'perpendicular':        geometric['perpendicular'],
+    'make perpendicular':   geometric['perpendicular'],
 
-    # Tangencia
-    'tangent':              lambda: Gui.runCommand('Sketcher_ConstrainTangent', 0),
-    'make tangent':         lambda: Gui.runCommand('Sketcher_ConstrainTangent', 0),
+    'tangent':              geometric['tangent'],
+    'make tangent':         geometric['tangent'],
 
-    # Igualdad
-    'equal':                lambda: Gui.runCommand('Sketcher_ConstrainEqual', 0),
-    'make equal':           lambda: Gui.runCommand('Sketcher_ConstrainEqual', 0),
-    'equal length':         lambda: Gui.runCommand('Sketcher_ConstrainEqual', 0),
+    'equal':                geometric['equal'],
+    'make equal':           geometric['equal'],
+    'equal length':         geometric['equal'],
 
-    # Simetría
-    'symmetric':            lambda: Gui.runCommand('Sketcher_ConstrainSymmetric', 0),
-    'make symmetric':       lambda: Gui.runCommand('Sketcher_ConstrainSymmetric', 0),
-    'symmetry':             lambda: Gui.runCommand('Sketcher_ConstrainSymmetric', 0),
+    'symmetric':            geometric['symmetric'],
+    'make symmetric':       geometric['symmetric'],
+    'symmetry':             geometric['symmetric'],
 
-    # Bloqueo general (block)
-    'block':                lambda: Gui.runCommand('Sketcher_ConstrainBlock', 0),
-    'block geometry':       lambda: Gui.runCommand('Sketcher_ConstrainBlock', 0),
+    'block':                geometric['block'],
+    'block geometry':       geometric['block'],
 
-    # Alternar conductora/referencia (toggledriving)
-    'toggle driving':       lambda: Gui.runCommand('Sketcher_ToggleDrivingReference', 0),
-    'reference mode':       lambda: Gui.runCommand('Sketcher_ToggleDrivingReference', 0),
-    'driving mode':         lambda: Gui.runCommand('Sketcher_ToggleDrivingReference', 0),
+    'toggle driving':       geometric['toggledriving'],
+    'reference mode':       geometric['toggledriving'],
+    'driving mode':         geometric['toggledriving'],
 
-    # Activar/desactivar restricción (toggleactive)
-    'toggle active':        lambda: Gui.runCommand('Sketcher_ToggleConstraints', 0),
-    'activate constraint':  lambda: Gui.runCommand('Sketcher_ToggleConstraints', 0),
-    'deactivate constraint':lambda: Gui.runCommand('Sketcher_ToggleConstraints', 0),
+    'toggle active':        geometric['toggleactive'],
+    'activate constraint':  geometric['toggleactive'],
+    'deactivate constraint':geometric['toggleactive'],
 
-    # Comandos de ayuda
-    'help':                 ayuda,
-    'commands':             ayuda,
-    'options':              ayuda
+    # Sinónimos para la función ayuda
+    'help':                 geometric['help'],
+    'commands':             geometric['help'],
+    'options':              geometric['help']
 }
