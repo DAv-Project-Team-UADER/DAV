@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,15 +15,15 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCAD as App
-import FreeCADGui as Gui
+from .diameter import diameter
 from .ayuda import ayuda
-from .diameter import _create_diameter
 
 TraduceToEn = {
-    'diameter':           lambda: _create_diameter(),
-    'circle dimension':   lambda: _create_diameter(),  # synonym
-    'diameter dimension': lambda: _create_diameter(),  # synonym
-    'help':               ayuda,
-    'assistance':         ayuda,  # synonym
+    # diameter
+    "diameter":           diameter["diameter"],
+    "circle dimension":   diameter["diameter"],   # synonym
+    "diameter dimension": diameter["diameter"],   # synonym
+    # help
+    "help":               ayuda,
+    "assistance":         ayuda,                  # synonym
 }
