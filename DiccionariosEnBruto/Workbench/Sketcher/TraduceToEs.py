@@ -21,72 +21,59 @@ import FreeCADGui as Gui
 # Importaciones relativas porque estamos en la misma carpeta
 from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
-from .Geometry.geometry import geometry
-from .arcslot.arcslot import arcslot
-from .constraints.constraints import constraints
-from .external.external import external
-from .oblong.oblong import oblong
-from .point.point import point
-from .select.select import select
-from .slot.slot import slot
-from .square.square import square
-from .text.text import text
-from .tools.tools import tools
-from .triangle.triangle import triangle
-from .validate.validate import validate
-from .view.view import view
+from .sketcher import sketcher
 
 TraduceToEs = {
-  "geometria": "geometry",
-  "geometría": "geometry",
+  "geometria": sketcher["geometry"],
+  "geometría": sketcher["geometry"],
 
-  "arco": "arc",
-  "arcos": "arcs",
-  "ranura de arco": "arcslot",
+  "arco": sketcher["arcslot"],
+  "arcos": sketcher["arcslot"],
+  "ranura de arco": sketcher["arcslot"],
 
-  "restricciones": "constraints",
-  "restriccion": "constraint",
-  "restricción": "constraint",
+  "restricciones": sketcher["constraints"],
+  "restriccion": sketcher["constraints"],
+  "restricción": sketcher["constraints"],
 
-  "externo": "external",
-  "externa": "external",
+  "externo": sketcher["external"],
+  "externa": sketcher["external"],
 
-  "oblongo": "oblong",
-  "crear oblongo": "create oblong",
+  "oblongo": sketcher["oblong"],
+  "crear oblongo": sketcher["oblong"],
 
-  "punto": "point",
-  "crear punto": "create point",
+  "punto": sketcher["point"],
+  "crear punto": sketcher["point"],
 
-  "seleccionar": "select",
-  "seleccion": "selection",
-  "selección": "selection",
+  "seleccionar": sketcher["select"],
+  "seleccion": sketcher["select"],
+  "selección": sketcher["select"],
 
-  "ranura": "slot",
-  "crear ranura": "create slot",
+  "ranura": sketcher["slot"],
+  "crear ranura": sketcher["slot"],
 
-  "cuadrado": "square",
-  "crear cuadrado": "create square",
-  "dibujar cuadrado": "draw square",
+  "cuadrado": sketcher["square"],
+  "crear cuadrado": sketcher["square"],
+  "dibujar cuadrado": sketcher["square"],
 
-  "texto": "text",
-  "escribir texto": "write text",
-  "crear texto": "create text",
+  "texto": sketcher["text"],
+  "escribir texto": sketcher["text"],
+  "crear texto": sketcher["text"],
 
-  "herramientas": "tools",
-  "herramienta": "tool",
+  "herramientas": sketcher["tools"],
+  "herramienta": sketcher["tools"],
 
-  "triangulo": "triangle",
-  "triángulo": "triangle",
-  "crear triangulo": "create triangle",
-  "crear triángulo": "create triangle",
-  "dibujar triangulo": "draw triangle",
-  "dibujar triángulo": "draw triangle",
+  "triangulo": sketcher["triangle"],
+  "triángulo": sketcher["triangle"],
+  "crear triangulo": sketcher["triangle"],
+  "crear triángulo": sketcher["triangle"],
+  "dibujar triangulo": sketcher["triangle"],
+  "dibujar triángulo": sketcher["triangle"],
 
-  "validar": "validate",
-  "validar croquis": "validate sketch",
+  "validar": sketcher["validate"],
+  "validar croquis": sketcher["validate"],
 
-  "vista": "view",
-  "ver croquis": "view sketch",
-  "ver seleccion": "view selection",
-  "ver selección": "view selection",
+  "vista": sketcher["view"],
+  "ver croquis": sketcher["view"],
+  "ver seleccion": sketcher["view"],
+  "ver selección": sketcher["view"],
 }
