@@ -15,16 +15,16 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCAD as App
-import FreeCADGui as Gui
+from .length import length
 from .ayuda import ayuda
-from .length import _create_length
 
 TraduceToEn = {
-    'length':            lambda: _create_length(),
-    'length dimension':  lambda: _create_length(),  # synonym
-    'distance':          lambda: _create_length(),  # synonym
-    'measure':           lambda: _create_length(),  # synonym
-    'help':              ayuda,
-    'assistance':        ayuda,  # synonym
+    # length
+    "length":           length["length"],
+    "length dimension": length["length"],         # synonym
+    "distance":         length["length"],         # synonym
+    "measure":          length["length"],         # synonym
+    # help
+    "help":             ayuda,
+    "assistance":       ayuda,                    # synonym
 }
