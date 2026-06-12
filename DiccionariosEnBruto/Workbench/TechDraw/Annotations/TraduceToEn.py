@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,20 +15,24 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+from .annotations import annotations
 from .ayuda import ayuda
 
 TraduceToEn = {
-    'annotation':        lambda: Gui.runCommand('TechDraw_Annotation', 0),
-    'note':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
-    'text':              lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
-    'comment':           lambda: Gui.runCommand('TechDraw_Annotation', 0),       # synonym
-    'axo length':        lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),
-    'axonometric':       lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),  # synonym
-    'axo dimension':     lambda: Gui.runCommand('TechDraw_AxoLengthDimension', 0),  # synonym
-    'balloon':           lambda: Gui.runCommand('TechDraw_Balloon', 0),
-    'callout':           lambda: Gui.runCommand('TechDraw_Balloon', 0),          # synonym
-    'bubble':            lambda: Gui.runCommand('TechDraw_Balloon', 0),          # synonym
-    'help':              ayuda,
-    'assistance':        ayuda,  # synonym
+    # annotation
+    "annotation":    annotations["annotation"],
+    "note":          annotations["annotation"],   # synonym
+    "text":          annotations["annotation"],   # synonym
+    "comment":       annotations["annotation"],   # synonym
+    # axo_length
+    "axo length":    annotations["axo_length"],
+    "axonometric":   annotations["axo_length"],   # synonym
+    "axo dimension": annotations["axo_length"],   # synonym
+    # balloon
+    "balloon":       annotations["balloon"],
+    "callout":       annotations["balloon"],      # synonym
+    "bubble":        annotations["balloon"],      # synonym
+    # help
+    "help":          ayuda,
+    "assistance":    ayuda,                       # synonym
 }
