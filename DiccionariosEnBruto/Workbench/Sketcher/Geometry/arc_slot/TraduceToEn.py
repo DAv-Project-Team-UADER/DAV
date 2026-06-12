@@ -17,24 +17,22 @@
 
 """English spoken-word mapping for the arc_slot dictionary."""
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from .arc_slot import arc_slot
 
 TraduceToEn = {
-    # Comandos para crear ranura curva con bordes redondeados (arc_ends)
-    'arc ends':         lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'rounded slot':     lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'curved slot':      lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'arc slot':         lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    # Apunta a los elementos del diccionario original 'arc_slot'
+    'arc ends':         arc_slot['arc_ends'],
+    'rounded slot':     arc_slot['arc_ends'],
+    'curved slot':      arc_slot['arc_ends'],
+    'arc slot':         arc_slot['arc_ends'],
 
-    # Comandos para crear ranura curva con bordes planos (flat_ends)
-    'flat ends':        lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'flat slot':        lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'square ends':      lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
-    'flat arc slot':    lambda: Gui.runCommand('Sketcher_CreateArcSlot', 0),
+    'flat ends':        arc_slot['flat_ends'],
+    'flat slot':        arc_slot['flat_ends'],
+    'square ends':      arc_slot['flat_ends'],
+    'flat arc slot':    arc_slot['flat_ends'],
 
-    # Comandos de ayuda integrados
-    'help':             ayuda,
-    'commands':         ayuda,
-    'options':          ayuda
+    # Sinónimos para la función ayuda
+    'help':             arc_slot['help'],
+    'commands':         arc_slot['help'],
+    'options':          arc_slot['help']
 }
