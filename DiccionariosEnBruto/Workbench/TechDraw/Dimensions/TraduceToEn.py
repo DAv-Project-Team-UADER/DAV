@@ -15,3 +15,45 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .dimensions import dimensions
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # vertical
+    "vertical":           dimensions["vertical"],
+    "vertical dimension": dimensions["vertical"],  # synonym
+    "height":             dimensions["vertical"],  # synonym
+    # area
+    "area":               dimensions["area"],
+    "area dimension":     dimensions["area"],      # synonym
+    "surface":            dimensions["area"],      # synonym
+    # fit
+    "fit":                dimensions["fit"],
+    "tolerance":          dimensions["fit"],       # synonym
+    "hole shaft":         dimensions["fit"],       # synonym
+    # length
+    "length":             dimensions["length"],
+    "distance":           dimensions["length"],    # synonym
+    "measure":            dimensions["length"],    # synonym
+    # horizontal
+    "horizontal":         dimensions["horizontal"],
+    "width":              dimensions["horizontal"], # synonym
+    "x distance":         dimensions["horizontal"], # synonym
+    # extent
+    "extent":             dimensions["extent"],
+    "span":               dimensions["extent"],    # synonym
+    "total length":       dimensions["extent"],    # synonym
+    # radius
+    "radius":             dimensions["radius"],
+    "arc radius":         dimensions["radius"],    # synonym
+    # diameter
+    "diameter":           dimensions["diameter"],
+    "circle dimension":   dimensions["diameter"],  # synonym
+    # angle
+    "angle":              dimensions["angle"],
+    "angular":            dimensions["angle"],     # synonym
+    # help
+    "help":               ayuda,
+    "assistance":         ayuda,                   # synonym
+}
