@@ -17,24 +17,22 @@
 
 """English spoken-word mapping for the arc dictionary."""
 
-import FreeCADGui as Gui
-from .ayuda import ayuda
+from .arc import arc
 
 TraduceToEn = {
-    # Comandos para crear arco desde el centro
-    'center':           lambda: Gui.runCommand('Sketcher_CreateArc', 0),
-    'arc by center':    lambda: Gui.runCommand('Sketcher_CreateArc', 0),
-    'center arc':       lambda: Gui.runCommand('Sketcher_CreateArc', 0),
+    # Apunta a los elementos del diccionario original 'arc'
+    'center':           arc['center'],
+    'arc by center':    arc['center'],
+    'center arc':       arc['center'],
 
-    # Comandos para crear arco mediante 3 puntos
-    'three point':      lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
-    'three points':     lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
-    '3 point':          lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
-    '3 points':         lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
-    'arc by 3 points':  lambda: Gui.runCommand('Sketcher_Create3PointArc', 0),
+    'three point':      arc['3point'],
+    'three points':     arc['3point'],
+    '3 point':          arc['3point'],
+    '3 points':         arc['3point'],
+    'arc by 3 points':  arc['3point'],
 
-    # Comandos de ayuda integrados
-    'help':             ayuda,
-    'commands':         ayuda,
-    'options':          ayuda
+    # Sinónimos para la función ayuda
+    'help':             arc['help'],
+    'commands':         arc['help'],
+    'options':          arc['help']
 }
