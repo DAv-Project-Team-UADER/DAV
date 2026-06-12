@@ -22,70 +22,57 @@ import FreeCADGui as Gui
 # Importaciones relativas porque estamos en la misma carpeta
 from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
-from .Geometry.geometry import geometry
-from .arcslot.arcslot import arcslot
-from .constraints.constraints import constraints
-from .external.external import external
-from .oblong.oblong import oblong
-from .point.point import point
-from .select.select import select
-from .slot.slot import slot
-from .square.square import square
-from .text.text import text
-from .tools.tools import tools
-from .triangle.triangle import triangle
-from .validate.validate import validate
-from .view.view import view
+from .sketcher import sketcher
 
 TraduceToEn = {
 
     # Carpetas de Sketcher
-    "geometry": geometry,
-    "geometric": geometry,
+    "geometry": sketcher["geometry"],
+    "geometric": sketcher["geometry"],
 
-    "arcslot": arcslot,
-    "arcs": arcslot,
-    "arc": arcslot,
+    "arcslot": sketcher["arcslot"],
+    "arcs": sketcher["arcslot"],
+    "arc": sketcher["arcslot"],
     
-    "constraints": constraints,
-    "constraint": constraints,
-    "restrictions": constraints,
+    "constraints": sketcher["constraints"],
+    "constraint": sketcher["constraints"],
+    "restrictions": sketcher["constraints"],
     
-    "external": external,
+    "external": sketcher["external"],
     
-    "oblong": oblong,
-    "create oblong": oblong,
+    "oblong": sketcher["oblong"],
+    "create oblong": sketcher["oblong"],
     
-    "point": point,
-    "create point": point,
+    "point": sketcher["point"],
+    "create point": sketcher["point"],
     
-    "select": select,
-    "selection": select,
+    "select": sketcher["select"],
+    "selection": sketcher["select"],
     
-    "slot": slot,
-    "create slot": slot,
+    "slot": sketcher["slot"],
+    "create slot": sketcher["slot"],
     
-    "square": square,
-    "create square": square,
-    "draw square": square,
+    "square": sketcher["square"],
+    "create square": sketcher["square"],
+    "draw square": sketcher["square"],
     
-    "text": text,
-    "write text": text,
-    "create text": text,
+    "text": sketcher["text"],
+    "write text": sketcher["text"],
+    "create text": sketcher["text"],
     
-    "tools": tools,
-    "tool": tools,
+    "tools": sketcher["tools"],
+    "tool": sketcher["tools"],
     
-    "triangle": triangle,
-    "create triangle": triangle,
-    "draw triangle": triangle,
+    "triangle": sketcher["triangle"],
+    "create triangle": sketcher["triangle"],
+    "draw triangle": sketcher["triangle"],
     
-    "validate": validate,
-    "validate sketch": validate,
+    "validate": sketcher["validate"],
+    "validate sketch": sketcher["validate"],
     
-    "view": view,
-    "view sketch": view,
-    "view selection": view,
+    "view": sketcher["view"],
+    "view sketch": sketcher["view"],
+    "view selection": sketcher["view"],
     
     # --- Traducciones de la parte inferior de sketcher.py ---
     
