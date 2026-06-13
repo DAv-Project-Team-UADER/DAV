@@ -22,11 +22,11 @@ from .part_color_per_face import part_color_per_face
 from .ayuda import ayuda
 
 TraduceToEn = {
-    "color per face": part_color_per_face["color por cara"],
-    "paint face": part_color_per_face["color por cara"],
-    "color face": part_color_per_face["color por cara"],
-    "set face color": part_color_per_face["color por cara"],
-    "change face color": part_color_per_face["color por cara"],
+    "color per face": part_color_per_face["paint face"],
+    "paint face": part_color_per_face["paint face"],
+    "color face": part_color_per_face["paint face"],
+    "set face color": part_color_per_face["paint face"],
+    "change face color": part_color_per_face["paint face"],
     "help": ayuda,
     "manual": ayuda,
     "support": ayuda,

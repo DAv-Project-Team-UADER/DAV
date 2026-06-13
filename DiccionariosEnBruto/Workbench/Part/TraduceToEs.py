@@ -75,19 +75,19 @@ TraduceToEs = {
     "crear linea": line["line"],
     "crear línea": line["line"],
 
-    "nuevo sketch": new_sketch["nuevo sketch"],
-    "nuevo boceto": new_sketch["nuevo sketch"],
-    "crear sketch": new_sketch["nuevo sketch"],
-    "crear boceto": new_sketch["nuevo sketch"],
+    "nuevo sketch": new_sketch["new sketch"],
+    "nuevo boceto": new_sketch["new sketch"],
+    "crear sketch": new_sketch["new sketch"],
+    "crear boceto": new_sketch["new sketch"],
 
     "chaflan": part_chamfer["chaflan"],
     "chaflán": part_chamfer["chaflan"],
     "bisel": part_chamfer["chaflan"],
     "biselar": part_chamfer["chaflan"],
 
-    "color por cara": part_color_per_face["color por cara"],
-    "pintar cara": part_color_per_face["color por cara"],
-    "colorear cara": part_color_per_face["color por cara"],
+    "color por cara": part_color_per_face["paint face"],
+    "pintar cara": part_color_per_face["paint face"],
+    "colorear cara": part_color_per_face["paint face"],
 
     "secciones transversales": part_cross_sections["cross sections"],
     "cortes transversales": part_cross_sections["cross sections"],
