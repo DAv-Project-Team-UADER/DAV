@@ -17,10 +17,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .facebinder import facebinder
-from .ayuda import ayuda
 
 TraduceToEn = {
     "facebinder": facebinder["create"],
     "create facebinder": facebinder["create"],
-    "help": ayuda,
+    "create": facebinder["create"],
+
+    "help": facebinder["help"],
+    "info": facebinder["help"],
+    "options": facebinder["help"],
 }

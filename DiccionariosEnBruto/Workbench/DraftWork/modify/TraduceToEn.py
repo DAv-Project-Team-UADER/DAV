@@ -21,14 +21,36 @@ from .ayuda import ayuda
 
 TraduceToEn = {
     "clone": modify["clone"],
+    "copy": modify["clone"],
+
     "downgrade": modify["downgrade"],
+    "simplify": modify["downgrade"],
+
     "sketch": modify["sketch"],
+    "convert to sketch": modify["sketch"],
+
     "edit": modify["edit"],
+    "modify": modify["edit"],
+
     "fillet": modify["fillet"],
+    "round": modify["fillet"],
+
     "join": modify["join"],
+    "combine": modify["join"],
+
     "move": modify["move"],
+    "translate": modify["move"],
+
     "offset": modify["offset"],
+    "parallel copy": modify["offset"],
+
     "rotate": modify["rotate"],
+    "turn": modify["rotate"],
+
     "mirror": modify["mirror"],
-    "help": ayuda,
+    "reflect": modify["mirror"],
+
+    "help": modify["help"],
+    "info": modify["help"],
+    "options": modify["help"],
 }

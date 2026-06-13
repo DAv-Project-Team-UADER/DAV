@@ -17,14 +17,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .dimension import dimension
-from .ayuda import ayuda
 
 TraduceToEn = {
     "dimension": dimension["linear"],
-    "linear dimension": dimensio ["linear"],
+    "linear dimension": dimension["linear"],
+    "measure": dimension["linear"],
 
     "flip dimension": dimension["flip"],
     "flip": dimension["flip"],
+    "reverse dimension": dimension["flip"],
 
-    "help": ayuda,
-    }
+    "help": dimension["help"],
+    "info": dimension["help"],
+    "options": dimension["help"],
+}

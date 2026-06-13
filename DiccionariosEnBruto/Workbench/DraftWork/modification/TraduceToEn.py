@@ -17,17 +17,36 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .modification import modification
-from .ayuda import ayuda
 
 TraduceToEn = {
     'scale': modification['scale'],
+    'resize': modification['scale'],
+
     'shape_2d_view': modification['shape_2d_view'],
+    '2d_view': modification['shape_2d_view'],
+
     'slope': modification['slope'],
+    'incline': modification['slope'],
+
     'split': modification['split'],
+    'divide': modification['split'],
+
     'stretch': modification['stretch'],
+    'extend': modification['stretch'],
+
     'subelement_highlight': modification['subelement_highlight'],
+    'highlight': modification['subelement_highlight'],
+
     'trimex': modification['trimex'],
+    'trim': modification['trimex'],
+
     'upgrade': modification['upgrade'],
+    'improve': modification['upgrade'],
+
     'wire_to_bspline': modification['wire_to_bspline'],
-    'help': ayuda,
+    'bspline': modification['wire_to_bspline'],
+
+    'help': modification['help'],
+    'info': modification['help'],
+    'options': modification['help'],
 }
