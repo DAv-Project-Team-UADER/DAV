@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for the Annotation Style Editor dictionary."""
 
-from .annotation import annotation
+from .annotation_style_editor import annotation
 
 TraduceToEn = {
     "editor":                  annotation['editor'],

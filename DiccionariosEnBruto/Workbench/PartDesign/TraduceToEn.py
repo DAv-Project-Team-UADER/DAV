@@ -20,7 +20,7 @@
 # English translations – PartDesign (folders only)
 # ============================================================
 
-from .partdesign import partdesign
+from .PartDesign import partdesign
 
 TraduceToEn = {
 

@@ -20,9 +20,9 @@
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
-from .sketcher import _toggle_construction
+from .Sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
-from .sketcher import sketcher
+from .Sketcher import sketcher
 
 TraduceToEn = {
 
