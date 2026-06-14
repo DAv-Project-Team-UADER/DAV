@@ -27,17 +27,17 @@ TraduceToEn = {
     
     # Horizontal axis selection & synonyms
     "horizontal": select['horizontal'],
-    "horizontal_axis": select['horizontal'],
-    "select_horizontal": select['horizontal'],
+    "horizontal axis": select['horizontal'],
+    "select horizontal": select['horizontal'],
     
     # Vertical axis selection & synonyms
     "vertical": select['vertical'],
-    "vertical_axis": select['vertical'],
-    "select_vertical": select['vertical'],
+    "vertical axis": select['vertical'],
+    "select vertical": select['vertical'],
     
     # Origin selection & synonyms
     "origin": select['origin'],
-    "center_point": select['origin'],
-    "select_origin": select['origin'],
-    "zero_point": select['origin']
+    "center point": select['origin'],
+    "select origin": select['origin'],
+    "zero point": select['origin']
 }

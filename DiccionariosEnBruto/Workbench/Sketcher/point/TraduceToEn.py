@@ -27,8 +27,8 @@ TraduceToEn = {
     
     # Point creation & synonyms
     "create": point['create'],
-    "create_point": point['create'],
-    "draw_point": point['create'],
+    "create point": point['create'],
+    "draw point": point['create'],
     "point": point['create'],
     "vertex": point['create']
 }

@@ -27,9 +27,9 @@ TraduceToEn = {
     
     # Polyline creation & synonyms
     "create": polyline['create'],
-    "create_polyline": polyline['create'],
-    "draw_polyline": polyline['create'],
+    "create polyline": polyline['create'],
+    "draw polyline": polyline['create'],
     "polyline": polyline['create'],
-    "multi_line": polyline['create'],
-    "continuous_line": polyline['create']
+    "multi line": polyline['create'],
+    "continuous line": polyline['create']
 }

@@ -27,7 +27,7 @@ TraduceToEn = {
     
     # Heptagon creation & synonyms
     "create": heptagon['create'],
-    "create_heptagon": heptagon['create'],
-    "draw_heptagon": heptagon['create'],
+    "create heptagon": heptagon['create'],
+    "draw heptagon": heptagon['create'],
     "heptagon": heptagon['create']
 }

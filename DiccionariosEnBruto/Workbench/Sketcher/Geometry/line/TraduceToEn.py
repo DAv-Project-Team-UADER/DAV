@@ -27,8 +27,8 @@ TraduceToEn = {
     
     # Line creation & synonyms
     "create": line['create'],
-    "create_line": line['create'],
-    "draw_line": line['create'],
+    "create line": line['create'],
+    "draw line": line['create'],
     "line": line['create'],
-    "sketch_line": line['create']
+    "sketch line": line['create']
 }

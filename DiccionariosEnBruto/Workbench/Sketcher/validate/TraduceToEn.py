@@ -27,7 +27,7 @@ TraduceToEn = {
     
     # Sketch validation & synonyms
     "validate": validate['validate'],
-    "validate_sketch": validate['validate'],
-    "check_sketch": validate['validate'],
+    "validate sketch": validate['validate'],
+    "check sketch": validate['validate'],
     "verify": validate['validate']
 }

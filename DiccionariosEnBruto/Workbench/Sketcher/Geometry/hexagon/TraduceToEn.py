@@ -27,7 +27,7 @@ TraduceToEn = {
     
     # Hexagon creation & synonyms
     "create": hexagon['create'],
-    "create_hexagon": hexagon['create'],
-    "draw_hexagon": hexagon['create'],
+    "create hexagon": hexagon['create'],
+    "draw hexagon": hexagon['create'],
     "hexagon": hexagon['create']
 }

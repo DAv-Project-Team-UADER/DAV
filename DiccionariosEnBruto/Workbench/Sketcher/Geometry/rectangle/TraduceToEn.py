@@ -27,14 +27,14 @@ TraduceToEn = {
     
     # Standard rectangle creation & synonyms
     "create": rectangle['create'],
-    "create_rectangle": rectangle['create'],
-    "draw_rectangle": rectangle['create'],
+    "create rectangle": rectangle['create'],
+    "draw rectangle": rectangle['create'],
     "rectangle": rectangle['create'],
     "box": rectangle['create'],
     
     # Centered rectangle creation & synonyms
     "center": rectangle['center'],
-    "center_rectangle": rectangle['center'],
-    "centered_rectangle": rectangle['center'],
-    "create_centered_rectangle": rectangle['center']
+    "center rectangle": rectangle['center'],
+    "centered rectangle": rectangle['center'],
+    "create centered rectangle": rectangle['center']
 }

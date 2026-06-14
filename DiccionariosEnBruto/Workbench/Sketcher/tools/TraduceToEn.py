@@ -27,29 +27,29 @@ TraduceToEn = {
     
     # Delete constraints & synonyms
     "deleteconstraints": tools['deleteconstraints'],
-    "delete_constraints": tools['deleteconstraints'],
-    "clear_constraints": tools['deleteconstraints'],
-    "remove_constraints": tools['deleteconstraints'],
+    "delete constraints": tools['deleteconstraints'],
+    "clear constraints": tools['deleteconstraints'],
+    "remove constraints": tools['deleteconstraints'],
     
     # Delete geometry & synonyms
     "deletegeometry": tools['deletegeometry'],
-    "delete_geometry": tools['deletegeometry'],
-    "clear_geometry": tools['deletegeometry'],
-    "clear_sketch": tools['deletegeometry'],
-    "erase_sketch": tools['deletegeometry'],
+    "delete geometry": tools['deletegeometry'],
+    "clear geometry": tools['deletegeometry'],
+    "clear sketch": tools['deletegeometry'],
+    "erase sketch": tools['deletegeometry'],
     
     # Merge & synonyms
     "merge": tools['merge'],
-    "merge_sketches": tools['merge'],
-    "combine_sketches": tools['merge'],
+    "merge sketches": tools['merge'],
+    "combine sketches": tools['merge'],
     
     # Reorient & synonyms
     "reorient": tools['reorient'],
-    "reorient_sketch": tools['reorient'],
-    "change_sketch_plane": tools['reorient'],
+    "reorient sketch": tools['reorient'],
+    "change sketch plane": tools['reorient'],
     
     # Remove axes alignment & synonyms
     "removeaxes": tools['removeaxes'],
-    "remove_axes": tools['removeaxes'],
-    "clear_axes_alignment": tools['removeaxes']
+    "remove axes": tools['removeaxes'],
+    "clear axes alignment": tools['removeaxes']
 }

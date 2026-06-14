@@ -27,7 +27,7 @@ TraduceToEn = {
     
     # Square creation & synonyms
     "create": square['create'],
-    "create_square": square['create'],
-    "draw_square": square['create'],
+    "create square": square['create'],
+    "draw square": square['create'],
     "square": square['create']
 }

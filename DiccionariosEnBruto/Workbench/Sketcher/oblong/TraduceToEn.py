@@ -27,10 +27,10 @@ TraduceToEn = {
     
     # Oblong / Slot creation & synonyms
     "create": oblong['create'],
-    "create_slot": oblong['create'],
-    "draw_slot": oblong['create'],
+    "create slot": oblong['create'],
+    "draw slot": oblong['create'],
     "slot": oblong['create'],
-    "create_oblong": oblong['create'],
-    "draw_oblong": oblong['create'],
+    "create oblong": oblong['create'],
+    "draw oblong": oblong['create'],
     "oblong": oblong['create']
 }

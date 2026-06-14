@@ -27,15 +27,15 @@ TraduceToEn = {
     
     # View Sketch & synonyms
     "sketch": view['sketch'],
-    "sketch_view": view['sketch'],
-    "view_sketch": view['sketch'],
-    "look_at_sketch": view['sketch'],
-    "orient_sketch": view['sketch'],
+    "sketch view": view['sketch'],
+    "view sketch": view['sketch'],
+    "look at sketch": view['sketch'],
+    "orient sketch": view['sketch'],
     
     # View Section & synonyms
     "section": view['section'],
-    "section_view": view['section'],
-    "view_section": view['section'],
-    "clip_section": view['section'],
-    "cut_view": view['section']
+    "section view": view['section'],
+    "view section": view['section'],
+    "clip section": view['section'],
+    "cut view": view['section']
 }

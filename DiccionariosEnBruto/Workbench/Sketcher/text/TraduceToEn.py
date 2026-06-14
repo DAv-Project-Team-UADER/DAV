@@ -27,8 +27,8 @@ TraduceToEn = {
     
     # Text/ShapeString creation & synonyms
     "create": text['create'],
-    "create_text": text['create'],
-    "shape_string": text['create'],
-    "add_text": text['create'],
+    "create text": text['create'],
+    "shape string": text['create'],
+    "add text": text['create'],
     "text": text['create']
 }

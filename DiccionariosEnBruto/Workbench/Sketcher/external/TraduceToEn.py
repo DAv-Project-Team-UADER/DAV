@@ -28,11 +28,11 @@ TraduceToEn = {
     # Projection commands & synonyms
     "projection": external['projection'],
     "project": external['projection'],
-    "project_edge": external['projection'],
+    "project edge": external['projection'],
     
     # Intersection / External Geometry commands & synonyms
     "intersection": external['intersection'],
     "intersect": external['intersection'],
-    "external_geometry": external['intersection'],
-    "external_link": external['intersection']
+    "external geometry": external['intersection'],
+    "external link": external['intersection']
 }
