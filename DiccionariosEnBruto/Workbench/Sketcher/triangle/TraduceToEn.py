@@ -27,7 +27,7 @@ TraduceToEn = {
     
     # Triangle creation & synonyms
     "create": triangle['create'],
-    "create_triangle": triangle['create'],
-    "draw_triangle": triangle['create'],
+    "create triangle": triangle['create'],
+    "draw triangle": triangle['create'],
     "triangle": triangle['create']
 }
