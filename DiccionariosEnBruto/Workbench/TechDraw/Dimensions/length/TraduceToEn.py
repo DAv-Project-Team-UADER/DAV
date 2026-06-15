@@ -16,7 +16,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .length import length
-from .ayuda import ayuda
 
 TraduceToEn = {
     # length
