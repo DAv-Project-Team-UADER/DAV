@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,12 +15,31 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .AddLines import addLines
+from .addLines import addLines
 from .ayuda import ayuda
 
 TraduceToEn = {
     # twolines
-    "two lines":       addLines["twolines"],
-    "center line":     addLines["twolines"],    # synonym
-    "help":            ayuda,
+    "two lines":         addLines["twolines"],
+    "two line center":   addLines["twolines"],    # synonym
+    "center line":       addLines["twolines"],    # synonym
+    # twopoints
+    "two points":        addLines["twopoints"],
+    "two point center":  addLines["twopoints"],   # synonym
+    "point center line": addLines["twopoints"],   # synonym
+    # cosmetic
+    "cosmetic":          addLines["cosmetic"],
+    "cosmetic line":     addLines["cosmetic"],    # synonym
+    "construction line": addLines["cosmetic"],    # synonym
+    # decorate
+    "decorate":          addLines["decorate"],
+    "line style":        addLines["decorate"],    # synonym
+    "change line":       addLines["decorate"],    # synonym
+    # center
+    "center":            addLines["center"],
+    "face center":       addLines["center"],      # synonym
+    "face center line":  addLines["center"],      # synonym
+    # help
+    "help":              ayuda,
+    "assistance":        ayuda,                   # synonym
 }
