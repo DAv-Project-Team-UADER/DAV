@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for Part fillet commands."""
+
+from .part_fillet import part_fillet
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "redondear": part_fillet["fillet"],
+    "redondeo": part_fillet["fillet"],
+    "redondear bordes": part_fillet["fillet"],
+    "hacer redondeo": part_fillet["fillet"],
+    "crear redondeo": part_fillet["fillet"],
+    "empalme": part_fillet["fillet"],
+    "hacer empalme": part_fillet["fillet"],
+    "crear empalme": part_fillet["fillet"],
+    "fillet": part_fillet["fillet"],
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+    "help": ayuda,
+}

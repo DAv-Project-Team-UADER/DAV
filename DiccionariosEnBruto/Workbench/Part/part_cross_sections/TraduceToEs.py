@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for Part cross sections commands."""
+
+from .part_cross_sections import part_cross_sections
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "secciones transversales": part_cross_sections["cross sections"],
+    "seccion transversal": part_cross_sections["cross sections"],
+    "sección transversal": part_cross_sections["cross sections"],
+    "crear secciones transversales": part_cross_sections["cross sections"],
+    "hacer secciones transversales": part_cross_sections["cross sections"],
+    "crear seccion transversal": part_cross_sections["cross sections"],
+    "crear sección transversal": part_cross_sections["cross sections"],
+    "secciones": part_cross_sections["cross sections"],
+    "cross sections": part_cross_sections["cross sections"],
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+    "help": ayuda,
+}
