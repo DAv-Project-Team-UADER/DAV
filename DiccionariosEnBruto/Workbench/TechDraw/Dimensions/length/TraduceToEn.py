@@ -25,6 +25,7 @@ TraduceToEn = {
     "distance":         length["length"],         # synonym
     "measure":          length["length"],         # synonym
     # help
-    "help":             ayuda,
-    "assistance":       ayuda,                    # synonym
+    "help":             length["help"],
+    "info":             length["help"],   # synonym
+    "options":          length["help"],   # synonym
 }
