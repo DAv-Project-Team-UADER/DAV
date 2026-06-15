@@ -54,6 +54,7 @@ TraduceToEn = {
     "angle":              dimensions["angle"],
     "angular":            dimensions["angle"],     # synonym
     # help
-    "help":               ayuda,
-    "assistance":         ayuda,                   # synonym
+    "help":               dimensions["help"],
+    "info":               dimensions["help"],   # synonym
+    "options":            dimensions["help"],   # synonym
 }
