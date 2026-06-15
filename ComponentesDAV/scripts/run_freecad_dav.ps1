@@ -282,6 +282,16 @@ if (-not (Test-Path -LiteralPath $selectionRoot)) {
     $selectionRoot = Join-Path (Split-Path -Parent $paths.DavRepo) "selection"
 }
 $env:DAV_SELECTION_ROOT = $selectionRoot
+$validationRoot = Join-Path $paths.DavRepo "validation"
+if (-not (Test-Path -LiteralPath $validationRoot)) {
+    $validationRoot = Join-Path (Split-Path -Parent $paths.DavRepo) "validation"
+}
+$env:DAV_VALIDATION_ROOT = $validationRoot
+$dictionaryRoot = Join-Path $paths.DavRepo "DiccionariosEnBruto"
+if (-not (Test-Path -LiteralPath $dictionaryRoot)) {
+    $dictionaryRoot = Join-Path (Split-Path -Parent $paths.DavRepo) "DiccionariosEnBruto"
+}
+$env:DAV_DICTIONARY_ROOT = $dictionaryRoot
 $env:DAV_OPEN_PREFS_ON_START = "0"
 $env:DAV_AUTOLOAD_WORKBENCH = "1"
 

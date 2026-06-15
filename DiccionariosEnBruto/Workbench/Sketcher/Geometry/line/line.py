@@ -17,8 +17,10 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import create_by_points
 
 line = {
     'create': lambda: Gui.runCommand('Sketcher_CreateLine', 0),
+    'create_by_points': create_by_points,
     'help':   ayuda
 }

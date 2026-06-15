@@ -22,8 +22,20 @@ $ErrorActionPreference = "Continue"
 $IntegrationRoot = $PSScriptRoot
 $RepoRoot = Split-Path -Parent $IntegrationRoot
 $GuiRoot = Join-Path $IntegrationRoot "GUIFreeCad"
-$ScriptsDir = Join-Path $RepoRoot "scripts"
-$RunScript = Join-Path $ScriptsDir "run_freecad_dav.ps1"
+
+function Find-RunScript([string]$StartRepo) {
+    $candidates = @(
+        (Join-Path $StartRepo "ComponentesDAV\scripts\run_freecad_dav.ps1"),
+        (Join-Path $StartRepo "componentesDAV\scripts\run_freecad_dav.ps1"),
+        (Join-Path $StartRepo "scripts\run_freecad_dav.ps1")
+    )
+    foreach ($path in $candidates) {
+        if (Test-Path -LiteralPath $path) { return $path }
+    }
+    return $null
+}
+
+$RunScript = Find-RunScript $RepoRoot
 $VenvPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"
 $ReqFile = Join-Path $GuiRoot "requirements.txt"
 $SetupModels = Join-Path $GuiRoot "scripts\setup_models.py"
@@ -143,8 +155,8 @@ Write-Host "Repo: $RepoRoot"
 if (-not (Test-Path -LiteralPath $GuiRoot)) {
     throw "No se encontro GUIFreeCad en: $GuiRoot"
 }
-if (-not (Test-Path -LiteralPath $RunScript)) {
-    throw "No se encontro: $RunScript"
+if (-not $RunScript) {
+    throw "No se encontro run_freecad_dav.ps1 (buscado en ComponentesDAV\scripts y scripts\)."
 }
 
 Write-Step "1/3 Python del sistema"

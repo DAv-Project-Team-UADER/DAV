@@ -23,8 +23,17 @@ $IntegrationRoot = $PSScriptRoot
 $RepoRoot = Split-Path -Parent $IntegrationRoot
 $GuiRoot = Join-Path $IntegrationRoot "GUIFreeCad"
 
-function Find-RunScript([string]$StartDir) {
-    $dir = $StartDir
+function Find-RunScript([string]$StartRepo) {
+    $candidates = @(
+        (Join-Path $StartRepo "ComponentesDAV\scripts\run_freecad_dav.ps1"),
+        (Join-Path $StartRepo "componentesDAV\scripts\run_freecad_dav.ps1"),
+        (Join-Path $StartRepo "scripts\run_freecad_dav.ps1")
+    )
+    foreach ($path in $candidates) {
+        if (Test-Path -LiteralPath $path) { return $path }
+    }
+
+    $dir = $StartRepo
     while ($dir) {
         $candidate = Join-Path $dir "scripts\run_freecad_dav.ps1"
         if (Test-Path -LiteralPath $candidate) { return $candidate }
@@ -38,9 +47,8 @@ function Find-RunScript([string]$StartDir) {
 $RunScript = Find-RunScript $RepoRoot
 if ($RunScript) {
     $ScriptsDir = Split-Path -Parent $RunScript
-    $RepoRoot = Split-Path -Parent $ScriptsDir
 } else {
-    $ScriptsDir = Join-Path $RepoRoot "scripts"
+    $ScriptsDir = Join-Path $RepoRoot "ComponentesDAV\scripts"
 }
 
 $VenvPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"
@@ -162,8 +170,8 @@ Write-Host "Repo: $RepoRoot"
 if (-not (Test-Path -LiteralPath $GuiRoot)) {
     throw "No se encontro GUIFreeCad en: $GuiRoot"
 }
-if (-not (Test-Path -LiteralPath $RunScript)) {
-    throw "No se encontro: $RunScript"
+if (-not $RunScript) {
+    throw "No se encontro run_freecad_dav.ps1 (buscado en ComponentesDAV\scripts y scripts\)."
 }
 
 Write-Step "1/3 Python del sistema"
