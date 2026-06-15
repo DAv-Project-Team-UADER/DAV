@@ -17,6 +17,10 @@ def _SampleFunction(radius: float, label: str, profile: object) -> None:
     pass
 
 
+def _FakeDocObject(name: str = "Sketch") -> object:
+    return type("FakeObj", (), {"Name": name, "Document": object()})()
+
+
 class ValidatorTests(unittest.TestCase):
     def test_get_requirements_spanish(self) -> None:
         text = Validator().GetRequirements("es", _SampleFunction)
@@ -34,7 +38,7 @@ class ValidatorTests(unittest.TestCase):
         ok, kwargs = Validator().ValidateRequirements(
             "es",
             _SampleFunction,
-            {"radius": "12.5", "label": "CircleA", "profile": "SketchProxy"},
+            {"radius": "12.5", "label": "CircleA", "profile": _FakeDocObject()},
         )
         self.assertTrue(ok)
         assert kwargs is not None
@@ -54,7 +58,7 @@ class ValidatorTests(unittest.TestCase):
         ok, kwargs = Validator().ValidateRequirements(
             "es",
             _SampleFunction,
-            {"radius": "no-numero", "label": "X", "profile": "Obj"},
+            {"radius": "no-numero", "label": "X", "profile": _FakeDocObject()},
         )
         self.assertFalse(ok)
         self.assertIsNone(kwargs)
