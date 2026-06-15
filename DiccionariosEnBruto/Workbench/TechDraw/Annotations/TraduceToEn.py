@@ -33,6 +33,7 @@ TraduceToEn = {
     "callout":       annotations["balloon"],      # synonym
     "bubble":        annotations["balloon"],      # synonym
     # help
-    "help":          ayuda,
-    "assistance":    ayuda,                       # synonym
+    "help":          annotations["help"],
+    "info":          annotations["help"],   # synonym
+    "options":       annotations["help"],   # synonym
 }
