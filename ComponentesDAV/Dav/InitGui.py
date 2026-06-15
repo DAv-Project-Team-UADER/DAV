@@ -56,6 +56,7 @@ try:
     import scr.gui.dav_commands as _dav_commands
 
     _dav_commands._ensure_selection_path()
+    _dav_commands._ensure_validation_path()
 except Exception:
     pass
 

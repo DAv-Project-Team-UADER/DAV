@@ -128,6 +128,99 @@ def RunAlexSelectionPrueba(sketch_name: str | None = None):
     return RunFullDemo(sketch_name=sketch_name)
 
 
+def _validation_root() -> Path:
+    env = os.environ.get("DAV_VALIDATION_ROOT", "").strip()
+    if env:
+        path = Path(env)
+        if path.is_dir():
+            return path.resolve()
+
+    repo = _dav_repo_root()
+    for candidate in _validation_candidates(repo):
+        if candidate.is_dir():
+            return candidate.resolve()
+
+    try:
+        here = Path(__file__).resolve()
+        for ancestor in here.parents:
+            candidate = ancestor / "validation"
+            if candidate.is_dir() and (candidate / "validator.py").is_file():
+                return candidate.resolve()
+    except (IndexError, NameError):
+        pass
+
+    return Path(".")
+
+
+def _validation_candidates(repo: Path | None) -> tuple[Path, ...]:
+    if repo is None:
+        return ()
+    return (
+        repo / "validation",
+        repo.parent / "validation",
+    )
+
+
+def _dictionary_root() -> Path:
+    env = os.environ.get("DAV_DICTIONARY_ROOT", "").strip()
+    if env:
+        path = Path(env)
+        if path.is_dir():
+            return path.resolve()
+
+    repo = _dav_repo_root()
+    for candidate in _dictionary_candidates(repo):
+        if candidate.is_dir():
+            return candidate.resolve()
+
+    try:
+        here = Path(__file__).resolve()
+        for ancestor in here.parents:
+            candidate = ancestor / "DiccionariosEnBruto"
+            if candidate.is_dir():
+                return candidate.resolve()
+    except (IndexError, NameError):
+        pass
+
+    return Path("DiccionariosEnBruto")
+
+
+def _dictionary_candidates(repo: Path | None) -> tuple[Path, ...]:
+    if repo is None:
+        return ()
+    return (
+        repo / "DiccionariosEnBruto",
+        repo.parent / "DiccionariosEnBruto",
+    )
+
+
+def _ensure_validation_path() -> Path:
+    root = _validation_root()
+    text = str(root)
+    if root.is_dir() and text not in sys.path:
+        sys.path.insert(0, text)
+
+    dic = _dictionary_root()
+    dic_text = str(dic)
+    if dic.is_dir() and dic_text not in sys.path:
+        sys.path.insert(0, dic_text)
+    return root
+
+
+def RunValidatorPrueba(sketch_name: str = "Sketch") -> None:
+    """
+    Demo Validator en consola FreeCAD (sin configurar rutas).
+
+    Uso tras git pull + iniciar_dav.bat:
+        from scr.gui.dav_commands import RunValidatorPrueba
+        RunValidatorPrueba()
+    """
+    _ensure_validation_path()
+    from prueba_validator import RunFullDemo
+
+    RunFullDemo(sketch_name=sketch_name)
+
+
 def _show_report_view() -> None:
     try:
         import FreeCADGui as Gui

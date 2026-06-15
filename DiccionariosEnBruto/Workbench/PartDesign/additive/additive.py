@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import loft_profiles, pad_sketch
 
 additive = {
     'pad':               lambda: Gui.runCommand('PartDesign_Pad', 0),
@@ -31,5 +32,7 @@ additive = {
     'additivesphere':    lambda: Gui.runCommand('PartDesign_AdditiveSphere', 0),
     'additivetorus':     lambda: Gui.runCommand('PartDesign_AdditiveTorus', 0),
     'additivewedge':     lambda: Gui.runCommand('PartDesign_AdditiveWedge', 0),
+    'pad_sketch':        pad_sketch,
+    'loft_profiles':     loft_profiles,
     'help':              ayuda,
 }
