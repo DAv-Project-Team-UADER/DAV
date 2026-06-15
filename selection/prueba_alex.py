@@ -55,6 +55,12 @@ def _FindSketchName(preferred: str | None) -> str | None:
 def RunFullDemo(sketch_name: str | None = None):
     """CreateObjects (es/en/pt) + ObjectSelection demo. Returns selector."""
     _EnsurePath()
+    import FreeCAD as App
+
+    if App.ActiveDocument is None:
+        App.newDocument("SelectionTest")
+        print("[DAV] Documento creado: 'SelectionTest'")
+
     from console_helpers import PrintObjectTree, RunCreateObjects, RunSelectionDemo
 
     target = _FindSketchName(sketch_name)

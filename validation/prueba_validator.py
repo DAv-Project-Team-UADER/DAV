@@ -4,9 +4,18 @@
 """Guided Validator demo for FreeCAD console."""
 
 
+def _EnsureActiveDocument(name: str = "ValidatorTest") -> None:
+    import FreeCAD as App
+
+    if App.ActiveDocument is None:
+        App.newDocument(name)
+        print(f"[DAV] Documento creado: '{name}'")
+
+
 def RunFullDemo(sketch_name: str = "Sketch") -> None:
     from console_helpers import DemoAdditivePad, DemoGeometryLine
 
+    _EnsureActiveDocument()
     print("\n========== DAV Validator — demo consola ==========\n")
 
     for language in ("es", "en", "pt"):
