@@ -15,3 +15,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .addLines import addLines
+
+TraduceToEs = {
+    # twolines
+    "dos lineas":        addLines["twolines"],
+    "linea central":     addLines["twolines"],    # sinonimo
+    "eje central":       addLines["twolines"],    # sinonimo
+    # twopoints
+    "dos puntos":        addLines["twopoints"],
+    "linea dos puntos":  addLines["twopoints"],   # sinonimo
+    "eje dos puntos":    addLines["twopoints"],   # sinonimo
+    # cosmetic
+    "cosmetica":         addLines["cosmetic"],
+    "linea cosmetica":   addLines["cosmetic"],    # sinonimo
+    "linea auxiliar":    addLines["cosmetic"],    # sinonimo
+    # decorate
+    "decorar":           addLines["decorate"],
+    "estilo linea":      addLines["decorate"],    # sinonimo
+    "cambiar linea":     addLines["decorate"],    # sinonimo
+    # center
+    "centro":            addLines["center"],
+    "centro cara":       addLines["center"],      # sinonimo
+    "linea centro cara": addLines["center"],      # sinonimo
+    # help
+    "ayuda":             addLines["help"],
+    "info":              addLines["help"],        # sinonimo
+    "opciones":          addLines["help"],        # sinonimo
+}
