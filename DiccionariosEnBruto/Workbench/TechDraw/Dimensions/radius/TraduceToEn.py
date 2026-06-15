@@ -24,6 +24,7 @@ TraduceToEn = {
     "radius dimension": radius["radius"],         # synonym
     "arc radius":       radius["radius"],         # synonym
     # help
-    "help":             ayuda,
-    "assistance":       ayuda,                    # synonym
+    "help":             radius["help"],
+    "info":             radius["help"],   # synonym
+    "options":          radius["help"],   # synonym
 }
