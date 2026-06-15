@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .diameter import diameter
+
+TraduceToPt = {
+    # diameter
+    "diametro":           diameter["diameter"],
+    "dimensao diametro":  diameter["diameter"],  # sinonimo
+    "medir diametro":     diameter["diameter"],  # sinonimo
+    # help
+    "ajuda":              diameter["help"],
+    "info":               diameter["help"],      # sinonimo
+    "opcoes":             diameter["help"],      # sinonimo
+}
