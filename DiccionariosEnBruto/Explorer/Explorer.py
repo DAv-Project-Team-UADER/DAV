@@ -9,7 +9,7 @@ from .Print.Print                       import print_cmds
 from .Windows.Windows                   import windows
 from .Expressions.Expressions           import expressions
 from .Tools.Tools                       import tools
-from .StructureToolbar.structure        import structure
+from .StructureToolbar.StructureToolbar import structure
 from .ayuda                             import ayuda
 
 explorer = {}

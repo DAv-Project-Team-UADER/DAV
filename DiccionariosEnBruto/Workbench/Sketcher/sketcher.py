@@ -39,7 +39,7 @@ from .Geometry.heptagon.heptagon import heptagon
 from .slot.slot import slot
 from .Geometry.Ellipse._ellipse import ellipse
 from .Geometry.Polygon._polygon import polygon
-from .Geometry.BSpline.bspline import bspline
+from .Geometry.BSpline.BSpline import bspline
 from .Geometry.BSpline_Tools._tools import bspline_tools
 
 

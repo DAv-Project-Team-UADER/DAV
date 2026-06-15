@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .addLines import addLines
+from .AddLines import addLines
 from .ayuda import ayuda
 
 TraduceToEn = {

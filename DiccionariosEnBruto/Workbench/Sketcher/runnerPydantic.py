@@ -8,7 +8,7 @@ from typing import Any, Dict
 
 from .pydanticBuilder import buildModelForAction
 try:
-    from .sketcher import sketcher as sketcherActions
+    from .Sketcher import sketcher as sketcherActions
 except ModuleNotFoundError as exc:
     if exc.name and "FreeCADGui" in exc.name:
         warnings.warn(

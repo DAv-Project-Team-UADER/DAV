@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .hatching import hatching
+from .Hatching import hatching
 from .ayuda import ayuda
 
 TraduceToEn = {

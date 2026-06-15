@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for the Array dictionary."""
 
-from .array import array
+from .circular_array import array
 
 TraduceToEn = {
     # Circular Array
