@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .length import length
+
+TraduceToPt = {
+    # length
+    "comprimento":        length["length"],
+    "dimensao comprimento": length["length"],  # sinonimo
+    "distancia":          length["length"],    # sinonimo
+    # help
+    "ajuda":              length["help"],
+    "info":               length["help"],      # sinonimo
+    "opcoes":             length["help"],      # sinonimo
+}
