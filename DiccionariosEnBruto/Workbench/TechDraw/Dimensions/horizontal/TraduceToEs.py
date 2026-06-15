@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .horizontal import horizontal
+
+TraduceToEs = {
+    # horizontal
+    "horizontal":            horizontal["horizontal"],
+    "dimension horizontal":  horizontal["horizontal"],  # sinonimo
+    "ancho":                 horizontal["horizontal"],  # sinonimo
+    # help
+    "ayuda":                 horizontal["help"],
+    "info":                  horizontal["help"],        # sinonimo
+    "opciones":              horizontal["help"],        # sinonimo
+}
