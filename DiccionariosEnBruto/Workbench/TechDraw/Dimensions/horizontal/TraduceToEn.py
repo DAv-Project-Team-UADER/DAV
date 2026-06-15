@@ -25,6 +25,7 @@ TraduceToEn = {
     "width":                 horizontal["horizontal"],  # synonym
     "x distance":            horizontal["horizontal"],  # synonym
     # help
-    "help":                  ayuda,
-    "assistance":            ayuda,                     # synonym
+    "help":                  horizontal["help"],
+    "info":                  horizontal["help"],   # synonym
+    "options":               horizontal["help"],   # synonym
 }
