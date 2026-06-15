@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .extent import extent
+
+TraduceToEs = {
+    # extent
+    "extension":          extent["extent"],
+    "dimension extension": extent["extent"],  # sinonimo
+    "longitud total":     extent["extent"],   # sinonimo
+    # help
+    "ayuda":              extent["help"],
+    "info":               extent["help"],     # sinonimo
+    "opciones":           extent["help"],     # sinonimo
+}
