@@ -20,11 +20,12 @@ from .ayuda import ayuda
 
 TraduceToEn = {
     # cosmetic
-    "cosmetic":        add_vertices["cosmetic"],
-    "cosmetic vertex": add_vertices["cosmetic"],  # synonym
-    "reference point": add_vertices["cosmetic"],  # synonym
-    "add vertex":      add_vertices["cosmetic"],  # synonym
+    "cosmetic":          add_vertices["cosmetic"],
+    "cosmetic vertex":   add_vertices["cosmetic"],  # synonym
+    "reference point":   add_vertices["cosmetic"],  # synonym
+    "add vertex":        add_vertices["cosmetic"],  # synonym
     # help
-    "help":            ayuda,
-    "assistance":      ayuda,                     # synonym
+    "help":              add_vertices["help"],
+    "info":              add_vertices["help"],   # synonym
+    "options":           add_vertices["help"],   # synonym
 }
