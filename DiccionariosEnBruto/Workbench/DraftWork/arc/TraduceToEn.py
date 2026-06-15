@@ -15,3 +15,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Arc dictionary."""
+
+from .arc import arc
+
+TraduceToEn = {
+    # Draft Arc
+    "center":             arc['center'],
+    "center arc":         arc['center'],
+    "arc by center":      arc['center'],
+    "standard arc":       arc['center'],
+    "radius arc":         arc['center'],
+
+    # Draft Arc 3Points
+    "points":             arc['points'],
+    "3 points":           arc['points'],
+    "three points":       arc['points'],
+    "arc by 3 points":    arc['points'],
+    "arc by three points":arc['points'],
+    "3 point arc":        arc['points'],
+
+    "help":               arc['help'],
+    "info":               arc['help'],
+    "options":            arc['help']
+}

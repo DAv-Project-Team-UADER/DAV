@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for Part extrude commands."""
+
+from .part_extrude import part_extrude
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "extrudir": part_extrude["extrude"],
+    "extrusao": part_extrude["extrude"],
+    "extrusão": part_extrude["extrude"],
+    "criar extrusao": part_extrude["extrude"],
+    "criar extrusão": part_extrude["extrude"],
+    "fazer extrusao": part_extrude["extrude"],
+    "fazer extrusão": part_extrude["extrude"],
+    "extrudir objeto": part_extrude["extrude"],
+    "extrude": part_extrude["extrude"],
+    "ajuda": ayuda,
+    "manual": ayuda,
+    "suporte": ayuda,
+    "documentacao": ayuda,
+    "documentação": ayuda,
+    "help": ayuda,
+}

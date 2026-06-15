@@ -15,3 +15,33 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Annotation dictionary."""
+
+from .annotation import annotation
+
+TraduceToEn = {
+    # Draft Text
+    "text":            annotation['text'],
+    "simple text":     annotation['text'],
+    "add text":        annotation['text'],
+    "write text":      annotation['text'],
+
+    # Draft ShapeString
+    "shape string":    annotation['shapestring'],
+    "shapestring":     annotation['shapestring'],
+    "3d text":         annotation['shapestring'],
+    "physical text":   annotation['shapestring'],
+    "geometry text":   annotation['shapestring'],
+
+    # Draft Label
+    "label":           annotation['label'],
+    "add label":       annotation['label'],
+    "tag":             annotation['label'],
+    "callout":         annotation['label'],
+    "leader text":     annotation['label'],
+
+    "help":            annotation['help'],
+    "info":            annotation['help'],
+    "options":         annotation['help']
+}

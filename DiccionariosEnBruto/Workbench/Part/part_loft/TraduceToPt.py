@@ -15,3 +15,22 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for Part loft commands."""
+
+from .part_loft import part_loft
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "loft": part_loft["loft"],
+    "fazer loft": part_loft["loft"],
+    "criar loft": part_loft["loft"],
+    "unir perfis": part_loft["loft"],
+    "juntar perfis": part_loft["loft"],
+    "ajuda": ayuda,
+    "manual": ayuda,
+    "suporte": ayuda,
+    "documentacao": ayuda,
+    "documentação": ayuda,
+    "help": ayuda,
+}

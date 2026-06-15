@@ -15,3 +15,39 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for PartDesign transform commands."""
+
+from .transform import transform
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Linear Pattern
+    "linearpattern": transform["linearpattern"],
+    "linear": transform["linearpattern"],
+
+    # Mirrored
+    "mirrored": transform["mirrored"],
+    "mirror": transform["mirrored"],
+
+    # Polar Pattern
+    "polarpattern": transform["polarpattern"],
+    "polar": transform["polarpattern"],
+    "circularpattern": transform["polarpattern"],
+
+    # Multi Transform
+    "multitransform": transform["multitransform"],
+    "multi": transform["multitransform"],
+
+    # Scaled
+    "scaled": transform["scaled"],
+    "scale": transform["scaled"],
+    "resize": transform["scaled"],
+
+    # Help
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}
+

@@ -15,3 +15,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .dimension import dimension
+
+TraduceToEn = {
+    "dimension": dimension["linear"],
+    "linear dimension": dimension["linear"],
+    "measure": dimension["linear"],
+
+    "flip dimension": dimension["flip"],
+    "flip": dimension["flip"],
+    "reverse dimension": dimension["flip"],
+
+    "help": dimension["help"],
+    "info": dimension["help"],
+    "options": dimension["help"],
+}

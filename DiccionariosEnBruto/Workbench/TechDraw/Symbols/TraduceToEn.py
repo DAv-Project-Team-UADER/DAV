@@ -15,3 +15,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+from .symbols import symbols
+from .ayuda import ayuda
+
+TraduceToEn = {
+
+    # Weld Symbol
+    "weld symbol": symbols["weldsymbol"],
+    "welding symbol": symbols["weldsymbol"],
+    "weld": symbols["weldsymbol"],
+
+    # Rich Text
+    "rich text": symbols["richtext"],
+    "text annotation": symbols["richtext"],
+    "annotation": symbols["richtext"],
+    "formatted text": symbols["richtext"],
+
+    # Surface Finish
+    "surface finish": symbols["finish"],
+    "finish symbol": symbols["finish"],
+    "surface finish symbol": symbols["finish"],
+    "surface roughness": symbols["finish"],
+
+    "help": ayuda,
+}

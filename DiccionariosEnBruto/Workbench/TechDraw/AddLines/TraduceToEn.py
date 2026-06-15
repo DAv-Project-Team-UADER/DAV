@@ -15,3 +15,13 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .AddLines import addLines
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # twolines
+    "two lines":       addLines["twolines"],
+    "center line":     addLines["twolines"],    # synonym
+    "help":            ayuda,
+}

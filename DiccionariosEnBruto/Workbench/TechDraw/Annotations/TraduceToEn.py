@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,25 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Annotations import annotations
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # annotation
+    "annotation":    annotations["annotation"],
+    "note":          annotations["annotation"],   # synonym
+    "text":          annotations["annotation"],   # synonym
+    "comment":       annotations["annotation"],   # synonym
+    # axo_length
+    "axo length":    annotations["axo_length"],
+    "axonometric":   annotations["axo_length"],   # synonym
+    "axo dimension": annotations["axo_length"],   # synonym
+    # balloon
+    "balloon":       annotations["balloon"],
+    "callout":       annotations["balloon"],      # synonym
+    "bubble":        annotations["balloon"],      # synonym
+    # help
+    "help":          ayuda,
+    "assistance":    ayuda,                       # synonym
+}

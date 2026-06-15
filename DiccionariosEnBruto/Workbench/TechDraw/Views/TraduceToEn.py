@@ -15,3 +15,45 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+from .views import views
+from .ayuda import ayuda
+
+TraduceToEn = {
+
+    # View
+    "view": views["view"],
+    "create view": views["view"],
+    "new view": views["view"],
+
+    # Detail View
+    "detail view": views["detailview"],
+    "detail": views["detailview"],
+    "create detail view": views["detailview"],
+
+    # Broken View
+    "broken view": views["brokenview"],
+    "break view": views["brokenview"],
+    "create broken view": views["brokenview"],
+
+    # Clip Group
+    "clip group": views["clipgroup"],
+    "clipping group": views["clipgroup"],
+    "create clip group": views["clipgroup"],
+
+    # Complex Section
+    "complex section": views["complexsection"],
+    "section view": views["complexsection"],
+    "create section": views["complexsection"],
+
+    # Draft View
+    "draft view": views["draft"],
+    "draft": views["draft"],
+    "create draft view": views["draft"],
+
+    # Spreadsheet View
+    "spreadsheet view": views["spreadsheet"],
+    "spreadsheet": views["spreadsheet"],
+    "table view": views["spreadsheet"],
+
+    "help": ayuda,
+}

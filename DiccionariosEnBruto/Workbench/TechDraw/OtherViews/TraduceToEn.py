@@ -15,3 +15,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .OtherViews import other_views
+from .ayuda import ayuda
+
+TraduceToEn = {
+
+    "active view": other_views["active_view"],
+    "current view": other_views["active_view"],
+    "view from screen": other_views["active_view"],
+    "view from window": other_views["active_view"],
+    "capture view": other_views["active_view"],
+    "create active view": other_views["active_view"],
+    "insert active view": other_views["active_view"],
+
+    "help": ayuda,
+}

@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part new sketch commands."""
+
+from .new_sketch import new_sketch
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "sketch": new_sketch["nuevo sketch"],
+    "new sketch": new_sketch["nuevo sketch"],
+    "create sketch": new_sketch["nuevo sketch"],
+    "make sketch": new_sketch["nuevo sketch"],
+    "draft": new_sketch["nuevo sketch"],
+    "new draft": new_sketch["nuevo sketch"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

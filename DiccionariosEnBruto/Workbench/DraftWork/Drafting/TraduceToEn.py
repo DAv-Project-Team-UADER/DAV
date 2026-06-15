@@ -15,3 +15,17 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Drafting dictionary."""
+
+from .Drafting import drafting
+
+TraduceToEn = {
+    "wire":            drafting['wire'],
+    "polyline":        drafting['wire'],
+    "continuous line": drafting['wire'],
+    "multi line":      drafting['wire'],
+    "help":            drafting['help'],
+    "info":            drafting['help'],
+    "options":         drafting['help']
+}

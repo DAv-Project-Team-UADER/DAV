@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .radius import radius
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # radius
+    "radius":           radius["radius"],
+    "radius dimension": radius["radius"],         # synonym
+    "arc radius":       radius["radius"],         # synonym
+    # help
+    "help":             ayuda,
+    "assistance":       ayuda,                    # synonym
+}

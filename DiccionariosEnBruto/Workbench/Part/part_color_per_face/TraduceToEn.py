@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part color per face commands."""
+
+from .part_color_per_face import part_color_per_face
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "color per face": part_color_per_face["paint face"],
+    "paint face": part_color_per_face["paint face"],
+    "color face": part_color_per_face["paint face"],
+    "set face color": part_color_per_face["paint face"],
+    "change face color": part_color_per_face["paint face"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

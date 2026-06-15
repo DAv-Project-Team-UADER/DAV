@@ -17,7 +17,7 @@ param(
     [switch]$RegistrarInicioWindows
 )
 
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 
 $IntegrationRoot = $PSScriptRoot
 $RepoRoot = Split-Path -Parent $IntegrationRoot
@@ -75,8 +75,18 @@ function Ensure-GuiVenv {
 function Ensure-GuiDependencies {
     param([string]$GuiPython)
 
-    & $GuiPython -c "import PySide6, vosk, sounddevice" 2>$null
-    if ($LASTEXITCODE -eq 0) {
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
+    try {
+        & $GuiPython -c "import PySide6, vosk, sounddevice" 2>$null
+        $success = ($LASTEXITCODE -eq 0)
+    } catch {
+        $success = $false
+    } finally {
+        $ErrorActionPreference = $oldPreference
+    }
+
+    if ($success) {
         Write-Ok "Dependencias Python de GUIFreeCad"
         return
     }

@@ -16,7 +16,7 @@
 
 def ayuda():
     print('Comandos y subconjuntos disponibles en el nivel raíz de Sketcher:')
-    
+
     print('  validate      - Subconjunto: validación de boceto')
     print('  sketcher_tools- Subconjunto: herramientas varias (borrar geometría, restricciones, etc.)')
     print('  select        - Subconjunto: selección rápida (ejes, origen)')

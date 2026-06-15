@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,22 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Sketcher polyline geometry dictionary."""
+
+from .polyline import polyline
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Help command
+    "help": ayuda,
+    "info": ayuda,
+    
+    # Polyline creation & synonyms
+    "create": polyline['create'],
+    "create polyline": polyline['create'],
+    "draw polyline": polyline['create'],
+    "polyline": polyline['create'],
+    "multi line": polyline['create'],
+    "continuous line": polyline['create']
+}

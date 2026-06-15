@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for the DAV AssemblyWorkbench dictionary."""
  
-from .AssemblyWorkbench import assembly
+from .Assembly import assembly
 from .joint.joint import joint
 from .ayuda import ayuda
  

@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,42 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Sketcher tools dictionary."""
+
+from .tools import tools
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Help command
+    "help": ayuda,
+    "info": ayuda,
+    
+    # Delete constraints & synonyms
+    "deleteconstraints": tools['deleteconstraints'],
+    "delete constraints": tools['deleteconstraints'],
+    "clear constraints": tools['deleteconstraints'],
+    "remove constraints": tools['deleteconstraints'],
+    
+    # Delete geometry & synonyms
+    "deletegeometry": tools['deletegeometry'],
+    "delete geometry": tools['deletegeometry'],
+    "clear geometry": tools['deletegeometry'],
+    "clear sketch": tools['deletegeometry'],
+    "erase sketch": tools['deletegeometry'],
+    
+    # Merge & synonyms
+    "merge": tools['merge'],
+    "merge sketches": tools['merge'],
+    "combine sketches": tools['merge'],
+    
+    # Reorient & synonyms
+    "reorient": tools['reorient'],
+    "reorient sketch": tools['reorient'],
+    "change sketch plane": tools['reorient'],
+    
+    # Remove axes alignment & synonyms
+    "removeaxes": tools['removeaxes'],
+    "remove axes": tools['removeaxes'],
+    "clear axes alignment": tools['removeaxes']
+}

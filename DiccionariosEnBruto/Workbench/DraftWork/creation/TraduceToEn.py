@@ -15,3 +15,34 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Creation dictionary."""
+
+from .creation import creation
+
+TraduceToEn = {
+    # Draft Hatch
+    "hatch":           creation['hatch'],
+    "fill pattern":    creation['hatch'],
+    "hatch pattern":   creation['hatch'],
+    "pattern":         creation['hatch'],
+
+    # Draft Point
+    "point":           creation['point'],
+    "create point":    creation['point'],
+    "dot":             creation['point'],
+
+    # Draft Polygon
+    "polygon":         creation['polygon'],
+    "regular polygon": creation['polygon'],
+    "create polygon":  creation['polygon'],
+
+    # Draft Rectangle
+    "rectangle":       creation['rectangle'],
+    "create rectangle":creation['rectangle'],
+    "box":             creation['rectangle'],
+
+    "help":            creation['help'],
+    "info":            creation['help'],
+    "options":         creation['help']
+}

@@ -33,8 +33,9 @@ def _color_per_face():
 
 
 part_color_per_face = {
-    'pintar cara': _color_per_face,
-    'color por cara': _color_per_face,
-    'colorear cara': _color_per_face,
+    'paint face': _color_per_face,
+    'color face': _color_per_face,
+    'set face color': _color_per_face,
+    'change face color': _color_per_face,
     'help': ayuda,
 }

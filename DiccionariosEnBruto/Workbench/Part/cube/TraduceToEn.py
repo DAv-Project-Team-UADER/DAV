@@ -15,3 +15,13 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .cube import cube
+from .ayuda import ayuda
+
+TraduceToEn = {
+    'cube':     cube['cube'],
+    'box':      cube['cube'],
+    'help':     ayuda,
+    'support':  ayuda,
+}

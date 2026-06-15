@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the circle dictionary."""
+
+from .circle import circle
+
+TraduceToEn = {
+    # Apunta a los elementos del diccionario original 'circle'
+    'create':           circle['create'],
+    'circle':           circle['create'],
+    'center circle':    circle['create'],
+    'circle by center': circle['create'],
+
+    'three point':      circle['3point'],
+    'three points':     circle['3point'],
+    '3 point':          circle['3point'],
+    '3 points':         circle['3point'],
+    'circle by 3 points': circle['3point'],
+
+    # Sinónimos para la función ayuda
+    'help':             circle['help'],
+    'commands':         circle['help'],
+    'options':          circle['help']
+}

@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Sketcher select dictionary."""
+
+from .select import select
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Help command
+    "help": ayuda,
+    "info": ayuda,
+    
+    # Horizontal axis selection & synonyms
+    "horizontal": select['horizontal'],
+    "horizontal axis": select['horizontal'],
+    "select horizontal": select['horizontal'],
+    
+    # Vertical axis selection & synonyms
+    "vertical": select['vertical'],
+    "vertical axis": select['vertical'],
+    "select vertical": select['vertical'],
+    
+    # Origin selection & synonyms
+    "origin": select['origin'],
+    "center point": select['origin'],
+    "select origin": select['origin'],
+    "zero point": select['origin']
+}

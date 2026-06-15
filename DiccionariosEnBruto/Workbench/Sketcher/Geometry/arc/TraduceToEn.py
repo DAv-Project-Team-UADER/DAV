@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,25 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the arc dictionary."""
+
+from .arc import arc
+
+TraduceToEn = {
+    # Apunta a los elementos del diccionario original 'arc'
+    'center':           arc['center'],
+    'arc by center':    arc['center'],
+    'center arc':       arc['center'],
+
+    'three point':      arc['3point'],
+    'three points':     arc['3point'],
+    '3 point':          arc['3point'],
+    '3 points':         arc['3point'],
+    'arc by 3 points':  arc['3point'],
+
+    # Sinónimos para la función ayuda
+    'help':             arc['help'],
+    'commands':         arc['help'],
+    'options':          arc['help']
+}

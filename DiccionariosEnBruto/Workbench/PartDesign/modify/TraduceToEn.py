@@ -1,3 +1,4 @@
+
 # Copyright (C) 2026 El Equipo del Proyecto DAV
 # Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
@@ -15,3 +16,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for PartDesign modify commands."""
+
+from .modify import modify
+from .ayuda import ayuda
+
+TraduceToEn = {
+    # Fillet
+    "fillet": modify["fillet"],
+    "round": modify["fillet"],
+
+    # Chamfer
+    "chamfer": modify["chamfer"],
+    "bevel": modify["chamfer"],
+
+    # Draft
+    "draft": modify["draft"],
+    "taper": modify["draft"],
+
+    # Thickness
+    "thickness": modify["thickness"],
+    "shell": modify["thickness"],
+
+    # Help
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

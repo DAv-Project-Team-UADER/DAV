@@ -15,3 +15,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for Part sweep commands."""
+
+from .part_sweep import part_sweep
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "barrido": part_sweep["sweep"],
+    "barrer perfil": part_sweep["sweep"],
+    "barrer trayectoria": part_sweep["sweep"],
+    "barrer por trayectoria": part_sweep["sweep"],
+    "barrer a lo largo de trayectoria": part_sweep["sweep"],
+    "sweep": part_sweep["sweep"],
+    "tubo": part_sweep["sweep"],
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+    "help": ayuda,
+}

@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# English translations – Sketcher Ellipse
+# ============================================================
+
+from .ellipse import ellipse
+
+TraduceToEn = {
+    # Main commands
+    "center": ellipse["center"],
+    "3points": ellipse["3points"],
+    "elliptic": ellipse["elliptic"],
+    "hyperbolic": ellipse["hyperbolic"],
+    "parabolic": ellipse["parabolic"],
+    "help": ellipse["help"],
+
+    # Aliases
+    "ellipse center": ellipse["center"],
+    "ellipse 3 points": ellipse["3points"],
+    "ellipse arc": ellipse["elliptic"],
+    "hyperbola arc": ellipse["hyperbolic"],
+    "parabola arc": ellipse["parabolic"],
+}

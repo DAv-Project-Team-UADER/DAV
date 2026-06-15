@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for Part make face commands."""
+
+from .part_makeface import part_makeface
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "make face": part_makeface["make face"],
+    "create face": part_makeface["make face"],
+    "face": part_makeface["make face"],
+    "build face": part_makeface["make face"],
+    "generate face": part_makeface["make face"],
+    "help": ayuda,
+    "manual": ayuda,
+    "support": ayuda,
+    "documentation": ayuda,
+}

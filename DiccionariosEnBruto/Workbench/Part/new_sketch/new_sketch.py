@@ -25,8 +25,7 @@ def _new_sketch():
 
 
 new_sketch = {
-    'nuevo boceto': lambda: _new_sketch(),
-    'nuevo sketch': lambda: _new_sketch(),
-    'crear sketch': lambda: _new_sketch(),
+    'new sketch': lambda: _new_sketch(),
+    'sketch': lambda: _new_sketch(),
     'help': ayuda,
 }

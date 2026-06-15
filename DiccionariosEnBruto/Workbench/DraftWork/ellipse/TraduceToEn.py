@@ -15,3 +15,15 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .ellipse import ellipse
+
+TraduceToEn = {
+    "ellipse": ellipse["center"],
+    "center ellipse": ellipse["center"],
+    "oval": ellipse["center"],
+
+    "help": ellipse["help"],
+    "info": ellipse["help"],
+    "options": ellipse["help"],
+}

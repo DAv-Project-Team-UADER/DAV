@@ -75,5 +75,4 @@ def RunFullDemo(sketch_name: str | None = None):
         print("  selector.SelectOther = True")
         print("(repetí esa línea para avanzar)\n")
 
-    print("========== Fin. Capturá pantalla para el Word. ==========\n")
     return selector

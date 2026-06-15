@@ -15,3 +15,42 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .modify import modify
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "clone": modify["clone"],
+    "copy": modify["clone"],
+
+    "downgrade": modify["downgrade"],
+    "simplify": modify["downgrade"],
+
+    "sketch": modify["sketch"],
+    "convert to sketch": modify["sketch"],
+
+    "edit": modify["edit"],
+    "modify": modify["edit"],
+
+    "fillet": modify["fillet"],
+    "round": modify["fillet"],
+
+    "join": modify["join"],
+    "combine": modify["join"],
+
+    "move": modify["move"],
+    "translate": modify["move"],
+
+    "offset": modify["offset"],
+    "parallel copy": modify["offset"],
+
+    "rotate": modify["rotate"],
+    "turn": modify["rotate"],
+
+    "mirror": modify["mirror"],
+    "reflect": modify["mirror"],
+
+    "help": modify["help"],
+    "info": modify["help"],
+    "options": modify["help"],
+}

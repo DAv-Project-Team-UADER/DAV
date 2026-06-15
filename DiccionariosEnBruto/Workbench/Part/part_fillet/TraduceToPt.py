@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for Part fillet commands."""
+
+from .part_fillet import part_fillet
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "arredondar": part_fillet["fillet"],
+    "arredondamento": part_fillet["fillet"],
+    "arredondar arestas": part_fillet["fillet"],
+    "fazer arredondamento": part_fillet["fillet"],
+    "criar arredondamento": part_fillet["fillet"],
+    "filete": part_fillet["fillet"],
+    "fazer filete": part_fillet["fillet"],
+    "criar filete": part_fillet["fillet"],
+    "fillet": part_fillet["fillet"],
+    "ajuda": ayuda,
+    "manual": ayuda,
+    "suporte": ayuda,
+    "documentacao": ayuda,
+    "documentação": ayuda,
+    "help": ayuda,
+}

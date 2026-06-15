@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the Curve dictionary."""
+
+from .curve import curve
+
+TraduceToEn = {
+    # Draft BezCurve
+    "bezier":              curve['bezier'],
+    "bezier curve":        curve['bezier'],
+    "n degree bezier":     curve['bezier'],
+
+    # Draft BSpline
+    "bspline":             curve['bspline'],
+    "b spline":            curve['bspline'],
+    "spline":              curve['bspline'],
+    "smooth curve":        curve['bspline'],
+
+    # Draft CubicBezCurve
+    "cubic":               curve['cubic'],
+    "cubic bezier":        curve['cubic'],
+    "cubic curve":         curve['cubic'],
+    "third degree bezier": curve['cubic'],
+
+    "help":                curve['help'],
+    "info":                curve['help'],
+    "options":             curve['help']
+}

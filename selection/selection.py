@@ -34,7 +34,10 @@ class ObjectSelection:
             
         Gui.Selection.clearSelection()           # Clears previous selections
         Gui.Selection.addSelection(Obj)          # Makes the object glow (3D and Tree)
-        Gui.Control.showInTree()                 # Focuses and scrolls the tree view to it
+        try:
+            Gui.Control.showInTree()                 # Focuses and scrolls the tree view to it
+        except AttributeError:
+            pass # Not available in FreeCAD 1.1+
         Gui.SendMsgToActiveView("ViewSelection") # Centers the 3D camera onto the object
         print(f"Successfully focused: '{Obj.Name}'")
 
