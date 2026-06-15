@@ -40,6 +40,7 @@ TraduceToEn = {
     "face center":       addLines["center"],      # synonym
     "face center line":  addLines["center"],      # synonym
     # help
-    "help":              ayuda,
-    "assistance":        ayuda,                   # synonym
+    "help":              addLines["help"],
+    "info":              addLines["help"],   # synonym
+    "options":           addLines["help"],   # synonym
 }
