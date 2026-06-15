@@ -17,7 +17,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Dimensions import dimensions
-from .ayuda import ayuda
 
 TraduceToEn = {
     # vertical
