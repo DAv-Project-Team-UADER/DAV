@@ -15,3 +15,46 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .dimensions import dimensions
+
+TraduceToPt = {
+    # vertical
+    "vertical":            dimensions["vertical"],
+    "dimensao vertical":   dimensions["vertical"],  # sinonimo
+    "altura":              dimensions["vertical"],  # sinonimo
+    # area
+    "area":                dimensions["area"],
+    "dimensao area":       dimensions["area"],      # sinonimo
+    "superficie":          dimensions["area"],      # sinonimo
+    # fit
+    "ajuste":              dimensions["fit"],
+    "tolerancia":          dimensions["fit"],       # sinonimo
+    "ajuste furo":         dimensions["fit"],       # sinonimo
+    # dimension
+    "dimensao":            dimensions["dimension"],
+    "medir":               dimensions["dimension"], # sinonimo
+    "medida":              dimensions["dimension"], # sinonimo
+    # length
+    "comprimento":         dimensions["length"],
+    "distancia":           dimensions["length"],    # sinonimo
+    # horizontal
+    "horizontal":          dimensions["horizontal"],
+    "largura":             dimensions["horizontal"], # sinonimo
+    # extent
+    "extensao":            dimensions["extent"],
+    "comprimento total":   dimensions["extent"],    # sinonimo
+    # radius
+    "raio":                dimensions["radius"],
+    "raio arco":           dimensions["radius"],    # sinonimo
+    # diameter
+    "diametro":            dimensions["diameter"],
+    "dimensao circulo":    dimensions["diameter"],  # sinonimo
+    # angle
+    "angulo":              dimensions["angle"],
+    "dimensao angular":    dimensions["angle"],     # sinonimo
+    # help
+    "ajuda":               dimensions["help"],
+    "info":                dimensions["help"],      # sinonimo
+    "opcoes":              dimensions["help"],      # sinonimo
+}
