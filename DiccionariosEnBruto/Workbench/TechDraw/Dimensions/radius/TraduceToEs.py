@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .radius import radius
+
+TraduceToEs = {
+    # radius
+    "radio":              radius["radius"],
+    "dimension radio":    radius["radius"],  # sinonimo
+    "radio arco":         radius["radius"],  # sinonimo
+    # help
+    "ayuda":              radius["help"],
+    "info":               radius["help"],    # sinonimo
+    "opciones":           radius["help"],    # sinonimo
+}
