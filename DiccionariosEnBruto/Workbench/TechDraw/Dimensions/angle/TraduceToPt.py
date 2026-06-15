@@ -15,3 +15,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .angle import angle
+
+TraduceToPt = {
+    # angle
+    "angulo":            angle["angle"],
+    "dimensao angular":  angle["angle"],   # sinonimo
+    "medir angulo":      angle["angle"],   # sinonimo
+    # points
+    "pontos":            angle["points"],
+    "tres pontos":       angle["points"],  # sinonimo
+    "angulo tres pontos": angle["points"], # sinonimo
+    # help
+    "ajuda":             angle["help"],
+    "info":              angle["help"],    # sinonimo
+    "opcoes":            angle["help"],    # sinonimo
+}
