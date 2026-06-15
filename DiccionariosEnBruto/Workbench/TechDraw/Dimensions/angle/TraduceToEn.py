@@ -29,6 +29,7 @@ TraduceToEn = {
     "angle three points": angle["points"],        # synonym
     "3 point angle":      angle["points"],        # synonym
     # help
-    "help":               ayuda,
-    "assistance":         ayuda,                  # synonym
+    "help":               angle["help"],
+    "info":               angle["help"],   # synonym
+    "options":            angle["help"],   # synonym
 }
