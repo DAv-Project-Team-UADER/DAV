@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Portuguese translations – Sketcher BSpline Tools
+# ============================================================
+
+from .bspline_tools import bspline_tools
+
+TraduceToPt = {
+    # Comandos principais
+    "para nurbs": bspline_tools["tonurbs"],
+    "diminuir grau": bspline_tools["decrease"],
+    "aumentar grau": bspline_tools["increase"],
+    "nó": bspline_tools["knot"],
+    "unir": bspline_tools["join"],
+    "ajuda": bspline_tools["help"],
+
+    # Sinônimos
+    "converter para nurbs": bspline_tools["tonurbs"],
+    "baixar grau": bspline_tools["decrease"],
+    "subir grau": bspline_tools["increase"],
+    "inserir nó": bspline_tools["knot"],
+    "unir curva": bspline_tools["join"],
+}
