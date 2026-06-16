@@ -15,3 +15,23 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Spanish translations – Sketcher Polygon
+# ============================================================
+
+from .polygon import polygon
+
+TraduceToEs = {
+    # Comandos principales
+    "pentagono": polygon["pentagon"],
+    "octagono": polygon["octagon"],
+    "regular": polygon["regular"],
+    "ayuda": polygon["help"],
+
+    # Sinónimos
+    "poligono regular": polygon["regular"],
+    "poligono": polygon["regular"],
+    "cinco lados": polygon["pentagon"],
+    "ocho lados": polygon["octagon"],
+}
