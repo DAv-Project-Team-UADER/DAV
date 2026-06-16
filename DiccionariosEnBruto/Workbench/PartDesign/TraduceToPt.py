@@ -16,15 +16,14 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# ============================================================
-# Portuguese translations – PartDesign (folders only)
-# ============================================================
+
+# Traduções para português – PartDesign (apenas pastas)
 
 from .PartDesign import partdesign
 
 TraduceToPt = {
 
-    # Grupos principais (pastas conceituais)
+    # Grupos principais (conceito de pastas)
     "base": partdesign["help"],
     "aditivo": partdesign["help"],
     "subtrativo": partdesign["help"],
@@ -33,25 +32,25 @@ TraduceToPt = {
     "gerenciar": partdesign["help"],
 
     # Sinônimos → mesmo comportamento
-    "basico": partdesign["help"],
+    "básico": partdesign["help"],
     "fundamental": partdesign["help"],
 
     "adicionar": partdesign["help"],
-    "adicao": partdesign["help"],
-    "adicoes": partdesign["help"],
+    "adição": partdesign["help"],
+    "adições": partdesign["help"],
 
     "subtrair": partdesign["help"],
     "remover": partdesign["help"],
     "cortar": partdesign["help"],
 
     "editar": partdesign["help"],
-    "edicao": partdesign["help"],
+    "edição": partdesign["help"],
     "modificadores": partdesign["help"],
 
-    "transformacoes": partdesign["help"],
-    "padroes": partdesign["help"],
+    "transformações": partdesign["help"],
+    "padrões": partdesign["help"],
 
-    "administrar": partdesign["help"],
-    "administracao": partdesign["help"],
-    "configuracao": partdesign["help"],
+    "gerenciamento": partdesign["help"],
+    "administração": partdesign["help"],
+    "configurações": partdesign["help"],
 }
