@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for the Drafting dictionary."""
 
-from .Drafting import drafting
+from .drafting import drafting
 
 TraduceToEn = {
     "wire":            drafting['wire'],
