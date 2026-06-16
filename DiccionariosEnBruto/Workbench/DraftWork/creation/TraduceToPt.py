@@ -15,3 +15,23 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .creation import creation
+
+TraduceToPt = {
+    "hachura":                 creation["hatch"],
+    "preencher":               creation["hatch"],
+    "padrao de preenchimento": creation["hatch"],
+    
+    "ponto":                   creation["point"],
+    "marcar ponto":            creation["point"],
+    
+    "poligono":                creation["polygon"],
+    "desenhar poligono":       creation["polygon"],
+    
+    "retangulo":               creation["rectangle"],
+    "desenhar retangulo":      creation["rectangle"],
+    "quadrilatero":            creation["rectangle"],
+    
+    "ajuda":                   creation["help"]
+}

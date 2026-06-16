@@ -15,3 +15,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .circle import circle
+
+TraduceToEs = {
+    "centro":           circle["center"],
+    "circulo":          circle["center"],
+    "dibujar circulo":  circle["center"],
+    "circunferencia":   circle["center"],
+    
+    "ayuda":            circle["help"]
+}

@@ -15,3 +15,17 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .drafting import drafting
+
+TraduceToPt = {
+    # Polilinhas (Wire)
+    "polilinha":          drafting["wire"],
+    "desenhar polilinha": drafting["wire"],
+    "tracar polilinha":   drafting["wire"],
+    "linha continua":     drafting["wire"],
+    
+    # Ajuda
+    "ajuda":              drafting["help"],
+    "opcoes":             drafting["help"]
+}
