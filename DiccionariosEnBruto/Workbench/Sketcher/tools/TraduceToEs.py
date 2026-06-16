@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,44 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the Sketcher tools dictionary."""
+
+from .tools import tools
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Comando de ayuda
+    "ayuda": ayuda,
+    "info": ayuda,
+    
+    # Borrar restricciones y sinónimos
+    "deleteconstraints": tools['deleteconstraints'],
+    "borrar restricciones": tools['deleteconstraints'],
+    "limpiar restricciones": tools['deleteconstraints'],
+    "eliminar restricciones": tools['deleteconstraints'],
+    
+    # Borrar geometría y sinónimos
+    "deletegeometry": tools['deletegeometry'],
+    "borrar geometria": tools['deletegeometry'],
+    "limpiar geometria": tools['deletegeometry'],
+    "borrar croquis": tools['deletegeometry'],
+    "limpiar croquis": tools['deletegeometry'],
+    
+    # Fusionar y sinónimos
+    "merge": tools['merge'],
+    "fusionar": tools['merge'],
+    "fusionar croquis": tools['merge'],
+    "combinar croquis": tools['merge'],
+    
+    # Reorientar y sinónimos
+    "reorient": tools['reorient'],
+    "reorientar": tools['reorient'],
+    "reorientar croquis": tools['reorient'],
+    "cambiar plano del croquis": tools['reorient'],
+    
+    # Remover alineación de ejes y sinónimos
+    "removeaxes": tools['removeaxes'],
+    "remover ejes": tools['removeaxes'],
+    "quitar alineacion de ejes": tools['removeaxes']
+}

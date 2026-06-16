@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,28 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the Sketcher rectangle geometry dictionary."""
+
+from .rectangle import rectangle
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Comando de ayuda
+    "ayuda": ayuda,
+    "info": ayuda,
+    
+    # Creación de rectángulo estándar y sinónimos
+    "crear": rectangle['create'],
+    "rectangulo": rectangle['create'],
+    "cuadro": rectangle['create'],
+    "crear rectangulo": rectangle['create'],
+    "dibujar rectangulo": rectangle['create'],
+    
+    # Creación de rectángulo centrado y sinónimos
+    "center": rectangle['center'],
+    "centro": rectangle['center'],
+    "rectangulo centrado": rectangle['center'],
+    "crear rectangulo centrado": rectangle['center'],
+    "dibujar rectangulo centrado": rectangle['center']
+}
