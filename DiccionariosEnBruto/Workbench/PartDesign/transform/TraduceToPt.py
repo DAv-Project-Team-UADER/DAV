@@ -15,3 +15,38 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeamento de comandos falados em português para PartDesign transform."""
+
+from .transform import transform
+from .ayuda import ayuda
+
+TraduceToPt = {
+    # Padrão linear
+    "padraolinear": transform["linearpattern"],
+    "linear": transform["linearpattern"],
+
+    # Espelho
+    "espelhado": transform["mirrored"],
+    "espelho": transform["mirrored"],
+
+    # Padrão polar
+    "padraopolar": transform["polarpattern"],
+    "polar": transform["polarpattern"],
+    "padraocircular": transform["polarpattern"],
+
+    # Multitransformação
+    "multitransformacao": transform["multitransform"],
+    "multi": transform["multitransform"],
+
+    # Escala
+    "escalado": transform["scaled"],
+    "escalar": transform["scaled"],
+    "redimensionar": transform["scaled"],
+
+    # Ajuda
+    "ajuda": ayuda,
+    "manual": ayuda,
+    "suporte": ayuda,
+    "documentacao": ayuda,
+}
