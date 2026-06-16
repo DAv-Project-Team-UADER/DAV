@@ -15,3 +15,34 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for PartDesign modify commands."""
+
+from .modify import modify
+from .ayuda import ayuda
+
+TraduceToPt = {
+    # Fillet
+    "arredondamento": modify["fillet"],
+    "arredondar": modify["fillet"],
+    "filete": modify["fillet"],
+
+    # Chamfer
+    "chanfro": modify["chamfer"],
+    "bisel": modify["chamfer"],
+
+    # Draft
+    "inclinação": modify["draft"],
+    "inclinar": modify["draft"],
+    "conicidade": modify["draft"],
+
+    # Thickness
+    "espessura": modify["thickness"],
+    "casca": modify["thickness"],
+
+    # Help
+    "ajuda": ayuda,
+    "manual": ayuda,
+    "suporte": ayuda,
+    "documentação": ayuda,
+}
