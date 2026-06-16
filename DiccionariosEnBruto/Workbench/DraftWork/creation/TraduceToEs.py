@@ -15,3 +15,23 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .creation import creation
+
+TraduceToEs = {
+    "sombreado":           creation["hatch"],
+    "rellenar":            creation["hatch"],
+    "patron de relleno":   creation["hatch"],
+    
+    "punto":               creation["point"],
+    "marcar punto":        creation["point"],
+    
+    "poligono":            creation["polygon"],
+    "dibujar poligono":    creation["polygon"],
+    
+    "rectangulo":          creation["rectangle"],
+    "dibujar rectangulo":  creation["rectangle"],
+    "cuadrilatero":        creation["rectangle"],
+    
+    "ayuda":               creation["help"]
+}
