@@ -29,5 +29,7 @@ TraduceToEs = {
     "arco por puntos":      arc["points"],
     "arco de tres puntos":  arc["points"],
     
-    "ayuda":                arc["help"]
+    "ayuda":                arc["help"],
+    "información":          arc["help"],
+    "opciones":             arc["help"]
 }

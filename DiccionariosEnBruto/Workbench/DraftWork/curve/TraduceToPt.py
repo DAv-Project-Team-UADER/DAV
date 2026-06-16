@@ -31,5 +31,7 @@ TraduceToPt = {
     "bezier cubica":   curve["cubic"],
     "curva cubica":    curve["cubic"],
     
-    "ajuda":           curve["help"]
+    "ajuda":             curve["help"],
+    "informação":       curve["help"],
+    "opções":            curve["help"]
 }

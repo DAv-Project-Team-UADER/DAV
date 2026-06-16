@@ -29,5 +29,7 @@ TraduceToPt = {
     "arco por pontos":      arc["points"],
     "arco de tres pontos":  arc["points"],
     
-    "ajuda":                arc["help"]
+    "ajuda":             arc["help"],
+    "informação":       arc["help"],
+    "opções":            arc["help"]
 }

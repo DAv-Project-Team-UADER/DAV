@@ -34,5 +34,7 @@ TraduceToEs = {
     "poner etiqueta":    annotation["label"],
     "señalar":           annotation["label"],
     
-    "ayuda":             annotation["help"]
+    "ayuda":             annotation["help"],
+    "información":       annotation["help"],
+    "opciones":             annotation["help"]
 }

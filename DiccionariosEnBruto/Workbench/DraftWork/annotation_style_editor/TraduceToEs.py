@@ -16,13 +16,15 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .annotation import annotation
+from .annotation_style_editor import annotation
 
 TraduceToEs = {
     "editor":               annotation["editor"],
     "editar estilos":       annotation["editor"],
-    "estilos de anotacion": annotation["editor"],
+    "estilos de anotación": annotation["editor"],
     "modificar estilos":    annotation["editor"],
     
-    "ayuda":                annotation["help"]
+    "ayuda":                annotation["help"],
+    "información":          annotation["help"],
+    "opciones":             annotation["help"]
 }

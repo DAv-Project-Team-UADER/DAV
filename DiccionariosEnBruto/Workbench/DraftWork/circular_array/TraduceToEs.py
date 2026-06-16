@@ -41,5 +41,7 @@ TraduceToEs = {
     
     "enlace por puntos":     array["pointlink"],
     
-    "ayuda":                 array["help"]
+    "ayuda":                array["help"],
+    "información":          array["help"],
+    "opciones":             array["help"]
 }

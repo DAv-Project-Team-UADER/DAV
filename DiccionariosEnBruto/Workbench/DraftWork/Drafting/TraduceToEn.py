@@ -25,6 +25,7 @@ TraduceToEn = {
     "polyline":        drafting['wire'],
     "continuous line": drafting['wire'],
     "multi line":      drafting['wire'],
+    
     "help":            drafting['help'],
     "info":            drafting['help'],
     "options":         drafting['help']

@@ -31,5 +31,7 @@ TraduceToEs = {
     "bezier cubica":   curve["cubic"],
     "curva cubica":    curve["cubic"],
     
-    "ayuda":           curve["help"]
+    "ayuda":                curve["help"],
+    "información":          curve["help"],
+    "opciones":             curve["help"]
 }

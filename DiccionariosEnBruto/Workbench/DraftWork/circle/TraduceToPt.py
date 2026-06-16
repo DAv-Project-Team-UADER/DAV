@@ -24,5 +24,7 @@ TraduceToPt = {
     "desenhar circulo": circle["center"],
     "circunferencia":   circle["center"],
     
-    "ajuda":            circle["help"]
+    "ajuda":             circle["help"],
+    "informação":        circle["help"],
+    "opções":              circle["help"]
 }

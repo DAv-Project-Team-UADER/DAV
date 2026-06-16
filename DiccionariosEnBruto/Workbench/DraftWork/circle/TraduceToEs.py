@@ -24,5 +24,7 @@ TraduceToEs = {
     "dibujar circulo":  circle["center"],
     "circunferencia":   circle["center"],
     
-    "ayuda":            circle["help"]
+    "ayuda":                circle["help"],
+    "información":          circle["help"],
+    "opciones":             circle["help"]
 }

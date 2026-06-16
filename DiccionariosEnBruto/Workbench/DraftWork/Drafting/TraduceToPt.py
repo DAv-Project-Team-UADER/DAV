@@ -26,6 +26,7 @@ TraduceToPt = {
     "linha continua":     drafting["wire"],
     
     # Ajuda
-    "ajuda":              drafting["help"],
-    "opcoes":             drafting["help"]
+    "ajuda":             drafting["help"],
+    "informação":       drafting["help"],
+    "opções":            drafting["help"]
 }

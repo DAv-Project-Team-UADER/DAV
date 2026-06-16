@@ -24,6 +24,7 @@ TraduceToEs = {
     "trazar polilinea":   drafting["wire"],
     "linea continua":     drafting["wire"],
     
-    "ayuda":              drafting["help"],
-    "opciones":           drafting["help"]
+   "ayuda":                drafting["help"],
+    "información":          drafting["help"],
+    "opciones":             drafting["help"]
 }

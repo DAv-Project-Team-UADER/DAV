@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .array import array
+from .circular_array import array
 
 TraduceToPt = {
     "circular":              array["circular"],
@@ -41,5 +41,7 @@ TraduceToPt = {
     
     "ligacao por pontos":    array["pointlink"],
     
-    "ajuda":                 array["help"]
+    "ajuda":             array["help"],
+    "informação":       array["help"],
+    "opções":            array["help"]
 }

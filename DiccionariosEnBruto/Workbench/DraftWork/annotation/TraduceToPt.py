@@ -34,5 +34,7 @@ TraduceToPt = {
     "etiqueta":          annotation["label"],
     "colocar rotulo":    annotation["label"],
     
-    "ajuda":             annotation["help"]
+    "ajuda":             annotation["help"],
+    "informação":       annotation["help"],
+    "opções":             annotation["help"]
 }

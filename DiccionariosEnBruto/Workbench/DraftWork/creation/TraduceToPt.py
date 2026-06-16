@@ -33,5 +33,7 @@ TraduceToPt = {
     "desenhar retangulo":      creation["rectangle"],
     "quadrilatero":            creation["rectangle"],
     
-    "ajuda":                   creation["help"]
+    "ajuda":             creation["help"],
+    "informação":       creation["help"],
+    "opções":            creation["help"]
 }

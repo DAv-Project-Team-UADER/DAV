@@ -33,5 +33,7 @@ TraduceToEs = {
     "dibujar rectangulo":  creation["rectangle"],
     "cuadrilatero":        creation["rectangle"],
     
-    "ayuda":               creation["help"]
+    "ayuda":                creation["help"],
+    "información":          creation["help"],
+    "opciones":             creation["help"]
 }
