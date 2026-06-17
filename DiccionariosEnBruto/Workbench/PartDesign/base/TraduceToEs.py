@@ -15,3 +15,44 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import base as base
+import ayuda as ayuda
+
+TraduceToEs = {
+    #Body
+    "cuerpo":       base["body"],
+    "crear cuerpo": base["body"],
+    "cuerpo nuevo": base["body"],
+    "nuevo cuerpo": base["body"],
+    
+    #Nuevo croquis
+    "nuevo croquis": base["new sketch"],
+    "crear croquis": base["new sketch"],
+    "croquis nuevo": base["new sketch"],
+    "nuevo boceto": base["new sketch"],
+    "crear boceto": base["new sketch"],
+    "boceto nuevo": base["new sketch"],
+
+    #Clonar
+    "clonar":        base["clone"],
+    "clonar objeto": base["clone"],
+    "clonar forma":  base["clone"],
+    "clonar cuerpo": base["clone"],
+    "copiar":         base["clone"],
+    "copiar objeto":  base["clone"],
+    "copiar forma":   base["clone"],
+    "copiar cuerpo":  base["clone"],
+
+    #Enlazador de subformas
+    "enlazar subforma": base["subshapebinder"],
+    "enlazar subformas": base["subshapebinder"],
+    "vincular subforma": base["subshapebinder"],
+    "vincular subformas": base["subshapebinder"],
+    "subforma enlazada": base["subshapebinder"],
+    "subformas enlazadas": base["subshapebinder"],
+    "subforma vinculada": base["subshapebinder"],
+    "subformas vinculadas": base["subshapebinder"],
+
+    "ayuda":    ayuda["help"],
+}
