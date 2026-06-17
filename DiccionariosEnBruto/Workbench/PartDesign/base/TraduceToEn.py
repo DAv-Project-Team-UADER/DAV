@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import base as base
+import ayuda as ayuda
+
+TraduceToEn = {
+    "body": base["body"],
+    "new body": base["body"],
+    "create body": base["body"],
+    "newsketch": base["newsketch"],
+    "new sketch": base["newsketch"],
+    "create sketch": base["newsketch"],
+    "clone": base["clone"],
+    "clone feature": base["clone"],
+    "clone body": base["clone"],
+    "subshapebinder": base["subshapebinder"],
+    "subshape binder": base["subshapebinder"],
+    "help": ayuda,
+}
