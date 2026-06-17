@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import manage as manage
+import ayuda as ayuda
+
+TraduceToPt= {
+    #Mover recurso
+    'mover recurso':       manage['movefeature'],
+    'mover recurso para corpo':       manage['movefeature'],
+
+    #Mover recurso na árvore
+    'mover recurso na árvore': manage['movefeatureintree'],
+    'mover recurso para corpo na árvore': manage['movefeatureintree'],
+
+    #Mover ponta
+    'mover ponta': manage['movetip'],
+    'mover ponta para corpo': manage['movetip'],
+
+    #Preferências
+    'preferências': manage['preferences'],
+    'Opções': manage['preferences'],
+
+    #Assistente de eixo
+    'assistente de eixo': manage['wizardshaft'],
+    'assistente de eixo para corpo': manage['wizardshaft'],
+
+    'help': manage['help'],
+}
