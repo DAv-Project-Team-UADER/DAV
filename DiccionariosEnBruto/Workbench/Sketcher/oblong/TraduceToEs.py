@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the Sketcher oblong dictionary."""
+
+from .oblong import oblong
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Comando de ayuda
+    "ayuda": ayuda,
+    "info": ayuda,
+    
+    # Creación de óvalo / ranura y sinónimos
+    "crear": oblong['create'],
+    "ranura": oblong['create'],
+    "ovalo": oblong['create'],
+    "colisa": oblong['create'],
+    "crear ranura": oblong['create'],
+    "dibujar ranura": oblong['create'],
+    "crear ovalo": oblong['create'],
+    "dibujar ovalo": oblong['create']
+}

@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,43 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the Sketcher tools dictionary."""
+
+from .tools import tools
+from .ayuda import ayuda
+
+TraduceToPt = {
+    # Comando de ajuda
+    "ajuda": ayuda,
+    "info": ayuda,
+    
+    # Deletar restrições e sinônimos
+    "deleteconstraints": tools['deleteconstraints'],
+    "apagar restricoes": tools['deleteconstraints'],
+    "limpar restricoes": tools['deleteconstraints'],
+    "remover restricoes": tools['deleteconstraints'],
+    
+    # Deletar geometria e sinônimos
+    "deletegeometry": tools['deletegeometry'],
+    "apagar geometria": tools['deletegeometry'],
+    "limpar geometria": tools['deletegeometry'],
+    "apagar esboco": tools['deletegeometry'],
+    
+    # Mesclar e sinônimos
+    "merge": tools['merge'],
+    "mesclar": tools['merge'],
+    "mesclar esbocos": tools['merge'],
+    "combinar esbocos": tools['merge'],
+    
+    # Reorientar e sinônimos
+    "reorient": tools['reorient'],
+    "reorientar": tools['reorient'],
+    "reorientar esboco": tools['reorient'],
+    "alterar plano do esboco": tools['reorient'],
+    
+    # Remover alinhamento de eixos e sinônimos
+    "removeaxes": tools['removeaxes'],
+    "remover eixos": tools['removeaxes'],
+    "limpar alinhamento de eixos": tools['removeaxes']
+}

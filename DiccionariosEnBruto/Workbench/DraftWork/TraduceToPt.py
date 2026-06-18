@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,46 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .workbench import draft
+from .ayuda import ayuda
+
+TraduceToPt = {
+    'anotacao':   draft['annotation'],
+    'anotação':   draft['annotation'],
+    'nota':       draft['annotation'],
+    'texto':      draft['annotation'],
+
+    'arco':       draft['arc'],
+
+    'curva':      draft['curve'],
+    'spline':     draft['curve'],
+
+    'circulo':    draft['circle'],
+    'círculo':    draft['circle'],
+
+    'matriz':     draft['array'],
+    'padrao':     draft['array'],
+    'padrão':     draft['array'],
+    'matriz circular': draft['array'],
+
+    'modificar':  draft['modify'],
+    'editar':     draft['modify'],
+    'mudar':      draft['modify'],
+
+    'dimensao':   draft['dimension'],
+    'dimensão':   draft['dimension'],
+    'medida':     draft['dimension'],
+    'medir':      draft['dimension'],
+
+    'elipse':     draft['ellipse'],
+    'ovalo':      draft['ellipse'],
+    'óvalo':      draft['ellipse'],
+
+    'facebinder': draft['facebinder'],
+    'binder':     draft['facebinder'],
+    'aglutinante': draft['facebinder'],
+
+    'ajuda':      ayuda,
+    'suporte':    ayuda,
+}

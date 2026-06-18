@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .addVertices import add_vertices
+
+TraduceToEs = {
+    # cosmetic
+    "cosmetico":        add_vertices["cosmetic"],
+    "vertice cosmetico": add_vertices["cosmetic"],  # sinonimo
+    "punto referencia": add_vertices["cosmetic"],   # sinonimo
+    # help
+    "ayuda":            add_vertices["help"],
+    "info":             add_vertices["help"],       # sinonimo
+    "opciones":         add_vertices["help"],       # sinonimo
+}

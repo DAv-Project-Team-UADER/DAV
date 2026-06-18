@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the Sketcher triangle geometry dictionary."""
+
+from .triangle import triangle
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Comando de ayuda
+    "ayuda": ayuda,
+    "info": ayuda,
+    
+    # Triángulo y sinónimos
+    "crear": triangle['create'],
+    "triangulo": triangle['create'],
+    "crear triangulo": triangle['create'],
+    "dibujar triangulo": triangle['create']
+}

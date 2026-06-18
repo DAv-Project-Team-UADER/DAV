@@ -18,13 +18,14 @@
 
 """English spoken-word mapping for the Drafting dictionary."""
 
-from .Drafting import drafting
+from .drafting import drafting
 
 TraduceToEn = {
     "wire":            drafting['wire'],
     "polyline":        drafting['wire'],
     "continuous line": drafting['wire'],
     "multi line":      drafting['wire'],
+    
     "help":            drafting['help'],
     "info":            drafting['help'],
     "options":         drafting['help']

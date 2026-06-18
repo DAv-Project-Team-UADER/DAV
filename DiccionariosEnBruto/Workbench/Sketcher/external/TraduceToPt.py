@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the Sketcher external dictionary."""
+
+from .external import external
+from .ayuda import ayuda
+
+TraduceToPt = {
+    # Comando de ajuda
+    "ajuda": ayuda,
+    "info": ayuda,
+    "informacao": ayuda,
+    
+    # Comandos de Projeção e sinônimos
+    "projecao": external['projection'],
+    "projetar": external['projection'],
+    "projetar aresta": external['projection'],
+    
+    # Comandos de Interseção / Geometria Externa e sinônimos
+    "intersecao": external['intersection'],
+    "intersectar": external['intersection'],
+    "geometria externa": external['intersection'],
+    "vínculo externo": external['intersection']
+}

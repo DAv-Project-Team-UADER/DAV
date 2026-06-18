@@ -24,6 +24,7 @@ TraduceToEn = {
     "circle dimension":   diameter["diameter"],   # synonym
     "diameter dimension": diameter["diameter"],   # synonym
     # help
-    "help":               ayuda,
-    "assistance":         ayuda,                  # synonym
+    "help":              diameter["help"],
+    "info":              diameter["help"],   # synonym
+    "options":           diameter["help"],   # synonym
 }

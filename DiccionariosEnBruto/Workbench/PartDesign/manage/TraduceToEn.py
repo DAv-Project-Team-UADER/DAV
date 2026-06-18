@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+import manage as manage
+import ayuda as ayuda
+
+TraduceToEn = {
+    # MoveFeature
+    "movefeature": manage["movefeature"],
+    "move feature": manage["movefeature"],
+    # MoveFeatureInTree
+    "movefeatureintree": manage["movefeatureintree"],
+    "move feature in tree": manage["movefeatureintree"],
+    # MoveTip
+    "movetip": manage["movetip"],
+    "move tip": manage["movetip"],
+    # Preferences
+    "preferences": manage["preferences"],
+    "settings": manage["preferences"],
+    # WizardShaft
+    "wizardshaft": manage["wizardshaft"],
+    "wizard shaft": manage["wizardshaft"],
+    
+    "help": ayuda,
+}

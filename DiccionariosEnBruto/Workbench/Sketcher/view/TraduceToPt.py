@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the Sketcher view dictionary."""
+
+from .view import view
+from .ayuda import ayuda
+
+TraduceToPt = {
+    # Comando de ajuda
+    "ajuda": ayuda,
+    "info": ayuda,
+    
+    # Vista de esboço e sinônimos
+    "sketch": view['sketch'],
+    "vista de esboco": view['sketch'],
+    "ver esboco": view['sketch'],
+    "orientar esboco": view['sketch'],
+    
+    # Vista de seção e sinônimos
+    "section": view['section'],
+    "vista de secao": view['section'],
+    "ver secao": view['section'],
+    "recortar vista": view['section'],
+    "vista de corte": view['section']
+}

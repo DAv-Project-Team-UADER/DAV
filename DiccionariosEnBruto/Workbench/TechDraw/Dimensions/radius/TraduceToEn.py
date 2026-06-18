@@ -16,7 +16,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .radius import radius
-from .ayuda import ayuda
 
 TraduceToEn = {
     # radius
@@ -24,6 +23,7 @@ TraduceToEn = {
     "radius dimension": radius["radius"],         # synonym
     "arc radius":       radius["radius"],         # synonym
     # help
-    "help":             ayuda,
-    "assistance":       ayuda,                    # synonym
+    "help":             radius["help"],
+    "info":             radius["help"],   # synonym
+    "options":          radius["help"],   # synonym
 }

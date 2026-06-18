@@ -15,3 +15,43 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Portuguese translations – PartDesign (folders only)
+# ============================================================
+
+from .PartDesign import partdesign
+
+TraduceToPt = {
+
+    # Grupos principais (pastas conceituais)
+    "base": partdesign["help"],
+    "aditivo": partdesign["help"],
+    "subtrativo": partdesign["help"],
+    "modificar": partdesign["help"],
+    "transformar": partdesign["help"],
+    "gerenciar": partdesign["help"],
+
+    # Sinônimos → mesmo comportamento
+    "basico": partdesign["help"],
+    "fundamental": partdesign["help"],
+
+    "adicionar": partdesign["help"],
+    "adicao": partdesign["help"],
+    "adicoes": partdesign["help"],
+
+    "subtrair": partdesign["help"],
+    "remover": partdesign["help"],
+    "cortar": partdesign["help"],
+
+    "editar": partdesign["help"],
+    "edicao": partdesign["help"],
+    "modificadores": partdesign["help"],
+
+    "transformacoes": partdesign["help"],
+    "padroes": partdesign["help"],
+
+    "administrar": partdesign["help"],
+    "administracao": partdesign["help"],
+    "configuracao": partdesign["help"],
+}

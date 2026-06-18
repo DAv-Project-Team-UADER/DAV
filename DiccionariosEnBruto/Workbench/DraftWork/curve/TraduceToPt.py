@@ -15,3 +15,23 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .curve import curve
+
+TraduceToPt = {
+    "bezier":          curve["bezier"],
+    "curva bezier":    curve["bezier"],
+    "tracar bezier":   curve["bezier"],
+    
+    "bspline":         curve["bspline"],
+    "curva suave":     curve["bspline"],
+    "spline":          curve["bspline"],
+    
+    "cubica":          curve["cubic"],
+    "bezier cubica":   curve["cubic"],
+    "curva cubica":    curve["cubic"],
+    
+    "ajuda":             curve["help"],
+    "informação":       curve["help"],
+    "opções":            curve["help"]
+}

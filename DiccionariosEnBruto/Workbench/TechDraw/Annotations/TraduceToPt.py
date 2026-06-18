@@ -15,3 +15,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .annotations import annotations
+
+TraduceToPt = {
+    # annotation
+    "anotacao":          annotations["annotation"],
+    "nota":              annotations["annotation"],   # sinonimo
+    "texto":             annotations["annotation"],   # sinonimo
+    # axo_length
+    "comprimento axo":   annotations["axo_length"],
+    "axonometrico":      annotations["axo_length"],   # sinonimo
+    "dimensao axo":      annotations["axo_length"],   # sinonimo
+    # balloon
+    "balao":             annotations["balloon"],
+    "etiqueta":          annotations["balloon"],      # sinonimo
+    "referencia":        annotations["balloon"],      # sinonimo
+    # help
+    "ajuda":             annotations["help"],
+    "info":              annotations["help"],         # sinonimo
+    "opcoes":            annotations["help"],         # sinonimo
+}

@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .arc import arc
+
+TraduceToPt = {
+    # Arc Center
+    "centro":               arc["center"],
+    "arco pelo centro":     arc["center"],
+    "tracar arco":          arc["center"],
+    
+    # Arc 3 Points
+    "pontos":               arc["points"],
+    "arco por pontos":      arc["points"],
+    "arco de tres pontos":  arc["points"],
+    
+    "ajuda":             arc["help"],
+    "informação":       arc["help"],
+    "opções":            arc["help"]
+}

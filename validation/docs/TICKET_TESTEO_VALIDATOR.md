@@ -6,90 +6,90 @@ Completar y adjuntar capturas en el Word o en esta carpeta.
 |-------|-------|
 | Módulo | `validation/Validator` |
 | Rama | `Pruebas` |
-| Fecha | __________ |
-| Integrantes | __________ |
+| Fecha | `16/06` |
+| Integrantes | `Luigi Mete, Sofia Perez, Alex Alvez, Franco Camen` |
 
 ---
 
 ## CP-01 — Documento activo + demo automática
 
-- [ ] Ejecuté `App.newDocument("PruebaValidator")`
-- [ ] Ejecuté `RunValidatorPrueba()`
-- [ ] geometry creó `LineaDemo` (es/en/pt)
-- [ ] additive sin sketch mostró error esperado
-- [ ] caso `NoExiste` mostró error esperado
+- [x] Ejecuté `App.newDocument("PruebaValidator")`
+- [x] Ejecuté `RunValidatorPrueba()`
+- [x] geometry creó `LineaDemo` (es/en/pt)
+- [x] additive sin sketch mostró error esperado
+- [x] caso `NoExiste` mostró error esperado
 
-**Captura:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-01](images/CP-01.png) 
+**Estado:** [x] OK  [ ] FAIL  
 **Observaciones:** __________
 
 ---
 
 ## CP-02 — Geometry OK (`MiLinea`)
 
-- [ ] `CallIfValid` con coords válidas creó `MiLinea`
-- [ ] Objeto visible en árbol del documento
+- [x] `CallIfValid` con coords válidas creó `MiLinea`
+- [x] Objeto visible en árbol del documento
 
-**Captura consola:** __________  
-**Captura árbol:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-02](images/CP-02.png)  
+**Estado:** [x] OK  [ ] FAIL  
 
 ---
 
 ## CP-03 — Geometry ERROR (tipo incorrecto)
 
-- [ ] `x1 = "hola"` produjo error de conversión
-- [ ] No se creó objeto `Fail`
+- [x] `x1 = "hola"` produjo error de conversión
+- [x] No se creó objeto `Fail`
 
-**Captura:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-03](images/CP-03.png)   
+**Estado:** [x] OK  [ ] FAIL  
 
 ---
 
 ## CP-04 — GetRequirements tres idiomas (geometry)
 
-- [ ] Español: Dato1…
-- [ ] Inglés: Data1…
-- [ ] Portugués: Dado1…
+- [x] Español: Dato1…
+- [x] Inglés: Data1…
+- [x] Portugués: Dado1…
 
-**Captura:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-04](images/CP-04.png)  
+**Estado:** [x] OK  [ ] FAIL  
 
 ---
 
 ## CP-05 — Additive OK (con Sketch)
 
-- [ ] Sketch creado en Sketcher
-- [ ] `CallIfValid` con `"sketch": "Sketch"` ejecutó Pad
-- [ ] Consola: `[additive] Pad on 'Sketch'...`
+- [x] Sketch creado en Sketcher
+- [x] `CallIfValid` con `"sketch": "Sketch"` ejecutó Pad
+- [x] Consola: `[additive] Pad on 'Sketch'...`
 
-**Captura:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-05](images/CP-05.png)  
+**Estado:** [x] OK  [ ] FAIL  
 
 ---
 
 ## CP-06 — Additive ERROR (objeto inexistente)
 
-- [ ] `"sketch": "NoExiste"` → error, no ejecuta
+- [x] `"sketch": "NoExiste"` → error, no ejecuta
 
-**Captura:** __________  
-**Estado:** [ ] OK  [ ] FAIL  
+**Captura:** ![CP-06](images/CP-06.png)   
+**Estado:** [x] OK  [ ] FAIL  
 
 ---
 
 ## CP-07 — Tests automáticos (opcional)
 
-- [ ] `python validation/run_tests.py` → 12 tests OK
+- [x] `python validation/run_tests.py` → 12 tests OK
 
-**Captura terminal:** __________  
-**Estado:** [ ] OK  [ ] FAIL  [ ] N/A  
+**Captura terminal:** ![CP-07](images/CP-07.png)   
+**Estado:** [x] OK  [ ] FAIL  [ ] N/A  
 
 ---
 
 ## Conclusión general
 
 _____________________________________________________________
-
+`Durante las pruebas se verificó que el módulo Validator funciona correctamente para informar requisitos, validar datos de entrada y ejecutar funciones del diccionario solo cuando los parámetros cumplen con los tipos esperados. En el caso geometry.line, se generó correctamente una línea a partir de coordenadas válidas y se bloqueó la ejecución cuando se ingresó un valor inválido, como texto en un parámetro numérico. También se comprobó que GetRequirements muestra los requisitos en español, inglés y portugués. 
+`
 _____________________________________________________________
 
 **Firma / fecha entrega:** __________

@@ -15,3 +15,33 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .circular_array import array
+
+TraduceToEs = {
+    "circular":              array["circular"],
+    "matriz circular":       array["circular"],
+    "arreglo circular":      array["circular"],
+    
+    "ortogonal":             array["ortho"],
+    "matriz ortogonal":      array["ortho"],
+    "arreglo rectangular":   array["ortho"],
+    
+    "polar":                 array["polar"],
+    "matriz polar":          array["polar"],
+    
+    "trayectoria":           array["path"],
+    "matriz por trayectoria":array["path"],
+    "copiar en trayectoria": array["path"],
+    
+    "enlace por trayectoria":array["pathlink"],
+    
+    "puntos":                array["point"],
+    "matriz por puntos":     array["point"],
+    
+    "enlace por puntos":     array["pointlink"],
+    
+    "ayuda":                array["help"],
+    "información":          array["help"],
+    "opciones":             array["help"]
+}

@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .modify import modify
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Fillet
+    "redondeo": modify["fillet"],
+    "redondear": modify["fillet"],
+
+    # Chamfer
+    "chaflan": modify["chamfer"],
+    "bisel": modify["chamfer"],
+
+    # Draft
+    "inclinacion": modify["draft"],
+    "desmoldeo": modify["draft"],
+
+    # Thickness
+    "espesor": modify["thickness"],
+    "grosor": modify["thickness"],
+
+    # Help
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+}

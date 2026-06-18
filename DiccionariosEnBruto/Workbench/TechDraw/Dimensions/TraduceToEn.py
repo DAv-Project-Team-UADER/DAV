@@ -17,7 +17,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Dimensions import dimensions
-from .ayuda import ayuda
 
 TraduceToEn = {
     # vertical
@@ -54,6 +53,7 @@ TraduceToEn = {
     "angle":              dimensions["angle"],
     "angular":            dimensions["angle"],     # synonym
     # help
-    "help":               ayuda,
-    "assistance":         ayuda,                   # synonym
+    "help":               dimensions["help"],
+    "info":               dimensions["help"],   # synonym
+    "options":            dimensions["help"],   # synonym
 }

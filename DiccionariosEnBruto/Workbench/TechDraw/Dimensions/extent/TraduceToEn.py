@@ -26,6 +26,7 @@ TraduceToEn = {
     "span":             extent["extent"],         # synonym
     "total length":     extent["extent"],         # synonym
     # help
-    "help":             ayuda,
-    "assistance":       ayuda,                    # synonym
+    "help":             extent["help"],
+    "info":             extent["help"],   # synonym
+    "options":          extent["help"],   # synonym
 }

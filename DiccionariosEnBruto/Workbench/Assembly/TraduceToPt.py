@@ -15,3 +15,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeamento de palavras em portugues para o dicionario DAV AssemblyWorkbench."""
+ 
+from .AssemblyWorkbench import assembly
+from .joint.joint import joint
+from .ayuda import ayuda
+ 
+TraduceToPt = {
+    "novo conjunto":       assembly["create"],
+    "criar conjunto":      assembly["create"],
+    "nova peca":           assembly["newpart"],
+    "inserir peca":        assembly["newpart"],
+    "inserir link":        assembly["link"],
+    "vincular peca":       assembly["link"],
+    "resolver":            assembly["solve"],
+    "resolver conjunto":   assembly["solve"],
+    "vista explodida":     assembly["view"],
+    "criar vista":         assembly["view"],
+    "simulacao":           assembly["simulation"],
+    "criar simulacao":     assembly["simulation"],
+    "lista de materiais":  assembly["bom"],
+    "bom":                 assembly["bom"],
+    "preferencias":        assembly["preferences"],
+    "configuracoes":       assembly["preferences"],
+    "fixar peca":          assembly["grounded"],
+    "ancora":              assembly["grounded"],
+    "junta":               joint,
+    "ajuda":               ayuda,
+}

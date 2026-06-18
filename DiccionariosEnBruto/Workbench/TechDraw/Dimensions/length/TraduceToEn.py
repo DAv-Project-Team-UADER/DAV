@@ -16,7 +16,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .length import length
-from .ayuda import ayuda
 
 TraduceToEn = {
     # length
@@ -25,6 +24,7 @@ TraduceToEn = {
     "distance":         length["length"],         # synonym
     "measure":          length["length"],         # synonym
     # help
-    "help":             ayuda,
-    "assistance":       ayuda,                    # synonym
+    "help":             length["help"],
+    "info":             length["help"],   # synonym
+    "options":          length["help"],   # synonym
 }

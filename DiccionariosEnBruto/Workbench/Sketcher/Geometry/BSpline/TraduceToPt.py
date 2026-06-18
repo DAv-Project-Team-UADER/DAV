@@ -15,3 +15,31 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Portuguese translations – Sketcher BSpline
+# ============================================================
+
+from .bspline import bspline
+
+TraduceToPt = {
+    # Comandos principais
+    "criar": bspline["create"],
+    "interpolacao": bspline["interpolation"],
+    "periodica": bspline["periodic"],
+    "interpolacao periodica": bspline["periodicinterp"],
+    "ajuda": bspline["help"],
+
+    # Sinônimos
+    "criar bspline": bspline["create"],
+    "criar b-spline": bspline["create"],
+    "curva bspline": bspline["create"],
+    "curva b-spline": bspline["create"],
+    "curva spline": bspline["create"],
+
+    "interpolada": bspline["interpolation"],
+    "bspline interpolada": bspline["interpolation"],
+
+    "bspline periodica": bspline["periodic"],
+    "bspline fechada": bspline["periodic"],
+}

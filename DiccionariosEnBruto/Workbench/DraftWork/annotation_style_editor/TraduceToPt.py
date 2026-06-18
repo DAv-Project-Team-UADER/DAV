@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .annotation_style_editor import annotation
+
+TraduceToPt = {
+    "editor":               annotation["editor"],
+    "editar estilos":       annotation["editor"],
+    "estilos de anotação":  annotation["editor"],
+    "modificar estilos":    annotation["editor"],
+    
+    "ajuda":             annotation["help"],
+    "informação":       annotation["help"],
+    "opções":             annotation["help"]
+}

@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .annotation import annotation
+
+TraduceToPt = {
+    # Text
+    "texto":             annotation["text"],
+    "adicionar texto":   annotation["text"],
+    "escrever":          annotation["text"],
+    
+    # ShapeString
+    "texto 3d":          annotation["shapestring"],
+    "texto solido":      annotation["shapestring"],
+    "texto fisico":      annotation["shapestring"],
+    
+    # Label
+    "rotulo":            annotation["label"],
+    "etiqueta":          annotation["label"],
+    "colocar rotulo":    annotation["label"],
+    
+    "ajuda":             annotation["help"],
+    "informação":       annotation["help"],
+    "opções":             annotation["help"]
+}
