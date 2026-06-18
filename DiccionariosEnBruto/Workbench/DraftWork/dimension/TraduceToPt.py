@@ -15,3 +15,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .dimension import dimension
+
+TraduceToPt = {
+    "dimensao": dimension["linear"],
+    "cota": dimension["linear"],
+    "medir": dimension["linear"],
+
+    "inverter dimensao": dimension["flip"],
+    "inverter": dimension["flip"],
+    "espelhar dimensao": dimension["flip"],
+
+    "help": dimension["help"],
+    "ajuda": dimension["help"],
+    "opcoes": dimension["help"],
+}
