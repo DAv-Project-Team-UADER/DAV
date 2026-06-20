@@ -38,10 +38,12 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         from core.preferences import preferences
         from navigation.browser import Browser
         from integration.browser_voice_adapter import BrowserVoiceAdapter
+        from InputPrompts.PromptedCommandExecutor import PromptedCommandExecutor
 
         preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
 
-        browser = Browser(prefs=preferences)
+        executor = PromptedCommandExecutor(Language=settings.language)
+        browser = Browser(prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
         
         if not svc.start_cad(adapter):
