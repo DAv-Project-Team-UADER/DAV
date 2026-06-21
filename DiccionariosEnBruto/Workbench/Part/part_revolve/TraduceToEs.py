@@ -15,3 +15,22 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the part_revolve dictionary."""
+
+from .part_revolve import part_revolve
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "revolucion": part_revolve["revolve"],
+    "revolución": part_revolve["revolve"],
+    "revolucionar": part_revolve["revolve"],
+    "crear revolucion": part_revolve["revolve"],
+    "crear revolución": part_revolve["revolve"],
+
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+}

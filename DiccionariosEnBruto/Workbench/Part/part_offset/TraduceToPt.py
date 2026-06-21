@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the part_offset dictionary."""
+
+from .part_offset import part_offset
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "deslocamento": part_offset["offset"],
+    "offset": part_offset["offset"],
+    "engrossar": part_offset["offset"],
+    "encolher": part_offset["offset"],
+
+    "ajuda": ajuda,
+    "manual": ajuda,
+    "suporte": ajuda,
+    "documentação": ajuda,
+    "documentacao": ajuda,
+}
