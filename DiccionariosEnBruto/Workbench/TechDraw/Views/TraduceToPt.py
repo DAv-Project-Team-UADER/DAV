@@ -15,3 +15,47 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .views import views
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Vista
+    "vista": views["view"],
+    "criar vista": views["view"],
+    "adicionar vista": views["view"],
+
+    # Vista de detalhe
+    "vista de detalhe": views["detailview"],
+    "detalhe": views["detailview"],
+    "criar detalhe": views["detailview"],
+
+    # Vista quebrada
+    "vista quebrada": views["brokenview"],
+    "quebra": views["brokenview"],
+
+    # Grupo de recorte
+    "grupo de recorte": views["clipgroup"],
+    "recorte": views["clipgroup"],
+    "criar recorte": views["clipgroup"],
+
+    # Seção complexa
+    "seção complexa": views["complexsection"],
+    "secao complexa": views["complexsection"],
+    "seção": views["complexsection"],
+    "secao": views["complexsection"],
+
+    # Vista Draft
+    "vista draft": views["draft"],
+    "draft": views["draft"],
+
+    # Vista de planilha
+    "planilha": views["spreadsheet"],
+    "vista de planilha": views["spreadsheet"],
+    "folha de cálculo": views["spreadsheet"],
+    "folha de calculo": views["spreadsheet"],
+
+    # Ajuda
+    "ajuda": ayuda,
+}
