@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .symbols import symbols
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Símbolo de soldadura
+    "símbolo de soldadura": symbols["weldsymbol"],
+    "simbolo de soldadura": symbols["weldsymbol"],
+    "soldadura": symbols["weldsymbol"],
+    "agregar soldadura": symbols["weldsymbol"],
+
+    # Anotación de texto enriquecido
+    "texto enriquecido": symbols["richtext"],
+    "texto": symbols["richtext"],
+    "anotación": symbols["richtext"],
+    "anotación de texto": symbols["richtext"],
+
+    # Símbolos de acabado superficial
+    "acabado superficial": symbols["finish"],
+    "acabado": symbols["finish"],
+    "símbolo de acabado": symbols["finish"],
+    "simbolo de acabado": symbols["finish"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}
