@@ -60,6 +60,33 @@ class PromptedCommandExecutor:
             return None
 
         kwargs = collection_result.Value or {}
+
+        # Integrate Validator as a pre-execution verification layer
+        try:
+            import os
+            import sys
+            from pathlib import Path
+            from integration.dav_paths import ensure_dav_repo_on_path
+            repo_root = ensure_dav_repo_on_path()
+            validation_path = str(repo_root / "validation")
+            if validation_path not in sys.path:
+                sys.path.insert(0, validation_path)
+
+            from validator import Validator
+            v = Validator()
+            ok, validated_kwargs = v.ValidateRequirements(
+                self.Collector.Language,
+                function,
+                kwargs
+            )
+            if not ok or validated_kwargs is None:
+                # Validator already prints error messages to console
+                self.LastResult = PromptResult.Fail("Validation failed.")
+                return None
+            kwargs = validated_kwargs
+        except Exception as error:
+            self._PrintError(f"[DAV] Validator integration warning: {error}")
+
         try:
             if kwargs:
                 result = function(**kwargs)

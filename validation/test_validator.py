@@ -10,6 +10,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
+# Prevent test pollution if FreeCAD was mocked by other tests
+if "FreeCAD" in sys.modules:
+    import sys as _sys
+    fc = _sys.modules["FreeCAD"]
+    fake_doc = type("FakeDoc", (), {
+        "getObject": lambda self, name: type("FakeObj", (), {"Name": name, "Document": object()})() if name == "Sketch" else None
+    })()
+    fc.activeDocument = lambda: fake_doc
+
 from validator import Validator  # noqa: E402
 
 
@@ -22,6 +31,20 @@ def _FakeDocObject(name: str = "Sketch") -> object:
 
 
 class ValidatorTests(unittest.TestCase):
+    def setUp(self) -> None:
+        if "FreeCAD" in sys.modules:
+            import FreeCAD
+            self._old_doc = getattr(FreeCAD, "activeDocument", lambda: None)
+            fake_doc = type("FakeDoc", (), {
+                "getObject": lambda self, name: type("FakeObj", (), {"Name": name, "Document": object()})() if name == "Sketch" else None
+            })()
+            FreeCAD.activeDocument = lambda: fake_doc
+
+    def tearDown(self) -> None:
+        if "FreeCAD" in sys.modules:
+            import FreeCAD
+            FreeCAD.activeDocument = self._old_doc
+
     def test_get_requirements_spanish(self) -> None:
         text = Validator().GetRequirements("es", _SampleFunction)
         self.assertIn("Dato1", text)

@@ -3,6 +3,7 @@ param(
     [string]$FreeCADExe = "",
     [switch]$Install
 )
+$ErrorActionPreference = "Continue"
 
 function Get-FreeCADPython {
     param([string]$FcExe)
