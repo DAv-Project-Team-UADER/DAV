@@ -22,6 +22,7 @@ from .ayuda import ayuda
 TraduceToEn = {
     'cube':     cube['cube'],
     'box':      cube['cube'],
+    
     "help":            cube['help'],
     "info":            cube['help'],
     "options":         cube['help']

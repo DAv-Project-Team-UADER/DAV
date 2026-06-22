@@ -23,6 +23,7 @@ TraduceToEn = {
     'cylinder':           cylinder['cylinder'],
     'primitive cylinder': cylinder['primitive cylinder'],
     'tube':               cylinder['cylinder'],
+    
     "help":            cylinder['help'],
     "info":            cylinder['help'],
     "options":         cylinder['help']

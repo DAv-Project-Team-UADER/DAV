@@ -22,6 +22,7 @@ TraduceToPt = {
     'elipse':   ellipse['ellipse'],
     'ovalo':    ellipse['ellipse'],
     'óvalo':    ellipse['ellipse'],
+    
     "ajuda":             ellipse["help"],
     "informação":       ellipse["help"],
     "opções":            ellipse["help"]

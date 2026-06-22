@@ -28,8 +28,9 @@ TraduceToEn = {
     "make sketch": new_sketch["nuevo sketch"],
     "draft": new_sketch["nuevo sketch"],
     "new draft": new_sketch["nuevo sketch"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help":            new_sketch['help'],
+    "info":            new_sketch['help'],
+    "options":         new_sketch['help']
+
 }

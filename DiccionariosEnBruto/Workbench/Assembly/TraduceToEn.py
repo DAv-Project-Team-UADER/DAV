@@ -42,5 +42,8 @@ TraduceToEn = {
     "ground":            assembly["grounded"],
     "toggle grounded":   assembly["grounded"],
     "joint":             joint,
-    "help":              ayuda,
+    
+    "help":            joint['help'],
+    "info":            joint['help'],
+    "options":         joint['help']
 }

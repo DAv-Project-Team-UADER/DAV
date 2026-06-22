@@ -23,6 +23,7 @@ TraduceToEn = {
     'box':      box['box'],
     'block':    box['box'],
     'cube':     box['box'],
+    
     "help":            box['help'],
     "info":            box['help'],
     "options":         box['help']
