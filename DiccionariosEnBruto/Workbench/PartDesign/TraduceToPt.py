@@ -17,41 +17,40 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # ============================================================
-# Portuguese translations – PartDesign (folders only)
+# Traduções para Português – PartDesign (somente pastas)
 # ============================================================
 
 from .PartDesign import partdesign
 
 TraduceToPt = {
 
-    # Grupos principais (pastas conceituais)
-    "base": partdesign["help"],
-    "aditivo": partdesign["help"],
-    "subtrativo": partdesign["help"],
-    "modificar": partdesign["help"],
-    "transformar": partdesign["help"],
-    "gerenciar": partdesign["help"],
+    # Pastas principais
+    "base": partdesign["base"],
+    "aditivo": partdesign["additive"],
+    "subtrativo": partdesign["subtractive"],
+    "modificar": partdesign["modify"],
+    "transformar": partdesign["transform"],
+    "gerenciar": partdesign["manage"],
 
-    # Sinônimos → mesmo comportamento
-    "basico": partdesign["help"],
-    "fundamental": partdesign["help"],
+    # Sinônimos
+    "basico": partdesign["base"],
+    "fundamental": partdesign["base"],
 
-    "adicionar": partdesign["help"],
-    "adicao": partdesign["help"],
-    "adicoes": partdesign["help"],
+    "adicionar": partdesign["additive"],
+    "acrescentar": partdesign["additive"],
+    "adições": partdesign["additive"],
 
-    "subtrair": partdesign["help"],
-    "remover": partdesign["help"],
-    "cortar": partdesign["help"],
+    "subtrair": partdesign["subtractive"],
+    "remover": partdesign["subtractive"],
+    "cortar": partdesign["subtractive"],
 
-    "editar": partdesign["help"],
-    "edicao": partdesign["help"],
-    "modificadores": partdesign["help"],
+    "editar": partdesign["modify"],
+    "edição": partdesign["modify"],
+    "modificadores": partdesign["modify"],
 
-    "transformacoes": partdesign["help"],
-    "padroes": partdesign["help"],
+    "transformações": partdesign["transform"],
+    "padrões": partdesign["transform"],
 
-    "administrar": partdesign["help"],
-    "administracao": partdesign["help"],
-    "configuracao": partdesign["help"],
+    "administração": partdesign["manage"],
+    "configuração": partdesign["manage"],
 }
