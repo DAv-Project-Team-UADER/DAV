@@ -28,8 +28,8 @@ TraduceToEn = {
     "cross section": part_cross_sections["cross sections"],
     "section": part_cross_sections["cross sections"],
     "sections": part_cross_sections["cross sections"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help":            part_cross_sections['help'],
+    "info":            part_cross_sections['help'],
+    "options":         part_cross_sections['help']
 }

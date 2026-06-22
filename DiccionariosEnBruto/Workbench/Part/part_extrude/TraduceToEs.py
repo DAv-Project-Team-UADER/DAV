@@ -31,10 +31,8 @@ TraduceToEs = {
     "hacer extrusión": part_extrude["extrude"],
     "extruir objeto": part_extrude["extrude"],
     "extrude": part_extrude["extrude"],
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+
+    "ayuda":                part_extrude["help"],
+    "información":          part_extrude["help"],
+    "opciones":             part_extrude["help"]
 }

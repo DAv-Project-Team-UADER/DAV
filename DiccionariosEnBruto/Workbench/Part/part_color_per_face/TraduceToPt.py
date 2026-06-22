@@ -29,10 +29,8 @@ TraduceToPt = {
     "mudar cor da face": part_color_per_face["paint face"],
     "definir cor da face": part_color_per_face["paint face"],
     "paint face": part_color_per_face["paint face"],
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+
+    "ajuda":            part_color_per_face['help'],
+    "informação":            part_color_per_face['help'],
+    "opções":         part_color_per_face['help']
 }

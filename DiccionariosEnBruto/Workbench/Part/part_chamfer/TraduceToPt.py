@@ -32,8 +32,9 @@ TraduceToPt = {
     "fazer bisel": part_chamfer["chaflan"],
     "chamfer": part_chamfer["chaflan"],
 
-    "help":            part_chamfer['help'],
-    "info":            part_chamfer['help'],
-    "options":         part_chamfer['help']
+    "ajuda":             part_chamfer["help"],
+    "informação":       part_chamfer["help"],
+    "opções":            part_chamfer["help"]
+
 
 }
