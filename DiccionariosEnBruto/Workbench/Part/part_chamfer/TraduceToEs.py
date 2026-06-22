@@ -33,10 +33,9 @@ TraduceToEs = {
     "crear bisel": part_chamfer["chaflan"],
     "hacer bisel": part_chamfer["chaflan"],
     "chamfer": part_chamfer["chaflan"],
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+
+    "help":            part_chamfer['help'],
+    "info":            part_chamfer['help'],
+    "options":         part_chamfer['help']
+
 }

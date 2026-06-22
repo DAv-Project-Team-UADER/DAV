@@ -43,6 +43,7 @@ TraduceToEs = {
     "copiar objeto":  base["clone"],
     "copiar forma":   base["clone"],
     "copiar cuerpo":  base["clone"],
+    "duplicar":  base["clone"],
 
     #Enlazador de subformas
     "enlazar subforma": base["subshapebinder"],
@@ -54,5 +55,8 @@ TraduceToEs = {
     "subforma vinculada": base["subshapebinder"],
     "subformas vinculadas": base["subshapebinder"],
 
-    "ayuda":    ayuda["help"],
+    "ayuda":                base["help"],
+    "información":          base["help"],
+    "opciones":             base["help"]
+
 }

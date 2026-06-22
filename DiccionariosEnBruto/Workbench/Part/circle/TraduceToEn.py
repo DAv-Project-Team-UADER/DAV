@@ -22,6 +22,7 @@ from .ayuda import ayuda
 TraduceToEn = {
     'circle':   circle['circle'],
     'round':    circle['circle'],
+    
     "help":            circle['help'],
     "info":            circle['help'],
     "options":         circle['help']

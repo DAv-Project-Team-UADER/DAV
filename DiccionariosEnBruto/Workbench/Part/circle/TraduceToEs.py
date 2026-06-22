@@ -22,6 +22,7 @@ TraduceToEs = {
     'circulo':  circle['circle'],
     'círculo':  circle['circle'],
     'redondo':  circle['circle'],
+    
     "ayuda":                circle["help"],
     "información":          circle["help"],
     "opciones":             circle["help"]

@@ -38,5 +38,9 @@ TraduceToEn = {
     "fixed joint":         joint["fixed"],
     "revolute joint":      joint["revolute"],
     "slider joint":        joint["slider"],
-    "help":                ayuda,
+
+    "help":            joint["help"],
+    "info":            joint["help"],
+    "options":         joint["help"]
+
 }

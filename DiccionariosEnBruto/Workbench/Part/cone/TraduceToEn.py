@@ -22,6 +22,8 @@ from .ayuda import ayuda
 TraduceToEn = {
     'cone':           cone['cone'],
     'primitive cone': cone['primitive cone'],
+
+
     "help":            cone['help'],
     "info":            cone['help'],
     "options":         cone['help']

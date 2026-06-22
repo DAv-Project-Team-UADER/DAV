@@ -21,6 +21,7 @@ from .ayuda import ayuda
 TraduceToPt = {
     'cubo':     cube['cube'],
     'caixa':    cube['cube'],
+    
     "ajuda":             cube["help"],
     "informação":       cube["help"],
     "opções":            cube["help"]

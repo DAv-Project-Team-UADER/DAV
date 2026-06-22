@@ -21,7 +21,9 @@ from .ayuda import ayuda
 TraduceToPt = {
     'cilindro':           cylinder['cylinder'],
     'cilindro primitivo': cylinder['primitive cylinder'],
+    'cilindro primitiva': cylinder['primitive cylinder'],
     'tubo':               cylinder['cylinder'],
+
     "ajuda":             cylinder["help"],
     "informação":       cylinder["help"],
     "opções":            cylinder["help"]

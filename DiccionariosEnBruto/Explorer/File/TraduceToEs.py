@@ -19,16 +19,40 @@
 from .File import file
 
 TraduceToEs = {
-    'nuevo':           file['new'],
-    'abrir':           file['open'],
-    'guardar':         file['save'],
-    'guardar como':    file['saveas'],
-    'salvar':          file['save'],
-    'salvar como':     file['saveas'],
-    'guardar copia':   file['savecopy'],
-    'revertir':        file['revert'],
-    'combinar':        file['merge'],
-    'importar':        file['import'],
-    'exportar':        file['export'],
-    'ayuda':           file['help'],
+    "nuevo": file["new"],
+    "nuevo archivo": file["new"],
+
+    "abrir": file["open"],
+    "abrir archivo": file["open"],
+
+    "guardar": file["save"],
+    "guardar archivo": file["save"],
+
+    "guardar como": file["saveas"],
+    "guardar documento como": file["saveas"],
+
+    "guardar copia": file["savecopy"],
+    "duplicar archivo": file["savecopy"],
+
+    "revertir": file["revert"],
+    "restaurar": file["revert"],
+
+    "combinar": file["merge"],
+    "unir proyectos": file["merge"],
+
+    "importar": file["import"],
+    "importar archivo": file["import"],
+
+    "exportar": file["export"],
+    "exportar archivo": file["export"],
+
+    "recientes": file["recent"],
+    "archivos recientes": file["recent"],
+
+    "cargar imagen": file["loadimage"],
+    "abrir imagen": file["loadimage"],
+
+    "ayuda": file["help"],
+    "informacion": file["help"],
+    "opciones": file["help"],
 }

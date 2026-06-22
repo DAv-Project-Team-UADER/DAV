@@ -143,6 +143,7 @@ TraduceToEs = {
     "deslizante":                          joint["slider"],
 
     # Ayuda / Soporte
-    "ayuda":                               ayuda,
-    "help":                                ayuda,
+    "ayuda":                joint["help"],
+    "información":          joint["help"],
+    "opciones":             joint["help"]
 }

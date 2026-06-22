@@ -22,6 +22,7 @@ TraduceToEs = {
     'caja':     box['box'],
     'bloque':   box['box'],
     'cubo':     box['box'],
+    
     "ayuda":                box["help"],
     "información":          box["help"],
     "opciones":             box["help"]

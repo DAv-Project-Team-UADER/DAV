@@ -16,4 +16,44 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""English spoken-word mapping for the DAV Workbench dictionary."""
+
+from .Assembly.Assembly import assembly
+from .DraftWork.DraftWork import draft
+from .Part.Part import part
+from .PartDesign.partdesign import partdesign
+from .Sketcher.sketcher import sketcher
+from .TechDraw.TechDraw import techdraw
+
+TraduceToEn = {
+    # Assembly Workbench
+    "assembly":          assembly,
+    "assemblies":        assembly,
+
+    # DraftWork Workbench
+    "draft":             draft,
+    "drafting":          draft,
+    "draftwork":         draft,
+
+    # Part Workbench
+    "part":              part,
+    "parts":             part,
+
+    # PartDesign Workbench
+    "partdesign":        partdesign,
+    "part design":       partdesign,
+    "design":            partdesign,
+
+    # Sketcher Workbench
+    "sketcher":          sketcher,
+    "sketch":            sketcher,
+    "sketches":          sketcher,
+
+    # TechDraw Workbench
+    "techdraw":          techdraw,
+    "technical draw":    techdraw,
+    "drawing":           techdraw,
+    "drawings":          techdraw,
+}
+
 

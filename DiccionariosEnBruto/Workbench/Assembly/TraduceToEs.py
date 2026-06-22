@@ -98,6 +98,7 @@ TraduceToEs = {
     "junta":                 joint,
 
     # Ayuda
-    "ayuda":                 ayuda,
-    "help":                  ayuda,
+    "ayuda":            joint['help'],
+    "información":            joint['help'],
+    "opciones":         joint['help']
 }

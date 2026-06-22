@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .stereo import stereo
+
+TraduceToEn = {
+    # camerapos
+    "camera position":      stereo["camerapos"],
+    "view camera position": stereo["camerapos"],  # synonym
+    # stereocolumns
+    "stereo columns":       stereo["stereocolumns"],
+    "interleaved columns":  stereo["stereocolumns"],  # synonym
+    # stereorows
+    "stereo rows":          stereo["stereorows"],
+    "interleaved rows":     stereo["stereorows"],     # synonym
+    # stereooff
+    "stereo off":           stereo["stereooff"],
+    "disable stereo":       stereo["stereooff"],      # synonym
+    # stereoquad
+    "stereo quad":          stereo["stereoquad"],
+    "quad buffer":          stereo["stereoquad"],     # synonym
+    # stereoanaglyph
+    "stereo anaglyph":      stereo["stereoanaglyph"],
+    "red green stereo":     stereo["stereoanaglyph"], # synonym
+    # help
+    "help":                 stereo["help"],
+    "info":                 stereo["help"],           # synonym
+    "options":              stereo["help"],          # synonym
+}

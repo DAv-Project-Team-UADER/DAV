@@ -28,8 +28,9 @@ TraduceToEn = {
     "bevel": part_chamfer["chaflan"],
     "create bevel": part_chamfer["chaflan"],
     "make bevel": part_chamfer["chaflan"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help":            part_chamfer['help'],
+    "info":            part_chamfer['help'],
+    "options":         part_chamfer['help']
+
 }

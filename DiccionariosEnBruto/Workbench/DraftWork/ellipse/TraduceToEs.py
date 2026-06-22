@@ -23,7 +23,7 @@ TraduceToEs = {
     "ovalo": ellipse["center"],
     "elipse centrada": ellipse["center"],
 
-    "help": ellipse["help"],
+    "información": ellipse["help"],
     "ayuda": ellipse["help"],
     "opciones": ellipse["help"],
 }
