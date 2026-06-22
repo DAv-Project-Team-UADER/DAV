@@ -30,15 +30,20 @@ TraduceToPt = {
     # Chamfer
     "chanfro": modify["chamfer"],
     "bisel": modify["chamfer"],
+    "chanfrar": modify["chamfer"],
+    "biselar": modify["chamfer"],
 
     # Draft
     "inclinação": modify["draft"],
     "inclinar": modify["draft"],
     "conicidade": modify["draft"],
+    "conicizar": modify["draft"],
 
     # Thickness
     "espessura": modify["thickness"],
     "casca": modify["thickness"],
+    "adicionar espessura": modify["thickness"],
+    "adicionar casca": modify["thickness"],
 
     # Help
     "ajuda": ayuda,

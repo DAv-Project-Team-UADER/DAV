@@ -47,10 +47,23 @@ TraduceToPt = {
     # Exportar DXF
     "dxf": page["dxf"],
     "exportar dxf": page["dxf"],
+    "salvar dxf": page["dxf"],
+    "exportar formato dxf": page["dxf"],
+    "salvar formato dxf": page["dxf"],
+    "formato de intercâmbio de desenho": page["dxf"],
+    "exportar formato de intercâmbio de desenho": page["dxf"],
+    "salvar formato de intercâmbio de desenho": page["dxf"],
 
     # Exportar SVG
     "svg": page["svg"],
     "exportar svg": page["svg"],
+    "salvar svg": page["svg"],
+    "exportar formato svg": page["svg"],
+    "salvar formato svg": page["svg"],
+    "formato svg": page["svg"],
+    "gráficos vetoriais escaláveis": page["svg"],
+    "exportar gráficos vetoriais escaláveis": page["svg"],
+    "salvar gráficos vetoriais escaláveis": page["svg"],
 
     # Ajuda
     "ajuda": ayuda,

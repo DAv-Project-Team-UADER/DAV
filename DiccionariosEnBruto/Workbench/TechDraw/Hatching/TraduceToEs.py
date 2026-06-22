@@ -26,9 +26,15 @@ TraduceToEs = {
     # Rayado geométrico
     "rayado": hatching["geometric_hatch"],
     "rayado geométrico": hatching["geometric_hatch"],
-    "hachurado": hatching["geometric_hatch"],
     "tramado": hatching["geometric_hatch"],
     "relleno": hatching["geometric_hatch"],
+    "relleno geométrico": hatching["geometric_hatch"],
+    "trama": hatching["geometric_hatch"],
+    "trama geométrica": hatching["geometric_hatch"],
+    "patrón de rayado": hatching["geometric_hatch"],
+    "patron de rayado": hatching["geometric_hatch"],
+    "patrón de tramado": hatching["geometric_hatch"],
+    "patron de tramado": hatching["geometric_hatch"],
 
     # Ayuda
     "ayuda": ayuda,

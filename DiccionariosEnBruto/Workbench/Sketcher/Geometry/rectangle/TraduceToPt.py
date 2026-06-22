@@ -28,7 +28,6 @@ TraduceToPt = {
     # Criação de retângulo padrão e sinônimos
     "criar": rectangle['create'],
     "retangulo": rectangle['create'],
-    "caixa": rectangle['create'],
     "criar retangulo": rectangle['create'],
     "desenhar retangulo": rectangle['create'],
     

@@ -46,11 +46,22 @@ TraduceToEs = {
 
     # Exportar DXF
     "dxf": page["dxf"],
+    "formato de intercambio de dibujo": page["dxf"],
+    "guardar dxf": page["dxf"],
     "exportar dxf": page["dxf"],
+    "guardar formato de intercambio de dibujo": page["dxf"],
+    "exportar formato de intercambio de dibujo": page["dxf"],
 
     # Exportar SVG
     "svg": page["svg"],
     "exportar svg": page["svg"],
+    "guardar svg": page["svg"],
+    "exportar formato svg": page["svg"],
+    "guardar formato svg": page["svg"],
+    "formato svg": page["svg"],
+    "gráficos vectoriales escalables": page["svg"],
+    "exportar gráficos vectoriales escalables": page["svg"],
+    "guardar gráficos vectoriales escalables": page["svg"],
 
     # Ayuda
     "ayuda": ayuda,

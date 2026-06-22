@@ -49,6 +49,8 @@ TraduceToPt = {
     # Vista Draft
     "vista draft": views["draft"],
     "draft": views["draft"],
+    "vista esboço": views["draft"],
+    "esboço": views["draft"],
 
     # Vista de planilha
     "planilha": views["spreadsheet"],

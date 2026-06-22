@@ -33,41 +33,41 @@ TraduceToEs = {
     "orificio": subtractive["hole"],
 
     # Subtractive Box
-    "cajasustractiva": subtractive["subtractivebox"],
+    "caja sustractiva": subtractive["subtractivebox"],
 
     # Subtractive Cone
-    "conosustractivo": subtractive["subtractivecone"],
+    "cono sustractivo": subtractive["subtractivecone"],
 
     # Subtractive Cylinder
-    "cilindrosustractivo": subtractive["subtractivecylinder"],
+    "cilindro sustractivo": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
-    "elipsoidesustractivo": subtractive["subtractiveellipsoid"],
+    "elipsoide sustractivo": subtractive["subtractiveellipsoid"],
 
     # Subtractive Helix
-    "helicesustractiva": subtractive["subtractivehelix"],
+    "helice sustractiva": subtractive["subtractivehelix"],
 
     # Subtractive Loft
-    "recubrimientosustractivo": subtractive["subtractiveloft"],
+    "recubrimiento sustractivo": subtractive["subtractiveloft"],
 
     # Subtractive Pipe
-    "tuberiasustractiva": subtractive["subtractivepipe"],
+    "tuberia sustractiva": subtractive["subtractivepipe"],
 
     # Subtractive Prism
-    "prismasustractivo": subtractive["subtractiveprism"],
+    "prisma sustractivo": subtractive["subtractiveprism"],
 
     # Subtractive Sphere
-    "esferasustractiva": subtractive["subtractivesphere"],
+    "esfera sustractiva": subtractive["subtractivesphere"],
 
     # Subtractive Torus
-    "torosustractivo": subtractive["subtractivetorus"],
+    "toro sustractivo": subtractive["subtractivetorus"],
 
     # Subtractive Wedge
-    "cunasustractiva": subtractive["subtractivewedge"],
+    "cuna sustractiva": subtractive["subtractivewedge"],
 
     # Boolean
     "booleano": subtractive["boolean"],
-    "operacionbooleana": subtractive["boolean"],
+    "operacion booleana": subtractive["boolean"],
 
     # Help
     "ayuda": ayuda,

@@ -23,7 +23,7 @@ from .ayuda import ayuda
 
 TraduceToEn = {
     # Linear Pattern
-    "linearpattern": transform["linearpattern"],
+    "linear pattern": transform["linearpattern"],
     "linear": transform["linearpattern"],
 
     # Mirrored
@@ -31,12 +31,12 @@ TraduceToEn = {
     "mirror": transform["mirrored"],
 
     # Polar Pattern
-    "polarpattern": transform["polarpattern"],
+    "polar pattern": transform["polarpattern"],
     "polar": transform["polarpattern"],
-    "circularpattern": transform["polarpattern"],
+    "circular pattern": transform["polarpattern"],
 
     # Multi Transform
-    "multitransform": transform["multitransform"],
+    "multi transform": transform["multitransform"],
     "multi": transform["multitransform"],
 
     # Scaled
