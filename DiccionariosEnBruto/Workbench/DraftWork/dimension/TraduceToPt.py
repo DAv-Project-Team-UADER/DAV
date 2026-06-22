@@ -27,7 +27,7 @@ TraduceToPt = {
     "inverter": dimension["flip"],
     "espelhar dimensao": dimension["flip"],
 
-    "help": dimension["help"],
-    "ajuda": dimension["help"],
-    "opcoes": dimension["help"],
+    "ajuda":             dimension["help"],
+    "informação":        dimension["help"],
+    "opções":            dimension["help"]
 }

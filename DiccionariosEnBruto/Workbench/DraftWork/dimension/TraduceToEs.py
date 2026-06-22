@@ -27,7 +27,8 @@ TraduceToEs = {
     "invertir": dimension["flip"],
     "voltear": dimension["flip"],
 
-    "help": dimension["help"],
-    "ayuda": dimension["help"],
-    "opciones": dimension["help"],
+    "ayuda":                dimension["help"],
+    "información":          dimension["help"],
+    "opciones":             dimension["help"]
+
 }
