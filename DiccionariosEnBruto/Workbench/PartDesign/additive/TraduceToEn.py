@@ -59,5 +59,7 @@ traduceToEn = {
     "additive wedge": additive["additivewedge"],
     "wedge feature": additive["additivewedge"],
     
-    "help": ayuda,
+    "help":            additive['help'],
+    "info":            additive['help'],
+    "options":         additive['help']
 }

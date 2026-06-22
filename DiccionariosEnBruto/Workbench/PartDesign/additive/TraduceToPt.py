@@ -76,5 +76,7 @@ TraduceToPt = {
     'wedge aditivo':     additive['additivewedge'],
     'chanfro aditivo':     additive['additivewedge'],
 
-    'help':              additive['help'],
+    "ajuda":             additive["help"],
+    "informação":       additive["help"],
+    "opções":            additive["help"]
 }

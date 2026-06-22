@@ -32,9 +32,12 @@ TraduceToEn = {
     "clone": base["clone"],
     "clone feature": base["clone"],
     "clone body": base["clone"],
+    "duplicate":  base["clone"],
     # SubshapeBinder
     "subshapebinder": base["subshapebinder"],
     "subshape binder": base["subshapebinder"],
     
-    "help": ayuda,
+    "help":            base['help'],
+    "info":            base['help'],
+    "options":         base['help']
 }

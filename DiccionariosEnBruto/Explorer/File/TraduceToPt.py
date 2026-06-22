@@ -15,3 +15,44 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .file import file
+
+TraduceToPt = {
+    "novo": file["new"],
+    "novo arquivo": file["new"],
+
+    "abrir": file["open"],
+    "abrir arquivo": file["open"],
+
+    "salvar": file["save"],
+    "salvar arquivo": file["save"],
+
+    "salvar como": file["saveas"],
+    "salvar documento como": file["saveas"],
+
+    "salvar copia": file["savecopy"],
+    "duplicar arquivo": file["savecopy"],
+
+    "reverter": file["revert"],
+    "restaurar": file["revert"],
+
+    "mesclar": file["merge"],
+    "unir projetos": file["merge"],
+
+    "importar": file["import"],
+    "importar arquivo": file["import"],
+
+    "exportar": file["export"],
+    "exportar arquivo": file["export"],
+
+    "recentes": file["recent"],
+    "arquivos recentes": file["recent"],
+
+    "carregar imagem": file["loadimage"],
+    "abrir imagem": file["loadimage"],
+
+    "help": file["help"],
+    "ajuda": file["help"],
+    "opcoes": file["help"],
+}

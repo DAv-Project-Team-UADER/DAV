@@ -123,5 +123,7 @@ TraduceToEs = {
     "Crear Cuña hasta":additive["wedge"],
 
     #Ayuda
-    "Ayuda":          ayuda,
+    "ayuda":                additive["help"],
+    "información":          additive["help"],
+    "opciones":             additive["help"]
 }

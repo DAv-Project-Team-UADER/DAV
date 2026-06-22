@@ -40,8 +40,7 @@ TraduceToEn = {
     "shell": modify["thickness"],
 
     # Help
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    "help":            modify['help'],
+    "info":            modify['help'],
+    "options":         modify['help']
 }

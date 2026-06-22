@@ -46,8 +46,7 @@ TraduceToPt = {
     "adicionar casca": modify["thickness"],
 
     # Help
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentação": ayuda,
+    "ajuda":             modify["help"],
+    "informação":       modify["help"],
+    "opções":            modify["help"]
 }
