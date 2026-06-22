@@ -22,6 +22,7 @@ from .ayuda import ayuda
 TraduceToPT = {
     'imprimir': print_cmds['print'],
     'papel':    print_cmds['print'],
+    
     'pdf':      print_cmds['pdf'],
     'ajuda':    ayuda,
 }

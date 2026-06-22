@@ -22,7 +22,7 @@ TraduceToPt = {
     # length
     "comprimento":        length["length"],
     "dimensao comprimento": length["length"],  # sinonimo
-    "distancia":          length["length"],    # sinonimo
+    "distância":          length["length"],    # sinonimo
     # help
     "ajuda":              length["help"],
     "info":               length["help"],      # sinonimo
