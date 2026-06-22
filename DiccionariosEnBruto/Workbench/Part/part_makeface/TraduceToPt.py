@@ -27,7 +27,6 @@ TraduceToPt = {
     "fazer face": part_makeface["make face"],
     "construir face": part_makeface["make face"],
     "gerar face": part_makeface["make face"],
-    "make face": part_makeface["make face"],
     "ajuda": ayuda,
     "manual": ayuda,
     "suporte": ayuda,

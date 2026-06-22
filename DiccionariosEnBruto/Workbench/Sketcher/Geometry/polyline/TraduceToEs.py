@@ -32,5 +32,8 @@ TraduceToEs = {
     "linea continua": polyline['create'],
     "crear polilinea": polyline['create'],
     "dibujar polilinea": polyline['create'],
-    "trazar polilinea": polyline['create']
+    "trazar polilinea": polyline['create'],
+    "crear multilinea": polyline['create'],
+    "dibujar multilinea": polyline['create'],
+    "trazar multilinea": polyline['create']
 }

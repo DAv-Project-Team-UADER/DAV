@@ -35,53 +35,52 @@ TraduceToPt = {
     "perfuração": subtractive["hole"],
 
     # Subtractive Box
-    "caixasubtrativa": subtractive["subtractivebox"],
-    "cortecaixa": subtractive["subtractivebox"],
+    "caixa sustractiva": subtractive["subtractivebox"],
+    "corte caixa": subtractive["subtractivebox"],
 
     # Subtractive Cone
-    "conesubtrativo": subtractive["subtractivecone"],
-    "cortecone": subtractive["subtractivecone"],
+    "cono sustractivo": subtractive["subtractivecone"],
+    "corte cono": subtractive["subtractivecone"],
 
     # Subtractive Cylinder
-    "cilindrosubtrativo": subtractive["subtractivecylinder"],
-    "cortecilindro": subtractive["subtractivecylinder"],
+    "cilindro sustractivo": subtractive["subtractivecylinder"],
+    "corte cilindro": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
-    "elipsoidesubtrativo": subtractive["subtractiveellipsoid"],
-    "corteelipsoide": subtractive["subtractiveellipsoid"],
+    "elipsoide sustractivo": subtractive["subtractiveellipsoid"],
+    "corte elipsoide": subtractive["subtractiveellipsoid"],
 
     # Subtractive Helix
-    "helicesubtrativa": subtractive["subtractivehelix"],
-    "cortehelice": subtractive["subtractivehelix"],
+    "helice subtrativa": subtractive["subtractivehelix"],
+    "corte helice": subtractive["subtractivehelix"],
 
     # Subtractive Loft
-    "loftsubtrativo": subtractive["subtractiveloft"],
-    "corteloft": subtractive["subtractiveloft"],
+    "loft sustractivo": subtractive["subtractiveloft"],
+    "corte loft": subtractive["subtractiveloft"],
 
     # Subtractive Pipe
-    "tubosubtrativo": subtractive["subtractivepipe"],
-    "cortetubo": subtractive["subtractivepipe"],
+    "tubo sustractivo": subtractive["subtractivepipe"],
+    "corte tubo": subtractive["subtractivepipe"],
 
     # Subtractive Prism
-    "prismasubtrativo": subtractive["subtractiveprism"],
-    "corteprisma": subtractive["subtractiveprism"],
+    "prisma sustractivo": subtractive["subtractiveprism"],
+    "corte prisma": subtractive["subtractiveprism"],
 
     # Subtractive Sphere
-    "esferasubtrativa": subtractive["subtractivesphere"],
-    "corteesfera": subtractive["subtractivesphere"],
+    "esfera sustractiva": subtractive["subtractivesphere"],
+    "corte esfera": subtractive["subtractivesphere"],
 
     # Subtractive Torus
-    "torosubtrativo": subtractive["subtractivetorus"],
-    "cortetoro": subtractive["subtractivetorus"],
+    "toro sustractivo": subtractive["subtractivetorus"],
+    "corte toro": subtractive["subtractivetorus"],
 
     # Subtractive Wedge
-    "cunhasubtrativa": subtractive["subtractivewedge"],
-    "cortecunha": subtractive["subtractivewedge"],
+    "cuna sustractiva": subtractive["subtractivewedge"],
+    "corte cuna": subtractive["subtractivewedge"],
 
     # Boolean
     "booleano": subtractive["boolean"],
-    "operaçãobooleana": subtractive["boolean"],
-    "opbooleana": subtractive["boolean"],
+    "operação booleana": subtractive["boolean"],
 
     # Help
     "ajuda": ayuda,

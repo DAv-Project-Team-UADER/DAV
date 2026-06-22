@@ -27,14 +27,20 @@ TraduceToEs = {
     # Chamfer
     "chaflan": modify["chamfer"],
     "bisel": modify["chamfer"],
+    "chaflanar": modify["chamfer"],
+    "biselar": modify["chamfer"],
 
     # Draft
     "inclinacion": modify["draft"],
     "desmoldeo": modify["draft"],
+    "inclinacion de cara": modify["draft"],
+    "desmoldeo de cara": modify["draft"],
 
     # Thickness
     "espesor": modify["thickness"],
     "grosor": modify["thickness"],
+    "agregar espesor": modify["thickness"],
+    "agregar grosor": modify["thickness"],
 
     # Help
     "ayuda": ayuda,

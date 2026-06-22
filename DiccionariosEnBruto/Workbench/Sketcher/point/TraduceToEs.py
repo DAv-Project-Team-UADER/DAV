@@ -30,5 +30,7 @@ TraduceToEs = {
     "punto": point['create'],
     "nodo": point['create'],
     "crear punto": point['create'],
-    "dibujar punto": point['create']
+    "dibujar punto": point['create'],
+    "crear nodo": point['create'],
+    "dibujar nodo": point['create']
 }

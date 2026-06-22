@@ -26,31 +26,26 @@ TraduceToPt = {
     "info": ayuda,
     
     # Deletar restrições e sinônimos
-    "deleteconstraints": tools['deleteconstraints'],
     "apagar restricoes": tools['deleteconstraints'],
     "limpar restricoes": tools['deleteconstraints'],
     "remover restricoes": tools['deleteconstraints'],
     
     # Deletar geometria e sinônimos
-    "deletegeometry": tools['deletegeometry'],
     "apagar geometria": tools['deletegeometry'],
     "limpar geometria": tools['deletegeometry'],
     "apagar esboco": tools['deletegeometry'],
     
     # Mesclar e sinônimos
-    "merge": tools['merge'],
     "mesclar": tools['merge'],
     "mesclar esbocos": tools['merge'],
     "combinar esbocos": tools['merge'],
     
     # Reorientar e sinônimos
-    "reorient": tools['reorient'],
     "reorientar": tools['reorient'],
     "reorientar esboco": tools['reorient'],
     "alterar plano do esboco": tools['reorient'],
     
     # Remover alinhamento de eixos e sinônimos
-    "removeaxes": tools['removeaxes'],
     "remover eixos": tools['removeaxes'],
     "limpar alinhamento de eixos": tools['removeaxes']
 }

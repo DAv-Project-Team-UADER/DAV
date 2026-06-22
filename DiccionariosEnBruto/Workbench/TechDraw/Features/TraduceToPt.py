@@ -30,6 +30,7 @@ TraduceToPt = {
     "imagem": features["image"],
     "inserir imagem": features["image"],
     "adicionar imagem": features["image"],
+    "carregar imagem": features["image"],
 
     # Símbolo
     "símbolo": features["symbol"],

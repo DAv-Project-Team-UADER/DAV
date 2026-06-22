@@ -26,32 +26,27 @@ TraduceToEs = {
     "info": ayuda,
     
     # Borrar restricciones y sinónimos
-    "deleteconstraints": tools['deleteconstraints'],
     "borrar restricciones": tools['deleteconstraints'],
     "limpiar restricciones": tools['deleteconstraints'],
     "eliminar restricciones": tools['deleteconstraints'],
     
     # Borrar geometría y sinónimos
-    "deletegeometry": tools['deletegeometry'],
     "borrar geometria": tools['deletegeometry'],
     "limpiar geometria": tools['deletegeometry'],
     "borrar croquis": tools['deletegeometry'],
     "limpiar croquis": tools['deletegeometry'],
     
     # Fusionar y sinónimos
-    "merge": tools['merge'],
     "fusionar": tools['merge'],
     "fusionar croquis": tools['merge'],
     "combinar croquis": tools['merge'],
     
     # Reorientar y sinónimos
-    "reorient": tools['reorient'],
     "reorientar": tools['reorient'],
     "reorientar croquis": tools['reorient'],
     "cambiar plano del croquis": tools['reorient'],
     
     # Remover alineación de ejes y sinónimos
-    "removeaxes": tools['removeaxes'],
     "remover ejes": tools['removeaxes'],
     "quitar alineacion de ejes": tools['removeaxes']
 }

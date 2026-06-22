@@ -28,6 +28,12 @@ TraduceToPt = {
     "hachura geométrica": hatching["geometric_hatch"],
     "preenchimento": hatching["geometric_hatch"],
     "padrão": hatching["geometric_hatch"],
+    "padrão de hachura": hatching["geometric_hatch"],
+    "padrao de hachura": hatching["geometric_hatch"],
+    "padrão de preenchimento": hatching["geometric_hatch"],
+    "padrao de preenchimento": hatching["geometric_hatch"],
+    "padrão de trama": hatching["geometric_hatch"],
+    "padrao de trama": hatching["geometric_hatch"],
 
     # Ajuda
     "ajuda": ayuda,

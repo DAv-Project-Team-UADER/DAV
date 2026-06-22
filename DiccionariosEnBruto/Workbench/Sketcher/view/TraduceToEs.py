@@ -32,7 +32,6 @@ TraduceToEs = {
     "orientar croquis": view['sketch'],
     
     # Vista de sección y sinónimos
-    "section": view['section'],
     "vista de seccion": view['section'],
     "ver seccion": view['section'],
     "recortar vista": view['section'],

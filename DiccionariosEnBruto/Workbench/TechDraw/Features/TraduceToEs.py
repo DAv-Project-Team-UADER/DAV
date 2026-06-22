@@ -32,6 +32,7 @@ TraduceToEs = {
     "imagen": features["image"],
     "insertar imagen": features["image"],
     "agregar imagen": features["image"],
+    "cargar imagen": features["image"],
 
     # Símbolo
     "símbolo": features["symbol"],

@@ -51,6 +51,7 @@ TraduceToEs = {
     "vista draft": views["draft"],
     "draft": views["draft"],
     "vista boceto": views["draft"],
+    "boceto": views["draft"],
 
     # Vista de hoja de cálculo
     "hoja de cálculo": views["spreadsheet"],

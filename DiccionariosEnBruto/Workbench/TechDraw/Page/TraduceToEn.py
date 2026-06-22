@@ -44,12 +44,21 @@ TraduceToEn = {
     # Export DXF
     "export dxf": page["dxf"],
     "dxf": page["dxf"],
+    "drawing exchange format": page["dxf"],
     "save dxf": page["dxf"],
+    "export drawing exchange format": page["dxf"],
+    "save drawing exchange format": page["dxf"],
 
     # Export SVG
     "export svg": page["svg"],
     "svg": page["svg"],
     "save svg": page["svg"],
+    "export svg format": page["svg"],
+    "save svg format": page["svg"],
+    "svg format": page["svg"],
+    "scalable vector graphics": page["svg"],
+    "export scalable vector graphics": page["svg"],
+    "save scalable vector graphics": page["svg"],
 
     "help": ayuda,
 }
