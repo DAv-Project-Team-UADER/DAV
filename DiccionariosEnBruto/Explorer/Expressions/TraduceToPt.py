@@ -31,7 +31,7 @@ TraduceToPt = {
     "colar expressao": expressions["pasteexpr"],
     "colar expressoes": expressions["pasteexpr"],
 
-    "help": expressions["help"],
     "ajuda": expressions["help"],
-    "opcoes": expressions["help"],
+    "informaçao": expressions["help"],
+    "opçoes": expressions["help"],
 }
