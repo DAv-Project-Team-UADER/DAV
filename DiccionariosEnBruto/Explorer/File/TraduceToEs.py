@@ -52,7 +52,7 @@ TraduceToEs = {
     "cargar imagen": file["loadimage"],
     "abrir imagen": file["loadimage"],
 
-    "help": file["help"],
     "ayuda": file["help"],
+    "informacion": file["help"],
     "opciones": file["help"],
 }
