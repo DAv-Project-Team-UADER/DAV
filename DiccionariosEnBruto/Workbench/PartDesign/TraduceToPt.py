@@ -53,4 +53,9 @@ TraduceToPt = {
 
     "administração": partdesign["manage"],
     "configuração": partdesign["manage"],
+    
+    "ajuda":             partdesign["help"],
+    "informação":       partdesign["help"],
+    "opções":            partdesign["help"]
+    
 }

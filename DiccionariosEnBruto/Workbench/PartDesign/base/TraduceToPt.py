@@ -43,5 +43,7 @@ TraduceToPt = {
     'vinculação de subforma': base['subshapebinder'],
     'vinculação de subforma para corpo': base['subshapebinder'],
 
-    'help':            ayuda,
+    "ajuda":             base["help"],
+    "informação":       base["help"],
+    "opções":            base["help"]
 }

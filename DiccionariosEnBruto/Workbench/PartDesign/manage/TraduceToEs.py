@@ -74,5 +74,7 @@ TraduceToEs = {
     "Generar ejes a": manage["wizardshaft"],
     "Generar ejes hasta": manage["wizardshaft"],
 
-    "ayuda": manage["help"],
+    "ayuda":                manage["help"],
+    "información":          manage["help"],
+    "opciones":             manage["help"]
 }

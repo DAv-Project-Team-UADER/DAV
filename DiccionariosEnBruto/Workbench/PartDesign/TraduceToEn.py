@@ -54,4 +54,8 @@ TraduceToEn = {
     "management": partdesign["manage"],
     "administration": partdesign["manage"],
     "settings": partdesign["manage"],
+    
+    "help":            partdesign['help'],
+    "info":            partdesign['help'],
+    "options":         partdesign['help']
 }

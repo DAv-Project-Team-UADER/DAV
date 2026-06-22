@@ -23,7 +23,7 @@ TraduceToPt = {
     "criar facebinder": facebinder["create"],
     "criar": facebinder["create"],
 
-    "help": facebinder["help"],
+    "informação": facebinder["help"],
     "ajuda": facebinder["help"],
     "opcoes": facebinder["help"],
 }

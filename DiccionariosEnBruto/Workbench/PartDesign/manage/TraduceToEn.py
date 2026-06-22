@@ -36,5 +36,7 @@ TraduceToEn = {
     "wizardshaft": manage["wizardshaft"],
     "wizard shaft": manage["wizardshaft"],
     
-    "help": ayuda,
+    "help":            manage['help'],
+    "info":            manage['help'],
+    "options":         manage['help']
 }

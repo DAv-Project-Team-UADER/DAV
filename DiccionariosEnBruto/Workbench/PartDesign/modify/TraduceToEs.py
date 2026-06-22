@@ -43,8 +43,7 @@ TraduceToEs = {
     "agregar grosor": modify["thickness"],
 
     # Help
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
+    "ayuda":                modify["help"],
+    "información":          modify["help"],
+    "opciones":             modify["help"]
 }

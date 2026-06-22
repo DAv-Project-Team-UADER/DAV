@@ -22,8 +22,8 @@ TraduceToEn = {
     'scale': modification['scale'],
     'resize': modification['scale'],
 
-    'shape_2d_view': modification['shape_2d_view'],
-    '2d_view': modification['shape_2d_view'],
+    'shape 2d view': modification['shape_2d_view'],
+    '2d view': modification['shape_2d_view'],
 
     'slope': modification['slope'],
     'incline': modification['slope'],
@@ -34,7 +34,7 @@ TraduceToEn = {
     'stretch': modification['stretch'],
     'extend': modification['stretch'],
 
-    'subelement_highlight': modification['subelement_highlight'],
+    'subelement highlight': modification['subelement_highlight'],
     'highlight': modification['subelement_highlight'],
 
     'trimex': modification['trimex'],
@@ -43,7 +43,7 @@ TraduceToEn = {
     'upgrade': modification['upgrade'],
     'improve': modification['upgrade'],
 
-    'wire_to_bspline': modification['wire_to_bspline'],
+    'wire to bspline': modification['wire_to_bspline'],
     'bspline': modification['wire_to_bspline'],
 
     'help': modification['help'],
