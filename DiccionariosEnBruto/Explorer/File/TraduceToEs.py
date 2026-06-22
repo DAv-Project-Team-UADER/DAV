@@ -53,6 +53,6 @@ TraduceToEs = {
     "abrir imagen": file["loadimage"],
 
     "ayuda": file["help"],
-    "informacion": file["help"],
+    "información": file["help"],
     "opciones": file["help"],
 }
