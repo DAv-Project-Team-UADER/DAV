@@ -35,8 +35,9 @@ TraduceToPt = {
     "criar rascunho": new_sketch["new sketch"],
     "fazer rascunho": new_sketch["new sketch"],
 
-    "help":            new_sketch['help'],
-    "info":            new_sketch['help'],
-    "options":         new_sketch['help']
+    "ajuda":             new_sketch["help"],
+    "informação":       new_sketch["help"],
+    "opções":            new_sketch["help"]
+
 
 }

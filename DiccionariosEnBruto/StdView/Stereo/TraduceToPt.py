@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -20,25 +19,31 @@ from .stereo import stereo
 
 TraduceToPt = {
     # camerapos
-    "posicao camera":         stereo["camerapos"],
-    "posicao vista camera":   stereo["camerapos"],  # sinonimo
+    "posição câmera":         stereo["camerapos"],
+    "posição vista câmera":   stereo["camerapos"],  # sinônimo
+    "salvar posição vista":   stereo["camerapos"],  # sinônimo
     # stereocolumns
-    "colunas estereo":        stereo["stereocolumns"],
-    "colunas entrelacadas":   stereo["stereocolumns"],  # sinonimo
+    "colunas estéreo":        stereo["stereocolumns"],
+    "colunas entrelaçadas":   stereo["stereocolumns"],  # sinônimo
+    "modo colunas":           stereo["stereocolumns"],  # sinônimo
     # stereorows
-    "linhas estereo":         stereo["stereorows"],
-    "linhas entrelacadas":    stereo["stereorows"],     # sinonimo
+    "linhas estéreo":         stereo["stereorows"],
+    "linhas entrelaçadas":    stereo["stereorows"],     # sinônimo
+    "modo linhas":            stereo["stereorows"],     # sinônimo
     # stereooff
-    "estereo desligado":      stereo["stereooff"],
-    "desativar estereo":      stereo["stereooff"],      # sinonimo
+    "estéreo desligado":      stereo["stereooff"],
+    "desativar estéreo":      stereo["stereooff"],      # sinônimo
+    "desligar estéreo":       stereo["stereooff"],      # sinônimo
     # stereoquad
-    "estereo quad":           stereo["stereoquad"],
-    "buffer quad":            stereo["stereoquad"],     # sinonimo
+    "estéreo quad":           stereo["stereoquad"],
+    "buffer quad":            stereo["stereoquad"],     # sinônimo
+    "modo quad":              stereo["stereoquad"],     # sinônimo
     # stereoanaglyph
-    "anaglifo estereo":       stereo["stereoanaglyph"],
-    "estereo vermelho verde": stereo["stereoanaglyph"], # sinonimo
+    "anáglifo estéreo":       stereo["stereoanaglyph"],
+    "estéreo vermelho verde": stereo["stereoanaglyph"], # sinônimo
+    "modo anáglifo":          stereo["stereoanaglyph"], # sinônimo
     # help
     "ajuda":                  stereo["help"],
-    "informacao":             stereo["help"],           # sinonimo
-    "opcoes":                 stereo["help"],           # sinonimo
+    "informação":             stereo["help"],           # sinônimo
+    "opções":                 stereo["help"],           # sinônimo
 }

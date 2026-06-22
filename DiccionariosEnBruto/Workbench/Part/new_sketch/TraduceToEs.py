@@ -35,8 +35,8 @@ TraduceToEs = {
     "crear sketch": new_sketch["new sketch"],
     "hacer sketch": new_sketch["new sketch"],
 
-    "help":            new_sketch['help'],
-    "info":            new_sketch['help'],
-    "options":         new_sketch['help']
+    "ayuda":                new_sketch["help"],
+    "información":          new_sketch["help"],
+    "opciones":             new_sketch["help"]
 
 }

@@ -31,10 +31,8 @@ TraduceToPt = {
     "fazer extrusão": part_extrude["extrude"],
     "extrudir objeto": part_extrude["extrude"],
     "extrude": part_extrude["extrude"],
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+
+    "ajuda":             part_extrude["help"],
+    "informação":       part_extrude["help"],
+    "opções":            part_extrude["help"]
 }
