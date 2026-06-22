@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -22,23 +21,29 @@ TraduceToEs = {
     # camerapos
     "posicion camara":       stereo["camerapos"],
     "posicion vista camara": stereo["camerapos"],  # sinonimo
+    "guardar posicion vista": stereo["camerapos"], # sinonimo
     # stereocolumns
     "columnas estereo":      stereo["stereocolumns"],
     "columnas entrelazadas": stereo["stereocolumns"],  # sinonimo
+    "modo columnas":         stereo["stereocolumns"],  # sinonimo
     # stereorows
     "filas estereo":         stereo["stereorows"],
     "filas entrelazadas":    stereo["stereorows"],     # sinonimo
+    "modo filas":            stereo["stereorows"],     # sinonimo
     # stereooff
     "estereo apagado":       stereo["stereooff"],
     "desactivar estereo":    stereo["stereooff"],      # sinonimo
+    "apagar estereo":        stereo["stereooff"],      # sinonimo
     # stereoquad
     "estereo cuadruple":     stereo["stereoquad"],
     "buffer cuadruple":      stereo["stereoquad"],     # sinonimo
+    "modo cuadruple":        stereo["stereoquad"],     # sinonimo
     # stereoanaglyph
     "anaglifo estereo":      stereo["stereoanaglyph"],
-    "estereo rojo verde":    stereo["stereoanaglyph"],  # sinonimo
+    "estereo rojo verde":    stereo["stereoanaglyph"], # sinonimo
+    "modo anaglifo":         stereo["stereoanaglyph"], # sinonimo
     # help
     "ayuda":                 stereo["help"],
-    "informacion":           stereo["help"],            # sinonimo
-    "opciones":               stereo["help"],           # sinonimo
+    "informacion":           stereo["help"],           # sinonimo
+    "opciones":              stereo["help"],            # sinonimo
 }
