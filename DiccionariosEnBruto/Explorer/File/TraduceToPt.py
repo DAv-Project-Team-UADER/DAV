@@ -19,7 +19,7 @@
 from .file import file
 
 TraduceToPt = {
-    "novo": file["new"],
+    ""novo": file["new"],
     "novo arquivo": file["new"],
 
     "abrir": file["open"],
@@ -31,7 +31,7 @@ TraduceToPt = {
     "salvar como": file["saveas"],
     "salvar documento como": file["saveas"],
 
-    "salvar copia": file["savecopy"],
+    "salvar cópia": file["savecopy"],
     "duplicar arquivo": file["savecopy"],
 
     "reverter": file["revert"],
@@ -53,6 +53,6 @@ TraduceToPt = {
     "abrir imagem": file["loadimage"],
 
     "ajuda": file["help"],
-    "informaçao": file["help"],
+    "informação": file["help"],
     "opções": file["help"],
 }
