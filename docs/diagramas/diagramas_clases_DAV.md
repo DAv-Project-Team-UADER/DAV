@@ -313,7 +313,6 @@ classDiagram
 ```
 
 ---
-
 ## Diagrama General
 > Relaciones entre los 4 componentes principales del proyecto DAV.
 
@@ -333,7 +332,7 @@ classDiagram
         class FlashOverlay
     }
 
-    namespace Keychain {
+    namespace KeychainComp {
         class Keychain
     }
 
@@ -358,3 +357,4 @@ classDiagram
     voice_bootstrap ..> DavVoiceService : usa singleton
     voice_bootstrap ..> EspecialOperations : registra comandos
 ```
+
