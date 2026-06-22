@@ -24,8 +24,9 @@ class StringInputPrompt(BaseInputPrompt):
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Accept final recognized text after a confirmation word."""
-        self.SetHeardText(Text)
-        tokens = SpokenNumberParser.Tokenize(Text)
+        super().ProcessFinalText(Text)
+        full_text = self._AccumulatedText
+        tokens = SpokenNumberParser.Tokenize(full_text)
 
         if self._HasCancellation(tokens):
             return self.Cancel()
@@ -34,8 +35,10 @@ class StringInputPrompt(BaseInputPrompt):
             self.SetStatus("Waiting for enter or send...")
             return self.GetResult()
 
-        value = self._StripConfirmation(Text)
+        value = self._StripConfirmation(full_text)
         if not value:
+            self._AccumulatedText = ""
+            self.SetHeardText("")
             return self.Fail("Text value cannot be empty.")
 
         return self.AcceptValue(value)

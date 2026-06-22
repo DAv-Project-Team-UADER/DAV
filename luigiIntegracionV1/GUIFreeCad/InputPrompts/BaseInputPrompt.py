@@ -38,6 +38,7 @@ class BaseInputPrompt(QDialog):
         super().__init__(Parent)
         self._Title = Title
         self._Message = Message
+        self._AccumulatedText = ""
         self._Result = PromptResult.Pending()
         self._BuildUi()
         self.SetTitle(Title)
@@ -116,7 +117,8 @@ class BaseInputPrompt(QDialog):
 
     def ProcessPartialText(self, Text: str) -> None:
         """Process partial recognized text."""
-        self.SetHeardText(Text)
+        display = f"{self._AccumulatedText} {Text}".strip()
+        self.SetHeardText(display)
         self.SetStatus("Listening...")
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
@@ -125,7 +127,8 @@ class BaseInputPrompt(QDialog):
         Concrete prompts should override this method when they need parsing or
         validation before accepting the value.
         """
-        self.SetHeardText(Text)
+        self._AccumulatedText = f"{self._AccumulatedText} {Text}".strip()
+        self.SetHeardText(self._AccumulatedText)
         return self.GetResult()
 
     def AcceptValue(self, Value: Any | None = None) -> PromptResult:
@@ -161,6 +164,9 @@ class BaseInputPrompt(QDialog):
 
     def RequestValue(self) -> PromptResult:
         """Show the prompt modally and return its result."""
+        self.show()
+        self.raise_()
+        self.activateWindow()
         self._ExecDialog()
         return self.GetResult()
 

@@ -15,10 +15,12 @@ $ErrorActionPreference = "Stop"
 function Resolve-GuiFreeCadRoot {
     param([string]$RepoRoot)
 
+    $parent = Split-Path -Parent $RepoRoot
     $candidates = @(
+        (Join-Path $parent "luigiIntegracionV1\GUIFreeCad"),
+        (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "IntegracionGUI\GUIFreeCad"),
-        (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )
     foreach ($path in $candidates) {

@@ -24,8 +24,9 @@ class FloatInputPrompt(BaseInputPrompt):
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Parse final recognized text and accept it as a float when valid."""
-        self.SetHeardText(Text)
-        tokens = SpokenNumberParser.Tokenize(Text)
+        super().ProcessFinalText(Text)
+        full_text = self._AccumulatedText
+        tokens = SpokenNumberParser.Tokenize(full_text)
 
         if self._HasCancellation(tokens):
             return self.Cancel()
@@ -35,8 +36,10 @@ class FloatInputPrompt(BaseInputPrompt):
             return self.GetResult()
 
         try:
-            value = SpokenNumberParser.ParseFloat(Text)
+            value = SpokenNumberParser.ParseFloat(full_text)
         except ValueError as error:
+            self._AccumulatedText = ""
+            self.SetHeardText("")
             return self.Fail(str(error))
 
         return self.AcceptValue(value)

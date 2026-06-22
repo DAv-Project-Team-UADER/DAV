@@ -85,14 +85,16 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Handle voice commands for browsing and confirming object selection."""
-        self.SetHeardText(Text)
-        tokens = SpokenNumberParser.Tokenize(Text)
+        super().ProcessFinalText(Text)
+        full_text = self._AccumulatedText
+        tokens = SpokenNumberParser.Tokenize(full_text)
 
         if self._HasCancellation(tokens):
             return self.Cancel()
 
         if any(token in self.NextWords for token in tokens):
             self._SelectNextObject()
+            self._AccumulatedText = ""
             self._Result = PromptResult.Pending()
             return self.GetResult()
 
