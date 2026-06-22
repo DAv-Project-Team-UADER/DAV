@@ -29,7 +29,7 @@ TraduceToPt = {
     "dimensao axo":      annotations["axo_length"],   # sinonimo
     # balloon
     "balao":             annotations["balloon"],
-    "etiqueta":          annotations["balloon"],      # sinonimo
+    "rotulo":            annotations["balloon"],      # sinonimo
     "referencia":        annotations["balloon"],      # sinonimo
     # help
     "ajuda":             annotations["help"],
