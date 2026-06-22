@@ -15,3 +15,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .appearance import appearance
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Aparência
+    'aparência':        appearance['appearance'],
+    'aspecto':          appearance['appearance'],
+
+    # cores de superfície
+    'cor de superfície':    appearance['facecolor'],
+    'cor de fundo':         appearance['facecolor'],
+    'cor de parte':         appearance['facecolor'],
+
+    # cores aleatórias
+    'cor aleatória':        appearance['randomcolor'],
+    'cor aleatorizada':     appearance['randomcolor'],
+    'sombra aleatória':     appearance['randomcolor'],
+
+    # mapeamento de texturas
+    'mapeamento de texturas':   appearance['texturemapping'],
+    'texturização':          appearance['texturemapping'],
+    'texturizacao':          appearance['texturemapping'],
+
+    # ajuda
+    'ajuda':    ayuda['help'],
+    'informação':   ayuda['help'],
+}
