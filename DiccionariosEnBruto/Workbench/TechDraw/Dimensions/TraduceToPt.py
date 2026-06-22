@@ -37,7 +37,7 @@ TraduceToPt = {
     "medida":              dimensions["dimension"], # sinonimo
     # length
     "comprimento":         dimensions["length"],
-    "distancia":           dimensions["length"],    # sinonimo
+    "distância":           length["length"],    # sinonimo
     # horizontal
     "horizontal":          dimensions["horizontal"],
     "largura":             dimensions["horizontal"], # sinonimo
