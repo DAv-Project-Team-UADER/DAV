@@ -31,7 +31,7 @@ TraduceToEs = {
     "pegar expresion": expressions["pasteexpr"],
     "pegar expresiones": expressions["pasteexpr"],
 
-    "help": expressions["help"],
     "ayuda": expressions["help"],
+    "información": expressions["help"],
     "opciones": expressions["help"],
 }
