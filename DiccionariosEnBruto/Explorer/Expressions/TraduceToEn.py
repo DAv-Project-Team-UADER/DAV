@@ -15,3 +15,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+
+from .Expressions import expressions
+
+TraduceToEn = {
+    "copy active document": expressions["copyactdoc"],
+    "copy document": expressions["copyactdoc"],
+
+    "copy all documents": expressions["copyalldoc"],
+    "copy all": expressions["copyalldoc"],
+
+    "copy selected": expressions["copyselected"],
+    "copy selection": expressions["copyselected"],
+
+    "paste expression": expressions["pasteexpr"],
+    "paste expressions": expressions["pasteexpr"],
+
+    "help": expressions["help"],
+    "info": expressions["help"],
+    "options": expressions["help"],
+}
