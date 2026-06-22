@@ -42,6 +42,7 @@ from .part_ruled_surface.part_ruled_surface import part_ruled_surface
 from .part_scale.part_scale import part_scale
 from .part_section.part_section import part_section
 from .part_sweep.part_sweep import part_sweep
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -179,3 +180,4 @@ TraduceToPt = {
     "documentação": ayuda,
     "help": ayuda,
 }
+

@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for the part_ruled_surface dictionary."""
 
 from .part_ruled_surface import part_ruled_surface
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -32,3 +33,4 @@ TraduceToEs = {
     "documentacion": ayuda,
     "documentación": ayuda,
 }
+

@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for Part new sketch commands."""
 
 from .new_sketch import new_sketch
+
 from .ayuda import ayuda
 
 TraduceToPt = {

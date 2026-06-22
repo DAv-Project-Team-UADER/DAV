@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .line import line
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -23,7 +24,7 @@ TraduceToEs = {
     'línea':    line['line'],
     'recta':    line['line'],
     
-    "ayuda":                line["help"],
-    "información":          line["help"],
-    "opciones":             line["help"]
+    "ayuda":                line['help'],
+    "información":          line['help'],
+    "opciones":             line['help']
 }

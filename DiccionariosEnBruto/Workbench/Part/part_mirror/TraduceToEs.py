@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for the part_mirror dictionary."""
 
 from .part_mirror import part_mirror
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -34,3 +35,4 @@ TraduceToEs = {
     "documentacion": ayuda,
     "documentación": ayuda,
 }
+

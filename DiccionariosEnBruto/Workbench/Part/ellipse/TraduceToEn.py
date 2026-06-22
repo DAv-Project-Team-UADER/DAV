@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .ellipse import ellipse
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,3 +28,4 @@ TraduceToEn = {
     "info":            ellipse['help'],
     "options":         ellipse['help']
 }
+

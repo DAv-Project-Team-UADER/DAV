@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for Part cross sections commands."""
 
 from .part_cross_sections import part_cross_sections
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -32,7 +33,7 @@ TraduceToEs = {
     "secciones": part_cross_sections["cross sections"],
     "cross sections": part_cross_sections["cross sections"],
 
-    "ayuda":                part_cross_sections["help"],
-    "información":          part_cross_sections["help"],
-    "opciones":             part_cross_sections["help"]
+    "ayuda":                part_cross_sections['help'],
+    "información":          part_cross_sections['help'],
+    "opciones":             part_cross_sections['help']
 }

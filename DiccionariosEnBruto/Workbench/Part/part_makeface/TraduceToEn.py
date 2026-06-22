@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part make face commands."""
 
 from .part_makeface import part_makeface
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,8 +28,8 @@ TraduceToEn = {
     "face": part_makeface["make face"],
     "build face": part_makeface["make face"],
     "generate face": part_makeface["make face"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help":            part_makeface['help'],
+    "info":            part_makeface['help'],
+    "options":         part_makeface['help']
 }

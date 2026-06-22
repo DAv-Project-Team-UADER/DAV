@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .circle import circle
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -23,7 +24,7 @@ TraduceToPt = {
     'círculo':  circle['circle'],
     'redondo':  circle['circle'],
     
-    "ajuda":             circle["help"],
-    "informação":       circle["help"],
-    "opções":            circle["help"]
+    "ajuda":             circle['help'],
+    "informação":       circle['help'],
+    "opções":            circle['help']
 }

@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part color per face commands."""
 
 from .part_color_per_face import part_color_per_face
+
 from .ayuda import ayuda
 
 TraduceToEn = {

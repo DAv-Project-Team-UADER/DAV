@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part sweep commands."""
 
 from .part_sweep import part_sweep
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -33,3 +34,4 @@ TraduceToEn = {
     "support": ayuda,
     "documentation": ayuda,
 }
+

@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part section commands."""
 
 from .part_section import part_section
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -33,3 +34,4 @@ TraduceToEn = {
     "support": ayuda,
     "documentation": ayuda,
 }
+

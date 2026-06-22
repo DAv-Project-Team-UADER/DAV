@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part cross sections commands."""
 
 from .part_cross_sections import part_cross_sections
+
 from .ayuda import ayuda
 
 TraduceToEn = {

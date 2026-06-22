@@ -19,6 +19,7 @@
 """English spoken-word mapping for the part_projection_on_surface dictionary."""
 
 from .part_projection_on_surface import part_projection_on_surface
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -31,3 +32,4 @@ TraduceToEn = {
     'support': ayuda,
     'documentation': ayuda,
 }
+

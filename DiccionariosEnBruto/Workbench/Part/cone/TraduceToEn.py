@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .cone import cone
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -28,3 +29,4 @@ TraduceToEn = {
     "info":            cone['help'],
     "options":         cone['help']
 }
+

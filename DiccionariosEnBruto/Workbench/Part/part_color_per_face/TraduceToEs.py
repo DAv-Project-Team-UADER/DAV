@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for Part color per face commands."""
 
 from .part_color_per_face import part_color_per_face
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -30,7 +31,7 @@ TraduceToEs = {
     "establecer color de cara": part_color_per_face["paint face"],
     "paint face": part_color_per_face["paint face"],
 
-    "ayuda":            part_color_per_face['help'],
+    "ayuda":           part_color_per_face['help'],
     "info":            part_color_per_face['help'],
     "options":         part_color_per_face['help']
 }

@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the part_mirror dictionary."""
 
 from .part_mirror import part_mirror
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -33,3 +34,4 @@ TraduceToPt = {
     "documentação": ajuda,
     "documentacao": ajuda,
 }
+

@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for Part fillet commands."""
 
 from .part_fillet import part_fillet
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -31,10 +32,8 @@ TraduceToEs = {
     "hacer empalme": part_fillet["fillet"],
     "crear empalme": part_fillet["fillet"],
     "fillet": part_fillet["fillet"],
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+
+    "ayuda":                ayuda,
+    "información":          ayuda,
+    "opciones":             ayuda
 }

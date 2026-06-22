@@ -36,3 +36,4 @@ TraduceToPt = {
     "documentação": ayuda,
     "help": ayuda,
 }
+

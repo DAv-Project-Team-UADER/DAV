@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .cube import cube
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,3 +28,4 @@ TraduceToEn = {
     "info":            cube['help'],
     "options":         cube['help']
 }
+

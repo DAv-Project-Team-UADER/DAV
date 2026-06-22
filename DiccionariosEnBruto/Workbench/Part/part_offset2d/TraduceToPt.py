@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the part_offset2d dictionary."""
 
 from .part_offset2d import part_offset2d
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -33,3 +34,4 @@ TraduceToPt = {
     "documentação": ajuda,
     "documentacao": ajuda,
 }
+

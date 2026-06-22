@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .box import box
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -28,3 +29,4 @@ TraduceToEn = {
     "info":            box['help'],
     "options":         box['help']
 }
+

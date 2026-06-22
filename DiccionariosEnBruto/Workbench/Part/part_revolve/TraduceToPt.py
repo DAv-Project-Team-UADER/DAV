@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the part_revolve dictionary."""
 
 from .part_revolve import part_revolve
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -34,3 +35,4 @@ TraduceToPt = {
     "documentação": ajuda,
     "documentacao": ajuda,
 }
+

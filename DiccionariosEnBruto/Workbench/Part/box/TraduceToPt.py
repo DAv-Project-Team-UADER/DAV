@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .box import box
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -23,7 +24,7 @@ TraduceToPt = {
     'bloco':    box['box'],
     'cubo':     box['box'],
     
-    "ajuda":             box["help"],
-    "informação":       box["help"],
-    "opções":            box["help"]
+    "ajuda":             box['help'],
+    "informação":       box['help'],
+    "opções":            box['help']
 }
