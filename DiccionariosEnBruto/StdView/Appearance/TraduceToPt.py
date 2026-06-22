@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .appearance import appearance
+from .Appearance import appearance
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -41,6 +41,6 @@ TraduceToPt = {
     'texturizacao':          appearance['texturemapping'],
 
     # ajuda
-    'ajuda':    ayuda['help'],
-    'informação':   ayuda['help'],
+    'ajuda':                ayuda['help'],
+    'informação':           ayuda['help'],
 }
