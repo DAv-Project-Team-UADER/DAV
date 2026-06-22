@@ -18,12 +18,38 @@
 
 """English spoken-word mapping for the DAV base dictionary."""
 
-from Explorer.Explorer import explorer
+from .Workbench import Workbench
+
+from .StdView import StdView
+from .Explorer import explorer
+from .line_attributes import LineAttributes
 from integration.launch_preferences import open_preferences
 
 TraduceToEn = {
     "explorer":    explorer,
     "file":        explorer,
+    "files":       explorer,
+    "folder":      explorer,
+    "folders":     explorer,
+    "directory":   explorer,
+    "directories": explorer,
+
+    "line attributes": LineAttributes,
+    "line attributes dialog": LineAttributes,
+    "line attributes window": LineAttributes,
+    "line attributes panel": LineAttributes,
+
+    "Std View": StdView,
+    "standard view": StdView,
+    "standard views": StdView,
+    "standard view dialog": StdView,
+    "standard view window": StdView,
+
+    "workbench":   Workbench,
+    "workbenches": Workbench,
+    "workbench dialog": Workbench,
+    "workbench window": Workbench,
+
     "preferences": open_preferences,
     "settings":    open_preferences,
 }

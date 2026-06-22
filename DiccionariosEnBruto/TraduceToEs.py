@@ -18,13 +18,46 @@
 
 """Spanish spoken-word mapping for the DAV base dictionary."""
 
-from Explorer.Explorer import explorer
+from .Workbench import Workbench
+from .StdView import StdView
+from .Explorer import explorer
+from .line_attributes import LineAttributes
 from integration.launch_preferences import open_preferences
 
 TraduceToEs = {
     # Explorer (archivo, edición, ventanas)
     "explorador":    explorer,
-    "archivo":       explorer,   # alias directo para acceder a archivo/nuevo/guardar
+    "archivo":       explorer,
+    "archivos":      explorer,
+    "carpeta":       explorer,
+    "carpetas":      explorer,
+    "directorio":    explorer,
+    "directorios":   explorer,
+
+    # Line attributes (atributos de linea)
+    "atributos de línea": LineAttributes,
+    "atributos de linea": LineAttributes,
+    "diálogo atributos de línea": LineAttributes,
+    "dialogo atributos de linea": LineAttributes,
+    "ventana atributos de línea": LineAttributes,
+    "panel atributos de línea": LineAttributes,
+
+    # Std View (vista estandar)
+    "vista estándar": StdView,
+    "vista estandar":  StdView,
+    "vistas estándar": StdView,
+    "vistas estandar":  StdView,
+    "diálogo vista estándar": StdView,
+    "ventana vista estándar": StdView,
+
+    # Workbench
+    "banco de trabajo": Workbench,
+    "bancos de trabajo": Workbench,
+    "workbench":       Workbench,
+    "workbenches":     Workbench,
+    "workbench dialog": Workbench,
+    "workbench window": Workbench,
+
     # Preferencias
     "preferencias":  open_preferences,
     "configuracion": open_preferences,

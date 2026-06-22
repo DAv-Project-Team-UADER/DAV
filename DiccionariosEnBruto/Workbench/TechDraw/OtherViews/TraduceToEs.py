@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de palabras en español para TechDraw OtherViews."""
+
+from .otherViews import other_views
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Vista activa
+    "vista activa": other_views["active_view"],
+    "vista actual": other_views["active_view"],
+    "vista del documento": other_views["active_view"],
+    "crear vista activa": other_views["active_view"],
+    "insertar vista activa": other_views["active_view"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}

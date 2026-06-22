@@ -15,3 +15,38 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .modification import modification
+
+TraduceToEs = {
+    'escalar': modification['scale'],
+    'redimensionar': modification['scale'],
+
+    'vista_2d': modification['shape_2d_view'],
+    'proyeccion_2d': modification['shape_2d_view'],
+
+    'pendiente': modification['slope'],
+    'inclinacion': modification['slope'],
+
+    'dividir': modification['split'],
+    'separar': modification['split'],
+
+    'estirar': modification['stretch'],
+    'extender': modification['stretch'],
+
+    'resaltar_subelemento': modification['subelement_highlight'],
+    'resaltar': modification['subelement_highlight'],
+
+    'recortar': modification['trimex'],
+    'ajustar': modification['trimex'],
+
+    'mejorar': modification['upgrade'],
+    'actualizar': modification['upgrade'],
+
+    'cable_a_bspline': modification['wire_to_bspline'],
+    'bspline': modification['wire_to_bspline'],
+
+    'help': modification['help'],
+    'ayuda': modification['help'],
+    'opciones': modification['help'],
+}

@@ -15,3 +15,22 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the part_projection_on_surface dictionary."""
+
+from .part_projection_on_surface import part_projection_on_surface
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "proyeccion": part_projection_on_surface["projection"],
+    "proyección": part_projection_on_surface["projection"],
+    "proyectar": part_projection_on_surface["projection"],
+    "proyectar en superficie": part_projection_on_surface["projection"],
+    "proyectar dibujo": part_projection_on_surface["projection"],
+
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+}

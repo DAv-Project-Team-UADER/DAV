@@ -15,3 +15,33 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de palabras en español para TechDraw Features."""
+
+from .Features import features
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Campos
+    "campos": features["fields"],
+    "campos de plantilla": features["fields"],
+    "rellenar campos": features["fields"],
+
+    # Imagen
+    "imagen": features["image"],
+    "insertar imagen": features["image"],
+    "agregar imagen": features["image"],
+    "cargar imagen": features["image"],
+
+    # Símbolo
+    "símbolo": features["symbol"],
+    "simbolo": features["symbol"],
+    "insertar símbolo": features["symbol"],
+    "insertar simbolo": features["symbol"],
+    "agregar símbolo": features["symbol"],
+    "agregar simbolo": features["symbol"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}

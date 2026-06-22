@@ -23,7 +23,7 @@ from .ayuda import ayuda
 
 TraduceToEs = {
     # Patrón lineal
-    "patronlineal": transform["linearpattern"],
+    "patron lineal": transform["linearpattern"],
     "lineal": transform["linearpattern"],
 
     # Espejo
@@ -31,9 +31,9 @@ TraduceToEs = {
     "espejo": transform["mirrored"],
 
     # Patrón polar
-    "patronpolar": transform["polarpattern"],
+    "patron polar": transform["polarpattern"],
     "polar": transform["polarpattern"],
-    "patroncircular": transform["polarpattern"],
+    "patron circular": transform["polarpattern"],
 
     # Multitransformación
     "multitransformacion": transform["multitransform"],

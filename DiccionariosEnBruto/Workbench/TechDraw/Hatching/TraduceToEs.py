@@ -15,3 +15,27 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de palabras en español para TechDraw Hatching."""
+
+from .hatching import hatching
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Rayado geométrico
+    "rayado": hatching["geometric_hatch"],
+    "rayado geométrico": hatching["geometric_hatch"],
+    "tramado": hatching["geometric_hatch"],
+    "relleno": hatching["geometric_hatch"],
+    "relleno geométrico": hatching["geometric_hatch"],
+    "trama": hatching["geometric_hatch"],
+    "trama geométrica": hatching["geometric_hatch"],
+    "patrón de rayado": hatching["geometric_hatch"],
+    "patron de rayado": hatching["geometric_hatch"],
+    "patrón de tramado": hatching["geometric_hatch"],
+    "patron de tramado": hatching["geometric_hatch"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}

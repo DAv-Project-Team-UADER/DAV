@@ -28,7 +28,6 @@ TraduceToEs = {
     # Creación de rectángulo estándar y sinónimos
     "crear": rectangle['create'],
     "rectangulo": rectangle['create'],
-    "cuadro": rectangle['create'],
     "crear rectangulo": rectangle['create'],
     "dibujar rectangulo": rectangle['create'],
     

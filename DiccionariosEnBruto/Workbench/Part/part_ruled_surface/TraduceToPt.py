@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the part_ruled_surface dictionary."""
+
+from .part_ruled_surface import part_ruled_surface
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "superfície regrada": part_ruled_surface["ruled surface"],
+    "superficie regrada": part_ruled_surface["ruled surface"],
+    "unir curvas": part_ruled_surface["ruled surface"],
+    "criar superfície regrada": part_ruled_surface["ruled surface"],
+
+    "ajuda": ajuda,
+    "manual": ajuda,
+    "suporte": ajuda,
+    "documentação": ajuda,
+    "documentacao": ajuda,
+}

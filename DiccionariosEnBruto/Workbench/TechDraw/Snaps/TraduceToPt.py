@@ -15,3 +15,25 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeamento de palavras em português para TechDraw Snaps."""
+
+from .snaps import snaps
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Pontos médios
+    "pontos médios": snaps["midpoints"],
+    "ponto médio": snaps["midpoints"],
+    "meio": snaps["midpoints"],
+    "centro da aresta": snaps["midpoints"],
+
+    # Quadrantes
+    "quadrantes": snaps["quadrants"],
+    "quadrante": snaps["quadrants"],
+    "pontos dos quadrantes": snaps["quadrants"],
+
+    # Ajuda
+    "ajuda": ayuda,
+}

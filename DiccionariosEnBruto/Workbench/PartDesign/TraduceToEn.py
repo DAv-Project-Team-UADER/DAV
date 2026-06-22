@@ -24,34 +24,34 @@ from .PartDesign import partdesign
 
 TraduceToEn = {
 
-    # Main groups (folders conceptuales)
-    "base": partdesign["help"],
-    "additive": partdesign["help"],
-    "subtractive": partdesign["help"],
-    "modify": partdesign["help"],
-    "transform": partdesign["help"],
-    "manage": partdesign["help"],
+    # Main groups (conceptual folders)
+    "base": partdesign["base"],
+    "additive": partdesign["additive"],
+    "subtractive": partdesign["subtractive"],
+    "modify": partdesign["modify"],
+    "transform": partdesign["transform"],
+    "manage": partdesign["manage"],
 
-    # Synonyms → same behavior
-    "basic": partdesign["help"],
-    "fundamental": partdesign["help"],
+    # Synonyms → same folders
+    "basic": partdesign["base"],
+    "fundamental": partdesign["base"],
 
-    "add": partdesign["help"],
-    "adding": partdesign["help"],
-    "additions": partdesign["help"],
+    "add": partdesign["additive"],
+    "adding": partdesign["additive"],
+    "additions": partdesign["additive"],
 
-    "subtract": partdesign["help"],
-    "remove": partdesign["help"],
-    "cut": partdesign["help"],
+    "subtract": partdesign["subtractive"],
+    "remove": partdesign["subtractive"],
+    "cut": partdesign["subtractive"],
 
-    "edit": partdesign["help"],
-    "editing": partdesign["help"],
-    "modifiers": partdesign["help"],
+    "edit": partdesign["modify"],
+    "editing": partdesign["modify"],
+    "modifiers": partdesign["modify"],
 
-    "transformations": partdesign["help"],
-    "patterns": partdesign["help"],
+    "transformations": partdesign["transform"],
+    "patterns": partdesign["transform"],
 
-    "management": partdesign["help"],
-    "administration": partdesign["help"],
-    "settings": partdesign["help"],
+    "management": partdesign["manage"],
+    "administration": partdesign["manage"],
+    "settings": partdesign["manage"],
 }

@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeamento de palavras em português para TechDraw Hatching."""
+
+from .hatching import hatching
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Hachura geométrica
+    "hachura": hatching["geometric_hatch"],
+    "hachura geométrica": hatching["geometric_hatch"],
+    "preenchimento": hatching["geometric_hatch"],
+    "padrão": hatching["geometric_hatch"],
+    "padrão de hachura": hatching["geometric_hatch"],
+    "padrao de hachura": hatching["geometric_hatch"],
+    "padrão de preenchimento": hatching["geometric_hatch"],
+    "padrao de preenchimento": hatching["geometric_hatch"],
+    "padrão de trama": hatching["geometric_hatch"],
+    "padrao de trama": hatching["geometric_hatch"],
+
+    # Ajuda
+    "ajuda": ayuda,
+}

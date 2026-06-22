@@ -38,13 +38,15 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         from core.preferences import preferences
         from navigation.browser import Browser
         from integration.browser_voice_adapter import BrowserVoiceAdapter
+        from InputPrompts.PromptedCommandExecutor import PromptedCommandExecutor
 
         preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
 
         from pathlib import Path
         # parents[0]=integration  [1]=GUIFreeCad  [2]=luigiIntegracionV1  [3]=DAV-Luigi
         _dict_root = Path(__file__).resolve().parents[3] / "DiccionariosEnBruto"
-        browser = Browser(dictionary_root=_dict_root, prefs=preferences)
+        executor = PromptedCommandExecutor(Language=settings.language)
+        browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
         
         if not svc.start_cad(adapter):

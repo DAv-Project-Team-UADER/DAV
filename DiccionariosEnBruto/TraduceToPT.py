@@ -18,12 +18,47 @@
 
 """Portuguese spoken-word mapping for the DAV base dictionary."""
 
-from Explorer.Explorer import explorer
+from .Workbench import Workbench
+from .StdView import StdView
+from .Explorer import explorer
+from .line_attributes import LineAttributes
 from integration.launch_preferences import open_preferences
 
 TraduceToPT = {
+    # Explorer / arquivos / pastas
     "explorador":    explorer,
     "arquivo":       explorer,
+    "arquivos":      explorer,
+    "pasta":         explorer,
+    "pastas":        explorer,
+    "diretório":     explorer,
+    "directorio":    explorer,
+    "diretorios":    explorer,
+    "diretórios":    explorer,
+
+    # Line attributes (atributos de linha)
+    "atributos de linha": LineAttributes,
+    "diálogo atributos de linha": LineAttributes,
+    "dialogo atributos de linha": LineAttributes,
+    "janela atributos de linha": LineAttributes,
+    "painel atributos de linha": LineAttributes,
+
+    # Std View (visualização padrão)
+    "visualización padrão": StdView,
+    "visualização padrão": StdView,
+    "visualizações padrão": StdView,
+    "vista padrão": StdView,
+    "vistas padrão": StdView,
+    "diálogo visualização padrão": StdView,
+    "janela visualização padrão": StdView,
+
+    # Workbench
+    "banco de trabalho": Workbench,
+    "bancadas de trabalho": Workbench,
+    "workbench":       Workbench,
+    "workbenches":     Workbench,
+
+    # Preferências
     "preferencias":  open_preferences,
     "configuracoes": open_preferences,
     "ajustes":       open_preferences,

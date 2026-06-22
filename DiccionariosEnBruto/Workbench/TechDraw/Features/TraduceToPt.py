@@ -15,3 +15,31 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Features import features
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Campos
+    "campos": features["fields"],
+    "campos do modelo": features["fields"],
+    "preencher campos": features["fields"],
+
+    # Imagem
+    "imagem": features["image"],
+    "inserir imagem": features["image"],
+    "adicionar imagem": features["image"],
+    "carregar imagem": features["image"],
+
+    # Símbolo
+    "símbolo": features["symbol"],
+    "simbolo": features["symbol"],
+    "inserir símbolo": features["symbol"],
+    "inserir simbolo": features["symbol"],
+    "adicionar símbolo": features["symbol"],
+    "adicionar simbolo": features["symbol"],
+
+    # Ajuda
+    "ajuda": ayuda,
+}

@@ -32,5 +32,8 @@ TraduceToPt = {
     "linha continua": polyline['create'],
     "criar polilinha": polyline['create'],
     "desenhar polilinha": polyline['create'],
-    "tracar polilinha": polyline['create']
+    "tracar polilinha": polyline['create'],
+    "criar multilinha": polyline['create'],
+    "desenhar multilinha": polyline['create'],
+    "tracar multilinha": polyline['create']
 }

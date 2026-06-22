@@ -23,7 +23,7 @@ from .ayuda import ayuda
 
 TraduceToPt = {
     # Padrão linear
-    "padraolinear": transform["linearpattern"],
+    "padrao linear": transform["linearpattern"],
     "linear": transform["linearpattern"],
 
     # Espelho
@@ -31,9 +31,9 @@ TraduceToPt = {
     "espelho": transform["mirrored"],
 
     # Padrão polar
-    "padraopolar": transform["polarpattern"],
+    "padrao polar": transform["polarpattern"],
     "polar": transform["polarpattern"],
-    "padraocircular": transform["polarpattern"],
+    "padrao circular": transform["polarpattern"],
 
     # Multitransformação
     "multitransformacao": transform["multitransform"],

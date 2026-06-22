@@ -330,8 +330,19 @@ class DavVoiceService:
         if mode == "preferences" and prefs and prefs_enabled:
             self._handle_preferences_text(text, final, prefs)
             return
-        if mode == "cad" and final and cad_adapter is not None:
-            cad_adapter.procesar_frase_final(text)
+        if mode == "cad":
+            if self._dispatch_to_active_prompt(text, final=final):
+                return
+            if final and cad_adapter is not None:
+                cad_adapter.procesar_frase_final(text)
+
+    def _dispatch_to_active_prompt(self, text: str, *, final: bool) -> bool:
+        try:
+            from InputPrompts.PromptVoiceRouter import PromptVoiceRouter
+
+            return PromptVoiceRouter.ProcessVoiceText(text, Final=final)
+        except Exception:
+            return False
 
     def _handle_preferences_text(self, text: str, final: bool, prefs: _PreferencesCallbacks) -> None:
         if prefs.on_text:

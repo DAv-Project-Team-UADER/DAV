@@ -32,7 +32,6 @@ TraduceToPt = {
     "orientar esboco": view['sketch'],
     
     # Vista de seção e sinônimos
-    "section": view['section'],
     "vista de secao": view['section'],
     "ver secao": view['section'],
     "recortar vista": view['section'],

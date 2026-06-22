@@ -30,5 +30,8 @@ TraduceToPt = {
     "ponto": point['create'],
     "vertice": point['create'],
     "criar ponto": point['create'],
-    "desenhar ponto": point['create']
+    "desenhar ponto": point['create'],
+    "criar vertice": point['create'],
+    "desenhar vertice": point['create']
+    
 }

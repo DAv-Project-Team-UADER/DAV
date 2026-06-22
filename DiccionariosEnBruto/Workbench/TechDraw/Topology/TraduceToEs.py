@@ -15,3 +15,19 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .topology import topology
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Mostrar todo
+    "mostrar todo": topology["showAll"],
+    "mostrar todas": topology["showAll"],
+    "mostrar todos": topology["showAll"],
+    "ver todo": topology["showAll"],
+    "mostrar aristas": topology["showAll"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}

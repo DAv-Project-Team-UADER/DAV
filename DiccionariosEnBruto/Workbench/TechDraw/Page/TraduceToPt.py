@@ -15,3 +15,56 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeamento de palavras em português para TechDraw Page."""
+
+from .page import page
+from .ayuda import ayuda
+
+TraduceToPt = {
+
+    # Página padrão
+    "página": page["default"],
+    "pagina": page["default"],
+    "página padrão": page["default"],
+    "criar página": page["default"],
+    "nova página": page["default"],
+
+    # Modelo
+    "modelo": page["template"],
+    "modelo de página": page["template"],
+    "usar modelo": page["template"],
+
+    # Redesenhar
+    "redesenhar": page["redraw"],
+    "atualizar página": page["redraw"],
+    "recarregar página": page["redraw"],
+
+    # Imprimir
+    "imprimir": page["print"],
+    "imprimir tudo": page["print"],
+
+    # Exportar DXF
+    "dxf": page["dxf"],
+    "exportar dxf": page["dxf"],
+    "salvar dxf": page["dxf"],
+    "exportar formato dxf": page["dxf"],
+    "salvar formato dxf": page["dxf"],
+    "formato de intercâmbio de desenho": page["dxf"],
+    "exportar formato de intercâmbio de desenho": page["dxf"],
+    "salvar formato de intercâmbio de desenho": page["dxf"],
+
+    # Exportar SVG
+    "svg": page["svg"],
+    "exportar svg": page["svg"],
+    "salvar svg": page["svg"],
+    "exportar formato svg": page["svg"],
+    "salvar formato svg": page["svg"],
+    "formato svg": page["svg"],
+    "gráficos vetoriais escaláveis": page["svg"],
+    "exportar gráficos vetoriais escaláveis": page["svg"],
+    "salvar gráficos vetoriais escaláveis": page["svg"],
+
+    # Ajuda
+    "ajuda": ayuda,
+}

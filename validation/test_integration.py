@@ -23,6 +23,7 @@ os.environ["DAV_VALIDATION_ROOT"] = str(VALIDATION)
 fc_mod = types.ModuleType("FreeCAD")
 fc_mod.activeDocument = lambda: None
 fc_mod.Vector = lambda x, y, z: (x, y, z)
+fc_mod.Console = MagicMock()
 sys.modules["FreeCAD"] = fc_mod
 
 gui_mod = types.ModuleType("FreeCADGui")
@@ -64,6 +65,9 @@ class MockFreeCADObject:
 
 
 class IntegrationTests(unittest.TestCase):
+    def tearDown(self) -> None:
+        fc_mod.activeDocument = lambda: None
+
     def test_load_geometry_function(self) -> None:
         fn = GetDictionaryFunction("geometry.line", "create_by_points")
         self.assertTrue(callable(fn))
@@ -135,6 +139,72 @@ class IntegrationTests(unittest.TestCase):
         v = Validator()
         result = v.CallIfValid("es", fn, {"x1": "bad", "y1": 0, "x2": 1, "y2": 1, "label": "X"})
         self.assertIsNone(result)
+
+
+class PromptedCommandExecutorIntegrationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        gui_path = str(ROOT / "luigiIntegracionV1" / "GUIFreeCad")
+        if gui_path not in sys.path:
+            sys.path.insert(0, gui_path)
+
+    def tearDown(self) -> None:
+        fc_mod.activeDocument = lambda: None
+
+    def test_executor_with_valid_parameters(self) -> None:
+        from InputPrompts.PromptedCommandExecutor import PromptedCommandExecutor
+        from InputPrompts.PromptResult import PromptResult
+
+        doc = MockDoc({})
+        fc_mod.activeDocument = lambda: doc
+
+        fn = GetDictionaryFunction("geometry.line", "create_by_points")
+        entry = MagicMock()
+        entry.Target = fn
+        entry.IsCallable.return_value = True
+        entry.InternalKey = "geometry.line"
+
+        # Mock collector to return valid parameters (some as strings to test coercion)
+        collector = MagicMock()
+        collector.Language = "es"
+        collector.CollectForFunction.return_value = PromptResult.Ok({
+            "x1": "0", "y1": 0, "x2": 100, "y2": "50", "label": "MiLinea"
+        })
+
+        executor = PromptedCommandExecutor(Collector=collector)
+        executor.ExecuteEntry(entry)
+
+        # Should execute successfully and create the line
+        self.assertTrue(executor.LastResult.Success)
+        self.assertIn("MiLinea", doc._objects)
+
+    def test_executor_with_invalid_parameters_blocks_execution(self) -> None:
+        from InputPrompts.PromptedCommandExecutor import PromptedCommandExecutor
+        from InputPrompts.PromptResult import PromptResult
+
+        doc = MockDoc({})
+        fc_mod.activeDocument = lambda: doc
+
+        fn = GetDictionaryFunction("geometry.line", "create_by_points")
+        entry = MagicMock()
+        entry.Target = fn
+        entry.IsCallable.return_value = True
+        entry.InternalKey = "geometry.line"
+
+        # Mock collector to return invalid parameters ("hola" for float)
+        collector = MagicMock()
+        collector.Language = "es"
+        collector.CollectForFunction.return_value = PromptResult.Ok({
+            "x1": "hola", "y1": 0, "x2": 100, "y2": 50, "label": "Fail"
+        })
+
+        executor = PromptedCommandExecutor(Collector=collector)
+        result = executor.ExecuteEntry(entry)
+
+        # Should fail validation, return None, and block creation
+        self.assertIsNone(result)
+        self.assertFalse(executor.LastResult.Success)
+        self.assertEqual(executor.LastResult.Error, "Validation failed.")
+        self.assertNotIn("Fail", doc._objects)
 
 
 if __name__ == "__main__":

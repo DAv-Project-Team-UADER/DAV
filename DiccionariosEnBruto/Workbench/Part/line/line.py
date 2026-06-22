@@ -18,8 +18,10 @@ import FreeCAD as App
 from .ayuda import ayuda
 
 
-def _create_line(x1=0, y1=0, z1=0, x2=10, y2=10, z2=0):
+def _create_line(x1: float, y1: float, z1: float, x2: float, y2: float, z2: float):
     doc = App.activeDocument()
+    if doc is None:
+        doc = App.newDocument()
     line = doc.addObject("Part::Line", "Line")
     line.X1 = x1
     line.Y1 = y1
@@ -31,6 +33,6 @@ def _create_line(x1=0, y1=0, z1=0, x2=10, y2=10, z2=0):
 
 
 line = {
-    'line': lambda: _create_line(),
+    'line': _create_line,
     'help':  ayuda,
 }

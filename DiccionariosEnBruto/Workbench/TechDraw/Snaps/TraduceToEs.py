@@ -15,3 +15,25 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de palabras en español para TechDraw Snaps."""
+
+from .snaps import snaps
+from .ayuda import ayuda
+
+TraduceToEs = {
+
+    # Puntos medios
+    "puntos medios": snaps["midpoints"],
+    "punto medio": snaps["midpoints"],
+    "medio": snaps["midpoints"],
+    "centro de arista": snaps["midpoints"],
+
+    # Cuadrantes
+    "cuadrantes": snaps["quadrants"],
+    "cuadrante": snaps["quadrants"],
+    "puntos cuadrantes": snaps["quadrants"],
+
+    # Ayuda
+    "ayuda": ayuda,
+}

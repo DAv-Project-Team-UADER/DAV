@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the part_scale dictionary."""
+
+from .part_scale import part_scale
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "escalar": part_scale["scale"],
+    "escala": part_scale["scale"],
+    "agrandar": part_scale["scale"],
+    "reducir": part_scale["scale"],
+
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+    "documentación": ayuda,
+}

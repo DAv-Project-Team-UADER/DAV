@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the part_mirror dictionary."""
+
+from .part_mirror import part_mirror
+from .ayuda import ayuda
+
+TraduceToPt = {
+    "espelho": part_mirror["mirror"],
+    "refletir": part_mirror["mirror"],
+    "simetria": part_mirror["mirror"],
+    "criar espelho": part_mirror["mirror"],
+
+    "ajuda": ajuda,
+    "manual": ajuda,
+    "suporte": ajuda,
+    "documentação": ajuda,
+    "documentacao": ajuda,
+}
