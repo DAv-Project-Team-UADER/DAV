@@ -15,7 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .workbench import draft
+from .DraftWork import draft
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -54,6 +54,8 @@ TraduceToEs = {
     'binder':     draft['facebinder'],
     'aglutinante': draft['facebinder'],
 
-    'ayuda':      ayuda,
-    'soporte':    ayuda,
+    "ayuda":                draft["help"],
+    "información":          draft["help"],
+    "opciones":             draft["help"]
+
 }

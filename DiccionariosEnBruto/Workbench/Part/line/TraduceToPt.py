@@ -21,6 +21,7 @@ from .ayuda import ayuda
 TraduceToPt = {
     'linha':    line['line'],
     'reta':     line['line'],
-    'ajuda':    ayuda,
-    'suporte':  ayuda,
+    "ajuda":             line["help"],
+    "informação":       line["help"],
+    "opções":            line["help"]
 }

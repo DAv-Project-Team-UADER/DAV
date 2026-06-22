@@ -22,6 +22,7 @@ TraduceToEs = {
     'linea':    line['line'],
     'línea':    line['line'],
     'recta':    line['line'],
-    'ayuda':    ayuda,
-    'soporte':  ayuda,
+    "ayuda":                line["help"],
+    "información":          line["help"],
+    "opciones":             line["help"]
 }

@@ -22,6 +22,7 @@ TraduceToPt = {
     'circulo':  circle['circle'],
     'círculo':  circle['circle'],
     'redondo':  circle['circle'],
-    'ajuda':    ayuda,
-    'suporte':  ayuda,
+    "ajuda":             circle["help"],
+    "informação":       circle["help"],
+    "opções":            circle["help"]
 }

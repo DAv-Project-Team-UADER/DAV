@@ -21,6 +21,7 @@ from .ayuda import ayuda
 TraduceToPt = {
     'cone':             cone['cone'],
     'cone primitivo':   cone['primitive cone'],
-    'ajuda':            ayuda,
-    'suporte':          ayuda,
+    "ajuda":             cone["help"],
+    "informação":       cone["help"],
+    "opções":            cone["help"]
 }

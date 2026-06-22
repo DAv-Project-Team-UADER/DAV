@@ -22,6 +22,8 @@ from .ayuda import ayuda
 TraduceToEn = {
     'line':     line['line'],
     'straight': line['line'],
-    'help':     ayuda,
-    'support':  ayuda,
+    "help":            line['help'],
+    "info":            line['help'],
+    "options":         line['help']
+
 }

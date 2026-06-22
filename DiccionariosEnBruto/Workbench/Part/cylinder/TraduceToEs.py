@@ -22,6 +22,7 @@ TraduceToEs = {
     'cilindro':           cylinder['cylinder'],
     'cilindro primitivo': cylinder['primitive cylinder'],
     'tubo':               cylinder['cylinder'],
-    'ayuda':              ayuda,
-    'soporte':            ayuda,
-}
+    "ayuda":                cylinder["help"],
+    "información":          cylinder["help"],
+    "opciones":             cylinder["help"] 
+    }

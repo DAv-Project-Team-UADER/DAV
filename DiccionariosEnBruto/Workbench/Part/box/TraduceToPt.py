@@ -22,6 +22,7 @@ TraduceToPt = {
     'caixa':    box['box'],
     'bloco':    box['box'],
     'cubo':     box['box'],
-    'ajuda':    ayuda,
-    'suporte':  ayuda,
+    "ajuda":             box["help"],
+    "informação":       box["help"],
+    "opções":            box["help"]
 }

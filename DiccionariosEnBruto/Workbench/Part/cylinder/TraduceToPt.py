@@ -22,6 +22,7 @@ TraduceToPt = {
     'cilindro':           cylinder['cylinder'],
     'cilindro primitivo': cylinder['primitive cylinder'],
     'tubo':               cylinder['cylinder'],
-    'ajuda':              ayuda,
-    'suporte':            ayuda,
+    "ajuda":             cylinder["help"],
+    "informação":       cylinder["help"],
+    "opções":            cylinder["help"]
 }

@@ -51,6 +51,7 @@ TraduceToEn = {
     'binder':     draft['facebinder'],
     'face binder': draft['facebinder'],
 
-    'help':       ayuda,
-    'support':    ayuda,
+    "help":            draft['help'],
+    "info":            draft['help'],
+    "options":         draft['help']
 }
