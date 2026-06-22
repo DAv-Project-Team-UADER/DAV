@@ -33,5 +33,5 @@ TraduceToPt = {
 
     "ajuda": expressions["help"],
     "informaçao": expressions["help"],
-    "opçoes": expressions["help"],
+    "opções": expressions["help"],
 }
