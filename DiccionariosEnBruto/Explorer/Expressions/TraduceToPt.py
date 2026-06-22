@@ -25,11 +25,11 @@ TraduceToPt = {
     "copiar todos os documentos": expressions["copyalldoc"],
     "copiar tudo": expressions["copyalldoc"],
 
-    "copiar selecao": expressions["copyselected"],
+    "copiar seleção": expressions["copyselected"],
     "copiar selecionado": expressions["copyselected"],
 
-    "colar expressao": expressions["pasteexpr"],
-    "colar expressoes": expressions["pasteexpr"],
+    "colar expressão": expressions["pasteexpr"],
+    "colar expressões": expressions["pasteexpr"],
 
     "ajuda": expressions["help"],
     "informaçao": expressions["help"],
