@@ -52,7 +52,7 @@ TraduceToPt = {
     "carregar imagem": file["loadimage"],
     "abrir imagem": file["loadimage"],
 
-    "help": file["help"],
     "ajuda": file["help"],
-    "opcoes": file["help"],
+    "informaçao": file["help"],
+    "opções": file["help"],
 }
