@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the arc dictionary."""
+
+from .arc import arc
+
+TraduceToPt = {
+    'centro':               arc['center'],
+    'arco pelo centro':     arc['center'],
+    'arco centro':          arc['center'],
+
+    'três pontos':          arc['3point'],
+    'arco três pontos':     arc['3point'],
+    '3 pontos':             arc['3point'],
+
+    'ajuda':                arc['help'],
+    'comandos':             arc['help'],
+    'opções':               arc['help']
+}
