@@ -15,3 +15,50 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Edit import edit
+
+TraduceToEn = {
+    # Comandos de Deshacer / Rehacer
+    'undo':             edit['undo'],
+    'revert':           edit['undo'],
+    'go back':          edit['undo'],
+    'redo':             edit['redo'],
+    'step forward':     edit['redo'],
+    
+    # Comandos de Portapapeles y Selección
+    'cut':              edit['cut'],
+    'copy':             edit['copy'],
+    'paste':            edit['paste'],
+    'duplicate':        edit['duplicate'],
+    'clone':            edit['duplicate'],
+    'select all':       edit['selectall'],
+    'grab all':         edit['selectall'],
+    'delete':           edit['delete'],
+    'remove':           edit['delete'],
+    'erase':            edit['delete'],
+    
+    # Comandos de Transformación y Posicionamiento
+    'placement':        edit['placement'],
+    'position':         edit['placement'],
+    'set position':     edit['placement'],
+    'transform':        edit['transform'],
+    'move':             edit['transform'],
+    'align':            edit['align'],
+    'alignment':        edit['align'],
+    
+    # Interfaz y Configuración
+    'preferences':      edit['preferences'],
+    'settings':         edit['preferences'],
+    'properties':       edit['properties'],
+    'details':          edit['properties'],
+    'send to python':   edit['sendtopython'],
+    'python console':   edit['sendtopython'],
+    'edit mode':        edit['editmode'],
+    'modify mode':      edit['editmode'],
+    
+    # Estandarización de Ayuda
+    'help':             edit['help'],
+    'info':             edit['help'],
+    'options':          edit['help']
+}
