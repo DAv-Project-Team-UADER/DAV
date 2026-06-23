@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the material dictionary."""
+
+from .material import material
+
+TraduceToEs = {
+    # Comandos para asignar material
+    'material':             material['material'],
+    'asignar material':     material['material'],
+    'aplicar material':     material['material'],
+    'cambiar material':     material['material'],
+    'establecer material':  material['material'],
+
+    # Comandos de ayuda estandarizados
+    'ayuda':                material['help'],
+    'comandos':             material['help'],
+    'opciones':             material['help']
+}
