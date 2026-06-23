@@ -14,4 +14,42 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: GPL-3.0-or-later"""Portuguese spoken-word mapping for the overlay dictionary."""
+
+from .overlay import overlay
+
+TraduceToPt = {
+    # Posições e exibição de sobreposição (overlay)
+    'abaixo':                   overlay['bottom'],
+    'fundo':                    overlay['bottom'],
+    'painel inferior':          overlay['bottom'],
+
+    'flutuar':                  overlay['float'],
+    'painel flutuante':         overlay['float'],
+    'sobreposicao flutuante':   overlay['float'],
+
+    'esquerda':                 overlay['left'],
+    'painel esquerdo':          overlay['left'],
+    'sobreposicao esquerda':    overlay['left'],
+
+    'direita':                  overlay['right'],
+    'painel direito':           overlay['right'],
+    'sobreposicao direita':     overlay['right'],
+
+    'eixo':                     overlay['axis'],
+    'cruz de eixos':            overlay['axis'],
+    'mostrar eixos':            overlay['axis'],
+
+    'navegacao':                overlay['navigation'],
+    'alternar navegacao':       overlay['navigation'],
+    'painel de navegacao':      overlay['navigation'],
+
+    'alternar':                 overlay['toggle'],
+    'alternar sobreposicao':    overlay['toggle'],
+    'mostrar painel':           overlay['toggle'],
+
+    # Comandos de ajuda estandarizados
+    'ajuda':                    overlay['help'],
+    'comandos':                 overlay['help'],
+    'opções':                   overlay['help']
+}
