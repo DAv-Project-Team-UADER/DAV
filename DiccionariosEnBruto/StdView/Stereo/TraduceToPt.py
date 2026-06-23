@@ -26,22 +26,28 @@ TraduceToPt = {
     "colunas estéreo":        stereo["stereocolumns"],
     "colunas entrelaçadas":   stereo["stereocolumns"],  # sinônimo
     "modo colunas":           stereo["stereocolumns"],  # sinônimo
+    "colunas"                  :stereo["stereocolumns"],  # sinônimo
     # stereorows
     "linhas estéreo":         stereo["stereorows"],
     "linhas entrelaçadas":    stereo["stereorows"],     # sinônimo
     "modo linhas":            stereo["stereorows"],     # sinônimo
+    "linhas"                   :stereo["stereorows"],     # sinônimo
     # stereooff
     "estéreo desligado":      stereo["stereooff"],
     "desativar estéreo":      stereo["stereooff"],      # sinônimo
     "desligar estéreo":       stereo["stereooff"],      # sinônimo
     # stereoquad
-    "estéreo quad":           stereo["stereoquad"],
-    "buffer quad":            stereo["stereoquad"],     # sinônimo
-    "modo quad":              stereo["stereoquad"],     # sinônimo
+    "estéreo quadrado":           stereo["stereoquad"],
+    "buffer quadrado":            stereo["stereoquad"],     # sinônimo
+    "modo quadrado":              stereo["stereoquad"],     # sinônimo
+    "quadrado"                   :stereo["stereoquad"],     # sinônimo
+    "quatro":                      stereo["stereoquad"],     # sinônimo
+    "quádruplo":                   stereo["stereoquad"],     # sinônimo
     # stereoanaglyph
     "anáglifo estéreo":       stereo["stereoanaglyph"],
     "estéreo vermelho verde": stereo["stereoanaglyph"], # sinônimo
     "modo anáglifo":          stereo["stereoanaglyph"], # sinônimo
+    "anáglifo":                 stereo["stereoanaglyph"], # sinônimo
     # help
     "ajuda":                  stereo["help"],
     "informação":             stereo["help"],           # sinônimo

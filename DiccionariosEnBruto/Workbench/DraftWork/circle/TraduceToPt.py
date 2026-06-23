@@ -20,9 +20,11 @@ from .circle import circle
 
 TraduceToPt = {
     "centro":           circle["center"],
-    "circulo":          circle["center"],
-    "desenhar circulo": circle["center"],
-    "circunferencia":   circle["center"],
+    "círculo":          circle["center"],
+    "redondo":           circle["center"],
+    "desenhar círculo": circle["center"],
+    "desenhar círculo": circle["center"],
+    "circunferência":   circle["center"],
     
     "ajuda":             circle["help"],
     "informação":        circle["help"],

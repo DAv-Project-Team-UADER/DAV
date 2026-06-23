@@ -24,10 +24,16 @@ TraduceToPt = {
     # Área de transferência
     "área de transferência": toolbars["clipboard"],
     "area de transferencia": toolbars["clipboard"],
+    "parte de transferência": toolbars["clipboard"],
+    "a transferir": toolbars["clipboard"],
+    "transferir": toolbars["clipboard"],
     "barra da área de transferência": toolbars["clipboard"],
+    "ferramentas": toolbars["clipboard"],
     "copiar": toolbars["clipboard"],
     "colar": toolbars["clipboard"],
     "recortar": toolbars["clipboard"],
+    "desfazer": toolbars["clipboard"],
+    "refazer": toolbars["clipboard"],
     # Editar
     "editar": toolbars["edit"],
     "edição": toolbars["edit"],
@@ -36,6 +42,8 @@ TraduceToPt = {
     "barra de edicao": toolbars["edit"],
     # Arquivo
     "arquivo": toolbars["file"],
+    "folha": toolbars["file"],
+    "barra de arquivo": toolbars["file"],
     "barra de arquivos": toolbars["file"],
     # Barra de ajuda
     "barra de ajuda": toolbars["toolbarshelp"],
@@ -43,6 +51,13 @@ TraduceToPt = {
     # Vistas
     "vistas": toolbars["views"],
     "vistas individuais": toolbars["views"],
+    "perspectivas bidimensionais": toolbars["views"],
+    "perspectiva da planta": toolbars["views"],
+    "planta": toolbars["views"],
+    "perspectiva lateral": toolbars["views"],
+    "lateral": toolbars["views"],
+    "perspectiva frontal": toolbars["views"],
+    "frontal": toolbars["views"],
     "barra de vistas": toolbars["views"],
     # Bloquear barras
     "bloquear": toolbars["lock"],
@@ -54,16 +69,31 @@ TraduceToPt = {
     "macro": toolbars["macro"],
     "macros": toolbars["macro"],
     "barra de macros": toolbars["macro"],
+    "criar macro": toolbars["macro"],
+    "gravar macro": toolbars["macro"],
+
     # Estrutura
     "estrutura": toolbars["structure"],
     "barra de estrutura": toolbars["structure"],
+    "organização": toolbars["structure"],
+    
     # Vista
     "vista": toolbars["view"],
     "barra de vista": toolbars["view"],
+    "ver": toolbars["view"],
+    "visualizar": toolbars["view"],
+    "visualização": toolbars["view"],
+
     # Bancada
     "bancada": toolbars["workbench"],
     "barra da bancada": toolbars["workbench"],
     "workbench": toolbars["workbench"],
+    "bancadas": toolbars["workbench"],
+    "iniciar bancada": toolbars["workbench"],
+    "iniciar workbench": toolbars["workbench"],
     # Ajuda
     "ajuda": ayuda,
+    "informação": ayuda,  # sinônimo
+    "opções": ayuda,  # sinônimo
+    
 }

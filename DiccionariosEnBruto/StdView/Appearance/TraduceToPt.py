@@ -34,6 +34,7 @@ TraduceToPt = {
     'cor aleatória':        appearance['randomcolor'],
     'cor aleatorizada':     appearance['randomcolor'],
     'sombra aleatória':     appearance['randomcolor'],
+    'sombra aleatorizada':  appearance['randomcolor'],
 
     # mapeamento de texturas
     'mapeamento de texturas':   appearance['texturemapping'],

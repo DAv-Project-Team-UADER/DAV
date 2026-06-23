@@ -26,13 +26,16 @@ TraduceToPt = {
     
     # ShapeString
     "texto 3d":          annotation["shapestring"],
-    "texto solido":      annotation["shapestring"],
-    "texto fisico":      annotation["shapestring"],
+    "texto sólido":      annotation["shapestring"],
+    "texto físico":      annotation["shapestring"],
+    "texto superficial": annotation["shapestring"],
+    "esculpir texto":    annotation["shapestring"],
     
     # Label
-    "rotulo":            annotation["label"],
+    "rótulo":            annotation["label"],
+
     "etiqueta":          annotation["label"],
-    "colocar rotulo":    annotation["label"],
+    "colocar rótulo":    annotation["label"],
     
     "ajuda":             annotation["help"],
     "informação":       annotation["help"],

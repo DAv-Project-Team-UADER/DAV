@@ -23,6 +23,8 @@ TraduceToPt = {
     'anotação':   draft['annotation'],
     'nota':       draft['annotation'],
     'texto':      draft['annotation'],
+    'escrever':    draft['annotation'],
+    
 
     'arco':       draft['arc'],
 

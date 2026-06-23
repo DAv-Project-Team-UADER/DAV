@@ -19,6 +19,7 @@
 from .Explorer import explorer
 
 TraduceToPT = {
+<<<<<<< Updated upstream
     # Sub-contextos
     'arquivo':                          explorer['file'],
     'arquivos':                         explorer['file'],
@@ -88,4 +89,19 @@ TraduceToPT = {
     'socorro':                          explorer['help'],
     'informacao':                       explorer['help'],
     'informação':                       explorer['help'],
+=======
+    'arquivo':    explorer['file'],
+    'folha':       explorer['file'],
+    'editar':     explorer['edit'],
+    'imprimir':   explorer['print'],
+    'impressão': explorer['print'],
+    'janelas':    explorer['windows'],
+    'atualizar':  explorer['refresh'],
+    'recarregar': explorer['refresh'],
+    'captura':    explorer['screenshot'],
+    'fotografia': explorer['screenshot'],
+    'documento':  explorer['textdoc'],
+    'ajuda':      explorer['help'],
+    'informação': explorer['help'],
+>>>>>>> Stashed changes
 }
