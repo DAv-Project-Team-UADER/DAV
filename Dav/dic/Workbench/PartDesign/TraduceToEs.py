@@ -1,0 +1,61 @@
+# Copyright (C) 2026 El Equipo del Proyecto DAV
+# Copyright (C) 2026 The DAV Project Team
+# Universidad Autónoma de Entre Ríos (UADER)
+# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
+#
+# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
+# bajo los términos de la Licencia Pública General GNU tal como fue publicada
+# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
+#
+# Este programa se distribuye con la esperanza de que sea útil,
+# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
+# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
+# Licencia Pública General GNU para más detalles.
+#
+# Deberías haber recibido una copia de la Licencia Pública General GNU
+# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Traducciones al Español – PartDesign (solo carpetas)
+# ============================================================
+
+from .PartDesign import partdesign
+
+TraduceToEs = {
+
+    # Carpetas principales
+    "base": partdesign["base"],
+    "aditivo": partdesign["additive"],
+    "sustractivo": partdesign["subtractive"],
+    "modificar": partdesign["modify"],
+    "transformar": partdesign["transform"],
+    "gestionar": partdesign["manage"],
+
+    # Sinónimos
+    "basico": partdesign["base"],
+    "fundamental": partdesign["base"],
+
+    "agregar": partdesign["additive"],
+    "añadir": partdesign["additive"],
+    "adiciones": partdesign["additive"],
+
+    "restar": partdesign["subtractive"],
+    "remover": partdesign["subtractive"],
+    "cortar": partdesign["subtractive"],
+
+    "editar": partdesign["modify"],
+    "edicion": partdesign["modify"],
+    "modificadores": partdesign["modify"],
+
+    "transformaciones": partdesign["transform"],
+    "patrones": partdesign["transform"],
+
+    "administrar": partdesign["manage"],
+    "administracion": partdesign["manage"],
+    "configuracion": partdesign["manage"],
+    
+    "ayuda":                partdesign["help"],
+    "información":          partdesign["help"],
+    "opciones":             partdesign["help"]
+}
