@@ -12,11 +12,33 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Resolve-DavRepoRoot {
+    # Sube desde scripts/ hasta la raíz REAL del repo. Con el layout DavCore
+    # este script está en Dav\scr\ComponentesDAV\scripts. Cuidado: existe un
+    # placeholder ComponentesDAV\Dav\dic (solo "ignore me.txt"), así que el
+    # marcador debe validar contenido real (FREECAD\ o Dav\dic\base.py), no
+    # la mera existencia de Dav\dic.
+    $current = Split-Path -Parent $PSScriptRoot   # ComponentesDAV
+    for ($i = 0; $i -lt 6; $i++) {
+        $hasFreecad  = Test-Path -LiteralPath (Join-Path $current "FREECAD")
+        $hasRealDic  = Test-Path -LiteralPath (Join-Path $current "Dav\dic\base.py")
+        if ($hasFreecad -or $hasRealDic) { return $current }
+        $parent = Split-Path -Parent $current
+        if ($parent -eq $current) { break }
+        $current = $parent
+    }
+    # Fallback al comportamiento previo (repo plano = parent de scripts).
+    return (Split-Path -Parent $PSScriptRoot)
+}
+
 function Resolve-GuiFreeCadRoot {
     param([string]$RepoRoot)
 
     $parent = Split-Path -Parent $RepoRoot
     $candidates = @(
+        # Layout DavCore.
+        (Join-Path $RepoRoot "Dav\scr\ComponentesDAV\IntegracionGUI\GUIFreeCad"),
+        # Layouts previos.
         (Join-Path $parent "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
@@ -33,17 +55,18 @@ function Resolve-GuiFreeCadRoot {
 }
 
 function Get-DavRepoPaths {
-    $repo = Split-Path -Parent $PSScriptRoot
+    $repo = Resolve-DavRepoRoot
     $gui = Resolve-GuiFreeCadRoot -RepoRoot $repo
 
     $davCandidates = @(
+        (Join-Path $repo "Dav\scr\ComponentesDAV\Dav"),
         (Join-Path $repo "Dav"),
         (Join-Path $repo "componentesDAV\Dav")
     )
     $davMod = $davCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
 
     if (-not $davMod) {
-        $davMod = Join-Path $repo "Dav"
+        $davMod = Join-Path $repo "Dav\scr\ComponentesDAV\Dav"
     }
 
     return @{
@@ -289,11 +312,25 @@ if (-not (Test-Path -LiteralPath $validationRoot)) {
     $validationRoot = Join-Path (Split-Path -Parent $paths.DavRepo) "validation"
 }
 $env:DAV_VALIDATION_ROOT = $validationRoot
-$dictionaryRoot = Join-Path $paths.DavRepo "DiccionariosEnBruto"
-if (-not (Test-Path -LiteralPath $dictionaryRoot)) {
-    $dictionaryRoot = Join-Path (Split-Path -Parent $paths.DavRepo) "DiccionariosEnBruto"
-}
+# Diccionarios: layout DavCore (Dav\dic) primero, luego layout previo.
+$dictionaryCandidates = @(
+    (Join-Path $paths.DavRepo "Dav\dic"),
+    (Join-Path $paths.DavRepo "DiccionariosEnBruto"),
+    (Join-Path (Split-Path -Parent $paths.DavRepo) "DiccionariosEnBruto")
+)
+$dictionaryRoot = $dictionaryCandidates | Where-Object { Test-Path -LiteralPath (Join-Path $_ "base.py") } | Select-Object -First 1
+if (-not $dictionaryRoot) { $dictionaryRoot = $dictionaryCandidates[0] }
 $env:DAV_DICTIONARY_ROOT = $dictionaryRoot
+
+# Modelos Vosk: layout DavCore (Dav\models).
+$modelsCandidates = @(
+    (Join-Path $paths.DavRepo "Dav\models"),
+    (Join-Path $GuiRoot "models")
+)
+$modelsDir = $modelsCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+if (-not $modelsDir) { $modelsDir = $modelsCandidates[0] }
+$env:DAV_MODELS_DIR = $modelsDir
+
 $env:DAV_OPEN_PREFS_ON_START = "0"
 $env:DAV_AUTOLOAD_WORKBENCH = "1"
 
