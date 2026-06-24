@@ -75,6 +75,27 @@ import trigger_capture
 # HELPERS
 # ================================================================
 
+def _ResolveModelPath(ModelName):
+    """Ruta a un modelo Vosk en el layout DavCore (Dav/models).
+
+    Respeta DAV_MODELS_DIR y, si no está, busca Dav/models subiendo
+    ancestros desde este archivo. Cae a la carpeta local como último recurso.
+    """
+    from pathlib import Path
+
+    Env = os.environ.get("DAV_MODELS_DIR", "").strip()
+    if Env:
+        return os.path.join(Env, ModelName)
+
+    Here = Path(__file__).resolve()
+    for Ancestor in Here.parents:
+        Candidate = Ancestor / "Dav" / "models"
+        if Candidate.is_dir():
+            return str(Candidate / ModelName)
+
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), ModelName)
+
+
 def _StripAccents(Text):
     return ''.join(
         C for C in unicodedata.normalize('NFD', Text)
@@ -694,11 +715,10 @@ class MainWindow(QMainWindow):
     # ================================================================
 
     def _StartVoiceRecognition(self):
-        BaseDir   = os.path.dirname(os.path.abspath(__file__))
-        ModelPath = os.path.join(BaseDir, "vosk-model-small-es-0.42")
-        
+        ModelPath = _ResolveModelPath("vosk-model-small-es-0.42")
+
         if not os.path.exists(ModelPath):
-            print(f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado")
+            print(f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado en {ModelPath}")
             return
         
         self._VoiceWorker = VoiceWorker(model_path=ModelPath)

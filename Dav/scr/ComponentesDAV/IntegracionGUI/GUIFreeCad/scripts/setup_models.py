@@ -10,19 +10,36 @@ from urllib.request import urlretrieve
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def _has_models(path: Path) -> bool:
+    try:
+        return any(p.is_dir() and p.name.startswith("vosk-model") for p in path.iterdir())
+    except (OSError, FileNotFoundError):
+        return False
+
+
 def _resolve_models_dir() -> Path:
-    """Misma lógica que core.settings: DAV_MODELS_DIR -> models -> Dav/models."""
+    """Misma lógica que core.settings: DAV_MODELS_DIR -> Dav/models -> models.
+
+    Prioriza Dav/models (layout DavCore) para descargar/usar todo en un único
+    lugar.
+    """
     env = os.environ.get("DAV_MODELS_DIR", "").strip()
     if env:
         return Path(env)
-    legacy = ROOT / "models"
-    if legacy.is_dir():
-        return legacy
+
+    davcore = None
     for ancestor in ROOT.resolve().parents:
         candidate = ancestor / "Dav" / "models"
         if candidate.is_dir():
-            return candidate
-    return legacy
+            davcore = candidate
+            break
+
+    if davcore is not None and _has_models(davcore):
+        return davcore
+    legacy = ROOT / "models"
+    if _has_models(legacy):
+        return legacy
+    return davcore if davcore is not None else legacy
 
 
 MODELS_DIR = _resolve_models_dir()

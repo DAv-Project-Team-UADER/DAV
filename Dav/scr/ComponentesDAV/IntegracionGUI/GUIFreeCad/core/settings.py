@@ -11,31 +11,49 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
+def _has_models(path: Path) -> bool:
+    """True si la carpeta contiene al menos un modelo Vosk descargado."""
+    try:
+        return any(p.is_dir() and p.name.startswith("vosk-model") for p in path.iterdir())
+    except (OSError, FileNotFoundError):
+        return False
+
+
 def _resolve_models_dir() -> Path:
     """Localiza la carpeta de modelos Vosk respetando DAV_MODELS_DIR.
 
-    Orden de resolución:
+    Orden de resolución (el layout DavCore ``Dav/models`` tiene prioridad):
       1. Variable de entorno DAV_MODELS_DIR (la setea el launcher).
-      2. ``GUIFreeCad/models`` (modo dev / compatibilidad).
-      3. ``Dav/models`` del layout DavCore, subiendo ancestros.
+      2. ``Dav/models`` del layout DavCore, si ya tiene modelos descargados.
+      3. ``GUIFreeCad/models`` (modo dev / compatibilidad), si tiene modelos.
+      4. ``Dav/models`` aunque esté vacía (setup_models.py descarga ahí).
 
-    Si nada existe aún, devuelve ``GUIFreeCad/models`` (setup_models.py la
-    crea al descargar el modelo).
+    Returns:
+        La carpeta de modelos a usar. La preferencia es ``Dav/models`` para
+        que todo cargue desde un único lugar en el layout DavCore.
     """
     env = os.environ.get("DAV_MODELS_DIR", "").strip()
     if env:
         return Path(env)
 
-    legacy = PROJECT_ROOT / "models"
-    if legacy.is_dir():
-        return legacy
-
+    davcore = None
     for ancestor in PROJECT_ROOT.resolve().parents:
         candidate = ancestor / "Dav" / "models"
         if candidate.is_dir():
-            return candidate
+            davcore = candidate
+            break
 
-    return legacy
+    # Dav/models con modelos ya descargados gana.
+    if davcore is not None and _has_models(davcore):
+        return davcore
+
+    # Compatibilidad: GUIFreeCad/models si todavía tiene los modelos ahí.
+    legacy = PROJECT_ROOT / "models"
+    if _has_models(legacy):
+        return legacy
+
+    # Destino por defecto del layout DavCore (vacío -> setup_models descarga).
+    return davcore if davcore is not None else legacy
 
 
 MODELS_DIR = _resolve_models_dir()

@@ -14,6 +14,7 @@
 #  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 import json
+import os
 import queue
 import sounddevice as sd
 import vosk
@@ -25,8 +26,22 @@ class VoiceWorker(QObject):
     final_result = Signal(str)
     status_signal = Signal(str)
 
-    def __init__(self, model_path="vosk-model-small-es-0.42"):
+    def __init__(self, model_path=None):
         super().__init__()
+        if model_path is None:
+            # Fallback: resolver Dav/models si no se pasó ruta explícita.
+            from pathlib import Path
+
+            env = os.environ.get("DAV_MODELS_DIR", "").strip()
+            if env:
+                model_path = os.path.join(env, "vosk-model-small-es-0.42")
+            else:
+                model_path = "vosk-model-small-es-0.42"
+                for ancestor in Path(__file__).resolve().parents:
+                    candidate = ancestor / "Dav" / "models" / "vosk-model-small-es-0.42"
+                    if candidate.is_dir():
+                        model_path = str(candidate)
+                        break
         self.model_path = model_path
         self.running = True
         self.audio_queue = queue.Queue()
