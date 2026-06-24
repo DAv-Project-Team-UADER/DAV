@@ -15,16 +15,16 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 from .Views.Views               import views
-from .Dimensions.Dimensions     import dimensions
-from .AddLines.AddLines         import addLines
+from .Dimensions.dimensions     import dimensions
+from .AddLines.addLines         import addLines
 from .Symbols.Symbols           import symbols
 from .Snaps.Snaps               import snaps
 from .Topology.Topology         import topology
 from .Page.Page                 import page
-from .Annotations.Annotations   import annotations
-from .Hatching.Hatching         import hatching
-from .AddVertices.AddVertices   import add_vertices
-from .OtherViews.OtherViews     import other_views
+from .Annotations.annotations   import annotations
+from .Hatching.hatching         import hatching
+from .AddVertices.addVertices   import add_vertices
+from .OtherViews.otherViews     import other_views
 from .Features.Features         import features
 from .ayuda import ayuda
 

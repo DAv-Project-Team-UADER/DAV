@@ -18,10 +18,10 @@
 
 """Portuguese spoken-word mapping for the DAV base dictionary."""
 
-from .Workbench import Workbench
-from .StdView import StdView
-from .Explorer import explorer
-from .line_attributes import LineAttributes
+from Workbench.workbench import workbench as Workbench
+from StdView.StdView import StdView
+from Explorer.Explorer import explorer
+from LineAttributes.LineAttributes import LineAttributes
 from integration.launch_preferences import open_preferences
 
 TraduceToPT = {
