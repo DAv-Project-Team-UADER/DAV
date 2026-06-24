@@ -15,22 +15,11 @@ from typing import Any
 
 from core.language_code import LanguageCode
 
-def _find_keychain_root() -> Path:
-    here = Path(__file__).resolve()
-    for parent in here.parents:
-        if (parent / "Keychain").is_dir():
-            return parent
-    return here.parents[4]
-
-_KEYCHAIN_ROOT = _find_keychain_root()
+_KEYCHAIN_ROOT = Path(__file__).resolve().parents[3] / "ComponentesDAV"
 if str(_KEYCHAIN_ROOT) not in sys.path:
     sys.path.insert(0, str(_KEYCHAIN_ROOT))
 
-_gui_parent = str(Path(__file__).resolve().parents[2])
-if _gui_parent not in sys.path:
-    sys.path.insert(0, _gui_parent)
-
-from ComponentesDAV.Keychain.Keychain import Keychain  # noqa: E402
+from Keychain.Keychain import Keychain  # noqa: E402
 
 
 class DictionaryLoader:
@@ -59,7 +48,15 @@ class DictionaryLoader:
     def LoadBaseModuleDict(self) -> dict[str, Any]:
         if not self.IsReady:
             return {}
-        module = importlib.import_module("base")
+        try:
+            module = importlib.import_module("base")
+        except Exception as error:  # noqa: BLE001 - aislar base.py roto
+            print(
+                f"[DAV-Browser] No se pudo cargar 'base.py' en {self.DictionaryRoot}: "
+                f"{error.__class__.__name__}: {error}. El motor arranca con "
+                "BaseContext vacío."
+            )
+            return {}
         base = getattr(module, "Base", None)
         if not isinstance(base, dict):
             raise ValueError("base.py must define dict Base = {...}")
@@ -72,7 +69,18 @@ class DictionaryLoader:
             path = folder / f"{stem}.py"
             if not path.is_file():
                 continue
-            module = self._ImportTranslateModule(path, stem)
+            # Si un diccionario está roto (import relativo inválido, sintaxis,
+            # etc.) no se debe tumbar todo el motor: se omite y se sigue con
+            # el resto. Browser tolera un mapa vacío sin fallar.
+            try:
+                module = self._ImportTranslateModule(path, stem)
+            except Exception as error:  # noqa: BLE001 - aislar diccionario roto
+                print(
+                    f"[DAV-Browser] No se pudo cargar el diccionario '{path}': "
+                    f"{error.__class__.__name__}: {error}. Se omite y se "
+                    "continúa con los diccionarios disponibles."
+                )
+                continue
             table = getattr(module, stem, None)
             if isinstance(table, dict):
                 return dict(table)
@@ -142,6 +150,10 @@ class DictionaryLoader:
         return " ".join(stripped.lower().split())
 
     def _ImportTranslateModule(self, path: Path, stem: str) -> ModuleType:
-        rel = path.relative_to(self.DictionaryRoot).with_suffix("")
+        # resolve() returns the actual filesystem casing on Windows, so the
+        # computed module name matches what is already cached in sys.modules.
+        resolved_path = path.resolve()
+        resolved_root = self.DictionaryRoot.resolve()
+        rel = resolved_path.relative_to(resolved_root).with_suffix("")
         module_name = ".".join(rel.parts)
         return importlib.import_module(module_name)

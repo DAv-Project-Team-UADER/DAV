@@ -63,6 +63,10 @@ class Browser:
     real dictionary on disk (inject a mock DictionaryLoader).
     """
 
+    # Palabras que suben un nivel en la navegación (ya normalizadas: sin
+    # acentos ni mayúsculas, según DictionaryLoader.NormalizeSpoken).
+    _BACK_WORDS = frozenset({"volver", "atras", "salir", "subir", "regresar"})
+
     def __init__(
         self,
         dictionary_root: Path | str | None = None,
@@ -114,6 +118,50 @@ class Browser:
     def SetLanguage(self, value: LanguageCode) -> None:
         self._prefs.SetLanguage = value
 
+    @property
+    def CurrentContextName(self) -> str:
+        """Internal name of the context the user is currently in."""
+        return self._stack[-1].InternalName if self._stack else "Base"
+
+    @property
+    def ContextPath(self) -> str:
+        """Breadcrumb of the navigation stack, e.g. ``Base > explorer > file``."""
+        return " > ".join(frame.InternalName for frame in self._stack)
+
+    def DescribeContext(self) -> str:
+        """Human-readable summary of where you are and what you can say.
+
+        Lists the spoken words available in the current context, marking
+        sub-menus (descend) apart from directly executable commands. Used by
+        the voice adapter to print the context as the user moves around.
+        """
+        submenus: list[str] = []
+        commands: list[str] = []
+        seen_targets: list[Any] = []
+        for entry in self.Context:
+            # Un mismo destino suele tener varios alias (la palabra hablada
+            # "nuevo" y la clave interna "new"). _BuildContextForFrame agrega
+            # primero las habladas del TraduceTo, así que nos quedamos con la
+            # primera vista por destino (la español) y omitimos el resto.
+            if any(entry.Target is t for t in seen_targets):
+                continue
+            seen_targets.append(entry.Target)
+            if entry.IsSubContext():
+                submenus.append(entry.Spoken)
+            elif entry.IsCallable():
+                commands.append(entry.Spoken)
+
+        lines = [f"[DAV] Contexto: {self.ContextPath}"]
+        if submenus:
+            lines.append("  Submenús (entrar): " + ", ".join(sorted(submenus)))
+        if commands:
+            lines.append("  Comandos (ejecutar): " + ", ".join(sorted(commands)))
+        if self._IsDescended():
+            lines.append("  Decí «volver» para subir un nivel.")
+        if not submenus and not commands:
+            lines.append("  (sin comandos en este contexto)")
+        return "\n".join(lines)
+
     def ResetFromBase(self) -> None:
         """Reload BaseContext and Context from base.py (current language)."""
         self._language = self._prefs.SetLanguage
@@ -149,6 +197,30 @@ class Browser:
         if not normalized:
             return BrowserResult(False, "empty", "Empty phrase")
 
+        # Comando reservado "volver": sube un nivel (file → explorer → base).
+        # Funciona en cualquier contexto sin depender de los diccionarios.
+        if normalized in self._BACK_WORDS:
+            if self._IsDescended():
+                parent = self._AscendOneLevel()
+                return BrowserResult(True, "back", f"Context set to {parent}")
+            return BrowserResult(False, "back", "Already at root context")
+
+        # El contexto actual tiene prioridad sobre el salto base: si ya
+        # descendimos a un subcontexto, una palabra que también existe en el
+        # Base (p. ej. "archivo" sirve para entrar a explorer y, dentro de
+        # explorer, para bajar a "file") debe resolverse contra el nivel
+        # actual primero. Así "archivo → archivo → nuevo" baja por niveles en
+        # vez de quedar saltando siempre al mismo contexto base.
+        if self._IsDescended():
+            entry = FindBySpoken(self.Context, normalized)
+            if entry is not None:
+                if entry.IsSubContext():
+                    self._DescendToSubContext(entry)
+                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                if entry.IsCallable():
+                    self._ExecuteEntry(entry)
+                    return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
+
         # Requirement 2 (Developer 2): direct jump for BaseContext commands
         base_hit = self._ResolveBaseJump(normalized)
         if base_hit is not None:
@@ -169,6 +241,22 @@ class Browser:
                 return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
 
         return self._SearchUpwardAndExecute(normalized)
+
+    def _IsDescended(self) -> bool:
+        """True si estamos dentro de un subcontexto (no en el nivel base)."""
+        return len(self._stack) > 1
+
+    def _AscendOneLevel(self) -> str:
+        """Sube un nivel: descarta el frame actual y reconstruye el padre.
+
+        Returns:
+            El nombre interno del contexto al que se volvió.
+        """
+        self._stack.pop()
+        parent = self._stack[-1]
+        self.Context = self._BuildContextForFrame(parent)
+        self.OriginalContext = None
+        return parent.InternalName
 
     # ------------------------------------------------------------------
     # Internal helpers (Developer 2)
