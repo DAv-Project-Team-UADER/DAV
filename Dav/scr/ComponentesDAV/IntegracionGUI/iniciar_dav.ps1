@@ -20,8 +20,25 @@ param(
 $ErrorActionPreference = "Continue"
 
 $IntegrationRoot = $PSScriptRoot
-$RepoRoot = Split-Path -Parent $IntegrationRoot
 $GuiRoot = Join-Path $IntegrationRoot "GUIFreeCad"
+
+function Resolve-DavRepoRoot {
+    # Sube hasta la raíz REAL del repo (FREECAD\ o Dav\dic\base.py). Evita el
+    # placeholder ComponentesDAV\Dav\dic. Con el layout DavCore este wrapper
+    # está en Dav\scr\ComponentesDAV\IntegracionGUI.
+    $current = Split-Path -Parent $IntegrationRoot   # ComponentesDAV
+    for ($i = 0; $i -lt 6; $i++) {
+        $hasFreecad = Test-Path -LiteralPath (Join-Path $current "FREECAD")
+        $hasRealDic = Test-Path -LiteralPath (Join-Path $current "Dav\dic\base.py")
+        if ($hasFreecad -or $hasRealDic) { return $current }
+        $parent = Split-Path -Parent $current
+        if ($parent -eq $current) { break }
+        $current = $parent
+    }
+    return (Split-Path -Parent $IntegrationRoot)
+}
+
+$RepoRoot = Resolve-DavRepoRoot
 
 function Find-RunScript([string]$StartRepo) {
     $candidates = @(
@@ -54,7 +71,12 @@ if ($RunScript) {
 $VenvPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"
 $ReqFile = Join-Path $GuiRoot "requirements.txt"
 $SetupModels = Join-Path $GuiRoot "scripts\setup_models.py"
-$ModelEs = Join-Path $GuiRoot "models\vosk-model-small-es-0.42"
+# El modelo puede vivir en el layout DavCore (Dav\models) o el previo
+# (GUIFreeCad\models). Resolve-DavRepoRoot ya ubica la raíz del repo.
+$ModelEsCandidates = @(
+    (Join-Path (Resolve-DavRepoRoot) "Dav\models\vosk-model-small-es-0.42"),
+    (Join-Path $GuiRoot "models\vosk-model-small-es-0.42")
+)
 
 function Write-Step([string]$Text) {
     Write-Host ""
@@ -135,8 +157,9 @@ function Ensure-VoskModels {
         return
     }
 
-    if (Test-Path -LiteralPath $ModelEs) {
-        Write-Ok "Modelo Vosk ES en GUIFreeCad\models"
+    $modelPresent = $ModelEsCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+    if ($modelPresent) {
+        Write-Ok "Modelo Vosk ES presente: $modelPresent"
         return
     }
 
