@@ -15,3 +15,24 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de comandos hablados en español para Camera."""
+
+from .camera import camera
+from .ayuda import ayuda
+
+TraduceToEs = {
+    # Ortográfica
+    "ortografica": camera["orthographic"],
+    "ortogonal": camera["orthographic"],
+
+    # Perspectiva
+    "perspectiva": camera["perspective"],
+    "vistaperspectiva": camera["perspective"],
+
+    # Ayuda
+    "ayuda": ayuda,
+    "manual": ayuda,
+    "soporte": ayuda,
+    "documentacion": ayuda,
+}
