@@ -3,12 +3,42 @@
 from __future__ import annotations
 
 import json
+import os
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-MODELS_DIR = PROJECT_ROOT / "models"
+
+
+def _resolve_models_dir() -> Path:
+    """Localiza la carpeta de modelos Vosk respetando DAV_MODELS_DIR.
+
+    Orden de resolución:
+      1. Variable de entorno DAV_MODELS_DIR (la setea el launcher).
+      2. ``GUIFreeCad/models`` (modo dev / compatibilidad).
+      3. ``Dav/models`` del layout DavCore, subiendo ancestros.
+
+    Si nada existe aún, devuelve ``GUIFreeCad/models`` (setup_models.py la
+    crea al descargar el modelo).
+    """
+    env = os.environ.get("DAV_MODELS_DIR", "").strip()
+    if env:
+        return Path(env)
+
+    legacy = PROJECT_ROOT / "models"
+    if legacy.is_dir():
+        return legacy
+
+    for ancestor in PROJECT_ROOT.resolve().parents:
+        candidate = ancestor / "Dav" / "models"
+        if candidate.is_dir():
+            return candidate
+
+    return legacy
+
+
+MODELS_DIR = _resolve_models_dir()
 CONFIG_DIR = PROJECT_ROOT / "config"
 CONFIG_FILE = CONFIG_DIR / "settings.json"
 

@@ -1,13 +1,31 @@
 #!/usr/bin/env python3
 """Download small Vosk models (en, es, pt) into models/."""
 
+import os
 import sys
 import zipfile
 from pathlib import Path
 from urllib.request import urlretrieve
 
 ROOT = Path(__file__).resolve().parent.parent
-MODELS_DIR = ROOT / "models"
+
+
+def _resolve_models_dir() -> Path:
+    """Misma lógica que core.settings: DAV_MODELS_DIR -> models -> Dav/models."""
+    env = os.environ.get("DAV_MODELS_DIR", "").strip()
+    if env:
+        return Path(env)
+    legacy = ROOT / "models"
+    if legacy.is_dir():
+        return legacy
+    for ancestor in ROOT.resolve().parents:
+        candidate = ancestor / "Dav" / "models"
+        if candidate.is_dir():
+            return candidate
+    return legacy
+
+
+MODELS_DIR = _resolve_models_dir()
 BASE_URL = "https://alphacephei.com/vosk/models/"
 
 SMALL_MODELS = [
