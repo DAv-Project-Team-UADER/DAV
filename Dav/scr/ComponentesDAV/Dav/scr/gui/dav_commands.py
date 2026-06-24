@@ -174,25 +174,38 @@ def _dictionary_root() -> Path:
 
     repo = _dav_repo_root()
     for candidate in _dictionary_candidates(repo):
-        if candidate.is_dir():
+        if _is_dictionary_dir(candidate):
             return candidate.resolve()
 
     try:
         here = Path(__file__).resolve()
         for ancestor in here.parents:
-            candidate = ancestor / "DiccionariosEnBruto"
-            if candidate.is_dir():
-                return candidate.resolve()
+            for candidate in (ancestor / "Dav" / "dic", ancestor / "DiccionariosEnBruto"):
+                if _is_dictionary_dir(candidate):
+                    return candidate.resolve()
     except (IndexError, NameError):
         pass
 
     return Path("DiccionariosEnBruto")
 
 
+def _is_dictionary_dir(path: Path) -> bool:
+    """True si la carpeta es un diccionario real (no un placeholder vacío).
+
+    Evita confundir ``ComponentesDAV/Dav/dic`` (solo placeholder) con el
+    ``Dav/dic`` real que contiene base.py y los TraduceTo*.py.
+    """
+    return (path / "base.py").is_file() or (path / "TraduceToEs.py").is_file()
+
+
 def _dictionary_candidates(repo: Path | None) -> tuple[Path, ...]:
     if repo is None:
         return ()
     return (
+        # Layout DavCore: los diccionarios viven en Dav/dic.
+        repo / "Dav" / "dic",
+        repo.parent / "Dav" / "dic",
+        # Layout previo (plano en la raíz del repo).
         repo / "DiccionariosEnBruto",
         repo.parent / "DiccionariosEnBruto",
     )

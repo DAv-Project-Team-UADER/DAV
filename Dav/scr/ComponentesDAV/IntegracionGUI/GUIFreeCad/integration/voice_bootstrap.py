@@ -2,10 +2,50 @@
 
 from __future__ import annotations
 
+import os
 import traceback
+from pathlib import Path
 
 from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
 from speech.dav_voice_service import DavVoiceService
+
+
+def _resolve_dictionary_root() -> Path:
+    """Localiza la carpeta de diccionarios respetando DAV_DICTIONARY_ROOT.
+
+    Orden de resolución (igual criterio que dav_commands._dictionary_root):
+      1. Variable de entorno DAV_DICTIONARY_ROOT (la setea el launcher).
+      2. Candidatos relativos subiendo desde este archivo: layout DavCore
+         (``Dav/dic``) y layout previo (``DiccionariosEnBruto``).
+
+    Returns:
+        Ruta a la carpeta de diccionarios; si no se encuentra ninguna,
+        devuelve el mejor candidato del layout DavCore (DictionaryLoader
+        tolera que no exista y arranca con contextos vacíos sin romper).
+    """
+    env = os.environ.get("DAV_DICTIONARY_ROOT", "").strip()
+    if env:
+        path = Path(env)
+        if path.is_dir():
+            return path.resolve()
+
+    here = Path(__file__).resolve()
+    for ancestor in here.parents:
+        for candidate in (ancestor / "Dav" / "dic", ancestor / "DiccionariosEnBruto"):
+            if _is_dictionary_dir(candidate):
+                return candidate.resolve()
+
+    # parents[5]=DAV-root con el nuevo layout (.../Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/integration)
+    return here.parents[5] / "Dav" / "dic"
+
+
+def _is_dictionary_dir(path: Path) -> bool:
+    """True si la carpeta es un diccionario real (no un placeholder vacío).
+
+    Evita confundir ``ComponentesDAV/Dav/dic`` (solo placeholder) con el
+    ``Dav/dic`` real que contiene base.py y los TraduceTo*.py.
+    """
+    return (path / "base.py").is_file() or (path / "TraduceToEs.py").is_file()
 
 
 def is_voice_running() -> bool:
@@ -42,10 +82,7 @@ def start_voice_engine(*, debug: bool = False) -> bool:
 
         preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
 
-        from pathlib import Path
-        # parents[0]=integration [1]=GUIFreeCad [2]=IntegracionGUI
-        # [3]=ComponentesDAV [4]=DAV (raíz del repo)
-        _dict_root = Path(__file__).resolve().parents[4] / "DiccionariosEnBruto"
+        _dict_root = _resolve_dictionary_root()
         executor = PromptedCommandExecutor(Language=settings.language)
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
