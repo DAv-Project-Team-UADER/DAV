@@ -17,6 +17,7 @@
 import FreeCADGui as Gui
 
 from .ayuda import ayuda
+from _lenient import LenientDict
 
 # Diccionario DAV - StdView / Appearance
 appearance = {
@@ -26,3 +27,6 @@ appearance = {
     'texturemapping': lambda: Gui.runCommand('Std_TextureMapping', 0),
     'help':           ayuda,
 }
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+appearance = LenientDict(appearance)

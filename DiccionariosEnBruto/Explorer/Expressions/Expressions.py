@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from _lenient import LenientDict
 
 expressions = {
     'copyactdoc': lambda: Gui.runCommand('Std_Expressions_CopyActiveDocument', 0),
@@ -23,3 +24,6 @@ expressions = {
     'copyselected': lambda: Gui.runCommand('Std_Expressions_CopySelected', 0),
     'pasteexpr': lambda: Gui.runCommand('Std_Expressions_Paste', 0),
 }
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+expressions = LenientDict(expressions)

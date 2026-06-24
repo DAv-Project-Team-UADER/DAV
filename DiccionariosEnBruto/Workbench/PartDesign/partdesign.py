@@ -22,6 +22,7 @@ from .modify.modify import modify
 from .transform.transform import transform
 from .manage.manage import manage
 from .ayuda import ayuda
+from _lenient import LenientDict
 
 partdesign = {}
 partdesign.update(base)
@@ -31,3 +32,6 @@ partdesign.update(modify)
 partdesign.update(transform)
 partdesign.update(manage)
 partdesign.update({'help': ayuda})
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+partdesign = LenientDict(partdesign)

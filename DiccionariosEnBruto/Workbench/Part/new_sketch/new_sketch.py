@@ -16,6 +16,7 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
+from _lenient import LenientDict
 
 
 def _new_sketch():
@@ -29,3 +30,6 @@ new_sketch = {
     'sketch': lambda: _new_sketch(),
     'help': ayuda,
 }
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+new_sketch = LenientDict(new_sketch)

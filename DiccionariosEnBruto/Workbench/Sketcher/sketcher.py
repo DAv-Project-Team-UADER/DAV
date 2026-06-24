@@ -41,6 +41,7 @@ from .Geometry.Ellipse._ellipse import ellipse
 from .Geometry.Polygon._polygon import polygon
 from .Geometry.BSpline.bspline import bspline
 from .Geometry.BSpline_Tools._tools import bspline_tools
+from _lenient import LenientDict
 
 
 def _toggle_construction(sketch: Any, geo_indices:list[int]):
@@ -103,3 +104,6 @@ sketcher.update({
     'chamfer':            lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
     'help':               ayuda,
 })
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+sketcher = LenientDict(sketcher)
