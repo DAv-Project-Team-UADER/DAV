@@ -1,1 +1,0 @@
-pepino=dict(llave1="pepino 2", llave2="valor2");
