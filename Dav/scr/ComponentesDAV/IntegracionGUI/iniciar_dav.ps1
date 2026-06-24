@@ -42,6 +42,8 @@ $RepoRoot = Resolve-DavRepoRoot
 
 function Find-RunScript([string]$StartRepo) {
     $candidates = @(
+        (Join-Path $StartRepo "Dav\scr\ComponentesDAV\scripts\run_freecad_dav.ps1"),
+        (Join-Path $StartRepo "Dav\scr\componentesDAV\scripts\run_freecad_dav.ps1"),
         (Join-Path $StartRepo "ComponentesDAV\scripts\run_freecad_dav.ps1"),
         (Join-Path $StartRepo "componentesDAV\scripts\run_freecad_dav.ps1"),
         (Join-Path $StartRepo "scripts\run_freecad_dav.ps1")
@@ -65,7 +67,7 @@ $RunScript = Find-RunScript $RepoRoot
 if ($RunScript) {
     $ScriptsDir = Split-Path -Parent $RunScript
 } else {
-    $ScriptsDir = Join-Path $RepoRoot "ComponentesDAV\scripts"
+    $ScriptsDir = Join-Path $RepoRoot "Dav\scr\ComponentesDAV\scripts"
 }
 
 $VenvPy = Join-Path $GuiRoot ".venv\Scripts\python.exe"

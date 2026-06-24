@@ -15,7 +15,7 @@ from typing import Any
 
 from core.language_code import LanguageCode
 
-_KEYCHAIN_ROOT = Path(__file__).resolve().parents[3] / "ComponentesDAV"
+_KEYCHAIN_ROOT = Path(__file__).resolve().parents[3]
 if str(_KEYCHAIN_ROOT) not in sys.path:
     sys.path.insert(0, str(_KEYCHAIN_ROOT))
 
