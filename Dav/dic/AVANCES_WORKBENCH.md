@@ -1,8 +1,14 @@
 # Avances — Módulo Workbench
 
-> Revisado: 2026-06-03
+> Revisado: 2026-06-25 (contraste código vs. avances)
+> Revisión previa: 2026-06-03
 
 Cubre: Assembly, DraftWork, Part, PartDesign, Sketcher, TechDraw (auditado íntegramente)
+
+> **Nota 2026-06-25:** el código se modificó después del 2026-06-03 (se agregó
+> `_lenient.LenientDict`, se importaron submódulos antes huérfanos y se renombraron
+> archivos raíz). Las secciones de DraftWork y TechDraw fueron actualizadas para
+> reflejar el estado real. Ver `AVANCES_GENERAL.md` → "Reconciliación 2026-06-25".
 
 ---
 
@@ -56,24 +62,26 @@ Workbench/Assembly/
 
 ```
 Workbench/DraftWork/
-├── workbench.py             ← raíz, usa .update() — IMPORTA SOLO 9 de 12 subcarpetas
+├── DraftWork.py             ← raíz, usa .update() + LenientDict — importa TODAS las subcarpetas ✅
 ├── annotation/annotation.py
-├── annotation_style_editor/annotation.py
+├── annotation_style_editor/annotation_style_editor.py
 ├── arc/arc.py
 ├── circle/circle.py
-├── circular_array/array.py  ← importado como 'array' en workbench.py
-├── creation/creation.py     ← ❌ NO importado en workbench.py
+├── circular_array/circular_array.py  ← importado como 'array' en DraftWork.py
+├── creation/creation.py     ← ✅ importado (corregido)
 ├── curve/curve.py
 ├── dimension/dimension.py
-├── Drafting/drafting.py     ← ❌ NO importado en workbench.py
+├── Drafting/drafting.py     ← ✅ importado (corregido)
 ├── ellipse/ellipse.py
 ├── facebinder/facebinder.py
-├── modification/            ← ❌ NO importado en workbench.py
-│   ├── modification.py
-│   └── array/array.py
-├── modify/modify.py
-└── snap/snap.py             ← ❌ NO importado en workbench.py
+├── modification/modification.py  ← ✅ importado (corregido); subcarpeta array/ eliminada
+└── modify/modify.py
 ```
+
+> **Estado real 2026-06-25:** `DraftWork.py` (no `workbench.py`) importa los 12 submódulos
+> con `.update()` y envuelve el resultado en `LenientDict`. Las carpetas `snap/` y
+> `modification/array/` fueron **eliminadas**. Los archivos raíz y de subcarpeta fueron
+> renombrados (`DraftWork.py`, `circular_array.py`, `annotation_style_editor.py`).
 
 ### Cobertura (59 tickets Draft)
 
@@ -112,37 +120,39 @@ Workbench/DraftWork/
 | `Draft_Ellipse` | `Gui.runCommand('Draft_Ellipse', 0)` | `ellipse/ellipse.py` | `'center'` |
 | `Draft_Facebinder` | `Gui.runCommand('Draft_Facebinder', 0)` | `facebinder/facebinder.py` | `'create'` |
 
-**⚠️ Archivos con tickets cubiertos pero NO importados en workbench.py**
+**✅ Módulos antes huérfanos, ahora importados en `DraftWork.py` (corregido)**
 
-Estos módulos existen y tienen comandos correctos, pero `workbench.py` no los importa — los tickets que cubren están técnicamente inactivos:
+Estos módulos ya están activos en la raíz (antes la doc los daba como no importados):
 
 | Módulo | Tickets cubiertos | Estado |
 |--------|-----------------|--------|
-| `Drafting/drafting.py` | `Draft_Wire` | ❌ no importado |
-| `creation/creation.py` | `Draft_Hatch`, `Draft_Point`, `Draft_Polygon`, `Draft_Rectangle` | ❌ no importado |
-| `modification/modification.py` | `Draft_Scale`, `Draft_Shape2DView`, `Draft_Slope`, `Draft_Split`, `Draft_Stretch`, `Draft_SubelementHighlight`, `Draft_Trimex`, `Draft_Upgrade`, `Draft_WireToBSpline` | ❌ no importado |
-| `modification/array/array.py` | duplica arrays — ver bugs | ❌ no importado (y tiene bugs propios) |
-| `snap/snap.py` | `Draft_Mirror` | ❌ no importado |
+| `Drafting/drafting.py` | `Draft_Wire` | ✅ importado |
+| `creation/creation.py` | `Draft_Hatch`, `Draft_Point`, `Draft_Polygon`, `Draft_Rectangle` | ✅ importado |
+| `modification/modification.py` | `Draft_Scale`, `Draft_Shape2DView`, `Draft_Slope`, `Draft_Split`, `Draft_Stretch`, `Draft_SubelementHighlight`, `Draft_Trimex`, `Draft_Upgrade`, `Draft_WireToBSpline` | ✅ importado |
 
 **❌ Tickets sin ninguna cobertura**
 
 | Ticket | Comando | Nota |
 |--------|---------|------|
-| `Draft_Line` | `Draft.make_line(p1, p2)` | API Nivel 2 — no existe en ningún dict; `Draft_Wire` es el equivalente GUI pero semánticamente distinto |
+| `Draft_Line` | `Draft.make_line(p1, p2)` | API Nivel 2 — no existe en ningún dict; `Draft_Wire` (en `Drafting/`) es el equivalente GUI pero semánticamente distinto |
 
 ### Bugs DraftWork
 
-| # | Archivo | Problema | Corrección |
-|---|---------|----------|------------|
-| 1 | `workbench.py` | No importa `Drafting`, `creation`, `modification`, `snap` — 14 comandos inactivos | Agregar los 4 imports y sus `.update()` correspondientes |
-| 2 | `creation/creation.py` | `import FreeCad as Gui` — **typo grave**, crashea al importar | Cambiar a `import FreeCADGui as Gui` |
-| 3 | `modification/array/array.py` | `import FreeCad as Gui` — mismo typo grave | Cambiar a `import FreeCADGui as Gui` |
-| 4 | `modification/array/array.py` | Usa `Gui.runCommand('Draft_ArrayTools', N)` — comando inexistente; los arrays tienen comandos individuales | Reemplazar por los comandos correctos (ya cubiertos en `circular_array/array.py`) |
-| 5 | `snap/snap.py` | `import FreeCad as Gui` — typo grave | Cambiar a `import FreeCADGui as Gui` |
-| 6 | `snap/snap.py` | Carpeta `snap/` no tiene nada que ver con snap — contiene `Draft_Mirror`; nombre de carpeta engañoso | Mover `mirror` a `modify/modify.py` y eliminar `snap/` |
-| 7 | `modification/array/array.py` | Es un duplicado de `circular_array/array.py` con errores encima | Eliminar `modification/array/` completo; ya está cubierto |
-| 8 | `annotation/annotation.py` | `'shape_string'` tiene guión bajo — viola convención (sin separadores) | Renombrar a `'shapestring'` |
-| 9 | `circular_array/array.py` | `'path_link'` y `'point_link'` tienen guión bajo | Renombrar a `'pathlink'`, `'pointlink'` |
+> Bugs #1–#9 originales: la mayoría se corrigieron en código después del 2026-06-03.
+> Estado verificado el 2026-06-25.
+
+| # | Archivo | Problema | Estado |
+|---|---------|----------|--------|
+| 1 | `DraftWork.py` | No importaba `Drafting`, `creation`, `modification`, `snap` | ✅ Corregido — los 12 submódulos importados |
+| 2 | `creation/creation.py` | `import FreeCad as Gui` — typo grave | ✅ Corregido — usa `import FreeCADGui as Gui` |
+| 3 | `modification/array/array.py` | `import FreeCad as Gui` | ✅ Resuelto — carpeta eliminada |
+| 4 | `modification/array/array.py` | `Gui.runCommand('Draft_ArrayTools', N)` inexistente | ✅ Resuelto — carpeta eliminada (arrays cubiertos en `circular_array/`) |
+| 5 | `snap/snap.py` | `import FreeCad as Gui` | ✅ Resuelto — carpeta eliminada |
+| 6 | `snap/snap.py` | Nombre de carpeta engañoso (contenía `Draft_Mirror`) | ✅ Resuelto — carpeta eliminada |
+| 7 | `modification/array/array.py` | Duplicado de `circular_array/` | ✅ Resuelto — carpeta eliminada |
+| 8 | `annotation/annotation.py` | `'shape_string'` con guión bajo | ✅ Corregido — usa `'shapestring'` |
+| 9 | `circular_array/circular_array.py` | `'path_link'`/`'point_link'` con guión bajo | ✅ Corregido — usa `'pathlink'`/`'pointlink'` |
+| 10 | `modification/modification.py` | Claves con guión bajo: `'shape_2d_view'`, `'subelement_highlight'`, `'wire_to_bspline'` — violan convención (sin separadores); además falta el cabezal GPL | ⚠️ **Pendiente** — renombrar a `'shape2dview'`, `'subelementhighlight'`, `'wiretobspline'` y agregar cabezal |
 
 ---
 
@@ -459,37 +469,43 @@ La alternativa (Opción A) sería usar `Gui.runCommand('TechDraw_RadiusDimension
 | `TechDraw_Quadrants` | `Gui.runCommand('TechDraw_Quadrants', 0)` | `Snaps/Snaps.py` | `'quadrants'` |
 | `TechDraw_ShowAll` | `Gui.runCommand('TechDraw_ShowAll', 0)` | `Topology/Topology.py` | `'showAll'` |
 
-#### Archivos con tickets cubiertos pero NO importados en TechDrawWorkbench.py
+#### ✅ Módulos antes huérfanos, ahora importados en `TechDraw.py` (corregido)
+
+Verificado 2026-06-25: `TechDraw.py` (no `TechDrawWorkbench.py`) importa los 12 submódulos.
 
 | Módulo | Tickets cubiertos | Estado |
 | ------ | ---------------- | ------ |
-| `Page/Page.py` | `TechDraw_PageDefault`, `TechDraw_PageTemplate`, `TechDraw_RedrawPage`, `TechDraw_PrintAll`, `TechDraw_ExportPageDXF`, `TechDraw_ExportPageSVG` | ❌ no importado |
-| `Annotations/annotations.py` | `TechDraw_Annotation`, `TechDraw_AxoLengthDimension`, `TechDraw_Balloon` | ❌ no importado |
-| `Hatching/hatching.py` | `TechDraw_GeometricHatch` | ❌ no importado |
-| `AddVertices/addVertices.py` | `TechDraw_CosmeticVertex` | ❌ no importado |
-| `OtherViews/otherViews.py` | `TechDraw_ActiveView` | ❌ no importado |
-| `Features/Features.py` | `TechDraw_FillTemplateFields`, `TechDraw_Image`, `TechDraw_Symbol` | ❌ no importado |
-| `Symbols/weld.py` | `TechDraw_WeldSymbol` (duplicado de `Symbols.py`) | ❌ no importado y redundante |
+| `Page/Page.py` | `TechDraw_PageDefault`, `TechDraw_PageTemplate`, `TechDraw_RedrawPage`, `TechDraw_PrintAll`, `TechDraw_ExportPageDXF`, `TechDraw_ExportPageSVG` | ✅ importado |
+| `Annotations/annotations.py` | `TechDraw_Annotation`, `TechDraw_AxoLengthDimension`, `TechDraw_Balloon` | ✅ importado |
+| `Hatching/hatching.py` | `TechDraw_GeometricHatch` | ✅ importado |
+| `AddVertices/addVertices.py` | `TechDraw_CosmeticVertex` | ✅ importado |
+| `OtherViews/otherViews.py` | `TechDraw_ActiveView` | ✅ importado |
+| `Features/Features.py` | `TechDraw_FillTemplateFields`, `TechDraw_Image`, `TechDraw_Symbol` | ✅ importado |
+| `Symbols/weld.py` | `TechDraw_WeldSymbol` (duplicado) | ✅ eliminado — cubierto por `Symbols.py` |
 
 ### Bugs TechDraw
 
-| # | Archivo | Problema | Corrección |
-|---|---------|----------|------------|
-| 1 | `TechDrawWorkbench.py` | No importa `Page`, `Annotations`, `Hatching`, `AddVertices`, `OtherViews`, `Features` — 15 comandos inactivos | Agregar los 6 imports y sus `.update()` correspondientes |
-| 2 | `Views/view.py` | Archivo huérfano — versión antigua con 1 solo comando (`'view'`) sin cabezal GPL, nunca importado | Eliminar; `Views.py` ya lo reemplaza correctamente |
-| 3 | `Symbols/weld.py` | Duplica `TechDraw_WeldSymbol` con clave `'weld_symbol'` (guión bajo) — ya está en `Symbols.py` como `'weldSymbol'` | Eliminar `weld.py`; la cobertura ya existe |
-| 4 | `Annotations/annotations.py` | Usa `from .help import help` — nombre en inglés, inconsistente con el resto del proyecto (`ayuda`) | Renombrar archivo a `ayuda.py` y función a `ayuda` |
-| 5 | `Hatching/hatching.py` | Mismo problema: `from .help import help` | Ídem Bug 4 |
-| 6 | `AddVertices/addVertices.py` | Mismo problema: `from .help import help` | Ídem Bug 4 |
-| 7 | `OtherViews/otherViews.py` | Mismo problema: `from .help import help` | Ídem Bug 4 |
-| 8 | `Dimensions/dimensions.py` | Usa `dimensions['angle'] = angle` para agregar el sub-dict ángulo — inconsistente con el resto que usa `.update()` | Cambiar a `dimensions.update(angle)` |
-| 9 | `Dimensions/dimension/dimension.py` | Usa `"TechDraw::DrawDimLine"` como tipo de objeto — ese tipo no existe en FreeCAD 1.x (la API correcta es `TechDraw_LengthDimension` vía `Gui.runCommand` o el tipo `TechDraw::DrawViewDimension`) | Cambiar a `Gui.runCommand('TechDraw_LengthDimension', 0)` o corregir el tipo de objeto |
-| 10 | `Snaps/Snaps.py` | Sin clave `'help'` — único sub-módulo activo que no expone ayuda | Agregar `from ..ayuda import ayuda` y `snaps['help'] = ayuda` |
-| 11 | `Topology/Topology.py` | Sin clave `'help'` — mismo problema que Bug 10 | Agregar ayuda |
-| 12 | `Features/Features.py` | Sin clave `'help'` | Agregar ayuda |
-| 13 | `Symbols/Symbols.py` | Claves `'weldSymbol'` y `'richText'` usan camelCase — viola convención del proyecto (sin separadores, todo minúscula) | Renombrar a `'weldsymbol'`, `'richtext'`, `'finish'` (ya ok) |
-| 14 | `AddLines/addLines.py` | Claves `'twoLines'` y `'twoPoints'` usan camelCase | Renombrar a `'twolines'`, `'twopoints'` |
-| 15 | `Views/Views.py` | Claves `'detailView'`, `'brokenView'`, `'clipGroup'`, `'complexSection'` usan camelCase | Renombrar a `'detailview'`, `'brokenview'`, `'clipgroup'`, `'complexsection'` |
+> Estado verificado el 2026-06-25 contra el código real (`TechDraw.py`).
+
+| # | Archivo | Problema | Estado |
+|---|---------|----------|--------|
+| 1 | `TechDraw.py` | No importaba `Page`, `Annotations`, `Hatching`, `AddVertices`, `OtherViews`, `Features` | ✅ Corregido — los 12 submódulos importados |
+| 2 | `Views/view.py` | Archivo huérfano | ✅ Resuelto — eliminado (queda `Views.py`) |
+| 3 | `Symbols/weld.py` | Duplica `TechDraw_WeldSymbol` | ✅ Resuelto — eliminado |
+| 4 | `Annotations/annotations.py` | `from .help import help` (inglés) | ⚠️ Parcial — existe `ayuda.py` pero **el `help.py` sigue presente** (leftover a eliminar) |
+| 5 | `Hatching/hatching.py` | `from .help import help` | ⚠️ Parcial — `ayuda.py` existe pero `help.py` sigue presente |
+| 6 | `AddVertices/addVertices.py` | `from .help import help` | ⚠️ Parcial — `ayuda.py` existe pero `help.py` sigue presente |
+| 7 | `OtherViews/otherViews.py` | `from .help import help` | ⚠️ Parcial — `ayuda.py` existe pero `help.py` sigue presente |
+| 8 | `Dimensions/dimensions.py` | Usa `dimensions['angle'] = angle` en vez de `.update(angle)` | ⚠️ **Pendiente** — sigue usando asignación directa |
+| 9 | `Dimensions/dimension/dimension.py` | `"TechDraw::DrawDimLine"` — tipo inexistente en FreeCAD 1.x | ✅ Corregido — usa `Gui.runCommand('TechDraw_LengthDimension', 0)` |
+| 10 | `Snaps/Snaps.py` | Sin clave `'help'` | ✅ Corregido — expone `'help': ayuda` |
+| 11 | `Topology/Topology.py` | Sin clave `'help'` | ✅ Corregido — expone `'help': ayuda` |
+| 12 | `Features/Features.py` | Sin clave `'help'` | ✅ Corregido — expone `'help': ayuda` |
+| 13 | `Symbols/Symbols.py` | Claves camelCase `'weldSymbol'`, `'richText'` | ✅ Corregido — `'weldsymbol'`, `'richtext'`, `'finish'` |
+| 14 | `AddLines/addLines.py` | Claves camelCase `'twoLines'`, `'twoPoints'` | ✅ Corregido — `'twolines'`, `'twopoints'` |
+| 15 | `Views/Views.py` | Claves camelCase `'detailView'`, etc. | ✅ Corregido — `'detailview'`, `'brokenview'`, `'clipgroup'`, `'complexsection'` |
+| 16 | `TechDraw.py` | Clave de ayuda raíz es `'ayuda'` (español) — inconsistente con `'help'` que usan los demás roots y CONTEXT.md | ⚠️ **Pendiente** (nuevo) — cambiar a `'help'` |
+| 17 | `Topology/Topology.py` | Clave `'showAll'` usa camelCase | ⚠️ **Pendiente** (nuevo) — renombrar a `'showall'` |
 
 ### LineAttributes (sub-módulo TechDraw)
 
@@ -525,7 +541,7 @@ Los 2 tickets de LineAttributes corresponden al TechDraw Workbench (`TechDraw_Ex
 
 ```text
 Workbench/Part/
-├── PartWorkbench.py              ← raíz, usa .update() — importa los 24 sub-dicts
+├── Part.py                       ← raíz, usa .update() — importa los 24 sub-dicts (clave de ayuda raíz: 'ayuda')
 ├── box/box.py                    ✅
 ├── circle/circle.py              ✅
 ├── cone/cone.py                  ✅
@@ -598,11 +614,13 @@ Workbench/Part/
 
 ## Resumen general de cobertura
 
+> Actualizado 2026-06-25 tras contrastar con el código real.
+
 | Módulo | Tickets | Cubiertos | Faltantes | Estado |
 |--------|---------|-----------|-----------|--------|
 | Assembly | 22 | 22 | 0 | ✅ Completo |
-| DraftWork | 59 | 45 activos + 14 inactivos | 1 (`Draft_Line`) | ⚠️ Bugs estructurales |
+| DraftWork | 59 | 59 activos (todos importados) | 1 (`Draft_Line`) | ⚠️ Falta nomenclatura en `modification.py` |
 | PartDesign | 36 | 36 | 0 | ✅ Completo (con duplicados) |
-| Sketcher | 97 | 94 | 1 (`refraction`) + 2 no aplica | ✅ Casi completo |
-| Part | 24 sub-dicts, todos activos | 24 | 0 (todos tienen archivo) | ❌ Bugs de implementación graves |
-| TechDraw | 29 activos + 15 inactivos | 29 | 0 (todos tienen archivo) | ⚠️ Bugs estructurales y de nomenclatura |
+| Sketcher | 97 | 94 | 1 (`refraction`) + 2 no aplica | ⚠️ Casi completo |
+| Part | 24 sub-dicts, todos activos | 24 | 0 | ⚠️ Funcional (Opción B); falta limpieza de claves |
+| TechDraw | 44 activos (todos importados) | 44 | 0 | ⚠️ Funcional; falta limpieza menor (`'ayuda'` raíz, `'showAll'`, leftovers `help.py`) |

@@ -1,6 +1,9 @@
 # Avances — Módulo StdView
 
-> Revisado: 2026-06-03 · Estado: ✅ Diccionarios listos
+> Revisado: 2026-06-03 · Reconfirmado contra código 2026-06-25 · Estado: ✅ Diccionarios listos
+>
+> Verificado 2026-06-25: `StdView.py` sigue plano con `.update()`, exporta `Panels`
+> (mayúscula) y `StandardViews`, y usa `'help': ayuda`. La doc coincide con el código.
 
 ---
 
