@@ -15,3 +15,43 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# English translations – StdViews DrawStyles
+# ============================================================
+
+from .drawstyles import drawstyles
+
+TraduceToEn = {
+    # Main styles
+    "asis": drawstyles["styleasis"],
+    "flat": drawstyles["flatlines"],
+    "hidden": drawstyles["hiddenline"],
+    "noshading": drawstyles["noshading"],
+    "points": drawstyles["points"],
+    "shaded": drawstyles["shaded"],
+    "wireframe": drawstyles["wireframe"],
+    "help": drawstyles["help"],
+
+    # Synonyms
+    "as is": drawstyles["styleasis"],
+    "original": drawstyles["styleasis"],
+
+    "flat lines": drawstyles["flatlines"],
+    "flatlines": drawstyles["flatlines"],
+
+    "hidden line": drawstyles["hiddenline"],
+    "hidden lines": drawstyles["hiddenline"],
+
+    "no shading": drawstyles["noshading"],
+    "without shading": drawstyles["noshading"],
+
+    "point mode": drawstyles["points"],
+    "dots": drawstyles["points"],
+
+    "shaded view": drawstyles["shaded"],
+    "solid": drawstyles["shaded"],
+
+    "wire": drawstyles["wireframe"],
+    "wire frame": drawstyles["wireframe"],
+}
