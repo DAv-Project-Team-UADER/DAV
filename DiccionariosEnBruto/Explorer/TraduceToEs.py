@@ -51,6 +51,7 @@ TraduceToEs = {
     'barra de estructura':              explorer['structure'],
     'barra estructura':                 explorer['structure'],
     'barra de herramientas de estructura': explorer['structure'],
+    
     # Callables directos
     'refrescar':                        explorer['refresh'],
     'recargar':                         explorer['refresh'],
@@ -75,7 +76,8 @@ TraduceToEs = {
     'conjunto de variables':            explorer['variableset'],
     'variables':                        explorer['variableset'],
     'set de variables':                 explorer['variableset'],
+
     'ayuda':                            explorer['help'],
-    'informacion':                      explorer['help'],
     'información':                      explorer['help'],
+    'opciones':                         explorer['help'],
 }

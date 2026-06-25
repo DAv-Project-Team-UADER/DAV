@@ -21,13 +21,14 @@ from .validate import validate
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Validação de esboço e sinônimos
     "validate": validate['validate'],
     "validar": validate['validate'],
     "validar esboco": validate['validate'],
-    "verificar esboco": validate['validate']
+    "verificar esboco": validate['validate'],
+
+    "ajuda": validate['help'],
+    "informação": validate['help'],
+    "opções": validate['help']
 }

@@ -21,18 +21,21 @@ from .annotations import annotations
 TraduceToEs = {
     # annotation
     "anotacion":         annotations["annotation"],
-    "nota":              annotations["annotation"],   # sinonimo
-    "texto":             annotations["annotation"],   # sinonimo
+    "nota":              annotations["annotation"],       
+    "texto":             annotations["annotation"],  
+
     # axo_length
     "longitud axo":      annotations["axo_length"],
-    "axonometrico":      annotations["axo_length"],   # sinonimo
-    "dimension axo":     annotations["axo_length"],   # sinonimo
+    "axonometrico":      annotations["axo_length"],       
+    "dimension axo":     annotations["axo_length"],  
+
     # balloon
     "globo":             annotations["balloon"],
-    "etiqueta":          annotations["balloon"],      # sinonimo
-    "referencia":        annotations["balloon"],      # sinonimo
+    "etiqueta":          annotations["balloon"],          
+    "referencia":        annotations["balloon"],    
+
     # help
     "ayuda":             annotations["help"],
-    "info":              annotations["help"],         # sinonimo
-    "opciones":          annotations["help"],         # sinonimo
+    "información":              annotations["help"],             
+    "opciones":          annotations["help"],             
 }

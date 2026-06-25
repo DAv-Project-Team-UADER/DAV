@@ -54,6 +54,6 @@ TraduceToEn = {
 
     # Sinónimos para la función ayuda
     'help':                 constraints['help'],
-    'commands':             constraints['help'],
+    'info':             constraints['help'],
     'options':              constraints['help']
 }

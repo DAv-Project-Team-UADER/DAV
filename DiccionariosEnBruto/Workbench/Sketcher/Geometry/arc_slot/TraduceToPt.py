@@ -30,6 +30,6 @@ TraduceToPt = {
     'ranhura reta':         arc_slot['flat_ends'],
 
     'ajuda':                arc_slot['help'],
-    'comandos':             arc_slot['help'],
+    'informação':             arc_slot['help'],
     'opções':               arc_slot['help']
 }

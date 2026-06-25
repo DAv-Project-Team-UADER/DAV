@@ -42,4 +42,5 @@ TraduceToEs = {
     # ayuda
     'ayuda':    ayuda['help'],
     'información':     ayuda['help'],
+    'opciones':  ayuda['help'],
 }

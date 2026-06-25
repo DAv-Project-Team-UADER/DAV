@@ -52,6 +52,6 @@ TraduceToPt = {
     'restrições':           constraints['geometric'],
 
     'ajuda':                constraints['help'],
-    'comandos':             constraints['help'],
+    'informação':             constraints['help'],
     'opções':               constraints['help']
 }

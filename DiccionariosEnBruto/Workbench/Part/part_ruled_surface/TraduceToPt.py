@@ -28,10 +28,8 @@ TraduceToPt = {
     "unir curvas": part_ruled_surface["ruled surface"],
     "criar superfície regrada": part_ruled_surface["ruled surface"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_ruled_surface['help'],
+    "informação": part_ruled_surface['help'],
+    "opções": part_ruled_surface['help']
 }
 

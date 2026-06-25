@@ -18,6 +18,8 @@
 
 """Spanish spoken-word mapping for the DAV PartWorkbench dictionary."""
 
+from DAV.DiccionariosEnBruto.Workbench.Part import Part
+
 from .box.box import box
 from .circle.circle import circle
 from .cone.cone import cone
@@ -166,11 +168,8 @@ TraduceToEs = {
     "barrer por trayectoria": part_sweep["sweep"],
     "sweep": part_sweep["sweep"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+    "ayuda": Part['help'],
+    "información": Part['help'],
+    "opciones": Part['help'],
 }
 

@@ -21,10 +21,11 @@ from .radius import radius
 TraduceToPt = {
     # radius
     "raio":               radius["radius"],
-    "dimensao raio":      radius["radius"],  # sinonimo
-    "raio arco":          radius["radius"],  # sinonimo
+    "dimensao raio":      radius["radius"],  
+    "raio arco":          radius["radius"],  
+
     # help
     "ajuda":              radius["help"],
-    "info":               radius["help"],    # sinonimo
-    "opcoes":             radius["help"],    # sinonimo
+    "informação":         radius["help"],    
+    "opções":             radius["help"],    
 }

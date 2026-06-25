@@ -21,13 +21,14 @@ from .square import square
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Square creation & synonyms
     "create": square['create'],
     "create square": square['create'],
     "draw square": square['create'],
-    "square": square['create']
+    "square": square['create'],
+
+    "help": square['help'],
+    "info": square['help'],
+    "options": square['help'],
 }

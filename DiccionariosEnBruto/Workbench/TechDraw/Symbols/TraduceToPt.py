@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .symbols import symbols
+from .Symbols import symbols
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -40,5 +40,7 @@ TraduceToPt = {
     "simbolo de acabamento": symbols["finish"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": symbols["help"],
+    "informação": symbols["help"],
+    "opções": symbols["help"],
 }

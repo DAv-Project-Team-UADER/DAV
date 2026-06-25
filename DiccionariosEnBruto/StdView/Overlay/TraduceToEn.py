@@ -52,6 +52,6 @@ TraduceToEn = {
 
     # Comandos de ayuda estandarizados
     'help':             overlay['help'],
-    'commands':         overlay['help'],
+    'info':             overlay['help'],
     'options':          overlay['help']
 }

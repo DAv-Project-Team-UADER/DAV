@@ -21,9 +21,6 @@ from .oblong import oblong
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Creación de óvalo / ranura y sinónimos
     "crear": oblong['create'],
@@ -33,5 +30,9 @@ TraduceToEs = {
     "crear ranura": oblong['create'],
     "dibujar ranura": oblong['create'],
     "crear ovalo": oblong['create'],
-    "dibujar ovalo": oblong['create']
+    "dibujar ovalo": oblong['create'],
+
+    "ayuda": oblong['help'],
+    "informacion": oblong['help'],
+    "opciones": oblong['help'],
 }

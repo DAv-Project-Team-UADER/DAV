@@ -29,7 +29,6 @@ TraduceToPt = {
     "eliptica": ellipse["elliptic"],
     "hiperbolica": ellipse["hyperbolic"],
     "parabolica": ellipse["parabolic"],
-    "ajuda": ellipse["help"],
 
     # Sinônimos
     "elipse centro": ellipse["center"],
@@ -37,4 +36,8 @@ TraduceToPt = {
     "arco eliptico": ellipse["elliptic"],
     "arco hiperbolico": ellipse["hyperbolic"],
     "arco parabolico": ellipse["parabolic"],
+
+    "ajuda": ellipse["help"],
+    "informação": ellipse["help"],
+    "opções": ellipse["help"],
 }

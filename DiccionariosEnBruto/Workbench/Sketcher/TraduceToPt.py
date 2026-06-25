@@ -16,6 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
@@ -80,4 +81,8 @@ TranslateToPt = {
   "ver esboço": sketcher["view"],
   "ver selecao": sketcher["view"],
   "ver seleção": sketcher["view"],
+
+  "ajuda": Sketcher['help'],
+  "informação": Sketcher['help'],
+  "opções": Sketcher['help'],
 }

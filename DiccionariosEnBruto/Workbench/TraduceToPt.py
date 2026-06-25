@@ -95,4 +95,7 @@ TraduceToPt = {
     "rótulos":            techdraw,
     "técnico":             techdraw,
 
+    "ajuda":             techdraw["help"],
+    "informação":        techdraw["help"],
+    "opções":            techdraw["help"],
 }

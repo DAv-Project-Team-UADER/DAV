@@ -21,10 +21,11 @@ from .radius import radius
 TraduceToEs = {
     # radius
     "radio":              radius["radius"],
-    "dimension radio":    radius["radius"],  # sinonimo
-    "radio arco":         radius["radius"],  # sinonimo
+    "dimension radio":    radius["radius"],  
+    "radio arco":         radius["radius"],  
+
     # help
     "ayuda":              radius["help"],
-    "info":               radius["help"],    # sinonimo
-    "opciones":           radius["help"],    # sinonimo
+    "información":        radius["help"],    
+    "opciones":           radius["help"],    
 }

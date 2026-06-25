@@ -21,9 +21,6 @@ from .view import view
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # View Sketch & synonyms
     "sketch": view['sketch'],
@@ -37,5 +34,9 @@ TraduceToEn = {
     "section view": view['section'],
     "view section": view['section'],
     "clip section": view['section'],
-    "cut view": view['section']
+    "cut view": view['section'],
+
+    "help": view['help'],
+    "info": view['help'],
+    "options": view['help'],
 }

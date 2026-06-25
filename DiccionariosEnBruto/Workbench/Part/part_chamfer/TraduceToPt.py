@@ -36,6 +36,4 @@ TraduceToPt = {
     "ajuda":             part_chamfer['help'],
     "informação":        part_chamfer['help'],
     "opções":            part_chamfer['help']
-
-
 }

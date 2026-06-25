@@ -47,7 +47,7 @@ TraduceToPt = {
     'fio_para_bspline': modification['wire_to_bspline'],
     'bspline': modification['wire_to_bspline'],
 
-    'help': modification['help'],
     'ajuda': modification['help'],
+    "informação": modification['help'],
     'opções': modification['help'],
 }

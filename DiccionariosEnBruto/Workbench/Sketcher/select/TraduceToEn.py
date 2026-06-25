@@ -21,9 +21,6 @@ from .select import select
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Horizontal axis selection & synonyms
     "horizontal": select['horizontal'],
@@ -39,5 +36,9 @@ TraduceToEn = {
     "origin": select['origin'],
     "center point": select['origin'],
     "select origin": select['origin'],
-    "zero point": select['origin']
+    "zero point": select['origin'],
+
+    "help": select['help'],
+    "info": select['help'],
+    "options": select['help'],
 }

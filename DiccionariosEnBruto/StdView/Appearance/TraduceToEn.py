@@ -44,5 +44,6 @@ TraduceToEn = {
     # help
     'help':     ayuda['help'],
     'info':     ayuda['help'],
+    'options':  ayuda['help'],
 
 }

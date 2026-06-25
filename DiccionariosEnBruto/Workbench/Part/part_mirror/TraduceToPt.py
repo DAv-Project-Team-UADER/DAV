@@ -28,10 +28,8 @@ TraduceToPt = {
     "simetria": part_mirror["mirror"],
     "criar espelho": part_mirror["mirror"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_mirror['help'],
+    "informação": part_mirror['help'],
+    "opções": part_mirror['help'],
 }
 

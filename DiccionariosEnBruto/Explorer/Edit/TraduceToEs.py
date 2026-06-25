@@ -31,5 +31,8 @@ TraduceToEs = {
     'sacar foto':      edit['screenshot'],
     'nota':            edit['note'],
     'documento':       edit['note'],
+
     'ayuda':           edit['help'],
+    "información":      edit['help'],
+    "opciones":        edit['help'],
 }

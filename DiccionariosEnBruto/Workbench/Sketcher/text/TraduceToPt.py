@@ -21,9 +21,6 @@ from .text import text
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Texto / Forma de texto e sinônimos
     "criar": text['create'],
@@ -31,5 +28,9 @@ TraduceToPt = {
     "forma de texto": text['create'],
     "criar texto": text['create'],
     "adicionar texto": text['create'],
-    "desenhar texto": text['create']
+    "desenhar texto": text['create'],
+
+    "ajuda": text['help'],
+    "informação": text['help'],
+    "opções": text['help'],
 }

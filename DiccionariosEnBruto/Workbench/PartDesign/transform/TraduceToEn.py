@@ -45,9 +45,8 @@ TraduceToEn = {
     "resize": transform["scaled"],
 
     # Help
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    "help": transform['help'],
+    "info": transform['help'],
+    "options": transform['help'],
 }
 

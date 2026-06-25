@@ -18,7 +18,7 @@
 
 """Spanish spoken-word mapping for the material dictionary."""
 
-from .material import material
+from .Material import material
 
 TraduceToEs = {
     # Comandos para asignar material
@@ -30,6 +30,6 @@ TraduceToEs = {
 
     # Comandos de ayuda estandarizados
     'ayuda':                material['help'],
-    'comandos':             material['help'],
+    'información':             material['help'],
     'opciones':             material['help']
 }

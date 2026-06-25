@@ -43,5 +43,7 @@ TraduceToEs = {
     "agregar simbolo": features["symbol"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": features["help"],
+    "información": features["help"],
+    "opciones": features["help"],
 }

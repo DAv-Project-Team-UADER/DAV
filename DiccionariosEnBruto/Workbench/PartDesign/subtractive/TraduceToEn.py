@@ -85,8 +85,7 @@ TraduceToEn = {
     "booleanop": subtractive["boolean"],
 
     # Help
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    "help": subtractive['help'],
+    "info": subtractive['help'],
+    "options": subtractive['help'],
 }

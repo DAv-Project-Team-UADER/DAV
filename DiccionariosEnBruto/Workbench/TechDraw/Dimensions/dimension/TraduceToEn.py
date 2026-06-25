@@ -23,5 +23,8 @@ TraduceToEn = {
     'measure': dimension['dimension'],
     'lengthdimension': dimension['dimension'],
     'length dimension': dimension['dimension'],
-    'help': dimension['help'],
+
+    "help": dimension['help'],
+    "info": dimension['help'],
+    "options": dimension['help'],
 }

@@ -29,9 +29,9 @@ TraduceToEn = {
     "sweep profile": part_sweep["sweep"],
     "sweep along path": part_sweep["sweep"],
     "pipe": part_sweep["sweep"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help": part_sweep['help'],
+    "info": part_sweep['help'],
+    "options": part_sweep['help'],
 }
 

@@ -74,4 +74,8 @@ TraduceToEs = {
     "techdraw":          techdraw,
     "dibujo de planos":  techdraw,
     "planos":            techdraw,
+
+    "ayuda":             techdraw["help"],
+    "información":       techdraw["help"],
+    "opciones":          techdraw["help"],
 }

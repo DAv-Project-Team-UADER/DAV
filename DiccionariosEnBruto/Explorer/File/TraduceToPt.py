@@ -16,10 +16,10 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .file import file
+from .File import file
 
 TraduceToPt = {
-    ""novo": file["new"],
+    "novo": file["new"],
     "novo arquivo": file["new"],
 
     "abrir": file["open"],

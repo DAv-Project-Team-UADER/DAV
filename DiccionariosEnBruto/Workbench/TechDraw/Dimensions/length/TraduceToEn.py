@@ -20,11 +20,12 @@ from .length import length
 TraduceToEn = {
     # length
     "length":           length["length"],
-    "length dimension": length["length"],         # synonym
-    "distance":         length["length"],         # synonym
-    "measure":          length["length"],         # synonym
+    "length dimension": length["length"],         
+    "distance":         length["length"],         
+    "measure":          length["length"],     
+        
     # help
     "help":             length["help"],
-    "info":             length["help"],   # synonym
-    "options":          length["help"],   # synonym
+    "info":             length["help"],   
+    "options":          length["help"],   
 }

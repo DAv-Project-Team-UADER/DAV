@@ -28,10 +28,8 @@ TraduceToPt = {
     "aumentar": part_scale["scale"],
     "reduzir": part_scale["scale"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_scale['help'],
+    "informação": part_scale['help'],
+    "opções": part_scale['help']
 }
 

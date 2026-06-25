@@ -29,7 +29,7 @@ TraduceToEs = {
     "construir cara": part_makeface["make face"],
     "generar cara": part_makeface["make face"],
 
-"ayuda":            part_makeface['help'],
-"información":            part_makeface['help'],
-"opciones":         part_makeface['help']
+    "ayuda":            part_makeface['help'],
+    "información":      part_makeface['help'],
+    "opciones":         part_makeface['help']
 }

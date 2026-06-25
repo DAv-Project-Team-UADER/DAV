@@ -71,6 +71,6 @@ TraduceToPt = {
     'desativar restrição':  geometric['toggleactive'],
 
     'ajuda':                geometric['help'],
-    'comandos':             geometric['help'],
+    'informação':             geometric['help'],
     'opções':               geometric['help']
 }

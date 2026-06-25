@@ -21,9 +21,6 @@ from .tools import tools
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Deletar restrições e sinônimos
     "apagar restricoes": tools['deleteconstraints'],
@@ -47,5 +44,9 @@ TraduceToPt = {
     
     # Remover alinhamento de eixos e sinônimos
     "remover eixos": tools['removeaxes'],
-    "limpar alinhamento de eixos": tools['removeaxes']
+    "limpar alinhamento de eixos": tools['removeaxes'],
+
+    "ajuda": tools['help'],
+    "informação": tools['help'],
+    "opções": tools['help']
 }

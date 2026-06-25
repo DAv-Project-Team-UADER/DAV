@@ -44,4 +44,5 @@ TraduceToPt = {
     # ajuda
     'ajuda':                ayuda['help'],
     'informação':           ayuda['help'],
+    'opções':               ayuda['help'],
 }

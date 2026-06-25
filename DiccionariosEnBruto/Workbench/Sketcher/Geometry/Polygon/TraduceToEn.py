@@ -27,11 +27,14 @@ TraduceToEn = {
     "pentagon": polygon["pentagon"],
     "octagon": polygon["octagon"],
     "regular": polygon["regular"],
-    "help": polygon["help"],
 
     # Aliases
     "regular polygon": polygon["regular"],
     "polygon": polygon["regular"],
     "five sides": polygon["pentagon"],
     "eight sides": polygon["octagon"],
+
+    "help": polygon["help"],
+    "info": polygon["help"],
+    "options": polygon["help"],
 }

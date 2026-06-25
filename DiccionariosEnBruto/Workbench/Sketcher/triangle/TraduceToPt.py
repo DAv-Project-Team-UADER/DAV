@@ -21,13 +21,14 @@ from .triangle import triangle
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Triângulo e sinônimos
     "criar": triangle['create'],
     "triangulo": triangle['create'],
     "criar triangulo": triangle['create'],
-    "desenhar triangulo": triangle['create']
+    "desenhar triangulo": triangle['create'],
+
+    "ajuda": triangle['help'],
+    "informação": triangle['help'],
+    "opções": triangle['help']
 }

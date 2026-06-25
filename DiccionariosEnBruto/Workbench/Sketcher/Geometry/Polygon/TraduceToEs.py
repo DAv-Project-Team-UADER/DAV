@@ -27,11 +27,14 @@ TraduceToEs = {
     "pentagono": polygon["pentagon"],
     "octagono": polygon["octagon"],
     "regular": polygon["regular"],
-    "ayuda": polygon["help"],
 
     # Sinónimos
     "poligono regular": polygon["regular"],
     "poligono": polygon["regular"],
     "cinco lados": polygon["pentagon"],
     "ocho lados": polygon["octagon"],
+
+    "ayuda": polygon["help"],
+    "informacion": polygon["help"],
+    "opciones": polygon["help"],
 }

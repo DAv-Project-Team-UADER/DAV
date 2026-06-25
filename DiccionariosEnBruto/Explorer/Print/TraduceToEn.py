@@ -22,5 +22,8 @@ from .ayuda import ayuda
 TraduceToEn = {
     'print': print_cmds['print'],
     'pdf':   print_cmds['pdf'],
-    'help':  ayuda,
+
+    "help": ayuda['help'],
+    "info": ayuda['help'],
+    "options": ayuda['help'],
 }

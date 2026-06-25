@@ -21,9 +21,6 @@ from .slot import slot
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Ranhura / Oval e sinônimos
     "criar": slot['create'],
@@ -31,5 +28,9 @@ TraduceToPt = {
     "ovalo": slot['create'],
     "criar ranhura": slot['create'],
     "desenhar ranhura": slot['create'],
-    "criar ovalo": slot['create']
+    "criar ovalo": slot['create'],
+
+    "ajuda": slot['help'],
+    "informação": slot['help'],
+    "opções": slot['help'],
 }

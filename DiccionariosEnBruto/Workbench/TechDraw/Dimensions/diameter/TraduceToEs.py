@@ -21,10 +21,11 @@ from .diameter import diameter
 TraduceToEs = {
     # diameter
     "diametro":           diameter["diameter"],
-    "dimension diametro": diameter["diameter"],  # sinonimo
-    "medir diametro":     diameter["diameter"],  # sinonimo
+    "dimension diametro": diameter["diameter"],  
+    "medir diametro":     diameter["diameter"],  
+
     # help
     "ayuda":              diameter["help"],
-    "info":               diameter["help"],      # sinonimo
-    "opciones":           diameter["help"],      # sinonimo
+    "información":               diameter["help"],      
+    "opciones":           diameter["help"],      
 }

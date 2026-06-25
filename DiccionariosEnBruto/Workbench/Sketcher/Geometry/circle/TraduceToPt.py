@@ -31,6 +31,6 @@ TraduceToPt = {
     '3 pontos':             circle['3point'],
 
     'ajuda':                circle['help'],
-    'comandos':             circle['help'],
+    'informação':             circle['help'],
     'opções':               circle['help']
 }

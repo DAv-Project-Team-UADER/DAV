@@ -29,10 +29,8 @@ TraduceToEs = {
     "simetría": part_mirror["mirror"],
     "crear espejo": part_mirror["mirror"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_mirror['help'],
+    "información": part_mirror['help'],
+    "opciones": part_mirror['help'],
 }
 

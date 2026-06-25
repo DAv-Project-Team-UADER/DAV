@@ -21,13 +21,14 @@ from .square import square
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Quadrado e sinônimos
     "criar": square['create'],
     "quadrado": square['create'],
     "criar quadrado": square['create'],
-    "desenhar quadrado": square['create']
+    "desenhar quadrado": square['create'],
+
+    "ajuda": square['help'],
+    "informação": square['help'],
+    "opções": square['help'],
 }

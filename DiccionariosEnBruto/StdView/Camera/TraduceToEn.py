@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for Camera commands."""
 
-from .camera import camera
+from .Camera import camera
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -31,8 +31,7 @@ TraduceToEn = {
     "perspectiveview": camera["perspective"],
 
     # Help
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    "help": camera["help"],
+    "info": camera["help"],
+    "options": camera["help"],
 }

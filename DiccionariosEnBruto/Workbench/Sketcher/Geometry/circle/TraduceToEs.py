@@ -31,6 +31,6 @@ TraduceToEs = {
     '3 puntos':             circle['3point'],
 
     'ayuda':                circle['help'],
-    'comandos':             circle['help'],
+    'informacion':             circle['help'],
     'opciones':             circle['help']
 }

@@ -29,7 +29,7 @@ TraduceToPt = {
     "construir face": part_makeface["make face"],
     "gerar face": part_makeface["make face"],
 
-    "ajuda":            part_makeface['help'],
-    "info":            part_makeface['help'],
-    "options":         part_makeface['help']
+    "ajuda":           part_makeface['help'],
+    "informação":      part_makeface['help'],
+    "opções":          part_makeface['help']
 }

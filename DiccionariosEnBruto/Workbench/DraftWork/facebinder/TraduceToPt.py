@@ -25,7 +25,7 @@ TraduceToPt = {
     "fazer": facebinder["create"],
     "desenhar": facebinder["create"],
 
-    "informação": facebinder["help"],
     "ajuda": facebinder["help"],
+    "informação": facebinder["help"],
     "opcoes": facebinder["help"],
 }

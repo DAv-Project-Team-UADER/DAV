@@ -21,14 +21,15 @@ from .validate import validate
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Validación de croquis y sinónimos
     "validate": validate['validate'],
     "validar": validate['validate'],
     "validar croquis": validate['validate'],
     "comprobar croquis": validate['validate'],
-    "verificar croquis": validate['validate']
+    "verificar croquis": validate['validate'],
+
+    "ayuda": validate['help'],
+    "informacion": validate['help'],
+    "opciones": validate['help'],
 }

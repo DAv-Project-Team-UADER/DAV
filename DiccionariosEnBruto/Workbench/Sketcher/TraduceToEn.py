@@ -17,6 +17,7 @@
 
 """English spoken-word mapping for the Sketcher workbench."""
 
+from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
@@ -169,7 +170,7 @@ TraduceToEn = {
     "create chamfer": lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
 
     # Soporte y Ayuda
-    "help": sketcher_ayuda,
-    "get help": sketcher_ayuda,
-    "show help": sketcher_ayuda,
+    "help": Sketcher['help'],
+    "info": Sketcher['help'],
+    "options": Sketcher['help'],
 }

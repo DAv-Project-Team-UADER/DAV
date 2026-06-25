@@ -29,6 +29,6 @@ TraduceToEs = {
     '3 puntos':             arc['3point'],
 
     'ayuda':                arc['help'],
-    'comandos':             arc['help'],
+    'informacion':             arc['help'],
     'opciones':             arc['help']
 }

@@ -16,7 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .toolbars import toolbars
+from .Toolbars import toolbars
+from DAV.DiccionariosEnBruto.StdView.Toolbars import Toolbars
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -34,20 +35,24 @@ TraduceToPt = {
     "recortar": toolbars["clipboard"],
     "desfazer": toolbars["clipboard"],
     "refazer": toolbars["clipboard"],
+
     # Editar
     "editar": toolbars["edit"],
     "edição": toolbars["edit"],
     "edicao": toolbars["edit"],
     "barra de edição": toolbars["edit"],
     "barra de edicao": toolbars["edit"],
+
     # Arquivo
     "arquivo": toolbars["file"],
     "folha": toolbars["file"],
     "barra de arquivo": toolbars["file"],
     "barra de arquivos": toolbars["file"],
+
     # Barra de ajuda
     "barra de ajuda": toolbars["toolbarshelp"],
     "ajuda da barra": toolbars["toolbarshelp"],
+
     # Vistas
     "vistas": toolbars["views"],
     "vistas individuais": toolbars["views"],
@@ -59,12 +64,14 @@ TraduceToPt = {
     "perspectiva frontal": toolbars["views"],
     "frontal": toolbars["views"],
     "barra de vistas": toolbars["views"],
+
     # Bloquear barras
     "bloquear": toolbars["lock"],
     "bloquear barra": toolbars["lock"],
     "bloquear barras": toolbars["lock"],
     "desbloquear barra": toolbars["lock"],
     "desbloquear barras": toolbars["lock"],
+
     # Macro
     "macro": toolbars["macro"],
     "macros": toolbars["macro"],
@@ -91,9 +98,10 @@ TraduceToPt = {
     "bancadas": toolbars["workbench"],
     "iniciar bancada": toolbars["workbench"],
     "iniciar workbench": toolbars["workbench"],
+    
     # Ajuda
-    "ajuda": ayuda,
-    "informação": ayuda,  # sinônimo
-    "opções": ayuda,  # sinônimo
+    "ajuda": Toolbars["help"],
+    "informação": Toolbars["help"],
+    "opções": Toolbars["help"],
     
 }

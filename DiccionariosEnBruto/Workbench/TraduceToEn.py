@@ -54,6 +54,10 @@ TraduceToEn = {
     "technical draw":    techdraw,
     "drawing":           techdraw,
     "drawings":          techdraw,
+
+    "help":              techdraw["help"],
+    "info":              techdraw["help"],
+    "options":           techdraw["help"],
 }
 
 

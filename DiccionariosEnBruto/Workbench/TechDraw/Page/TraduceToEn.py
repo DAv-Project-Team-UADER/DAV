@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .page import page
+from .Page import page
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -60,5 +60,7 @@ TraduceToEn = {
     "export scalable vector graphics": page["svg"],
     "save scalable vector graphics": page["svg"],
 
-    "help": ayuda,
+    "help": page["help"],
+    "info": page["help"],
+    "options": page["help"],
 }

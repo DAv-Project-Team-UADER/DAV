@@ -29,10 +29,8 @@ TraduceToEs = {
     "crear revolucion": part_revolve["revolve"],
     "crear revolución": part_revolve["revolve"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_revolve['help'],
+    "información": part_revolve['help'],
+    "opciones": part_revolve['help'],
 }
 

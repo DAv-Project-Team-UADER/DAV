@@ -31,5 +31,7 @@ TraduceToEs = {
     "insertar vista activa": other_views["active_view"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": other_views["help"],
+    "información": other_views["help"],
+    "opciones": other_views["help"],
 }

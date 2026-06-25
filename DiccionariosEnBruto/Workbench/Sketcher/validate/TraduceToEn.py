@@ -21,13 +21,14 @@ from .validate import validate
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Sketch validation & synonyms
     "validate": validate['validate'],
     "validate sketch": validate['validate'],
     "check sketch": validate['validate'],
-    "verify": validate['validate']
+    "verify": validate['validate'],
+
+    "help": validate['help'],
+    "info": validate['help'],
+    "options": validate['help'],
 }

@@ -31,6 +31,6 @@ TraduceToEs = {
     'ranura recta':         arc_slot['flat_ends'],
 
     'ayuda':                arc_slot['help'],
-    'comandos':             arc_slot['help'],
+    'informacion':             arc_slot['help'],
     'opciones':             arc_slot['help']
 }

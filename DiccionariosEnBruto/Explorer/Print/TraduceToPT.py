@@ -25,5 +25,8 @@ TraduceToPT = {
     'papel':    print_cmds['print'],
     'folha':    print_cmds['print'],
     'pdf':      print_cmds['pdf'],
-    'ajuda':    ayuda,
+    
+    "ajuda":     ayuda['help'],
+    "informação": ayuda['help'],
+    "opções":    ayuda['help'],
 }

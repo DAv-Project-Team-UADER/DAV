@@ -45,8 +45,7 @@ TraduceToEs = {
     "redimensionar": transform["scaled"],
 
     # Ayuda
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
+    "ayuda": transform['help'],
+    "información": transform['help'],
+    "opciones": transform['help'],
 }

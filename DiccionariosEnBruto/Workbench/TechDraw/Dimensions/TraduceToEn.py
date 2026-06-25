@@ -21,39 +21,48 @@ from .Dimensions import dimensions
 TraduceToEn = {
     # vertical
     "vertical":           dimensions["vertical"],
-    "vertical dimension": dimensions["vertical"],  # synonym
-    "height":             dimensions["vertical"],  # synonym
+    "vertical dimension": dimensions["vertical"],  
+    "height":             dimensions["vertical"],  
+
     # area
     "area":               dimensions["area"],
-    "area dimension":     dimensions["area"],      # synonym
-    "surface":            dimensions["area"],      # synonym
+    "area dimension":     dimensions["area"],      
+    "surface":            dimensions["area"],    
+
     # fit
     "fit":                dimensions["fit"],
-    "tolerance":          dimensions["fit"],       # synonym
-    "hole shaft":         dimensions["fit"],       # synonym
+    "tolerance":          dimensions["fit"],       
+    "hole shaft":         dimensions["fit"],  
+
     # length
     "length":             dimensions["length"],
-    "distance":           dimensions["length"],    # synonym
-    "measure":            dimensions["length"],    # synonym
+    "distance":           dimensions["length"],    
+    "measure":            dimensions["length"],  
+
     # horizontal
     "horizontal":         dimensions["horizontal"],
-    "width":              dimensions["horizontal"], # synonym
-    "x distance":         dimensions["horizontal"], # synonym
+    "width":              dimensions["horizontal"], 
+    "x distance":         dimensions["horizontal"], 
+
     # extent
     "extent":             dimensions["extent"],
-    "span":               dimensions["extent"],    # synonym
-    "total length":       dimensions["extent"],    # synonym
+    "span":               dimensions["extent"],    
+    "total length":       dimensions["extent"],  
+
     # radius
     "radius":             dimensions["radius"],
-    "arc radius":         dimensions["radius"],    # synonym
+    "arc radius":         dimensions["radius"],  
+
     # diameter
     "diameter":           dimensions["diameter"],
-    "circle dimension":   dimensions["diameter"],  # synonym
+    "circle dimension":   dimensions["diameter"],  
+
     # angle
     "angle":              dimensions["angle"],
-    "angular":            dimensions["angle"],     # synonym
+    "angular":            dimensions["angle"],   
+      
     # help
     "help":               dimensions["help"],
-    "info":               dimensions["help"],   # synonym
-    "options":            dimensions["help"],   # synonym
+    "info":               dimensions["help"],   
+    "options":            dimensions["help"],   
 }

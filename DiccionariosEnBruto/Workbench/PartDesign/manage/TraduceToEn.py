@@ -23,15 +23,19 @@ TraduceToEn = {
     # MoveFeature
     "movefeature": manage["movefeature"],
     "move feature": manage["movefeature"],
+
     # MoveFeatureInTree
     "movefeatureintree": manage["movefeatureintree"],
     "move feature in tree": manage["movefeatureintree"],
+
     # MoveTip
     "movetip": manage["movetip"],
     "move tip": manage["movetip"],
+
     # Preferences
     "preferences": manage["preferences"],
     "settings": manage["preferences"],
+    
     # WizardShaft
     "wizardshaft": manage["wizardshaft"],
     "wizard shaft": manage["wizardshaft"],

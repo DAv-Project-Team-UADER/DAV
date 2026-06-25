@@ -18,7 +18,7 @@
 
 """Mapeo de comandos hablados en español para Camera."""
 
-from .camera import camera
+from .Camera import camera
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -31,8 +31,7 @@ TraduceToEs = {
     "vistaperspectiva": camera["perspective"],
 
     # Ayuda
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
+    "ayuda": camera["help"],
+    "información": camera["help"],
+    "opciones": camera["help"],
 }

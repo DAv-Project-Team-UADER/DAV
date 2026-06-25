@@ -29,7 +29,6 @@ TraduceToEn = {
     "increase": bspline_tools["increase"],
     "knot": bspline_tools["knot"],
     "join": bspline_tools["join"],
-    "help": bspline_tools["help"],
 
     # Aliases
     "convert to nurbs": bspline_tools["tonurbs"],
@@ -37,4 +36,8 @@ TraduceToEn = {
     "degree up": bspline_tools["increase"],
     "insert knot": bspline_tools["knot"],
     "join curve": bspline_tools["join"],
+
+    "help": bspline_tools["help"],
+    "info": bspline_tools["help"],
+    "options": bspline_tools["help"],
 }

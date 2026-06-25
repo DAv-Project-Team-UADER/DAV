@@ -21,10 +21,11 @@ from .addVertices import add_vertices
 TraduceToPt = {
     # cosmetic
     "cosmetico":        add_vertices["cosmetic"],
-    "vertice cosmetico": add_vertices["cosmetic"],  # sinonimo
-    "ponto referencia": add_vertices["cosmetic"],   # sinonimo
+    "vertice cosmetico": add_vertices["cosmetic"],      
+    "ponto referencia": add_vertices["cosmetic"],    
+
     # help
     "ajuda":            add_vertices["help"],
-    "info":             add_vertices["help"],       # sinonimo
-    "opcoes":           add_vertices["help"],       # sinonimo
+    "informação":             add_vertices["help"],           
+    "opções":           add_vertices["help"],           
 }

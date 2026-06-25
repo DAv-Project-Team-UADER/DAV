@@ -21,9 +21,6 @@ from .polyline import polyline
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Polyline creation & synonyms
     "create": polyline['create'],
@@ -31,5 +28,9 @@ TraduceToEn = {
     "draw polyline": polyline['create'],
     "polyline": polyline['create'],
     "multi line": polyline['create'],
-    "continuous line": polyline['create']
+    "continuous line": polyline['create'],
+
+    "help": polyline['help'],
+    "info": polyline['help'],
+    "options": polyline['help'],
 }

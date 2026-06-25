@@ -21,10 +21,11 @@ from .length import length
 TraduceToEs = {
     # length
     "longitud":           length["length"],
-    "dimension longitud": length["length"],  # sinonimo
-    "distancia":          length["length"],  # sinonimo
+    "dimension longitud": length["length"],  
+    "distancia":          length["length"],  
+
     # help
     "ayuda":              length["help"],
-    "info":               length["help"],    # sinonimo
-    "opciones":           length["help"],    # sinonimo
+    "información":               length["help"],    
+    "opciones":           length["help"],    
 }

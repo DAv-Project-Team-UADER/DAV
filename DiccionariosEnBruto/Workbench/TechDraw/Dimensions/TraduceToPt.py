@@ -21,40 +21,50 @@ from .dimensions import dimensions
 TraduceToPt = {
     # vertical
     "vertical":            dimensions["vertical"],
-    "dimensao vertical":   dimensions["vertical"],  # sinonimo
-    "altura":              dimensions["vertical"],  # sinonimo
+    "dimensao vertical":   dimensions["vertical"],  
+    "altura":              dimensions["vertical"],  
+
     # area
     "area":                dimensions["area"],
-    "dimensao area":       dimensions["area"],      # sinonimo
-    "superficie":          dimensions["area"],      # sinonimo
+    "dimensao area":       dimensions["area"],      
+    "superficie":          dimensions["area"],  
+
     # fit
     "ajuste":              dimensions["fit"],
-    "tolerancia":          dimensions["fit"],       # sinonimo
-    "ajuste furo":         dimensions["fit"],       # sinonimo
+    "tolerancia":          dimensions["fit"],       
+    "ajuste furo":         dimensions["fit"],     
+
     # dimension
     "dimensao":            dimensions["dimension"],
-    "medir":               dimensions["dimension"], # sinonimo
-    "medida":              dimensions["dimension"], # sinonimo
+    "medir":               dimensions["dimension"], 
+    "medida":              dimensions["dimension"], 
+
     # length
     "comprimento":         dimensions["length"],
-    "distância":           length["length"],    # sinonimo
+    "distância":           dimensions["length"],    
+
     # horizontal
     "horizontal":          dimensions["horizontal"],
-    "largura":             dimensions["horizontal"], # sinonimo
+    "largura":             dimensions["horizontal"], 
+
     # extent
     "extensao":            dimensions["extent"],
-    "comprimento total":   dimensions["extent"],    # sinonimo
+    "comprimento total":   dimensions["extent"],   
+
     # radius
     "raio":                dimensions["radius"],
-    "raio arco":           dimensions["radius"],    # sinonimo
+    "raio arco":           dimensions["radius"],    
+
     # diameter
     "diametro":            dimensions["diameter"],
-    "dimensao circulo":    dimensions["diameter"],  # sinonimo
+    "dimensao circulo":    dimensions["diameter"],  
+
     # angle
     "angulo":              dimensions["angle"],
-    "dimensao angular":    dimensions["angle"],     # sinonimo
+    "dimensao angular":    dimensions["angle"],    
+
     # help
     "ajuda":               dimensions["help"],
-    "info":                dimensions["help"],      # sinonimo
-    "opcoes":              dimensions["help"],      # sinonimo
+    "informação":                dimensions["help"],      
+    "opções":              dimensions["help"],      
 }

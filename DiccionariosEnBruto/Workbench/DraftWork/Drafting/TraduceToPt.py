@@ -32,6 +32,7 @@ TraduceToPt = {
     "linha segmentada":     drafting["wire"],
     "linha quebrada":     drafting["wire"],
     "linha por partes":              drafting["wire"],
+    
     # Ajuda
     "ajuda":             drafting["help"],
     "informação":       drafting["help"],

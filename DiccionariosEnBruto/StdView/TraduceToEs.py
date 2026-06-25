@@ -18,6 +18,8 @@
 
 """Spanish spoken-word mapping for the DAV StdView dictionary folders."""
 
+from DAV.DiccionariosEnBruto.StdView.StdView import StdView
+
 from .Appearance.Appearance import appearance
 from .Camera.Camera import camera
 from .Clipping.Clipping import clipping
@@ -34,71 +36,68 @@ from .Visibility.Visibility import visibility
 from .ayuda import ayuda
 
 TraduceToEs = {
-    "apariencia": appearance,
-    "aspecto": appearance,
-    "estilo visual": appearance,
+    "apariencia": StdView["appearance"],
+    "aspecto": StdView["appearance"],
+    "estilo visual": StdView["appearance"],
 
-    "camara": camera,
-    "cámara": camera,
-    "vista de camara": camera,
-    "vista de cámara": camera,
+    "camara": StdView["camera"],
+    "cámara": StdView["camera"],
+    "vista de camara": StdView["camera"],
+    "vista de cámara": StdView["camera"],
 
-    "recorte": clipping,
-    "clip": clipping,
-    "plano de recorte": clipping,
+    "recorte": StdView["clipping"],
+    "clip": StdView["clipping"],
+    "plano de recorte": StdView["clipping"],
 
-    "estilos de dibujo": drawstyles,
-    "estilos de visualizacion": drawstyles,
-    "estilos de visualización": drawstyles,
-    "modos de dibujo": drawstyles,
+    "estilos de dibujo": StdView["drawstyles"],
+    "estilos de visualizacion": StdView["drawstyles"],
+    "estilos de visualización": StdView["drawstyles"],
+    "modos de dibujo": StdView["drawstyles"],
 
-    "material": material,
-    "materiales": material,
+    "material": StdView["material"],
+    "materiales": StdView["material"],
 
-    "superposicion": overlay,
-    "superposición": overlay,
-    "overlay": overlay,
-    "vista superpuesta": overlay,
+    "superposicion": StdView["overlay"],
+    "superposición": StdView["overlay"],
+    "overlay": StdView["overlay"],
+    "vista superpuesta": StdView["overlay"],
 
-    "paneles": Panels,
-    "panel": Panels,
-    "paneles de vista": Panels,
+    "paneles": StdView["panels"],
+    "panel": StdView["panels"],
+    "paneles de vista": StdView["panels"],
 
-    "vistas guardadas": savedviews,
-    "vista guardada": savedviews,
-    "vistas favoritas": savedviews,
+    "vistas guardadas": StdView["savedviews"],
+    "vista guardada": StdView["savedviews"],
+    "vistas favoritas": StdView["savedviews"],
 
-    "vistas estandar": StandardViews,
-    "vistas estándar": StandardViews,
-    "vista estandar": StandardViews,
-    "vista estándar": StandardViews,
-    "vistas basicas": StandardViews,
-    "vistas básicas": StandardViews,
+    "vistas estandar": StdView["standardviews"],
+    "vistas estándar": StdView["standardviews"],
+    "vista estandar": StdView["standardviews"],
+    "vista estándar": StdView["standardviews"],
+    "vistas basicas": StdView["standardviews"],
+    "vistas básicas": StdView["standardviews"],
 
-    "estereo": stereo,
-    "estéreo": stereo,
-    "vista estereo": stereo,
-    "vista estéreo": stereo,
+    "estereo": StdView["stereo"],
+    "estéreo": StdView["stereo"],
+    "vista estereo": StdView["stereo"],
+    "vista estéreo": StdView["stereo"],
 
-    "barras de herramientas": toolbars,
-    "barra de herramientas": toolbars,
-    "toolbars": toolbars,
+    "barras de herramientas": StdView["toolbars"],
+    "barra de herramientas": StdView["toolbars"],
+    "toolbars": StdView["toolbars"],
 
-    "arbol": tree,
-    "árbol": tree,
-    "arbol del modelo": tree,
-    "árbol del modelo": tree,
-    "arbol de documento": tree,
-    "árbol de documento": tree,
+    "arbol": StdView["tree"],
+    "árbol": StdView["tree"],
+    "arbol del modelo": StdView["tree"],
+    "árbol del modelo": StdView["tree"],
+    "arbol de documento": StdView["tree"],
+    "árbol de documento": StdView["tree"],
 
-    "visibilidad": visibility,
-    "visible": visibility,
-    "mostrar ocultar": visibility,
+    "visibilidad": StdView["visibility"],
+    "visible": StdView["visibility"],
+    "mostrar ocultar": StdView["visibility"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+    "ayuda": StdView["help"],
+    "información": StdView["help"],
+    "opciones": StdView["help"],
 }

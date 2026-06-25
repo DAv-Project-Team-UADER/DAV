@@ -35,25 +35,43 @@ TraduceToEs = {
     # Sinónimos
     "basico": partdesign["base"],
     "fundamental": partdesign["base"],
+    "elemental": partdesign["base"],
+    "cimiento": partdesign["base"],
 
     "agregar": partdesign["additive"],
     "añadir": partdesign["additive"],
     "adiciones": partdesign["additive"],
+    "sumar": partdesign["additive"],
+    "aditivo": partdesign["additive"],
 
     "restar": partdesign["subtractive"],
     "remover": partdesign["subtractive"],
     "cortar": partdesign["subtractive"],
+    "sustractivo": partdesign["subtractive"],
+    "eliminar": partdesign["subtractive"],
+    "quitar": partdesign["subtractive"],
+    "sacar": partdesign["subtractive"],
 
     "editar": partdesign["modify"],
     "edicion": partdesign["modify"],
     "modificadores": partdesign["modify"],
+    "modificar": partdesign["modify"],
+    "cambiar": partdesign["modify"],
 
     "transformaciones": partdesign["transform"],
     "patrones": partdesign["transform"],
+    "transformar": partdesign["transform"],
+    "cambiar": partdesign["transform"],
+    "convertir": partdesign["transform"],
 
     "administrar": partdesign["manage"],
     "administracion": partdesign["manage"],
     "configuracion": partdesign["manage"],
+    "gestionar": partdesign["manage"],
+    "controlar": partdesign["manage"],
+    "manejar": partdesign["manage"],
+    "organizar": partdesign["manage"],
+    "coordinar": partdesign["manage"],
     
     "ayuda":                partdesign["help"],
     "información":          partdesign["help"],

@@ -29,7 +29,6 @@ TraduceToEs = {
     "eliptica": ellipse["elliptic"],
     "hiperbolica": ellipse["hyperbolic"],
     "parabolica": ellipse["parabolic"],
-    "ayuda": ellipse["help"],
 
     # Sinónimos
     "elipse centro": ellipse["center"],
@@ -37,4 +36,8 @@ TraduceToEs = {
     "arco eliptico": ellipse["elliptic"],
     "arco hiperbolico": ellipse["hyperbolic"],
     "arco parabolico": ellipse["parabolic"],
+
+    "ayuda": ellipse["help"],
+    "informacion": ellipse["help"],
+    "opciones": ellipse["help"],
 }

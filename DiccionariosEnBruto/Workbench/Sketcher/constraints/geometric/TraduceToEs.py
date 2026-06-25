@@ -71,6 +71,6 @@ TraduceToEs = {
     'desactivar restriccion':geometric['toggleactive'],
 
     'ayuda':                geometric['help'],
-    'comandos':             geometric['help'],
+    'información':             geometric['help'],
     'opciones':             geometric['help']
 }

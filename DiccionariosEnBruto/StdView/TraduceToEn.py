@@ -18,6 +18,8 @@
 
 """English spoken-word mapping for the DAV StdView dictionary folders."""
 
+from DAV.DiccionariosEnBruto.StdView.StdView import StdView
+
 from .Appearance.Appearance import appearance
 from .Camera.Camera import camera
 from .Clipping.Clipping import clipping
@@ -34,59 +36,58 @@ from .Visibility.Visibility import visibility
 from .ayuda import ayuda
 
 TraduceToEn = {
-    "appearance": appearance,
-    "visual appearance": appearance,
-    "look": appearance,
+    "appearance": StdView["appearance"],
+    "visual appearance": StdView["appearance"],
+    "look": StdView["appearance"],
 
-    "camera": camera,
-    "view camera": camera,
+    "camera": StdView["camera"],
+    "view camera": StdView["camera"],
 
-    "clipping": clipping,
-    "clip": clipping,
-    "clipping plane": clipping,
+    "clipping": StdView["clipping"],
+    "clip": StdView["clipping"],
+    "clipping plane": StdView["clipping"],
 
-    "draw styles": drawstyles,
-    "drawing styles": drawstyles,
-    "display styles": drawstyles,
-    "visual styles": drawstyles,
+    "draw styles": StdView["drawstyles"],
+    "drawing styles": StdView["drawstyles"],
+    "display styles": StdView["drawstyles"],
+    "visual styles": StdView["drawstyles"],
 
-    "material": material,
-    "materials": material,
+    "material": StdView["material"],
+    "materials": StdView["material"],
 
-    "overlay": overlay,
-    "overlays": overlay,
-    "overlay view": overlay,
+    "overlay": StdView["overlay"],
+    "overlays": StdView["overlay"],
+    "overlay view": StdView["overlay"],
 
-    "panels": Panels,
-    "panel": Panels,
-    "view panels": Panels,
+    "panels": StdView["panels"],
+    "panel": StdView["panels"],
+    "view panels": StdView["panels"],
 
-    "saved views": savedviews,
-    "saved view": savedviews,
-    "bookmarked views": savedviews,
+    "saved views": StdView["savedviews"],
+    "saved view": StdView["savedviews"],
+    "bookmarked views": StdView["savedviews"],
 
-    "standard views": StandardViews,
-    "standard view": StandardViews,
-    "basic views": StandardViews,
+    "standard views": StdView["standardviews"],
+    "standard view": StdView["standardviews"],
+    "basic views": StdView["standardviews"],
 
-    "stereo": stereo,
-    "stereoscopic": stereo,
-    "stereo view": stereo,
+    "stereo": StdView["stereo"],
+    "stereoscopic": StdView["stereo"],
+    "stereo view": StdView["stereo"],
 
-    "toolbars": toolbars,
-    "toolbar": toolbars,
-    "view toolbars": toolbars,
+    "toolbars": StdView["toolbars"],
+    "toolbar": StdView["toolbars"],
+    "view toolbars": StdView["toolbars"],
 
-    "tree": tree,
-    "model tree": tree,
-    "document tree": tree,
+    "tree": StdView["tree"],
+    "model tree": StdView["tree"],
+    "document tree": StdView["tree"],
 
-    "visibility": visibility,
-    "visible": visibility,
-    "show hide": visibility,
+    "visibility": StdView["visibility"],
+    "visible": StdView["visibility"],
+    "show hide": StdView["visibility"],
 
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    "help": StdView["help"],
+    "info": StdView["help"],
+    "options": StdView["help"],
 }

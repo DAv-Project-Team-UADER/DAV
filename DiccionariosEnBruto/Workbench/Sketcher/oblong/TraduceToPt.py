@@ -21,9 +21,6 @@ from .oblong import oblong
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Criação de oval / ranhura e sinônimos
     "criar": oblong['create'],
@@ -32,5 +29,9 @@ TraduceToPt = {
     "criar ranhura": oblong['create'],
     "desenhar ranhura": oblong['create'],
     "criar ovalo": oblong['create'],
-    "desenhar ovalo": oblong['create']
+    "desenhar ovalo": oblong['create'],
+
+    "ajuda": oblong['help'],
+    "informação": oblong['help'],
+    "opções": oblong['help'],
 }

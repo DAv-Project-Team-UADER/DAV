@@ -21,9 +21,6 @@ from .external import external
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Projection commands & synonyms
     "projection": external['projection'],
@@ -34,5 +31,10 @@ TraduceToEn = {
     "intersection": external['intersection'],
     "intersect": external['intersection'],
     "external geometry": external['intersection'],
-    "external link": external['intersection']
+    "external link": external['intersection'],
+
+    # Help command
+    "help": external['help'],
+    "info": external['help'],
+    "options": external['help']
 }

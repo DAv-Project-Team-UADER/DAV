@@ -32,6 +32,6 @@ TraduceToEs = {
     "paint face": part_color_per_face["paint face"],
 
     "ayuda":           part_color_per_face['help'],
-    "info":            part_color_per_face['help'],
+    "información":            part_color_per_face['help'],
     "options":         part_color_per_face['help']
 }

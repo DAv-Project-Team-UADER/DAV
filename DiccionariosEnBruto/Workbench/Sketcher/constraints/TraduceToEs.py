@@ -52,6 +52,6 @@ TraduceToEs = {
     'restricciones':        constraints['geometric'],
 
     'ayuda':                constraints['help'],
-    'comandos':             constraints['help'],
+    'información':             constraints['help'],
     'opciones':             constraints['help']
 }
