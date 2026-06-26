@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""English spoken-word mapping for the LineAttributes dictionary."""
+
+from .LineAttributes import LineAttributes
+
+TraduceToEn = {
+    "select line attributes": LineAttributes["select"],
+    "select attributes": LineAttributes["select"],
+    "choose attributes": LineAttributes["select"],
+    "change line attributes": LineAttributes["change"],
+    "change attributes": LineAttributes["change"],
+    "edit line attributes": LineAttributes["change"],
+    "modify attributes": LineAttributes["change"],
+
+    "help": LineAttributes["help"],
+    "info": LineAttributes["help"],
+    "options": LineAttributes["help"],
+}

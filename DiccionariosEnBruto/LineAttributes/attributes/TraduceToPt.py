@@ -15,3 +15,21 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for the attributes dictionary."""
+
+from .attributes import attributes
+
+TraduceToPt = {
+    "selecionar atributos": attributes["select"],
+    "selecionar atributos de linha": attributes["select"],
+    "escolher atributos": attributes["select"],
+    "mudar atributos": attributes["change"],
+    "alterar atributos": attributes["change"],
+    "editar atributos": attributes["change"],
+    "modificar atributos": attributes["change"],
+
+    "ajuda": attributes["help"],
+    "informação": attributes["help"],
+    "opções": attributes["help"],
+}
