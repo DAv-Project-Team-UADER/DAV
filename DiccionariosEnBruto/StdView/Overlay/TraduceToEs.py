@@ -18,36 +18,36 @@
 
 """Spanish spoken-word mapping for the overlay dictionary."""
 
-from .overlay import overlay
+from .Overlay import overlay
 
 TraduceToEs = {
     # Posiciones y visualización de superposición (overlay)
     'abajo':                    overlay['bottom'],
     'panel inferior':           overlay['bottom'],
-    'superposicion abajo':      overlay['bottom'],
+    'superposición abajo':      overlay['bottom'],
 
     'flotar':                   overlay['float'],
     'panel flotante':           overlay['float'],
-    'superposicion flotante':   overlay['float'],
+    'superposición flotante':   overlay['float'],
 
     'izquierda':                overlay['left'],
     'panel izquierdo':          overlay['left'],
-    'superposicion izquierda':  overlay['left'],
+    'superposición izquierda':  overlay['left'],
 
     'derecha':                  overlay['right'],
     'panel derecho':            overlay['right'],
-    'superposicion derecha':    overlay['right'],
+    'superposición derecha':    overlay['right'],
 
     'eje':                      overlay['axis'],
     'cruz de ejes':             overlay['axis'],
     'mostrar ejes':             overlay['axis'],
 
-    'navegacion':               overlay['navigation'],
-    'alternar navegacion':      overlay['navigation'],
-    'panel de navegacion':      overlay['navigation'],
+    'navegación':               overlay['navigation'],
+    'alternar navegación':      overlay['navigation'],
+    'panel de navegación':      overlay['navigation'],
 
     'alternar':                 overlay['toggle'],
-    'alternar superposicion':   overlay['toggle'],
+    'alternar superposición':   overlay['toggle'],
     'mostrar panel':            overlay['toggle'],
 
     # Comandos de ayuda estandarizados

@@ -1,0 +1,4054 @@
+[33mcommit eb1afdd766eb7f9e0d2d6aafe7cb0cd15bd4fbbb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPruebas[m[33m, [m[1;31morigin/Pruebas[m[33m)[m
+Merge: 895d9a2e ab0008d5
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Thu Jul 2 18:47:37 2026 -0300
+
+    Standardization of help and correction commands
+
+[33mcommit 895d9a2e6a172b609812975f3126f8974f63c187[m
+Merge: 5939e273 defe704f
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Thu Jul 2 18:44:49 2026 -0300
+
+    Standardization of help and correction commands
+
+[33mcommit ab0008d5c571ed323a300c3168bedfe72882654d[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Thu Jul 2 18:38:24 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 4c7af27696cb259b402931bbbbd827f39e715d4c[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Mon Jun 29 17:30:02 2026 -0300
+
+    Implement English translations for standard views
+    
+    Added translations for various standard views in English.
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 4bbd151e02c68855798fb1bb754ac9a1cc952143[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Thu Jun 25 21:16:54 2026 -0300
+
+    Diccionario Panels completo
+
+[33mcommit 0b9f7d8f26ad30ff9957b12a908ebf2c4dfd1ed6[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Thu Jun 25 11:08:25 2026 -0300
+
+    Add Portuguese translations for StdViews DrawStyles
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 88b3388c1192c1da8eeefbc703b03d8cb745474a[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Thu Jun 25 11:07:47 2026 -0300
+
+    Add Spanish translations for StdViews DrawStyles
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 78592c6d79a5411dc8abd54616450da707866601[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Thu Jun 25 11:07:18 2026 -0300
+
+    Add English translations for StdViews DrawStyles
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 1db4b15f7e19ba19fec59c53976a65963b25571d[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Wed Jun 24 21:45:41 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 364700eae51b844df71bd837997e2c91ebbe4322[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Wed Jun 24 19:11:39 2026 -0300
+
+    Implement Portuguese command mappings in TraduceToPt.py
+    
+    Added Portuguese command mappings for Camera.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 5153a11d1d8b9829d8bed6c5e2564a5918ed3fcb[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Wed Jun 24 19:11:10 2026 -0300
+
+    Implement Spanish command mappings for Camera
+    
+    Added Spanish translations for camera commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit b7fb6272500f77eec5f403c4d192d379f883087d[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Wed Jun 24 19:10:39 2026 -0300
+
+    Implement English mapping for Camera commands
+    
+    Added English spoken-word mapping for Camera commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 79df9574e7aa8a6c9e700d90de0444ffa813f10a[m
+Merge: 32a4fb5c 6cbe3aac
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Wed Jun 24 17:10:56 2026 -0300
+
+    Merge pull request #165 from julianAO2002/pruebas
+    
+    Hacer que DAV cargue desde ComponentesDAV en vez de luigiIntegracionV1
+
+[33mcommit 6cbe3aac1b307aedb2573a30519d451371c85aed[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 17:07:42 2026 -0300
+
+    Apuntar el launcher raiz a ComponentesDAV en vez de luigiIntegracionV1
+
+[33mcommit 58c29d688c105f175d043d67850af555a441e47f[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 17:04:54 2026 -0300
+
+    Sincronizar arreglos de navegacion en ComponentesDAV y apuntar a DiccionariosEnBruto
+
+[33mcommit 054f5cdde678f0f4aeb6120ea01e00a626e8a3fc[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 17:04:48 2026 -0300
+
+    Priorizar ComponentesDAV sobre Dav al resolver la raiz del repo
+
+[33mcommit 32a4fb5c6a036ab4d8c466ff94ad288316a90919[m
+Merge: 515f9efc e0961f8a
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Wed Jun 24 16:39:47 2026 -0300
+
+    Merge pull request #164 from julianAO2002/pruebas
+    
+    Pruebas
+
+[33mcommit e0961f8a740310df772a20b7f765a3c20d4634b4[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:35:09 2026 -0300
+
+    Priorizar contexto actual, agregar comando volver y mostrar contexto al navegar
+
+[33mcommit b55f4d413c6fe9457b8512186475e817c7eca51c[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:34:09 2026 -0300
+
+    Tolerar claves de comando sin implementar con LenientDict
+
+[33mcommit f4baa1d066c3ca9f28aec16953050eff727f7ab4[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:33:45 2026 -0300
+
+    Anidar subcontextos en Explorer para navegacion por niveles
+
+[33mcommit 4b95e98c418681c6165ed854cab278dc874a68fd[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:33:41 2026 -0300
+
+    Corregir imports rotos (relativos y mayusculas) en los diccionarios
+
+[33mcommit 089f31a754de72d6150f769bd2689aa9d887b6dd[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:32:27 2026 -0300
+
+    Agregar __init__.py faltantes en los paquetes de DiccionariosEnBruto
+
+[33mcommit b405b495ec73f964f1b0cbb6a22874988951293a[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 24 16:32:18 2026 -0300
+
+    Tolerar diccionarios rotos al cargar sin frenar el motor de voz
+
+[33mcommit 515f9efcf5b8870160bed06ec26940ba32aaf054[m
+Author: Lucas Tabacchi <lucastabacchi2@gmail.com>
+Date:   Tue Jun 23 18:16:00 2026 -0300
+
+    add StdView folder translations
+
+[33mcommit a1cb084ce79d7629452b7b55bbf59c3f7c345d2d[m
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Tue Jun 23 13:24:42 2026 -0300
+
+    Add EN, ES and PT translations for Explorer Tools and Windows
+
+[33mcommit e34d5f0080f0684b4362980b31003e7f7745daef[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:50:19 2026 -0300
+
+    Add Portuguese translations for overlay dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 49033dbe3941c462ec9d7e06495a707d1a4bbf94[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:49:54 2026 -0300
+
+    Add Spanish mapping for overlay dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit e2af0244543bd10bfbe65d3e76652b8dc96d27ba[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:49:31 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit a3887d7d7ba87ee6ebd3912d2b5a27bfb8593783[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:47:13 2026 -0300
+
+    Implement Portuguese translations for material commands
+    
+    Added Portuguese spoken-word mappings for material commands.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 5470ffbbbfacb6824c32d57aa3c8167b75aae6c5[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:46:22 2026 -0300
+
+    Add SPDX license identifier and comments in Spanish
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 00e1d1a31975db86ababf0ea61c0a6333102c714[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:46:01 2026 -0300
+
+    Add SPDX license identifier and docstring
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit a20e9f6e9eea8dc321ee748131de0fb5d89ad273[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:37:26 2026 -0300
+
+    Add Portuguese translations for geometric terms
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 6ff9de84f30c66d6bc07ea0d05b17a5abbf9841a[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:37:06 2026 -0300
+
+    Add Spanish translations to TraduceToEs.py
+    
+    Added Spanish translations for geometric terms in the dictionary.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit e4f43344764f3e7d67ad55b03c6843619e5c5979[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:36:38 2026 -0300
+
+    Add Portuguese translations for constraints dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit a5d5f2fc9c3e86e8310b9e9a2de1a81d327e702e[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:36:14 2026 -0300
+
+    Add Spanish translations for constraints dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 5a77cfcfce8041deda7a4c22867d80c9d19518a4[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:35:34 2026 -0300
+
+    Add Portuguese mappings for circle dictionary
+    
+    Added Portuguese translations for circle commands.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit b0cacd0ae2a38049f771bfc90c47a176d53c2bda[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:35:11 2026 -0300
+
+    Add Spanish translations for circle dictionary
+    
+    Added Spanish translations for circle commands in the dictionary.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 777c0419ad232510f1c42df432f743115da55adf[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:34:34 2026 -0300
+
+    Create TraduceToPt.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 2ff4e02bb5cba18ee5f439ec1d7861a26055818b[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:33:41 2026 -0300
+
+    Create TraduceToEs.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit fb3d4e46c7723fdbe7e32c90ce91237ae9681058[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:32:20 2026 -0300
+
+    Add Portuguese translations for arc dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit db5e4ed7dd3e383ee4815d426eea1a92edb98f8d[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 23 08:31:33 2026 -0300
+
+    Revise copyright and enhance Spanish translations
+    
+    Updated copyright notice and added Spanish translations for arc dictionary.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit b64805e223e2a686837a0774cfc638da8c91c451[m
+Merge: 37e63e1f 0ecb8db2
+Author: Fabricio David Gallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 21:45:36 2026 -0300
+
+    Merge pull request #163 from MaitenBlanc/Pruebas
+    
+    feat: add English translations and synonyms for Edit dictionary
+
+[33mcommit 37e63e1f30be22f043f615415e2a9e36706df0d4[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 21:41:16 2026 -0300
+
+    correcciones en portuges hasta new scketch
+    
+    isso
+
+[33mcommit 0ecb8db2e76828e3ed8afac9adefaab5272379ac[m
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Mon Jun 22 18:46:46 2026 -0300
+
+    feat: add English translations and synonyms for Edit dictionary
+
+[33mcommit 2dd18ff449da4bcd2cda51a261698e2bcc5640ac[m
+Merge: 256ed955 b2361df5
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 18:01:06 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 256ed95523151cbff40733b313f6d4003c80cc8d[m
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 18:00:52 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit b2361df5a30e754f56b389da83cee6c812c3dc7f[m
+Merge: a9bd3ffc dcf746e7
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Mon Jun 22 17:54:58 2026 -0300
+
+    Merge pull request #162 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit a9bd3ffc944377777f83592e6e4c9d57986596de[m
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Mon Jun 22 17:54:19 2026 -0300
+
+    Update diagramas_clases_DAV.md
+    
+    Signed-off-by: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+
+[33mcommit dcf746e72aa33c06f3d06c802d676343231ba767[m
+Author: Luigi Mete <luigimete54@gmail.com>
+Date:   Mon Jun 22 17:53:28 2026 -0300
+
+    feat(StandardViews): completar TraduceTo ES y PT con sinónimos
+
+[33mcommit 16e57a370347edb504f6bf22de2194b370de0020[m
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Mon Jun 22 17:47:26 2026 -0300
+
+    Add files via upload
+    
+    Signed-off-by: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+
+[33mcommit 1a3adc77fe8d9da1b2b5811365af5c60ef1fa3e0[m
+Merge: 320914f0 e41ba31b
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 17:42:46 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 320914f05f5bff331efdeafea97850353f43e8d8[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 17:40:19 2026 -0300
+
+    Ajustes de TraduceToPt y Es, de Appearence
+
+[33mcommit e41ba31b47f501a996e736ca08bdd314a48695bd[m
+Merge: 603008bf 2e608190
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 17:39:00 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 603008bfcc87e1a610fc4370a094e38bcd12c3f1[m
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 17:38:47 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 2e6081903b3ee57d1d76aa6b9e3c0fdacaecbbb8[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:37:55 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 7acac07a1fcb05060c92ec46a505bd8eaf68a079[m
+Merge: 0f609c0d 23ae8d40
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 17:36:45 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 23ae8d40c6c91dc8f9dc4bfe5ee500f33510b479[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:36:01 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit dec9afbde991defd611aedff230def300210809f[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:34:43 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit b94c7ffdc9436d08d2ab4c9a78bea4891fcdf8e2[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:34:38 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit b254f0850a56f7045320147f4a0f801c55aeae10[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:33:08 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 75c7aae23683ca0deb416c0242fb12323e8d0296[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:31:42 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 382dc566c31d4f644506891396adf68930be802d[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:30:53 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 827312c481dbcc0131a0e527dec4596132b30f1a[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:30:21 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit cdaca3ece325f8cf4c284fa30d0ffe3678e8ed10[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:28:49 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit defe704f3c9a4c2e264158557473b7a13386c490[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:26:26 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 0f609c0da5ffb1c323e9eb6a08bfdbb8f8dae38f[m
+Merge: 1088666b 6a75eeb5
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 17:25:37 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 6a75eeb51ca17ab88b15ac931a447e9bcc2a7956[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:25:18 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 1088666b270af755c9b194ad2820cd6261effd39[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Jun 22 17:25:11 2026 -0300
+
+    DiccionariosEnBruto\StdView\Appearence
+
+[33mcommit a742c4fc41affeae996347a467a3a7c383d8f2b9[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:24:18 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 7c071a5f51435579cf84f83a3234a489c991917f[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:23:02 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 366f9caac9d1025091175bec78f2af63b1aca84c[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:21:57 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 030b8513cd28dabfe6317abc26732736015f8724[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:21:01 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit f8405e01ffcb362a4ad1857016317c12f2de68c6[m
+Author: Luigi Mete <luigimete54@gmail.com>
+Date:   Mon Jun 22 17:17:24 2026 -0300
+
+    feat(Explorer): traducciones y sinónimos en TraduceTo ES/EN/PT
+
+[33mcommit 5939e273c1bc129d5ba172f9263ebefc62fc5a80[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Mon Jun 22 17:15:11 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 63987e658c6f08e234f77c1512b18a42be176d8f[m
+Merge: 4ce4090f 7d72951e
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 17:12:08 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 4ce4090f1a6f60b9cb389680388cbd16370fe3eb[m
+Author: Tadeo Rochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 22 17:12:00 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 7d72951e4c6f7c89f9b035c28c4be127d1b6f886[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:05:46 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit c1e6c6c857a648da847dd481383785ba4a54f59a[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:05:12 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 8b1de6d3344e513233dd237f85c2c491e280f0b0[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:05:10 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 455c42963e332d00062bc75c3f6b9300aff56948[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:04:26 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit a27c5509aa43a49f34df7828e93296711b5ec036[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:03:48 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 7730348bd6a1cb2b4f148d4845b7b4e61fc42279[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:03:29 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 7d4f7b4d472f12547c90758230bba93250560358[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:03:03 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit 6323df0203f5fbf208ca7f4702bbcf8f76e52454[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 22 17:02:29 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 50dcfaefdd4bbdfd34504e816fe3c60f397dc4f8[m
+Author: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+Date:   Mon Jun 22 17:01:25 2026 -0300
+
+    Add translations ES, EN, PT
+    
+    Signed-off-by: JoaquinPoggio <163921383+JoaquinPoggio@users.noreply.github.com>
+
+[33mcommit a885bdd93e586c62ccb79275257cbb5f264b9c71[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Mon Jun 22 16:58:18 2026 -0300
+
+    Standardization of commands, help, and minimal fixes
+
+[33mcommit 888e10259e75d50a5545a6b687b9aaba77cac2da[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Mon Jun 22 14:59:39 2026 -0300
+
+    Add Portuguese translations for toolbar items
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 558bc1996fba79f9a4fce4057ce8a961f9453c0f[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Mon Jun 22 14:58:32 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 97fb9a3f4c518fe402bbd0f2f15e93dfeab503d3[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Mon Jun 22 14:56:15 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit dcebd4c6a985108b229f829dcb152a6823e69bb0[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Mon Jun 22 13:50:20 2026 -0300
+
+    Standardization of help options and minimum fixes.
+
+[33mcommit dedd328a073504710ef7107a9ecf62455ffb42f7[m
+Merge: 476e41ec 3c34febb
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Mon Jun 22 13:24:56 2026 -0300
+
+    Merge pull request #15 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 3c34febb37bc75ca0d36390393d740b72f495881[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Mon Jun 22 01:51:18 2026 -0300
+
+    Refactor TraduceToEn dictionary for clarity
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 984c55091dd6b1e3709bc9f626a655e3a4c845c9[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Mon Jun 22 01:49:56 2026 -0300
+
+    Update Portuguese translations for PartDesign
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 76576f7efbc5624616bab456a0e5828d74dddb4a[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Mon Jun 22 01:48:59 2026 -0300
+
+    Update Spanish translations for PartDesign module
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit ed644085c674be0e60b7476190df6294a850979e[m
+Merge: 4de4c5fa 151cbcb0
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 21 22:03:39 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 4de4c5faff045db35ed72f4727f80eae9f2f511b[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 21 22:03:33 2026 -0300
+
+    Added new missing TraduceTo files and some corrections
+
+[33mcommit 151cbcb0af3a3035294ef6a49d37619919dadb5c[m
+Merge: ef5a6c92 7a9c32d8
+Author: alexalvez <alexfalvez001@gmail.com>
+Date:   Sun Jun 21 21:58:03 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit ef5a6c92fb2501aafd14837215c11a7d221ff4a9[m
+Author: alexalvez <alexfalvez001@gmail.com>
+Date:   Sun Jun 21 21:57:18 2026 -0300
+
+    Fix InputPrompts overlapping, parameter collection logic, and Keychain module path
+
+[33mcommit 7a9c32d846ccdbf0bb75bf4848f525d061595d45[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 21 21:50:13 2026 -0300
+
+    Added some corrections and impremented new synonyms into TraduceTo files
+
+[33mcommit f1ffdea3e6b6abab95f08d26997806df3f9cc905[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:26:55 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit a98a8f8fc6644b482c8a4b61acc0614299c83024[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:26:12 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit eb389ba7c4c2b604fbfb7b6eb233cbc3a60e27c4[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:21:03 2026 -0300
+
+    Add Portuguese translations to TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 7e0f940915b614c7d768fddda29e73738185ddbb[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:20:37 2026 -0300
+
+    Add Spanish translations for topology commands
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit f3e7e7ae008d3252931181f9e10a97e2bee836b0[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:18:24 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 42a3502306721109cd9b0a79fef431ab3604c034[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:17:43 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 2c871df379329d471a5a711a2d4478b86bdf538e[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:14:30 2026 -0300
+
+    Remove copyright comments from TraduceToPt.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 276a5c0ddc510accf9ee8414c5280c034dfdd098[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:14:09 2026 -0300
+
+    Remove copyright and license comments from TraduceToEs.py
+    
+    Removed copyright information and licensing comments from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 5cecf3849f70528e7ba3359d384a864f13ab3dfe[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:13:34 2026 -0300
+
+    Remove copyright comments from TraduceToPt.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 331ebc20f738e1f737ffa93ea54e5f706a032d94[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:12:56 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 4c255217d71d41a959bdbd44e1070bb785604363[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:12:11 2026 -0300
+
+    Remove copyright comments from TraduceToPt.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 916875238748b24c11c8cf56d2d0b54fab085b72[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:11:49 2026 -0300
+
+    Remove copyright and license details
+    
+    Removed copyright and license information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit af97f02d119353197f574d5faf74a1f29c143740[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:10:56 2026 -0300
+
+    Remove copyright comments from TraduceToPt.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit b7ad2e702378abfbd53b9878f18fc2ec4f48d6fa[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:10:26 2026 -0300
+
+    Remove copyright comments from TraduceToEs.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit e229d6468f5a488cea2f4fb7f70c34f8705fa9dd[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:09:44 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit fae50d8ea144afc2b5fe63f952e01f5c02bbb1b9[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:08:59 2026 -0300
+
+    Remove copyright notices from TraduceToPt.py
+    
+    Removed copyright and licensing information from the file.
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 99ab0f8de291f5d24c85527129cfda6f2cbcdac5[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:08:05 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit b068ab1b5448b0a0b01e31c3853485a2ac6b299b[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:07:37 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 444eb1a1d154f6533a0b3d13863a880e5f680930[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:06:21 2026 -0300
+
+    Add copyright and license information to TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 6c243a396c7a48ff94cbdd62203b3f735269b275[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:05:46 2026 -0300
+
+    Add copyright and license information to TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 6521d6ac38ea7da86e6d2e783ed2c6f8a117724e[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:03:56 2026 -0300
+
+    Update copyright and license information in TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit c05a4c8864488cf044322af0d7eb5945a7567e3e[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:03:19 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit dbf336be63fc6481e256e7b446a62cfb539e43c5[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:00:52 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 1f2cb8a9f1a5cf862d987d5c102da02452b0f172[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 17:00:01 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 8d27405816d8d1a9f3605205415e5a15ff0d8d6b[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 16:57:33 2026 -0300
+
+    Update license and copyright information in TraduceToEs.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit e7aec4309717dc9b08b0e4574a7a898632bed954[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Sun Jun 21 16:56:12 2026 -0300
+
+    Add copyright and license information to TraduceToPt.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 169ac64ded0a904caede8729dfd373add0751b10[m
+Merge: 69ba873d fc4e909a
+Author: Fabricio David Gallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun Jun 21 16:01:04 2026 -0300
+
+    Merge pull request #137 from uaderis2pais/Pruebas
+    
+    feat: Completadas traducciones al Espanol y Portugues para 7 subconjuntos de PartWorkbench
+
+[33mcommit 69ba873dc1396eabafaa41173a4827a151385de3[m
+Author: Benjamin Ayala <164602582+benjaminayala0@users.noreply.github.com>
+Date:   Sun Jun 21 14:46:39 2026 -0300
+
+    feat: integrate validator layer into command executor and document tests
+    
+    Integrated validation layer into PromptedCommandExecutor in both luigiIntegracionV1 and ComponentesDAV, corrected test pollution bugs, and completed REPORTE_TESTEO_VALIDATOR.md with manual local test runs.
+
+[33mcommit 4c3384ccd56cd88e85f8d81fd803a8e8b218444b[m
+Merge: 2fae9db6 34abe9b5
+Author: Leonardo Franco Camen <127841356+FrancoCamen@users.noreply.github.com>
+Date:   Sat Jun 20 04:43:07 2026 -0300
+
+    Merge pull request #139 from FrancoCamen/Pruebas
+    
+    feat: add InputPrompts to IntegracionGUI
+
+[33mcommit 34abe9b548a6a78952b81e1b56cb08075da1600a[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Sat Jun 20 04:41:16 2026 -0300
+
+    feat: add InputPrompts to IntegracionGUI
+
+[33mcommit 2fae9db6c5d9c2e1dd101d020a35212625be3224[m
+Merge: afceb342 dd8c8c3b
+Author: Leonardo Franco Camen <127841356+FrancoCamen@users.noreply.github.com>
+Date:   Sat Jun 20 04:04:23 2026 -0300
+
+    Merge pull request #138 from FrancoCamen/Pruebas
+    
+    feat: develop InputPrompts
+
+[33mcommit dd8c8c3be974ee53add38454f865c8b2869e82ab[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Sat Jun 20 04:00:33 2026 -0300
+
+    feat: develop InputPrompts
+
+[33mcommit fc4e909a3d9b7b545ece9f5d0d210685d63fa37f[m
+Author: FacundoPais <163155584+FacundoPais@users.noreply.github.com>
+Date:   Thu Jun 18 18:41:44 2026 -0300
+
+    feat: Completadas traducciones al Espanol y Portugues para 7 subconjuntos de PartWorkbench
+
+[33mcommit afceb342ae892f4f88545a39dace0e349c1bc3e8[m
+Author: Joaquin Poggio <joaquinpoggio04@gmail.com>
+Date:   Thu Jun 18 17:44:01 2026 -0300
+
+    Add Translations Spanish and Portuguese
+
+[33mcommit 476e41ec9ff76dd227d19d495b37fa56ed5123b7[m
+Merge: e065f0de 585e5f12
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Thu Jun 18 12:02:03 2026 -0300
+
+    Merge pull request #14 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 585e5f12440fa45ee3e037f2a8f47055ad2f5d37[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 14:02:52 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit d984eac47a80a80ac0f2df3c0ae34aacbc7315b9[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 14:02:30 2026 -0300
+
+    Add Portuguese translations for design terms
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit 2ec39f9ff2ab0724aebff81636a81d20e3bb3a32[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 14:02:01 2026 -0300
+
+    Add Portuguese translations to TraduceToPt.py
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit d45da2bbfe95979042f68132540cbf279b636fd1[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 08:48:54 2026 -0300
+
+    Add Spanish translations for additive shapes
+    
+    Added Spanish translations for various additive shapes and operations.
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit 5a3d5fee36dc605bb665e6c9ae3c48dca1e0cc56[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 08:48:08 2026 -0300
+
+    Add Spanish translations for various terms
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit a043834f76f427e1b64776b3b76b69e0200c6424[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 08:47:33 2026 -0300
+
+    Add Spanish translations for various commands
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit a4d90d0f4e55980deea0a6642b82197cc6570880[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:55:51 2026 -0300
+
+    Add translations for various additive features
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit ed07f6a235a4a05293085374b0f26cc8de2498a7[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:52:42 2026 -0300
+
+    Add translations for various design terms
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit e02872f43e70830e7e85598e976dfb225850b9ad[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:51:29 2026 -0300
+
+    Add comments for clarity in TraduceToEn.py
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit 0efa0d58e5d916588f0cc29f629618645dab763a[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:48:02 2026 -0300
+
+    Update TraduceToEn.py with new translations
+    
+    Added translations for various features and help.
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit 7d49fb9026f31283365e2023189a5484de3edeef[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:47:26 2026 -0300
+
+    Add translation dictionary for English terms
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit 619978fabecff8136eda49b940022db41bc3348d[m
+Author: DevisAriel <bernhardtd87@gmail.com>
+Date:   Wed Jun 17 01:46:45 2026 -0300
+
+    Add translation dictionary for additive features
+    
+    Signed-off-by: DevisAriel <bernhardtd87@gmail.com>
+
+[33mcommit ac9e3e12a2a8bd18726cc9b98fd2c761ea701f59[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Tue Jun 16 20:57:14 2026 -0300
+
+    Import errors in the TraduceTo files of the Drafting and circular_array folders have been fixed.
+
+[33mcommit a754fa555d1fb17a972a204d6a7d1a070c4adc6b[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Tue Jun 16 20:47:38 2026 -0300
+
+    Standardization of help translations is incorporated and minor errors in the folders are fixed (Draftwork: Drafting, annotation, curve, circle, circular_array, arc, creation, annotation_style_editor).
+
+[33mcommit 89727c25f9f5a57a484785937aefc6475cd9ca32[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 18:45:30 2026 -0300
+
+    Add Portuguese translations for PartDesign
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 53eca75d84e11a7f635b33af63838916232aa7b7[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:40:01 2026 -0300
+
+    Revert TraduceToPt.py to previous commit before nicobarreto's changes
+
+[33mcommit 7db5f2704929300cbe23f1570676cc3485fa082b[m
+Author: BiancaTournour <bmtournour@gmail.com>
+Date:   Tue Jun 16 18:30:49 2026 -0300
+
+    Add TraduceToPt Assembly and Joint
+
+[33mcommit 786a09bfd38b591f0c501f387d292d235495812b[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:26:03 2026 -0300
+
+    Add Portuguese command mappings for PartDesign transform
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 4577ab9cf627d50060410cd45d8d167928937332[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:25:42 2026 -0300
+
+    Add Spanish command mappings for PartDesign transform
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit edd3f03eb18f71b0f0a591bc41c8e8450b1d1d5f[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:19:11 2026 -0300
+
+    Add Spanish translations for subtractive operations
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit b0893f5986b6d5dc0f820cb7bb00524b79bfd001[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:18:46 2026 -0300
+
+    Add Spanish translations for various terms
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 670f6f652a56bde962d72e4a798decf990f02daa[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:16:18 2026 -0300
+
+    Update Portuguese translations in TraduceToPt.py
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 1c957e699e8ef047225753b18b76e60e2651ff9b[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Tue Jun 16 18:15:05 2026 -0300
+
+    Traducción de ES y PT en diccionario
+
+[33mcommit 84b0b541a5e499573fd7d7c46734208d35ca18db[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:13:34 2026 -0300
+
+    Add Portuguese translations for subtractive commands
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit fb1d0105158e08a3245b68ae69932be603aedee2[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 16 18:12:18 2026 -0300
+
+    Add Portuguese translations to TraduceToPt.py
+    
+    Added Portuguese translations for PartDesign modify commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 4234a8589226d7c8a7caec73a7946aada06b86f5[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:58:50 2026 -0300
+
+    Add Portuguese translations for Sketcher Polygon
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 942a764104a753c0a981c9e689861cdb4340b3c2[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:58:13 2026 -0300
+
+    Add Spanish translations for Sketcher Polygon
+    
+    Added Spanish translations for Sketcher Polygon commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 7932ed7f2eb279fae6773d96a16c65a7508cfad7[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:57:44 2026 -0300
+
+    Add Portuguese translations for Sketcher Ellipse
+    
+    Added Portuguese translations for Sketcher Ellipse commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit e5d44635b2b64af2699bb05826a22d0732c93b12[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:57:18 2026 -0300
+
+    Add Spanish translations for Sketcher Ellipse
+    
+    Added Spanish translations for Sketcher Ellipse commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 1fbb0a218436dd1696bfe3c0ff58c2d31a9df674[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:55:56 2026 -0300
+
+    Add Portuguese translations to TraduceToPt.py
+    
+    Added Portuguese translations for Sketcher BSpline Tools commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit e1eb6f323a9088498aae99ecbf7d32467b536666[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:55:16 2026 -0300
+
+    Add Spanish translations for BSpline Tools
+    
+    Added Spanish translations for Sketcher BSpline Tools commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit fa335afd5119cbfa8557ce5c382d1c9464ac2493[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:54:37 2026 -0300
+
+    Add Portuguese translations for BSpline commands
+    
+    Added Portuguese translations for Sketcher BSpline commands.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 2f4bee490bfcf3815af26b8b14ad828241435123[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:54:07 2026 -0300
+
+    Add Spanish translations for BSpline commands
+    
+    Added Spanish translations for Sketcher BSpline commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 163318a1fd5a68a938bc967ec7caf7150d513f4c[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:45:32 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit f4084cc7340b512144f7277a58e423b75922f230[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Tue Jun 16 17:42:36 2026 -0300
+
+    Add Spanish translations for PartDesign module
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 35b01ae2eb63674146d517a4f4d6c10f6420b166[m
+Merge: 6f1a071d bb91edfe
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Tue Jun 16 15:39:56 2026 -0300
+
+    Merge pull request #136 from MaitenBlanc/Pruebas
+    
+    feat: add Spanish and Portuguese translations for Draft dictionaries
+
+[33mcommit 6f1a071decc536be19906f9f4c40d42c6d57a277[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Tue Jun 16 14:47:17 2026 -0300
+
+    Validator documentation was added
+
+[33mcommit bb91edfe9792b61d7fb13240603e8304d8552cca[m
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Tue Jun 16 08:33:36 2026 -0300
+
+    feat: add Spanish and Portuguese translations for Draft dictionaries (drafting, annotation, arc, circle, array, creation and curve)
+
+[33mcommit b70f1739539b42f057981780fd5e0b248e3e7fbd[m
+Merge: 0d338747 b53b21f1
+Author: Juan Acuña <135073186+juan-mrtn@users.noreply.github.com>
+Date:   Tue Jun 16 00:26:01 2026 -0300
+
+    Merge pull request #135 from juan-mrtn/Pruebas
+    
+    create TraduceToEs.py and TraduceToPt.py for Draft and Part
+
+[33mcommit b53b21f1dd7c0c34452e8004ce34f1b017000ee4[m
+Author: Juan Acuña <juan.acuna.jma@gmail.com>
+Date:   Tue Jun 16 00:23:23 2026 -0300
+
+    create TraduceToEs.py and TraduceToPt.py for Draft and Part
+
+[33mcommit 0d338747a56ea2f85645ab9e8ff1b02041fa3c24[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:29:16 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 382af3881c74808f32cfc135a63a6c13563feefd[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:28:58 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 2481f72e0cd2e30780cf4f7c7efabf52abe117ec[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:28:35 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit bc4a7db0693019071f4df03a51023a98eae3dd6f[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:25:58 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ce04f80f23ec95660b5ae152ed07d216527195f9[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:23:53 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 572a7106186f31c7a3a7c30bbdeffcfd40a74c5d[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:21:35 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit c6af81eeb983f90b19f5ae28cf5f01cc2aa76c2b[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:21:07 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit f4be92ff4793b8f049119d4ca00b51f6ad60ec49[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:20:11 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 389a3b0db32238785ebebe29cb83d3bbbce4c735[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:19:41 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 6c025636a55fe83d5f056a3d1e197b8e506e308c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:18:32 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 8739d1f0b6adfb4641246c51c6c98ad2885ff8cb[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:17:56 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 212f7cc3d7af3f9a5af2cdb7e50305df11c75c58[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:16:12 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 761aad3727f3d3ef4742e13731230479b372df10[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:15:40 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ca7e3031974e62b96a02f06a1758299add9d3697[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:14:38 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit b5b2b220f24f07ca7d69f7d2deb9552c98979f1c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:14:02 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit efe69e0e4b30eb063fc9efc90a4732757967733f[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:12:31 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 88e4b420a878f940644da25194e9337ddafa6957[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:11:41 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit bd6f2586a97fee0ee10ddcb104a8e2d93eba2768[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:09:45 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 0a4e6dc5cf5d208bace73a3bb90adce5599b74bd[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:08:58 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit bb386bed59190d40eba3924c548923f2c9b9b56d[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:04:37 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 90242dc9703880101ed3d1382d4198e29708977f[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:04:05 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 1a04b95ac50cc00a4dc931197051be102fe01e7d[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:02:12 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 3ac6a0436b501fd70d2ba7efa911005278730c71[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 09:01:07 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit afae39d955727fa27022f8ad5512b6eb3ac9f70b[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:52:29 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit b9fbf07bec67a36fd9aed6a59c885752c92b111c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:51:26 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 939369d795f6814ad897aef5e4ab26ebfc94097f[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:50:05 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 995e2a778289fa2c60987b02619e081db5ce542c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:49:22 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 4e57e0f182450642309fa56e00ed561e4a9095a5[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:48:37 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ebf29f22dbc1455fc16d06152b2eb7a47b7e41fa[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:47:37 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 46dea25f494afab5aab8cbf5aebddc068492d274[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:46:46 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 7635e4257ea773ed7fb34f77e795cfc8795e51ec[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:45:57 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit b490f7acbcb3f92faeb6e602be7181dd63f29317[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:45:01 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit d4c3fa0188f252c6f007b01ebed4531509d3d4b8[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:43:11 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit da1fe42cce8e24d215dcdb1f51762e2505ee25e5[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Mon Jun 15 08:38:41 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit b765b80cef4dfbba5feb9df0a0e64af73d1efecd[m
+Merge: 10e5ce73 e065f0de
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:48:53 2026 -0300
+
+    Merge pull request #134 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit e065f0dededc587439cbe977d09d015381a0c112[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:45:39 2026 -0300
+
+    docs(validation): guia de testeo, ticket y LEEME para el equipo
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 0fb2ef0cb7ba210367433be84750d3abc539c75e[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:33:01 2026 -0300
+
+    fix(demo): crear documento FreeCAD si no hay uno activo al probar
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit e6f24000a358a30aa104e6dbcd54309183c45218[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:26:33 2026 -0300
+
+    fix(inicio): resolver run_freecad_dav.ps1 tras mover scripts a ComponentesDAV
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit c982a60b4b71aa5adf2eda7e4cef75a4dcbc9e50[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:22:29 2026 -0300
+
+    test(validation): suite integracion y run_tests verificados (12 tests OK)
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 8fc0e7407267998bcee2cb10578e2ac3b91aedc3[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:16:04 2026 -0300
+
+    feat(validation): Validator con GetRequirements y ValidateRequirements para diccionarios
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 5d38ac3af697daf98de89fa36ae8c962cbc55d26[m
+Merge: 8fc03958 10e5ce73
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Mon Jun 15 07:13:27 2026 -0300
+
+    Merge pull request #13 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 10e5ce7350872299116b31e3278f7243150232f2[m
+Merge: 605a910c 70e80b50
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Sun Jun 14 22:39:18 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 605a910c8da3e7d5638e8dbe02bb077b04046833[m
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Sun Jun 14 22:37:38 2026 -0300
+
+    Add TraduceToEs and TraduceToPt for Part Workbench
+
+[33mcommit 70e80b507293915d292d05f84946a78b997d81cd[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Sun Jun 14 17:45:07 2026 -0300
+
+    refactor: standardize DiccionariosEnBruto file naming to CamelCase and add missing workbench SVGs
+
+[33mcommit 54082a59c557debcf8359a2d425231c5c8a4e478[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Sun Jun 14 13:24:31 2026 -0300
+
+    Correcciones hechas
+
+[33mcommit db330af634c6562371fa293c665f94a067bc3154[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 14 01:29:06 2026 -0300
+
+    Added some corrections into Sketcher TraduceTo files
+
+[33mcommit 542f940774f12aafe25d76ee0ddef49d4e94a8c5[m
+Merge: 933b757e e4b721f1
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 14 01:27:35 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit e4b721f16f995da61b2c3b77883b9f3fe3d6abb0[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun Jun 14 01:20:54 2026 -0300
+
+    pequeña correccion en TraduceToEn de la carpeta dimension
+
+[33mcommit 933b757e69a347a9dcea74870de372f25f61f9b0[m
+Merge: ff7a9e3f 263eee05
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun Jun 14 01:19:48 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 263eee057a1b50ba1928f945f2ea2fee98116629[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun Jun 14 00:29:43 2026 -0300
+
+    Correcciones pequeñas en ayuda.py y sketcher.py de la carpeta Sketcher.
+
+[33mcommit ff7a9e3f9360eb6bf08fcd0a0e8e4a84c909359c[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sat Jun 13 16:48:30 2026 -0300
+
+    Added some corrections to Part TraduceToEs & Pt files.
+
+[33mcommit c63e8006aa1bcb0cd0ef7d1f2c49f9c1bb07724c[m
+Author: Joaquin Poggio <joaquinpoggio04@gmail.com>
+Date:   Sat Jun 13 14:49:02 2026 -0300
+
+    DraftWork dictionary English translations updated
+
+[33mcommit 42b4a24ad1c9fce60fb52eb2f9a395f4385be797[m
+Author: Lucas Tabacchi <lucastabacchi2@gmail.com>
+Date:   Sat Jun 13 01:07:22 2026 -0300
+
+    add Spanish and Portuguese translations for Part commands
+
+[33mcommit 2712e0ddd8657936475c685ddc7ab80e8a91d1af[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Fri Jun 12 18:14:40 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 9fb60e564b4b2feb7e6965bcc5e02e48bbdfaf1e[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Fri Jun 12 18:07:45 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit b86a9916bc23f8aa88ca0805679e37d4c8e763bd[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Fri Jun 12 18:02:02 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit e76aa00331e149d0bd4224eab151ae4b470bd24c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 17:16:17 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 63aff6cfcdbb50cf0761f401d975ebb747ed3475[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 17:11:38 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit cdeb4554eaf0a0463ed6016149742ec79675e1e3[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 17:02:18 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ca5429a9526efc6bdfb50252818860e81b27e570[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 17:01:24 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 82d980b57dc0d315149b4a479ea9197f236a01e3[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 17:00:33 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ead1c432985eeca6cd6af631ddd7e0e9ad6f66b9[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 16:59:24 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 3f7d410a9270091178d581235c05193b7b555d0c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 16:57:57 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 87e6a350886093c806880f6f9fdfece91387648e[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 16:56:24 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 99d66c68079c199ecf99d05c429939311616b18d[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 16:47:49 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 957c9e6b7666c87b076fbf33c879706b7ae839fa[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Fri Jun 12 16:42:04 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 9873d98bec67510d01f683060f1e6e705178885c[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Fri Jun 12 15:31:58 2026 -0300
+
+    Refactor English mapping to use geometric dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit b0963a47038685b39c5b5c34ae4e0b5ec19f0bb0[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Fri Jun 12 15:31:23 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 6b4574ddb3e862e18261a6e844708f7b1bec56a3[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Fri Jun 12 15:30:30 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 1efffaf7d7a40e86cf87d464686a29f9866d058d[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Fri Jun 12 15:29:45 2026 -0300
+
+    Refactor TraduceToEn to use arc_slot dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 413e44880a7204e102be34f6ec0ec20721df91e7[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Fri Jun 12 15:29:14 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 53f269904fb2ca428f33b969e9802833dc9cb6d2[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Fri Jun 12 14:13:24 2026 -0300
+
+    Refactor translations to use partdesign helper
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 8443ee7913f603d3ca4f965c74984ed35ba60f48[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Fri Jun 12 14:04:03 2026 -0300
+
+    Refactor translations to use polygon module
+    
+    Updated translations to use polygon module for consistency.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit be05c08f5cc158e7201d322cfd6bd31fa8aef734[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Fri Jun 12 14:02:44 2026 -0300
+
+    Refactor translations to use ellipse module
+    
+    Updated translations to use ellipse properties for consistency.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 4cd3106e9478014ef5afe30f04de189c7dc467af[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Fri Jun 12 14:01:51 2026 -0300
+
+    Refactor translations to use bspline_tools
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit b6a286112ab22584b0533de8e95d92b3745c040d[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Fri Jun 12 14:00:59 2026 -0300
+
+    Refactor TraduceToEn to use bspline mappings
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 37c531d1d1ccc3debcba379a25416e9e3b8fddf9[m
+Author: candelarojas1 <candelarojas2001@gmail.com>
+Date:   Fri Jun 12 00:30:06 2026 -0300
+
+    Provide Spanish translations and synonyms for Assembly and Joint
+
+[33mcommit 719ec638052a2f204f67360180612a751edfa13d[m
+Author: Benjamin Ayala <164602582+benjaminayala0@users.noreply.github.com>
+Date:   Thu Jun 11 20:36:53 2026 -0300
+
+    feat(dict): add SVG icons for DraftWork, Part, PartDesign and Sketcher workbenches
+
+[33mcommit 885614b7f279da0c51aebcf0028fb33f69f4b8c9[m
+Merge: 311c24aa c2c34574
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Thu Jun 11 15:13:00 2026 -0300
+
+    Merge pull request #115 from SoPerez1/Pruebas
+    
+    add pydantic valitaion for sketcher actions
+
+[33mcommit 311c24aaf17453d3a2d6fd01e667d8ed5b6f99fb[m
+Merge: 5fac4eb5 f32d733a
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Thu Jun 11 15:12:38 2026 -0300
+
+    Merge pull request #116 from uaderis2pais/Pruebas
+    
+    feat: Completadas traducciones al inglés (TraduceToEn) para 7 subconjuntos de PartWorkbench
+
+[33mcommit 5fac4eb5acdfb7d1eda916bff47d978e113b5db6[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:26:22 2026 -0300
+
+    Update addVertices.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit c06f06d1c1f89a78aea147e25b8ff61371f225d7[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:25:47 2026 -0300
+
+    Update annotations.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit d9f1552b04545110500af5fe80438818bc51e44d[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:21:39 2026 -0300
+
+    Update dimension TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 994e2ed68d85a181cc72d1199a7c387d698cc943[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:16:16 2026 -0300
+
+    Update radius TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 3019f3b393da0e3ef16bcd1ec607a48c08c9e558[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:15:28 2026 -0300
+
+    Update radius.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 820294c65d49ed47d7ee64e54f30d0e1a753a4e1[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:14:56 2026 -0300
+
+    Update length TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 8d35ee946d0eae745c16eba7f12e0e830c3a75d7[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:14:03 2026 -0300
+
+    Update length.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 23aa9d0537ac11a9f0b087b1a8ef828ddef4667c[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:13:15 2026 -0300
+
+    Update horizontal TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit cd2f4b740eff449002d3b74dfc3ae2361a0213aa[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:12:13 2026 -0300
+
+    Update horizontal.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit eb7e21a89a5a8468527561dae059677534aa66ec[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:10:26 2026 -0300
+
+    Update extent TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit af7f4d48562e8ae6bcc61996bacb04f5840a4c94[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:09:36 2026 -0300
+
+    Update extent.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 43c674f2fc94c6c378730190c103e15cd21e5368[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:08:30 2026 -0300
+
+    Update diameter TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit c62f5c209eead369eb1d7e3766601596404e6281[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:07:15 2026 -0300
+
+    Update diameter.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 81f4e6f32f4cd95b2da7810c86fd2a10c56a5baf[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:05:47 2026 -0300
+
+    Update angle TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit ecc7f74a5417cb5ae1d9512d87246d5a1a426e8f[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:04:30 2026 -0300
+
+    Update angle.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 55aff4586a3a5715e36f8ca431855529b80a3eea[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:01:49 2026 -0300
+
+    Update annotations TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 3e0d4029c965ec86393fea11a93e2b2dff864f45[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 11:01:24 2026 -0300
+
+    Update annotations TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 10ef7f8510178679bfa7c664ba0956df3d0b9617[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 10:57:06 2026 -0300
+
+    Update addVertices TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 34b350e94276b41ec5d598e30ffac92f37aea550[m
+Author: Valentina Schaab <valentischaab@gmail.com>
+Date:   Thu Jun 11 10:53:42 2026 -0300
+
+    Update AddLines TraduceToEn.py
+    
+    Signed-off-by: Valentina Schaab <valentischaab@gmail.com>
+
+[33mcommit 90c0d8e48f15c9a4aadf24ba6710dfb7090ff00b[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 10 22:22:42 2026 -0300
+
+    correcciones de integracionGUI
+
+[33mcommit 13358bc4f4d80aa273f67f86fde35ec7eb37d6e6[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 10 22:09:43 2026 -0300
+
+    agregados iconos a carpetas Explorer y StdView
+
+[33mcommit a5b23a7e03873b566c15fec6baebf619515aaa25[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 3 18:59:34 2026 -0300
+
+    Save: Guardando lanzador bat antes del checkout
+
+[33mcommit 716f3b5ca65b3e8b39cfbc648adc0d592bfb618f[m
+Merge: 0c0c3c25 5066afcd
+Author: Juan Acuña <135073186+juan-mrtn@users.noreply.github.com>
+Date:   Wed Jun 10 20:48:29 2026 -0300
+
+    Merge pull request #117 from juan-mrtn/Pruebas
+    
+    Complete TraduceToEn.py with Part geometries and Draft folders
+
+[33mcommit 5066afcd310994c12d8fe9a54f0f744e02e60348[m
+Merge: 9a13b022 0c0c3c25
+Author: Juan Acuña <135073186+juan-mrtn@users.noreply.github.com>
+Date:   Wed Jun 10 20:48:14 2026 -0300
+
+    Merge branch 'Pruebas' into Pruebas
+    
+    Signed-off-by: Juan Acuña <135073186+juan-mrtn@users.noreply.github.com>
+
+[33mcommit 9a13b0221f7e58c99a282d2ef9216baf289d72e5[m
+Author: Juan Acuña <juan.acuna.jma@gmail.com>
+Date:   Wed Jun 10 20:43:03 2026 -0300
+
+    Complete TraduceToEn.py with Part geometries and Draft folders
+
+[33mcommit 0c0c3c2584d4d5982adb29617051024af3106e6b[m
+Merge: 340c3f89 8dae6b0a
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Wed Jun 10 20:22:08 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 340c3f89cda2b4142cb3a4a14e39f80331faacaa[m
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Wed Jun 10 20:17:52 2026 -0300
+
+    Update TraduceToEn.py dictionaries for Part Workbench
+
+[33mcommit 8dae6b0a779d9105c9281a0070ac52943ce364d5[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Wed Jun 10 19:02:56 2026 -0300
+
+    added some corrections in Part/TraduceToEn
+
+[33mcommit f32d733ad18bf20339ad5a409fc347309e0a7b42[m
+Merge: e0bb0af1 78fb7afa
+Author: FacundoPais <163155584+FacundoPais@users.noreply.github.com>
+Date:   Wed Jun 10 18:53:38 2026 -0300
+
+    Merge conflict resolved for Part translations
+
+[33mcommit e0bb0af108ff425565a6af42c3babb79674be304[m
+Author: FacundoPais <163155584+FacundoPais@users.noreply.github.com>
+Date:   Wed Jun 10 18:42:36 2026 -0300
+
+    feat: Traducciones al ingles de subconjuntos de PartWorkbench
+
+[33mcommit 78fb7afaf12e4548909d6ab2d6544e85233367e0[m
+Author: Lucas Tabacchi <lucastabacchi2@gmail.com>
+Date:   Wed Jun 10 18:38:48 2026 -0300
+
+    fix: align Part English translations with folder structure
+
+[33mcommit 5cac6d3e5ae8cb507bc5ca5db35928ccbebb7153[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Wed Jun 10 18:05:57 2026 -0300
+
+    Deleted duplicated file _bspline.py from the BSpline directory, as it was a duplicate of the file in the Geometry directory. This cleanup helps maintain a more organized codebase and prevents confusion about which file to use for BSpline-related functionality.
+
+[33mcommit a66dbcf86d56e1f42c58a562c5ca3c31b52c3c4b[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:50:21 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit fbefa5b014927aebf3db2768be11c3f35639e547[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:48:40 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 07a4b7badee5aa2eaa4f79b243bc07393cacc4ae[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:46:27 2026 -0300
+
+    Add translation mappings to TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 396f209502a236d9abc7d223065d738c23717ada[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:45:21 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 4b7bfa7da652e5df46e59253fd6460d8815fc58f[m
+Merge: be9996b5 dcc4f62f
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Wed Jun 10 17:44:45 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit dcc4f62faa69bbc5324e83db1f3f8a02352e0286[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:43:25 2026 -0300
+
+    Add translations for page commands in TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit be9996b5ee10158baa2c4249660a86a0ad5cead7[m
+Merge: f7909e35 107e6e45
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Wed Jun 10 17:42:37 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit f7909e35eff2b8d0dd62e12f594c406835b3bee2[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Wed Jun 10 17:41:57 2026 -0300
+
+    Update TraduceToEn en Sketcher
+
+[33mcommit 107e6e452f278e32564c6b66385f1ab481e8c0e7[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:41:35 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit b0d707e80b6a0b778030c0816e33f1a523430047[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:39:40 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit 38c0622f1867dc9cc42b88747a0be1386613e1bb[m
+Author: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+Date:   Wed Jun 10 17:37:26 2026 -0300
+
+    Add translation dictionary for English features
+    
+    Signed-off-by: Abrilpoggio <163590084+Abrilpoggio@users.noreply.github.com>
+
+[33mcommit c921ea965c0c0b29e79b85526df5d96919c3c868[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 17:08:12 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 802e60ee1fa6aff3a1a455ebbe8f6aca9f947475[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 17:02:05 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit e491fdfe44b7edfc36bc4ce816a0668b5488c08b[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 17:00:14 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 6639a6633346ce44ec6c995f7703f3bae916f383[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:58:49 2026 -0300
+
+    Add English translations for Sketcher Polygon
+    
+    Added English translations for Sketcher Polygon commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit a5c0b12b0b9f6a0f6cf8cea60040c6ab836dcce0[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:57:47 2026 -0300
+
+    Add English translations for Sketcher Ellipse
+    
+    Added English translations for Sketcher Ellipse commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit b11cfd5de1b6190994b87bb2201f3c9b9eccd14f[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:56:42 2026 -0300
+
+    Add English translations to TraduceToEn.py
+    
+    Added English translations for Sketcher BSpline Tools commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 2d62ab4513e3cb87c034e9384d2b9a15e8995c55[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:55:26 2026 -0300
+
+    Add English translations for BSpline commands
+    
+    Added English translations for Sketcher BSpline commands and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit e0da28d02327df6eea630f666e0634aea8cc0781[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:52:35 2026 -0300
+
+    Add English translations for PartDesign folders
+    
+    Added English translations for PartDesign main folders and synonyms.
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit 1f07dc1a9123ffff2e91f94bf2a2f282e3eadbe2[m
+Author: NicolasBarreto79 <barretonicolas810@gmail.com>
+Date:   Wed Jun 10 16:51:43 2026 -0300
+
+    Translate help messages in ayuda.py to English
+    
+    Signed-off-by: NicolasBarreto79 <barretonicolas810@gmail.com>
+
+[33mcommit cb23d7f2f31e21f64de4558a466be3debd38bf51[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:12:45 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit d764d428c7f20430c426582bf77614bc7392d524[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:11:42 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit e010c0f1606c077ef78367e37a3d9e75c512d1fd[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:11:09 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 7cf9f113be921981f1b6f888c989e88850567020[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:10:14 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit 0ef59a14dbbd6ee385cfacad096578da7f36fe2d[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:09:42 2026 -0300
+
+    Update TraduceToPt.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit d785dcaa0052c363aba16e299d4a36211555b197[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 16:00:31 2026 -0300
+
+    Add SPDX license identifier and import statements
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit e5234df1b9e47981eaa77a777a9c30f91ef30c81[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Wed Jun 10 15:59:55 2026 -0300
+
+    Update TraduceToEs.py
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit cc1381c2093afe56d3600550f14b591b46dc6a35[m
+Author: Joaquin Poggio <joaquinpoggio04@gmail.com>
+Date:   Wed Jun 10 13:39:38 2026 -0300
+
+    Add english translations for Draft dictionaries
+
+[33mcommit c2c3457438358e5d396b12144ddae1f85975e8b0[m
+Author: SoPerez1 <perezsofi149@gmail.com>
+Date:   Wed Jun 10 13:06:05 2026 -0300
+
+    add pydantic valitaion for sketcher actions
+
+[33mcommit 7c9850aaa51a393bbd1158266f267964d94f5d40[m
+Merge: 83c82909 6c3a2bb4
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Wed Jun 10 08:14:35 2026 -0300
+
+    Merge branch 'Pruebas' of github.com:DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 83c82909af1f418b7aeeb4d864d1f235cf3fb375[m
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Wed Jun 10 08:04:13 2026 -0300
+
+    feat: add English translations and synonyms for Draft dictionaries
+
+[33mcommit 6c3a2bb4a88edebe7bcfece36db427f22094ae8b[m
+Author: Santino Dacuy <santinodacuy@gmail.com>
+Date:   Wed Jun 10 02:01:17 2026 -0300
+
+    feat: complete English translations and synonyms for Sketcher module
+
+[33mcommit a301443a0e8be89d4ab958e6c7edee0e681ced76[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:24:23 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit e5e6da39de1474bc80bf227142f26123d8603516[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:22:13 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit e93bc762c75a5fd8a73515828a683aa463b033b9[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:19:13 2026 -0300
+
+    Fix copyright notice and add English mapping comments
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 509eefeab81b4347b83f2307ec1634d2d77708d5[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:17:17 2026 -0300
+
+    Add English mapping for arc_slot dictionary
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 48e49dbf71dedf49aa02fe288346be875987a247[m
+Merge: ffab5338 e45b3bbd
+Author: alexalvez <alexfalvez001@gmail.com>
+Date:   Tue Jun 9 19:16:03 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit ffab533894e52c9196bf4e87d800815113dfe289[m
+Author: alexalvez <alexfalvez001@gmail.com>
+Date:   Tue Jun 9 19:14:28 2026 -0300
+
+    docs(selection): agregar documentacion, eliminar instrucciones y actualizar API de FreeCAD 1.1
+
+[33mcommit e45b3bbdf2769cdcac257e682461bc373c5b9d53[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:07:46 2026 -0300
+
+    Update TraduceToEn.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit c306ef8189b213573c204e39e962f5d2c37c1aba[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Tue Jun 9 19:02:38 2026 -0300
+
+    Implement English mapping for arc commands
+    
+    Added English spoken-word mapping for arc commands in the dictionary.
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 215416c2cf39548d7d8da369468e33e0c92c59a8[m
+Author: Lucas Tabacchi <lucastabacchi2@gmail.com>
+Date:   Tue Jun 9 18:19:37 2026 -0300
+
+    feat: add English translations for Part commands
+
+[33mcommit 8ec03a081a5017b08c337619bce3ee646609bd8e[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:54:01 2026 -0300
+
+    Add English translations and synonyms for PartDesign transform commands
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 1bb1b81ed760bf494957c46908b9e9a54a04484c[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:53:39 2026 -0300
+
+    Add English translations and synonyms for PartDesign transform commands
+    
+    Fix formatting issue by adding a newline at the end of the file.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit c720ae49cbc9e889666e48f7fdf1eb3841675cd7[m
+Merge: f5aaaa7d 8fc03958
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Tue Jun 9 16:52:39 2026 -0300
+
+    Merge pull request #113 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit f5aaaa7d4f8b7cc97e3eac0f2e639e4b1e6f075e[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:52:29 2026 -0300
+
+    Add English translations and synonyms for PartDesign subtractive commands
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 6f263296fedec798b89d68b11af66aba06428295[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:51:48 2026 -0300
+
+    Add English translations and synonyms for PartDesign subtractive commands
+    
+    Add missing newline at the end of the file.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit e60c4b9b42d55bf476e3361225a1b2022041e0c7[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:51:02 2026 -0300
+
+    Add English translations and synonyms for PartDesign modify commands
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 8b70857f96434267699d05eada53e1f2f45a4c9e[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:50:00 2026 -0300
+
+    Add English translations and synonyms for PartDesign modify commands
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 14034387f13b64289d4b650699ce8e1206553153[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:45:00 2026 -0300
+
+    Clean up TraduceToEn dictionary entries
+    
+    Removed redundant entries for 'pattern', 'symmetry', and 'transform' in the TraduceToEn dictionary.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 7d4ecc6e75ce2a46ae2aae9f4b128b5545c3015d[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:43:33 2026 -0300
+
+    Add subtractive shapes to TraduceToEn.py
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit bfa141386d3229174cfc6a149ff3249edd5f8054[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:41:56 2026 -0300
+
+    Remove 'rounding' from TraduceToEn mapping
+    
+    Removed the 'rounding' entry from the English mapping for PartDesign modify commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 97bbd13772211a138047f329d3e95e5f3e7789bc[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:36:40 2026 -0300
+
+    Implement English mappings for PartDesign transforms
+    
+    Added English spoken-word mappings for various PartDesign transform commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit ea397608010a306a415c079ff867c0748379696b[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:31:44 2026 -0300
+
+    Implement English mappings for subtractive commands
+    
+    Added English mappings for subtractive commands in PartDesign.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit a5c20f8f08e3bde762e574e485faf66213a7efc4[m
+Author: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+Date:   Tue Jun 9 16:30:37 2026 -0300
+
+    Implement English mapping for modify commands
+    
+    Added English spoken-word mapping for PartDesign modify commands.
+    
+    Signed-off-by: Alexander Borda <165971680+AlexanderGBordaa@users.noreply.github.com>
+
+[33mcommit 8fc0395843fc2b17cddfff52cd7eca7b463cb51a[m
+Merge: 590a809c 15294606
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Tue Jun 9 16:10:30 2026 -0300
+
+    Merge pull request #12 from DAv-Project-Team-UADER/Pruebas
+    
+    Adding TraduceToEn Assembly and Joint
+
+[33mcommit 590a809c58494e3c5b9c672bcb1d4bc6b7a1c611[m
+Merge: 68613bf0 52746f66
+Author: Luigi <luigimete54@gmail.com>
+Date:   Tue Jun 9 16:06:56 2026 -0300
+
+    Merge origin/Pruebas: selection Tagger en estructura ComponentesDAV
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 68613bf0b0c56fd9652018a6819d28d0e6736578[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Tue Jun 9 16:04:21 2026 -0300
+
+    feat(selection): Tagger, CreateObjects multilenguaje y prueba consola sin config
+    
+    Integra nombres localizados en CreateObjects, bootstrap automatico de selection/ al iniciar DAV, y RunAlexSelectionPrueba para pruebas tras git pull.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 1529460678bd786bd3ada6d40a366be25314b35b[m
+Author: BiancaTournour <bmtournour@gmail.com>
+Date:   Tue Jun 9 10:38:13 2026 -0300
+
+    Adding TraduceToEn Assembly and Joint
+
+[33mcommit 52746f660afb3766b27315984cdc37926f4d3e08[m
+Merge: 7ad7eb34 78036f35
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Tue Jun 9 09:44:49 2026 -0300
+
+    Merge pull request #11 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 78036f356d9849c197ecfca93b8759523f9ba23c[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Tue Jun 9 02:57:10 2026 -0300
+
+    Adding missing TraduceTo files into repository
+
+[33mcommit 3bc04b06f0522fab2fc2780637b02acd0619833b[m
+Merge: 9b1ce43a 0b07c45f
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Tue Jun 9 00:53:34 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 9b1ce43a39e6d687285da38a3a13a6f7bf95890c[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Tue Jun 9 00:45:29 2026 -0300
+
+    se incorporan correcciones correspondientes a nombres de archivo y se incorpora la carpeta Geometry para la correcta organización.
+
+[33mcommit 0b07c45f2a5a058cb8dc57a9c2c6201db024b158[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Tue Jun 9 00:21:39 2026 -0300
+
+    adding missing TraduceTo files to the repository
+
+[33mcommit f611e7437ce1f5a9d9c11da8601f7fba9aac8137[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Mon Jun 8 20:17:51 2026 -0300
+
+    Adding TraduceTo files to the repository
+
+[33mcommit 0ff256ae3d58e3b7346f25ec92f68e79675d571b[m
+Merge: 082c463d 6645edd2
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Mon Jun 8 17:35:02 2026 -0300
+
+    Merge pull request #96 from julianAO2002/pruebas
+    
+    fix(InterfazDAV): nomenclatura PascalCase, memory leak y trigger en import
+
+[33mcommit 6645edd2838004a79bd026dbf2b327c0e3d9a5fb[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon Jun 8 17:30:27 2026 -0300
+
+    fix(InterfazDAV): corregir nomenclatura PascalCase, memory leak y trigger en import
+    
+    - Renombrar atributos snake_case a PascalCase: _last_image_mtime → _LastImageMtime,
+      _macro_checked → _MacroChecked, voice_worker → _VoiceWorker, voice_thread → _VoiceThread
+    - Renombrar variables locales en español a PascalCase: settings_data, settings_module,
+      spec_settings, prefs_module, settings, path, data, theme, language
+    - Fix memory leak en closeEvent: closeEvent buscaba 'voice_worker'/'voice_thread'
+      (sin underscore) pero los atributos se llaman '_VoiceWorker'/'_VoiceThread',
+      por lo que el worker nunca se detenía al cerrar la ventana
+    - Fix trigger_capture: mover ensure_macro_installed() del cuerpo del módulo
+      al __init__ de MainWindow para evitar I/O en cada import
+
+[33mcommit cbf3b1ecf7c648da6f9ac3972e5adf278a2aef9c[m
+Merge: 833a1763 082c463d
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon Jun 8 16:29:13 2026 -0300
+
+    Merge upstream/Pruebas: reestructuración en ComponentesDAV e íconos SVG Assembly/TechDraw
+
+[33mcommit 082c463d802040f12cc61020bf183f47b4a9f5df[m
+Author: Benjamin Ayala <164602582+benjaminayala0@users.noreply.github.com>
+Date:   Sun Jun 7 20:22:57 2026 -0300
+
+    feat(dict): add SVG icons for Assembly and TechDraw workbenches
+
+[33mcommit 7ad7eb34b7dc0c926cb65eafd78fe60e385d7ed2[m
+Merge: 0a7c3e33 d686266d
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sun Jun 7 17:08:44 2026 -0300
+
+    Merge pull request #10 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit d686266d40a5a6ea9f90da50234f8bdefafa3aa0[m
+Merge: 84ce0038 833a1763
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Wed Jun 3 19:40:42 2026 -0300
+
+    Merge pull request #95 from julianAO2002/pruebas
+    
+    DiccionariosEnBruto: standardization, new commands and module restructuring
+
+[33mcommit 833a17635c5fb94853620fcef82fc1a1b9e1e1cb[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:33:21 2026 -0300
+
+    fix: remove duplicate copyright line and clean up Edit.py commands
+
+[33mcommit c6807d754fba88d208109bb59db23f1ee448b168[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:33:09 2026 -0300
+
+    refactor: rename Sketcher submodules, remove obsolete DraftWork/TechDraw files, add geometric constraints submodule
+
+[33mcommit 092e53019ce12f9136446b4a9a30fd18ba2f4c3d[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:32:35 2026 -0300
+
+    feat: add new Workbench/PartDesign module structure
+
+[33mcommit 5d350bfab6a390850bd5844e5fcfea6442012768[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:32:21 2026 -0300
+
+    chore: remove old diccionarioAssembly, diccionarioPartDesign and FREECAD/ duplicate directories
+
+[33mcommit f71ebae8cac1f1d6f002b74986193bf668f56950[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:32:00 2026 -0300
+
+    docs: add AVANCES_*.md progress files and update CONTEXT.md conventions
+
+[33mcommit bd355409d3a209cbefa2acebf43322f3a73ea10b[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:31:43 2026 -0300
+
+    refactor: improve Part, TechDraw and Sketcher function implementations
+
+[33mcommit 5ff989a988d3534dca811ff1f502763be6152da5[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:31:14 2026 -0300
+
+    feat: add new commands to Explorer, Assembly, DraftWork
+
+[33mcommit c0f27ac5ba0b0d93b0dca33abdb88858829e351a[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:30:57 2026 -0300
+
+    feat: add missing 'help' key to all submodules
+
+[33mcommit 511fe0715497351112c1908282ef85fdd8025d8d[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:23:26 2026 -0300
+
+    fix: normalize dictionary keys to lowercase single words
+
+[33mcommit 5cd1825b1c845d68bd40ff253792359294dfccaf[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:22:46 2026 -0300
+
+    refactor: convert dict literals to .update() pattern across all modules
+
+[33mcommit e8f2e55337a637c0add1f67a94545969baa319b0[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 19:21:49 2026 -0300
+
+    chore: remove obsolete PartDesignWorkbench directory
+
+[33mcommit 84ce00387e8997720fdbd00fcf8749eabd1db732[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 3 18:36:39 2026 -0300
+
+    Reestructuracion: Mover dependencias de Keychain, Logos y scripts dentro de ComponentesDAV para funcionamiento autonomo
+
+[33mcommit 9472fa5f82ad77825b32c732fd4cc4c247342b6f[m
+Merge: 68483a29 1a4fef1c
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 3 18:08:31 2026 -0300
+
+    Merge branch 'origin/Pruebas' y resolución de conflictos de captura
+
+[33mcommit 68483a29fb7a5ef2b259355e58fc783fb1aa3da2[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed Jun 3 16:41:50 2026 -0300
+
+    Save: Estructura unificada de carpetas funcionando
+
+[33mcommit 1a4fef1c390c05960654c11da12203bcb2795c22[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Wed Jun 3 16:38:33 2026 -0300
+
+    Create capture_tree.FCMacro
+
+[33mcommit 8f2d7e11d53eff36aa6f030f28f843ff1e701d3b[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Wed Jun 3 16:37:28 2026 -0300
+
+    Update MainWindow.py
+
+[33mcommit ac4303bb4d52c0869096964087d529824ad74f3f[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Wed Jun 3 16:37:16 2026 -0300
+
+    FreeCAD tree view capture functionality
+    
+    - Automatically captures FreeCAD's tree view every 5 seconds
+    - Displays the captured image in the DAV interface
+    - User only needs to run the macro once in FreeCAD
+    - The macro listens for signals and captures without opening new windows
+
+[33mcommit 5d005eec6a6e094bdd89aed4d3b2c353d959d3e8[m
+Merge: da628a9f 83b64d3b
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed Jun 3 12:59:40 2026 -0300
+
+    Merge upstream/Pruebas into pruebas
+    
+    Integra los últimos cambios del repositorio central DAv-Project-Team-UADER/DAV:
+    diccionarios Sketcher/PartDesign, IntegracionGUI, InterfazDAV actualizada,
+    refactor PruebaIntegracion al inglés, scripts de instalación y selección.
+
+[33mcommit 83b64d3b554759566e18a39e80a5606a76ba8729[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Wed Jun 3 02:54:01 2026 -0300
+
+    fix: restore FreeCAD voice engine and improve DAV interface behavior
+
+[33mcommit 7e3d51f59417c6982c2fe6695a55a7a298877f46[m
+Author: Santino Dacuy <santinodacuy@gmail.com>
+Date:   Tue Jun 2 20:56:57 2026 -0300
+
+    update StdView
+
+[33mcommit 0ef3c9da2d2564f0847ec4469fa5dc9e6e493e9b[m
+Author: Nicolas Barreto <barretonicolas810@gmail.com>
+Date:   Mon Jun 1 17:36:57 2026 -0300
+
+    Agregado diccionario Sketcher según tickets asignados
+
+[33mcommit 48970e91997fb881699763ed1745f5b2bb581bef[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Mon Jun 1 17:28:49 2026 -0300
+
+    Feat: Completadas operaciones especiales de voz
+
+[33mcommit 0b6b1424b111af70cc94a6299157f06facefce00[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Mon Jun 1 16:59:35 2026 -0300
+
+    Update help text for Sketcher commands
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 5eae9de54a758fabb22b5c88afb2e98eeae709db[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Mon Jun 1 16:55:58 2026 -0300
+
+    Update sketcher.py
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 4b4ab06b61de27334e86113cf7ce47eb2105442c[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Mon Jun 1 16:55:17 2026 -0300
+
+    Refactor imports and add toggle construction function
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit 766e1a5e4abcbd0cd35c5da2424bd63c0a75e27b[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Mon Jun 1 15:55:33 2026 -0300
+
+    Add files via upload
+    
+    Signed-off-by: UADER_IS2_Uriarte <uruartea@gmail.com>
+
+[33mcommit da628a9f8411d45456c97903488f135278729297[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon Jun 1 14:16:35 2026 -0300
+
+    Update customization: SKILL.md
+
+[33mcommit 64828180a3ed72c15fdb41943ba2cdadefd2fb5a[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Sun May 31 22:48:35 2026 -0300
+
+    feat(dict): implement missing StdView and Explorer commands for Issue #83
+
+[33mcommit 8d0878c6cc0ff6526ca54d1eefbe67b993826214[m
+Merge: 1ed06fc0 cc05ecf6
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun May 31 20:22:08 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 1ed06fc07927d2000a3c8ed29434ddd93d8af1b5[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun May 31 20:16:12 2026 -0300
+
+    Adicción de diccionarios de BSpline, Ellipse, Polygon y BSpline Tools. Tambien se actualizó ayuda.py y sketcher.py de la carpeta Sketcher.
+
+[33mcommit cc05ecf6e72bfef458ab85c47ce06e641c0630df[m
+Author: juan-mrtn <juan.acuna.jma@gmail.com>
+Date:   Sun May 31 20:07:14 2026 -0300
+
+    refactor(explorer): integrate standard management tickets into Edit menu
+    
+    - Implement new subdirectories for link, freeze, instances, and variables under Explorer/Edit/
+    - Follow the flat dictionary pattern using  in Edit.py
+    - Enforce strict naming conventions by removing redundant prefixes from keys
+    - Add mandatory GPL-3.0-or-later license headers to all new files
+    - Update Explorer/Edit/ayuda.py to list the newly integrated commands
+
+[33mcommit f7bbb2a74baf9ad17505ea09d98f8bd76f2ba7ec[m
+Merge: 23df944f 178d6172
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun May 31 19:23:07 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 23df944ffcd04f778627402ff79502449cc9493a[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Sun May 31 19:22:25 2026 -0300
+
+    Update explorer list of commands, included edit, tools and structure toolbar
+
+[33mcommit 178d617290658629cf3ffea154c7ce0c1ff2b5e2[m
+Merge: 7a7d08ad 959322c5
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 31 18:01:09 2026 -0300
+
+    Merge pull request #90 from uaderis2pais/feat/diccionarios-sketcher
+    
+    feat: Agregado diccionarios Sketcher y LineAttributes
+
+[33mcommit 959322c5ac1e91643f5aa09b2ce760cf095acce1[m
+Merge: 5b35b44a 7a7d08ad
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 31 18:00:42 2026 -0300
+
+    Merge branch 'Pruebas' into feat/diccionarios-sketcher
+    
+    Signed-off-by: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+
+[33mcommit 7a7d08ad699bceb22318df78977428da2adf5ca9[m
+Merge: ee117d51 60508d50
+Author: Lucas Tabacchi <164110892+LucasTabacchi@users.noreply.github.com>
+Date:   Sun May 31 05:02:44 2026 -0300
+
+    Merge pull request #88 from DAv-Project-Team-UADER/lucas/sketcher-issue75
+    
+    feat: Add dimensional constraints to Sketcher dictionary
+
+[33mcommit ee117d5185ded9d80f97b037259467a8ebc508b4[m
+Merge: 81ae4d1c b6f34224
+Author: micasaul <mica020804@gmail.com>
+Date:   Sun May 31 04:53:13 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 81ae4d1c439df35c175dfe73d0618b20471e56fa[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Sun May 31 04:53:05 2026 -0300
+
+    feat: add IntegracionGUI package, launch InterfazDAV on voice start, fix subgroup translation matching, and resolve group key mapping for non-literal TraduceTo values
+
+[33mcommit 5b35b44a12901ce770ac72e6675d212d4d2681c4[m
+Author: FacundoPais <163155584+FacundoPais@users.noreply.github.com>
+Date:   Sat May 30 21:28:35 2026 -0300
+
+    feat: Agregado diccionarios Sketcher y LineAttributes
+
+[33mcommit b6f342245badacc5ba299f8a903484a73bfaa7e0[m
+Merge: 83da39f5 0a7c3e33
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sat May 30 20:41:05 2026 -0300
+
+    Merge pull request #89 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit 0a7c3e331d559755d1aafb01672c6f7a3561ef4c[m
+Merge: 78b673b1 83da39f5
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sat May 30 20:40:33 2026 -0300
+
+    Merge pull request #9 from DAv-Project-Team-UADER/Pruebas
+    
+    Agrego Diccionarios unificados de TechDraw y StdView - #82
+
+[33mcommit 78b673b1b793131414e88df6282f035b23c5502d[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Sat May 30 20:38:16 2026 -0300
+
+    feat(dav): conectar DiccionariosEnBruto al Browser y restaurar comandos Explorer
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 60508d503a9ace1383d7b31e82fd474a3818f36a[m
+Author: Lucas <lucastabacchi31@gmail.com>
+Date:   Sat May 30 19:53:02 2026 -0300
+
+    add dimensional constraints to Sketcher dictionary
+
+[33mcommit 83da39f55bfab9955a7ebe6a21bcfa325c03fc2f[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Sat May 30 19:24:12 2026 -0300
+
+    Agrego Diccionarios unificados de TechDraw y StdView - #82
+
+[33mcommit 6f69aa138d065dd521df5067ee65113b6db01c00[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Sat May 30 18:57:18 2026 -0300
+
+    feat: two-level contextual buttons, icon-only display
+
+[33mcommit 4a85a0af51b7a828d9f0c5122069b05b52ec4de0[m
+Merge: ff391976 55126f7c
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sat May 30 17:09:43 2026 -0300
+
+    Merge pull request #8 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 55126f7cedd8b7320c8312cbcb7e96b84ca634c1[m
+Author: Joaquin Poggio <joaquinpoggio04@gmail.com>
+Date:   Sat May 30 16:41:43 2026 -0300
+
+    Cambios en PartDesignWorkbench (Substractive)
+
+[33mcommit 3db43770f460add0687a596aa4453555d14b1e8e[m
+Author: BiancaTournour <bmtournour@gmail.com>
+Date:   Sat May 30 14:27:39 2026 -0300
+
+    Add Dimensions subgroups to TechDrawWorkbench and joint subgroup to AssemblyWorkbench
+
+[33mcommit 12cbccf8a5dd4daedcbc8063279dd3ca120a2ffd[m
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Sat May 30 11:48:06 2026 -0300
+
+    feat: add polygon, text and slot commands to sketcher dictionary
+
+[33mcommit 18bcdecf166ceb372a3e2379350c41d80346f7d1[m
+Author: alexalvez <alexfalvez001@gmail.com>
+Date:   Fri May 29 20:47:13 2026 -0300
+
+    feat(navigation): implementar navegación ascendente/descendente y adaptador de voz
+    
+    Completa las tareas pendientes de Developer 3 y Developer 4:
+    
+    - Implementa _DescendToSubContext y _SearchUpwardAndExecute usando la pila de historial.
+    
+    - Agrega BrowserVoiceAdapter para conectar el motor de voz (Vosk) con ProcessPhrase.
+    
+    - Actualiza voice_bootstrap.py para utilizar el nuevo Browser.
+    
+    - Actualiza y añade tests unitarios en test_browser.py.
+
+[33mcommit 548163772bf91800b5f7fdc9aa95e33ad3621ac8[m
+Author: candelarojas1 <candelarojas2001@gmail.com>
+Date:   Fri May 29 19:57:49 2026 -0300
+
+    feat: implement PartDesignWorkbench command dictionary and help files
+
+[33mcommit a43de3e05b0ec19d5f0d60c65283909e0060a2fd[m
+Merge: d40ef181 ff391976
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Fri May 29 19:31:58 2026 -0300
+
+    Merge pull request #86 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit ff391976ce34ff2e1da7dabb2033bdc1f1e604f4[m
+Merge: ce232bbd d40ef181
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Fri May 29 18:05:26 2026 -0300
+
+    Merge pull request #7 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit ce232bbda1898573357091a1000d10c9cf48a88a[m
+Merge: 41ffa476 683eb44f
+Author: Luigi <luigimete54@gmail.com>
+Date:   Fri May 29 18:02:24 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/Elluis1/DAV-Luigi into Pruebas
+
+[33mcommit 41ffa476c71dec6eedcc9e554ba1bb792e0210e1[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Fri May 29 18:02:11 2026 -0300
+
+    feat: Browser + Preferences (navegacion por voz)
+    
+    Implementacion de la arquitectura de navegacion por voz sobre diccionarios de carpetas.
+    
+    Lo que esta listo:
+    LanguageCode enum En/Es/PT, Preferences.SetLanguage con callbacks,
+    Browser con BaseContext/Context/OriginalContext y salto directo por BaseContext,
+    DictionaryLoader via Keychain tolerante a carpeta faltante,
+    ContextEntry, 10 tests unitarios sin dependencia de archivos externos,
+    checkbox inicio de microfono al abrir FreeCAD, toolbar DAV visible automaticamente,
+    ejemplo de diccionario terminado agregado a .gitignore (solo uso local).
+    
+    Pendiente:
+    Motor de busqueda: DescendToSubContext + SearchUpwardAndExecute (ver TODO en browser.py)
+    Integracion con voz: BrowserVoiceAdapter + conexion con Vosk (ver TODO en voice_bootstrap.py)
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit d40ef181d447c6eb043d53bbc5ec58c4ef35ac07[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Fri May 29 11:04:02 2026 -0300
+
+    UX: Cambios de interfaz (agregado botón de configuración y ajuste de títulos)
+
+[33mcommit 3ba8671214977bab4bebbc69fa303a1e790dfbf5[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Fri May 29 04:59:10 2026 -0300
+
+    fix: use root TraduceTo for group-level voice commands instead of subfolder dictionaries
+
+[33mcommit 964000917db5ccf7d5f643fd333a2fbe099e4fd2[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Fri May 29 04:43:56 2026 -0300
+
+    feat: integrate Keychain for dynamic contextual icons, multilingual voice commands and two-level menu navigation
+
+[33mcommit 71db0e645240225212c9c4315b7a545ab58c8043[m
+Merge: 1142bfcc 921b72ee
+Author: Leonardo Franco Camen <127841356+FrancoCamen@users.noreply.github.com>
+Date:   Thu May 28 10:58:57 2026 -0300
+
+    Merge pull request #70 from DAv-Project-Team-UADER/task/traduce-feature
+    
+    traduce module Explorer
+
+[33mcommit 921b72ee90c1a982b2ffe22a9bf2c50ab4f49532[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Thu May 28 10:55:34 2026 -0300
+
+    traduce module Explorer
+
+[33mcommit 1142bfcc28983672662958aa009d0dfa5f228aa5[m
+Merge: 3932c543 683eb44f
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Wed May 27 19:43:57 2026 -0300
+
+    Merge pull request #69 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit 683eb44f072e4b5b106af0b35147643d8fdc1c43[m
+Merge: 9a41d899 3932c543
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Wed May 27 18:41:12 2026 -0300
+
+    Merge pull request #6 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 9a41d8990f6f6a407c53ba6d572afc001e25c30e[m
+Merge: 50bcf341 7d1158fb
+Author: Luigi <luigimete54@gmail.com>
+Date:   Wed May 27 18:35:18 2026 -0300
+
+    Merge upstream/Pruebas (equipo UADER) conservando integracion DAV de Luigi.
+    
+    Integra reorganizacion de diccionarios, GUI y seleccion del equipo; mantiene Dav/, luigiIntegracionV1/, scripts/ y barra de herramientas.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 3932c543745cf22398694704af54fed477c53bcc[m
+Merge: 3c38a437 7d1158fb
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed May 27 18:29:08 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 3c38a43788185858fc9266148c70f62ef9ae12ac[m
+Author: benjaklim <benjaklimczuk@gmail.com>
+Date:   Wed May 27 18:28:23 2026 -0300
+
+    UX: Agregados iconos permanentes de sistema a la barra superior
+
+[33mcommit 50bcf34123d7298cd4dc2a9d3093531217ffeff0[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Wed May 27 18:24:06 2026 -0300
+
+    fix: restaurar barra DAV con Preferencias e Iniciar/Detener voz.
+    
+    Registra los tres comandos en el modulo Dav, corrige rutas a GUIFreeCad y reaplica la barra al iniciar el workbench.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 7d1158fbfd3cfb5f91974b2d58400a8f90543578[m
+Merge: 900e1db3 dcf6bbe7
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Wed May 27 18:15:58 2026 -0300
+
+    Merge pull request #68 from julianAO2002/pruebas
+    
+    refactor: reorganize DiccionariosEnBruto into unified folder tree
+
+[33mcommit 900e1db34ab4cd14437d44ad14f20ebba5dbcbcd[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Wed May 27 18:14:29 2026 -0300
+
+    creacion de objetos tacitos
+
+[33mcommit dba48ef818a016d0f76c25bffa2f9effb9d6bce6[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Wed May 27 18:00:20 2026 -0300
+
+    Create selection
+    
+    para seleccionar objetos ciclicamente
+
+[33mcommit dcf6bbe7fcb2d5f34135d884a0b7be5b48b37243[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed May 27 17:26:50 2026 -0300
+
+    refactor: reorganize DiccionariosEnBruto into unified folder tree
+    
+    - Restructure into Explorer/, StdView/, LineAttributes/, Workbench/
+    - Workbench/ contains Assembly/, DraftWork/, Part/, PartDesign/, Sketcher/, TechDraw/
+    - Rename Explorer subcategories to match FreeCAD menu names (File, Edit, Windows)
+    - Merge duplicate Draft and TechDraw versions into single location
+    - Fix root dicts to use .update() flat pattern
+    - Fix key naming: remove redundant prefixes and parent-context repetition
+    - Add GPL header to files missing it
+    - Update CONTEXT.md to reflect new structure and conventions
+
+[33mcommit 4e0cd3c0f41234030ee1f22b8646000702b0bded[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Wed May 27 12:43:51 2026 -0300
+
+    research: analyze Keychain and DIC
+
+[33mcommit 8fbc1a836aa6e053ed7f92afe55aa91f3955db00[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Wed May 27 11:54:11 2026 -0300
+
+    docs: analyze Keychain and DIC integration
+
+[33mcommit 76f34f9224ff1d0138d7475312922fbb9179bd48[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Tue May 26 19:34:04 2026 -0300
+
+    feat: arranque automatico con Windows y lanzamiento DAV unificado.
+    
+    Agrega checkbox en preferencias que registra acceso directo en Inicio de Windows, scripts -StartVoice/-SkipModels y ajustes de UI/voz al abrir FreeCAD.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 623b13a4654d0bfeb05ef9f029ec1aed19a6166c[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Tue May 26 16:51:28 2026 -0300
+
+    TREE FOR GUI
+
+[33mcommit 40edfc779897da7768fbfeeecd8438f0f0d00d0e[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Tue May 26 15:48:43 2026 -0300
+
+    ejemplo de diccionario terminado
+
+[33mcommit 55e8e0648b007fba68c38df159929ec9c6d6cb30[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon May 25 22:10:18 2026 -0300
+
+    MATERIAL PARA LA GENTE DE UX/UI
+
+[33mcommit 0f9036d522ed9e596e263019e36916d12d3d63dd[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon May 25 22:00:49 2026 -0300
+
+    Revert "Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas"
+    
+    This reverts commit 82599440865dc156f2873c124bdf13e9de836d8a, reversing
+    changes made to 8de3940245d06a09e8fcd1048fba717b93a6d21f.
+
+[33mcommit 82599440865dc156f2873c124bdf13e9de836d8a[m
+Merge: 8de39402 e31859e3
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon May 25 21:59:37 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit e31859e334029fa74b4731f9cdf0e6a11828f125[m
+Author: FacundoPais <163155584+FacundoPais@users.noreply.github.com>
+Date:   Mon May 25 19:30:00 2026 -0300
+
+    Agregado diccionario base para PartWorkbench y AssemblyWorkbench a DiccionariosEnBruto
+
+[33mcommit 827dd6bffee09fa214910d96ef524b7eaf41c2c2[m
+Author: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+Date:   Mon May 25 19:13:37 2026 -0300
+
+    Add files via upload
+    
+    Signed-off-by: Jesus Serra <164093027+jesusmaximo1211@users.noreply.github.com>
+
+[33mcommit b16d1d77c34043e404a533b95b6fd770d7ec4c08[m
+Merge: 15d6d7bc 8c4ead54
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon May 25 18:58:17 2026 -0300
+
+    Merge pull request #61 from Elluis1/Pruebas
+    
+    Pruebas
+
+[33mcommit 15d6d7bcdf8478f3c4a01a28aef14104eacd8773[m
+Merge: 589d904e 4104c027
+Author: Juan Acuña <135073186+juan-mrtn@users.noreply.github.com>
+Date:   Mon May 25 18:52:35 2026 -0300
+
+    Merge pull request #62 from juan-mrtn/Pruebas
+    
+    Diccionarios de PartWorkbench y AssemblyWorkbench
+
+[33mcommit 4104c027b59b9525adc9ca267dd772741eb6136a[m
+Author: Juan Acuña <juan.acuna.jma@gmail.com>
+Date:   Mon May 25 18:42:41 2026 -0300
+
+    Diccionarios de PartWorkbench y AssemblyWorkbench
+
+[33mcommit 8c4ead54f9a9adb5c2e756d3e6d0e3aecadd59b6[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Mon May 25 18:37:28 2026 -0300
+
+    Reorganizar GUIFreeCad en luigiIntegracionV1 con wrappers de arranque en la raiz.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 6c8b3e8983ff0c441a4d2f5d5e5d4d3f6ffd33c4[m
+Merge: b59dc0bf 589d904e
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Mon May 25 18:18:59 2026 -0300
+
+    Merge pull request #5 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 589d904ece8241e54d9a505a95bc348dff87d185[m
+Author: Brian Schell <brianschell19@gmail.com>
+Date:   Mon May 25 17:58:18 2026 -0300
+
+    Agrego diccionario TechDraw
+
+[33mcommit 8de3940245d06a09e8fcd1048fba717b93a6d21f[m
+Merge: 808131aa 18c03699
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon May 25 16:32:30 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 18c03699dd4ff8fbcc20dd1e31570ac6ebb92b5a[m
+Merge: 169519a5 7265df18
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 22:00:33 2026 -0300
+
+    Merge pull request #58 from DAv-Project-Team-UADER/feature-draft-arrays
+    
+    Implementación de diccionarios de Arrays para Draft
+
+[33mcommit 7265df1886843fadfaa2a1c5ce597e3fb37fc0ac[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Sun May 24 21:51:21 2026 -0300
+
+    feat: implementar diccionarios y ayuda para todos los comandos de matrices (Arrays) en Draft
+
+[33mcommit 808131aa10e8cdc799d864463221c66491f39caa[m
+Merge: 75c2cee2 169519a5
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 20:27:35 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 75c2cee27193fb01a15538dd646f682e4b6d0544[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 20:27:30 2026 -0300
+
+    Create deepseek_mermaid_20260524_b213cd.svg
+
+[33mcommit b59dc0bfa28b95d0299e485c81b9951c247f093b[m
+Merge: f51791d2 169519a5
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sun May 24 18:54:26 2026 -0300
+
+    Merge pull request #4 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 169519a53a0cde97ce41a84e65a76203dd62b6f4[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 18:15:01 2026 -0300
+
+    correcciones del readme
+
+[33mcommit b3af93e97f276d6580ac290eaf6aadc6347bc48c[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 17:55:31 2026 -0300
+
+    Revise title and description in README.es.md
+    
+    Updated project title and description in Spanish README.
+
+[33mcommit a74c9401e0e9bfec975059bfbd9edbd47f87a4aa[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 17:54:48 2026 -0300
+
+    v4
+
+[33mcommit 01c86a94e51ba7eafdce444232e14c1ad31d7703[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 17:54:05 2026 -0300
+
+    correcciones
+
+[33mcommit a554b6a79ed7249f10cf436aeaea77a8d19e7a80[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 17:49:43 2026 -0300
+
+    ReadMePT v0
+
+[33mcommit f0c630675fbe6a765ca18060e45ee717d8161716[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sun May 24 17:46:17 2026 -0300
+
+    corrección en la clase llavero
+
+[33mcommit 43b907e7048aa124efd720ae8be951e6950fcc66[m
+Merge: 670e496a 46dd7bdd
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun May 24 16:13:48 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 670e496a70a96caeea5b0c7350cbddf94b54a77a[m
+Author: Camila Viñeg <vinegcamila27@gmail.com>
+Date:   Sun May 24 16:06:50 2026 -0300
+
+    se incorpora diccionario de tickets de  TechDraw Workbench
+
+[33mcommit f51791d270a27b4eacb2f1d2053e94f8cfcc4695[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Sun May 24 01:35:03 2026 -0300
+
+    Reemplazar bandera de Espana por Argentina en selector de idioma es.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 816d2743590a5e3c22e9e1944c27f7f1426a18c1[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Sun May 24 01:27:13 2026 -0300
+
+    Agregar iniciar_dav: un solo comando para preparar y abrir DAV.
+    
+    Nuevo iniciar_dav.ps1 (e iniciar_dav.bat) en la raiz del repo unifica el
+    arranque: crea el venv de GUIFreeCad, instala dependencias, descarga modelos
+    Vosk si faltan y delega en run_freecad_dav.ps1 para instalar el Mod DAV,
+    configurar voz/preferencias y lanzar FreeCAD.
+    
+    Actualiza README.es.md e INTEGRACION_EQUIPO.md con instrucciones de uso.
+    El equipo ya no necesita ir carpeta por carpeta en la primera ejecucion.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 8f7ebea5611f648278695abcab996344001a20d3[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Sun May 24 01:16:40 2026 -0300
+
+    Integrar GUIFreeCad en el repo: preferencias y voz unificada con FreeCAD.
+    
+    Incluye carpeta GUIFreeCad, rutas embebidas, scripts de arranque y documentacion para levantar DAV con run_freecad_dav.ps1.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 46dd7bddf10078ae0ba34222172a81afbbaad167[m
+Merge: e462d039 b41ca638
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Sat May 23 22:32:15 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit e462d0399a753352293c814ff3fd6638fd2d6845[m
+Author: tobiascarballo <carballotobias01@gmail.com>
+Date:   Sat May 23 22:29:01 2026 -0300
+
+    Agrego diccionarios de TechDrawWorkbench
+
+[33mcommit b41ca638041b10dddcda509c6693b2e202f1d654[m
+Author: Joaquin Poggio <joaquinpoggio04@gmail.com>
+Date:   Sat May 23 21:29:58 2026 -0300
+
+    Agrego Diccionarios PartWorkBench
+
+[33mcommit db3c7438cb774befcf840bf1ae18a8d3433a0e4b[m
+Merge: bb1b55b0 2ea872bd
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Sat May 23 19:24:04 2026 -0300
+
+    Merge pull request #3 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 2ea872bd5468e1beb276d3949849e9073d9ab58a[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 23 17:37:44 2026 -0300
+
+    HEADER KEYCHAIN LLAVERO
+
+[33mcommit baa6f21c51793fcaec9fb6dd8a57fa27df84b351[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 23 17:35:26 2026 -0300
+
+    Revise and enhance README.es.md content
+    
+    Updated README in Spanish to improve clarity and add links.
+
+[33mcommit 3cf8e655cba7e13dae0eb8b66e9667ff3a8885b0[m
+Author: ValentinaSchaab <valentischaab@gmail.com>
+Date:   Sat May 23 17:21:11 2026 -0300
+
+     agrega diccionario Explorer
+
+[33mcommit 7d3f0f122d90ba9c92953944c8f9ec7fec425ad4[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 23 16:59:39 2026 -0300
+
+    Clase llavero
+
+[33mcommit 6ea3e9674104d93add4198d360d0ee1fbff30ad1[m
+Author: BiancaTournour <bmtournour@gmail.com>
+Date:   Sat May 23 14:12:48 2026 -0300
+
+    Agrega diccionarios PartWorkbench y AssemblyWorkbench
+
+[33mcommit b2fd8831a3f83160acc9f8ca5ce067f6479ea735[m
+Merge: 5b29ff72 d9e2c61a
+Author: micasaul <mica020804@gmail.com>
+Date:   Sat May 23 02:23:10 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 5b29ff7278e25c8f47c6d108fa97615e9cb156e5[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Sat May 23 02:23:00 2026 -0300
+
+    feat: restaurar flash overlay y agregar icono SVG de ayuda
+
+[33mcommit d9e2c61a2a9e2994b690211a033c657df535aa4a[m
+Author: TadeoRochas <tadeorochas05@gmail.com>
+Date:   Fri May 22 22:20:28 2026 -0300
+
+    Draft & TechDraw dictionary
+
+[33mcommit 169471cc66ce8066f958448d0a8e9265306cef55[m
+Author: UADER_IS2_Uriarte <uruartea@gmail.com>
+Date:   Fri May 22 20:07:18 2026 -0300
+
+    Add files via upload
+
+[33mcommit bb1b55b099c5767aa619313f1b14058ef6f02b67[m
+Merge: 5a018ac9 23ed49b8
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Fri May 22 18:33:13 2026 -0300
+
+    Merge pull request #2 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit 5a018ac901964208bf5fe55b69602289b20531ae[m
+Author: Luigi <luigimete54@gmail.com>
+Date:   Fri May 22 18:31:39 2026 -0300
+
+    Integrar workbench DAV en Pruebas y scripts de arranque.
+    
+    Corrige .gitignore para versionar Dav/ en Windows, enlaza el modulo en CMake y agrega scripts para ejecutar FreeCAD con DAV y GUIFreeCad.
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+[33mcommit 23ed49b85c65d8413ca5273a862db44f3e281944[m
+Author: matibaissetto <116122691+matibaissetto@users.noreply.github.com>
+Date:   Fri May 22 18:19:14 2026 -0300
+
+    Workbench GUI update
+    
+    The GUI was update. Now it displays the FreeCAD workbench icons. Plus we added a dark mode.
+
+[33mcommit 711cc143d9cfeb164ca616428b9ef5ffe9d0ac24[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Fri May 22 14:42:43 2026 -0300
+
+    feat: integracion idioma al explorer
+
+[33mcommit 311bce6d723df544c8bddde3eb62666ef2e19274[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Fri May 22 14:21:53 2026 -0300
+
+    feat: integración de explorer
+
+[33mcommit e5436f21bc10f78586dc1f2c67e00aa0c5ef5569[m
+Merge: 513920b9 abab1fd9
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Fri May 22 14:19:51 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit abab1fd9b88220f74e483ab48338f00ae5a05c30[m
+Author: MaitenBlanc <maitengblanc@gmail.com>
+Date:   Fri May 22 12:42:25 2026 -0300
+
+    feat: add dictionary structure for DraftWorkbench commands
+
+[33mcommit a9be60d23df015d63bd2e21c2f81f32cbaa57a0e[m
+Merge: 9ee1a4e5 e5b7dd10
+Author: micasaul <mica020804@gmail.com>
+Date:   Fri May 22 03:58:48 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 9ee1a4e56e5b947447d5b7d5b49d5f1fd50a46b0[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Fri May 22 03:58:39 2026 -0300
+
+    refactor: renombrar directorio y reescribir GUI con temas claro/oscuro y soporte multilenguaje
+
+[33mcommit e5b7dd101faf436c81b4488ebdee807ca701e4c0[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Thu May 21 20:43:23 2026 -0300
+
+    Update language links with emoji
+
+[33mcommit 64e514ad44e4fe14080aed848dc72b94c1fc3cdd[m
+Merge: ded64cb1 c7e9f1da
+Author: micasaul <mica020804@gmail.com>
+Date:   Thu May 21 19:36:41 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit ded64cb12d4ec5315ec8235fc9d7d958ce99d9cf[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Thu May 21 19:27:14 2026 -0300
+
+    docs: actualizar y traducir los README del proyecto
+
+[33mcommit 513920b94a180d485a4deadb74a53e5d5586bd4e[m
+Merge: 3fee80e6 c7e9f1da
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Thu May 21 17:59:10 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 61a384203a16c98614b333333c2b17c4241c6cae[m
+Merge: 9ae12374 c7e9f1da
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Thu May 21 16:12:28 2026 -0300
+
+    Merge pull request #1 from DAv-Project-Team-UADER/Pruebas
+    
+    Pruebas
+
+[33mcommit c7e9f1da8575c43ad6b76b58793d30f38060ad92[m
+Merge: d4303e0d 9ae12374
+Author: Elluis1 <luigimete54@gmail.com>
+Date:   Thu May 21 16:12:06 2026 -0300
+
+    Merge branch 'Pruebas' into Pruebas
+
+[33mcommit d4303e0d05f0d13950e2e3fd3519eeb2accf730c[m
+Author: SoPerez1 <perezsofi149@gmail.com>
+Date:   Thu May 21 15:26:56 2026 -0300
+
+    feat: integeate Command and GUI in MODELO module
+    
+    Co-authored-by: Copilot <copilot@github.com>
+
+[33mcommit e0c6457fd8317960ee0aa9c55a3d1968521a7fc6[m
+Author: micasaul <mica020804@gmail.com>
+Date:   Tue May 19 21:17:33 2026 -0300
+
+    feat: agregar logos en formatos svg, png e ico
+
+[33mcommit 3fee80e634809fe263798cff72ebcb08b62277b6[m
+Merge: 5014b114 a4f0af9c
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Mon May 18 17:06:37 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 5014b11458765e316443b087dec446303e1e3f5f[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Mon May 18 17:06:06 2026 -0300
+
+    Se automatizó la ejecución de FreeCAD al iniciar Windows
+
+[33mcommit a4f0af9ca45c13ed4c26d4cf3d94494207f1f1f4[m
+Author: Agustinschh <agustinscheffler@gmail.com>
+Date:   Mon May 18 16:38:22 2026 -0300
+
+    Renombrar script de captura de voz a captura_voz.py y actualizar README / .gitignore
+
+[33mcommit fad7aeb6d5c730837d772ea02f94b2beefe5ef4d[m
+Author: Agustinschh <agustinscheffler@gmail.com>
+Date:   Mon May 18 16:31:22 2026 -0300
+
+    feat: Agregar módulo de reconocimiento de voz y comandos con vosk
+    
+    - Implementar parser de comandos para filtrado de voz
+    - Agregar módulo de pruebas con archivo JSONL
+    - Actualizar .gitignore para excluir modelos grandes de vosk
+
+[33mcommit 3735c183d04a997e3d95c6300b4a7e36191d8588[m
+Merge: 225379fb 9ae12374
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Mon May 18 15:57:26 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 9ae123746e682799872b8ba7c6e3f22beade797c[m
+Author: UADER_IS2_VIÑEG <vinegcamila27@gmail.com>
+Date:   Mon May 18 15:27:38 2026 -0300
+
+    Se incorporan licencia GPL y normativa IEE-830
+    
+    Se encuentran en español e inglés.
+
+[33mcommit 2dc45b8dcec86ba14d369b511908b3488ee90500[m
+Merge: 6bd1c93b 7e1f0ff0
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Mon May 18 08:29:41 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV into Pruebas
+
+[33mcommit 6bd1c93b082861693a964cd85f3667fe26512240[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Mon May 18 08:28:24 2026 -0300
+
+    DAV GUI Fix
+    
+    The bug with the missing vosk folder was fixed.
+    Installation guide added.
+
+[33mcommit 8131feeb1c1fba86ba0f3bdd062465a8a7fa45cf[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 16 21:02:34 2026 -0300
+
+    Update issue templates
+
+[33mcommit 270e5d05e96aa7245d6c42fcd0c3ba1a9f23b218[m[33m ([m[1;31morigin/Develop[m[33m, [m[1;31morigin/DavCore[m[33m, [m[1;32mDevelop[m[33m, [m[1;32mDavCore[m[33m)[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 16 20:43:02 2026 -0300
+
+    Structure v1
+    
+    Structure v1
+
+[33mcommit d97e94dbc74c7c6b3e67897005c059b54f0124fa[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 16 20:39:33 2026 -0300
+
+    Structure
+    
+    Structure
+
+[33mcommit 7e1f0ff0356fa895915dbdfff4404d8a7f1c0785[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Sat May 16 20:26:33 2026 -0300
+
+    IDEA
+    
+    IDEA PARA IMPLEMENTAR DAVCORE EXPLORER
+
+[33mcommit 103d777517b249d4335ad0fd3bbb8117c9fc2ba0[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Sat May 16 13:51:56 2026 -0300
+
+    DAV GUI
+    
+    GUI that responds to your voice commands and is oriented to disabled kids.
+
+[33mcommit b15ca491673727f5c8b3835a231cca02403c0abd[m
+Author: SoPerez1 <perezsofi149@gmail.com>
+Date:   Mon May 11 18:43:06 2026 -0300
+
+     add gp1
+
+[33mcommit e3bc040f50de8968fa17893d739e90c94c3fccaf[m
+Merge: 1c165f84 8be0493c
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Mon May 11 15:51:06 2026 -0300
+
+    Merge pull request #7 from julianAO2002/pruebas
+    
+    Tarea1Grupo4: GestorDeHilos reorganizado y diagramas Mermaid corregidos
+
+[33mcommit 225379fba749602fdd709da98f568ba125819f56[m
+Author: FrancoCamen <francocamen1@gmail.com>
+Date:   Mon May 11 15:49:43 2026 -0300
+
+    fix(init): se mejoró funcionamiento de init.py
+
+[33mcommit 8be0493ce4ec8100bb16b0e6be82fb570f9f5375[m
+Merge: e3abd6b2 1c165f84
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon May 11 15:48:04 2026 -0300
+
+    Merge branch 'upstream-Pruebas' into pruebas
+
+[33mcommit e3abd6b2f5904c577c2fcee94324d2434626d469[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon May 11 15:47:55 2026 -0300
+
+    chore: add dav/ to .gitignore (from upstream)
+
+[33mcommit 1c165f8446072ef207ba38e2c5cf0854bbbbf1cc[m
+Author: SoPerez1 <perezsofi149@gmail.com>
+Date:   Mon May 11 15:45:32 2026 -0300
+
+    feat: add class: command,GestorDeHilos, voskModel and  add .gitignore
+
+[33mcommit 264bdc8f8e20f552acbcd3b5c7ca29d6ba8e1285[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon May 11 15:38:48 2026 -0300
+
+    Tarea1Grupo4: reorganizar archivos del GestorDeHilos en carpeta propia y corregir diagramas Mermaid
+
+[33mcommit 0b39d6151ee4e73f9fac63c4a4750ff497de15b7[m
+Merge: 0a51c296 cef2f74d
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon May 11 15:23:43 2026 -0300
+
+    chore: merge .gitignore with upstream (add models/ and local_config.py)
+
+[33mcommit 0a51c296debbea5070bc3428f7f8b03fa8a1c81b[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Mon May 11 15:23:06 2026 -0300
+
+    chore: add .gitignore
+
+[33mcommit cef2f74dedd9f7c6c861a88a712823aeab35d265[m
+Merge: aa330be0 8e4282d0
+Author: unknown <benjaayala140@gmail.com>
+Date:   Sun May 10 19:57:15 2026 -0300
+
+    Merge branch 'Pruebas' of https://github.com/DAv-Project-Team-UADER/DAV
+    write
+
+[33mcommit 8e4282d0d1b753c9ceae1e11317ff16926c0bcb3[m
+Author: Mustafá Baissetto <108498203+UADER-IS2-Baissetto@users.noreply.github.com>
+Date:   Fri May 8 19:13:30 2026 -0300
+
+    Tareas del grupo 3
+    
+    Aquí se adjuntan los archivos creados para las tareas asignadas al grupo 3
+
+[33mcommit 9819dd44037117dd3c093f4427f0529850bb26db[m
+Merge: 16f31b27 9c79385d
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Fri May 8 12:53:02 2026 -0300
+
+    Merge pull request #1 from julianAO2002/main
+    
+    Init v1
+
+[33mcommit aa330be02d94c20b244d98278eebd239f7b66e96[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Thu May 7 16:24:47 2026 -0300
+
+    docs: update .readme
+
+[33mcommit 223bde81ece09b2e45f2346943ecef85e462e8a7[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Thu May 7 15:38:52 2026 -0300
+
+    feat: implement ExclusiveListening logic with spoken-word to digit conversion
+
+[33mcommit f686d91d3bc2a7ba38bee7c065426f1853a147e8[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Thu May 7 12:06:03 2026 -0300
+
+    feat: implement latent listening and multi-threading architecture
+
+[33mcommit 9c79385d67cdc0960dc503b958a37b67260be6ae[m
+Merge: da93bc7e cf9b91a7
+Author: julianAO2002 <86670080+julianAO2002@users.noreply.github.com>
+Date:   Wed May 6 21:36:14 2026 -0300
+
+    Merge pull request #1 from julianAO2002/pruebas
+    
+    Gv1-Gv2: GestorDeHilos - implementacion y documentacion
+
+[33mcommit cf9b91a78ad8851372c0ed35298110fec7a28337[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed May 6 21:28:35 2026 -0300
+
+    Gv2: Separar clase, prueba y documentacion en archivos propios
+    
+    Se extrae el punto de entrada a TestGestorDeHilos.py, los diagramas
+    Mermaid a GestorDeHilos.md, y se limpia GestorDeHilos.py
+    dejando solo la clase.
+    
+    Autores: Bianca Micaela Tournour, Maiten Blanc, Julian Agustin Olivera
+    Grupo 4 - PET FCyT-UADER 2026
+
+[33mcommit 240692e2285daa3114d5cfdd306999f2dbe5ae79[m
+Author: julianAO2002 <julianolivera200277@gmail.com>
+Date:   Wed May 6 19:41:54 2026 -0300
+
+    Gv1: Implementar GestorDeHilos con ciclo completo de 10 hilos
+    
+    Clase GestorDeHilos que levanta 10 hilos de forma secuencial y los
+    cierra uno a uno a razon de uno por segundo, mientras el hilo principal
+    imprime 1..9 y listo. Incluye documentacion Mermaid (diagrama de clases
+    y flujo) segun convencion del proyecto.
+    
+    Autores: Bianca Micaela Tournour, Maiten Blanc, Julian Agustin Olivera
+    Grupo 4 - PET FCyT-UADER 2026
+
+[33mcommit 74184b84a98ba5407092788e6ab825a11be87c7c[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Thu Apr 30 10:00:14 2026 -0300
+
+    feat: agree model of vosk
+
+[33mcommit 27cf2f330b4c9ae77094e57837a7662189a51c6b[m
+Author: unknown <benjaayala140@gmail.com>
+Date:   Thu Apr 30 09:09:33 2026 -0300
+
+    Inicial commit
+
+[33mcommit da93bc7e2c0757fb44d274bd67ab800ad7d81132[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Wed Apr 29 04:25:10 2026 -0300
+
+    Init v1
+    
+    To make DAVCore branch
+
+[33mcommit 16f31b27409ab1283161414e8d6ab50591472bdb[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Apr 27 07:41:54 2026 -0300
+
+    Init
+    
+    El comienzo
+
+[33mcommit f1cc27604e86aa24f19d84ca1597cdfe56f93d1f[m
+Author: FDavidGallo <134020304+FDavidGallo@users.noreply.github.com>
+Date:   Mon Apr 27 07:34:04 2026 -0300
+
+    Initial commit
