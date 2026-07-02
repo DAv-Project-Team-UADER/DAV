@@ -29,10 +29,10 @@ TraduceToEs = {
     'coincidencia unificada':geometric['coincidentunified'],
 
     'bloquear':             geometric['lock'],
-    'fijar posicion':       geometric['lock'],
+    'fijar posición':       geometric['lock'],
 
     'punto en objeto':      geometric['pointonobject'],
-    'fijar a linea':        geometric['pointonobject'],
+    'fijar a línea':        geometric['pointonobject'],
 
     'horizontal':           geometric['horizontal'],
     'hacer horizontal':     geometric['horizontal'],
@@ -41,7 +41,7 @@ TraduceToEs = {
     'hacer vertical':       geometric['vertical'],
     
     'horizontal vertical':  geometric['horver'],
-    'orientacion automatica':geometric['horver'],
+    'orientación automática':geometric['horver'],
 
     'paralelo':             geometric['parallel'],
     'hacer paralelo':       geometric['parallel'],
@@ -56,12 +56,13 @@ TraduceToEs = {
     'hacer igual':          geometric['equal'],
     'longitud igual':       geometric['equal'],
 
-    'simetrico':            geometric['symmetric'],
-    'hacer simetrico':      geometric['symmetric'],
-    'simetria':             geometric['symmetric'],
+    'simétrico':            geometric['symmetric'],
+    'hacer simétrico':      geometric['symmetric'],
+    'simetría':             geometric['symmetric'],
+    'aplicar simetría':             geometric['symmetric'],
 
     'bloque':               geometric['block'],
-    'bloquear geometria':   geometric['block'],
+    'bloquear geometría':   geometric['block'],
 
     'alternar conductora':  geometric['toggledriving'],
     'modo referencia':      geometric['toggledriving'],

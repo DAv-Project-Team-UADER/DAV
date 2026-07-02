@@ -59,6 +59,7 @@ TraduceToEn = {
     'symmetric':            geometric['symmetric'],
     'make symmetric':       geometric['symmetric'],
     'symmetry':             geometric['symmetric'],
+    'aplicate symmetry':             geometric['symmetric'],
 
     'block':                geometric['block'],
     'block geometry':       geometric['block'],

@@ -21,7 +21,7 @@
 from .constraints import constraints
 
 TraduceToEs = {
-    'dimension':            constraints['dimension'],
+    'dimensión':            constraints['dimension'],
     'cota':                 constraints['dimension'],
     'longitud':             constraints['dimension'],
 
@@ -33,23 +33,25 @@ TraduceToEs = {
     'cota vertical':        constraints['vertical'],
     'distancia vertical':   constraints['vertical'],
 
-    'angulo':               constraints['angle'],
+    'ángulo':               constraints['angle'],
     'cota angular':         constraints['angle'],
 
     'radio':                constraints['radius'],
     'cota radial':          constraints['radius'],
 
-    'diametro':             constraints['diameter'],
+    'diámetro':             constraints['diameter'],
     'cota diametral':       constraints['diameter'],
 
     'radiam':               constraints['radiam'],
-    'cota automatica':      constraints['radiam'],
+    'cota automática':      constraints['radiam'],
 
     'distancia':            constraints['distance'],
     'cota de distancia':    constraints['distance'],
 
-    'geometrica':           constraints['geometric'],
-    'restricciones':        constraints['geometric'],
+    'geométricas':           constraints['geometric'],
+    'geométrica':           constraints['geometric'],
+    'restricciones geométricas':        constraints['geometric'],
+    'restricciones de geometría':        constraints['geometric'],
 
     'ayuda':                constraints['help'],
     'información':             constraints['help'],

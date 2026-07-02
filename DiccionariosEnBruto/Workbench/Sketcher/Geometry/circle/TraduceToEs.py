@@ -21,13 +21,13 @@
 from .circle import circle
 
 TraduceToEs = {
-    'crear':                circle['create'],
-    'circulo':              circle['create'],
+    'crear círculo':                circle['create'],
+    'círculo':              circle['create'],
     'centro':               circle['create'],
-    'circulo desde centro': circle['create'],
+    'círculo desde centro': circle['create'],
 
     'tres puntos':          circle['3point'],
-    'circulo tres puntos':  circle['3point'],
+    'círculo tres puntos':  circle['3point'],
     '3 puntos':             circle['3point'],
 
     'ayuda':                circle['help'],
