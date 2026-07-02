@@ -23,6 +23,8 @@ from .ayuda import ayuda
 TraduceToEn = {
     'ellipse':  ellipse['ellipse'],
     'oval':     ellipse['ellipse'],
+    'add oval':     ellipse['ellipse'],
+    'add ellipse':  ellipse['ellipse'],
     
     "help":            ellipse['help'],
     "info":            ellipse['help'],

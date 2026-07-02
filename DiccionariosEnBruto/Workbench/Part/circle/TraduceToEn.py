@@ -23,6 +23,8 @@ from .ayuda import ayuda
 TraduceToEn = {
     'circle':   circle['circle'],
     'round':    circle['circle'],
+    'add round':    circle['circle'],
+    'add circle':    circle['circle'],
     
     "help":            circle['help'],
     "info":            circle['help'],

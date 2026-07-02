@@ -23,7 +23,10 @@ TraduceToEs = {
     'cono':             cone['cone'],
     'cono primitivo':   cone['primitive cone'],
     'cono primitiva':   cone['primitive cone'],
-
+    'agregar cono':     cone['cone'],
+    'agregar cono primitivo':   cone['primitive cone'],
+    'agregar cono primitiva':   cone['primitive cone'],
+    
     "ayuda":                cone['help'],
     "información":          cone['help'],
     "opciones":             cone['help']
