@@ -71,6 +71,17 @@ traduceToEn = {
     "additive wedge": additive["additivewedge"],
     "wedge feature": additive["additivewedge"],
     
+    # pad_sketch
+    "extrude sketch": additive["pad_sketch"],
+    "extend profile": additive["pad_sketch"],
+    "thicken drawing": additive["pad_sketch"],
+
+    # loft_profiles
+    "blend shapes": additive["loft_profiles"],
+    "sweep surfaces": additive["loft_profiles"],
+    "morph sections": additive["loft_profiles"],
+
+
     "help":            additive['help'],
     "info":            additive['help'],
     "options":         additive['help']
