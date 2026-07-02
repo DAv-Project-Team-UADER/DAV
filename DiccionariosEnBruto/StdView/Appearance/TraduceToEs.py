@@ -18,6 +18,7 @@
 
 from .Appearance import appearance
 from .ayuda import ayuda
+from DAV.DiccionariosEnBruto.StdView.Appearance import Appearance
 
 TraduceToEs = {
     # Apariencia
@@ -40,7 +41,7 @@ TraduceToEs = {
     'texturizacion':        appearance['texturemapping'],
 
     # ayuda
-    'ayuda':    ayuda['help'],
-    'información':     ayuda['help'],
-    'opciones':  ayuda['help'],
+    'ayuda':    Appearance['help'],
+    'información':     Appearance['help'],
+    'opciones':  Appearance['help'],
 }

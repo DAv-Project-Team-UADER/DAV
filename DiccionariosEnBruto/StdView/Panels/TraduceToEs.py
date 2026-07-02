@@ -17,13 +17,10 @@
 
 """Spanish spoken-word mapping for the StdViews Panels dictionary."""
 
-from .panels import Panels
+from .Panels import Panels
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Vistas de Panel y Acoplamiento
     "panel": Panels['panel'],
@@ -39,23 +36,41 @@ TraduceToEs = {
     
     # Paneles específicos de FreeCAD
     "vista dag": Panels['dagview'],
+
     "vista combo": Panels['comboview'],
     "panel combo": Panels['comboview'],
+    "vista combinada": Panels['comboview'],
+    "panel combinado": Panels['comboview'],
+
     "vista de seleccion": Panels['selectionview'],
     "panel de seleccion": Panels['selectionview'],
+
+    "abrir tareas": Panels['tasks'],
     "vista de tareas": Panels['tasks'],
     "tareas": Panels['tasks'],
     "panel de tareas": Panels['tasks'],
+
+    "abrir propiedades": Panels['properties'],
     "vista de propiedades": Panels['properties'],
     "propiedades": Panels['properties'],
     "panel de propiedades": Panels['properties'],
+
     "vista de arbol": Panels['treeview'],
     "arbol del modelo": Panels['treeview'],
     
     # Consolas y Barras
+    "activar consola python": Panels['console'],
+    "activar consola": Panels['console'],
     "consola python": Panels['console'],
     "consola": Panels['console'],
     "vista de reporte": Panels['report'],
+    "abrir reporte": Panels['report'],
+    "reportar": Panels['report'],
+    "reportar algo": Panels['report'],
     "reporte": Panels['report'],
-    "barra de estado": Panels['statusbar']
+    "barra de estado": Panels['statusbar'],
+
+    "ayuda": Panels['help'],
+    "información": Panels['help'],
+    "opciones": Panels['help'],
 }

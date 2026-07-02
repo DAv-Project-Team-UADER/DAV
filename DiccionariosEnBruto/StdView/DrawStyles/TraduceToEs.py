@@ -20,7 +20,7 @@
 # Spanish translations – StdViews DrawStyles
 # ============================================================
 
-from .drawstyles import drawstyles
+from .DrawStyles import drawstyles
 
 TraduceToEs = {
     # Estilos principales
@@ -31,10 +31,11 @@ TraduceToEs = {
     "puntos": drawstyles["points"],
     "sombreado": drawstyles["shaded"],
     "alambre": drawstyles["wireframe"],
-    "help": drawstyles["help"],
 
-    # Sinónimos
-    "como esta": drawstyles["styleasis"],
+    # Sinónimos (formas más naturales en español)
+    "tal como está": drawstyles["styleasis"],
+    "tal como esta": drawstyles["styleasis"],
+    "tal cual": drawstyles["styleasis"],
     "original": drawstyles["styleasis"],
 
     "lineas planas": drawstyles["flatlines"],
@@ -54,4 +55,8 @@ TraduceToEs = {
 
     "wireframe": drawstyles["wireframe"],
     "estructura": drawstyles["wireframe"],
+
+    "ayuda": drawstyles["help"],
+    "información": drawstyles["help"],
+    "opciones": drawstyles["help"],
 }

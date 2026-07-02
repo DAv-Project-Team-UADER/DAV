@@ -17,13 +17,10 @@
 
 """English spoken-word mapping for the StdViews Panels dictionary."""
 
-from .panels import Panels
+from .Panels import Panels
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Panel & Dock views
     "panel": Panels['panel'],
@@ -53,5 +50,9 @@ TraduceToEn = {
     "console": Panels['console'],
     "report view": Panels['report'],
     "report": Panels['report'],
-    "status bar": Panels['statusbar']
+    "status bar": Panels['statusbar'],
+
+    "help": Panels['help'],
+    "info": Panels['help'],
+    "options": Panels['help'],
 }

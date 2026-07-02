@@ -31,7 +31,6 @@ TraduceToPt = {
     "pontos": drawstyles["points"],
     "sombreado": drawstyles["shaded"],
     "arame": drawstyles["wireframe"],
-    "help": drawstyles["help"],
 
     # Sinônimos
     "como esta": drawstyles["styleasis"],
@@ -54,4 +53,8 @@ TraduceToPt = {
 
     "wireframe": drawstyles["wireframe"],
     "estrutura": drawstyles["wireframe"],
+
+    "ajuda": drawstyles["help"],
+    "informação": drawstyles["help"],
+    "opções": drawstyles["help"],
 }

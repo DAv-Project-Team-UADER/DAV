@@ -17,13 +17,10 @@
 
 """Portuguese spoken-word mapping for the StdViews Panels dictionary."""
 
-from .panels import Panels
+from .Panels import Panels
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Vistas de Painel e Acoplamento
     "painel": Panels['panel'],
@@ -41,6 +38,8 @@ TraduceToPt = {
     "vista dag": Panels['dagview'],
     "vista combo": Panels['comboview'],
     "painel combo": Panels['comboview'],
+    "vista combinada": Panels['comboview'],
+    "painel combinado": Panels['comboview'],
     "vista de selecao": Panels['selectionview'],
     "painel de selecao": Panels['selectionview'],
     "vista de tarefas": Panels['tasks'],
@@ -57,5 +56,9 @@ TraduceToPt = {
     "console": Panels['console'],
     "vista de relatorio": Panels['report'],
     "relatorio": Panels['report'],
-    "barra de status": Panels['statusbar']
+    "barra de status": Panels['statusbar'],
+
+    "ajuda": Panels['help'],
+    "informação": Panels['help'],
+    "opções": Panels['help']
 }

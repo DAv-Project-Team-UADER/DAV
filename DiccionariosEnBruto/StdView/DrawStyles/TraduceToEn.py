@@ -20,7 +20,7 @@
 # English translations – StdViews DrawStyles
 # ============================================================
 
-from .drawstyles import drawstyles
+from .DrawStyles import drawstyles
 
 TraduceToEn = {
     # Main styles
@@ -31,7 +31,6 @@ TraduceToEn = {
     "points": drawstyles["points"],
     "shaded": drawstyles["shaded"],
     "wireframe": drawstyles["wireframe"],
-    "help": drawstyles["help"],
 
     # Synonyms
     "as is": drawstyles["styleasis"],
@@ -54,4 +53,8 @@ TraduceToEn = {
 
     "wire": drawstyles["wireframe"],
     "wire frame": drawstyles["wireframe"],
+
+    "help": drawstyles["help"],
+    "info": drawstyles["help"],
+    "options": drawstyles["help"],
 }
