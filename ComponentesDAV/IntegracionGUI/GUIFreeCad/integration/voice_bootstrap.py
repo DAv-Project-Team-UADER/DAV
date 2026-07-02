@@ -42,8 +42,12 @@ def start_voice_engine(*, debug: bool = False) -> bool:
 
         preferences.SetLanguage = LanguageCode.FromStorage(settings.language)
 
+        from pathlib import Path
+        # parents[0]=integration [1]=GUIFreeCad [2]=IntegracionGUI
+        # [3]=ComponentesDAV [4]=DAV (raíz del repo)
+        _dict_root = Path(__file__).resolve().parents[4] / "DiccionariosEnBruto"
         executor = PromptedCommandExecutor(Language=settings.language)
-        browser = Browser(prefs=preferences, on_execute=executor)
+        browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
         
         if not svc.start_cad(adapter):

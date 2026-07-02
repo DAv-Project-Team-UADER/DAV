@@ -30,7 +30,6 @@ TraduceToEn = {
     "interpolation": bspline["interpolation"],
     "periodic": bspline["periodic"],
     "periodicinterp": bspline["periodicinterp"],
-    "help": bspline["help"],
 
     # Aliases / synonyms
     "create bspline": bspline["create"],
@@ -44,4 +43,9 @@ TraduceToEn = {
 
     "periodic bspline": bspline["periodic"],
     "closed bspline": bspline["periodic"],
+
+    "help": bspline["help"],
+    "info": bspline["help"],
+    "options": bspline["help"],
+
 }

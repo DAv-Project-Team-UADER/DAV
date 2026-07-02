@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,22 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Windows import windows
+
+TraduceToPt = {
+    "fechar": windows["close"],
+    "fechar janela": windows["close"],
+
+    "fechar tudo": windows["closeall"],
+    "fechar todas": windows["closeall"],
+    "fechar todas as janelas": windows["closeall"],
+
+    "sair": windows["quit"],
+    "sair do programa": windows["quit"],
+    "fechar programa": windows["quit"],
+
+    "ajuda": windows["help"],
+    "informação": windows["help"],
+    "opções": windows["help"],
+}

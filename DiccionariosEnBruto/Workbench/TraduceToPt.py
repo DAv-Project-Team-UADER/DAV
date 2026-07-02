@@ -34,17 +34,21 @@ TraduceToPt = {
     "bancada de montagem": assembly,
     "bancada de conjunto": assembly,
     "banco de montagem":   assembly,
+    "articular":          assembly,
+    "juntar":             assembly,
+    "juntar peças":        assembly,
 
     # Bancada de Desenho
     "desenho":           draft,
     "desenhos":          draft,
     "bancada de desenho": draft,
-    "esboço":            draft,
-    "esboços":           draft,
+    
     "rascunho":          draft,
     "rascunhos":         draft,
     "draftwork":         draft,
     "draft":             draft,
+    "desenhar":          draft,
+    
 
     # Bancada de Peça
     "peça":              part,
@@ -53,24 +57,32 @@ TraduceToPt = {
     "bancada de peças":  part,
     "parte":             part,
     "partes":            part,
+    "pedaço":            part,
+    "pedaços":           part,
+    
 
     # Bancada de Design de Peças
-    "design de peça":    partdesign,
-    "design de peças":   partdesign,
+    "desenho de peça":    partdesign,
+    "desenho de peças":   partdesign,
     "designer de peças": partdesign,
+    "desenhista":        partdesign,
     "design":            partdesign,
     "bancada de design": partdesign,
     "partdesign":        partdesign,
     "part design":       partdesign,
+    "projeto de peça":     partdesign,
+    "projeto de peças":    partdesign,
+    
 
     # Bancada de Esboço
-    "esboço técnico":    sketcher,
+   
     "banco de esboço":   sketcher,
     "desenhar esboço":   sketcher,
     "sketcher":          sketcher,
     "croqui":            sketcher,
     "croquis":           sketcher,
-
+    "esboço":            sketcher,
+    "esboços":           sketcher,
     # Bancada de Desenho Técnico
     "desenho técnico":   techdraw,
     "desenhos técnicos": techdraw,
@@ -78,4 +90,12 @@ TraduceToPt = {
     "techdraw":          techdraw,
     "desenho de planos": techdraw,
     "planos":            techdraw,
+    "esboço técnico":    techdraw,
+    "rótulo":             techdraw,
+    "rótulos":            techdraw,
+    "técnico":             techdraw,
+
+    "ajuda":             techdraw["help"],
+    "informação":        techdraw["help"],
+    "opções":            techdraw["help"],
 }

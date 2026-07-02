@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from _lenient import LenientDict
 
 edit = {
     'undo':       lambda: Gui.runCommand('Std_Undo', 0),
@@ -35,3 +36,6 @@ edit = {
     'editmode':   lambda: Gui.runCommand('Std_UserEditMode', 0),
     'help':       ayuda,
 }
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+edit = LenientDict(edit)

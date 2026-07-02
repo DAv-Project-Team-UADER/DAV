@@ -19,6 +19,7 @@
 """English spoken-word mapping for the part_scale dictionary."""
 
 from .part_scale import part_scale
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,8 +28,8 @@ TraduceToEn = {
     'enlarge': part_scale['scale'],
     'reduce': part_scale['scale'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_scale['help'],
+    "info": part_scale['help'],
+    "options": part_scale['help'],
 }
+

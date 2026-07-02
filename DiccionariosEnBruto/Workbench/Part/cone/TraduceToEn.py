@@ -17,14 +17,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .cone import cone
+
 from .ayuda import ayuda
 
 TraduceToEn = {
     'cone':           cone['cone'],
     'primitive cone': cone['primitive cone'],
 
-
     "help":            cone['help'],
     "info":            cone['help'],
     "options":         cone['help']
 }
+

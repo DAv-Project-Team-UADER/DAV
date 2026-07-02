@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .cone import cone
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -23,7 +24,7 @@ TraduceToEs = {
     'cono primitivo':   cone['primitive cone'],
     'cono primitiva':   cone['primitive cone'],
 
-    "ayuda":                cone["help"],
-    "información":          cone["help"],
-    "opciones":             cone["help"]
+    "ayuda":                cone['help'],
+    "información":          cone['help'],
+    "opciones":             cone['help']
 }

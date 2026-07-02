@@ -73,6 +73,6 @@ TraduceToEn = {
 
     # Sinónimos para la función ayuda
     'help':                 geometric['help'],
-    'commands':             geometric['help'],
+    'info':             geometric['help'],
     'options':              geometric['help']
 }

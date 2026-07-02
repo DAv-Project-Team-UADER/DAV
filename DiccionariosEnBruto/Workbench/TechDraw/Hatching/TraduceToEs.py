@@ -37,5 +37,7 @@ TraduceToEs = {
     "patron de tramado": hatching["geometric_hatch"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": hatching["help"],
+    "información": hatching["help"],
+    "opciones": hatching["help"],
 }

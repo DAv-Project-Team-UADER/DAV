@@ -21,10 +21,20 @@ from .length import length
 TraduceToPt = {
     # length
     "comprimento":        length["length"],
+<<<<<<< HEAD
     "dimensão comprimento": length["length"],  # sinonimo
     "distância":          length["length"],    # sinonimo
     # help
     "ajuda":              length["help"],
     "informação":               length["help"],      # sinonimo
     "opções":             length["help"],      # sinonimo
+=======
+    "dimensao comprimento": length["length"],  
+    "distância":          length["length"],    
+
+    # help
+    "ajuda":              length["help"],
+    "informação":         length["help"],      
+    "opções":             length["help"],      
+>>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

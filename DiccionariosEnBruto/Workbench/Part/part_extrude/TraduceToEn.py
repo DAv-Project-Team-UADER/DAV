@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part extrude commands."""
 
 from .part_extrude import part_extrude
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,8 +28,8 @@ TraduceToEn = {
     "make extrusion": part_extrude["extrude"],
     "extrude object": part_extrude["extrude"],
     "extrusion": part_extrude["extrude"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+    
+    "help":            part_extrude['help'],
+    "info":            part_extrude['help'],
+    "options":         part_extrude['help']
 }

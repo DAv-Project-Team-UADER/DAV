@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .ellipse import ellipse
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -23,7 +24,7 @@ TraduceToEs = {
     'ovalo':    ellipse['ellipse'],
     'óvalo':    ellipse['ellipse'],
     
-    "ayuda":                ellipse["help"],
-    "información":          ellipse["help"],
-    "opciones":             ellipse["help"]
+    "ayuda":                ellipse['help'],
+    "información":          ellipse['help'],
+    "opciones":             ellipse['help']
 }

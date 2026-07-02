@@ -20,10 +20,11 @@ from .radius import radius
 TraduceToEn = {
     # radius
     "radius":           radius["radius"],
-    "radius dimension": radius["radius"],         # synonym
-    "arc radius":       radius["radius"],         # synonym
+    "radius dimension": radius["radius"],         
+    "arc radius":       radius["radius"],  
+           
     # help
     "help":             radius["help"],
-    "info":             radius["help"],   # synonym
-    "options":          radius["help"],   # synonym
+    "info":             radius["help"],   
+    "options":          radius["help"],   
 }

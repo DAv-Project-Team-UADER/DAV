@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the part_ruled_surface dictionary."""
 
 from .part_ruled_surface import part_ruled_surface
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -27,9 +28,8 @@ TraduceToPt = {
     "unir curvas": part_ruled_surface["ruled surface"],
     "criar superfície regrada": part_ruled_surface["ruled surface"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_ruled_surface['help'],
+    "informação": part_ruled_surface['help'],
+    "opções": part_ruled_surface['help']
 }
+

@@ -30,5 +30,7 @@ TraduceToPt = {
     "inserir vista ativa": other_views["active_view"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": other_views["help"],
+    "informação": other_views["help"],
+    "opções": other_views["help"],
 }

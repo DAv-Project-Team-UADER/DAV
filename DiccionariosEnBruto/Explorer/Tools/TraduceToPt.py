@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,3 +14,39 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Tools import tools
+
+TraduceToPt = {
+    "medir": tools["measure"],
+    "medida": tools["measure"],
+    "medir distancia": tools["measure"],
+    "medir distância": tools["measure"],
+
+    "esclarecer selecao": tools["clarifyselection"],
+    "esclarecer seleção": tools["clarifyselection"],
+    "limpar selecao": tools["clarifyselection"],
+    "limpar seleção": tools["clarifyselection"],
+
+    "modo demo": tools["demomode"],
+    "modo demonstracao": tools["demomode"],
+    "modo demonstração": tools["demomode"],
+
+    "personalizar": tools["customize"],
+    "customizar": tools["customize"],
+    "configuracoes": tools["customize"],
+    "configurações": tools["customize"],
+
+    "editar parametros": tools["editparameters"],
+    "editar parâmetros": tools["editparameters"],
+    "parametros": tools["editparameters"],
+    "parâmetros": tools["editparameters"],
+
+    "utilitario de projeto": tools["projectutil"],
+    "utilitário de projeto": tools["projectutil"],
+    "ferramentas de projeto": tools["projectutil"],
+
+    "ajuda": tools["help"],
+    "informação": tools["help"],
+    "opções": tools["help"],
+}

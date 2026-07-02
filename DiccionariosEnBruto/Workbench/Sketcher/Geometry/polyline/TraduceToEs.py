@@ -21,9 +21,6 @@ from .polyline import polyline
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Creación de polilínea y sinónimos
     "crear": polyline['create'],
@@ -35,5 +32,9 @@ TraduceToEs = {
     "trazar polilinea": polyline['create'],
     "crear multilinea": polyline['create'],
     "dibujar multilinea": polyline['create'],
-    "trazar multilinea": polyline['create']
+    "trazar multilinea": polyline['create'],
+
+    "ayuda": polyline['help'],
+    "informacion": polyline['help'],
+    "opciones": polyline['help'],
 }

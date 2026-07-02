@@ -29,10 +29,9 @@ TraduceToPt = {
     "varrer por caminho": part_sweep["sweep"],
     "sweep": part_sweep["sweep"],
     "tubo": part_sweep["sweep"],
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+
+    "ajuda": part_sweep['help'],
+    "informação": part_sweep['help'],
+    "opções": part_sweep['help']
 }
+

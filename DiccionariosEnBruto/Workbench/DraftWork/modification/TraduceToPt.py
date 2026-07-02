@@ -22,10 +22,11 @@ TraduceToPt = {
     'escalar': modification['scale'],
     'redimensionar': modification['scale'],
 
-    'vista_2d': modification['shape_2d_view'],
-    'projecao_2d': modification['shape_2d_view'],
+    'vista': modification['shape_2d_view'],
+    "visualização": modification['shape_2d_view'],
+    'projeção': modification['shape_2d_view'],
 
-    'inclinacao': modification['slope'],
+    'inclinação': modification['slope'],
     'declive': modification['slope'],
 
     'dividir': modification['split'],
@@ -46,7 +47,7 @@ TraduceToPt = {
     'fio_para_bspline': modification['wire_to_bspline'],
     'bspline': modification['wire_to_bspline'],
 
-    'help': modification['help'],
     'ajuda': modification['help'],
-    'opcoes': modification['help'],
+    "informação": modification['help'],
+    'opções': modification['help'],
 }

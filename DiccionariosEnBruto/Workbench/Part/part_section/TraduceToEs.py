@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for Part section commands."""
 
 from .part_section import part_section
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -33,10 +34,9 @@ TraduceToEs = {
     "curva de seccion": part_section["section"],
     "curva de sección": part_section["section"],
     "corte": part_section["section"],
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+
+    "ayuda": part_section['help'],
+    "información": part_section['help'],
+    "opciones": part_section['help'],
 }
+

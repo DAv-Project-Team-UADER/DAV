@@ -18,7 +18,7 @@
 
 """Mapeo de palabras en español para TechDraw Snaps."""
 
-from .snaps import snaps
+from .Snaps import snaps
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -35,5 +35,7 @@ TraduceToEs = {
     "puntos cuadrantes": snaps["quadrants"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": snaps["help"],
+    "información": snaps["help"],
+    "opciones": snaps["help"],
 }

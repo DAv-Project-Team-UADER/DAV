@@ -20,6 +20,7 @@ from .angle import angle
 
 TraduceToEs = {
     # angle
+<<<<<<< HEAD
     "ángulo":            angle["angle"],
     "dimensión angular": angle["angle"],   # sinonimo
     "medir ángulo":      angle["angle"],   # sinonimo
@@ -31,4 +32,19 @@ TraduceToEs = {
     "ayuda":             angle["help"],
     "información":              angle["help"],    # sinonimo
     "opciones":          angle["help"],    # sinonimo
+=======
+    "angulo":            angle["angle"],
+    "dimension angular": angle["angle"],   
+    "medir angulo":      angle["angle"], 
+
+    # points
+    "puntos":            angle["points"],
+    "tres puntos":       angle["points"],  
+    "angulo tres puntos": angle["points"], 
+
+    # help
+    "ayuda":             angle["help"],
+    "información":              angle["help"],    
+    "opciones":          angle["help"],    
+>>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

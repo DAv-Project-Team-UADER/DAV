@@ -26,10 +26,11 @@ TraduceToPt = {
     "bspline":         curve["bspline"],
     "curva suave":     curve["bspline"],
     "spline":          curve["bspline"],
+    "curva segmentada": curve["bspline"],
     
-    "cubica":          curve["cubic"],
-    "bezier cubica":   curve["cubic"],
-    "curva cubica":    curve["cubic"],
+    "cúbica":          curve["cubic"],
+    "bezier cúbica":   curve["cubic"],
+    "curva cúbica":    curve["cubic"],
     
     "ajuda":             curve["help"],
     "informação":       curve["help"],

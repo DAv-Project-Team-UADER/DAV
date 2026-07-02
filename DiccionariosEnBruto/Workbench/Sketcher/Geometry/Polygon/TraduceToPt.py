@@ -27,11 +27,14 @@ TraduceToPt = {
     "pentagono": polygon["pentagon"],
     "octogono": polygon["octagon"],
     "regular": polygon["regular"],
-    "ajuda": polygon["help"],
 
     # Sinônimos
     "poligono regular": polygon["regular"],
     "poligono": polygon["regular"],
     "cinco lados": polygon["pentagon"],
     "oito lados": polygon["octagon"],
+
+    "ajuda": polygon["help"],
+    "informação": polygon["help"],
+    "opções": polygon["help"],
 }

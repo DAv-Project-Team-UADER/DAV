@@ -15,6 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from _lenient import LenientDict
 from .dimension.dimension   import dimension
 from .length.length         import length
 from .horizontal.horizontal import horizontal
@@ -38,3 +39,6 @@ dimensions.update(radius)
 dimensions.update(diameter)
 dimensions['angle'] = angle
 dimensions['help']  = ayuda
+
+# Tolerante a claves aún no implementadas (no rompe el contexto entero).
+dimensions = LenientDict(dimensions)

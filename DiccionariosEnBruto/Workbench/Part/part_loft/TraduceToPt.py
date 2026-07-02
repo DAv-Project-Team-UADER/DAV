@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for Part loft commands."""
 
 from .part_loft import part_loft
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -27,10 +28,8 @@ TraduceToPt = {
     "criar loft": part_loft["loft"],
     "unir perfis": part_loft["loft"],
     "juntar perfis": part_loft["loft"],
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+    
+    "ajuda":             ayuda,
+    "informação":       ayuda,
+    "opções":           ayuda,
 }

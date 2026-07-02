@@ -15,7 +15,7 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
-from .symbols import symbols
+from .Symbols import symbols
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -37,5 +37,7 @@ TraduceToEn = {
     "surface finish symbol": symbols["finish"],
     "surface roughness": symbols["finish"],
 
-    "help": ayuda,
+    "help": symbols["help"],
+    "info": symbols["help"],
+    "options": symbols["help"],
 }

@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .views import views
+from .Views import views
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -61,5 +61,7 @@ TraduceToEs = {
     "planilla": views["spreadsheet"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": views["help"],
+    "información": views["help"],
+    "opciones": views["help"],
 }

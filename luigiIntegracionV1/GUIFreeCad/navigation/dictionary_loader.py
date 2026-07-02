@@ -48,7 +48,15 @@ class DictionaryLoader:
     def LoadBaseModuleDict(self) -> dict[str, Any]:
         if not self.IsReady:
             return {}
-        module = importlib.import_module("base")
+        try:
+            module = importlib.import_module("base")
+        except Exception as error:  # noqa: BLE001 - aislar base.py roto
+            print(
+                f"[DAV-Browser] No se pudo cargar 'base.py' en {self.DictionaryRoot}: "
+                f"{error.__class__.__name__}: {error}. El motor arranca con "
+                "BaseContext vacío."
+            )
+            return {}
         base = getattr(module, "Base", None)
         if not isinstance(base, dict):
             raise ValueError("base.py must define dict Base = {...}")
@@ -61,7 +69,18 @@ class DictionaryLoader:
             path = folder / f"{stem}.py"
             if not path.is_file():
                 continue
-            module = self._ImportTranslateModule(path, stem)
+            # Si un diccionario está roto (import relativo inválido, sintaxis,
+            # etc.) no se debe tumbar todo el motor: se omite y se sigue con
+            # el resto. Browser tolera un mapa vacío sin fallar.
+            try:
+                module = self._ImportTranslateModule(path, stem)
+            except Exception as error:  # noqa: BLE001 - aislar diccionario roto
+                print(
+                    f"[DAV-Browser] No se pudo cargar el diccionario '{path}': "
+                    f"{error.__class__.__name__}: {error}. Se omite y se "
+                    "continúa con los diccionarios disponibles."
+                )
+                continue
             table = getattr(module, stem, None)
             if isinstance(table, dict):
                 return dict(table)

@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,29 +15,41 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .stereo import stereo
+from .Stereo import stereo
 
 TraduceToEs = {
     # camerapos
     "posicion camara":       stereo["camerapos"],
-    "posicion vista camara": stereo["camerapos"],  # sinonimo
+    "posicion vista camara": stereo["camerapos"],  
+    "guardar posicion vista": stereo["camerapos"], 
+
     # stereocolumns
     "columnas estereo":      stereo["stereocolumns"],
-    "columnas entrelazadas": stereo["stereocolumns"],  # sinonimo
+    "columnas entrelazadas": stereo["stereocolumns"],  
+    "modo columnas":         stereo["stereocolumns"],  
+
     # stereorows
     "filas estereo":         stereo["stereorows"],
-    "filas entrelazadas":    stereo["stereorows"],     # sinonimo
+    "filas entrelazadas":    stereo["stereorows"],     
+    "modo filas":            stereo["stereorows"],  
+
     # stereooff
     "estereo apagado":       stereo["stereooff"],
-    "desactivar estereo":    stereo["stereooff"],      # sinonimo
+    "desactivar estereo":    stereo["stereooff"],      
+    "apagar estereo":        stereo["stereooff"],    
+
     # stereoquad
     "estereo cuadruple":     stereo["stereoquad"],
-    "buffer cuadruple":      stereo["stereoquad"],     # sinonimo
+    "buffer cuadruple":      stereo["stereoquad"],     
+    "modo cuadruple":        stereo["stereoquad"],   
+
     # stereoanaglyph
     "anaglifo estereo":      stereo["stereoanaglyph"],
-    "estereo rojo verde":    stereo["stereoanaglyph"],  # sinonimo
+    "estereo rojo verde":    stereo["stereoanaglyph"], 
+    "modo anaglifo":         stereo["stereoanaglyph"], 
+    
     # help
     "ayuda":                 stereo["help"],
-    "informacion":           stereo["help"],            # sinonimo
-    "opciones":               stereo["help"],           # sinonimo
+    "informacion":           stereo["help"],           
+    "opciones":              stereo["help"],            
 }

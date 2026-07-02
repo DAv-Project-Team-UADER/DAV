@@ -70,8 +70,7 @@ TraduceToEs = {
     "operacion booleana": subtractive["boolean"],
 
     # Help
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
+    "ayuda": subtractive['help'],
+    "información": subtractive['help'],
+    "opciones": subtractive['help'],
 }

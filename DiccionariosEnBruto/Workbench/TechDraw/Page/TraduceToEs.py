@@ -18,7 +18,7 @@
 
 """Mapeo de palabras en español para TechDraw Page."""
 
-from .page import page
+from .Page import page
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -64,5 +64,7 @@ TraduceToEs = {
     "guardar gráficos vectoriales escalables": page["svg"],
 
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": page["help"],
+    "información": page["help"],
+    "opciones": page["help"],
 }

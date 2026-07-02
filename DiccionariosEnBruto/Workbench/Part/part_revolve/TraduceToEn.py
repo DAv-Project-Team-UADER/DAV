@@ -19,6 +19,7 @@
 """English spoken-word mapping for the part_revolve dictionary."""
 
 from .part_revolve import part_revolve
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -26,8 +27,8 @@ TraduceToEn = {
     'create revolve': part_revolve['revolve'],
     'revolution': part_revolve['revolve'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_revolve['help'],
+    "info": part_revolve['help'],
+    "options": part_revolve['help'],
 }
+

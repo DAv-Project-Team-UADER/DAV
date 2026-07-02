@@ -24,21 +24,25 @@ TraduceToPt = {
 
     "simplificar": modify["downgrade"],
     "rebaixar": modify["downgrade"],
-
-    "esboco": modify["sketch"],
-    "converter para esboco": modify["sketch"],
+    "esboço": modify["sketch"],
+    "converter para esboço": modify["sketch"],
 
     "editar": modify["edit"],
     "modificar": modify["edit"],
 
     "arredondar": modify["fillet"],
     "filete": modify["fillet"],
+    "borda arredondada": modify["fillet"],
+    "borda": modify["fillet"],
 
     "unir": modify["join"],
     "combinar": modify["join"],
-
+    "juntar": modify["join"],
+    "junto": modify["join"],
+    "realocar": modify["join"],
     "mover": modify["move"],
     "deslocar": modify["move"],
+    "deslocamento": modify["offset"],
 
     "deslocamento": modify["offset"],
     "offset": modify["offset"],
@@ -47,9 +51,16 @@ TraduceToPt = {
     "girar": modify["rotate"],
 
     "espelhar": modify["mirror"],
+    "espelho": modify["mirror"],
     "refletir": modify["mirror"],
 
+<<<<<<< HEAD
     "ajuda":             modify["help"],
     "informação":       modify["help"],
     "opções":            modify["help"]
+=======
+    "help": modify["help"],
+    "ajuda": modify["help"],
+    "opções": modify["help"],
+>>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

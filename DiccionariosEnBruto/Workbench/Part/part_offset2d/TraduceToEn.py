@@ -19,6 +19,7 @@
 """English spoken-word mapping for the part_offset2d dictionary."""
 
 from .part_offset2d import part_offset2d
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,8 +28,8 @@ TraduceToEn = {
     'outline': part_offset2d['offset 2d'],
     'border': part_offset2d['offset 2d'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_offset2d['help'],
+    "info": part_offset2d['help'],
+    "options": part_offset2d['help'],
 }
+

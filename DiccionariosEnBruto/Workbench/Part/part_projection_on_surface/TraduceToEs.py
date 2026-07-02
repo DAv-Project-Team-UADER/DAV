@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for the part_projection_on_surface dictionary."""
 
 from .part_projection_on_surface import part_projection_on_surface
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -28,9 +29,8 @@ TraduceToEs = {
     "proyectar en superficie": part_projection_on_surface["projection"],
     "proyectar dibujo": part_projection_on_surface["projection"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_projection_on_surface['help'],
+    "información": part_projection_on_surface['help'],
+    "opciones": part_projection_on_surface['help'],
 }
+

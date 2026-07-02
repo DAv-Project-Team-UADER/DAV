@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the part_offset dictionary."""
 
 from .part_offset import part_offset
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -27,9 +28,8 @@ TraduceToPt = {
     "engrossar": part_offset["offset"],
     "encolher": part_offset["offset"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_offset['help'],
+    "informação": part_offset['help'],
+    "opções": part_offset['help']
 }
+

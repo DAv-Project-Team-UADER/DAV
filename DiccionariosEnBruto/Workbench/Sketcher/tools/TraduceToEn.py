@@ -21,9 +21,6 @@ from .tools import tools
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Delete constraints & synonyms
     "deleteconstraints": tools['deleteconstraints'],
@@ -51,5 +48,9 @@ TraduceToEn = {
     # Remove axes alignment & synonyms
     "removeaxes": tools['removeaxes'],
     "remove axes": tools['removeaxes'],
-    "clear axes alignment": tools['removeaxes']
+    "clear axes alignment": tools['removeaxes'],
+
+    "help": tools['help'],
+    "info": tools['help'],
+    "options": tools['help']
 }

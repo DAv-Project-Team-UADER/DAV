@@ -34,6 +34,6 @@ TraduceToEn = {
 
     # Sinónimos para la función ayuda
     'help':             circle['help'],
-    'commands':         circle['help'],
+    'info':         circle['help'],
     'options':          circle['help']
 }

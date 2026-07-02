@@ -29,7 +29,6 @@ TraduceToEn = {
     "elliptic": ellipse["elliptic"],
     "hyperbolic": ellipse["hyperbolic"],
     "parabolic": ellipse["parabolic"],
-    "help": ellipse["help"],
 
     # Aliases
     "ellipse center": ellipse["center"],
@@ -37,4 +36,8 @@ TraduceToEn = {
     "ellipse arc": ellipse["elliptic"],
     "hyperbola arc": ellipse["hyperbolic"],
     "parabola arc": ellipse["parabolic"],
+
+    "help": ellipse["help"],
+    "info": ellipse["help"],
+    "options": ellipse["help"],
 }

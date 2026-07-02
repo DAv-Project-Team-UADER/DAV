@@ -33,6 +33,6 @@ TraduceToEn = {
 
     # Sinónimos para la función ayuda
     'help':             arc_slot['help'],
-    'commands':         arc_slot['help'],
+    'info':         arc_slot['help'],
     'options':          arc_slot['help']
 }

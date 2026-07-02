@@ -36,5 +36,7 @@ TraduceToPt = {
     "padrao de trama": hatching["geometric_hatch"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": hatching["help"],
+    "informação": hatching["help"],
+    "opções": hatching["help"],
 }

@@ -21,14 +21,15 @@ from .line import line
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Line creation & synonyms
     "create": line['create'],
     "create line": line['create'],
     "draw line": line['create'],
     "line": line['create'],
-    "sketch line": line['create']
+    "sketch line": line['create'],
+
+    "help": line['help'],
+    "info": line['help'],
+    "options": line['help'],
 }

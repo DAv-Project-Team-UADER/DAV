@@ -17,12 +17,13 @@
 
 """English spoken-word mapping for the Sketcher workbench."""
 
+from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
-from .Sketcher import _toggle_construction
+from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
-from .Sketcher import sketcher
+from .sketcher import sketcher
 
 TraduceToEn = {
 
@@ -77,34 +78,34 @@ TraduceToEn = {
     # --- Traducciones de la parte inferior de sketcher.py ---
     
     # Control del Boceto / Sketch
-    "new": lambda: Gui.runCommand('Sketcher_NewSketch', 0),
-    "new sketch": lambda: Gui.runCommand('Sketcher_NewSketch', 0),
-    "create sketch": lambda: Gui.runCommand('Sketcher_NewSketch', 0),
+    "new": sketcher["new"],
+    "new sketch": sketcher["new"],
+    "create sketch": sketcher["new"],
 
-    "edit": lambda: Gui.runCommand('Sketcher_EditSketch', 0),
-    "edit sketch": lambda: Gui.runCommand('Sketcher_EditSketch', 0),
-    "modify sketch": lambda: Gui.runCommand('Sketcher_EditSketch', 0),
+    "edit": sketcher["edit"],
+    "edit sketch": sketcher["edit"],
+    "modify sketch": sketcher["edit"],
 
-    "attach": lambda: Gui.runCommand('Sketcher_MapSketch', 0),
-    "map sketch": lambda: Gui.runCommand('Sketcher_MapSketch', 0),
-    "attach sketch": lambda: Gui.runCommand('Sketcher_MapSketch', 0),
+    "attach": sketcher["attach"],
+    "map sketch": sketcher["attach"],
+    "attach sketch": sketcher["attach"],
 
-    "grid": lambda: Gui.runCommand('Sketcher_Grid', 0),
-    "toggle grid": lambda: Gui.runCommand('Sketcher_Grid', 0),
-    "show grid": lambda: Gui.runCommand('Sketcher_Grid', 0),
+    "grid": sketcher["grid"],
+    "toggle grid": sketcher["grid"],
+    "show grid": sketcher["grid"],
 
-    "stop": lambda: Gui.runCommand('Sketcher_StopOperation', 0),
-    "stop operation": lambda: Gui.runCommand('Sketcher_StopOperation', 0),
-    "abort": lambda: Gui.runCommand('Sketcher_StopOperation', 0),
+    "stop": sketcher["stop"],
+    "stop operation": sketcher["stop"],
+    "abort": sketcher["stop"],
 
-    "leave": lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
-    "leave sketch": lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
-    "exit sketch": lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
-    "close sketch": lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
+    "leave": sketcher["leave"],
+    "leave sketch": sketcher["leave"],
+    "exit sketch": sketcher["leave"],
+    "close sketch": sketcher["leave"],
 
-    "cancelediting": lambda: Gui.runCommand('Sketcher_StopEditing', 0),
-    "cancel editing": lambda: Gui.runCommand('Sketcher_StopEditing', 0),
-    "stop editing": lambda: Gui.runCommand('Sketcher_StopEditing', 0),
+    "cancelediting": sketcher["cancelediting"],
+    "cancel editing": sketcher["cancelediting"],
+    "stop editing": sketcher["cancelediting"],
 
     # Geometría de Construcción
     "toggleconstruction": _toggle_construction,
@@ -112,64 +113,64 @@ TraduceToEn = {
     "construction mode": _toggle_construction,
 
     # Edición y Portapapeles
-    "carboncopy": lambda: Gui.runCommand('Sketcher_CarbonCopy', 0),
-    "carbon copy": lambda: Gui.runCommand('Sketcher_CarbonCopy', 0),
+    "carboncopy": sketcher["carboncopy"],
+    "carbon copy": sketcher["carboncopy"],
 
-    "copyelements": lambda: Gui.runCommand('Sketcher_CopyClipboard', 0),
-    "copy elements": lambda: Gui.runCommand('Sketcher_CopyClipboard', 0),
-    "copy geometry": lambda: Gui.runCommand('Sketcher_CopyClipboard', 0),
+    "copyelements": sketcher["copyelements"],
+    "copy elements": sketcher["copyelements"],
+    "copy geometry": sketcher["copyelements"],
 
-    "cutelements": lambda: Gui.runCommand('Sketcher_Cut', 0),
-    "cut elements": lambda: Gui.runCommand('Sketcher_Cut', 0),
-    "cut geometry": lambda: Gui.runCommand('Sketcher_Cut', 0),
+    "cutelements": sketcher["cutelements"],
+    "cut elements": sketcher["cutelements"],
+    "cut geometry": sketcher["cutelements"],
 
-    "pasteelements": lambda: Gui.runCommand('Sketcher_Paste', 0),
-    "paste elements": lambda: Gui.runCommand('Sketcher_Paste', 0),
-    "paste geometry": lambda: Gui.runCommand('Sketcher_Paste', 0),
+    "pasteelements": sketcher["pasteelements"],
+    "paste elements": sketcher["pasteelements"],
+    "paste geometry": sketcher["pasteelements"],
 
     # Transformaciones y Modificaciones
-    "mirror": lambda: Gui.runCommand('Sketcher_Symmetry', 0),
-    "symmetry": lambda: Gui.runCommand('Sketcher_Symmetry', 0),
-    "mirror elements": lambda: Gui.runCommand('Sketcher_Symmetry', 0),
+    "mirror": sketcher["mirror"],
+    "symmetry": sketcher["mirror"],
+    "mirror elements": sketcher["mirror"],
 
-    "mirrorsketch": lambda: Gui.runCommand('Sketcher_MirrorSketch', 0),
-    "mirror sketch": lambda: Gui.runCommand('Sketcher_MirrorSketch', 0),
+    "mirrorsketch": sketcher["mirrorsketch"],
+    "mirror sketch": sketcher["mirrorsketch"],
 
-    "offset": lambda: Gui.runCommand('Sketcher_Offset', 0),
-    "create offset": lambda: Gui.runCommand('Sketcher_Offset', 0),
+    "offset": sketcher["offset"],
+    "create offset": sketcher["offset"],
 
-    "movearray": lambda: Gui.runCommand('Sketcher_Translate', 0),
-    "translate": lambda: Gui.runCommand('Sketcher_Translate', 0),
-    "move elements": lambda: Gui.runCommand('Sketcher_Translate', 0),
+    "movearray": sketcher["movearray"],
+    "translate": sketcher["movearray"],
+    "move elements": sketcher["movearray"],
 
-    "rotatepolar": lambda: Gui.runCommand('Sketcher_Rotate', 0),
-    "rotate": lambda: Gui.runCommand('Sketcher_Rotate', 0),
-    "rotate elements": lambda: Gui.runCommand('Sketcher_Rotate', 0),
+    "rotatepolar": sketcher["rotatepolar"],
+    "rotate": sketcher["rotatepolar"],
+    "rotate elements": sketcher["rotatepolar"],
 
-    "scale": lambda: Gui.runCommand('Sketcher_Scale', 0),
-    "scale elements": lambda: Gui.runCommand('Sketcher_Scale', 0),
+    "scale": sketcher["scale"],
+    "scale elements": sketcher["scale"],
 
     # Operaciones de Bordes / Esquinas
-    "trimedge": lambda: Gui.runCommand('Sketcher_Trimming', 0),
-    "trim": lambda: Gui.runCommand('Sketcher_Trimming', 0),
-    "trim edge": lambda: Gui.runCommand('Sketcher_Trimming', 0),
+    "trimedge": sketcher["trimedge"],
+    "trim": sketcher["trimedge"],
+    "trim edge": sketcher["trimedge"],
 
-    "splitedge": lambda: Gui.runCommand('Sketcher_Split', 0),
-    "split": lambda: Gui.runCommand('Sketcher_Split', 0),
-    "split edge": lambda: Gui.runCommand('Sketcher_Split', 0),
+    "splitedge": sketcher["splitedge"],
+    "split": sketcher["splitedge"],
+    "split edge": sketcher["splitedge"],
 
-    "extendedge": lambda: Gui.runCommand('Sketcher_Extend', 0),
-    "extend": lambda: Gui.runCommand('Sketcher_Extend', 0),
-    "extend edge": lambda: Gui.runCommand('Sketcher_Extend', 0),
+    "extendedge": sketcher["extendedge"],
+    "extend": sketcher["extendedge"],
+    "extend edge": sketcher["extendedge"],
 
-    "fillet": lambda: Gui.runCommand('Sketcher_CreateFillet', 0),
-    "create fillet": lambda: Gui.runCommand('Sketcher_CreateFillet', 0),
+    "fillet": sketcher["fillet"],
+    "create fillet": sketcher["fillet"],
 
-    "chamfer": lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
-    "create chamfer": lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
+    "chamfer": sketcher["chamfer"],
+    "create chamfer": sketcher["chamfer"],
 
     # Soporte y Ayuda
-    "help": sketcher_ayuda,
-    "get help": sketcher_ayuda,
-    "show help": sketcher_ayuda,
+    "help": Sketcher['help'],
+    "info": Sketcher['help'],
+    "options": Sketcher['help'],
 }

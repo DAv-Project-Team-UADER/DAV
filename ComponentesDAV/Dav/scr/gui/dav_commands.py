@@ -17,9 +17,13 @@ def _dav_repo_root() -> Path | None:
             return mod_path.parent
     try:
         here = Path(__file__).resolve()
+        # ComponentesDAV tiene prioridad: al subir ancestros aparece "Dav"
+        # antes que "ComponentesDAV", así que se busca primero el repo de
+        # componentes en toda la cadena y solo se cae a "DAV" si no aparece.
         for ancestor in here.parents:
             if ancestor.name.upper() == "COMPONENTESDAV":
                 return ancestor
+        for ancestor in here.parents:
             if ancestor.name.upper() == "DAV":
                 return ancestor
     except (IndexError, NameError):

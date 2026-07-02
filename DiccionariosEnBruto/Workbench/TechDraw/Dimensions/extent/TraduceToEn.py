@@ -22,11 +22,12 @@ from .ayuda import ayuda
 TraduceToEn = {
     # extent
     "extent":           extent["extent"],
-    "extent dimension": extent["extent"],         # synonym
-    "span":             extent["extent"],         # synonym
-    "total length":     extent["extent"],         # synonym
+    "extent dimension": extent["extent"],         
+    "span":             extent["extent"],         
+    "total length":     extent["extent"],    
+         
     # help
     "help":             extent["help"],
-    "info":             extent["help"],   # synonym
-    "options":          extent["help"],   # synonym
+    "info":             extent["help"],   
+    "options":          extent["help"],   
 }

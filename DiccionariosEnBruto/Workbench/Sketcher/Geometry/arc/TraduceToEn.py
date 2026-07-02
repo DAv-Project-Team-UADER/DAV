@@ -33,6 +33,6 @@ TraduceToEn = {
 
     # Sinónimos para la función ayuda
     'help':             arc['help'],
-    'commands':         arc['help'],
+    'info':         arc['help'],
     'options':          arc['help']
 }

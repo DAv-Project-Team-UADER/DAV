@@ -20,6 +20,7 @@ from .extent import extent
 
 TraduceToPt = {
     # extent
+<<<<<<< HEAD
     "extensão":           extent["extent"],
     "dimensão extensão":  extent["extent"],  # sinonimo
     "comprimento total":  extent["extent"],  # sinonimo
@@ -27,4 +28,14 @@ TraduceToPt = {
     "ajuda":              extent["help"],
     "informação":         extent["help"],    # sinonimo
     "opções":             extent["help"],    # sinonimo
+=======
+    "extensao":           extent["extent"],
+    "dimensao extensao":  extent["extent"],  
+    "comprimento total":  extent["extent"],  
+
+    # help
+    "ajuda":              extent["help"],
+    "informação":         extent["help"],    
+    "opções":             extent["help"],    
+>>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

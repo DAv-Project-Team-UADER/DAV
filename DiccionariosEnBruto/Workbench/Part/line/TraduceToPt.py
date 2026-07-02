@@ -16,13 +16,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .line import line
+
 from .ayuda import ayuda
 
 TraduceToPt = {
     'linha':    line['line'],
     'reta':     line['line'],
     
-    "ajuda":             line["help"],
-    "informação":       line["help"],
-    "opções":            line["help"]
+    "ajuda":             line['help'],
+    "informação":       line['help'],
+    "opções":            line['help']
 }

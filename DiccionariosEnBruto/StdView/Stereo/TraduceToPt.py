@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,29 +15,47 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .stereo import stereo
+from .Stereo import stereo
 
 TraduceToPt = {
     # camerapos
-    "posicao camera":         stereo["camerapos"],
-    "posicao vista camera":   stereo["camerapos"],  # sinonimo
+    "posição câmera":         stereo["camerapos"],
+    "posição vista câmera":   stereo["camerapos"],  
+    "salvar posição vista":   stereo["camerapos"],  
+
     # stereocolumns
-    "colunas estereo":        stereo["stereocolumns"],
-    "colunas entrelacadas":   stereo["stereocolumns"],  # sinonimo
+    "colunas estéreo":        stereo["stereocolumns"],
+    "colunas entrelaçadas":   stereo["stereocolumns"],  
+    "modo colunas":           stereo["stereocolumns"],  
+    "colunas"                  :stereo["stereocolumns"],  
+
     # stereorows
-    "linhas estereo":         stereo["stereorows"],
-    "linhas entrelacadas":    stereo["stereorows"],     # sinonimo
+    "linhas estéreo":         stereo["stereorows"],
+    "linhas entrelaçadas":    stereo["stereorows"],     
+    "modo linhas":            stereo["stereorows"],     
+    "linhas"                   :stereo["stereorows"],    
+
     # stereooff
-    "estereo desligado":      stereo["stereooff"],
-    "desativar estereo":      stereo["stereooff"],      # sinonimo
+    "estéreo desligado":      stereo["stereooff"],
+    "desativar estéreo":      stereo["stereooff"],      
+    "desligar estéreo":       stereo["stereooff"],     
+
     # stereoquad
-    "estereo quad":           stereo["stereoquad"],
-    "buffer quad":            stereo["stereoquad"],     # sinonimo
+    "estéreo quadrado":           stereo["stereoquad"],
+    "buffer quadrado":            stereo["stereoquad"],     
+    "modo quadrado":              stereo["stereoquad"],     
+    "quadrado"                   :stereo["stereoquad"],     
+    "quatro":                      stereo["stereoquad"],     
+    "quádruplo":                   stereo["stereoquad"],     
+
     # stereoanaglyph
-    "anaglifo estereo":       stereo["stereoanaglyph"],
-    "estereo vermelho verde": stereo["stereoanaglyph"], # sinonimo
+    "anáglifo estéreo":       stereo["stereoanaglyph"],
+    "estéreo vermelho verde": stereo["stereoanaglyph"], 
+    "modo anáglifo":          stereo["stereoanaglyph"], 
+    "anáglifo":                 stereo["stereoanaglyph"], 
+    
     # help
     "ajuda":                  stereo["help"],
-    "informacao":             stereo["help"],           # sinonimo
-    "opcoes":                 stereo["help"],           # sinonimo
+    "informação":             stereo["help"],           
+    "opções":                 stereo["help"],           
 }

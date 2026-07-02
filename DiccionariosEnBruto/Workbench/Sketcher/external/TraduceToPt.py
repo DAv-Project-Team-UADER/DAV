@@ -21,10 +21,6 @@ from .external import external
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
-    "informacao": ayuda,
     
     # Comandos de Projeção e sinônimos
     "projecao": external['projection'],
@@ -35,5 +31,10 @@ TraduceToPt = {
     "intersecao": external['intersection'],
     "intersectar": external['intersection'],
     "geometria externa": external['intersection'],
-    "vínculo externo": external['intersection']
+    "vínculo externo": external['intersection'],
+
+    # Comando de ajuda
+    "ajuda": external['help'],
+    "informação": external['help'],
+    "opções": external['help'],
 }

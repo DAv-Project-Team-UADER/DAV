@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part fillet commands."""
 
 from .part_fillet import part_fillet
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -28,8 +29,8 @@ TraduceToEn = {
     "round": part_fillet["fillet"],
     "round edge": part_fillet["fillet"],
     "round edges": part_fillet["fillet"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help":            ayuda,
+    "info":            ayuda,
+    "options":         ayuda
 }

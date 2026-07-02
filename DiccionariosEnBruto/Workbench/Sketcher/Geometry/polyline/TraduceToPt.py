@@ -21,10 +21,7 @@ from .polyline import polyline
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
-    
+
     # Criação de polilinha e sinônimos
     "criar": polyline['create'],
     "polilinha": polyline['create'],
@@ -35,5 +32,9 @@ TraduceToPt = {
     "tracar polilinha": polyline['create'],
     "criar multilinha": polyline['create'],
     "desenhar multilinha": polyline['create'],
-    "tracar multilinha": polyline['create']
+    "tracar multilinha": polyline['create'],
+
+    "ajuda": polyline['help'],
+    "informação": polyline['help'],
+    "opções": polyline['help'],
 }

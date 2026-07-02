@@ -15,3 +15,36 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Appearance import appearance
+from .ayuda import ayuda
+from DAV.DiccionariosEnBruto.StdView.Appearance import Appearance
+
+TraduceToEn = {
+    # Appearance
+    'appearance':       appearance['appearance'],
+    'look':             appearance['appearance'],
+    'aspect':           appearance['appearance'],
+
+    # facecolors
+    'facecolor':        appearance['facecolor'],
+    'background':       appearance['facecolor'],
+    'Surface color':    appearance['facecolor'],
+    'Part color':       appearance['facecolor'],
+
+    # random colors
+    'random color':         appearance['random'],
+    'randomized color':     appearance['random'],
+    'random shade':         appearance['random'],
+
+    # texture mapping
+    'texture mapping':      appearance['texture'],
+    'texture projection':   appearance['texture'],
+    'texture placement':    appearance['texture'],
+
+    # help
+    'help':     Appearance['help'],
+    'info':     Appearance['help'],
+    'options':  Appearance['help'],
+
+}

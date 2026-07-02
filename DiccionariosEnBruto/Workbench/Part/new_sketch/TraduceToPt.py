@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for Part new sketch commands."""
 
 from .new_sketch import new_sketch
+
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -35,8 +36,9 @@ TraduceToPt = {
     "criar rascunho": new_sketch["new sketch"],
     "fazer rascunho": new_sketch["new sketch"],
 
-    "help":            new_sketch['help'],
-    "info":            new_sketch['help'],
-    "options":         new_sketch['help']
+    "ajuda":             new_sketch["help"],
+    "informação":       new_sketch["help"],
+    "opções":            new_sketch["help"]
+
 
 }

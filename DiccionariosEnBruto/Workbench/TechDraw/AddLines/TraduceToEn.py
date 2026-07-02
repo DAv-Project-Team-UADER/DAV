@@ -21,26 +21,31 @@ from .ayuda import ayuda
 TraduceToEn = {
     # twolines
     "two lines":         addLines["twolines"],
-    "two line center":   addLines["twolines"],    # synonym
-    "center line":       addLines["twolines"],    # synonym
+    "two line center":   addLines["twolines"],    
+    "center line":       addLines["twolines"], 
+
     # twopoints
     "two points":        addLines["twopoints"],
-    "two point center":  addLines["twopoints"],   # synonym
-    "point center line": addLines["twopoints"],   # synonym
+    "two point center":  addLines["twopoints"],    
+    "point center line": addLines["twopoints"],   
+
     # cosmetic
     "cosmetic":          addLines["cosmetic"],
-    "cosmetic line":     addLines["cosmetic"],    # synonym
-    "construction line": addLines["cosmetic"],    # synonym
+    "cosmetic line":     addLines["cosmetic"],     
+    "construction line": addLines["cosmetic"],     
+
     # decorate
     "decorate":          addLines["decorate"],
-    "line style":        addLines["decorate"],    # synonym
-    "change line":       addLines["decorate"],    # synonym
+    "line style":        addLines["decorate"],     
+    "change line":       addLines["decorate"],  
+
     # center
     "center":            addLines["center"],
-    "face center":       addLines["center"],      # synonym
-    "face center line":  addLines["center"],      # synonym
+    "face center":       addLines["center"],       
+    "face center line":  addLines["center"],     
+      
     # help
     "help":              addLines["help"],
-    "info":              addLines["help"],   # synonym
-    "options":           addLines["help"],   # synonym
+    "info":              addLines["help"],    
+    "options":           addLines["help"],    
 }

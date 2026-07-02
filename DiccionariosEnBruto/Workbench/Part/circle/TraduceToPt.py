@@ -16,14 +16,24 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .circle import circle
+
 from .ayuda import ayuda
 
 TraduceToPt = {
     'circulo':  circle['circle'],
     'círculo':  circle['circle'],
     'redondo':  circle['circle'],
+<<<<<<< Updated upstream
     
+    "ajuda":             circle['help'],
+    "informação":       circle['help'],
+    "opções":            circle['help']
+}
+=======
+    'roda':     circle['circle'],
+    'desenhar círculo': circle['circle'],
     "ajuda":             circle["help"],
     "informação":       circle["help"],
     "opções":            circle["help"]
 }
+>>>>>>> Stashed changes

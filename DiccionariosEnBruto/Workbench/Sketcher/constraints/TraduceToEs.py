@@ -15,3 +15,43 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the constraints dictionary."""
+
+from .constraints import constraints
+
+TraduceToEs = {
+    'dimension':            constraints['dimension'],
+    'cota':                 constraints['dimension'],
+    'longitud':             constraints['dimension'],
+
+    'horizontal':           constraints['horizontal'],
+    'cota horizontal':      constraints['horizontal'],
+    'distancia horizontal': constraints['horizontal'],
+
+    'vertical':             constraints['vertical'],
+    'cota vertical':        constraints['vertical'],
+    'distancia vertical':   constraints['vertical'],
+
+    'angulo':               constraints['angle'],
+    'cota angular':         constraints['angle'],
+
+    'radio':                constraints['radius'],
+    'cota radial':          constraints['radius'],
+
+    'diametro':             constraints['diameter'],
+    'cota diametral':       constraints['diameter'],
+
+    'radiam':               constraints['radiam'],
+    'cota automatica':      constraints['radiam'],
+
+    'distancia':            constraints['distance'],
+    'cota de distancia':    constraints['distance'],
+
+    'geometrica':           constraints['geometric'],
+    'restricciones':        constraints['geometric'],
+
+    'ayuda':                constraints['help'],
+    'información':             constraints['help'],
+    'opciones':             constraints['help']
+}

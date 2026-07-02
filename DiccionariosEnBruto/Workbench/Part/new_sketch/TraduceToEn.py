@@ -19,6 +19,7 @@
 """English spoken-word mapping for Part new sketch commands."""
 
 from .new_sketch import new_sketch
+
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -29,8 +30,8 @@ TraduceToEn = {
     "draft": new_sketch["nuevo sketch"],
     "new draft": new_sketch["nuevo sketch"],
 
-    "help":            new_sketch['help'],
-    "info":            new_sketch['help'],
-    "options":         new_sketch['help']
+    "help":            new_sketch["help"],
+    "info":            new_sketch["help"],
+    "options":         new_sketch["help"]
 
 }

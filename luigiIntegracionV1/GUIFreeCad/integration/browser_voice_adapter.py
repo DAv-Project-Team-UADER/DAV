@@ -48,10 +48,15 @@ class BrowserVoiceAdapter:
             print("[DAV Browser] Cancelled.")
             return
 
+        # Acciones que cambian de nivel: tras ellas mostramos el contexto.
+        _NAV_ACTIONS = {"descend", "back", "base_jump"}
+
         def _run() -> None:
             result = self._browser.ProcessPhrase(token)
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
+                if result.Action in _NAV_ACTIONS:
+                    print(self._browser.DescribeContext())
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
 

@@ -21,9 +21,6 @@ from .rectangle import rectangle
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Creación de rectángulo estándar y sinónimos
     "crear": rectangle['create'],
@@ -36,5 +33,9 @@ TraduceToEs = {
     "centro": rectangle['center'],
     "rectangulo centrado": rectangle['center'],
     "crear rectangulo centrado": rectangle['center'],
-    "dibujar rectangulo centrado": rectangle['center']
+    "dibujar rectangulo centrado": rectangle['center'],
+
+    "ayuda": rectangle['help'],
+    "informacion": rectangle['help'],
+    "opciones": rectangle['help'],
 }

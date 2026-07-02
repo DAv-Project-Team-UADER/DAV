@@ -22,8 +22,16 @@ TraduceToPt = {
     # Polilinhas (Wire)
     "polilinha":          drafting["wire"],
     "desenhar polilinha": drafting["wire"],
-    "tracar polilinha":   drafting["wire"],
+    "traça polilinha":   drafting["wire"],
+    "desenhar linha":     drafting["wire"],
+    "desenhar traço":     drafting["wire"],
+    "traçar polilinha":     drafting["wire"],
+    "arame":                drafting["wire"],
+    "traçar arame":                drafting["wire"],
     "linha continua":     drafting["wire"],
+    "linha segmentada":     drafting["wire"],
+    "linha quebrada":     drafting["wire"],
+    "linha por partes":              drafting["wire"],
     
     # Ajuda
     "ajuda":             drafting["help"],

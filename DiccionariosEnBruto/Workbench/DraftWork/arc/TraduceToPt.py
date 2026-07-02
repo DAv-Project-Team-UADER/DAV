@@ -23,6 +23,8 @@ TraduceToPt = {
     "centro":               arc["center"],
     "arco pelo centro":     arc["center"],
     "tracar arco":          arc["center"],
+    "radiando do centro":     arc["center"],
+    "rádio":                 arc["center"],
     
     # Arc 3 Points
     "pontos":               arc["points"],

@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .file import file
+from .File import file
 
 TraduceToPt = {
     "novo": file["new"],
@@ -31,7 +31,7 @@ TraduceToPt = {
     "salvar como": file["saveas"],
     "salvar documento como": file["saveas"],
 
-    "salvar copia": file["savecopy"],
+    "salvar cópia": file["savecopy"],
     "duplicar arquivo": file["savecopy"],
 
     "reverter": file["revert"],
@@ -53,6 +53,6 @@ TraduceToPt = {
     "abrir imagem": file["loadimage"],
 
     "ajuda": file["help"],
-    "informaçao": file["help"],
+    "informação": file["help"],
     "opções": file["help"],
 }

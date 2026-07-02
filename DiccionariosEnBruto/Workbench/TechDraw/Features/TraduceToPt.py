@@ -41,5 +41,7 @@ TraduceToPt = {
     "adicionar simbolo": features["symbol"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": features["help"],
+    "informação": features["help"],
+    "opções": features["help"],
 }

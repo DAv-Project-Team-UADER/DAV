@@ -1,3 +1,3 @@
-# Wrapper: delega en luigiIntegracionV1/iniciar_dav.ps1
-& "$PSScriptRoot\luigiIntegracionV1\iniciar_dav.ps1" @args
+# Wrapper: delega en ComponentesDAV/IntegracionGUI/iniciar_dav.ps1
+& "$PSScriptRoot\ComponentesDAV\IntegracionGUI\iniciar_dav.ps1" @args
 exit $LASTEXITCODE

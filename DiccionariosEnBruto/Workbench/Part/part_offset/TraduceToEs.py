@@ -19,6 +19,7 @@
 """Spanish spoken-word mapping for the part_offset dictionary."""
 
 from .part_offset import part_offset
+
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -27,9 +28,8 @@ TraduceToEs = {
     "ensanchar": part_offset["offset"],
     "encoger": part_offset["offset"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_offset['help'],
+    "información": part_offset['help'],
+    "opciones": part_offset['help'],
 }
+

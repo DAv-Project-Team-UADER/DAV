@@ -21,9 +21,6 @@ from .text import text
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Texto / Forma de texto y sinónimos
     "crear": text['create'],
@@ -31,5 +28,9 @@ TraduceToEs = {
     "forma de texto": text['create'],
     "crear texto": text['create'],
     "agregar texto": text['create'],
-    "dibujar texto": text['create']
+    "dibujar texto": text['create'],
+
+    "ayuda": text['help'],
+    "información": text['help'],
+    "opciones": text['help'],
 }

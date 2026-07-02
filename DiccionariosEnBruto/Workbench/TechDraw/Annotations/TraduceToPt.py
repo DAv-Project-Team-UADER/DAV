@@ -21,10 +21,12 @@ from .annotations import annotations
 TraduceToPt = {
     # annotation
     "anotacao":          annotations["annotation"],
-    "nota":              annotations["annotation"],   # sinonimo
-    "texto":             annotations["annotation"],   # sinonimo
+    "nota":              annotations["annotation"],       
+    "texto":             annotations["annotation"],       
+
     # axo_length
     "comprimento axo":   annotations["axo_length"],
+<<<<<<< HEAD
     "axonometrico":      annotations["axo_length"],   # sinonimo
     "dimensão axo":      annotations["axo_length"],   # sinonimo
     # balloon
@@ -35,4 +37,18 @@ TraduceToPt = {
     "ajuda":             annotations["help"],
     "informação":        annotations["help"],         # sinonimo
     "opções":            annotations["help"],         # sinonimo
+=======
+    "axonometrico":      annotations["axo_length"],       
+    "dimensao axo":      annotations["axo_length"],   
+
+    # balloon
+    "balao":             annotations["balloon"],
+    "rotulo":            annotations["balloon"],          
+    "referencia":        annotations["balloon"],    
+
+    # help
+    "ajuda":             annotations["help"],
+    "informação":              annotations["help"],             
+    "opções":            annotations["help"],             
+>>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

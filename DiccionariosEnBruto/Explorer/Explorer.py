@@ -12,14 +12,17 @@ from .Tools.Tools                       import tools
 from .StructureToolbar.StructureToolbar import structure
 from .ayuda                             import ayuda
 
+# Subcontextos anidados: el Browser navega por niveles y explorer/TraduceTo*.py
+# espera explorer['file'], explorer['edit'], ... como submenús (no aplanados).
 explorer = {}
-explorer.update(file)
-explorer.update(edit)
-explorer.update(print_cmds)
-explorer.update(windows)
-explorer.update(expressions)
-explorer.update(tools)
-explorer.update(structure)
+explorer.update({'file':        file})
+explorer.update({'edit':        edit})
+explorer.update({'print':       print_cmds})
+explorer.update({'windows':     windows})
+explorer.update({'expressions': expressions})
+explorer.update({'tools':       tools})
+explorer.update({'structure':   structure})
+# Callables directos al ras (sin subcontexto)
 explorer.update({
     'refresh':      lambda: Gui.runCommand('Std_Refresh', 0),
     'screenshot':   lambda: Gui.runCommand('Std_ViewScreenShot', 0),

@@ -22,10 +22,17 @@ TraduceToPt = {
     "circular":              array["circular"],
     "matriz circular":       array["circular"],
     "arranjo circular":      array["circular"],
-    
+    "ligadura circular":      array["circular"],
+    "rodando":                array["circular"],
+    "rotando":                array["circular"],
     "ortogonal":             array["ortho"],
     "matriz ortogonal":      array["ortho"],
     "arranjo retangular":    array["ortho"],
+    "ligadura ortogonal":    array["ortho"],
+    "retangular":            array["ortho"],
+    "cuadrado":               array["ortho"],
+    "quadrado":               array["ortho"],
+    "quadrais":                array["ortho"],
     
     "polar":                 array["polar"],
     "matriz polar":          array["polar"],
@@ -34,12 +41,14 @@ TraduceToPt = {
     "matriz por caminho":    array["path"],
     "copiar no caminho":     array["path"],
     
-    "ligacao por caminho":   array["pathlink"],
     
+    "ligadura por caminho": array["pathlink"],
+    "ligação por caminho":  array["pathlink"],
     "pontos":                array["point"],
     "matriz por pontos":     array["point"],
     
-    "ligacao por pontos":    array["pointlink"],
+    "ligação por pontos":    array["pointlink"],
+    "ligadura por pontos":   array["pointlink"],
     
     "ajuda":             array["help"],
     "informação":       array["help"],
