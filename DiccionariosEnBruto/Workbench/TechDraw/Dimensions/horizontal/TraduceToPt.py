@@ -25,6 +25,6 @@ TraduceToPt = {
     "largura":               horizontal["horizontal"],  # sinonimo
     # help
     "ajuda":                 horizontal["help"],
-    "info":                  horizontal["help"],        # sinonimo
-    "opcoes":                horizontal["help"],        # sinonimo
+    "informação":                  horizontal["help"],        # sinonimo
+    "opções":                horizontal["help"],        # sinonimo
 }

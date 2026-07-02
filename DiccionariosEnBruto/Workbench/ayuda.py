@@ -13,17 +13,14 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
-# SPDX-License-Identifier: GPL-3.0-or-later
 
-from .box import box
-from .ayuda import ayuda
-
-TraduceToPt = {
-    'caixa':    box['box'],
-    'bloco':    box['box'],
-    'cubo':     box['box'],
-    
-    "ajuda":             box["help"],
-    "informação":       box["help"],
-    "opções":            box["help"]
-}
+def ayuda():
+    print('=== Workbench - FreeCAD Workbenches ===')
+    print('  assembly:    Ensamblaje - Bancada para crear y gestionar ensamblajes.')
+    print('  draft:       Dibujo - Bancada para dibujos 2D y borrador.')
+    print('  part:        Pieza - Bancada para modelado de piezas 3D simples.')
+    print('  partdesign:  Diseño de Piezas - Bancada para diseño paramétrico de piezas.')
+    print('  sketcher:    Croquis - Bancada para crear croquis 2D con restricciones.')
+    print('  techdraw:    Dibujo Técnico - Bancada para generar planos técnicos y vistas.')
+    print('')
+    print('Use estos comandos para acceder a cada bancada de trabajo.')

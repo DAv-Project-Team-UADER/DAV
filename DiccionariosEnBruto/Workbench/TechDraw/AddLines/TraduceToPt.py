@@ -41,6 +41,6 @@ TraduceToPt = {
     "linha centro face": addLines["center"],      # sinonimo
     # help
     "ajuda":             addLines["help"],
-    "info":              addLines["help"],        # sinonimo
-    "opcoes":            addLines["help"],        # sinonimo
+    "informação":              addLines["help"],        # sinonimo
+    "opções":            addLines["help"],        # sinonimo
 }

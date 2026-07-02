@@ -42,5 +42,8 @@ TraduceToPt = {
     "fixar peca":          assembly["grounded"],
     "ancora":              assembly["grounded"],
     "junta":               joint,
-    "ajuda":               ayuda,
+
+    "ajuda":               joint['help'],
+    "informação":          joint['help'],
+    "opções":              joint['help']
 }

@@ -28,11 +28,11 @@ TraduceToEs = {
     "axonometrico":      annotations["axo_length"],   # sinonimo
     "dimension axo":     annotations["axo_length"],   # sinonimo
     # balloon
-    "globo":             annotations["balloon"],
-    "etiqueta":          annotations["balloon"],      # sinonimo
+    "globo de texto":             annotations["balloon"],
+    "etiqueta de globo":          annotations["balloon"],      # sinonimo
     "referencia":        annotations["balloon"],      # sinonimo
     # help
     "ayuda":             annotations["help"],
-    "info":              annotations["help"],         # sinonimo
+    "información":       annotations["help"],         # sinonimo
     "opciones":          annotations["help"],         # sinonimo
 }

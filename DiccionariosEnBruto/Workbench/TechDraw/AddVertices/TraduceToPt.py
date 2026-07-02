@@ -25,6 +25,6 @@ TraduceToPt = {
     "ponto referencia": add_vertices["cosmetic"],   # sinonimo
     # help
     "ajuda":            add_vertices["help"],
-    "info":             add_vertices["help"],       # sinonimo
-    "opcoes":           add_vertices["help"],       # sinonimo
+    "informação":             add_vertices["help"],       # sinonimo
+    "opções":           add_vertices["help"],       # sinonimo
 }

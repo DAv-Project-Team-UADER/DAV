@@ -15,15 +15,25 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .box import box
+"""
+Workbench module that aggregates all FreeCAD workbenches.
+Combines Assembly, DraftWork, Part, PartDesign, Sketcher, and TechDraw workbenches.
+"""
+
+import FreeCADGui as Gui
+from .Assembly.Assembly import assembly
+from .DraftWork.DraftWork import draft
+from .Part.Part import part
+from .PartDesign.partdesign import partdesign
+from .Sketcher.sketcher import sketcher
+from .TechDraw.TechDraw import techdraw
 from .ayuda import ayuda
 
-TraduceToPt = {
-    'caixa':    box['box'],
-    'bloco':    box['box'],
-    'cubo':     box['box'],
-    
-    "ajuda":             box["help"],
-    "informação":       box["help"],
-    "opções":            box["help"]
-}
+workbench = {}
+workbench.update(assembly)
+workbench.update(draft)
+workbench.update(part)
+workbench.update(partdesign)
+workbench.update(sketcher)
+workbench.update(techdraw)
+workbench.update({'help': ayuda})

@@ -25,6 +25,6 @@ TraduceToEs = {
     "ancho":                 horizontal["horizontal"],  # sinonimo
     # help
     "ayuda":                 horizontal["help"],
-    "info":                  horizontal["help"],        # sinonimo
+    "información":                  horizontal["help"],        # sinonimo
     "opciones":              horizontal["help"],        # sinonimo
 }

@@ -22,6 +22,7 @@ TraduceToEs = {
     'elipse':   ellipse['ellipse'],
     'ovalo':    ellipse['ellipse'],
     'óvalo':    ellipse['ellipse'],
+    
     "ayuda":                ellipse["help"],
     "información":          ellipse["help"],
     "opciones":             ellipse["help"]

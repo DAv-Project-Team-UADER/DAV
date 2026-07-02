@@ -48,5 +48,8 @@ TraduceToPt = {
     "revoluta":            joint["revolute"],
     "junta deslizante":    joint["slider"],
     "deslizante":          joint["slider"],
-    "ajuda":               ayuda,
+    
+    "ajuda":               joint["help"],
+    "informação":          joint["help"],
+    "opções":              joint["help"]
 }

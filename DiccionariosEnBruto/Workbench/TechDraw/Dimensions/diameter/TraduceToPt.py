@@ -21,10 +21,10 @@ from .diameter import diameter
 TraduceToPt = {
     # diameter
     "diametro":           diameter["diameter"],
-    "dimensao diametro":  diameter["diameter"],  # sinonimo
+    "dimensão diametro":  diameter["diameter"],  # sinonimo
     "medir diametro":     diameter["diameter"],  # sinonimo
     # help
     "ajuda":              diameter["help"],
-    "info":               diameter["help"],      # sinonimo
-    "opcoes":             diameter["help"],      # sinonimo
+    "informação":               diameter["help"],      # sinonimo
+    "opções":             diameter["help"],      # sinonimo
 }

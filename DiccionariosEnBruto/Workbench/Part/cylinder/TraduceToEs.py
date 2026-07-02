@@ -21,7 +21,9 @@ from .ayuda import ayuda
 TraduceToEs = {
     'cilindro':           cylinder['cylinder'],
     'cilindro primitivo': cylinder['primitive cylinder'],
+    'cilindro primitiva': cylinder['primitive cylinder'],
     'tubo':               cylinder['cylinder'],
+
     "ayuda":                cylinder["help"],
     "información":          cylinder["help"],
     "opciones":             cylinder["help"] 

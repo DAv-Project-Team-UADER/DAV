@@ -20,11 +20,11 @@ from .extent import extent
 
 TraduceToPt = {
     # extent
-    "extensao":           extent["extent"],
-    "dimensao extensao":  extent["extent"],  # sinonimo
+    "extensão":           extent["extent"],
+    "dimensão extensão":  extent["extent"],  # sinonimo
     "comprimento total":  extent["extent"],  # sinonimo
     # help
     "ajuda":              extent["help"],
-    "info":               extent["help"],    # sinonimo
-    "opcoes":             extent["help"],    # sinonimo
+    "informação":         extent["help"],    # sinonimo
+    "opções":             extent["help"],    # sinonimo
 }

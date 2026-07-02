@@ -29,7 +29,7 @@ TraduceToEn = {
     "axonometric":   annotations["axo_length"],   # synonym
     "axo dimension": annotations["axo_length"],   # synonym
     # balloon
-    "balloon":       annotations["balloon"],
+    "balloon text":       annotations["balloon"],
     "callout":       annotations["balloon"],      # synonym
     "bubble":        annotations["balloon"],      # synonym
     # help

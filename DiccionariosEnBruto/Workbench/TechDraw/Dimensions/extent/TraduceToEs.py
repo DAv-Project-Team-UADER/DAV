@@ -25,6 +25,6 @@ TraduceToEs = {
     "longitud total":     extent["extent"],   # sinonimo
     # help
     "ayuda":              extent["help"],
-    "info":               extent["help"],     # sinonimo
+    "información":               extent["help"],     # sinonimo
     "opciones":           extent["help"],     # sinonimo
 }
