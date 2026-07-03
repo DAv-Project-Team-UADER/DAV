@@ -26,29 +26,14 @@ TraduceToPt = {
 
     # axo_length
     "comprimento axo":   annotations["axo_length"],
-<<<<<<< HEAD
-    "axonometrico":      annotations["axo_length"],   # sinonimo
-    "dimensão axo":      annotations["axo_length"],   # sinonimo
+    "axonometrico":      annotations["axo_length"], 
+    "dimensão axo":      annotations["axo_length"],  
     # balloon
     "balao da texto":             annotations["balloon"],
-    "etiqueta da balao":          annotations["balloon"],      # sinonimo
-    "referencia":        annotations["balloon"],      # sinonimo
+    "etiqueta da balao":          annotations["balloon"],      
+    "referencia":        annotations["balloon"],     
     # help
     "ajuda":             annotations["help"],
-    "informação":        annotations["help"],         # sinonimo
-    "opções":            annotations["help"],         # sinonimo
-=======
-    "axonometrico":      annotations["axo_length"],       
-    "dimensao axo":      annotations["axo_length"],   
-
-    # balloon
-    "balao":             annotations["balloon"],
-    "rotulo":            annotations["balloon"],          
-    "referencia":        annotations["balloon"],    
-
-    # help
-    "ajuda":             annotations["help"],
-    "informação":              annotations["help"],             
-    "opções":            annotations["help"],             
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "informação":        annotations["help"],       
+    "opções":            annotations["help"]       
 }

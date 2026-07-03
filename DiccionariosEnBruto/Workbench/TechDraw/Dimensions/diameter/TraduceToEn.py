@@ -27,5 +27,5 @@ TraduceToEn = {
     # help
     "help":              diameter["help"],
     "info":              diameter["help"],   
-    "options":           diameter["help"],   
+    "options":           diameter["help"]   
 }

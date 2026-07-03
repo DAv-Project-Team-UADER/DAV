@@ -33,5 +33,5 @@ TraduceToEn = {
     # help
     "help":               angle["help"],
     "info":               angle["help"],   
-    "options":            angle["help"],   
+    "options":            angle["help"]   
 }

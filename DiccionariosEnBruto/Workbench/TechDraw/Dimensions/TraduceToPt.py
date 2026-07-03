@@ -17,6 +17,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .dimensions import dimensions
+from .dimension.dimension   import dimension
+from .length.length         import length
+from .horizontal.horizontal import horizontal
+from .extent.extent         import extent
+from .radius.radius         import radius
+from .diameter.diameter     import diameter
+from .angle.angle           import angle
 
 TraduceToPt = {
     # vertical
@@ -35,36 +42,36 @@ TraduceToPt = {
     "ajuste furo":         dimensions["fit"],     
 
     # dimension
-    "dimensao":            dimensions["dimension"],
-    "medir":               dimensions["dimension"], 
-    "medida":              dimensions["dimension"], 
+    "dimensao":            dimension,
+    "medir":               dimension, 
+    "medida":              dimension, 
 
     # length
-    "comprimento":         dimensions["length"],
-    "distância":           dimensions["length"],    
+    "comprimento":         length,
+    "distância":           length,    
 
     # horizontal
-    "horizontal":          dimensions["horizontal"],
-    "largura":             dimensions["horizontal"], 
+    "horizontal":          horizontal,
+    "largura":             horizontal, 
 
     # extent
-    "extensao":            dimensions["extent"],
-    "comprimento total":   dimensions["extent"],   
+    "extensao":            extent,
+    "comprimento total":   extent,   
 
     # radius
-    "raio":                dimensions["radius"],
-    "raio arco":           dimensions["radius"],    
+    "raio":                radius,
+    "raio arco":           radius,    
 
     # diameter
-    "diametro":            dimensions["diameter"],
-    "dimensao circulo":    dimensions["diameter"],  
+    "diametro":            diameter,
+    "dimensao circulo":    diameter,  
 
     # angle
-    "angulo":              dimensions["angle"],
-    "dimensao angular":    dimensions["angle"],    
+    "angulo":              angle,
+    "dimensao angular":    angle,    
 
     # help
     "ajuda":               dimensions["help"],
-    "informação":                dimensions["help"],      
-    "opções":              dimensions["help"],      
+    "informação":          dimensions["help"],      
+    "opções":              dimensions["help"]      
 }

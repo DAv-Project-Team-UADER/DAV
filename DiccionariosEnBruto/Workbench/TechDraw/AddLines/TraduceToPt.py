@@ -46,11 +46,6 @@ TraduceToPt = {
 
     # help
     "ajuda":             addLines["help"],
-<<<<<<< HEAD
-    "informação":              addLines["help"],        # sinonimo
-    "opções":            addLines["help"],        # sinonimo
-=======
     "informação":              addLines["help"],           
-    "opções":            addLines["help"],           
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "opções":            addLines["help"]           
 }

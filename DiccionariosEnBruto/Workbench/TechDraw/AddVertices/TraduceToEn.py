@@ -28,5 +28,5 @@ TraduceToEn = {
     # help
     "help":              add_vertices["help"],
     "info":              add_vertices["help"],       
-    "options":           add_vertices["help"],       
+    "options":           add_vertices["help"]       
 }

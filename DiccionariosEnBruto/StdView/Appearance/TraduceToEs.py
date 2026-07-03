@@ -38,7 +38,7 @@ TraduceToEs = {
     # mapeo de texturas
     'mapeo de texturas':    appearance['texturemapping'],
     'texturizado':          appearance['texturemapping'],
-    'texturizacion':        appearance['texturemapping'],
+    'texturización':        appearance['texturemapping'],
 
     # ayuda
     'ayuda':    Appearance['help'],

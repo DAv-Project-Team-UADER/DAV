@@ -20,17 +20,12 @@ from .extent import extent
 
 TraduceToEs = {
     # extent
-    "extension":          extent["extent"],
-    "dimension extension": extent["extent"],  
+    "extensión":          extent["extent"],
+    "dimensión extensión": extent["extent"],  
     "longitud total":     extent["extent"],   
 
     # help
     "ayuda":              extent["help"],
-<<<<<<< HEAD
-    "información":               extent["help"],     # sinonimo
-    "opciones":           extent["help"],     # sinonimo
-=======
     "información":        extent["help"],     
     "opciones":           extent["help"],     
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

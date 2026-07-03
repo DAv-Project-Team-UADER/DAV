@@ -17,16 +17,23 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .dimensions import dimensions
+from .dimension.dimension   import dimension
+from .length.length         import length
+from .horizontal.horizontal import horizontal
+from .extent.extent         import extent
+from .radius.radius         import radius
+from .diameter.diameter     import diameter
+from .angle.angle           import angle
 
 TraduceToEs = {
     # vertical
     "vertical":            dimensions["vertical"],
-    "dimension vertical":  dimensions["vertical"],  
+    "dimensión vertical":  dimensions["vertical"],  
     "altura":              dimensions["vertical"],  
 
     # area
     "area":                dimensions["area"],
-    "dimension area":      dimensions["area"],      
+    "dimensión area":      dimensions["area"],      
     "superficie":          dimensions["area"],    
 
     # fit
@@ -35,36 +42,36 @@ TraduceToEs = {
     "ajuste agujero":      dimensions["fit"],     
 
     # dimension
-    "dimension":           dimensions["dimension"],
-    "medir":               dimensions["dimension"], 
-    "medida":              dimensions["dimension"], 
+    "dimensión":           dimension,
+    "medir":               dimension, 
+    "medida":              dimension, 
 
     # length
-    "longitud":            dimensions["length"],
-    "distancia":           dimensions["length"],   
+    "longitud":            length,
+    "distancia":           length,   
 
     # horizontal
-    "horizontal":          dimensions["horizontal"],
-    "ancho":               dimensions["horizontal"], 
+    "horizontal":          horizontal,
+    "ancho":               horizontal, 
 
     # extent
-    "extension":           dimensions["extent"],
-    "longitud total":      dimensions["extent"],    
+    "extensión":           extent,
+    "longitud total":      extent,    
 
     # radius
-    "radio":               dimensions["radius"],
-    "radio arco":          dimensions["radius"],    
+    "radio":               radius,
+    "radio arco":          radius,    
 
     # diameter
-    "diametro":            dimensions["diameter"],
-    "dimension circulo":   dimensions["diameter"],  
+    "diámetro":            diameter,
+    "dimensión círculo":   diameter,  
 
     # angle
-    "angulo":              dimensions["angle"],
-    "dimension angular":   dimensions["angle"],     
+    "ángulo":              angle,
+    "dimensión angular":   angle,     
 
     # help
     "ayuda":               dimensions["help"],
-    "informacion":         dimensions["help"],      
-    "opciones":            dimensions["help"],      
+    "información":         dimensions["help"],      
+    "opciones":            dimensions["help"]      
 }

@@ -33,14 +33,14 @@ TraduceToEn = {
     'Part color':       appearance['facecolor'],
 
     # random colors
-    'random color':         appearance['random'],
-    'randomized color':     appearance['random'],
-    'random shade':         appearance['random'],
+    'random color':         appearance['randomcolor'],
+    'randomized color':     appearance['randomcolor'],
+    'random shade':         appearance['randomcolor'],
 
     # texture mapping
-    'texture mapping':      appearance['texture'],
-    'texture projection':   appearance['texture'],
-    'texture placement':    appearance['texture'],
+    'texture mapping':      appearance['texturemapping'],
+    'texture projection':   appearance['texturemapping'],
+    'texture placement':    appearance['texturemapping'],
 
     # help
     'help':     Appearance['help'],

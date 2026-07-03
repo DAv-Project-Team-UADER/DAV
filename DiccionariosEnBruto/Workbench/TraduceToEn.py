@@ -18,6 +18,7 @@
 
 """English spoken-word mapping for the DAV Workbench dictionary."""
 
+from .workbench import workbench
 from .Assembly.Assembly import assembly
 from .DraftWork.DraftWork import draft
 from .Part.Part import part
@@ -55,9 +56,9 @@ TraduceToEn = {
     "drawing":           techdraw,
     "drawings":          techdraw,
 
-    "help":              techdraw["help"],
-    "info":              techdraw["help"],
-    "options":           techdraw["help"],
+    "help":              workbench["help"],
+    "info":              workbench["help"],
+    "options":           workbench["help"],
 }
 
 

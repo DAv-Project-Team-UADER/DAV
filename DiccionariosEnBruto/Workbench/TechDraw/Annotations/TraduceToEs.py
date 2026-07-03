@@ -20,32 +20,22 @@ from .annotations import annotations
 
 TraduceToEs = {
     # annotation
-    "anotacion":         annotations["annotation"],
+    "anotación":         annotations["annotation"],
     "nota":              annotations["annotation"],       
     "texto":             annotations["annotation"],  
 
     # axo_length
     "longitud axo":      annotations["axo_length"],
-    "axonometrico":      annotations["axo_length"],       
-    "dimension axo":     annotations["axo_length"],  
+    "axonométrico":      annotations["axo_length"],       
+    "dimensión axo":     annotations["axo_length"],  
 
     # balloon
-<<<<<<< HEAD
     "globo de texto":             annotations["balloon"],
-    "etiqueta de globo":          annotations["balloon"],      # sinonimo
-    "referencia":        annotations["balloon"],      # sinonimo
+    "etiqueta de globo":          annotations["balloon"],      
+    "burbuja de texto":          annotations["balloon"],
+    "referencia":        annotations["balloon"],      
     # help
     "ayuda":             annotations["help"],
-    "información":       annotations["help"],         # sinonimo
-    "opciones":          annotations["help"],         # sinonimo
-=======
-    "globo":             annotations["balloon"],
-    "etiqueta":          annotations["balloon"],          
-    "referencia":        annotations["balloon"],    
-
-    # help
-    "ayuda":             annotations["help"],
-    "información":              annotations["help"],             
-    "opciones":          annotations["help"],             
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "información":       annotations["help"],         
+    "opciones":          annotations["help"]
 }

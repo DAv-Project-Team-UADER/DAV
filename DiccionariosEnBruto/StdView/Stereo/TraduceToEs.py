@@ -19,9 +19,9 @@ from .Stereo import stereo
 
 TraduceToEs = {
     # camerapos
-    "posicion camara":       stereo["camerapos"],
-    "posicion vista camara": stereo["camerapos"],  
-    "guardar posicion vista": stereo["camerapos"], 
+    "posición cámara":       stereo["camerapos"],
+    "posición vista cámara": stereo["camerapos"],  
+    "guardar posición vista": stereo["camerapos"], 
 
     # stereocolumns
     "columnas estereo":      stereo["stereocolumns"],
@@ -39,9 +39,9 @@ TraduceToEs = {
     "apagar estereo":        stereo["stereooff"],    
 
     # stereoquad
-    "estereo cuadruple":     stereo["stereoquad"],
-    "buffer cuadruple":      stereo["stereoquad"],     
-    "modo cuadruple":        stereo["stereoquad"],   
+    "estereo cuádruple":     stereo["stereoquad"],
+    "buffer cuádruple":      stereo["stereoquad"],     
+    "modo cuádruple":        stereo["stereoquad"],   
 
     # stereoanaglyph
     "anaglifo estereo":      stereo["stereoanaglyph"],

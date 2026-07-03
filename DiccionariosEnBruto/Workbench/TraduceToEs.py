@@ -18,6 +18,7 @@
 
 """Spanish spoken-word mapping for the DAV Workbench dictionary."""
 
+from .workbench import workbench
 from .Assembly.Assembly import assembly
 from .DraftWork.DraftWork import draft
 from .Part.Part import part
@@ -75,7 +76,7 @@ TraduceToEs = {
     "dibujo de planos":  techdraw,
     "planos":            techdraw,
 
-    "ayuda":             techdraw["help"],
-    "información":       techdraw["help"],
-    "opciones":          techdraw["help"],
+    "ayuda":             workbench["help"],
+    "información":       workbench["help"],
+    "opciones":          workbench["help"],
 }

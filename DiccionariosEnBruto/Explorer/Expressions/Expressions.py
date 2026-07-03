@@ -23,6 +23,7 @@ expressions = {
     'copyalldoc': lambda: Gui.runCommand('Std_Expressions_CopyAllDocuments', 0),
     'copyselected': lambda: Gui.runCommand('Std_Expressions_CopySelected', 0),
     'pasteexpr': lambda: Gui.runCommand('Std_Expressions_Paste', 0),
+    'help': ayuda
 }
 
 # Tolerante a claves aún no implementadas (no rompe el contexto entero).

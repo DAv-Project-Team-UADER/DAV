@@ -58,44 +58,45 @@ TranslateToEn = {
     'trimetric': StandardViews['trimetric'],
 
     # Fit All
-    'fitall': StandardViews['fitall'],
+    'fit all': StandardViews['fitall'],
     'fit': StandardViews['fitall'],
     'fitview': StandardViews['fitall'],
     'zoomfit': StandardViews['fitall'],
 
     # Fit Selection
-    'fitselection': StandardViews['fitselection'],
-    'fitselected': StandardViews['fitselection'],
-    'zoomselection': StandardViews['fitselection'],
+    'fit selection': StandardViews['fitselection'],
+    'fit selected': StandardViews['fitselection'],
+    'zoom selection': StandardViews['fitselection'],
 
     # Zoom in
-    'zoomin': StandardViews['zoomin'],
-    'zoominview': StandardViews['zoomin'],
+    'zoom in': StandardViews['zoomin'],
+    'zoom in view': StandardViews['zoomin'],
 
     # Zoom out
-    'zoomout': StandardViews['zoomout'],
-    'zoomoutview': StandardViews['zoomout'],
+    'zoom out': StandardViews['zoomout'],
+    'zoom out view': StandardViews['zoomout'],
 
     # Box Zoom
-    'boxzoom': StandardViews['boxzoom'],
-    'windowzoom': StandardViews['boxzoom'],
-    'zoomwindow': StandardViews['boxzoom'],
+    'box zoom': StandardViews['boxzoom'],
+    'window zoom': StandardViews['boxzoom'],
+    'zoom window': StandardViews['boxzoom'],
 
     # New View
-    'newview': StandardViews['newview'],
-    'createview': StandardViews['newview'],
+    'new view': StandardViews['newview'],
+    'create view': StandardViews['newview'],
 
     # Home
     'home': StandardViews['home'],
-    'defaultview': StandardViews['home'],
-    'resetview': StandardViews['home'],
+    'default view': StandardViews['home'],
+    'reset view': StandardViews['home'],
 
     # Fullscreen
-    'fullscreen': StandardViews['fullscreen'],
-    'fullscreenmode': StandardViews['fullscreen'],
+    'full screen': StandardViews['fullscreen'],
+    'full screenmode': StandardViews['fullscreen'],
 
     # Help
-    'help': StandardViews['help'],
-    'assist': StandardViews['help'],
-    'manual': StandardViews['help'],
+    "help":            StandardViews['help'],
+    "info":            StandardViews['help'],
+    "options":         StandardViews['help']
+
 }

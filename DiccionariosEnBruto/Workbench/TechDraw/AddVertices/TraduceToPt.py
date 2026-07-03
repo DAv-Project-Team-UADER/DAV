@@ -26,11 +26,6 @@ TraduceToPt = {
 
     # help
     "ajuda":            add_vertices["help"],
-<<<<<<< HEAD
-    "informação":             add_vertices["help"],       # sinonimo
-    "opções":           add_vertices["help"],       # sinonimo
-=======
     "informação":             add_vertices["help"],           
-    "opções":           add_vertices["help"],           
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "opções":           add_vertices["help"]           
 }

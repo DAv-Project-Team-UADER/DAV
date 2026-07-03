@@ -16,7 +16,14 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .Dimensions import dimensions
+from .dimensions import dimensions
+from .dimension.dimension   import dimension
+from .length.length         import length
+from .horizontal.horizontal import horizontal
+from .extent.extent         import extent
+from .radius.radius         import radius
+from .diameter.diameter     import diameter
+from .angle.angle           import angle
 
 TraduceToEn = {
     # vertical
@@ -33,36 +40,40 @@ TraduceToEn = {
     "fit":                dimensions["fit"],
     "tolerance":          dimensions["fit"],       
     "hole shaft":         dimensions["fit"],  
+    
+    "dimension":           dimension,
+    "measure":             dimension,
+    "size":                dimension,
 
     # length
-    "length":             dimensions["length"],
-    "distance":           dimensions["length"],    
-    "measure":            dimensions["length"],  
+    "length":             length,
+    "distance":           length,    
+    "measure":            length,  
 
     # horizontal
-    "horizontal":         dimensions["horizontal"],
-    "width":              dimensions["horizontal"], 
-    "x distance":         dimensions["horizontal"], 
+    "horizontal":         horizontal,
+    "width":              horizontal, 
+    "x distance":         horizontal, 
 
     # extent
-    "extent":             dimensions["extent"],
-    "span":               dimensions["extent"],    
-    "total length":       dimensions["extent"],  
+    "extent":             extent,
+    "span":               extent,    
+    "total length":       extent,  
 
     # radius
-    "radius":             dimensions["radius"],
-    "arc radius":         dimensions["radius"],  
+    "radius":             radius,
+    "arc radius":         radius,  
 
     # diameter
-    "diameter":           dimensions["diameter"],
-    "circle dimension":   dimensions["diameter"],  
+    "diameter":           diameter,
+    "circle dimension":   diameter,  
 
     # angle
-    "angle":              dimensions["angle"],
-    "angular":            dimensions["angle"],   
+    "angle":              angle,
+    "angular":            angle,   
       
     # help
     "help":               dimensions["help"],
     "info":               dimensions["help"],   
-    "options":            dimensions["help"],   
+    "options":            dimensions["help"]   
 }

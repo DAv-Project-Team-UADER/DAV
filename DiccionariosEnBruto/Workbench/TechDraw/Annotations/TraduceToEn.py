@@ -31,18 +31,12 @@ TraduceToEn = {
     "axo dimension": annotations["axo_length"],    
 
     # balloon
-<<<<<<< HEAD
     "balloon text":       annotations["balloon"],
-    "callout":       annotations["balloon"],      # synonym
-    "bubble":        annotations["balloon"],      # synonym
-=======
-    "balloon":       annotations["balloon"],
     "callout":       annotations["balloon"],          
-    "bubble":        annotations["balloon"],    
+    "bubble text":        annotations["balloon"],    
           
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
     # help
     "help":          annotations["help"],
     "info":          annotations["help"],       
-    "options":       annotations["help"],       
+    "options":       annotations["help"]       
 }

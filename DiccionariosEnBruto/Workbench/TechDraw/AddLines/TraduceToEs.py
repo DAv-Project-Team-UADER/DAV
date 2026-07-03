@@ -20,58 +20,27 @@ from .addLines import addLines
 
 TraduceToEs = {
     # twolines
-<<<<<<< HEAD
     "dos líneas":        addLines["twolines"],
-    "línea central":     addLines["twolines"],    # sinonimo
-    "eje central":       addLines["twolines"],    # sinonimo
-    # twopoints
-    "dos puntos":        addLines["twopoints"],
-    "línea dos puntos":  addLines["twopoints"],   # sinonimo
-    "eje dos puntos":    addLines["twopoints"],   # sinonimo
-    # cosmetic
-    "cosmetica":         addLines["cosmetic"],
-    "línea cosmetica":   addLines["cosmetic"],    # sinonimo
-    "línea auxiliar":    addLines["cosmetic"],    # sinonimo
-    # decorate
-    "decorar":           addLines["decorate"],
-    "estilo línea":      addLines["decorate"],    # sinonimo
-    "cambiar línea":     addLines["decorate"],    # sinonimo
-    # center
-    "centro":            addLines["center"],
-    "centro cara":       addLines["center"],      # sinonimo
-    "línea centro cara": addLines["center"],      # sinonimo
-    # help
-    "ayuda":             addLines["help"],
-    "información":              addLines["help"],        # sinonimo
-    "opciones":          addLines["help"],        # sinonimo
-=======
-    "dos lineas":        addLines["twolines"],
-    "linea central":     addLines["twolines"],      
+    "línea central":     addLines["twolines"],   
     "eje central":       addLines["twolines"],    
-
     # twopoints
     "dos puntos":        addLines["twopoints"],
-    "linea dos puntos":  addLines["twopoints"],     
-    "eje dos puntos":    addLines["twopoints"],  
-
+    "línea dos puntos":  addLines["twopoints"], 
+    "eje dos puntos":    addLines["twopoints"],   
     # cosmetic
-    "cosmetica":         addLines["cosmetic"],
-    "linea cosmetica":   addLines["cosmetic"],      
-    "linea auxiliar":    addLines["cosmetic"],     
-
+    "cosmética":         addLines["cosmetic"],
+    "línea cosmética":   addLines["cosmetic"],   
+    "línea auxiliar":    addLines["cosmetic"],   
     # decorate
     "decorar":           addLines["decorate"],
-    "estilo linea":      addLines["decorate"],      
-    "cambiar linea":     addLines["decorate"],     
-
+    "estilo línea":      addLines["decorate"],   
+    "cambiar línea":     addLines["decorate"],    
     # center
     "centro":            addLines["center"],
-    "centro cara":       addLines["center"],        
-    "linea centro cara": addLines["center"],        
-
+    "centro cara":       addLines["center"],      
+    "línea centro cara": addLines["center"],      
     # help
     "ayuda":             addLines["help"],
-    "información":              addLines["help"],          
-    "opciones":          addLines["help"],          
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "información":              addLines["help"],       
+    "opciones":          addLines["help"]        
 }

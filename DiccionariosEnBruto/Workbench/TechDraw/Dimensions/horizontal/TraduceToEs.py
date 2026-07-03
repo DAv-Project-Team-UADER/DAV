@@ -26,11 +26,6 @@ TraduceToEs = {
 
     # help
     "ayuda":                 horizontal["help"],
-<<<<<<< HEAD
-    "información":                  horizontal["help"],        # sinonimo
-    "opciones":              horizontal["help"],        # sinonimo
-=======
     "información":           horizontal["help"],        
     "opciones":              horizontal["help"],        
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
 }

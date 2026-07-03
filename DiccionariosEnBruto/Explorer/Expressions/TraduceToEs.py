@@ -25,10 +25,10 @@ TraduceToEs = {
     "copiar todos los documentos": expressions["copyalldoc"],
     "copiar todo": expressions["copyalldoc"],
 
-    "copiar seleccion": expressions["copyselected"],
+    "copiar selección": expressions["copyselected"],
     "copiar seleccionado": expressions["copyselected"],
 
-    "pegar expresion": expressions["pasteexpr"],
+    "pegar expresión": expressions["pasteexpr"],
     "pegar expresiones": expressions["pasteexpr"],
 
     "ayuda": expressions["help"],
