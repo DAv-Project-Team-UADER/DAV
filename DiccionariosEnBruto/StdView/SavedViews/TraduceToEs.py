@@ -15,3 +15,54 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .SavedViews import savedviews
+
+TraduceToEs = {
+    # Clear
+    "limpiar":   savedviews["clear"],
+    "borrar":    savedviews["clear"],
+    "eliminar":  savedviews["clear"],
+    "reiniciar": savedviews["clear"],
+
+    # Freeze
+    "congelar":  savedviews["freeze"],
+    "bloquear":  savedviews["freeze"],
+    "fijar":     savedviews["freeze"],
+    "detener":   savedviews["freeze"],
+
+    # Restore
+    "restaurar": savedviews["restore"],
+    "recuperar": savedviews["restore"],
+    "reiniciar vista": savedviews["restore"],
+    "volver":    savedviews["restore"],
+
+    # Recall
+    "recordar":  savedviews["recall"],
+    "traer":     savedviews["recall"],
+    "recuperar vista": savedviews["recall"],
+    "llamar":    savedviews["recall"],
+
+    # Load
+    "cargar":    savedviews["load"],
+    "abrir":     savedviews["load"],
+    "traer":     savedviews["load"],
+    "importar":  savedviews["load"],
+
+    # Save
+    "guardar":   savedviews["save"],
+    "almacenar": savedviews["save"],
+    "conservar": savedviews["save"],
+    "registrar": savedviews["save"],
+
+    # Store
+    "almacenar": savedviews["store"],
+    "archivar":  savedviews["store"],
+    "registrar": savedviews["store"],
+    "guardar vista": savedviews["store"],
+
+    # Help
+    "ayuda":     savedviews["help"],
+    "información": savedviews["help"],
+    "opciones":  savedviews["help"]
+}

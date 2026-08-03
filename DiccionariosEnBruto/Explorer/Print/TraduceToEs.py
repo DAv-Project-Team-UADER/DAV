@@ -21,7 +21,7 @@ from .ayuda import ayuda
 
 TraduceToEs = {
     'imprimir':  print_cmds['print'],
-    'impresion': print_cmds['print'],
+    'impresión': print_cmds['print'],
     'impresora': print_cmds['print'],
     'pdf':       print_cmds['pdf'],
     

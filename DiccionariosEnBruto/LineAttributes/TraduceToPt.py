@@ -21,15 +21,15 @@
 from .LineAttributes import LineAttributes
 
 TraduceToPt = {
-    "selecionar atributos": LineAttributes["select"],
-    "selecionar atributos de linha": LineAttributes["select"],
-    "escolher atributos": LineAttributes["select"],
-    "mudar atributos": LineAttributes["change"],
-    "alterar atributos": LineAttributes["change"],
-    "editar atributos": LineAttributes["change"],
-    "modificar atributos": LineAttributes["change"],
+    # Atributos de Linha
+    "atributos":       LineAttributes["attributes"],
+    "propriedades":    LineAttributes["attributes"],
+    "características": LineAttributes["attributes"],
+    "detalhes":        LineAttributes["attributes"],
 
-    "ajuda": LineAttributes["help"],
-    "informação": LineAttributes["help"],
-    "opções": LineAttributes["help"],
+    # Ajuda
+    "ajuda":           LineAttributes["help"],
+    "informações":     LineAttributes["help"],
+    "opções":          LineAttributes["help"]
 }
+

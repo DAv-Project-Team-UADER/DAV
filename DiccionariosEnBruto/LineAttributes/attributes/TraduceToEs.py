@@ -22,10 +22,10 @@ from .attributes import attributes
 
 TraduceToEs = {
     "seleccionar atributos": attributes["select"],
-    "seleccionar atributos de linea": attributes["select"],
+    "seleccionar atributos de línea": attributes["select"],
     "elegir atributos": attributes["select"],
     "cambiar atributos": attributes["change"],
-    "cambiar atributos de linea": attributes["change"],
+    "cambiar atributos de línea": attributes["change"],
     "editar atributos": attributes["change"],
     "modificar atributos": attributes["change"],
 
