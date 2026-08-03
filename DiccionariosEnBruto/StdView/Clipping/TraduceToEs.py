@@ -15,3 +15,16 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Clipping import clipping
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "recorte": clipping["clipping"],
+    "recortar": clipping["clipping"],
+    "plano de corte": clipping["clipping"],
+
+    "ayuda": clipping["help"],
+    "información": clipping["help"],
+    "opciones": clipping["help"],
+}

@@ -15,3 +15,38 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .Tree import tree
+from .ayuda import ayuda
+
+TraduceToEn = {
+    "collapse": tree["collapse"],
+    "collapse tree": tree["collapse"],
+    "fold": tree["collapse"],
+
+    "preselection": tree["preselection"],
+    "preselect": tree["preselection"],
+    "preview selection": tree["preselection"],
+
+    "record selection": tree["recordselection"],
+    "save selection": tree["recordselection"],
+
+    "single expand": tree["singleexpand"],
+    "expand one": tree["singleexpand"],
+    "open one": tree["singleexpand"],
+
+    "syncplacement": tree["syncplacement"],
+    "sync placement": tree["syncplacement"],
+    "align placement": tree["syncplacement"],
+
+    "sync selection": tree["syncselection"],
+    "match selection": tree["syncselection"],
+
+    "syncview": tree["syncview"],
+    "sync view": tree["syncview"],
+    "match view": tree["syncview"],
+
+    "help": tree["help"],
+    "info": tree["help"],
+    "options": tree["help"],
+}
