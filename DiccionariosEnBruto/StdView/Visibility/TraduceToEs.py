@@ -21,25 +21,23 @@
 from .Visibility import visibility
 
 TraduceToEs = {
-    # Claves principales
-    "hideobjects":      visibility["hideobjects"],
-    "hide":             visibility["hide"],
-    "alllinks":         visibility["alllinks"],
-    "linked":           visibility["linked"],
-    "linkedfinal":      visibility["linkedfinal"],
-    "selback":          visibility["selback"],
-    "boundingbox":      visibility["boundingbox"],
-    "selforward":       visibility["selforward"],
-    "selectvisible":    visibility["selectvisible"],
-    "showobjects":      visibility["showobjects"],
-    "show":             visibility["show"],
-    "toggleall":        visibility["toggleall"],
-    "selectability":    visibility["selectability"],
-    "transparency":     visibility["transparency"],
-    "toggle":           visibility["toggle"],
-    "aligntoselection": visibility["aligntoselection"],
+    "ocultar objetos":      visibility["hideobjects"],
+    "ocultar":              visibility["hide"],
+    "todos los enlaces":   visibility["alllinks"],
+    "vinculado":            visibility["linked"],
+    "vínculo final":        visibility["linkedfinal"],
+    "volver atrás":         visibility["selback"],
+    "caja de límites":      visibility["boundingbox"],
+    "avanzar selección":    visibility["selforward"],
+    "seleccionar visibles": visibility["selectvisible"],
+    "mostrar objetos":      visibility["showobjects"],
+    "mostrar":              visibility["show"],
+    "alternar todo":        visibility["toggleall"],
+    "seleccionabilidad":    visibility["selectability"],
+    "transparencia":        visibility["transparency"],
+    "alternar":             visibility["toggle"],
+    "alinear a selección":  visibility["aligntoselection"],
 
-    # Sinónimos en español
     "ocultar objetos":      visibility["hideobjects"],
     "ocultar todo":         visibility["hideobjects"],
     "ocultar todos":        visibility["hideobjects"],
@@ -81,7 +79,7 @@ TraduceToEs = {
     "caja delimitadora":    visibility["boundingbox"],
     "caja limite":          visibility["boundingbox"],
     "caja límite":          visibility["boundingbox"],
-    "bounding box":         visibility["boundingbox"],
+    "caja de límites":      visibility["boundingbox"],
 
     "adelante seleccion":   visibility["selforward"],
     "adelante selección":   visibility["selforward"],
@@ -105,7 +103,7 @@ TraduceToEs = {
 
     "alternar todo":        visibility["toggleall"],
     "conmutar todo":        visibility["toggleall"],
-    "toggle todo":          visibility["toggleall"],
+    "alternar todos":       visibility["toggleall"],
 
     "seleccionabilidad":    visibility["selectability"],
     "alternar seleccionabilidad": visibility["selectability"],
@@ -128,9 +126,7 @@ TraduceToEs = {
     "perpendicular a la seleccion": visibility["aligntoselection"],
     "perpendicular a la selección": visibility["aligntoselection"],
 
-    # Ayuda
     "ayuda":                visibility["help"],
-    "informacion":          visibility["help"],
     "información":          visibility["help"],
     "opciones":             visibility["help"],
 }

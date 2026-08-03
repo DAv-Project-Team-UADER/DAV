@@ -21,25 +21,23 @@
 from .Visibility import visibility
 
 TraduceToEn = {
-    # Main keys
-    "hideobjects":      visibility["hideobjects"],
+    "hideo bjects":      visibility["hideobjects"],
     "hide":             visibility["hide"],
-    "alllinks":         visibility["alllinks"],
+    "all links":         visibility["alllinks"],
     "linked":           visibility["linked"],
-    "linkedfinal":      visibility["linkedfinal"],
-    "selback":          visibility["selback"],
-    "boundingbox":      visibility["boundingbox"],
-    "selforward":       visibility["selforward"],
-    "selectvisible":    visibility["selectvisible"],
-    "showobjects":      visibility["showobjects"],
+    "linked final":      visibility["linkedfinal"],
+    "selection back":          visibility["selback"],
+    "bounding box":      visibility["boundingbox"],
+    "selection forward":       visibility["selforward"],
+    "select visible":    visibility["selectvisible"],
+    "show objects":      visibility["showobjects"],
     "show":             visibility["show"],
-    "toggleall":        visibility["toggleall"],
-    "selectability":    visibility["selectability"],
+    "toggle all":        visibility["toggleall"],
+    "select ability":    visibility["selectability"],
     "transparency":     visibility["transparency"],
     "toggle":           visibility["toggle"],
-    "aligntoselection": visibility["aligntoselection"],
-
-    # Synonyms / Alternative English terms
+    "align to selection": visibility["aligntoselection"],
+    
     "hide objects":     visibility["hideobjects"],
     "hide all":         visibility["hideobjects"],
     "conceal objects":  visibility["hideobjects"],
@@ -101,7 +99,6 @@ TraduceToEn = {
     "align to selection": visibility["aligntoselection"],
     "align camera to selection": visibility["aligntoselection"],
 
-    # Help
     "help":             visibility["help"],
     "info":             visibility["help"],
     "options":          visibility["help"],

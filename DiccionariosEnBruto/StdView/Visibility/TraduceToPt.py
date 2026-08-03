@@ -16,30 +16,28 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Portuguese spoken-word mapping for the DAV StdView/Visibility dictionary folder."""
+"""Mapeamento de palavras faladas em português para a pasta de dicionários DAV StdView/Visibility."""
 
 from .Visibility import visibility
 
 TraduceToPt = {
-    # Chaves principais
-    "hideobjects":      visibility["hideobjects"],
-    "hide":             visibility["hide"],
-    "alllinks":         visibility["alllinks"],
-    "linked":           visibility["linked"],
-    "linkedfinal":      visibility["linkedfinal"],
-    "selback":          visibility["selback"],
-    "boundingbox":      visibility["boundingbox"],
-    "selforward":       visibility["selforward"],
-    "selectvisible":    visibility["selectvisible"],
-    "showobjects":      visibility["showobjects"],
-    "show":             visibility["show"],
-    "toggleall":        visibility["toggleall"],
-    "selectability":    visibility["selectability"],
-    "transparency":     visibility["transparency"],
-    "toggle":           visibility["toggle"],
-    "aligntoselection": visibility["aligntoselection"],
+    "ocultar objetos":      visibility["hideobjects"],
+    "ocultar":              visibility["hide"],
+    "todos os links":      visibility["alllinks"],
+    "vinculado":            visibility["linked"],
+    "vínculo final":        visibility["linkedfinal"],
+    "voltar atrás":         visibility["selback"],
+    "caixa de limites":     visibility["boundingbox"],
+    "avançar seleção":      visibility["selforward"],
+    "selecionar visíveis":  visibility["selectvisible"],
+    "mostrar objetos":      visibility["showobjects"],
+    "mostrar":              visibility["show"],
+    "alternar tudo":        visibility["toggleall"],
+    "selecionabilidade":    visibility["selectability"],
+    "transparência":        visibility["transparency"],
+    "alternar":             visibility["toggle"],
+    "alinhar à seleção":    visibility["aligntoselection"],
 
-    # Sinônimos em português
     "ocultar objetos":      visibility["hideobjects"],
     "ocultar tudo":         visibility["hideobjects"],
     "esconder objetos":     visibility["hideobjects"],
@@ -77,7 +75,7 @@ TraduceToPt = {
     "seleção anterior":     visibility["selback"],
 
     "caixa delimitadora":   visibility["boundingbox"],
-    "bounding box":         visibility["boundingbox"],
+    "caixa de limites":     visibility["boundingbox"],
     "caixa limite":         visibility["boundingbox"],
 
     "avancar selecao":      visibility["selforward"],
@@ -107,7 +105,7 @@ TraduceToPt = {
 
     "alternar tudo":        visibility["toggleall"],
     "comutar tudo":         visibility["toggleall"],
-    "toggle tudo":          visibility["toggleall"],
+    "alternar todos":       visibility["toggleall"],
 
     "selecionabilidade":    visibility["selectability"],
     "alternar selecionabilidade": visibility["selectability"],
@@ -130,10 +128,7 @@ TraduceToPt = {
     "alinhar com seleção":  visibility["aligntoselection"],
     "perpendicular à seleção": visibility["aligntoselection"],
 
-    # Ajuda
     "ajuda":                visibility["help"],
-    "informacao":           visibility["help"],
     "informação":           visibility["help"],
-    "opcoes":               visibility["help"],
     "opções":               visibility["help"],
 }

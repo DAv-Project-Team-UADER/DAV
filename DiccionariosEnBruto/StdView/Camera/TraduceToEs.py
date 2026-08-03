@@ -28,7 +28,7 @@ TraduceToEs = {
 
     # Perspectiva
     "perspectiva": camera["perspective"],
-    "vistaperspectiva": camera["perspective"],
+    "vista perspectiva": camera["perspective"],
 
     # Ayuda
     "ayuda": camera["help"],
