@@ -18,6 +18,7 @@
 
 from .Appearance import appearance
 from .ayuda import ayuda
+from DAV.DiccionariosEnBruto.StdView.Appearance import Appearance
 
 TraduceToEn = {
     # Appearance
@@ -32,17 +33,18 @@ TraduceToEn = {
     'Part color':       appearance['facecolor'],
 
     # random colors
-    'random color':         appearance['random'],
-    'randomized color':     appearance['random'],
-    'random shade':         appearance['random'],
+    'random color':         appearance['randomcolor'],
+    'randomized color':     appearance['randomcolor'],
+    'random shade':         appearance['randomcolor'],
 
     # texture mapping
-    'texture mapping':      appearance['texture'],
-    'texture projection':   appearance['texture'],
-    'texture placement':    appearance['texture'],
+    'texture mapping':      appearance['texturemapping'],
+    'texture projection':   appearance['texturemapping'],
+    'texture placement':    appearance['texturemapping'],
 
     # help
-    'help':     ayuda['help'],
-    'info':     ayuda['help'],
+    'help':     Appearance['help'],
+    'info':     Appearance['help'],
+    'options':  Appearance['help'],
 
 }

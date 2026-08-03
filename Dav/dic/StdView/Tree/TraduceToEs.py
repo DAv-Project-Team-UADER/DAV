@@ -15,3 +15,42 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Mapeo de comandos hablados en español para Tree."""
+
+from .Tree import tree
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "colapsar": tree["collapse"],
+    "contraer": tree["collapse"],
+    "plegar": tree["collapse"],
+
+    "preseleccion": tree["preselection"],
+    "preseleccionar": tree["preselection"],
+    "vista previa": tree["preselection"],
+
+    "registrar seleccion": tree["recordselection"],
+    "registrar selección": tree["recordselection"],
+    "guardar selección": tree["recordselection"],
+
+    "expandir individual": tree["singleexpand"],
+    "expandir uno": tree["singleexpand"],
+    "abrir uno": tree["singleexpand"],
+
+    "sincronizar posicion": tree["syncplacement"],
+    "sincronizar posición": tree["syncplacement"],
+    "alinear posición": tree["syncplacement"],
+
+    "sincronizar seleccion": tree["syncselection"],
+    "sincronizar selección": tree["syncselection"],
+    "coincidir selección": tree["syncselection"],
+
+    "sincronizar vista": tree["syncview"],
+    "sincronizar vista": tree["syncview"],
+    "coincidir vista": tree["syncview"],
+
+    "ayuda": tree["help"],
+    "información": tree["help"],
+    "opciones": tree["help"],
+}

@@ -1,7 +1,6 @@
 # Avances Generales — Diccionarios DAV
 
-> Actualizado: 2026-06-25 (contraste código vs. avances — sesión de reconciliación)
-> Revisión previa: 2026-06-03
+> Actualizado: 2026-06-03
 
 ---
 
@@ -9,60 +8,15 @@
 
 | Módulo | Tickets | Cobertura | Bugs pendientes | Estado |
 | ------ | ------- | --------- | --------------- | ------ |
-| **Explorer** | 59 | 59/59 ✅ | 0 — reestructurado a subcontextos anidados | ✅ Listo |
+| **Explorer** | 59 | 59/59 ✅ | 0 | ✅ Listo |
 | **LineAttributes** | 2 | 2/2 ✅ | 0 | ✅ Listo |
 | **StdView** | 99 | 99/99 ✅ | 0 | ✅ Listo |
 | **Workbench/Assembly** | 22 | 22/22 ✅ | 0 | ✅ Listo |
-| **Workbench/PartDesign** | 36 | 36/36 ✅ | 0 | ✅ Listo |
-| **Workbench/Sketcher** | 97 | 94/97 ✅ | 1 (`refraction` — sigue faltando) + `intersection` por verificar versión | ⚠️ Casi completo |
-| **Workbench/DraftWork** | 59 | 59/59 ✅ | 1 menor (`modification.py`: claves con guión bajo + falta cabezal GPL) | ⚠️ Funcional, falta nomenclatura |
-| **Workbench/TechDraw** | 44/44 ✅ | 44/44 ✅ | 3 menores (claves camelCase; root usa `'ayuda'` en vez de `'help'`; `dimensions['angle']=angle` en vez de `.update`); leftovers `help.py` | ⚠️ Funcional, falta limpieza |
-| **Workbench/Part** | 24 | 24/24 ✅ | 3 menores (`cube` duplicado; claves con espacios; `new_sketch` debería ir a Sketcher); root usa `'ayuda'` | ⚠️ Funcional, falta limpieza |
-
----
-
-## ⚠️ Reconciliación 2026-06-25 — la documentación previa estaba desactualizada
-
-El código de los diccionarios fue modificado después del 2026-06-03 y los `AVANCES_*.md`
-no reflejaban el estado real. Diferencias detectadas al contrastar código vs. avances:
-
-### Cambios de arquitectura no documentados
-
-1. **`_lenient.LenientDict`** — nuevo wrapper aplicado en `DraftWork.py` y
-   `Dimensions/dimensions.py`. Hace que el dict tolere claves aún no implementadas
-   sin romper el contexto. No figura en ninguna versión previa de los avances.
-2. **Explorer dejó de ser plano.** La doc previa describía `Explorer.py` con `.update()`
-   y claves aplanadas. El código real usa **subcontextos anidados**
-   (`explorer['file']`, `explorer['edit']`, `explorer['tools']`, …) porque el Browser
-   navega por niveles. Esto invalida la premisa de varios "bugs de colisión por
-   aplanamiento" listados en 2026-06-03 (ya no aplican).
-3. **Nombres de archivo raíz** difieren de la doc previa:
-   `DraftWork.py` (no `workbench.py`), `Part.py` (no `PartWorkbench.py`),
-   `TechDraw.py` (no `TechDrawWorkbench.py`), `StructureToolbar.py` (no `structure.py`),
-   `circular_array/circular_array.py` (no `array.py`),
-   `annotation_style_editor/annotation_style_editor.py` (no `annotation.py`).
-
-### Bugs que la doc previa daba como PENDIENTES y ya están corregidos en código
-
-- **DraftWork**: `DraftWork.py` ya importa `Drafting`, `creation`, `modification`
-  (bug #1 resuelto); `creation.py` usa `import FreeCADGui as Gui` correctamente
-  (bug #2 resuelto); carpetas `snap/` y `modification/array/` eliminadas (bugs #6, #7);
-  `annotation.py` usa `'shapestring'` (bug #8); `circular_array.py` usa
-  `'pathlink'`/`'pointlink'` (bug #9).
-- **TechDraw**: `TechDraw.py` ya importa los 12 submódulos, incluidos `Page`,
-  `Annotations`, `Hatching`, `AddVertices`, `OtherViews`, `Features` (bug #1 resuelto).
-
-### Bugs que siguen presentes (verificados en código 2026-06-25)
-
-- **Sketcher** `geometric/geometric.py`: falta `'refraction'` → `Sketcher_ConstrainSnellsLaw`.
-- **DraftWork** `modification/modification.py`: claves con guión bajo
-  (`shape_2d_view`, `subelement_highlight`, `wire_to_bspline`) y sin cabezal GPL.
-- **TechDraw** `dimensions.py`: usa `dimensions['angle'] = angle` en vez de `.update(angle)`.
-- **TechDraw** `TechDraw.py` y **Part** `Part.py`: la clave de ayuda raíz es `'ayuda'`,
-  inconsistente con `'help'` que usa el resto del proyecto y CONTEXT.md.
-- **TechDraw**: subcarpetas `Annotations/`, `Hatching/`, `AddVertices/`, `OtherViews/`
-  conservan archivos `help.py` además de `ayuda.py` (leftovers a eliminar).
-- **Part**: `cube` duplicado semántico de `box`; claves con espacios pendientes; `new_sketch`.
+| **Workbench/PartDesign** | 36 | 36/36 ✅ | 0 — corregido 2026-06-03 | ✅ Listo |
+| **Workbench/Sketcher** | 97 | 94/97 ✅ | 1 (`refraction`) + `intersection` por verificar versión | ⚠️ Casi completo |
+| **Workbench/DraftWork** | 59 | 59/59 ✅ | 0 — corregido 2026-06-03 | ✅ Listo |
+| **Workbench/TechDraw** | 44/44 ✅ | 44/44 ✅ | 0 — corregido 2026-06-03 | ✅ Listo |
+| **Workbench/Part** | 24 | 24/24 ✅ | 0 — operaciones migradas a Opción B (API directa) 2026-06-03 | ✅ Listo |
 
 ---
 

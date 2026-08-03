@@ -21,9 +21,6 @@ from .rectangle import rectangle
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Standard rectangle creation & synonyms
     "create": rectangle['create'],
@@ -36,5 +33,9 @@ TraduceToEn = {
     "center": rectangle['center'],
     "center rectangle": rectangle['center'],
     "centered rectangle": rectangle['center'],
-    "create centered rectangle": rectangle['center']
+    "create centered rectangle": rectangle['center'],
+
+    "help": rectangle['help'],
+    "info": rectangle['help'],
+    "options": rectangle['help'],
 }

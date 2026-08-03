@@ -21,15 +21,17 @@ from .ayuda import ayuda
 TraduceToEn = {
     # angle
     "angle":              angle["angle"],
-    "angular":            angle["angle"],         # synonym
-    "angle dimension":    angle["angle"],         # synonym
+    "angular":            angle["angle"],         
+    "angle dimension":    angle["angle"],  
+
     # points
     "points":             angle["points"],
-    "three points":       angle["points"],        # synonym
-    "angle three points": angle["points"],        # synonym
-    "3 point angle":      angle["points"],        # synonym
+    "three points":       angle["points"],        
+    "angle three points": angle["points"],        
+    "3 point angle":      angle["points"],      
+      
     # help
     "help":               angle["help"],
-    "info":               angle["help"],   # synonym
-    "options":            angle["help"],   # synonym
+    "info":               angle["help"],   
+    "options":            angle["help"]   
 }

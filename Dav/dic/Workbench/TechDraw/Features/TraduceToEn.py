@@ -33,5 +33,7 @@ TraduceToEn = {
     "insert symbol": features["symbol"],
     "add symbol": features["symbol"],
 
-    "help": ayuda,
+    "help": features["help"],
+    "info": features["help"],
+    "options": features["help"],
 }

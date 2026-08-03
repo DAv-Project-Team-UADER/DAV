@@ -30,11 +30,9 @@ TraduceToEs = {
     "barrer a lo largo de trayectoria": part_sweep["sweep"],
     "sweep": part_sweep["sweep"],
     "tubo": part_sweep["sweep"],
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
-    "help": ayuda,
+
+    "ayuda": part_sweep['help'],
+    "información": part_sweep['help'],
+    "opciones": part_sweep['help'],
 }
 

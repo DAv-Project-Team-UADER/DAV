@@ -16,7 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .toolbars import toolbars
+from .Toolbars import toolbars
+from DAV.DiccionariosEnBruto.StdView.Toolbars import Toolbars
 from .ayuda import ayuda
 
 TraduceToEs = {
@@ -26,33 +27,45 @@ TraduceToEs = {
     "copiar": toolbars["clipboard"],
     "pegar": toolbars["clipboard"],
     "cortar": toolbars["clipboard"],
+
     # Editar
     "editar": toolbars["edit"],
     "edición": toolbars["edit"],
     "edicion": toolbars["edit"],
+
     # Archivo
     "archivo": toolbars["file"],
+
     # Barra de ayuda
     "barra de ayuda": toolbars["toolbarshelp"],
     "ayuda de barra": toolbars["toolbarshelp"],
+    
     # Vistas
     "vistas": toolbars["views"],
     "vistas individuales": toolbars["views"],
     "barra de vistas": toolbars["views"],
+
     # Bloquear barras
     "bloquear": toolbars["lock"],
     "bloquear barras": toolbars["lock"],
     "desbloquear barras": toolbars["lock"],
+
     # Macro
     "macro": toolbars["macro"],
     "macros": toolbars["macro"],
+
     # Estructura
     "estructura": toolbars["structure"],
+
     # Vista
     "vista": toolbars["view"],
+
     # Banco de trabajo
     "banco de trabajo": toolbars["workbench"],
     "workbench": toolbars["workbench"],
+
     # Ayuda
-    "ayuda": ayuda,
+    "ayuda": Toolbars["help"],
+    "información": Toolbars["help"],
+    "opciones": Toolbars["help"],
 }

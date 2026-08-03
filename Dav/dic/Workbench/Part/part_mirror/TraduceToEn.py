@@ -27,9 +27,8 @@ TraduceToEn = {
     'reflect': part_mirror['mirror'],
     'create mirror': part_mirror['mirror'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_mirror['help'],
+    "info": part_mirror['help'],
+    "options": part_mirror['help'],
 }
 

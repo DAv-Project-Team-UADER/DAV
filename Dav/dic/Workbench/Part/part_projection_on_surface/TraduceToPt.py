@@ -29,10 +29,8 @@ TraduceToPt = {
     "projetar na superfície": part_projection_on_surface["projection"],
     "projetar na superficie": part_projection_on_surface["projection"],
 
-    "ajuda": ajuda,
-    "manual": ajuda,
-    "suporte": ajuda,
-    "documentação": ajuda,
-    "documentacao": ajuda,
+    "ajuda": part_projection_on_surface['help'],
+    "informação": part_projection_on_surface['help'],
+    "opções": part_projection_on_surface['help']
 }
 

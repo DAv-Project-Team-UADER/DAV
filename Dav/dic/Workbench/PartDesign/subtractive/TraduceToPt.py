@@ -83,8 +83,7 @@ TraduceToPt = {
     "operação booleana": subtractive["boolean"],
 
     # Help
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentação": ayuda,
+    "ajuda": subtractive['help'],
+    "informação": subtractive['help'],
+    "opções": subtractive['help'],
 }

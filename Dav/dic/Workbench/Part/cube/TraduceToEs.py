@@ -22,6 +22,10 @@ from .ayuda import ayuda
 TraduceToEs = {
     'cubo':     cube['cube'],
     'caja':     cube['cube'],
+    'bloque':   cube['cube'],
+    'agregar cubo':     cube['cube'],
+    'agregar caja':      cube['cube'],
+    'agregar bloque':    cube['cube'],
     
     "ayuda":                cube['help'],
     "información":          cube['help'],

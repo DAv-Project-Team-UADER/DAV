@@ -19,4 +19,5 @@
 import FreeCADGui as Gui
 
 TraduceToPt = {
+    
 }

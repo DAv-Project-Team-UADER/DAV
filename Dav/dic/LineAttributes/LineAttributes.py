@@ -19,4 +19,5 @@ from .attributes.attributes import attributes
 
 LineAttributes = {}
 LineAttributes.update(attributes)
-LineAttributes.update({'help': ayuda})
+LineAttributes.update({
+    'help': ayuda})

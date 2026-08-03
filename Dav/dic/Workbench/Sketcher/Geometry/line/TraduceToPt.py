@@ -21,9 +21,6 @@ from .line import line
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Criação de linha padrão e sinônimos
     "criar": line['create'],
@@ -35,5 +32,9 @@ TraduceToPt = {
     # Criação de linha por pontos e sinônimos
     "linha por pontos": line['create_by_points'],
     "criar linha por pontos": line['create_by_points'],
-    "desenhar linha por pontos": line['create_by_points']
+    "desenhar linha por pontos": line['create_by_points'],
+
+    "ajuda": line['help'],
+    "informação": line['help'],
+    "opções": line['help'],
 }

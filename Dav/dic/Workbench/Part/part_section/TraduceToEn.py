@@ -29,9 +29,9 @@ TraduceToEn = {
     "section curve": part_section["section"],
     "intersection": part_section["section"],
     "intersection curve": part_section["section"],
-    "help": ayuda,
-    "manual": ayuda,
-    "support": ayuda,
-    "documentation": ayuda,
+
+    "help": part_section['help'],
+    "info": part_section['help'],
+    "options": part_section['help'],
 }
 

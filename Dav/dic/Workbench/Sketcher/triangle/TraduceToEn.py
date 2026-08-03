@@ -21,13 +21,14 @@ from .triangle import triangle
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Triangle creation & synonyms
     "create": triangle['create'],
     "create triangle": triangle['create'],
     "draw triangle": triangle['create'],
-    "triangle": triangle['create']
+    "triangle": triangle['create'],
+
+    "help": triangle['help'],
+    "info": triangle['help'],
+    "options": triangle['help'],
 }

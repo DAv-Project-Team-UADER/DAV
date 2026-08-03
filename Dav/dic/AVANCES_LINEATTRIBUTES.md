@@ -1,9 +1,6 @@
 # Avances — Módulo LineAttributes
 
-> Revisado: 2026-06-03 · Reconfirmado contra código 2026-06-25
->
-> Verificado 2026-06-25: `LineAttributes.py` usa `.update(attributes)` + `'help': ayuda`.
-> La doc coincide con el código; sin cambios.
+> Revisado: 2026-06-03
 
 ---
 

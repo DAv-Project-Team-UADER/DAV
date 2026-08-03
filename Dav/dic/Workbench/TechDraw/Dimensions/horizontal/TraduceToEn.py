@@ -21,11 +21,12 @@ from .ayuda import ayuda
 TraduceToEn = {
     # horizontal
     "horizontal":            horizontal["horizontal"],
-    "horizontal dimension":  horizontal["horizontal"],  # synonym
-    "width":                 horizontal["horizontal"],  # synonym
-    "x distance":            horizontal["horizontal"],  # synonym
+    "horizontal dimension":  horizontal["horizontal"],  
+    "width":                 horizontal["horizontal"],  
+    "x distance":            horizontal["horizontal"],  
+    
     # help
     "help":                  horizontal["help"],
-    "info":                  horizontal["help"],   # synonym
-    "options":               horizontal["help"],   # synonym
+    "info":                  horizontal["help"],   
+    "options":               horizontal["help"],   
 }

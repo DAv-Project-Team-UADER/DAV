@@ -21,9 +21,6 @@ from .select import select
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Eixo horizontal e sinônimos
     "horizontal": select['horizontal'],
@@ -39,5 +36,9 @@ TraduceToPt = {
     "origem": select['origin'],
     "centro": select['origin'],
     "ponto central": select['origin'],
-    "selecionar origem": select['origin']
+    "selecionar origem": select['origin'],
+
+    "ajuda": select['help'],
+    "informação": select['help'],
+    "opções": select['help'],
 }

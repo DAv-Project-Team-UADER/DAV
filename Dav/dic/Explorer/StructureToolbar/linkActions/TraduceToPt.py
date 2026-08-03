@@ -15,3 +15,48 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .linkActions import link
+
+TraduceToPt = {
+    # MakeLink
+    "criar link":       link["makelink"],
+    "novo link":        link["makelink"],
+    "gerar link":       link["makelink"],
+    "fazer link":       link["makelink"],
+
+    # RelativeLink
+    "link relativo":    link["relativelink"],
+    "vincular relativo":link["relativelink"],
+    "anexar relativo":  link["relativelink"],
+    "referência relativa": link["relativelink"],
+
+    # ImportLink
+    "importar link":    link["importlink"],
+    "trazer link":      link["importlink"],
+    "carregar link":    link["importlink"],
+    "adicionar link":   link["importlink"],
+
+    # ImportAllLinks
+    "importar todos":   link["importalllinks"],
+    "carregar todos":   link["importalllinks"],
+    "trazer todos os links": link["importalllinks"],
+    "adicionar todos os links": link["importalllinks"],
+
+    # ReplaceLink
+    "substituir link":  link["replacelink"],
+    "trocar link":      link["replacelink"],
+    "alterar link":     link["replacelink"],
+    "modificar link":   link["replacelink"],
+
+    # LinkGroups
+    "grupo de links":   link["linkgroups"],
+    "conjunto de links":link["linkgroups"],
+    "coleção de links": link["linkgroups"],
+    "agrupamento de links": link["linkgroups"],
+
+    # Help
+    "ajuda":            link["help"],
+    "informações":      link["help"],
+    "opções":           link["help"]
+}

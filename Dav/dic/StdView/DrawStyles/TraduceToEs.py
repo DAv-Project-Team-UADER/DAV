@@ -15,3 +15,48 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# ============================================================
+# Spanish translations – StdViews DrawStyles
+# ============================================================
+
+from .DrawStyles import drawstyles
+
+TraduceToEs = {
+    # Estilos principales
+    "asis": drawstyles["styleasis"],
+    "plano": drawstyles["flatlines"],
+    "lineas ocultas": drawstyles["hiddenline"],
+    "sin sombreado": drawstyles["noshading"],
+    "puntos": drawstyles["points"],
+    "sombreado": drawstyles["shaded"],
+    "alambre": drawstyles["wireframe"],
+
+    # Sinónimos (formas más naturales en español)
+    "tal como está": drawstyles["styleasis"],
+    "tal como esta": drawstyles["styleasis"],
+    "tal cual": drawstyles["styleasis"],
+    "original": drawstyles["styleasis"],
+
+    "lineas planas": drawstyles["flatlines"],
+    "plano lineas": drawstyles["flatlines"],
+
+    "oculto": drawstyles["hiddenline"],
+    "lineas ocultas": drawstyles["hiddenline"],
+
+    "sin color": drawstyles["noshading"],
+    "sin relleno": drawstyles["noshading"],
+
+    "modo puntos": drawstyles["points"],
+    "punteado": drawstyles["points"],
+
+    "vista sombreada": drawstyles["shaded"],
+    "solido": drawstyles["shaded"],
+
+    "wireframe": drawstyles["wireframe"],
+    "estructura": drawstyles["wireframe"],
+
+    "ayuda": drawstyles["help"],
+    "información": drawstyles["help"],
+    "opciones": drawstyles["help"],
+}

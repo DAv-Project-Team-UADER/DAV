@@ -15,3 +15,30 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from .StructureToolbar import structure
+
+TraduceToPt = {
+    # Part
+    "peça":        structure["part"],
+    "componente":  structure["part"],
+    "elemento":    structure["part"],
+    "parte":       structure["part"],
+
+    # Group
+    "grupo":       structure["newgroup"],
+    "novo grupo":  structure["newgroup"],
+    "coleção":     structure["newgroup"],
+    "pasta":       structure["newgroup"],
+
+    # LinkActions
+    "link":        structure["linkactions"],
+    "conectar":    structure["linkactions"],
+    "associar":    structure["linkactions"],
+    "referência":  structure["linkactions"],
+
+    # Help
+    "ajuda":       structure["help"],
+    "informações": structure["help"],
+    "opções":      structure["help"]
+}

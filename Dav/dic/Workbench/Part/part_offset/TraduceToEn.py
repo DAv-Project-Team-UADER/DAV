@@ -29,9 +29,8 @@ TraduceToEn = {
     'shrink': part_offset['offset'],
     'expand': part_offset['offset'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_offset['help'],
+    "info": part_offset['help'],
+    "options": part_offset['help'],
 }
 

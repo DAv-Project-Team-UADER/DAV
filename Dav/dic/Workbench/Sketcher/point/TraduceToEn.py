@@ -21,14 +21,15 @@ from .point import point
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Point creation & synonyms
     "create": point['create'],
     "create point": point['create'],
     "draw point": point['create'],
     "point": point['create'],
-    "vertex": point['create']
+    "vertex": point['create'],
+
+    "help": point['help'],
+    "info": point['help'],
+    "options": point['help'],
 }

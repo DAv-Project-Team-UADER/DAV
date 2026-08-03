@@ -25,20 +25,21 @@ from .diameter.diameter     import diameter
 from .angle.angle           import angle
 from .ayuda import ayuda
 
-dimensions = {
-    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
-    'area': lambda: Gui.runCommand('TechDraw_AreaDimension', 0),
-    'fit': lambda: Gui.runCommand('TechDraw_HoleShaftFit', 0)
-}
-
+dimensions = {}
 dimensions.update(dimension)
 dimensions.update(length)
 dimensions.update(horizontal)
 dimensions.update(extent)
 dimensions.update(radius)
 dimensions.update(diameter)
-dimensions['angle'] = angle
-dimensions['help']  = ayuda
+dimensions.update(angle)
+dimensions = {
+    'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
+    'area': lambda: Gui.runCommand('TechDraw_AreaDimension', 0),
+    'fit': lambda: Gui.runCommand('TechDraw_HoleShaftFit', 0),
+    'help'  : ayuda
+
+}
 
 # Tolerante a claves aún no implementadas (no rompe el contexto entero).
 dimensions = LenientDict(dimensions)

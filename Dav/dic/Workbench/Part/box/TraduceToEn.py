@@ -24,6 +24,9 @@ TraduceToEn = {
     'box':      box['box'],
     'block':    box['box'],
     'cube':     box['box'],
+    'add cube':     box['box'],
+    'add box':     box['box'],
+    'add block':     box['box'],
     
     "help":            box['help'],
     "info":            box['help'],

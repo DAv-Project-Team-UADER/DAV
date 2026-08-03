@@ -21,19 +21,22 @@ from .ayuda import ayuda
 TraduceToEn = {
     # annotation
     "annotation":    annotations["annotation"],
-    "note":          annotations["annotation"],   # synonym
-    "text":          annotations["annotation"],   # synonym
-    "comment":       annotations["annotation"],   # synonym
+    "note":          annotations["annotation"],       
+    "text":          annotations["annotation"],       
+    "comment":       annotations["annotation"],  
+
     # axo_length
     "axo length":    annotations["axo_length"],
-    "axonometric":   annotations["axo_length"],   # synonym
-    "axo dimension": annotations["axo_length"],   # synonym
+    "axonometric":   annotations["axo_length"],       
+    "axo dimension": annotations["axo_length"],    
+
     # balloon
-    "balloon":       annotations["balloon"],
-    "callout":       annotations["balloon"],      # synonym
-    "bubble":        annotations["balloon"],      # synonym
+    "balloon text":       annotations["balloon"],
+    "callout":       annotations["balloon"],          
+    "bubble text":        annotations["balloon"],    
+          
     # help
     "help":          annotations["help"],
-    "info":          annotations["help"],   # synonym
-    "options":       annotations["help"],   # synonym
+    "info":          annotations["help"],       
+    "options":       annotations["help"]       
 }

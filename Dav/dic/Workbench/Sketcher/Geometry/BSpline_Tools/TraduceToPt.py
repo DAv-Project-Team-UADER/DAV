@@ -29,7 +29,6 @@ TraduceToPt = {
     "aumentar grau": bspline_tools["increase"],
     "nó": bspline_tools["knot"],
     "unir": bspline_tools["join"],
-    "ajuda": bspline_tools["help"],
 
     # Sinônimos
     "converter para nurbs": bspline_tools["tonurbs"],
@@ -37,4 +36,8 @@ TraduceToPt = {
     "subir grau": bspline_tools["increase"],
     "inserir nó": bspline_tools["knot"],
     "unir curva": bspline_tools["join"],
+
+    "ajuda": bspline_tools["help"],
+    "informação": bspline_tools["help"],
+    "opções": bspline_tools["help"],
 }

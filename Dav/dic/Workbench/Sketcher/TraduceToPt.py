@@ -16,12 +16,13 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
-from .Sketcher import _toggle_construction
+from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
-from .Sketcher import sketcher
+from .sketcher import sketcher
 
 TranslateToPt = {
   
@@ -80,4 +81,103 @@ TranslateToPt = {
   "ver esboço": sketcher["view"],
   "ver selecao": sketcher["view"],
   "ver seleção": sketcher["view"],
+
+  # Controle do Esboço / Sketch
+   "novo": sketcher["new"],
+   "novo esboço": sketcher["new"],
+   "criar esboço": sketcher["new"],
+
+   "editar": sketcher["edit"],
+   "editar esboço": sketcher["edit"],
+   "modificar esboço": sketcher["edit"],
+
+   "anexar": sketcher["attach"],
+   "mapear esboço": sketcher["attach"],
+   "anexar esboço": sketcher["attach"],
+
+   "grade": sketcher["grid"],
+   "alternar grade": sketcher["grid"],
+   "mostrar grade": sketcher["grid"],
+
+   "parar": sketcher["stop"],
+   "parar operação": sketcher["stop"],
+   "abortar": sketcher["stop"],
+
+   "sair": sketcher["leave"],
+   "sair do esboço": sketcher["leave"],
+   "sair esboço": sketcher["leave"],
+   "fechar esboço": sketcher["leave"],
+
+   "cancelaredit": sketcher["cancelediting"],
+   "cancelar edição": sketcher["cancelediting"],
+   "parar edição": sketcher["cancelediting"],
+
+   # Geometria de Construção
+   "alternar construção": _toggle_construction,
+   "modo construção": _toggle_construction,
+   "alternar geometria de construção": _toggle_construction,
+
+   # Edição e Área de Transferência
+   "duplicar": sketcher["carboncopy"],
+   "cópia carbono": sketcher["carboncopy"],
+
+   "copiar elementos": sketcher["copyelements"],
+   "copiar geometria": sketcher["copyelements"],
+   "copiar": sketcher["copyelements"],
+
+   "recortar elementos": sketcher["cutelements"],
+   "recortar geometria": sketcher["cutelements"],
+   "recortar": sketcher["cutelements"],
+
+   "colar elementos": sketcher["pasteelements"],
+   "colar geometria": sketcher["pasteelements"],
+   "colar": sketcher["pasteelements"],
+
+   # Transformações e Modificações
+   "simetria": sketcher["mirror"],
+   "espelho": sketcher["mirror"],
+   "refletir elementos": sketcher["mirror"],
+
+   "espelhar esboço": sketcher["mirrorsketch"],
+   "refletir esboço": sketcher["mirrorsketch"],
+
+   "deslocamento": sketcher["offset"],
+   "criar deslocamento": sketcher["offset"],
+
+   "mover": sketcher["movearray"],
+   "mover elementos": sketcher["movearray"],
+   "transladar": sketcher["movearray"],
+
+   "rodar": sketcher["rotatepolar"],
+   "rodar elementos": sketcher["rotatepolar"],
+   "rotação polar": sketcher["rotatepolar"],
+
+   "escalar": sketcher["scale"],
+   "escalar elementos": sketcher["scale"],
+
+   # Operações de Arestas / Cantos
+   "recortar": sketcher["trimedge"],
+   "recortar aresta": sketcher["trimedge"],
+   "recortar borda": sketcher["trimedge"],
+
+   "dividir aresta": sketcher["splitedge"],
+   "dividir": sketcher["splitedge"],
+   "separar aresta": sketcher["splitedge"],
+
+   "estender aresta": sketcher["extendedge"],
+   "estender": sketcher["extendedge"],
+   "estender borda": sketcher["extendedge"],
+
+   "filete": sketcher["fillet"],
+   "criar filete": sketcher["fillet"],
+   "arredondar": sketcher["fillet"],
+
+   "chanfro": sketcher["chamfer"],
+   "criar chanfro": sketcher["chamfer"],
+   "chanfrear": sketcher["chamfer"],
+
+
+  "ajuda": Sketcher['help'],
+  "informação": Sketcher['help'],
+  "opções": Sketcher['help'],
 }

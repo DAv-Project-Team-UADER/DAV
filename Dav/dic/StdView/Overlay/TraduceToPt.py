@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later"""Portuguese spoken-word mapping for the overlay dictionary."""
 
-from .overlay import overlay
+from .Overlay import overlay
 
 TraduceToPt = {
     # Posições e exibição de sobreposição (overlay)
@@ -50,6 +50,6 @@ TraduceToPt = {
 
     # Comandos de ajuda estandarizados
     'ajuda':                    overlay['help'],
-    'comandos':                 overlay['help'],
+    'informação':                 overlay['help'],
     'opções':                   overlay['help']
 }

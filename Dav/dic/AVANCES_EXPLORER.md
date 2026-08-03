@@ -1,34 +1,6 @@
 # Avances — Módulo Explorer
 
-> Revisado: 2026-06-25 (contraste código vs. avances)
-> Revisión previa: 2026-06-03 — Bugs #1–#8 corregidos
-
----
-
-## ⚠️ Cambio de arquitectura (2026-06-25): Explorer dejó de ser plano
-
-La revisión 2026-06-03 describía `Explorer.py` con `.update()` aplanando todos los
-submódulos en un único nivel. **El código real ya no funciona así.** `Explorer.py`
-ahora arma **subcontextos anidados** porque el Browser navega por niveles y
-`Explorer/TraduceTo*.py` espera `explorer['file']`, `explorer['edit']`, etc. como submenús:
-
-```python
-explorer = {}
-explorer.update({'file': file})
-explorer.update({'edit': edit})
-explorer.update({'print': print_cmds})
-explorer.update({'windows': windows})
-explorer.update({'expressions': expressions})
-explorer.update({'tools': tools})
-explorer.update({'structure': structure})
-# callables sueltos al ras + 'help': ayuda
-```
-
-**Consecuencia:** los "bugs de colisión por aplanamiento" del 2026-06-03 (`'paste'` vs
-`edit['paste']`, `'screenshot'` duplicado, etc.) **ya no aplican** — al estar anidados,
-las mismas claves en submódulos distintos no colisionan. La tabla de cobertura de
-abajo sigue siendo válida en cuanto a qué ticket vive en qué archivo, pero la ruta de
-invocación por voz ahora pasa por el nombre del subcontexto (`file`, `edit`, …).
+> Revisado: 2026-06-03 — Bugs #1–#8 corregidos
 
 ---
 
@@ -36,22 +8,18 @@ invocación por voz ahora pasa por el nombre del subcontexto (`file`, `edit`, �
 
 ```
 Explorer/
-├── Explorer.py                  ← raíz, subcontextos ANIDADOS (no aplanado)
+├── Explorer.py                  ← raíz, usa .update()
 ├── AdditionalTools/Additional.py
 ├── Edit/Edit.py
 ├── Expressions/Expressions.py
 ├── File/File.py
 ├── Print/Print.py
 ├── StructureToolbar/
-│   ├── StructureToolbar.py      ← (la doc previa lo llamaba structure.py)
-│   └── linkActions/linkActions.py  ← (la doc previa lo llamaba link.py)
+│   ├── structure.py
+│   └── linkActions/link.py
 ├── Tools/Tools.py
 └── Windows/Windows.py
 ```
-
-> Nota: `print_cmds` es el dict de `Print/Print.py` (renombrado para no pisar el
-> builtin `print`). `AdditionalTools/Additional.py` no aparece importado en el
-> `Explorer.py` actual — su contenido (`linkgroups`) requiere reverificación.
 
 ---
 
@@ -109,14 +77,14 @@ Explorer/
 | `Std_CloseActiveWindow` | `Gui.runCommand('Std_CloseActiveWindow', 0)` | `Windows.py` | `'close'` |
 | `Std_CloseAllWindows` | `Gui.runCommand('Std_CloseAllWindows', 0)` | `Windows.py` | `'closeall'` |
 | `Std_Quit` | `Gui.getMainWindow().close()` | `Windows.py` | `'quit'` |
-| `Std_Group` | `Gui.runCommand('Std_Group', 0)` | `StructureToolbar.py` | `'newgroup'` |
-| `Std_Part` | `Gui.runCommand('Std_Part', 0)` | `StructureToolbar.py` | `'part'` |
-| `Std_LinkMake` | `Gui.runCommand('Std_LinkMake', 0)` | `linkActions.py` | `'makelink'` |
-| `Std_LinkMakeRelative` | `Gui.runCommand('Std_LinkMakeRelative', 0)` | `linkActions.py` | `'relativelink'` |
-| `Std_LinkImport` | `Gui.runCommand('Std_LinkImport', 0)` | `linkActions.py` | `'importlink'` |
-| `Std_LinkImportAll` | `Gui.runCommand('Std_LinkImportAll', 0)` | `linkActions.py` | `'importalllinks'` |
-| `Std_LinkReplace` | `Gui.runCommand('Std_LinkReplace', 0)` | `linkActions.py` | `'replacelink'` |
-| `Std_LinkMakeGroup` ⚠️ | `Gui.runCommand('Std_LinkMakeGroup', 0)` | `AdditionalTools/Additional.py` | `'linkgroups'` — **archivo NO importado en Explorer.py (huérfano, 2026-06-25)** |
+| `Std_Group` | `Gui.runCommand('Std_Group', 0)` | `structure.py` | `'newgroup'` |
+| `Std_Part` | `Gui.runCommand('Std_Part', 0)` | `structure.py` | `'part'` |
+| `Std_LinkMake` | `Gui.runCommand('Std_LinkMake', 0)` | `link.py` | `'makelink'` |
+| `Std_LinkMakeRelative` | `Gui.runCommand('Std_LinkMakeRelative', 0)` | `link.py` | `'relativelink'` |
+| `Std_LinkImport` | `Gui.runCommand('Std_LinkImport', 0)` | `link.py` | `'importlink'` |
+| `Std_LinkImportAll` | `Gui.runCommand('Std_LinkImportAll', 0)` | `link.py` | `'importalllinks'` |
+| `Std_LinkReplace` | `Gui.runCommand('Std_LinkReplace', 0)` | `link.py` | `'replacelink'` |
+| `Std_LinkMakeGroup` | `Gui.runCommand('Std_LinkMakeGroup', 0)` | `Additional.py` | `'linkgroups'` |
 
 ### ⚠️ Cubiertos con API alternativa (aceptable)
 
@@ -136,10 +104,10 @@ Explorer/
 | 2 | `Tools/Tools.py` | `'proyectutil'` — typo, falta la "j" | → `'projectutil'` |
 | 3 | `StructureToolbar/structure.py` | `'new Group'` y `'link actions'` tienen espacios en las claves | → `'newgroup'`, `'linkactions'` |
 | 4 | `StructureToolbar/linkActions/link.py` | `'make link'`, `'relative link'`, `'import link'`, `'import all links'`, `'replace link'` — todas con espacios | → `'makelink'`, `'relativelink'`, `'importlink'`, `'importalllinks'`, `'replacelink'` |
-| 5 | `Explorer.py` | `StructureToolbar` no estaba importado | ✅ Importado como subcontexto `explorer['structure']`. ⚠️ `AdditionalTools/Additional` **sigue sin importarse** (huérfano — ver nota) |
+| 5 | `Explorer.py` | `StructureToolbar/structure` y `AdditionalTools/Additional` no estaban importados — módulos huérfanos | Importados y agregados al `.update()` |
 | 6 | `Edit.py` | `'screenshot'` y `'note'` duplicados respecto a `Explorer.py` | Eliminados de `Edit.py` |
 | 7 | `Edit.py`, `Tools.py`, `Expressions.py` | Cabezal duplicado (dos líneas `Copyright`) | Unificado a un solo bloque GPL-3.0 |
-| 8 | `Expressions.py` | `'paste'` colisionaba con `edit['paste']` al aplanar con `.update()` | ➖ Ya no aplica — Explorer pasó a subcontextos anidados; `expressions` es su propio nivel (`explorer['expressions']`) y no colisiona |
+| 8 | `Expressions.py` | `'paste'` colisionaba con `edit['paste']` al aplanar con `.update()` | → `'pasteexpr'` |
 
 ---
 
@@ -147,10 +115,4 @@ Explorer/
 
 Ninguno. Todos los 59 tickets de Explorer tienen cobertura en algún archivo del módulo.
 
-> **Nota (2026-06-25):** `Std_Group`, `Std_Part` y los `Std_Link*` están en
-> `StructureToolbar/` y se navegan vía `explorer['structure']` (y dentro,
-> `structure['linkactions']`, que también es un subcontexto anidado, no aplanado).
-> **Pendiente:** `AdditionalTools/Additional.py` (clave `'linkgroups'` →
-> `Std_LinkMakeGroup`) no está importado en el `Explorer.py` actual. Hay que
-> decidir si se agrega como subcontexto o se descarta — `Std_LinkMakeGroup` no
-> está cubierto en ningún otro archivo activo.
+> **Nota:** `Std_Group`, `Std_Part` y los `Std_Link*` están en `StructureToolbar/` — bug #5 corregido, ya están importados y activos en `Explorer.py`.

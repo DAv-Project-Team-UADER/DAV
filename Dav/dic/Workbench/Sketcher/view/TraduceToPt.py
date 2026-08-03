@@ -21,9 +21,6 @@ from .view import view
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Vista de esboço e sinônimos
     "sketch": view['sketch'],
@@ -35,5 +32,9 @@ TraduceToPt = {
     "vista de secao": view['section'],
     "ver secao": view['section'],
     "recortar vista": view['section'],
-    "vista de corte": view['section']
+    "vista de corte": view['section'],
+
+    "ajuda": view['help'],
+    "informação": view['help'],
+    "opções": view['help'],
 }

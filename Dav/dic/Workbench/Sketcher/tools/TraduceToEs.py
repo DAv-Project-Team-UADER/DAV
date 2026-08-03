@@ -21,9 +21,6 @@ from .tools import tools
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Borrar restricciones y sinónimos
     "borrar restricciones": tools['deleteconstraints'],
@@ -48,5 +45,9 @@ TraduceToEs = {
     
     # Remover alineación de ejes y sinónimos
     "remover ejes": tools['removeaxes'],
-    "quitar alineacion de ejes": tools['removeaxes']
+    "quitar alineacion de ejes": tools['removeaxes'],
+
+    "ayuda": tools['help'],
+    "información": tools['help'],
+    "opciones": tools['help']
 }

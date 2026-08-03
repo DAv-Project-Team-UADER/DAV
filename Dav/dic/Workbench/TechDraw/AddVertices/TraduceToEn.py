@@ -15,17 +15,18 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .AddVertices import add_vertices
+from .addVertices import add_vertices
 from .ayuda import ayuda
 
 TraduceToEn = {
     # cosmetic
     "cosmetic":          add_vertices["cosmetic"],
-    "cosmetic vertex":   add_vertices["cosmetic"],  # synonym
-    "reference point":   add_vertices["cosmetic"],  # synonym
-    "add vertex":        add_vertices["cosmetic"],  # synonym
+    "cosmetic vertex":   add_vertices["cosmetic"],      
+    "reference point":   add_vertices["cosmetic"],      
+    "add vertex":        add_vertices["cosmetic"], 
+
     # help
     "help":              add_vertices["help"],
-    "info":              add_vertices["help"],   # synonym
-    "options":           add_vertices["help"],   # synonym
+    "info":              add_vertices["help"],       
+    "options":           add_vertices["help"]       
 }

@@ -18,7 +18,7 @@
 
 """Mapeamento de palavras em português para TechDraw Snaps."""
 
-from .snaps import snaps
+from .Snaps import snaps
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -35,5 +35,7 @@ TraduceToPt = {
     "pontos dos quadrantes": snaps["quadrants"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": snaps["help"],
+    "informação": snaps["help"],
+    "opções": snaps["help"],
 }

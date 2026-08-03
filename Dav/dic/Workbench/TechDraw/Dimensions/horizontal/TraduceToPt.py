@@ -21,10 +21,10 @@ from .horizontal import horizontal
 TraduceToPt = {
     # horizontal
     "horizontal":            horizontal["horizontal"],
-    "dimensao horizontal":   horizontal["horizontal"],  # sinonimo
-    "largura":               horizontal["horizontal"],  # sinonimo
+    "dimensao horizontal":   horizontal["horizontal"],  
+    "largura":               horizontal["horizontal"],  
     # help
     "ajuda":                 horizontal["help"],
-    "info":                  horizontal["help"],        # sinonimo
-    "opcoes":                horizontal["help"],        # sinonimo
+    "informação":            horizontal["help"],        
+    "opções":                horizontal["help"]        
 }

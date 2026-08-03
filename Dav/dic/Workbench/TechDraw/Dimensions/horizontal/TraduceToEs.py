@@ -21,10 +21,11 @@ from .horizontal import horizontal
 TraduceToEs = {
     # horizontal
     "horizontal":            horizontal["horizontal"],
-    "dimension horizontal":  horizontal["horizontal"],  # sinonimo
-    "ancho":                 horizontal["horizontal"],  # sinonimo
+    "dimension horizontal":  horizontal["horizontal"],  
+    "ancho":                 horizontal["horizontal"],  
+
     # help
     "ayuda":                 horizontal["help"],
-    "info":                  horizontal["help"],        # sinonimo
-    "opciones":              horizontal["help"],        # sinonimo
+    "información":           horizontal["help"],        
+    "opciones":              horizontal["help"],        
 }

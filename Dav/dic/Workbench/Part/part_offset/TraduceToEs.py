@@ -28,10 +28,8 @@ TraduceToEs = {
     "ensanchar": part_offset["offset"],
     "encoger": part_offset["offset"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_offset['help'],
+    "información": part_offset['help'],
+    "opciones": part_offset['help'],
 }
 

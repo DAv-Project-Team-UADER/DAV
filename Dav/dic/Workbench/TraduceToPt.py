@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Mapeamento de palavras em Português para o dicionário DAV Workbench."""
-
+from .workbench import workbench
 from .Assembly.Assembly import assembly
 from .DraftWork.DraftWork import draft
 from .Part.Part import part
@@ -95,4 +95,7 @@ TraduceToPt = {
     "rótulos":            techdraw,
     "técnico":             techdraw,
 
+    "ajuda":             workbench["help"],
+    "informação":        workbench["help"],
+    "opções":            workbench["help"],
 }

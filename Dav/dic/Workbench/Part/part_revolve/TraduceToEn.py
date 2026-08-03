@@ -27,9 +27,8 @@ TraduceToEn = {
     'create revolve': part_revolve['revolve'],
     'revolution': part_revolve['revolve'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_revolve['help'],
+    "info": part_revolve['help'],
+    "options": part_revolve['help'],
 }
 

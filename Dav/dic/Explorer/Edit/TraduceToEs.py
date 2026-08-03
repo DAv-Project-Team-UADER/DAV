@@ -19,17 +19,47 @@
 from .Edit import edit
 
 TraduceToEs = {
-    'deshacer':        edit['undo'],
-    'rehacer':         edit['redo'],
-    'copiar':          edit['copy'],
-    'cortar':          edit['cut'],
-    'pegar':           edit['paste'],
-    'borrar':          edit['delete'],
-    'eliminar':        edit['delete'],
-    'seleccionar todo':edit['selectall'],
-    'captura':         edit['screenshot'],
-    'sacar foto':      edit['screenshot'],
-    'nota':            edit['note'],
-    'documento':       edit['note'],
-    'ayuda':           edit['help'],
+    # Comandos de Deshacer / Rehacer
+    "deshacer":         edit["undo"],
+    "revertir":         edit["undo"],
+    "volver atrás":     edit["undo"],
+    "rehacer":          edit["redo"],
+    "avanzar":          edit["redo"],
+
+    # Comandos de Portapapeles y Selección
+    "cortar":           edit["cut"],
+    "copiar":           edit["copy"],
+    "pegar":            edit["paste"],
+    "duplicar":         edit["duplicate"],
+    "clonar":           edit["duplicate"],
+    "seleccionar todo": edit["selectall"],
+    "capturar todo":    edit["selectall"],
+    "eliminar":         edit["delete"],
+    "quitar":           edit["delete"],
+    "borrar":           edit["delete"],
+
+    # Comandos de Transformación y Posicionamiento
+    "colocación":       edit["placement"],
+    "posición":         edit["placement"],
+    "establecer posición": edit["placement"],
+    "transformar":      edit["transform"],
+    "mover":            edit["transform"],
+    "alinear":          edit["align"],
+    "alineación":       edit["align"],
+
+    # Interfaz y Configuración
+    "preferencias":     edit["preferences"],
+    "configuración":    edit["preferences"],
+    "propiedades":      edit["properties"],
+    "detalles":         edit["properties"],
+    "enviar a python":  edit["sendtopython"],
+    "consola python":   edit["sendtopython"],
+    "modo edición":     edit["editmode"],
+    "modo modificar":   edit["editmode"],
+
+    # Estandarización de Ayuda
+    "ayuda":            edit["help"],
+    "información":      edit["help"],
+    "opciones":         edit["help"]
 }
+

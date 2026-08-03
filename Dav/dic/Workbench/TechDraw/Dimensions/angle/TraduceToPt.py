@@ -21,14 +21,15 @@ from .angle import angle
 TraduceToPt = {
     # angle
     "angulo":            angle["angle"],
-    "dimensao angular":  angle["angle"],   # sinonimo
-    "medir angulo":      angle["angle"],   # sinonimo
+    "dimensão angular":  angle["angle"],   
+    "medir angulo":      angle["angle"],   
     # points
     "pontos":            angle["points"],
-    "tres pontos":       angle["points"],  # sinonimo
-    "angulo tres pontos": angle["points"], # sinonimo
+    "tres pontos":       angle["points"],  
+    "angulo tres pontos": angle["points"], 
+
     # help
     "ajuda":             angle["help"],
-    "info":              angle["help"],    # sinonimo
-    "opcoes":            angle["help"],    # sinonimo
+    "informação":              angle["help"],   
+    "opções":            angle["help"]
 }

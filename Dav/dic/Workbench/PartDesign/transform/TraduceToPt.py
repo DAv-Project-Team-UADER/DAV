@@ -45,8 +45,7 @@ TraduceToPt = {
     "redimensionar": transform["scaled"],
 
     # Ajuda
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
+    "ajuda": transform['help'],
+    "informação": transform['help'],
+    "opções": transform['help'],
 }

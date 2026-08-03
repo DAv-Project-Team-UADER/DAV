@@ -23,7 +23,7 @@ TraduceToEs = {
     "crear facebinder": facebinder["create"],
     "crear": facebinder["create"],
 
-    "información": facebinder["help"],
     "ayuda": facebinder["help"],
+    "información": facebinder["help"],
     "opciones": facebinder["help"],
 }

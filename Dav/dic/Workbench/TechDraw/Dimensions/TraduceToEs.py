@@ -17,44 +17,61 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .dimensions import dimensions
+from .dimension.dimension   import dimension
+from .length.length         import length
+from .horizontal.horizontal import horizontal
+from .extent.extent         import extent
+from .radius.radius         import radius
+from .diameter.diameter     import diameter
+from .angle.angle           import angle
 
 TraduceToEs = {
     # vertical
     "vertical":            dimensions["vertical"],
-    "dimension vertical":  dimensions["vertical"],  # sinonimo
-    "altura":              dimensions["vertical"],  # sinonimo
+    "dimensión vertical":  dimensions["vertical"],  
+    "altura":              dimensions["vertical"],  
+
     # area
     "area":                dimensions["area"],
-    "dimension area":      dimensions["area"],      # sinonimo
-    "superficie":          dimensions["area"],      # sinonimo
+    "dimensión area":      dimensions["area"],      
+    "superficie":          dimensions["area"],    
+
     # fit
     "ajuste":              dimensions["fit"],
-    "tolerancia":          dimensions["fit"],       # sinonimo
-    "ajuste agujero":      dimensions["fit"],       # sinonimo
+    "tolerancia":          dimensions["fit"],       
+    "ajuste agujero":      dimensions["fit"],     
+
     # dimension
-    "dimension":           dimensions["dimension"],
-    "medir":               dimensions["dimension"], # sinonimo
-    "medida":              dimensions["dimension"], # sinonimo
+    "dimensión":           dimension,
+    "medir":               dimension, 
+    "medida":              dimension, 
+
     # length
-    "longitud":            dimensions["length"],
-    "distancia":           dimensions["length"],    # sinonimo
+    "longitud":            length,
+    "distancia":           length,   
+
     # horizontal
-    "horizontal":          dimensions["horizontal"],
-    "ancho":               dimensions["horizontal"], # sinonimo
+    "horizontal":          horizontal,
+    "ancho":               horizontal, 
+
     # extent
-    "extension":           dimensions["extent"],
-    "longitud total":      dimensions["extent"],    # sinonimo
+    "extensión":           extent,
+    "longitud total":      extent,    
+
     # radius
-    "radio":               dimensions["radius"],
-    "radio arco":          dimensions["radius"],    # sinonimo
+    "radio":               radius,
+    "radio arco":          radius,    
+
     # diameter
-    "diametro":            dimensions["diameter"],
-    "dimension circulo":   dimensions["diameter"],  # sinonimo
+    "diámetro":            diameter,
+    "dimensión círculo":   diameter,  
+
     # angle
-    "angulo":              dimensions["angle"],
-    "dimension angular":   dimensions["angle"],     # sinonimo
+    "ángulo":              angle,
+    "dimensión angular":   angle,     
+
     # help
     "ayuda":               dimensions["help"],
-    "info":                dimensions["help"],      # sinonimo
-    "opciones":            dimensions["help"],      # sinonimo
+    "información":         dimensions["help"],      
+    "opciones":            dimensions["help"]      
 }

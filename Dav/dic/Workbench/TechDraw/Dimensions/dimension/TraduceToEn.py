@@ -19,9 +19,13 @@
 from .dimension import dimension
 
 TraduceToEn = {
-    'dimension': dimension['dimension'],
-    'measure': dimension['dimension'],
-    'lengthdimension': dimension['dimension'],
-    'length dimension': dimension['dimension'],
-    'help': dimension['help'],
+    'dimension measure':    dimension['dimension'],
+    'dimension length':     dimension['dimension'],
+    'length dimension':     dimension['dimension'],
+    'length':               dimension['dimension'],
+    
+    "help":                 dimension['help'],
+    "info":                 dimension['help'],
+    "options":              dimension['help']
+
 }

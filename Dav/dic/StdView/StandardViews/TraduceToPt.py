@@ -27,6 +27,7 @@ TraduceToPT = {
     'vista inferior':       StandardViews['bottom'],
     'parte inferior':       StandardViews['bottom'],
     'de baixo':             StandardViews['bottom'],
+
     # boxzoom
     'zoom caixa':           StandardViews['boxzoom'],
     'zoom retangular':      StandardViews['boxzoom'],
@@ -36,6 +37,7 @@ TraduceToPT = {
     'zoom de área':         StandardViews['boxzoom'],
     'janela de zoom':      StandardViews['boxzoom'],
     'zoom por janela':     StandardViews['boxzoom'],
+
     # newview
     'nova vista':           StandardViews['newview'],
     'criar vista':          StandardViews['newview'],
@@ -44,6 +46,7 @@ TraduceToPT = {
     'abrir nova vista':     StandardViews['newview'],
     'criar nova vista':     StandardViews['newview'],
     'nova visualização':    StandardViews['newview'],
+
     # dimetric
     'dimetrica':            StandardViews['dimetric'],
     'dimétrica':            StandardViews['dimetric'],
@@ -51,6 +54,7 @@ TraduceToPT = {
     'vista dimétrica':      StandardViews['dimetric'],
     'projecao dimetrica':   StandardViews['dimetric'],
     'projeção dimétrica': StandardViews['dimetric'], 
+
     # fitall
     'ajustar tudo':         StandardViews['fitall'],
     'enquadrar tudo':       StandardViews['fitall'],
@@ -63,6 +67,7 @@ TraduceToPT = {
     'mostrar seleção':      StandardViews['fitselection'],
     'encaixar seleção':     StandardViews['fitselection'],
     'focar seleção':        StandardViews['fitselection'],
+
     # fitselection
     'ajustar selecao':      StandardViews['fitselection'],
     'ajustar seleção':      StandardViews['fitselection'],
@@ -70,12 +75,14 @@ TraduceToPT = {
     'enquadrar seleção':    StandardViews['fitselection'],
     'zoom selecao':         StandardViews['fitselection'],
     'zoom seleção':         StandardViews['fitselection'],
+
     # front
     'frontal':              StandardViews['front'],
     'frente':               StandardViews['front'],
     'vista frontal':        StandardViews['front'],
     'de frente':            StandardViews['front'],
     'vista de frente':      StandardViews['front'],
+
     # fullscreen
     'tela cheia':           StandardViews['fullscreen'],
     'ecra completo':        StandardViews['fullscreen'],
@@ -85,6 +92,7 @@ TraduceToPT = {
     'maximizar':            StandardViews['fullscreen'],
     'tela completa':        StandardViews['fullscreen'],
     'modo completo':        StandardViews['fullscreen'],
+
     # home
     'inicio':               StandardViews['home'],
     'início':               StandardViews['home'],
@@ -92,6 +100,7 @@ TraduceToPT = {
     'vista padrao':         StandardViews['home'],
     'vista padrão':         StandardViews['home'],
     'restaurar vista':      StandardViews['home'],
+
     # isometric
     'isometrica':           StandardViews['isometric'],
     'isométrica':           StandardViews['isometric'],
@@ -99,6 +108,7 @@ TraduceToPT = {
     'vista isométrica':     StandardViews['isometric'],
     'projecao isometrica':  StandardViews['isometric'],
     'projeção isométrica': StandardViews['isometric'],
+
     # left
     'esquerda':             StandardViews['left'],
     'esquerdo':             StandardViews['left'],
@@ -107,6 +117,7 @@ TraduceToPT = {
     'da esquerda':          StandardViews['left'],
     'lado esquerdo':        StandardViews['left'],
     'vista lateral esquerda': StandardViews['left'],
+
     # rear
     'traseira':             StandardViews['rear'],
     'atras':                StandardViews['rear'],
@@ -116,6 +127,7 @@ TraduceToPT = {
     'de tras':              StandardViews['rear'],
     'vista posterior':      StandardViews['rear'],
     'vista de trás':        StandardViews['rear'],
+
     # right
     'direita':              StandardViews['right'],
     'direito':              StandardViews['right'],
@@ -123,7 +135,8 @@ TraduceToPT = {
     'lateral direito':      StandardViews['right'],
     'da direita':           StandardViews['right'],
     'lado direito':         StandardViews['right'],
-    'vista lateral direita': StandardViews['right'],
+    'vista lateral direita':StandardViews['right'],
+
     # top
     'topo':                 StandardViews['top'],
     'superior':             StandardViews['top'],
@@ -134,13 +147,15 @@ TraduceToPT = {
     'vista topo':           StandardViews['top'],
     'vista superior':       StandardViews['top'],
     'vista em planta':      StandardViews['top'],
+
     # trimetric
     'trimetrica':           StandardViews['trimetric'],
     'trimétrica':           StandardViews['trimetric'],
     'vista trimetrica':     StandardViews['trimetric'],
     'vista trimétrica':     StandardViews['trimetric'],
     'projecao trimetrica':  StandardViews['trimetric'],
-    'projeção trimétrica': StandardViews['trimetric'],
+    'projeção trimétrica':  StandardViews['trimetric'],
+
     # zoomin
     'aproximar':            StandardViews['zoomin'],
     'zoom aproximar':       StandardViews['zoomin'],
@@ -149,6 +164,7 @@ TraduceToPT = {
     'ampliar':              StandardViews['zoomin'],
     'zoom in':              StandardViews['zoomin'],
     'mais zoom':            StandardViews['zoomin'],
+
     # zoomout
     'afastar':              StandardViews['zoomout'],
     'zoom afastar':         StandardViews['zoomout'],
@@ -157,6 +173,9 @@ TraduceToPT = {
     'reduzir zoom':         StandardViews['zoomout'],
     'zoom out':             StandardViews['zoomout'],
     'menos zoom':           StandardViews['zoomout'],
+
     # help
     'ajuda':                StandardViews['help'],
+    "informação":           StandardViews['help'],
+    'opções':               StandardViews['help'],
 }

@@ -27,9 +27,8 @@ TraduceToEn = {
     'create ruled surface': part_ruled_surface['ruled surface'],
     'join curves': part_ruled_surface['ruled surface'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_ruled_surface['help'],
+    "info": part_ruled_surface['help'],
+    "options": part_ruled_surface['help'],
 }
 

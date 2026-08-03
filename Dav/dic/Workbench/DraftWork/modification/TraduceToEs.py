@@ -46,7 +46,7 @@ TraduceToEs = {
     'cable_a_bspline': modification['wire_to_bspline'],
     'bspline': modification['wire_to_bspline'],
 
-    'help': modification['help'],
     'ayuda': modification['help'],
+    "información": modification['help'],
     'opciones': modification['help'],
 }

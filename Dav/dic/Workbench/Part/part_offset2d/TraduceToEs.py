@@ -28,10 +28,8 @@ TraduceToEs = {
     "contorno": part_offset2d["offset 2d"],
     "borde": part_offset2d["offset 2d"],
 
-    "ayuda": ayuda,
-    "manual": ayuda,
-    "soporte": ayuda,
-    "documentacion": ayuda,
-    "documentación": ayuda,
+    "ayuda": part_offset2d['help'],
+    "información": part_offset2d['help'],
+    "opciones": part_offset2d['help'],
 }
 

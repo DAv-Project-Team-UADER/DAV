@@ -21,13 +21,15 @@ from .heptagon import heptagon
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Heptagon creation & synonyms
     "create": heptagon['create'],
     "create heptagon": heptagon['create'],
     "draw heptagon": heptagon['create'],
-    "heptagon": heptagon['create']
+    "heptagon": heptagon['create'],
+
+    "help": heptagon['help'],
+    "info": heptagon['help'],
+    "options": heptagon['help'],
+
 }

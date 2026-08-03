@@ -21,9 +21,6 @@ from .slot import slot
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Slot / Oblong creation & synonyms
     "create": slot['create'],
@@ -32,5 +29,9 @@ TraduceToEn = {
     "create slot": slot['create'],
     "draw slot": slot['create'],
     "create oblong": slot['create'],
-    "draw oblong": slot['create']
+    "draw oblong": slot['create'],
+
+    "help": slot['help'],
+    "info": slot['help'],
+    "options": slot['help'],
 }

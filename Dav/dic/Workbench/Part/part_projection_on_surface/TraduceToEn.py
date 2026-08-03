@@ -27,9 +27,8 @@ TraduceToEn = {
     'project': part_projection_on_surface['projection'],
     'project on surface': part_projection_on_surface['projection'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_projection_on_surface['help'],
+    "info": part_projection_on_surface['help'],
+    "options": part_projection_on_surface['help'],
 }
 

@@ -28,9 +28,8 @@ TraduceToEn = {
     'enlarge': part_scale['scale'],
     'reduce': part_scale['scale'],
 
-    'help': ayuda,
-    'manual': ayuda,
-    'support': ayuda,
-    'documentation': ayuda,
+    "help": part_scale['help'],
+    "info": part_scale['help'],
+    "options": part_scale['help'],
 }
 

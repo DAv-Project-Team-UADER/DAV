@@ -21,9 +21,6 @@ from .point import point
 from .ayuda import ayuda
 
 TraduceToPt = {
-    # Comando de ajuda
-    "ajuda": ayuda,
-    "info": ayuda,
     
     # Criação de ponto e sinônimos
     "criar": point['create'],
@@ -32,6 +29,10 @@ TraduceToPt = {
     "criar ponto": point['create'],
     "desenhar ponto": point['create'],
     "criar vertice": point['create'],
-    "desenhar vertice": point['create']
+    "desenhar vertice": point['create'],
+
+    "ajuda": point['help'],
+    "informação": point['help'],
+    "opções": point['help'],
     
 }

@@ -19,7 +19,6 @@
 from .Explorer import explorer
 
 TraduceToPT = {
-<<<<<<< Updated upstream
     # Sub-contextos
     'arquivo':                          explorer['file'],
     'arquivos':                         explorer['file'],
@@ -56,6 +55,7 @@ TraduceToPT = {
     'barra de estrutura':               explorer['structure'],
     'barra estrutura':                  explorer['structure'],
     'barra de ferramentas de estrutura': explorer['structure'],
+
     # Callables directos
     'atualizar':                        explorer['refresh'],
     'recarregar':                       explorer['refresh'],
@@ -85,23 +85,8 @@ TraduceToPT = {
     'conjunto de variáveis':            explorer['variableset'],
     'variaveis':                        explorer['variableset'],
     'variáveis':                        explorer['variableset'],
-    'ajuda':                            explorer['help'],
-    'socorro':                          explorer['help'],
-    'informacao':                       explorer['help'],
-    'informação':                       explorer['help'],
-=======
-    'arquivo':    explorer['file'],
-    'folha':       explorer['file'],
-    'editar':     explorer['edit'],
-    'imprimir':   explorer['print'],
-    'impressão': explorer['print'],
-    'janelas':    explorer['windows'],
-    'atualizar':  explorer['refresh'],
-    'recarregar': explorer['refresh'],
-    'captura':    explorer['screenshot'],
-    'fotografia': explorer['screenshot'],
-    'documento':  explorer['textdoc'],
-    'ajuda':      explorer['help'],
-    'informação': explorer['help'],
->>>>>>> Stashed changes
+    
+    "ajuda":                            explorer['help'],
+    "informação":                       explorer['help'],
+    "opções":                           explorer['help'],
 }

@@ -21,9 +21,6 @@ from .line import line
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Creación de línea estándar y sinónimos
     "crear": line['create'],
@@ -35,5 +32,9 @@ TraduceToEs = {
     # Creación de línea por puntos y sinónimos
     "linea por puntos": line['create_by_points'],
     "crear linea por puntos": line['create_by_points'],
-    "dibujar linea por puntos": line['create_by_points']
+    "dibujar linea por puntos": line['create_by_points'],
+
+    "ayuda": line['help'],
+    "informacion": line['help'],
+    "opciones": line['help'],
 }

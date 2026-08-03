@@ -22,43 +22,66 @@ traduceToEn = {
     # Pad
     "pad": additive["pad"],
     "pad feature": additive["pad"],
+
     # Revolution
     "revolution": additive["revolution"],
     "revolution feature": additive["revolution"],
+
     # AdditiveHelix
     "additive helix": additive["additivehelix"],
     "Coil feature": additive["additivehelix"],
+
     # AdditiveLoft
     "additive loft": additive["additiveloft"],
     "loft feature": additive["additiveloft"],
+
     # AdditivePipe
     "additive pipe": additive["additivepipe"],
     "pipe feature": additive["additivepipe"],
+
     # AdditiveBox
     "additive box": additive["additivebox"],
     "Additive solid box": additive["additivebox"],
+
     # AdditiveCone
     "additive cone": additive["additivecone"],
     "cone feature": additive["additivecone"],
+
     # AdditiveCylinder
     "additive cylinder": additive["additivecylinder"],
     "cylinder feature": additive["additivecylinder"],
+
     # AdditiveEllipsoid
     "additive ellipsoid": additive["additiveellipsoid"],
     "ellipsoid feature": additive["additiveellipsoid"],
+
     # AdditivePrism
     "additive prism": additive["additiveprism"],
     "prism feature": additive["additiveprism"],
+
     # AdditiveSphere
     "additive sphere": additive["additivesphere"],
     "sphere feature": additive["additivesphere"],
+
     # AdditiveTorus
     "additive torus": additive["additivetorus"],
     "torus feature": additive["additivetorus"],
+    
     # AdditiveWedge
     "additive wedge": additive["additivewedge"],
     "wedge feature": additive["additivewedge"],
     
+    # pad_sketch
+    "extrude sketch": additive["pad_sketch"],
+    "extend profile": additive["pad_sketch"],
+    "thicken drawing": additive["pad_sketch"],
+
+    # loft_profiles
+    "blend shapes": additive["loft_profiles"],
+    "sweep surfaces": additive["loft_profiles"],
+    "morph sections": additive["loft_profiles"],
+
+
     "help":            additive['help'],
     "info":            additive['help'],
     "options":         additive['help']

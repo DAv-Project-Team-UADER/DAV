@@ -18,6 +18,8 @@
 
 """Portuguese spoken-word mapping for the DAV PartWorkbench dictionary."""
 
+from DAV.DiccionariosEnBruto.Workbench.Part import Part
+
 from .box.box import box
 from .circle.circle import circle
 from .cone.cone import cone
@@ -173,11 +175,8 @@ TraduceToPt = {
     "sweep": part_sweep["sweep"],
     "tubo": part_sweep["sweep"],
 
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+    "ajuda": Part["help"],
+    "informação": Part["help"],
+    "opções": Part["help"]
 }
 

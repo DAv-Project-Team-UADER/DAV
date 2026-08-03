@@ -21,10 +21,11 @@ from .ayuda import ayuda
 TraduceToEn = {
     # diameter
     "diameter":           diameter["diameter"],
-    "circle dimension":   diameter["diameter"],   # synonym
-    "diameter dimension": diameter["diameter"],   # synonym
+    "circle dimension":   diameter["diameter"],   
+    "diameter dimension": diameter["diameter"],   
+    
     # help
     "help":              diameter["help"],
-    "info":              diameter["help"],   # synonym
-    "options":           diameter["help"],   # synonym
+    "info":              diameter["help"],   
+    "options":           diameter["help"]   
 }

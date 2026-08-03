@@ -21,9 +21,6 @@ from .point import point
 from .ayuda import ayuda
 
 TraduceToEs = {
-    # Comando de ayuda
-    "ayuda": ayuda,
-    "info": ayuda,
     
     # Creación de punto y sinónimos
     "crear": point['create'],
@@ -32,5 +29,9 @@ TraduceToEs = {
     "crear punto": point['create'],
     "dibujar punto": point['create'],
     "crear nodo": point['create'],
-    "dibujar nodo": point['create']
+    "dibujar nodo": point['create'],
+
+    "ayuda": point['help'],
+    "informacion": point['help'],
+    "opciones": point['help'],
 }

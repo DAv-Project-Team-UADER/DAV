@@ -28,7 +28,6 @@ TraduceToPt = {
     "interpolacao": bspline["interpolation"],
     "periodica": bspline["periodic"],
     "interpolacao periodica": bspline["periodicinterp"],
-    "ajuda": bspline["help"],
 
     # Sinônimos
     "criar bspline": bspline["create"],
@@ -42,4 +41,8 @@ TraduceToPt = {
 
     "bspline periodica": bspline["periodic"],
     "bspline fechada": bspline["periodic"],
+
+    "ajuda": bspline["help"],
+    "informação": bspline["help"],
+    "opções": bspline["help"],
 }

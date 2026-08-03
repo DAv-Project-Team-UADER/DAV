@@ -49,6 +49,7 @@ TraduceToPt = {
     
     "ligação por pontos":    array["pointlink"],
     "ligadura por pontos":   array["pointlink"],
+    
     "ajuda":             array["help"],
     "informação":       array["help"],
     "opções":            array["help"]

@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from .snaps import snaps
+from .Snaps import snaps
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -34,5 +34,7 @@ TraduceToEn = {
     "quarter point": snaps["quadrants"],
     "quadrant point": snaps["quadrants"],
 
-    "help": ayuda,
+    "help": snaps["help"],
+    "info": snaps["help"],
+    "options": snaps["help"],
 }

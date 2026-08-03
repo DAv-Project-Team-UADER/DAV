@@ -23,7 +23,10 @@ TraduceToEs = {
     'linea':    line['line'],
     'línea':    line['line'],
     'recta':    line['line'],
-    
+    'agregar linea':    line['line'],
+    'agregar línea':    line['line'],
+    'agregar recta':    line['line'],
+
     "ayuda":                line['help'],
     "información":          line['help'],
     "opciones":             line['help']

@@ -21,18 +21,19 @@ from .annotations import annotations
 TraduceToPt = {
     # annotation
     "anotacao":          annotations["annotation"],
-    "nota":              annotations["annotation"],   # sinonimo
-    "texto":             annotations["annotation"],   # sinonimo
+    "nota":              annotations["annotation"],       
+    "texto":             annotations["annotation"],       
+
     # axo_length
     "comprimento axo":   annotations["axo_length"],
-    "axonometrico":      annotations["axo_length"],   # sinonimo
-    "dimensao axo":      annotations["axo_length"],   # sinonimo
+    "axonometrico":      annotations["axo_length"], 
+    "dimensão axo":      annotations["axo_length"],  
     # balloon
-    "balao":             annotations["balloon"],
-    "rotulo":            annotations["balloon"],      # sinonimo
-    "referencia":        annotations["balloon"],      # sinonimo
+    "balao da texto":             annotations["balloon"],
+    "etiqueta da balao":          annotations["balloon"],      
+    "referencia":        annotations["balloon"],     
     # help
     "ajuda":             annotations["help"],
-    "info":              annotations["help"],         # sinonimo
-    "opcoes":            annotations["help"],         # sinonimo
+    "informação":        annotations["help"],       
+    "opções":            annotations["help"]       
 }

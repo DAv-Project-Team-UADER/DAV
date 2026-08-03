@@ -49,7 +49,9 @@ TraduceToEs = {
     "espejo": modify["mirror"],
     "reflejar": modify["mirror"],
 
-    "help": modify["help"],
-    "ayuda": modify["help"],
-    "opciones": modify["help"],
+    "ayuda":                modify["help"],
+    "información":          modify["help"],
+    "opciones":            modify["help"]
+
+
 }

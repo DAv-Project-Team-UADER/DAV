@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .topology import topology
+from .Topology import topology
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -27,5 +27,7 @@ TraduceToEn = {
     "reveal all": topology["showAll"],
     "unhide all": topology["showAll"],
 
-    "help": ayuda,
+    "help": topology["help"],
+    "info": topology["help"],
+    "options": topology["help"],
 }

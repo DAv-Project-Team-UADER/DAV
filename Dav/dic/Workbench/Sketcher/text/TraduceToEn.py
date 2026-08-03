@@ -21,14 +21,15 @@ from .text import text
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Text/ShapeString creation & synonyms
     "create": text['create'],
     "create text": text['create'],
     "shape string": text['create'],
     "add text": text['create'],
-    "text": text['create']
+    "text": text['create'],
+
+    "help": text['help'],
+    "info": text['help'],
+    "options": text['help'],
 }

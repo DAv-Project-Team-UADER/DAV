@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .OtherViews import other_views
+from .otherViews import other_views
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -29,5 +29,7 @@ TraduceToEn = {
     "create active view": other_views["active_view"],
     "insert active view": other_views["active_view"],
 
-    "help": ayuda,
+    "help": other_views["help"],
+    "info": other_views["help"],
+    "options": other_views["help"],
 }

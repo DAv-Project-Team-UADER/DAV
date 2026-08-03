@@ -34,11 +34,9 @@ TraduceToPt = {
     "curva de secao": part_section["section"],
     "curva de seção": part_section["section"],
     "corte": part_section["section"],
-    "ajuda": ayuda,
-    "manual": ayuda,
-    "suporte": ayuda,
-    "documentacao": ayuda,
-    "documentação": ayuda,
-    "help": ayuda,
+    
+    "ajuda": part_section['help'],
+    "informação": part_section['help'],
+    "opções": part_section['help']
 }
 

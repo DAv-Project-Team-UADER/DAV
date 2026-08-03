@@ -42,6 +42,7 @@ TraduceToEn = {
     'structure':             explorer['structure'],
     'structure toolbar':     explorer['structure'],
     'structure bar':         explorer['structure'],
+
     # Callables directos
     'refresh':               explorer['refresh'],
     'reload':                explorer['refresh'],
@@ -69,6 +70,8 @@ TraduceToEn = {
     'variables':             explorer['variableset'],
     'var set':               explorer['variableset'],
     'variableset':           explorer['variableset'],
-    'help':                  explorer['help'],
-    'assistance':            explorer['help'],
+
+    "help":                 explorer['help'],
+    "info":                 explorer['help'],
+    "options":              explorer['help'],
 }

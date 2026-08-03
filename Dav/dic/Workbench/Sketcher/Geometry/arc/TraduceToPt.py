@@ -30,6 +30,6 @@ TraduceToPt = {
     '3 pontos':             arc['3point'],
 
     'ajuda':                arc['help'],
-    'comandos':             arc['help'],
+    'informação':             arc['help'],
     'opções':               arc['help']
 }

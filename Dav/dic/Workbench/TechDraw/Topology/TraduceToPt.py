@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .topology import topology
+from .Topology import topology
 from .ayuda import ayuda
 
 TraduceToPt = {
@@ -29,5 +29,7 @@ TraduceToPt = {
     "mostrar arestas": topology["showAll"],
 
     # Ajuda
-    "ajuda": ayuda,
+    "ajuda": topology["help"],
+    "informação": topology["help"],
+    "opções": topology["help"],
 }

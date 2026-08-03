@@ -21,13 +21,14 @@ from .hexagon import hexagon
 from .ayuda import ayuda
 
 TraduceToEn = {
-    # Help command
-    "help": ayuda,
-    "info": ayuda,
     
     # Hexagon creation & synonyms
     "create": hexagon['create'],
     "create hexagon": hexagon['create'],
     "draw hexagon": hexagon['create'],
-    "hexagon": hexagon['create']
+    "hexagon": hexagon['create'],
+
+    "help": hexagon['help'],
+    "info": hexagon['help'],
+    "options": hexagon['help'],
 }
