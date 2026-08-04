@@ -16,6 +16,10 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
+try:
+    from createobjects import CreateObjects
+except ImportError:
+    from selection.createobjects import CreateObjects
 
 
 def _create_cube(length=10, width=10, height=10):
@@ -25,9 +29,10 @@ def _create_cube(length=10, width=10, height=10):
     box.Width  = width
     box.Height = height
     doc.recompute()
+    CreateObjects(box.Name, Is3D=True).Execute()
 
 
 cube = {
     'cube': lambda: _create_cube(),
     'help': ayuda,
-}
+}

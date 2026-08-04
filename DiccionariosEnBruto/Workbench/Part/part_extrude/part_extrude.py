@@ -18,6 +18,10 @@ import FreeCAD
 from FreeCAD import Vector
 import FreeCADGui as Gui
 from .ayuda import ayuda
+try:
+    from createobjects import CreateObjects
+except ImportError:
+    from selection.createobjects import CreateObjects
 
 
 def _extrude():
@@ -32,6 +36,7 @@ def _extrude():
     f.Solid = True
     sel[0].Visibility = False
     doc.recompute()
+    CreateObjects(f.Name, Is3D=True).Execute()
 
 
 part_extrude = {
@@ -39,4 +44,4 @@ part_extrude = {
     'extrude': _extrude,
     'extruir objeto': _extrude,
     'help': ayuda,
-}
+}

@@ -16,6 +16,10 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
+try:
+    from createobjects import CreateObjects
+except ImportError:
+    from selection.createobjects import CreateObjects
 
 
 def _create_ellipse(major_radius=4, minor_radius=2, angle1=0, angle2=360):
@@ -26,9 +30,10 @@ def _create_ellipse(major_radius=4, minor_radius=2, angle1=0, angle2=360):
     ellipse.Angle1      = angle1
     ellipse.Angle2      = angle2
     doc.recompute()
+    CreateObjects(ellipse.Name, Is3D=False).Execute()
 
 
 ellipse = {
     'ellipse': lambda: _create_ellipse(),
     'help':   ayuda,
-}
+}
