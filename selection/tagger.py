@@ -71,13 +71,14 @@ _LABELS: dict[LanguageCode, dict[str, str]] = {
 }
 
 
-def ResolveLanguage(language: LanguageCode | str | None = None) -> LanguageCode:
+def ResolveLanguage(language: LanguageCode | str | Any = None) -> LanguageCode:
     """Return explicit language or read Preferences.SetLanguage from GUIFreeCad."""
     if language is None:
         return _LanguageFromPreferences()
     if isinstance(language, LanguageCode):
         return language
-    return LanguageCode.FromStorage(str(language))
+    val = language.value if hasattr(language, "value") else str(language)
+    return LanguageCode.FromStorage(val)
 
 
 def _LanguageFromPreferences() -> LanguageCode:
@@ -104,7 +105,9 @@ def _LanguageFromPreferences() -> LanguageCode:
         try:
             from core.preferences import preferences
 
-            return preferences.SetLanguage
+            raw_lang = preferences.SetLanguage
+            val_str = raw_lang.value if hasattr(raw_lang, "value") else str(raw_lang)
+            return LanguageCode.FromStorage(val_str)
         except Exception:
             continue
 
