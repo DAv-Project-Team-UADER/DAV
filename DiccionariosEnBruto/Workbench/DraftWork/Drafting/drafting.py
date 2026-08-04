@@ -8,11 +8,20 @@ from .ayuda import ayuda
 def wire():
     Gui.runCommand("Draft_Wire", 0)
 
-    obj = App.ActiveDocument.ActiveObject
-    CreateObjects(Is3D=False).Execute(obj)
+
+def create_wire_objects():
+    doc = App.ActiveDocument
+    if doc is None or doc.ActiveObject is None:
+        print("Error: no hay objeto activo para mapear.")
+        return
+
+    obj = doc.ActiveObject
+    CreateObjects(obj.Name, Is3D=False).execute()
 
 
 drafting = {
     "wire": wire,
+    "createobjects": create_wire_objects,
+    "createobjects2d": create_wire_objects,
     "help": ayuda,
 }
