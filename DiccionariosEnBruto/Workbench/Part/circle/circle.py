@@ -16,10 +16,6 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
-try:
-    from createobjects import CreateObjects
-except ImportError:
-    from selection.createobjects import CreateObjects
 
 
 def _create_circle(radius=2, angle1=0, angle2=360):
@@ -29,6 +25,10 @@ def _create_circle(radius=2, angle1=0, angle2=360):
     circle.Angle1 = angle1
     circle.Angle2 = angle2
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
     CreateObjects(circle.Name, Is3D=False).Execute()
 
 
