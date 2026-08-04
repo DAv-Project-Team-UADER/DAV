@@ -14,13 +14,32 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+import FreeCAD as App
 import FreeCADGui as Gui
+
+from createobjects import CreateObjects
 from .ayuda import ayuda
 
+
+def point():
+    Gui.runCommand("Draft_Point", 0)
+    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+
+
+def polygon():
+    Gui.runCommand("Draft_Polygon", 0)
+    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+
+
+def rectangle():
+    Gui.runCommand("Draft_Rectangle", 0)
+    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+
+
 creation = {
-    "help" : ayuda,
-    "hatch" : lambda: Gui.runCommand('Draft_Hatch',0),
-    "point" : lambda: Gui.runCommand('Draft_Point',0),
-    "polygon" : lambda: Gui.runCommand('Draft_Polygon',0),
-    "rectangle" : lambda: Gui.runCommand('Draft_Rectangle',0),
+    "help": ayuda,
+    "hatch": lambda: Gui.runCommand("Draft_Hatch", 0),
+    "point": point,
+    "polygon": polygon,
+    "rectangle": rectangle,
 }
