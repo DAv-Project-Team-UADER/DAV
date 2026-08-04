@@ -143,7 +143,7 @@ class Browser:
             # "nuevo" y la clave interna "new"). _BuildContextForFrame agrega
             # primero las habladas del TraduceTo, así que nos quedamos con la
             # primera vista por destino (la español) y omitimos el resto.
-            if any(entry.Target is t for t in seen_targets):
+            if any(self._SameTarget(entry.Target, t) for t in seen_targets):
                 continue
             seen_targets.append(entry.Target)
             if entry.IsSubContext():
@@ -280,16 +280,27 @@ class Browser:
     def _BuildContextForFrame(self, frame: _ContextFrame) -> list[ContextEntry]:
         entries: list[ContextEntry] = []
         seen_spoken: set[str] = set()
+        seen_keys: set[str] = set()
+        seen_targets: list[Any] = []
 
         translate = self._loader.LoadTranslateMap(frame.Folder, self._language)
         for spoken, target in translate.items():
             key = self._InferInternalKey(spoken, target, frame.ModuleDict)
             entries.append(ContextEntry(Spoken=spoken, InternalKey=key, Target=target))
             seen_spoken.add(DictionaryLoader.NormalizeSpoken(spoken))
+            seen_keys.add(DictionaryLoader.NormalizeSpoken(key))
+            seen_targets.append(target)
 
+        # El diccionario interno (module_dict) es un *fallback* en inglés
+        # para claves que todavía no tienen traducción. Si la clave interna
+        # ya tiene alias hablado (por texto o por destino ya visto vía
+        # _InferInternalKey), no se debe repetir como entrada aparte: eso es
+        # lo que hacía aparecer "explorer" junto a "explorador" en el log.
         for internal_key, target in frame.ModuleDict.items():
-            norm = DictionaryLoader.NormalizeSpoken(internal_key)
-            if norm in seen_spoken:
+            norm_word = DictionaryLoader.NormalizeSpoken(internal_key)
+            if norm_word in seen_spoken or norm_word in seen_keys:
+                continue
+            if any(self._SameTarget(target, t) for t in seen_targets):
                 continue
             entries.append(
                 ContextEntry(
@@ -299,6 +310,22 @@ class Browser:
                 )
             )
         return entries
+
+    @staticmethod
+    def _SameTarget(a: Any, b: Any) -> bool:
+        """True si dos destinos son "el mismo" submenú/comando.
+
+        Compara por identidad primero (caso normal). Si ambos son dict
+        (subcontexto), también compara por claves: dos re-importaciones del
+        mismo módulo de diccionario (p. ej. por rutas de sys.path
+        duplicadas) producen dos objetos distintos mismo con idéntico
+        contenido, y no deben listarse como dos submenús separados.
+        """
+        if a is b:
+            return True
+        if isinstance(a, dict) and isinstance(b, dict):
+            return a.keys() == b.keys()
+        return False
 
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
@@ -341,7 +368,9 @@ class Browser:
     def _DescendToSubContext(self, entry: ContextEntry) -> None:
         """Descend manually into a sub-folder context."""
         frame = _ContextFrame(
-            Folder=self._loader.ResolveSubFolder(self._stack[-1].Folder, entry.InternalKey),
+            Folder=self._loader.ResolveSubFolder(
+                self._stack[-1].Folder, entry.InternalKey, entry.Target
+            ),
             ModuleDict=entry.Target,
             InternalName=entry.InternalKey,
         )

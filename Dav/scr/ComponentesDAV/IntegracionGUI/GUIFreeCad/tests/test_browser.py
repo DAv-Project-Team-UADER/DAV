@@ -109,7 +109,7 @@ class _MockDictionaryLoader:
     def LoadTranslateSpokenKeys(self, folder: Path, language: Any) -> list[str]:
         return list(self.LoadTranslateMap(folder, language).keys())
 
-    def ResolveSubFolder(self, parent_folder: Path, internal_key: str) -> Path:
+    def ResolveSubFolder(self, parent_folder: Path, internal_key: str, target: Any = None) -> Path:
         return Path(f"/mock/{internal_key}")
 
     @staticmethod
