@@ -28,8 +28,10 @@ cuando los TraduceTo*.py de cada carpeta estén completos.
 
 from Explorer.Explorer import explorer
 from integration.launch_preferences import open_preferences
-
+from Workbench.workbench import workbench as Workbench
 Base = {
     "explorer":    explorer,
     "preferences": open_preferences,
+    "workbench":      Workbench
+    
 }
