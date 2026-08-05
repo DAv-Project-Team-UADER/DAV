@@ -19,6 +19,8 @@
 """Spanish spoken-word mapping for the DAV base dictionary."""
 
 from Workbench.workbench import workbench as Workbench
+from Workbench.Part.Part import part
+from Workbench.Part.circle.circle import circle
 from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
@@ -33,6 +35,13 @@ TraduceToEs = {
     "carpetas":      explorer,
     "directorio":    explorer,
     "directorios":   explorer,
+    "mesa de trabajo": Workbench,
+    "banco de trabajo": Workbench,
+    "workbench":   Workbench,
+    "pieza":       part,
+    "part":        part,
+    "circulo":     circle["circle"],
+    "círculo":     circle["circle"],
 
     # Line attributes (atributos de linea)
     "atributos de línea": LineAttributes,

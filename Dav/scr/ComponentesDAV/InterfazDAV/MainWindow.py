@@ -6,6 +6,7 @@ import sys
 import threading
 import unicodedata
 from datetime import datetime
+from pathlib import Path
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QTextEdit, QPushButton, QLabel, QSizePolicy, QMessageBox
@@ -153,6 +154,8 @@ class MainWindow(QMainWindow):
         self._HelpWindow   = None
         self._Level        = LEVEL_ROOT
         self._ActiveGroup  = None
+        self._PassiveHistoryViewer = os.environ.get("DAV_PASSIVE_HISTORY_VIEWER") == "1"
+        self._VoiceHistoryOffset = 0
 
         self._ToolButtons  = []
         self._GroupMeta    = {}
@@ -442,6 +445,12 @@ class MainWindow(QMainWindow):
         self._LoadVoiceMap()
         self._ShowRootButtons()
 
+        if self._PassiveHistoryViewer:
+            self._StartHistoryWatcher()
+            self.AddToHistory("Historial DAV activo (modo FreeCAD)", System=True)
+        else:
+            self._StartVoiceRecognition()
+
     def _ShowPlaceholderImage(self):
         if self._TreeImageLabel:
             placeholder_text = "🌳 Árbol de FreeCAD\n\n"
@@ -463,6 +472,8 @@ class MainWindow(QMainWindow):
 
     def _CheckMacroStatus(self):
         """Verifica si la macro está respondiendo y muestra ayuda si es necesario"""
+        if self._PassiveHistoryViewer:
+            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if not os.path.exists(image_path) or os.path.getsize(image_path) == 0:
@@ -475,6 +486,8 @@ class MainWindow(QMainWindow):
 
     def _AutoCapture(self):
         """Ejecuta captura automática cada 5 segundos (solo envía señal)"""
+        if self._PassiveHistoryViewer:
+            return
         try:
             success = trigger_capture.trigger_capture()
             if success:
@@ -484,6 +497,8 @@ class MainWindow(QMainWindow):
 
     def _RefreshTreeImage(self):
         """Actualiza la imagen del árbol si cambió"""
+        if self._PassiveHistoryViewer:
+            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
@@ -715,6 +730,8 @@ class MainWindow(QMainWindow):
     # ================================================================
 
     def _StartVoiceRecognition(self):
+        if self._PassiveHistoryViewer:
+            return
         ModelPath = _ResolveModelPath("vosk-model-small-es-0.42")
 
         if not os.path.exists(ModelPath):
@@ -727,6 +744,52 @@ class MainWindow(QMainWindow):
         self._VoiceWorker.final_result.connect(self.ProcessVoiceCommand)
         self._VoiceWorker.status_signal.connect(self.UpdateStatus)
         self._VoiceThread.start()
+
+    def _ResolveVoiceHistoryPath(self) -> str:
+        history_name = "voice_history.log"
+        env = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
+        if env:
+            candidate = Path(env) / "config" / history_name
+            if candidate.parent.is_dir():
+                return str(candidate)
+
+        here = Path(__file__).resolve()
+        for ancestor in here.parents:
+            candidate = ancestor / "IntegracionGUI" / "GUIFreeCad" / "config" / history_name
+            if candidate.parent.is_dir():
+                return str(candidate)
+        return str(here.parent / history_name)
+
+    def _StartHistoryWatcher(self):
+        self._VoiceHistoryPath = self._ResolveVoiceHistoryPath()
+        try:
+            if os.path.exists(self._VoiceHistoryPath):
+                self._VoiceHistoryOffset = os.path.getsize(self._VoiceHistoryPath)
+        except Exception:
+            self._VoiceHistoryOffset = 0
+
+        self._HistoryTimer = QTimer(self)
+        self._HistoryTimer.timeout.connect(self._PollVoiceHistory)
+        self._HistoryTimer.start(500)
+
+    def _PollVoiceHistory(self):
+        path = getattr(self, "_VoiceHistoryPath", "")
+        if not path or not os.path.exists(path):
+            return
+        try:
+            with open(path, "rb") as fh:
+                fh.seek(self._VoiceHistoryOffset)
+                data = fh.read()
+                self._VoiceHistoryOffset = fh.tell()
+            if not data:
+                return
+            text = data.decode("utf-8", errors="replace")
+            for line in text.splitlines():
+                line = line.strip()
+                if line:
+                    self.AddToHistory(line, System=True)
+        except Exception:
+            pass
 
     def UpdateStatus(self, Msg: str):
         T = self._T

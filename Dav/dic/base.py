@@ -27,9 +27,19 @@ cuando los TraduceTo*.py de cada carpeta estén completos.
 """
 
 from Explorer.Explorer import explorer
+from Workbench.workbench import workbench as Workbench
+from Workbench.Part.Part import part
+from Workbench.Part.circle.circle import circle
 from integration.launch_preferences import open_preferences
 
 Base = {
     "explorer":    explorer,
+    "mesa de trabajo": Workbench,
+    "banco de trabajo": Workbench,
+    "workbench":   Workbench,
+    "pieza":       part,
+    "part":        part,
+    "circulo":     circle["circle"],
+    "círculo":     circle["circle"],
     "preferences": open_preferences,
 }

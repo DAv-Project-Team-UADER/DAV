@@ -391,6 +391,7 @@ def _launch_interfaz_dav() -> None:
     try:
         with open(bat_path, "w", encoding="utf-8") as f:
             f.write('@echo off\n')
+            f.write('set DAV_PASSIVE_HISTORY_VIEWER=1\n')
             f.write(f'cd /d "{script.parent}"\n')
             f.write(f'start "" "{pythonw}" "{script}"\n')
     except Exception as e:

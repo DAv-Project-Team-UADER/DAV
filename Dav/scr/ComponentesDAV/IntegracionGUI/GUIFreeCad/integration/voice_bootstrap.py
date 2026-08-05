@@ -7,6 +7,7 @@ import traceback
 from pathlib import Path
 
 from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
+from integration.voice_history import reset_voice_history
 from speech.dav_voice_service import DavVoiceService
 
 
@@ -73,6 +74,7 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         if svc.is_cad_engine_loaded():
             _print_message("[DAV] El motor de voz ya está activo.\n")
             return True
+        reset_voice_history()
 
         from core.language_code import LanguageCode
         from core.preferences import preferences

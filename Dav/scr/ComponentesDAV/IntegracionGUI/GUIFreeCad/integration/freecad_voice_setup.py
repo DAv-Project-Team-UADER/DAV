@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import os
+import subprocess
 import traceback
+from pathlib import Path
 
 _INSTALLED = False
 
@@ -57,22 +59,7 @@ def _register_voice_commands(Gui) -> None:
             from integration.voice_bootstrap import start_voice_engine
 
             start_voice_engine()
-
-            import subprocess
-            import os
-            
-            this_dir = os.path.dirname(__file__)
-            repo_root = os.path.abspath(os.path.join(this_dir, "..", "..", ".."))
-            iface_dir = os.path.join(repo_root, "InterfazDAV")
-            iface_main = os.path.join(iface_dir, "main.py")
-
-            _print_message(f"[DAV-Launcher] Buscando en: {iface_main}\n")
-            if os.path.exists(iface_main):
-                cmd = ["py", "-3", "main.py"]
-                p = subprocess.Popen(cmd, cwd=iface_dir)
-                _print_message(f"[DAV-Launcher] InterfazDAV lanzada (PID: {p.pid})\n")
-            else:
-                _print_message(f"[DAV-Launcher] Archivo no encontrado\n")
+            _launch_interfaz_dav()
 
         def IsActive(self):
             return True
@@ -145,6 +132,41 @@ def _print_voice_startup_hint() -> None:
             )
     except Exception:
         pass
+
+
+def _launch_interfaz_dav() -> None:
+    try:
+        from integration.dav_paths import dav_repo_root
+
+        repo_root = dav_repo_root()
+        script = repo_root / "ComponentesDAV" / "InterfazDAV" / "main.py"
+        if not script.exists():
+            return
+        gui_root = repo_root / "ComponentesDAV" / "IntegracionGUI" / "GUIFreeCad"
+        python = ""
+        for candidate in (
+            gui_root / ".venv" / "Scripts" / "pythonw.exe",
+            gui_root / ".venv" / "Scripts" / "python.exe",
+        ):
+            if candidate.exists():
+                python = str(candidate)
+                break
+        if not python:
+            python = (
+                os.environ.get("PYTHONEXECUTABLE", "").strip()
+                or os.environ.get("PYTHON", "").strip()
+                or "pythonw"
+            )
+        env = os.environ.copy()
+        env["DAV_PASSIVE_HISTORY_VIEWER"] = "1"
+        subprocess.Popen([python, str(script)], cwd=str(script.parent), env=env)
+    except Exception:
+        try:
+            import FreeCAD as App
+
+            App.Console.PrintWarning("[DAV] No se pudo abrir la ventana de historial.\n")
+        except ImportError:
+            pass
 
 
 def _maybe_autostart_voice() -> None:

@@ -49,7 +49,7 @@ class DictionaryLoader:
         if not self.IsReady:
             return {}
         try:
-            module = importlib.import_module("base")
+            module = self._ImportFreshModule("base")
         except Exception as error:  # noqa: BLE001 - aislar base.py roto
             print(
                 f"[DAV-Browser] No se pudo cargar 'base.py' en {self.DictionaryRoot}: "
@@ -156,4 +156,10 @@ class DictionaryLoader:
         resolved_root = self.DictionaryRoot.resolve()
         rel = resolved_path.relative_to(resolved_root).with_suffix("")
         module_name = ".".join(rel.parts)
-        return importlib.import_module(module_name)
+        return self._ImportFreshModule(module_name)
+
+    @staticmethod
+    def _ImportFreshModule(module_name: str) -> ModuleType:
+        importlib.invalidate_caches()
+        module = importlib.import_module(module_name)
+        return importlib.reload(module)
