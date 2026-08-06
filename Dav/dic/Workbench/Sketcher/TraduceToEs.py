@@ -16,7 +16,6 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
@@ -173,7 +172,7 @@ TraduceToEs = {
    "chanflear": sketcher["chamfer"],
 
 
-  "ayuda": Sketcher['help'],
-  "información": Sketcher['help'],
-  "opciones": Sketcher['help'],
+  "ayuda": sketcher['help'],
+  "información": sketcher['help'],
+  "opciones": sketcher['help'],
 }
