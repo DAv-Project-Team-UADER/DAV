@@ -26,11 +26,6 @@ TraduceToEs = {
 
     # Carpetas principales
     "base": partdesign["base"],
-    "aditivo": partdesign["additive"],
-    "sustractivo": partdesign["subtractive"],
-    "modificar": partdesign["modify"],
-    "transformar": partdesign["transform"],
-    "gestionar": partdesign["manage"],
 
     # Sinónimos
     "basico": partdesign["base"],
@@ -56,7 +51,6 @@ TraduceToEs = {
     "edicion": partdesign["modify"],
     "modificadores": partdesign["modify"],
     "modificar": partdesign["modify"],
-    "cambiar": partdesign["modify"],
 
     "transformaciones": partdesign["transform"],
     "patrones": partdesign["transform"],
@@ -72,7 +66,7 @@ TraduceToEs = {
     "manejar": partdesign["manage"],
     "organizar": partdesign["manage"],
     "coordinar": partdesign["manage"],
-    
+
     "ayuda":                partdesign["help"],
     "información":          partdesign["help"],
     "opciones":             partdesign["help"]

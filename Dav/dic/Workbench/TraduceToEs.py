@@ -36,8 +36,9 @@ TraduceToEs = {
     "banco de ensamble":   assembly,
 
     # Banco de Dibujo
-    "dibujo":            draft,
-    "dibujos":           draft,
+    # Nota: "dibujo" (sola) se sacó a propósito — es casi indistinguible de
+    # "dibujar" (Sketcher, más abajo) para el reconocimiento de voz y
+    # provocaba que se navegara al workbench equivocado.
     "banco de dibujo":   draft,
     "borrador":          draft,
     "borradores":        draft,
