@@ -25,10 +25,15 @@ def _create_cylinder(radius=2, height=10, angle=360):
     cylinder.Height = height
     cylinder.Angle  = angle
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(cylinder.Name, Is3D=True).Execute()
 
 
 cylinder = {
     'cylinder':           lambda: _create_cylinder(),
     'primitive cylinder': lambda: _create_cylinder(),
     'help':               ayuda,
-}
+}
