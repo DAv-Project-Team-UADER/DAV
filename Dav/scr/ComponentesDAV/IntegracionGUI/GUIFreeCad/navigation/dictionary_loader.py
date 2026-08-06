@@ -62,6 +62,28 @@ class DictionaryLoader:
             raise ValueError("base.py must define dict Base = {...}")
         return dict(base)
 
+    def LoadModuleDictByName(self, module_name: str, attr_name: str) -> dict[str, Any]:
+        """Import a module by dotted name (relative to DictionaryRoot) and
+        return the dict attribute ``attr_name`` from it, or {} if unavailable.
+
+        Used for fixed infrastructure modules (e.g. NavCommands.NavActions)
+        that are not per-folder TraduceTo*/base.py files but still need to
+        be resolved through the same sys.path as the rest of the dictionary
+        tree, so they are not accidentally hardcoded elsewhere.
+        """
+        if not self.IsReady:
+            return {}
+        try:
+            module = importlib.import_module(module_name)
+        except Exception as error:  # noqa: BLE001 - aislar módulo roto
+            print(
+                f"[DAV-Browser] No se pudo cargar '{module_name}': "
+                f"{error.__class__.__name__}: {error}."
+            )
+            return {}
+        table = getattr(module, attr_name, None)
+        return dict(table) if isinstance(table, dict) else {}
+
     def LoadTranslateMap(self, folder: Path, language: LanguageCode) -> dict[str, Any]:
         if not self.IsReady:
             return {}

@@ -12,12 +12,19 @@ Implemented so far (Developer 1 + Developer 2):
   - Language-change callback: reloads from base.py automatically
   - ProcessPhrase: direct BaseContext jump (Requirement 2)
 
-TODO Developer 3 – Search engine (descend + ascend):
-  - Implement _DescendToSubContext: enter a sub-folder context manually
-  - Implement _SearchUpwardAndExecute: if command not in current Context,
+Search engine (descend + ascend):
+  - _DescendToSubContext: enter a sub-folder context manually
+  - _SearchUpwardAndExecute: if command not in current Context,
     save OriginalContext, walk the stack upward, execute if found,
     restore to OriginalContext if not found anywhere
-  - Wire both into ProcessPhrase below (marked TODO)
+
+Multi-word phrases that name a sub-context and a command inside it in one
+shot ("nuevo archivo" without first saying "archivo") are NOT resolved
+automatically: the user must descend explicitly, then say the leaf command.
+
+Navigation words (subir/volver/contexto/...) are NOT hardcoded here: they
+live in Dav/dic/NavCommands/TraduceTo*.py like any other spoken dictionary,
+and are matched by identity against NavActions.GoUp / NavActions.ShowContext.
 """
 
 from __future__ import annotations
@@ -63,10 +70,6 @@ class Browser:
     real dictionary on disk (inject a mock DictionaryLoader).
     """
 
-    # Palabras que suben un nivel en la navegación (ya normalizadas: sin
-    # acentos ni mayúsculas, según DictionaryLoader.NormalizeSpoken).
-    _BACK_WORDS = frozenset({"volver", "atras", "salir", "subir", "regresar"})
-
     def __init__(
         self,
         dictionary_root: Path | str | None = None,
@@ -84,6 +87,7 @@ class Browser:
         self._stack: list[_ContextFrame] = []
         self._base_translate: dict[str, Any] = {}
         self._base_module: dict[str, Any] = {}
+        self._nav_translate: dict[str, Any] = {}
 
         self.BaseContext: list[ContextEntry] = []
         self.Context: list[ContextEntry] = []
@@ -157,7 +161,9 @@ class Browser:
         if commands:
             lines.append("  Comandos (ejecutar): " + ", ".join(sorted(commands)))
         if self._IsDescended():
-            lines.append("  Decí «volver» para subir un nivel.")
+            up_word = self._FirstSpokenForNavAction("up")
+            if up_word:
+                lines.append(f"  Decí «{up_word}» para subir un nivel.")
         if not submenus and not commands:
             lines.append("  (sin comandos en este contexto)")
         return "\n".join(lines)
@@ -169,6 +175,10 @@ class Browser:
         self._base_translate = self._loader.LoadTranslateMap(
             self._loader.DictionaryRoot, self._language
         )
+        self._nav_translate = self._loader.LoadTranslateMap(
+            self._loader.DictionaryRoot / "NavCommands", self._language
+        )
+        self._nav_actions = self._loader.LoadModuleDictByName("NavCommands.NavActions", "NavActions")
         self._stack = [
             _ContextFrame(
                 Folder=self._loader.DictionaryRoot,
@@ -197,13 +207,13 @@ class Browser:
         if not normalized:
             return BrowserResult(False, "empty", "Empty phrase")
 
-        # Comando reservado "volver": sube un nivel (file → explorer → base).
-        # Funciona en cualquier contexto sin depender de los diccionarios.
-        if normalized in self._BACK_WORDS:
-            if self._IsDescended():
-                parent = self._AscendOneLevel()
-                return BrowserResult(True, "back", f"Context set to {parent}")
-            return BrowserResult(False, "back", "Already at root context")
+        # Comandos de navegación (subir, mostrar contexto, ...): se resuelven
+        # contra Dav/dic/NavCommands/TraduceTo*.py, no contra un set fijo en
+        # código. Funcionan en cualquier contexto, sin depender de en qué
+        # nivel del árbol de comandos FreeCAD esté parado el usuario.
+        nav_action = self._ResolveNavAction(normalized)
+        if nav_action is not None:
+            return self._ExecuteNavAction(nav_action)
 
         # El contexto actual tiene prioridad sobre el salto base: si ya
         # descendimos a un subcontexto, una palabra que también existe en el
@@ -257,6 +267,43 @@ class Browser:
         self.Context = self._BuildContextForFrame(parent)
         self.OriginalContext = None
         return parent.InternalName
+
+    # ------------------------------------------------------------------
+    # Navigation words (NavCommands) — not hardcoded, read from
+    # Dav/dic/NavCommands/TraduceTo*.py and matched by identity against
+    # NavActions.GoUp / NavActions.ShowContext.
+    # ------------------------------------------------------------------
+
+    def _ResolveNavAction(self, normalized_spoken: str) -> str | None:
+        """Return the NavActions key ('up', 'show_context', ...) for a
+        spoken phrase, or None if it does not name a navigation command."""
+        for spoken, target in self._nav_translate.items():
+            if DictionaryLoader.NormalizeSpoken(spoken) != normalized_spoken:
+                continue
+            for key, value in self._nav_actions.items():
+                if value is target:
+                    return key
+        return None
+
+    def _ExecuteNavAction(self, action_key: str) -> BrowserResult:
+        if action_key == "up":
+            if self._IsDescended():
+                parent = self._AscendOneLevel()
+                return BrowserResult(True, "back", f"Context set to {parent}")
+            return BrowserResult(False, "back", "Already at root context")
+        if action_key == "show_context":
+            return BrowserResult(True, "show_context", self.DescribeContext())
+        return BrowserResult(False, "nav_unknown", f"Unknown nav action '{action_key}'")
+
+    def _FirstSpokenForNavAction(self, action_key: str) -> str | None:
+        """First spoken word mapped to a NavActions key, for user-facing hints."""
+        target = self._nav_actions.get(action_key)
+        if target is None:
+            return None
+        for spoken, value in self._nav_translate.items():
+            if value is target:
+                return spoken
+        return None
 
     # ------------------------------------------------------------------
     # Internal helpers (Developer 2)

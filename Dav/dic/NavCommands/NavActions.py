@@ -1,5 +1,4 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
-# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -16,26 +15,28 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""Sentinel actions for Browser navigation (not FreeCAD commands).
+
+Browser reacts to these three verbs on every phrase, before looking the
+phrase up in the current spoken context: go up one level, and describe
+where the user currently is. They are represented as distinct no-arg
+callables (not raw strings) so Browser can match them by identity and the
+spoken words stay entirely in NavCommands/TraduceTo*.py — no word is
+hardcoded in browser.py.
 """
-Base dictionary — top-level commands available at all times.
 
-  'explorer'        → archivo, edición, ventanas (submenu)
-  'stdview'         → vistas estándar, cámara, apariencia (submenu)
-  'workbench'       → PartDesign, Draft, Sketcher, Part, Assembly, TechDraw (submenu)
-  'lineattributes'  → atributos de línea (submenu)
-  'preferences'     → abre el diálogo de preferencias DAV
-"""
 
-from Explorer.Explorer import explorer
-from StdView.StdView import StdView
-from Workbench.workbench import workbench
-from LineAttributes.LineAttributes import LineAttributes
-from integration.launch_preferences import open_preferences
+def GoUp() -> None:
+    """Sentinel: ascend one level in the navigation stack."""
+    return None
 
-Base = {
-    "explorer":       explorer,
-    "stdview":        StdView,
-    "workbench":      workbench,
-    "lineattributes": LineAttributes,
-    "preferences":    open_preferences,
+
+def ShowContext() -> None:
+    """Sentinel: describe the current navigation context."""
+    return None
+
+
+NavActions = {
+    "up":            GoUp,
+    "show_context":  ShowContext,
 }
