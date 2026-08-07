@@ -153,7 +153,7 @@ Prompt para seleccionar objetos del documento activo de FreeCAD.
 Se integra con:
 
 ```text
-selection/selection.py
+selection/object_selection.py
 ```
 
 Permite avanzar entre objetos con frases como:

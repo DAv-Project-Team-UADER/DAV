@@ -23,24 +23,14 @@ from .select.select import select
 from .external.external import external
 from .view.view import view
 from .constraints.constraints import constraints
-from .Geometry.line.line import line
+from .Geometry.geometry import geometry
+from .arcslot.arcslot import arc_slot as arcslot
 from .point.point import point
-from .Geometry.polyline.polyline import polyline
-from .Geometry.rectangle.rectangle import rectangle
 from .square.square import square
 from .triangle.triangle import triangle
-from .Geometry.circle.circle import circle
-from .Geometry.arc.arc import arc
-from .Geometry.arc_slot.arc_slot import arc_slot
 from .oblong.oblong import oblong
 from .text.text import text
-from .Geometry.hexagon.hexagon import hexagon
-from .Geometry.heptagon.heptagon import heptagon
 from .slot.slot import slot
-from .Geometry.Ellipse._ellipse import ellipse
-from .Geometry.Polygon._polygon import polygon
-from .Geometry.BSpline.bspline import bspline
-from .Geometry.BSpline_Tools._tools import bspline_tools
 from _lenient import LenientDict
 
 
@@ -53,31 +43,29 @@ def _toggle_construction(sketch: Any, geo_indices:list[int]):
         sketch.toggleConstruction(int(idx))
 
 
+# Subcontextos anidados: el Browser navega por niveles y Sketcher/TraduceTo*.py
+# espera sketcher['geometry'], sketcher['point'], ... como submenús (no
+# aplanados), igual que Explorer/Explorer.py. Aplanarlos hacía que la clave
+# 'create' de line/point/rectangle/circle/... se pisaran entre sí (sobrevivía
+# solo la última) y que 'horizontal'/'vertical' de select fueran pisadas por
+# las de constraints.
+# Las figuras (línea, círculo, rectángulo, polígono...) viven agrupadas en
+# Geometry/geometry.py, que ya está anidado correctamente.
 sketcher = {}
-sketcher.update(validate)
-sketcher.update(sketcher_tools)
-sketcher.update(select)
-sketcher.update(external)
-sketcher.update(view)
-sketcher.update(line)
-sketcher.update(point)
-sketcher.update(polyline)
-sketcher.update(rectangle)
-sketcher.update(square)
-sketcher.update(triangle)
-sketcher.update(circle)
-sketcher.update(arc)
-sketcher.update(slot)
-sketcher.update(arc_slot)
-sketcher.update(oblong)
-sketcher.update(text)
-sketcher.update(hexagon)
-sketcher.update(heptagon)
-sketcher.update(constraints)
-sketcher.update(ellipse)
-sketcher.update(polygon)
-sketcher.update(bspline)
-sketcher.update(bspline_tools)
+sketcher.update({'geometry':    geometry})
+sketcher.update({'arcslot':     arcslot})
+sketcher.update({'constraints': constraints})
+sketcher.update({'external':    external})
+sketcher.update({'oblong':      oblong})
+sketcher.update({'point':       point})
+sketcher.update({'select':      select})
+sketcher.update({'slot':        slot})
+sketcher.update({'square':      square})
+sketcher.update({'text':        text})
+sketcher.update({'tools':       sketcher_tools})
+sketcher.update({'triangle':    triangle})
+sketcher.update({'validate':    validate})
+sketcher.update({'view':        view})
 sketcher.update({
     'new':                lambda: Gui.runCommand('Sketcher_NewSketch', 0),
     'edit':               lambda: Gui.runCommand('Sketcher_EditSketch', 0),

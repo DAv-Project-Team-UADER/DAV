@@ -9,7 +9,8 @@ from datetime import datetime
 from pathlib import Path
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QTextEdit, QPushButton, QLabel, QSizePolicy, QMessageBox
+    QTextEdit, QPushButton, QLabel, QSizePolicy, QMessageBox,
+    QTreeWidget, QTreeWidgetItem
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QBrush, QPixmap
@@ -161,9 +162,9 @@ class MainWindow(QMainWindow):
         self._GroupMeta    = {}
         self._VoiceMap     = {}
 
-        # Variables para la imagen del árbol
-        self._TreeImageLabel = None
-        self._LastImageMtime = None
+        # Variables para el árbol de datos de FreeCAD
+        self._TreeWidget = None
+        self._LastTreeMtime = None
         self._MacroChecked = False
 
         self.SetColor(color)
@@ -171,9 +172,9 @@ class MainWindow(QMainWindow):
         self._SetupUi()
         self._StartVoiceRecognition()
         
-        # Timer para auto-refrescar la imagen (cada 2 segundos)
+        # Timer para auto-refrescar los datos del árbol (cada 2 segundos)
         self._RefreshTimer = QTimer()
-        self._RefreshTimer.timeout.connect(self._RefreshTreeImage)
+        self._RefreshTimer.timeout.connect(self._RefreshTreeData)
         self._RefreshTimer.start(2000)
         
         # Timer para auto-capturar (cada 5 SEGUNDOS)
@@ -401,12 +402,12 @@ class MainWindow(QMainWindow):
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
         TreeCol.addWidget(self._ModelLabel)
         
-        self._TreeImageLabel = QLabel()
-        self._TreeImageLabel.setAlignment(Qt.AlignCenter)
-        self._TreeImageLabel.setMinimumHeight(160)
-        self._TreeImageLabel.setScaledContents(False)
-        self._ShowPlaceholderImage()
-        TreeCol.addWidget(self._TreeImageLabel, stretch=1)
+        self._TreeWidget = QTreeWidget()
+        self._TreeWidget.setHeaderHidden(True)
+        self._TreeWidget.setMinimumHeight(160)
+        self._TreeWidget.setStyleSheet(self._TreeQss())
+        self._ShowTreePlaceholder()
+        TreeCol.addWidget(self._TreeWidget, stretch=1)
         
         PanelRow.addLayout(TreeCol, stretch=1)
 
@@ -445,12 +446,6 @@ class MainWindow(QMainWindow):
         self._LoadVoiceMap()
         self._ShowRootButtons()
 
-        if self._PassiveHistoryViewer:
-            self._StartHistoryWatcher()
-            self.AddToHistory("Historial DAV activo (modo FreeCAD)", System=True)
-        else:
-            self._StartVoiceRecognition()
-
     def _ShowPlaceholderImage(self):
         if self._TreeImageLabel:
             placeholder_text = "🌳 Árbol de FreeCAD\n\n"
@@ -472,8 +467,6 @@ class MainWindow(QMainWindow):
 
     def _CheckMacroStatus(self):
         """Verifica si la macro está respondiendo y muestra ayuda si es necesario"""
-        if self._PassiveHistoryViewer:
-            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if not os.path.exists(image_path) or os.path.getsize(image_path) == 0:
@@ -481,7 +474,7 @@ class MainWindow(QMainWindow):
             self.AddToHistory("   1. Abre FreeCAD", System=True)
             self.AddToHistory("   2. Macro → Macros → capture_tree → Ejecutar", System=True)
             self.AddToHistory("   3. La macro se quedará ejecutándose en segundo plano", System=True)
-            self.AddToHistory("   4. La imagen se actualizará automáticamente cada 5 segundos", System=True)
+            self.AddToHistory("   4. El árbol se actualizará automáticamente cada 5 segundos", System=True)
             self._TriggerFlash()
 
     def _AutoCapture(self):
@@ -497,8 +490,6 @@ class MainWindow(QMainWindow):
 
     def _RefreshTreeImage(self):
         """Actualiza la imagen del árbol si cambió"""
-        if self._PassiveHistoryViewer:
-            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
@@ -506,28 +497,54 @@ class MainWindow(QMainWindow):
             if self._LastImageMtime == current_mtime:
                 return
 
-            self._LastImageMtime = current_mtime
-            
-            pixmap = QPixmap(image_path)
-            if not pixmap.isNull():
-                label_width = self._TreeImageLabel.width() - 20
-                label_height = self._TreeImageLabel.height() - 20
-                if label_width > 0 and label_height > 0:
-                    scaled_pixmap = pixmap.scaled(
-                        label_width,
-                        label_height,
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation
-                    )
-                    self._TreeImageLabel.setPixmap(scaled_pixmap)
-                else:
-                    self._TreeImageLabel.setPixmap(pixmap)
-                
-                self._TreeImageLabel.setStyleSheet(f"""
-                    background-color: {self._T['panel']};
-                    border: 1.5px solid {self._T['panel_border']};
-                    padding: 5px;
-                """)
+        current_mtime = os.path.getmtime(tree_data)
+        if self._LastTreeMtime == current_mtime:
+            return
+
+        try:
+            with open(tree_data, 'r', encoding='utf-8') as F:
+                Data = json.load(F)
+        except Exception:
+            return
+
+        self._LastTreeMtime = current_mtime
+        self._PopulateTree(Data)
+
+    def _PopulateTree(self, Data: dict):
+        """Reconstruye el árbol de objetos desde el contrato JSON.
+
+        Args:
+            Data: dict con ``document`` (str|None) y ``objects`` (lista de
+                dicts con ``name``, ``label``, ``type``, ``visible``, ``parent``).
+        """
+        self._TreeWidget.clear()
+        Objects = Data.get("objects", []) if isinstance(Data, dict) else []
+
+        if not Objects:
+            Empty = QTreeWidgetItem(["(documento vacío)"])
+            self._TreeWidget.addTopLevelItem(Empty)
+            return
+
+        # Crear un item por objeto, indexado por Name para anidar por parent
+        ItemsByName = {}
+        for Obj in Objects:
+            Name  = Obj.get("name", "")
+            Label = Obj.get("label") or Name
+            Type  = Obj.get("type", "")
+            Text  = f"{Label}  [{Type}]" if Type else Label
+            Item  = QTreeWidgetItem([Text])
+            if not Obj.get("visible", True):
+                Item.setForeground(0, QBrush(QColor(self._T["dark_text"])))
+            ItemsByName[Name] = (Item, Obj.get("parent"))
+
+        # Anidar: objetos con parent conocido van como hijos; el resto a la raíz
+        for Name, (Item, Parent) in ItemsByName.items():
+            if Parent and Parent in ItemsByName:
+                ItemsByName[Parent][0].addChild(Item)
+            else:
+                self._TreeWidget.addTopLevelItem(Item)
+
+        self._TreeWidget.expandAll()
 
     def _LoadGroupMeta(self):
         self._GroupMeta = {}
@@ -691,23 +708,9 @@ class MainWindow(QMainWindow):
         self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
         
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
-        if self._TreeImageLabel:
-            if self._TreeImageLabel.pixmap():
-                self._TreeImageLabel.setStyleSheet(f"""
-                    background-color: {T['panel']};
-                    border: 1.5px solid {T['panel_border']};
-                    padding: 5px;
-                """)
-            else:
-                self._TreeImageLabel.setStyleSheet(f"""
-                    background-color: {T['panel']};
-                    border: 1.5px solid {T['panel_border']};
-                    color: {T['dark_text']};
-                    font-family: {FONT_SANS};
-                    font-size: 11px;
-                    padding: 20px;
-                """)
-        
+        if self._TreeWidget:
+            self._TreeWidget.setStyleSheet(self._TreeQss())
+
         self._HistLabel.setStyleSheet(f"color: {T['black']};")
         self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
         self._HelpButton.setStyleSheet(self._BtnQss())
@@ -1082,20 +1085,6 @@ class MainWindow(QMainWindow):
         super().resizeEvent(Event)
         if hasattr(self, '_Flash'):
             self._Flash.setGeometry(self.centralWidget().rect())
-        
-        if hasattr(self, '_TreeImageLabel') and self._TreeImageLabel:
-            current_pixmap = self._TreeImageLabel.pixmap()
-            if current_pixmap and not current_pixmap.isNull():
-                label_width = self._TreeImageLabel.width() - 20
-                label_height = self._TreeImageLabel.height() - 20
-                if label_width > 0 and label_height > 0:
-                    scaled_pixmap = current_pixmap.scaled(
-                        label_width,
-                        label_height,
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation
-                    )
-                    self._TreeImageLabel.setPixmap(scaled_pixmap)
 
     def closeEvent(self, Event):
         if hasattr(self, '_VoiceWorker'):

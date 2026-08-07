@@ -20,7 +20,7 @@
 # Traduções para Português – PartDesign (somente pastas)
 # ============================================================
 
-from .PartDesign import partdesign
+from .partdesign import partdesign
 
 TraduceToPt = {
 

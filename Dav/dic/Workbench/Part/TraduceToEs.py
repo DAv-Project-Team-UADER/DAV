@@ -18,7 +18,7 @@
 
 """Spanish spoken-word mapping for the DAV PartWorkbench dictionary."""
 
-from DAV.DiccionariosEnBruto.Workbench.Part import Part
+from .Part import part as Part
 
 from .box.box import box
 from .circle.circle import circle

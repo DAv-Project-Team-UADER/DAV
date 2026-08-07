@@ -18,8 +18,10 @@ import FreeCADGui as Gui
 from .joint.joint import joint
 from .ayuda import ayuda
 
+# Subcontexto anidado: el Browser navega por niveles y espera
+# assembly['joint'] como submenú (no aplanado), igual que Explorer/Explorer.py.
 assembly = {}
-assembly.update(joint)
+assembly.update({'joint': joint})
 assembly.update({
     'create':      lambda: Gui.runCommand('Assembly_CreateAssembly', 0),
     'newpart':     lambda: Gui.runCommand('Assembly_InsertNewPart', 0),

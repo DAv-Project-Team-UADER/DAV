@@ -47,7 +47,6 @@ TraduceToEs = {
     "coincidir selección": tree["syncselection"],
 
     "sincronizar vista": tree["syncview"],
-    "sincronizar vista": tree["syncview"],
     "coincidir vista": tree["syncview"],
 
     "ayuda": tree["help"],
