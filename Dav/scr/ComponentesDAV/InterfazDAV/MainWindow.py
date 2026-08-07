@@ -446,6 +446,12 @@ class MainWindow(QMainWindow):
         self._LoadVoiceMap()
         self._ShowRootButtons()
 
+        if self._PassiveHistoryViewer:
+            self._StartHistoryWatcher()
+            self.AddToHistory("Historial DAV activo (modo FreeCAD)", System=True)
+        else:
+            self._StartVoiceRecognition()
+
     def _ShowPlaceholderImage(self):
         if self._TreeImageLabel:
             placeholder_text = "🌳 Árbol de FreeCAD\n\n"
@@ -467,6 +473,8 @@ class MainWindow(QMainWindow):
 
     def _CheckMacroStatus(self):
         """Verifica si la macro está respondiendo y muestra ayuda si es necesario"""
+        if self._PassiveHistoryViewer:
+            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if not os.path.exists(image_path) or os.path.getsize(image_path) == 0:
@@ -490,6 +498,8 @@ class MainWindow(QMainWindow):
 
     def _RefreshTreeImage(self):
         """Actualiza la imagen del árbol si cambió"""
+        if self._PassiveHistoryViewer:
+            return
         image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tree_capture.png")
         
         if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
