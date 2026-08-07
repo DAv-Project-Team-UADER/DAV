@@ -21,8 +21,21 @@ DAV/
 │   │   └── Mod/      # Workbenches: Draft, Sketcher, Part, PartDesign,
 │   │                 #   Assembly, TechDraw, etc.
 │   └── CMakeLists.txt
-├── IDEAS/            # Documentos de diseño, diagramas Mermaid
-├── MODELO/           # Modelos Vosk y PyAudio (excluidos de git)
+├── Dav/              # Todo el código propio del proyecto
+│   ├── dic/          # Árbol de comandos por voz (ver más abajo)
+│   ├── docs/         # Documentación, planes, informes, normativas
+│   ├── models/       # Modelos Vosk es/en/pt (excluidos de git)
+│   └── scr/          # Código fuente
+│       ├── ComponentesDAV/
+│       │   ├── IntegracionGUI/  # GUI + motor Browser (navigation/)
+│       │   ├── InterfazDAV/     # GUI alternativa (ver Dav/docs/pendientes-dav.md)
+│       │   ├── Keychain/        # Lectura de claves de diccionarios
+│       │   ├── Dav/             # InitGui.py — arranque dentro de FreeCAD
+│       │   ├── Logos/
+│       │   └── scripts/
+│       ├── PruebaIntegracion/
+│       ├── selection/           # CreateObjects — extracción de sub-elementos
+│       └── validation/
 └── CLAUDE.md
 ```
 
@@ -74,12 +87,16 @@ DAVAgent
 
 | Componente | Tecnología |
 |---|---|
-| CAD base | FreeCAD 1.x (Python 3.11–3.12) |
-| Reconocimiento de voz | Vosk (`vosk-model-small-es-0.42`) |
+| CAD base | FreeCAD 1.x (Python 3.11–3.12 embebido) |
+| Reconocimiento de voz | Vosk (`vosk-model-small-es-0.42`, más en/pt) |
 | Captura de audio | PyAudio |
 | Interfaz gráfica DAV | PySide6 (la misma que usa FreeCAD) |
 | Lenguaje de extensión | Python |
 
+> El venv de desarrollo (`IntegracionGUI/GUIFreeCad/.venv`) usa Python 3.14, más
+> nuevo que el Python embebido de FreeCAD. El código tiene que correr en ambos:
+> los scripts que se cargan dentro de FreeCAD usan su intérprete, no el venv.
+>
 > Las extensiones de FreeCAD **deben usar PySide6**, no PyQt, por compatibilidad constructiva con el framework nativo de FreeCAD.
 
 ### Punto de entrada
@@ -98,6 +115,33 @@ El árbol de comandos por voz vive en `Dav/dic/`, organizado por carpetas navega
 Los comandos de navegación del propio `Browser` (subir un nivel, mostrar el contexto actual) **no están hardcodeados en código**: viven en `Dav/dic/NavCommands/` igual que cualquier otro comando, para que el equipo pueda agregar sinónimos sin tocar `browser.py`.
 
 > ⚠️ **`MainWindow.py`** (`Dav/scr/ComponentesDAV/InterfazDAV/`) usa un motor de voz propio (`_VoiceMap`/`_GroupMeta`) que lee de un diccionario de prueba aparte (`InterfazDAV/DiccionarioPrueba/`), **no** del árbol `Dav/dic/` ni de `Browser`. Son dos sistemas distintos — ver `Dav/docs/pendientes-dav.md` antes de asumir que un fix en uno aplica al otro.
+
+#### Regla crítica: subcontextos anidados, nunca aplanados
+
+Al armar el diccionario maestro de una carpeta, cada submenú va **como valor
+bajo su propia clave**, nunca fusionado con `.update(sub_dict)`:
+
+```python
+explorer.update({'file': file})   # CORRECTO — 'file' queda navegable
+explorer.update(file)             # INCORRECTO — aplana las hojas del hijo
+```
+
+Aplanar rompe dos cosas en silencio: colisiona claves repetidas entre hojas
+(`create`, `help`, `center`) quedándose solo con la última, y deja la carpeta
+fuera del árbol navegable, con lo cual su `TraduceTo*.py` no se carga nunca.
+Detalle completo en `Dav/docs/pendientes-dav.md` §4.
+
+---
+
+## Documentación del proyecto (`Dav/docs/`)
+
+| Archivo | Contenido |
+|---|---|
+| `pendientes-dav.md` | Hallazgos de auditoría, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** |
+| `manual-explorer-voz.md` | Guía de uso del Explorer por voz (comandos y ejemplos) |
+| `plan-migracion-hilos-qthread.md` | Plan para migrar el hilo de voz de `InterfazDAV` de `threading.Thread` a `QThread` (causa de los cuelgues de la GUI) |
+| `plan_arbol_de_objetos_navegable.md` | Plan del árbol de objetos navegable |
+| `diagramas/`, `informes/`, `normativas/`, `licencias/` | Material de cátedra y documentación formal |
 
 ---
 
@@ -170,25 +214,28 @@ Los comandos de navegación del propio `Browser` (subir un nivel, mostrar el con
 
 ## GitFlow
 
+Ramas que **existen hoy** en el repo central (`DAv-Project-Team-UADER/DAV`):
+
 ```
-main          ──────────────────────────────────────────○ (release v0.1.0)
-pruebas       ──●──●──●──●──●── (P1, P2, P3, P4, PN …)
-develop       ──────────────────○──────────────○──────────○──●
-                      ↓              ↓               ↓
-              WorkstationPart   Explorer        WorkstationPart2
-              Implementation    Implementation  Implementation
-              (magenta)         (rojo)          (azul oscuro)
+main      ────────────────────────────────○ (releases)
+              ↑
+DavCore   ──●──●──●──●──●──   ← rama de integración activa: todos los PRs van acá
+              ↑     ↑     ↑
+           forks personales de cada integrante
 ```
 
-- **`main`** — solo recibe `release` y `hotfix`
-- **`pruebas`** — branch de pruebas continuas (P1…PN)
-- **`develop`** — integración de features antes de release
-- **Feature branches** — `WorkstationDraftImplementation`, `WorkstationPartImplementation`, `ExplorerImplementation`, etc.
-- **`VoskImplementation`** (también llamado "DAVCore") — implementación del motor de voz
-- **`DAVGUI`** — implementación de la interfaz gráfica
-- **`HotFix0.x`** — correcciones urgentes sobre `main`
+- **`main`** — solo recibe integraciones desde `DavCore`
+- **`DavCore`** — rama de integración activa; **destino de todos los PRs**
+- **`Develop`**, **`Pruebas`** — quedaron de la organización anterior; ya no
+  reciben PRs nuevos (el último a `Pruebas` fue el #168)
+- Ramas de equipo/feature puntuales: `Tade-Cami-Mica`,
+  `feature/add-workbench-svg`, `fix/workbench-launcher`
 
-Convención de commit en feature branches: `Vv1`, `Vv2`, `VvDoc`, `VvN` / `Gv1`, `Gv2`, etc.
+> El diseño original preveía `develop` + feature branches por workbench
+> (`WorkstationPartImplementation`, `ExplorerImplementation`, `VoskImplementation`,
+> `DAVGUI`, `HotFix0.x`) con convención de commit `Vv1`/`Gv1`. En la práctica el
+> equipo trabaja con forks personales que integran directo a `DavCore`; esas
+> ramas ya no existen en el remoto.
 
 ---
 
@@ -217,10 +264,16 @@ repositorio central (DAv-Project-Team-UADER/DAV) → rama pruebas
 - **Este fork:** `julianAO2002/DAV`
 - **Usuario:** `julianAO2002`
 - **Grupo:** 4
-- **Rama de trabajo actual:** `pruebas`
-- **Destino del PR:** rama `pruebas` del repositorio central (`DAv-Project-Team-UADER/DAV`)
+- **Rama de trabajo actual:** `davcore-integracion`
+- **Destino del PR:** rama `DavCore` del repositorio central (`DAv-Project-Team-UADER/DAV`)
 
-> Nunca hacer PR directo a `main` ni a `develop`. Todo pasa primero por `pruebas`.
+> Nunca hacer PR directo a `main`. Todo pasa primero por `DavCore`, que después
+> se integra a `main`.
+>
+> ⚠️ La rama de integración **cambió**: antes era `Pruebas` (así figura en PRs
+> viejos, hasta el #168). Confirmar el destino vigente antes de abrir un PR —
+> `gh pr list --repo DAv-Project-Team-UADER/DAV --limit 5` muestra contra qué
+> rama están yendo los PRs actuales.
 
 ---
 
@@ -283,9 +336,19 @@ Los scripts se ejecutan desde la **Consola Python** integrada de FreeCAD (`Vista
 
 ## Modelo de voz
 
-El modelo español pequeño está en `MODELO/vosk-model-small-es-0.42.zip` (39 MB, Apache 2.0).  
-Para reconocimiento de mayor precisión existe `vosk-model-es-0.42` (1.4 GB).  
-La integración con micrófono requiere **PyAudio** (`MODELO/PyAudio-0.2.14.tar.gz`).
+Los modelos viven en `Dav/models/` (excluidos de git, ver `Dav/models/README.md`):
+
+| Modelo | Idioma |
+|---|---|
+| `vosk-model-small-es-0.42` | Español (39 MB, Apache 2.0) |
+| `vosk-model-small-en-us-0.15` | Inglés |
+| `vosk-model-small-pt-0.3` | Portugués |
+
+Para reconocimiento de mayor precisión en español existe `vosk-model-es-0.42`
+(1.4 GB), no incluido. La captura de micrófono usa **PyAudio**.
+
+`core/model_manager.py` y `ui/download_dialog.py` (en `IntegracionGUI/GUIFreeCad/`)
+descargan los modelos si faltan, así que no hace falta bajarlos a mano.
 
 ---
 
