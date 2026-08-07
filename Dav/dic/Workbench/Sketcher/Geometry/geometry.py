@@ -18,7 +18,7 @@ import FreeCADGui as Gui
 from .arc.arc import arc
 from .arc_slot.arc_slot import arc_slot
 from .BSpline.bspline import bspline
-from .BSpline_Tools._tools import tools
+from .BSpline_Tools._tools import bspline_tools
 from .circle.circle import circle
 from .Ellipse._ellipse import ellipse
 from .heptagon.heptagon import heptagon
@@ -33,7 +33,7 @@ geometry = {
     'arc': arc,
     'arc_slot': arc_slot,
     'bspline': bspline,
-    'tools': tools,
+    'tools': bspline_tools,
     'circle': circle,
     'ellipse': ellipse,
     'heptagon': heptagon,

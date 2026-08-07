@@ -155,23 +155,25 @@ class DictionaryLoader:
     def ResolveSubFolder(
         self, parent_folder: Path, internal_key: str, target: Any = None
     ) -> Path:
+        # _InferInternalKey solo devuelve una clave confiable (explorer,
+        # preferences, sketcher...) cuando el destino está anidado como valor
+        # en el dict del nivel actual; si no, cae al spoken en español
+        # ("vista estándar"), que no es nombre de carpeta ni de módulo.
+        # Por eso primero resolvemos por identidad de objeto: cada carpeta
+        # hermana expone su dict maestro con el mismo nombre (StdView/
+        # StdView.py → StdView, Sketcher/sketcher.py → sketcher), así que
+        # comparamos `is target`. Esto aplica en cualquier profundidad del
+        # árbol, no solo al descender desde la raíz.
+        if target is not None:
+            by_identity = self._FindChildByTargetIdentity(parent_folder, target)
+            if by_identity is not None:
+                return by_identity
+        # Carpeta hermana directa por nombre (case-insensitive), útil cuando
+        # internal_key sí es confiable (p. ej. "explorer", "sketcher").
+        direct = self._FindChildCaseInsensitive(parent_folder, internal_key)
+        if direct is not None:
+            return direct
         if parent_folder == self.DictionaryRoot:
-            # _InferInternalKey solo devuelve una clave confiable (explorer,
-            # preferences) cuando el destino está en Base; para StdView,
-            # Workbench, LineAttributes, etc. cae al spoken en español
-            # ("vista estándar"), que no es nombre de carpeta ni de módulo.
-            # Por eso primero resolvemos por identidad de objeto: cada
-            # carpeta hermana expone su dict maestro con el mismo nombre
-            # (StdView/StdView.py → StdView), así que comparamos `is target`.
-            if target is not None:
-                by_identity = self._FindChildByTargetIdentity(self.DictionaryRoot, target)
-                if by_identity is not None:
-                    return by_identity
-            # Carpeta hermana directa por nombre (case-insensitive), útil
-            # cuando internal_key sí es confiable (p. ej. "explorer").
-            direct = self._FindChildCaseInsensitive(self.DictionaryRoot, internal_key)
-            if direct is not None:
-                return direct
             # Caso especial: los submenús propios de Explorer (file, edit,
             # windows...) viven anidados dentro de la carpeta Explorer/.
             nested = self.DictionaryRoot / "explorer" / internal_key
@@ -183,11 +185,17 @@ class DictionaryLoader:
         child = parent_folder / internal_key
         if child.is_dir():
             return child
-        return parent_folder
+        raise FileNotFoundError(
+            f"No se pudo resolver una subcarpeta para '{internal_key}' "
+            f"dentro de {parent_folder}. Se esperaba una carpeta hermana "
+            "identificable por nombre o por identidad del dict de destino."
+        )
 
     _SKIP_MODULE_STEMS = frozenset({"ayuda", "help", "__init__"})
 
     def _FindChildByTargetIdentity(self, parent_folder: Path, target: Any) -> Path | None:
+        rel_parent = parent_folder.relative_to(self.DictionaryRoot)
+        parent_parts = [] if rel_parent == Path(".") else list(rel_parent.parts)
         for child in parent_folder.iterdir():
             if not child.is_dir() or child.name.startswith(("_", ".")):
                 continue
@@ -195,8 +203,9 @@ class DictionaryLoader:
                 stem = module_file.stem
                 if stem in self._SKIP_MODULE_STEMS or stem.startswith("TraduceTo"):
                     continue
+                module_name = ".".join(parent_parts + [child.name, stem])
                 try:
-                    module = importlib.import_module(f"{child.name}.{stem}")
+                    module = importlib.import_module(module_name)
                 except Exception:  # noqa: BLE001 - módulo candidato inválido, seguir buscando
                     continue
                 if any(value is target for value in vars(module).values()):

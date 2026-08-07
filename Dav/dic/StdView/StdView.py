@@ -29,19 +29,24 @@ from .Tree.Tree                   import tree
 from .Visibility.Visibility       import visibility
 from .ayuda                       import ayuda
 
-# Diccionario maestro del módulo StdView
+# Diccionario maestro del módulo StdView.
+# Subcontextos anidados: el Browser navega por niveles y StdView/TraduceTo*.py
+# espera StdView['camera'], StdView['panels'], ... como submenús (no aplanados),
+# igual que Explorer/Explorer.py. Aplanarlos hacía que 'bottom'/'left'/'right'
+# de Overlay pisaran los de StandardViews y que 'toggle' de Overlay pisara el
+# de Visibility.
 StdView = {}
-StdView.update(appearance)
-StdView.update(camera)
-StdView.update(clipping)
-StdView.update(drawstyles)
-StdView.update(material)
-StdView.update(overlay)
-StdView.update(Panels)
-StdView.update(savedviews)
-StdView.update(StandardViews)
-StdView.update(stereo)
-StdView.update(toolbars)
-StdView.update(tree)
-StdView.update(visibility)
+StdView.update({'appearance':     appearance})
+StdView.update({'camera':         camera})
+StdView.update({'clipping':       clipping})
+StdView.update({'drawstyles':     drawstyles})
+StdView.update({'material':       material})
+StdView.update({'overlay':        overlay})
+StdView.update({'panels':         Panels})
+StdView.update({'savedviews':     savedviews})
+StdView.update({'standardviews':  StandardViews})
+StdView.update({'stereo':         stereo})
+StdView.update({'toolbars':       toolbars})
+StdView.update({'tree':           tree})
+StdView.update({'visibility':     visibility})
 StdView.update({'help': ayuda})

@@ -28,17 +28,21 @@ from .OtherViews.otherViews     import other_views
 from .Features.Features         import features
 from .ayuda import ayuda
 
+# Subcontextos anidados: el Browser navega por niveles y espera
+# techdraw['views'], techdraw['dimensions'], ... como submenús (no aplanados),
+# igual que Explorer/Explorer.py. Aplanarlos hacía que la clave 'cosmetic' de
+# addLines fuera pisada por la de add_vertices.
 techdraw = {}
-techdraw.update(views)
-techdraw.update(dimensions)
-techdraw.update(addLines)
-techdraw.update(symbols)
-techdraw.update(snaps)
-techdraw.update(topology)
-techdraw.update(page)
-techdraw.update(annotations)
-techdraw.update(hatching)
-techdraw.update(add_vertices)
-techdraw.update(other_views)
-techdraw.update(features)
-techdraw.update({'ayuda': ayuda})
+techdraw.update({'views':       views})
+techdraw.update({'dimensions':  dimensions})
+techdraw.update({'addlines':    addLines})
+techdraw.update({'symbols':     symbols})
+techdraw.update({'snaps':       snaps})
+techdraw.update({'topology':    topology})
+techdraw.update({'page':        page})
+techdraw.update({'annotations': annotations})
+techdraw.update({'hatching':    hatching})
+techdraw.update({'addvertices': add_vertices})
+techdraw.update({'otherviews':  other_views})
+techdraw.update({'features':    features})
+techdraw.update({'help': ayuda})
