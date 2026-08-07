@@ -225,8 +225,9 @@ class Browser:
             entry = FindBySpoken(self.Context, normalized)
             if entry is not None:
                 if entry.IsSubContext():
-                    self._DescendToSubContext(entry)
-                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                    if self._DescendToSubContext(entry):
+                        return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)
                     return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
@@ -244,8 +245,9 @@ class Browser:
         entry = FindBySpoken(self.Context, normalized)
         if entry is not None:
             if entry.IsSubContext():
-                self._DescendToSubContext(entry)
-                return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                if self._DescendToSubContext(entry):
+                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
             if entry.IsCallable():
                 self._ExecuteEntry(entry)
                 return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
@@ -412,17 +414,31 @@ class Browser:
         elif entry.IsCallable():
             self._ExecuteEntry(entry)
 
-    def _DescendToSubContext(self, entry: ContextEntry) -> None:
-        """Descend manually into a sub-folder context."""
-        frame = _ContextFrame(
-            Folder=self._loader.ResolveSubFolder(
+    def _DescendToSubContext(self, entry: ContextEntry) -> bool:
+        """Descend manually into a sub-folder context.
+
+        Returns:
+            True si se pudo resolver y apilar el subcontexto. False si
+            ResolveSubFolder no encontró una carpeta real para la clave
+            (dato roto en el diccionario): se registra el error y el
+            Browser se queda en el contexto actual en vez de apilar un
+            frame que apuntaría a la misma carpeta que su padre.
+        """
+        try:
+            folder = self._loader.ResolveSubFolder(
                 self._stack[-1].Folder, entry.InternalKey, entry.Target
-            ),
+            )
+        except FileNotFoundError as error:
+            print(f"[DAV-Browser] {error}")
+            return False
+        frame = _ContextFrame(
+            Folder=folder,
             ModuleDict=entry.Target,
             InternalName=entry.InternalKey,
         )
         self._stack.append(frame)
         self.Context = self._BuildContextForFrame(frame)
+        return True
 
     def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:
         """Automatic ascending search."""
@@ -445,9 +461,11 @@ class Browser:
                 elif entry.IsSubContext():
                     self._stack = temp_stack
                     self.Context = parent_context
-                    self._DescendToSubContext(entry)
+                    descended = self._DescendToSubContext(entry)
                     self.OriginalContext = self.Context
-                    return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
+                    if descended:
+                        return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
         
         self.Context = self.OriginalContext
         return BrowserResult(False, "not_found", "Command not found in upward search")

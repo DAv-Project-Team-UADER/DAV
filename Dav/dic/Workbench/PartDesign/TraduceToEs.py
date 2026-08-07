@@ -20,7 +20,7 @@
 # Traducciones al Español – PartDesign (solo carpetas)
 # ============================================================
 
-from .PartDesign import partdesign
+from .partdesign import partdesign
 
 TraduceToEs = {
 

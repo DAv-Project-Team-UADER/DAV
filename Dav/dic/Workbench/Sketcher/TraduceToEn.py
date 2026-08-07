@@ -17,7 +17,7 @@
 
 """English spoken-word mapping for the Sketcher workbench."""
 
-from DAV.DiccionariosEnBruto.Workbench import Sketcher
+from .sketcher import sketcher as Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta

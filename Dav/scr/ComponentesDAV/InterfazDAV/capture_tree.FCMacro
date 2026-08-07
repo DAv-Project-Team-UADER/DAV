@@ -1,6 +1,7 @@
 # capture_tree.FCMacro
 # Macro en modo escucha - se ejecuta UNA VEZ y se queda esperando señales
 
+import FreeCAD as App
 import FreeCADGui as Gui
 import os
 import json
@@ -14,59 +15,78 @@ if not appdata:
 config_path = os.path.join(appdata, "FreeCAD", "dav_paths.json")
 
 signal_file = None
-image_path = None
+tree_data_path = None
 
 if os.path.exists(config_path):
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
             paths = json.load(f)
             signal_file = paths.get("signal_file")
-            image_path = paths.get("image_path")
+            tree_data_path = paths.get("tree_data_path")
     except Exception as e:
         print("Error al cargar config dav_paths.json: " + str(e))
 
 # Fallbacks si no existen
 if not signal_file:
     signal_file = os.path.join(os.path.dirname(__file__), "capture_signal.json")
-if not image_path:
-    image_path = os.path.join(os.path.dirname(__file__), "tree_capture.png")
+if not tree_data_path:
+    tree_data_path = os.path.join(os.path.dirname(__file__), "tree_data.json")
 
 waiting = False
 
 def capture_tree():
-    """Captura el árbol del modelo de FreeCAD"""
+    """Serializa el árbol de objetos del documento activo a JSON.
+
+    Recorre los objetos del documento activo de FreeCAD y construye una lista
+    plana donde cada entrada describe un objeto (nombre, label, tipo,
+    visibilidad y nombre del grupo padre). El resultado se escribe en
+    ``tree_data_path`` para que la GUI lo pinte en un QTreeWidget.
+
+    Returns:
+        dict: ``{"success": bool, "path": str}`` en éxito, o
+        ``{"success": False, "error": str}`` en fallo.
+    """
     try:
-        mw = Gui.getMainWindow()
-        if not mw:
-            return {"success": False, "error": "No main window"}
-        
-        # Buscar el Combo View
-        combo_view = None
-        for dock in mw.findChildren(QtGui.QDockWidget):
-            if "Combo" in dock.windowTitle() or "Model" in dock.windowTitle():
-                combo_view = dock
-                break
-        
-        if combo_view:
-            pixmap = combo_view.grab()
-        else:
-            # Fallback: buscar TreeView más grande
-            all_tv = mw.findChildren(QtGui.QTreeView)
-            best = None
-            best_area = 0
-            for tv in all_tv:
-                if tv.objectName() != "propertyEditorView":
-                    area = tv.width() * tv.height()
-                    if area > best_area:
-                        best_area = area
-                        best = tv
-            if best:
-                pixmap = best.grab()
-            else:
-                return {"success": False, "error": "No tree view found"}
-        
-        pixmap.save(image_path, "PNG")
-        return {"success": True, "path": image_path}
+        doc = App.ActiveDocument
+        if doc is None:
+            data = {"document": None, "objects": []}
+            with open(tree_data_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
+            return {"success": True, "path": tree_data_path}
+
+        objects = []
+        for obj in doc.Objects:
+            # Visibilidad: solo disponible si hay GUI y ViewObject
+            visible = True
+            try:
+                if Gui.GuiUp and getattr(obj, "ViewObject", None) is not None:
+                    visible = bool(obj.ViewObject.Visibility)
+            except Exception:
+                visible = True
+
+            # Grupo padre para reconstruir jerarquía
+            parent = None
+            try:
+                getter = getattr(obj, "getParentGroup", None)
+                if callable(getter):
+                    parent_group = getter()
+                    if parent_group is not None:
+                        parent = parent_group.Name
+            except Exception:
+                parent = None
+
+            objects.append({
+                "name": obj.Name,
+                "label": obj.Label,
+                "type": obj.TypeId,
+                "visible": visible,
+                "parent": parent,
+            })
+
+        data = {"document": doc.Name, "objects": objects}
+        with open(tree_data_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False)
+        return {"success": True, "path": tree_data_path}
     except Exception as e:
         return {"success": False, "error": str(e)}
 
@@ -98,5 +118,5 @@ timer.start(500)  # Revisar cada 0.5 segundos
 print("="*50)
 print("Macro en modo escucha iniciada")
 print("Esperando senal en:", signal_file)
-print("Imagen se guardara en:", image_path)
+print("Datos del arbol se guardaran en:", tree_data_path)
 print("="*50)

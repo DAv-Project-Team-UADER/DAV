@@ -15,14 +15,14 @@ def ensure_macro_installed():
     project_dir = os.path.dirname(os.path.abspath(__file__))
     project_macro = os.path.join(project_dir, "capture_tree.FCMacro")
     
-    # Eliminar imagen de captura y archivo de señal anteriores para iniciar limpio
-    stale_image = os.path.join(project_dir, "tree_capture.png")
-    if os.path.exists(stale_image):
+    # Eliminar datos del árbol y archivo de señal anteriores para iniciar limpio
+    stale_tree_data = os.path.join(project_dir, "tree_data.json")
+    if os.path.exists(stale_tree_data):
         try:
-            os.remove(stale_image)
-            print("[INFO] Imagen de captura anterior eliminada para iniciar limpio")
+            os.remove(stale_tree_data)
+            print("[INFO] Datos del arbol anteriores eliminados para iniciar limpio")
         except Exception as e:
-            print(f"[WARNING] No se pudo eliminar la imagen anterior: {e}")
+            print(f"[WARNING] No se pudo eliminar los datos anteriores: {e}")
             
     stale_signal = os.path.join(project_dir, "capture_signal.json")
     if os.path.exists(stale_signal):
@@ -84,7 +84,7 @@ def ensure_macro_installed():
         config_path = os.path.join(config_dir, "dav_paths.json")
         paths = {
             "signal_file": os.path.abspath(os.path.join(project_dir, "capture_signal.json")),
-            "image_path": os.path.abspath(os.path.join(project_dir, "tree_capture.png"))
+            "tree_data_path": os.path.abspath(os.path.join(project_dir, "tree_data.json"))
         }
         with open(config_path, 'w', encoding='utf-8') as f:
             json.dump(paths, f, indent=4, ensure_ascii=False)

@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Toolbars import toolbars
-from DAV.DiccionariosEnBruto.StdView.Toolbars import Toolbars
+from .Toolbars import toolbars as Toolbars
 from .ayuda import ayuda
 
 TraduceToPt = {
