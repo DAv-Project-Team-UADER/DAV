@@ -1,0 +1,191 @@
+{
+  "context_path": "Base > workbench > part",
+  "submenus": [
+    {
+      "spoken": "box",
+      "key": "box"
+    },
+    {
+      "spoken": "circle",
+      "key": "circle"
+    },
+    {
+      "spoken": "cone",
+      "key": "cone"
+    },
+    {
+      "spoken": "cube",
+      "key": "cube"
+    },
+    {
+      "spoken": "cylinder",
+      "key": "cylinder"
+    },
+    {
+      "spoken": "ellipse",
+      "key": "ellipse"
+    },
+    {
+      "spoken": "line",
+      "key": "line"
+    },
+    {
+      "spoken": "new_sketch",
+      "key": "new_sketch"
+    },
+    {
+      "spoken": "chamfer",
+      "key": "chamfer"
+    },
+    {
+      "spoken": "color_per_face",
+      "key": "color_per_face"
+    },
+    {
+      "spoken": "cross_sections",
+      "key": "cross_sections"
+    },
+    {
+      "spoken": "extrude",
+      "key": "extrude"
+    },
+    {
+      "spoken": "fillet",
+      "key": "fillet"
+    },
+    {
+      "spoken": "makeface",
+      "key": "makeface"
+    },
+    {
+      "spoken": "mirror",
+      "key": "mirror"
+    },
+    {
+      "spoken": "offset2d",
+      "key": "offset2d"
+    },
+    {
+      "spoken": "projection_on_surface",
+      "key": "projection_on_surface"
+    },
+    {
+      "spoken": "revolve",
+      "key": "revolve"
+    },
+    {
+      "spoken": "ruled_surface",
+      "key": "ruled_surface"
+    },
+    {
+      "spoken": "scale",
+      "key": "scale"
+    },
+    {
+      "spoken": "section",
+      "key": "section"
+    }
+  ],
+  "commands": [
+    {
+      "spoken": "caja",
+      "key": "caja"
+    },
+    {
+      "spoken": "circulo",
+      "key": "circulo"
+    },
+    {
+      "spoken": "cono",
+      "key": "cono"
+    },
+    {
+      "spoken": "cubo",
+      "key": "cubo"
+    },
+    {
+      "spoken": "cilindro",
+      "key": "cilindro"
+    },
+    {
+      "spoken": "elipse",
+      "key": "elipse"
+    },
+    {
+      "spoken": "linea",
+      "key": "linea"
+    },
+    {
+      "spoken": "nuevo sketch",
+      "key": "nuevo sketch"
+    },
+    {
+      "spoken": "chaflan",
+      "key": "chaflan"
+    },
+    {
+      "spoken": "color por cara",
+      "key": "color por cara"
+    },
+    {
+      "spoken": "secciones transversales",
+      "key": "secciones transversales"
+    },
+    {
+      "spoken": "extruir",
+      "key": "extruir"
+    },
+    {
+      "spoken": "redondear",
+      "key": "redondear"
+    },
+    {
+      "spoken": "loft",
+      "key": "loft"
+    },
+    {
+      "spoken": "crear cara",
+      "key": "crear cara"
+    },
+    {
+      "spoken": "espejo",
+      "key": "espejo"
+    },
+    {
+      "spoken": "desfase",
+      "key": "desfase"
+    },
+    {
+      "spoken": "offset 2d",
+      "key": "offset 2d"
+    },
+    {
+      "spoken": "proyeccion",
+      "key": "proyeccion"
+    },
+    {
+      "spoken": "revolucion",
+      "key": "revolucion"
+    },
+    {
+      "spoken": "superficie reglada",
+      "key": "superficie reglada"
+    },
+    {
+      "spoken": "escalar",
+      "key": "escalar"
+    },
+    {
+      "spoken": "seccion",
+      "key": "seccion"
+    },
+    {
+      "spoken": "barrido",
+      "key": "barrido"
+    },
+    {
+      "spoken": "ayuda",
+      "key": "help"
+    }
+  ]
+}
