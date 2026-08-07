@@ -5,8 +5,22 @@
 
 from __future__ import annotations
 
+import unicodedata
 from dataclasses import dataclass
 from typing import Any, Callable
+
+
+def _Normalize(text: str) -> str:
+    """Lowercase, collapse spaces and strip accents from a spoken phrase.
+
+    Debe coincidir con DictionaryLoader.NormalizeSpoken: Browser normaliza la
+    frase entrante con esa función (que quita acentos vía NFKD) antes de
+    buscarla acá. Si acá sólo se hiciera lower(), ninguna clave con tilde o
+    eñe ("diseño de pieza", "dibujo técnico", "cuadrícula") matchearía nunca.
+    """
+    decomposed = unicodedata.normalize("NFKD", text)
+    stripped = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+    return " ".join(stripped.lower().split())
 
 
 @dataclass(frozen=True)
@@ -24,11 +38,11 @@ class ContextEntry:
         return callable(self.Target)
 
     def NormalizeSpoken(self) -> str:
-        return " ".join(self.Spoken.lower().split())
+        return _Normalize(self.Spoken)
 
 
 def FindBySpoken(entries: list[ContextEntry], spoken: str) -> ContextEntry | None:
-    needle = " ".join(spoken.lower().split())
+    needle = _Normalize(spoken)
     for entry in entries:
         if entry.NormalizeSpoken() == needle:
             return entry

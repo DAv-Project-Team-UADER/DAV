@@ -154,3 +154,8 @@ vosk-model-small-es-0.42/
 
 # Material de referencia del profe — no es código implementado por el equipo
 luigiIntegracionV1/archivo_tarea_grupo/
+
+# Artefactos generados por la captura del árbol de objetos (InterfazDAV)
+Dav/scr/ComponentesDAV/InterfazDAV/tree_capture.png
+Dav/scr/ComponentesDAV/InterfazDAV/tree_data.json
+Dav/scr/ComponentesDAV/InterfazDAV/capture_signal.json

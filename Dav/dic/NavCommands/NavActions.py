@@ -13,14 +13,30 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from .ayuda import ayuda
-from .attributes.attributes import attributes
+"""Sentinel actions for Browser navigation (not FreeCAD commands).
 
-# Subcontexto anidado: el Browser navega por niveles y
-# LineAttributes/TraduceTo*.py espera LineAttributes['attributes'] como
-# submenú (no aplanado), igual que Explorer/Explorer.py.
-LineAttributes = {}
-LineAttributes.update({'attributes': attributes})
-LineAttributes.update({
-    'help': ayuda})
+Browser reacts to these three verbs on every phrase, before looking the
+phrase up in the current spoken context: go up one level, and describe
+where the user currently is. They are represented as distinct no-arg
+callables (not raw strings) so Browser can match them by identity and the
+spoken words stay entirely in NavCommands/TraduceTo*.py — no word is
+hardcoded in browser.py.
+"""
+
+
+def GoUp() -> None:
+    """Sentinel: ascend one level in the navigation stack."""
+    return None
+
+
+def ShowContext() -> None:
+    """Sentinel: describe the current navigation context."""
+    return None
+
+
+NavActions = {
+    "up":            GoUp,
+    "show_context":  ShowContext,
+}

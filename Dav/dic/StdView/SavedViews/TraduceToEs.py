@@ -46,14 +46,11 @@ TraduceToEs = {
     # Load
     "cargar":    savedviews["load"],
     "abrir":     savedviews["load"],
-    "traer":     savedviews["load"],
     "importar":  savedviews["load"],
 
     # Save
     "guardar":   savedviews["save"],
-    "almacenar": savedviews["save"],
     "conservar": savedviews["save"],
-    "registrar": savedviews["save"],
 
     # Store
     "almacenar": savedviews["store"],

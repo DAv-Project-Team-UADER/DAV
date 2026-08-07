@@ -18,7 +18,7 @@
 
 """Portuguese spoken-word mapping for the DAV StdView dictionary folders."""
 
-from DAV.DiccionariosEnBruto.StdView.StdView import StdView
+from .StdView import StdView
 
 from .Appearance.Appearance import appearance
 from .Camera.Camera import camera

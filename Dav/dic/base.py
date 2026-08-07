@@ -19,27 +19,23 @@
 """
 Base dictionary — top-level commands available at all times.
 
-  'explorer'    → archivo, edición, ventanas (submenu)
-  'preferences' → abre el diálogo de preferencias DAV
-
-TODO equipo: agregar los workbenches (PartDesign, Draft, TechDraw, etc.)
-cuando los TraduceTo*.py de cada carpeta estén completos.
+  'explorer'        → archivo, edición, ventanas (submenu)
+  'stdview'         → vistas estándar, cámara, apariencia (submenu)
+  'workbench'       → PartDesign, Draft, Sketcher, Part, Assembly, TechDraw (submenu)
+  'lineattributes'  → atributos de línea (submenu)
+  'preferences'     → abre el diálogo de preferencias DAV
 """
 
 from Explorer.Explorer import explorer
-from Workbench.workbench import workbench as Workbench
-from Workbench.Part.Part import part
-from Workbench.Part.circle.circle import circle
+from StdView.StdView import StdView
+from Workbench.workbench import workbench
+from LineAttributes.LineAttributes import LineAttributes
 from integration.launch_preferences import open_preferences
 
 Base = {
-    "explorer":    explorer,
-    "mesa de trabajo": Workbench,
-    "banco de trabajo": Workbench,
-    "workbench":   Workbench,
-    "pieza":       part,
-    "part":        part,
-    "circulo":     circle["circle"],
-    "círculo":     circle["circle"],
-    "preferences": open_preferences,
+    "explorer":       explorer,
+    "stdview":        StdView,
+    "workbench":      workbench,
+    "lineattributes": LineAttributes,
+    "preferences":    open_preferences,
 }

@@ -16,8 +16,8 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
- 
- 
+
+
 def _create_box(length=10, width=10, height=10):
     doc = App.activeDocument()
     box = doc.addObject("Part::Box", "Box")
@@ -25,9 +25,14 @@ def _create_box(length=10, width=10, height=10):
     box.Width  = width
     box.Height = height
     doc.recompute()
- 
- 
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(box.Name, Is3D=True).Execute()
+
+
 box = {
     'box': lambda: _create_box(),
     'help': ayuda,
-}
+}
