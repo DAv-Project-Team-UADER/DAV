@@ -66,6 +66,30 @@ def read_context_state() -> dict:
         return {}
 
 
+def _status_file() -> Path:
+    return _history_file().parent / "voice_status.json"
+
+
+def export_voice_status(status: str, detail: str = "") -> None:
+    import json
+    path = _status_file()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {"status": status, "detail": detail}
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def read_voice_status() -> tuple[str, str]:
+    import json
+    path = _status_file()
+    if not path.exists():
+        return "inactive", "Motor de voz no iniciado"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data.get("status", "inactive"), data.get("detail", "")
+    except Exception:
+        return "inactive", "Error leyendo estado de voz"
+
+
 def _queue_file() -> Path:
     return _history_file().parent / "command_queue.txt"
 
@@ -84,12 +108,13 @@ def pop_command_queue() -> str | None:
     try:
         text = path.read_text(encoding="utf-8").strip()
         if text:
-            # Vaciar archivo después de leer
-            path.write_text("", encoding="utf-8")
-            # Devolver el primer comando (o todos unidos, simplificamos devolviendo el último si hay varios o el primero)
             lines = [l for l in text.splitlines() if l.strip()]
             if lines:
-                return lines[0]
+                cmd = lines[0]
+                remaining = lines[1:]
+                path.write_text("\n".join(remaining) + ("\n" if remaining else ""), encoding="utf-8")
+                return cmd
         return None
     except Exception:
         return None
+

@@ -177,6 +177,10 @@ class MainWindow(QMainWindow):
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "IntegracionGUI", "GUIFreeCad", "config", "command_queue.txt"
         )
+        self._VoiceStatusPath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "voice_status.json"
+        )
 
 
         # Variables para el árbol de datos de FreeCAD
@@ -729,12 +733,26 @@ class MainWindow(QMainWindow):
     # ================================================================
 
     def _StartSyncingWithFreeCAD(self):
-        self.UpdateStatus("active")
+        self.UpdateStatus("inactive")
         self._SyncTimer = QTimer(self)
         self._SyncTimer.timeout.connect(self._PollFreeCADState)
         self._SyncTimer.start(500)
 
     def _PollFreeCADState(self):
+        # Leer voice status
+        try:
+            if hasattr(self, "_VoiceStatusPath") and os.path.exists(self._VoiceStatusPath):
+                import json
+                with open(self._VoiceStatusPath, "r", encoding="utf-8") as f:
+                    st_data = json.load(f)
+                st = st_data.get("status", "inactive")
+                dt = st_data.get("detail", "")
+                self.UpdateStatus(st, dt)
+            else:
+                self.UpdateStatus("inactive")
+        except Exception as e:
+            print(f"Error polling voice status: {e}")
+
         # Leer history
         try:
             if os.path.exists(self._VoiceHistoryPath):
@@ -766,14 +784,19 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print(f"Error polling context state: {e}")
 
-    def UpdateStatus(self, Msg: str):
+    def UpdateStatus(self, Msg: str, Detail: str = ""):
         T = self._T
         L = self._Texts
         if Msg == "active":
-            self._StatusLabel.setText(L["mic_active"])
+            self._StatusLabel.setText(L.get("mic_active", "Micrófono activo"))
             self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
-        elif Msg.startswith("error:"):
-            self._StatusLabel.setText(L["mic_error"])
+        elif Msg == "inactive":
+            text = "Micrófono inactivo (clic en «Iniciar voz DAV» en barra FreeCAD)"
+            self._StatusLabel.setText(text)
+            self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
+        elif Msg.startswith("error") or Msg == "error":
+            err_txt = f"{L.get('mic_error', 'Error de micrófono')}: {Detail}" if Detail else L.get('mic_error', 'Error de micrófono')
+            self._StatusLabel.setText(err_txt)
             self._StatusLabel.setStyleSheet(self._MicQss(T["red"]))
 
     def UpdateCurrentText(self, Text: str):
