@@ -14,6 +14,11 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 
 **Arreglo sugerido:** pasarle a `KaldiRecognizer` una gramática JSON con las palabras/frases de `Browser.Context` (o `BaseContext` si aún no se descendió), actualizándola cada vez que cambia el contexto de navegación. Debería reducir bastante las transcripciones erráticas.
 
+> Medido sobre el modelo real: `vosk-model-small-es-0.42` carga **100.001
+> palabras**, y el árbol `Dav/dic/` usa **745** (0,75 %). La mediana por contexto
+> es de **12 frases**. La precisión no se arregla agrandando el modelo — se
+> arregla acá, restringiendo la gramática al contexto activo.
+
 ## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real
 
 **Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
@@ -50,6 +55,10 @@ Cada una tiene funcionalidad que a la otra le falta: `InterfazDAV` es la única 
 - ¿Fue una división deliberada por grupos de trabajo, o dos ramas que divergieron y nunca se integraron?
 - ¿Cuál es la que se demuestra/entrega? (hoy se está probando `InterfazDAV`, pero el motor que se mantiene y testea es el de `IntegracionGUI`)
 - Si se unifica: llevar historial + minimizar a `IntegracionGUI`, o llevar `Browser` + InputPrompts a `InterfazDAV`. Mantener las dos implica duplicar cada arreglo (como ya pasó con los diccionarios).
+
+> **Respuesta parcial (auditoría 2026-08-08):** no son dos GUIs sino **tres
+> motores de voz**, y divergieron por desarrollo paralelo en mayo, no por
+> diseño. Ver §9 para el mapa completo y el estado de ejecución de cada uno.
 
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
 
@@ -137,3 +146,175 @@ Los dos últimos quedan atados a la decisión de §2.b: si se unifica en `Integr
 - Idiomas **en** y **pt**: el árbol está armado para tres idiomas, pero sólo el español está completo. Si el MVP se demuestra en español, documentarlo como alcance y no como bug.
 - Gramática restringida de Vosk (§1) — impacta la precisión de todo lo anterior.
 - Tests: `tests/test_browser.py` (18 casos) usa un loader mock. **No hay tests que corran contra el árbol real `Dav/dic/`**, que es donde aparecieron todos los bugs de esta sesión (imports rotos, aplanado, acentos). Vale la pena agregar un test de integración que recorra las rutas principales.
+
+## 9. Hay TRES motores de voz en el repo, no dos (auditoría 2026-08-08)
+
+Responde la pregunta abierta de §2.b. Además de los dos de esa tabla existe un
+tercer sistema completo, `PruebaIntegracion/`, que **no se ejecuta nunca**.
+
+| | A. IntegracionGUI | B. InterfazDAV | C. PruebaIntegracion |
+| --- | --- | --- | --- |
+| Motor | `Browser.ProcessPhrase` + `DictionaryLoader` | `_VoiceMap` / `_GroupMeta` | `ExploradorVoz` + `Navigator` |
+| Diccionario | `Dav/dic/` (árbol oficial) | `InterfazDAV/DiccionarioPrueba/` | `PruebaIntegracion/diccionario/` |
+| GUI | `ui/main_window.py` | `MainWindow.py` | `GUI/asistente_voz.py` |
+| Estado | **Camino principal** | Vivo, pero como proceso aparte | **Huérfano — código muerto** |
+
+### 9.a `PruebaIntegracion/` está desconectado
+
+Es un DAVCore completo y autónomo: `core/VoiceExplorer.py`, `core/Navigator.py`,
+`core/Command.py`, `core/FunctionWrapper.py`, `modelo/VoskModel.py` (la
+implementación literal del UML de CLAUDE.md), `hilos/GestorDeHilos.py`, GUI y
+tests propios.
+
+Existen dos puentes que lo conectarían —`integration/cad_session.py` y
+`integration/cad_voice_adapter.py`— pero **nadie los llama**. Buscar referencias
+a `cad_session` / `cad_voice_adapter` fuera de esos archivos no devuelve nada.
+
+La razón se ve en el arranque: `integration/voice_bootstrap.py` arma el motor con
+`Browser` + `BrowserVoiceAdapter`, no con `ExploradorVoz` + `CadVoiceAdapter`.
+Cuando las implementaciones paralelas convergieron, ganó el `Browser`.
+
+`plan_arbol_de_objetos_navegable.md:89` ya propone borrar
+`PruebaIntegracion/hilos/GestorDeHilos.py` como maqueta muerta, pero el problema
+alcanza al árbol entero, no a ese archivo solo.
+
+### 9.b `InterfazDAV` no está desconectado: corre como proceso separado
+
+Distinto de C. `Dav/scr/gui/dav_commands.py:371` busca `InterfazDAV/main.py` y lo
+**lanza como proceso aparte**. No comparte memoria ni diccionario con A.
+
+La única comunicación entre ambos es por archivo: `freecad_wb.py:239` vigila el
+`settings.json` de IntegracionGUI *"para que los cambios desde InterfazDAV
+apliquen a FreeCAD"*. Se hablan por configuración, no por código — de ahí que un
+fix en `Dav/dic/` no tenga efecto en B (§2).
+
+### 9.c `InputPrompts/` SÍ está en uso (no confundir con C)
+
+Aunque `PruebaIntegracion/` esté muerto, el subsistema de captura de parámetros
+por voz está vivo y en el camino principal, enganchado en dos puntos:
+
+- `integration/voice_bootstrap.py:81-88` — el `PromptedCommandExecutor` se pasa
+  como `on_execute` del `Browser`: **todo comando que ejecuta el Browser pasa por
+  él**.
+- `speech/dav_voice_service.py:338-346` — en modo CAD cada frase se ofrece primero
+  al `PromptVoiceRouter`; si hay un prompt activo esperando un valor, la frase se
+  la queda y no llega al Browser.
+
+Tiene cobertura en `Dav/scr/validation/test_integration.py`.
+
+> ⚠️ `_dispatch_to_active_prompt` envuelve el router en `except Exception: return
+> False`. Si InputPrompts falla, la frase sigue de largo al Browser **sin ninguna
+> señal** de que algo se rompió. Difícil de diagnosticar; considerar loguear la
+> excepción aunque se siga tragando.
+
+### 9.d Qué hacer — NO escribir una GUI nueva
+
+Sería el cuarto sistema paralelo. El problema no es que falte una GUI: es que
+sobran dos. A ya tiene Browser, InputPrompts, tests, temas e i18n.
+
+Orden sugerido:
+
+1. **Declarar A como camino oficial.** Ya lo es de hecho, pero no está escrito —
+   por eso los tres siguen conviviendo.
+2. **Retirar `PruebaIntegracion/`** junto con sus puentes muertos
+   (`cad_session.py`, `cad_voice_adapter.py`). Preferible moverlo a
+   `Dav/docs/prototipos/` antes que borrarlo: conserva el trabajo como referencia
+   de diseño sin aparentar código activo.
+3. **Migrar `InterfazDAV` a leer de `Dav/dic/`.** Es el paso de mayor valor:
+   elimina el diccionario duplicado y hace que un comando nuevo sirva en ambas
+   interfaces. Coordinar con Mica Saul (autora principal de `MainWindow.py`) y
+   combinarlo con `plan-migracion-hilos-qthread.md`, que ataca el mismo archivo.
+4. **Decidir si B sobrevive.** Si tras migrar hace lo mismo que A, fusionar. Si
+   aporta algo propio (interfaz flotante más liviana, historial, minimizar),
+   dejarla como vista alternativa **sobre el mismo motor**.
+
+> **Sin verificar:** no se auditó `MainWindow.py` en detalle, así que no se sabe
+> cuánto de su comportamiento depende del formato de `DiccionarioPrueba/`. Si esa
+> estructura difiere bastante de `Dav/dic/`, el paso 3 es más trabajo del que
+> sugiere este plan. Estimar antes de comprometerlo en un sprint.
+
+Esta es una decisión de arquitectura que toca código de varias personas (Luigi
+Mete, Mica Saul, Franco Camen) — conviene discutirla en el grupo antes de mover
+archivos, no resolverla por commit.
+
+## 11. Limpieza de vocabulario: claves internas y anglicismos (2026-08-08)
+
+Al cruzar el vocabulario del árbol `Dav/dic/` contra el del modelo Vosk
+aparecieron 89 palabras que el reconocedor **no puede emitir** —no están en su
+vocabulario—, pero **no eran todas el mismo problema**. Separadas por causa, sólo
+una categoría era limitación del modelo; el resto era deuda técnica del
+diccionario, corregida en esta sesión.
+
+**Resultado: 89 → 66 palabras fuera de vocabulario (11,5 % → 8,9 %).**
+
+### 11.a Claves internas de FreeCAD filtradas como frases habladas
+
+Identificadores copiados tal cual al `TraduceToEs.py`. **Inejecutables por voz**
+—nadie dice "guion bajo"— con gramática o sin ella.
+
+| Antes | Ahora | Archivo |
+| --- | --- | --- |
+| `vista_2d`, `proyeccion_2d` | "vista dos de", "proyección dos de", "vista plana" | `DraftWork/modification` |
+| `resaltar_subelemento` | "resaltar subelemento" | `DraftWork/modification` |
+| `cable_a_bspline` | "convertir a curva", "cable a curva", "alambre a curva" | `DraftWork/modification` |
+| `cancelaredit` | eliminada (ya existía "cancelar edición"); + "cancelar" | `Sketcher` |
+| `radiam` | "cota radio diámetro", "radio o diámetro" | `Sketcher/constraints` |
+| `ldm` | eliminada; + "lista de piezas" | `Assembly` |
+
+> `radiam` no era un error de tipeo: es la clave real de FreeCAD
+> (`Radius/Diameter Dimension`, `constraints.py:46`) filtrada al diccionario
+> hablado. Mismo bug, distinto origen.
+
+**Al agregar comandos:** la clave interna va en el `<nombre>.py`; en el
+`TraduceTo*.py` van **frases pronunciables**, nunca el identificador.
+
+### 11.b Anglicismos redundantes — eliminados
+
+Cada uno ya tenía sinónimo en español en el mismo archivo, así que sólo agregaban
+un competidor fonético mal fonetizado:
+
+`extrude` · `fillet` · `chamfer` · `sweep` (×2) · `cross sections` ·
+`paint face` · `toolbars` · `validate` · `draft` · `draftwork` · `partdesign` ·
+`part design` · `sketcher` · `techdraw` · `workbench dialog` ·
+`workbench window`
+
+> **`bom`** (*Bill of Materials*, `Assembly`) **se conservó**, pero es candidata a
+> revisión: es una palabra de una sílaba que en español compite con "con", "son",
+> "don", "van". A diferencia de `dxf` o `svg` —que se deletrean y por eso tienen
+> redundancia fonética— "bom" se pronuncia como sílaba única, justo el perfil de
+> palabra corta que el reconocedor confunde. Se mantiene porque es la
+> sigla que el equipo usa; tiene además tres alternativas seguras en el mismo
+> contexto ("lista de materiales", "tabla de materiales", "lista de piezas"). Si
+> aparecen falsos positivos al probar por voz, es la primera que hay que sacar.
+
+### 11.c Anglicismos sin alternativa — se les dio una
+
+| Antes | Ahora |
+| --- | --- |
+| `facebinder`, `binder` | "unir caras", "unión de caras", "aglutinante" |
+| `workbench`, `workbenches` | "banco de trabajo", "bancos de trabajo", "entorno de trabajo" |
+
+### 11.d Errores de tipeo
+
+- `chanflear` → `chaflanar` + `biselar` (`chanflear` no es palabra del español)
+- `"options"` → `"opciones"` en `Part/part_color_per_face`
+
+### 11.e Pendiente sin resolver
+
+- **`colisa`** (`Sketcher/oblong`, `Sketcher/slot`) — puede ser "coliso" mal
+  escrito (la ranura alargada, *slot*/*oblong*) o terminología que usa el equipo.
+  **No se tocó**: no conviene cambiar vocabulario técnico por conjetura.
+  Confirmar con alguien del equipo.
+- **`dxf` / `svg`** — se dejaron. Ya tienen "formato de intercambio de dibujo" y
+  "gráficos vectoriales escalables" al lado, y las siglas deletreadas son
+  plausibles de reconocer.
+
+### 11.f Verificación
+
+`base.py` importa limpio con stubs de FreeCAD y las 5 claves de nivel superior
+siguen en pie (`explorer`, `stdview`, `workbench`, `lineattributes`,
+`preferences`). 2.344 frases, 1.414 únicas, sin errores de sintaxis.
+
+> **No verificado:** no se corrieron los tests ni se probó dentro de FreeCAD. Los
+> cambios son de claves habladas, no de callables, pero conviene una pasada por
+> voz sobre los contextos tocados (Sketcher, Part, DraftWork, Assembly, StdView).

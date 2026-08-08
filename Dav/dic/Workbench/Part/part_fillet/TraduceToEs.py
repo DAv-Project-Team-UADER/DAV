@@ -31,7 +31,6 @@ TraduceToEs = {
     "empalme": part_fillet["fillet"],
     "hacer empalme": part_fillet["fillet"],
     "crear empalme": part_fillet["fillet"],
-    "fillet": part_fillet["fillet"],
 
     "ayuda":                ayuda,
     "información":          ayuda,

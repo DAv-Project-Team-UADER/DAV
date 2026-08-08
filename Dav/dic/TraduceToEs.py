@@ -53,10 +53,7 @@ TraduceToEs = {
     # Workbench
     "banco de trabajo": Workbench,
     "bancos de trabajo": Workbench,
-    "workbench":       Workbench,
-    "workbenches":     Workbench,
-    "workbench dialog": Workbench,
-    "workbench window": Workbench,
+    "entorno de trabajo": Workbench,
 
     # Preferencias
     "preferencias":  open_preferences,

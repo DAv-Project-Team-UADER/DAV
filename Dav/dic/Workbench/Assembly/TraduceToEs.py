@@ -74,8 +74,8 @@ TraduceToEs = {
     # Lista de materiales (BOM)
     "lista de materiales":   assembly["bom"],
     "tabla de materiales":   assembly["bom"],
+    "lista de piezas":       assembly["bom"],
     "bom":                   assembly["bom"],
-    "ldm":                   assembly["bom"],
 
     # Preferencias / Ajustes
     "preferencias":          assembly["preferences"],
