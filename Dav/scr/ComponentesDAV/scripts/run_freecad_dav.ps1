@@ -105,12 +105,14 @@ function Test-StartupVoiceEnabled {
     param([string]$GuiRoot)
 
     $path = Join-Path $GuiRoot "config\settings.json"
-    if (-not (Test-Path -LiteralPath $path)) { return $false }
+    if (-not (Test-Path -LiteralPath $path)) { return $true }
     try {
         $settings = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
-        return [bool]$settings.startup_enabled
+        if ($settings.PSObject.Properties['auto_voice'] -and [bool]$settings.auto_voice) { return $true }
+        if ($settings.PSObject.Properties['startup_enabled'] -and [bool]$settings.startup_enabled) { return $true }
+        return $true
     } catch {
-        return $false
+        return $true
     }
 }
 

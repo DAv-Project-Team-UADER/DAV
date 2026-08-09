@@ -76,10 +76,12 @@ class Browser:
         *,
         prefs: Preferences | None = None,
         on_execute: Callable[[ContextEntry], None] | None = None,
+        on_descend: Callable[[ContextEntry], None] | None = None,
         _loader: DictionaryLoader | None = None,
     ) -> None:
         self._prefs = prefs or preferences
         self._on_execute = on_execute
+        self._on_descend = on_descend
         self._loader = _loader or DictionaryLoader(
             dictionary_root or self._DefaultDictionaryRoot()
         )
@@ -438,6 +440,10 @@ class Browser:
         )
         self._stack.append(frame)
         self.Context = self._BuildContextForFrame(frame)
+        
+        if self._on_descend is not None:
+            self._on_descend(entry)
+            
         return True
 
     def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:

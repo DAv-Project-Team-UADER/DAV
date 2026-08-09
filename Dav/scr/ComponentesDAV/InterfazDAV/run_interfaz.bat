@@ -1,17 +1,4 @@
 @echo off
-rem Lanza la InterfazDAV standalone usando rutas relativas al propio .bat.
-rem %~dp0 = carpeta de este script (...\Dav\scr\ComponentesDAV\InterfazDAV\).
-setlocal
-set "HERE=%~dp0"
-cd /d "%HERE%"
-
-rem Python del venv de GUIFreeCad (hermano de InterfazDAV en IntegracionGUI).
-set "VENV1=%HERE%..\IntegracionGUI\GUIFreeCad\.venv\Scripts\pythonw.exe"
-if exist "%VENV1%" (
-    set "PYW=%VENV1%"
-) else (
-    set "PYW=pythonw.exe"
-)
-
-start "" "%PYW%" "%HERE%main.py"
-endlocal
+set DAV_PASSIVE_HISTORY_VIEWER=1
+cd /d "C:\Trabajos Facu\PET\DAV\DAV\Dav\scr\ComponentesDAV\InterfazDAV"
+start "" "C:\Trabajos Facu\PET\DAV\DAV\Dav\scr\ComponentesDAV\IntegracionGUI\GUIFreeCad\.venv\Scripts\pythonw.exe" "C:\Trabajos Facu\PET\DAV\DAV\Dav\scr\ComponentesDAV\InterfazDAV\main.py"
