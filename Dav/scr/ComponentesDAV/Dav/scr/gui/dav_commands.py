@@ -315,15 +315,63 @@ _interfaz_proc: subprocess.Popen | None = None
 _last_launch_time: float = 0.0
 
 
-def _find_system_python() -> str:
+def _venv_python() -> Path | None:
+    """Interprete del venv de GUIFreeCad, resuelto por ruta del repo.
+
+    No depende de DAV_GUI_FREECAD_ROOT: ``_guifreecad_root()`` ya localiza la
+    carpeta recorriendo el layout, y la variable de entorno sigue teniendo
+    prioridad dentro de esa funcion.
+
+    Returns:
+        Path al python.exe del venv, o None si no existe.
+    """
+    try:
+        root = _guifreecad_root()
+    except Exception:
+        return None
+
+    for rel in ((".venv", "Scripts", "python.exe"), (".venv", "bin", "python")):
+        candidate = root.joinpath(*rel)
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _has_pyside6(python_path: str) -> bool:
+    """True si ese interprete puede importar PySide6.
+
+    La InterfazDAV es una app PySide6: un interprete sin PySide6 arranca y
+    muere al primer import. Como se lanza con pythonw (sin consola), el
+    ModuleNotFoundError no se ve en ningun lado, asi que conviene descartarlo
+    antes de intentar.
+    """
     import subprocess as _sp
 
-    gui_root_env = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
-    if gui_root_env:
-        venv_py = Path(gui_root_env) / ".venv" / "Scripts" / "python.exe"
-        if venv_py.exists():
-            return str(venv_py)
+    try:
+        return _sp.call(
+            [python_path, "-c", "import PySide6"],
+            stdout=_sp.DEVNULL,
+            stderr=_sp.DEVNULL,
+            timeout=15,
+        ) == 0
+    except Exception:
+        return False
 
+
+def _find_system_python() -> str:
+    """Interprete para lanzar la InterfazDAV, priorizando el venv del repo.
+
+    Orden: venv de GUIFreeCad → interpretes del sistema que tengan PySide6 →
+    el primer interprete encontrado (aunque no sirva, para que el llamador
+    reporte un error concreto en vez de no hacer nada).
+    """
+    import subprocess as _sp
+
+    venv_py = _venv_python()
+    if venv_py is not None:
+        return str(venv_py)
+
+    fallback = ""
     for cmd in (["py", "-3"], ["python3"], ["python"]):
         try:
             out = _sp.check_output(
@@ -331,10 +379,16 @@ def _find_system_python() -> str:
                 stderr=_sp.DEVNULL,
                 timeout=3,
             ).decode().strip()
-            if out and Path(out).exists():
+            if not out or not Path(out).exists():
+                continue
+            if _has_pyside6(out):
                 return out
+            fallback = fallback or out
         except Exception:
             pass
+
+    if fallback:
+        return fallback
 
     import sys as _sys
     return _sys.executable
@@ -408,21 +462,90 @@ def _launch_interfaz_dav() -> None:
     python = _find_system_python()
     pythonw = _find_pythonw(python)
 
+    if not _has_pyside6(python):
+        _report(
+            f"[DAV] El interprete '{python}' no tiene PySide6, la InterfazDAV no "
+            f"puede arrancar.\n"
+            f"[DAV] Instalalo con: \"{python}\" -m pip install PySide6\n",
+            error=True,
+        )
+        return
+
     env = os.environ.copy()
     env["DAV_PASSIVE_HISTORY_VIEWER"] = "1"
     env["DAV_FREECAD_PID"] = str(os.getpid())
 
+    # pythonw no tiene consola: si main.py falla al importar, el proceso muere
+    # sin dejar rastro. Se captura stderr para poder reportar el motivo.
     try:
-        _interfaz_proc = subprocess.Popen([pythonw, str(script)], cwd=str(script.parent), env=env)
-    except Exception:
+        _interfaz_proc = subprocess.Popen(
+            [pythonw, str(script)],
+            cwd=str(script.parent),
+            env=env,
+            stderr=subprocess.PIPE,
+        )
+    except Exception as e:
+        _report(f"[DAV] No se pudo lanzar InterfazDAV: {e}\n", error=True)
+        return
+
+    # Popen tiene exito aunque el script muera al primer import, asi que hay
+    # que mirar el proceso un instante despues para saber si sobrevivio.
+    _check_interfaz_started(_interfaz_proc)
+
+
+def _report(message: str, *, error: bool = False) -> None:
+    """Escribe en la consola de FreeCAD, o en stdout fuera de FreeCAD."""
+    try:
+        import FreeCAD as App
+        if error:
+            App.Console.PrintError(message)
+        else:
+            App.Console.PrintWarning(message)
+    except ImportError:
+        print(message, end="")
+
+
+def _check_interfaz_started(proc: "subprocess.Popen") -> None:
+    """Verifica que la InterfazDAV siga viva y reporta el stderr si murio.
+
+    Se llama en diferido (1,5 s) para no bloquear la UI de FreeCAD. Si el
+    proceso ya termino, lee lo que dejo en stderr y lo publica en la consola:
+    sin esto, un fallo de arranque bajo pythonw es completamente invisible.
+    """
+    def _check() -> None:
+        if proc.poll() is None:
+            return
+        detail = ""
         try:
-            _interfaz_proc = subprocess.Popen([python, str(script)], cwd=str(script.parent), env=env)
-        except Exception as e:
-            try:
-                import FreeCAD as App
-                App.Console.PrintError(f"[DAV] No se pudo lanzar InterfazDAV: {e}\n")
-            except ImportError:
-                print(f"[DAV] No se pudo lanzar InterfazDAV: {e}")
+            if proc.stderr is not None:
+                detail = proc.stderr.read().decode("utf-8", errors="replace").strip()
+        except Exception:
+            pass
+        msg = f"[DAV] La InterfazDAV se cerro al arrancar (codigo {proc.returncode}).\n"
+        if detail:
+            msg += f"[DAV] {detail}\n"
+        _report(msg, error=True)
+
+    # Diferido via QTimer solo si hay event loop de Qt corriendo (dentro de
+    # FreeCAD). Sin loop el singleShot no dispara nunca y el fallo volveria a
+    # ser invisible, asi que en ese caso se espera en un hilo aparte.
+    try:
+        from PySide6.QtCore import QTimer
+        from PySide6.QtWidgets import QApplication
+        if QApplication.instance() is not None:
+            QTimer.singleShot(1500, _check)
+            return
+    except ImportError:
+        pass
+
+    import threading
+    import time as _time
+
+    def _wait_and_check() -> None:
+        _time.sleep(1.5)
+        _check()
+
+    threading.Thread(target=_wait_and_check, daemon=True).start()
 
 
 def register_commands() -> None:
