@@ -1,0 +1,35 @@
+{
+  "context_path": "Base",
+  "submenus": [
+    {
+      "spoken": "explorador",
+      "key": "explorer"
+    },
+    {
+      "spoken": "mesa de trabajo",
+      "key": "workbench"
+    },
+    {
+      "spoken": "pieza",
+      "key": "pieza"
+    },
+    {
+      "spoken": "atributos de línea",
+      "key": "lineattributes"
+    },
+    {
+      "spoken": "vista estándar",
+      "key": "stdview"
+    }
+  ],
+  "commands": [
+    {
+      "spoken": "circulo",
+      "key": "circulo"
+    },
+    {
+      "spoken": "preferencias",
+      "key": "preferences"
+    }
+  ]
+}

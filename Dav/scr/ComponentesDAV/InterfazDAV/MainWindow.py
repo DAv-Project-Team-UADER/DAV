@@ -1,6 +1,16 @@
 # MainWindow.py
 # Asistente de Voz con captura automática del árbol de FreeCAD (cada 5 segundos)
 
+# MainWindow.py
+# Asistente de Voz con captura automática del árbol de FreeCAD (cada 5 segundos)
+
+import trigger_capture
+from componentesDAV.Keychain.Keychain import Keychain
+from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
+from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
+from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
+from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
+from componentesDAV.InterfazDAV.Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
 import os
 import sys
 import threading
@@ -41,13 +51,6 @@ for _ in range(4):
         break
     _curr = _parent
 
-from componentesDAV.InterfazDAV.Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
-from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
-from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
-from componentesDAV.InterfazDAV.VoiceWorker import VoiceWorker
-from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
-from componentesDAV.Keychain.Keychain import Keychain
-
 
 # ================================================================
 # THEME DETECTION
@@ -65,16 +68,18 @@ def _DetectFreeCADTheme() -> str:
         # Si el color de fondo es oscuro, asumimos tema oscuro
         bg_color = palette.color(palette.ColorRole.Window)
         # Calcular luminancia: si es baja, es oscuro
-        luminance = (0.299 * bg_color.red() + 0.587 * bg_color.green() + 0.114 * bg_color.blue()) / 255.0
+        luminance = (0.299 * bg_color.red() + 0.587 *
+                     bg_color.green() + 0.114 * bg_color.blue()) / 255.0
         return "dark" if luminance < 0.5 else "light"
     except Exception:
         return "light"
+
 # Importar trigger de captura (también instala la macro automáticamente)
-import trigger_capture
 
 # ================================================================
 # HELPERS
 # ================================================================
+
 
 def _ResolveModelPath(ModelName):
     """Ruta a un modelo Vosk en el layout DavCore (Dav/models).
@@ -107,6 +112,7 @@ def _StripAccents(Text):
 def _NormCmd(Text):
     return _StripAccents(Text.lower().strip())
 
+
 _VALUE_TO_GROUP_KEY = {
     "file":               "file",
     "edit":               "edit",
@@ -117,6 +123,7 @@ _VALUE_TO_GROUP_KEY = {
     "Std_ViewScreenShot": "screenshot",
     "Std_TextDocument":   "textdoc",
 }
+
 
 def _RawValueToGroupKey(RawValue: str):
     Stripped = RawValue.strip()
@@ -132,7 +139,7 @@ def _RawValueToGroupKey(RawValue: str):
 # BUTTON LEVEL
 # ================================================================
 
-LEVEL_ROOT  = "root"
+LEVEL_ROOT = "root"
 LEVEL_GROUP = "group"
 
 
@@ -147,17 +154,34 @@ class MainWindow(QMainWindow):
         # Si no se especifica color, detectar el tema de FreeCAD
         if color is None:
             color = _DetectFreeCADTheme()
-        
+
         self.setWindowTitle("Asistente de Voz - Control por Comandos")
         self.setMinimumSize(900, 650)
 
-        self._HelpWindow   = None
-        self._Level        = LEVEL_ROOT
-        self._ActiveGroup  = None
+        self._HelpWindow = None
+        self._HelpWindow = None
 
-        self._ToolButtons  = []
-        self._GroupMeta    = {}
-        self._VoiceMap     = {}
+        self._ToolButtons = []
+        self._GroupMeta = {}
+        self._VoiceHistoryOffset = 0
+        self._LastContextState = None
+        self._VoiceHistoryPath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "voice_history.log"
+        )
+        self._ContextStatePath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "context_state.json"
+        )
+        self._CommandQueuePath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "command_queue.txt"
+        )
+        self._VoiceStatusPath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "voice_status.json"
+        )
+
 
         # Variables para el árbol de datos de FreeCAD
         self._TreeWidget = None
@@ -167,18 +191,18 @@ class MainWindow(QMainWindow):
         self.SetColor(color)
         self.SetLanguage(lang)
         self._SetupUi()
-        self._StartVoiceRecognition()
-        
+        self._StartSyncingWithFreeCAD()
+
         # Timer para auto-refrescar los datos del árbol (cada 2 segundos)
         self._RefreshTimer = QTimer()
         self._RefreshTimer.timeout.connect(self._RefreshTreeData)
         self._RefreshTimer.start(2000)
-        
+
         # Timer para auto-capturar (cada 5 SEGUNDOS)
         self._CaptureTimer = QTimer()
         self._CaptureTimer.timeout.connect(self._AutoCapture)
         self._CaptureTimer.start(5000)
-        
+
         # Verificar estado de la macro después de 3 segundos
         QTimer.singleShot(3000, self._CheckMacroStatus)
         self._StartSettingsWatcher()
@@ -188,15 +212,15 @@ class MainWindow(QMainWindow):
         self._T = LIGHT if Mode == "light" else DARK
         self._CurrentTheme = Mode
         if hasattr(self, '_TitleLabel'):
-            self.setStyleSheet(f"QMainWindow {{ background-color: {self._T['bg']}; }}")
+            self.setStyleSheet(
+                f"QMainWindow {{ background-color: {self._T['bg']}; }}")
             self._UpdateStyles()
 
     def SetLanguage(self, Lang: str):
-        self._Texts       = TEXTS.get(Lang, TEXTS["es"])
+        self._Texts = TEXTS.get(Lang, TEXTS["es"])
         self._CurrentLang = Lang
-        self._LoadVoiceMap()
-        if hasattr(self, '_ToolRow'):
-            self._RebuildButtons()
+        if hasattr(self, '_ToolAreaLayout'):
+            self._RenderCurrentState()
         if hasattr(self, '_ModelLabel'):
             self._ModelLabel.setText("Árbol de FreeCAD")
         if hasattr(self, '_ListenLabel'):
@@ -296,8 +320,8 @@ class MainWindow(QMainWindow):
         TopLayout.setSpacing(12)
         TopLayout.setContentsMargins(40, 20, 40, 12)
 
-        BaseDir        = os.path.dirname(os.path.abspath(__file__))
-        LogoPath       = os.path.join(BaseDir, "..", "Logos", "color.svg")
+        BaseDir = os.path.dirname(os.path.abspath(__file__))
+        LogoPath = os.path.join(BaseDir, "..", "Logos", "color.svg")
         SystemIconsDir = os.path.join(BaseDir, "icons", "system")
 
         TitleRow = QHBoxLayout()
@@ -349,10 +373,10 @@ class MainWindow(QMainWindow):
                 IL.setContentsMargins(6, 6, 6, 6)
             else:
                 Btn.setText("?")
-            
+
             if IconFile == "configuraciones.svg":
                 Btn.clicked.connect(self._OpenPreferences)
-            
+
             TitleRow.addWidget(Btn)
             self._TopBarButtons.append(Btn)
 
@@ -364,7 +388,8 @@ class MainWindow(QMainWindow):
         self._StatusLabel.setFont(QFont(FONT_SANS, 13, QFont.DemiBold))
         self._StatusLabel.setAlignment(Qt.AlignCenter)
         self._StatusLabel.setFixedHeight(54)
-        self._StatusLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self._StatusLabel.setSizePolicy(
+            QSizePolicy.Expanding, QSizePolicy.Fixed)
         self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
         MainLayout.addWidget(self._StatusLabel)
 
@@ -382,7 +407,8 @@ class MainWindow(QMainWindow):
         self._CurrentText.setFixedHeight(54)
         self._CurrentText.setFont(QFont(FONT_MONO, 12, QFont.DemiBold))
         self._CurrentText.setReadOnly(True)
-        self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
+        self._CurrentText.setStyleSheet(self._PanelQss(
+            FONT_MONO, T["dark_text"], 12, Weight=600))
         BottomLayout.addWidget(self._CurrentText)
 
         PanelRow = QHBoxLayout()
@@ -393,19 +419,19 @@ class MainWindow(QMainWindow):
         # ============================================================
         TreeCol = QVBoxLayout()
         TreeCol.setSpacing(4)
-        
+
         self._ModelLabel = QLabel("Árbol de FreeCAD")
         self._ModelLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
         TreeCol.addWidget(self._ModelLabel)
-        
+
         self._TreeWidget = QTreeWidget()
         self._TreeWidget.setHeaderHidden(True)
         self._TreeWidget.setMinimumHeight(160)
         self._TreeWidget.setStyleSheet(self._TreeQss())
         self._ShowTreePlaceholder()
         TreeCol.addWidget(self._TreeWidget, stretch=1)
-        
+
         PanelRow.addLayout(TreeCol, stretch=1)
 
         # ============================================================
@@ -420,7 +446,8 @@ class MainWindow(QMainWindow):
         self._HistoryList = QTextEdit()
         self._HistoryList.setFont(QFont(FONT_MONO, 11, QFont.DemiBold))
         self._HistoryList.setReadOnly(True)
-        self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
+        self._HistoryList.setStyleSheet(self._PanelQss(
+            FONT_MONO, T["green"], 11, Weight=600))
         self._HistoryList.setMinimumHeight(160)
         HistCol.addWidget(self._HistoryList, stretch=1)
         PanelRow.addLayout(HistCol, stretch=2)
@@ -440,8 +467,7 @@ class MainWindow(QMainWindow):
         self._Flash.setGeometry(CentralWidget.rect())
 
         self._LoadGroupMeta()
-        self._LoadVoiceMap()
-        self._ShowRootButtons()
+        self._RenderCurrentState()
 
     def _TreeQss(self) -> str:
         """QSS para el QTreeWidget del árbol, consistente con la paleta actual."""
@@ -471,11 +497,15 @@ class MainWindow(QMainWindow):
         tree_data = self._tree_data_path()
 
         if not os.path.exists(tree_data) or os.path.getsize(tree_data) == 0:
-            self.AddToHistory("💡 Configuración necesaria para el árbol de FreeCAD:", System=True)
+            self.AddToHistory(
+                "💡 Configuración necesaria para el árbol de FreeCAD:", System=True)
             self.AddToHistory("   1. Abre FreeCAD", System=True)
-            self.AddToHistory("   2. Macro → Macros → capture_tree → Ejecutar", System=True)
-            self.AddToHistory("   3. La macro se quedará ejecutándose en segundo plano", System=True)
-            self.AddToHistory("   4. El árbol se actualizará automáticamente cada 5 segundos", System=True)
+            self.AddToHistory(
+                "   2. Macro → Macros → capture_tree → Ejecutar", System=True)
+            self.AddToHistory(
+                "   3. La macro se quedará ejecutándose en segundo plano", System=True)
+            self.AddToHistory(
+                "   4. El árbol se actualizará automáticamente cada 5 segundos", System=True)
             self._TriggerFlash()
 
     def _AutoCapture(self):
@@ -526,11 +556,11 @@ class MainWindow(QMainWindow):
         # Crear un item por objeto, indexado por Name para anidar por parent
         ItemsByName = {}
         for Obj in Objects:
-            Name  = Obj.get("name", "")
+            Name = Obj.get("name", "")
             Label = Obj.get("label") or Name
-            Type  = Obj.get("type", "")
-            Text  = f"{Label}  [{Type}]" if Type else Label
-            Item  = QTreeWidgetItem([Text])
+            Type = Obj.get("type", "")
+            Text = f"{Label}  [{Type}]" if Type else Label
+            Item = QTreeWidgetItem([Text])
             if not Obj.get("visible", True):
                 Item.setForeground(0, QBrush(QColor(self._T["dark_text"])))
             ItemsByName[Name] = (Item, Obj.get("parent"))
@@ -545,9 +575,10 @@ class MainWindow(QMainWindow):
         self._TreeWidget.expandAll()
 
     def _LoadGroupMeta(self):
+        from componentesDAV.Keychain.Keychain import Keychain
         self._GroupMeta = {}
         BaseDir = os.path.dirname(os.path.abspath(__file__))
-        DicDir  = os.path.join(BaseDir, "DiccionarioPrueba")
+        DicDir = os.path.join(BaseDir, "DiccionarioPrueba")
 
         if not os.path.isdir(DicDir):
             return
@@ -557,50 +588,38 @@ class MainWindow(QMainWindow):
             return
 
         RootKeychain = Keychain(ExplorerPath)
-        GroupNames   = [K for K in RootKeychain.GetKeys() if K != "doc"]
+        GroupNames = [K for K in RootKeychain.GetKeys() if K != "doc"]
 
         for GroupName in GroupNames:
             GroupIconPath = os.path.join(DicDir, f"{GroupName}.svg")
             if not os.path.exists(GroupIconPath):
                 continue
+            self._GroupMeta[GroupName] = {"icon": GroupIconPath}
 
-            GroupFolder  = os.path.join(DicDir, GroupName)
-            GroupDictPath = os.path.join(GroupFolder, f"{GroupName}.py")
-            if not os.path.exists(GroupDictPath):
-                GroupDictPath = os.path.join(GroupFolder, f"{GroupName}_cmds.py")
+    def _ShowRootButtonsFallback(self):
+        self._ClearToolArea()
+        for GroupName, Meta in self._GroupMeta.items():
+            Btn = self._MakeSvgButton(Meta["icon"], GroupName)
+            Btn.clicked.connect(lambda Checked=False: self._TriggerFlash())
+            self._ToolButtons.append(Btn)
+            self._ToolAreaLayout.addWidget(Btn)
 
-            Children = []
-            if os.path.exists(GroupDictPath):
-                ActionKeychain = Keychain(GroupDictPath)
-                for ActionKey in ActionKeychain.GetKeys()[:12]:
-                    ChildIcon = os.path.join(GroupFolder, f"{ActionKey.replace(' ', '_')}.svg")
-                    if not os.path.exists(ChildIcon):
-                        continue
-                    Children.append({"key": ActionKey, "icon": ChildIcon})
-
-            self._GroupMeta[GroupName] = {
-                "icon":     GroupIconPath,
-                "children": Children,
-            }
-
-    def _LoadVoiceMap(self):
-        self._VoiceMap = {}
-        LangFiles = {"es": "TraduceToEs.py", "en": "TraduceToEn.py", "pt": "TraduceToPt.py"}
-        LangFile  = LangFiles.get(self._CurrentLang, "TraduceToEs.py")
-        DicDir    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DiccionarioPrueba")
-        TransPath = os.path.join(DicDir, LangFile)
-
-        if not os.path.exists(TransPath):
-            return
-
-        KC     = Keychain(TransPath)
-        Keys   = KC.GetKeys()
-        Values = KC.GetValues()
-
-        for Key, RawValue in zip(Keys, Values):
-            GroupKey = _RawValueToGroupKey(RawValue)
-            if GroupKey is not None:
-                self._VoiceMap[_NormCmd(Key)] = GroupKey
+    def _SearchIcon(self, key: str) -> str:
+        """Busca el SVG correspondiente al key interno dentro de Dav/dic"""
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        dic_dir = os.path.join(base_dir, "dic")
+        target = f"{key}.svg"
+        
+        for root, _, files in os.walk(dic_dir):
+            if target in files:
+                return os.path.join(root, target)
+        
+        # Fallback a icons del sistema si no lo encuentra
+        sys_icon = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons", "system", target)
+        if os.path.exists(sys_icon):
+            return sys_icon
+            
+        return ""
 
     def _ClearToolArea(self):
         while self._ToolAreaLayout.count():
@@ -616,75 +635,56 @@ class MainWindow(QMainWindow):
         Btn.setFixedSize(Size, Size)
         Btn.setToolTip(Tooltip)
         Btn.setStyleSheet(self._BtnQss())
-        Svg = QSvgWidget(IconPath)
-        Svg.setFixedSize(Size - 12, Size - 12)
-        Layout = QVBoxLayout(Btn)
-        Layout.addWidget(Svg, alignment=Qt.AlignCenter)
-        Layout.setContentsMargins(6, 6, 6, 6)
+        if IconPath and os.path.exists(IconPath):
+            Svg = QSvgWidget(IconPath)
+            Svg.setFixedSize(Size - 12, Size - 12)
+            Layout = QVBoxLayout(Btn)
+            Layout.addWidget(Svg, alignment=Qt.AlignCenter)
+            Layout.setContentsMargins(6, 6, 6, 6)
+        else:
+            Btn.setText(Tooltip[:2].capitalize())
         return Btn
 
-    def _ShowRootButtons(self):
+    def _RenderCurrentState(self):
         self._ClearToolArea()
-        self._Level       = LEVEL_ROOT
-        self._ActiveGroup = None
-
-        for GroupName, Meta in self._GroupMeta.items():
-            Btn = self._MakeSvgButton(Meta["icon"], GroupName)
-            Btn.clicked.connect(lambda Checked=False, G=GroupName: self._EnterGroup(G))
-            self._ToolButtons.append(Btn)
-            self._ToolAreaLayout.addWidget(Btn)
-
-    def _ShowGroupButtons(self, GroupName: str):
-        self._ClearToolArea()
-        self._Level       = LEVEL_GROUP
-        self._ActiveGroup = GroupName
-
-        Meta = self._GroupMeta.get(GroupName, {})
-        Children = Meta.get("children", [])
-
-        for Child in Children:
-            Btn = self._MakeSvgButton(Child["icon"], Child["key"])
-            Key = Child["key"]
-            Btn.clicked.connect(lambda Checked=False, K=Key, G=GroupName: self._ExecuteChildAction(G, K))
-            self._ToolButtons.append(Btn)
-            self._ToolAreaLayout.addWidget(Btn)
-
-        BackBtn = QPushButton("←")
-        BackBtn.setFixedSize(54, 54)
-        BackBtn.setToolTip("Volver")
-        BackBtn.setStyleSheet(self._BackBtnQss())
-        BackBtn.setFont(QFont(FONT_SANS, 18, QFont.Bold))
-        BackBtn.clicked.connect(self.GoBack)
-        self._ToolAreaLayout.addWidget(BackBtn)
-
-    def _RebuildButtons(self):
-        if self._Level == LEVEL_GROUP and self._ActiveGroup:
-            self._ShowGroupButtons(self._ActiveGroup)
-        else:
-            self._ShowRootButtons()
-
-    def _EnterGroup(self, GroupName: str):
-        Meta     = self._GroupMeta.get(GroupName, {})
-        Children = Meta.get("children", [])
-
-        if not Children:
-            self.AddToHistory(f"{GroupName}", FromVoice=False)
-            self._TriggerFlash()
+        
+        if not self._LastContextState:
+            self._ShowRootButtonsFallback()
             return
 
-        self.AddToHistory(f"Menú: {GroupName}", FromVoice=False)
-        self._ShowGroupButtons(GroupName)
-        self._TriggerFlash()
+        context_path = self._LastContextState.get("context_path", "")
+        
+        for item in self._LastContextState.get("submenus", []):
+            icon_path = self._SearchIcon(item["key"])
+            btn = self._MakeSvgButton(icon_path, item["spoken"])
+            btn.clicked.connect(lambda Checked=False, s=item["spoken"]: self._SendCommand(s))
+            self._ToolButtons.append(btn)
+            self._ToolAreaLayout.addWidget(btn)
 
-    def _ExecuteChildAction(self, GroupName: str, ActionKey: str):
-        self.AddToHistory(f"{GroupName} → {ActionKey}", FromVoice=False)
-        self._TriggerFlash()
+        for item in self._LastContextState.get("commands", []):
+            icon_path = self._SearchIcon(item["key"])
+            btn = self._MakeSvgButton(icon_path, item["spoken"])
+            btn.clicked.connect(lambda Checked=False, s=item["spoken"]: self._SendCommand(s))
+            self._ToolButtons.append(btn)
+            self._ToolAreaLayout.addWidget(btn)
 
-    def GoBack(self):
-        if self._Level == LEVEL_GROUP:
-            PrevGroup = self._ActiveGroup
-            self._ShowRootButtons()
-            self.AddToHistory(f"Volver (desde {PrevGroup})", FromVoice=False)
+        if context_path and context_path != "Base":
+            BackBtn = QPushButton("←")
+            BackBtn.setFixedSize(54, 54)
+            BackBtn.setToolTip("Volver")
+            BackBtn.setStyleSheet(self._BackBtnQss())
+            BackBtn.setFont(QFont(FONT_SANS, 18, QFont.Bold))
+            BackBtn.clicked.connect(lambda: self._SendCommand("subir"))
+            self._ToolAreaLayout.addWidget(BackBtn)
+
+    def _SendCommand(self, spoken: str):
+        self._TriggerFlash()
+        try:
+            os.makedirs(os.path.dirname(self._CommandQueuePath), exist_ok=True)
+            with open(self._CommandQueuePath, "a", encoding="utf-8") as f:
+                f.write(f"{spoken}\n")
+        except Exception as e:
+            self.AddToHistory(f"Error enviando comando: {e}", Unknown=True)
 
     # ================================================================
     # Theme / Tree Image Update
@@ -703,19 +703,21 @@ class MainWindow(QMainWindow):
         self._TitleLabel.setStyleSheet(f"color: {T['black']};")
         self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
         self._ListenLabel.setStyleSheet(f"color: {T['black']};")
-        self._CurrentText.setStyleSheet(self._PanelQss(FONT_MONO, T["dark_text"], 12, Weight=600))
-        
+        self._CurrentText.setStyleSheet(self._PanelQss(
+            FONT_MONO, T["dark_text"], 12, Weight=600))
+
         self._ModelLabel.setStyleSheet(f"color: {T['black']};")
         if self._TreeWidget:
             self._TreeWidget.setStyleSheet(self._TreeQss())
 
         self._HistLabel.setStyleSheet(f"color: {T['black']};")
-        self._HistoryList.setStyleSheet(self._PanelQss(FONT_MONO, T["green"], 11, Weight=600))
+        self._HistoryList.setStyleSheet(self._PanelQss(
+            FONT_MONO, T["green"], 11, Weight=600))
         self._HelpButton.setStyleSheet(self._BtnQss())
         for Btn in getattr(self, '_TopBarButtons', []):
             Btn.setStyleSheet(self._BtnQss())
         if hasattr(self, '_ToolAreaLayout'):
-            self._RebuildButtons()
+            self._RenderCurrentState()
 
     # ================================================================
     # Flash overlay
@@ -730,112 +732,75 @@ class MainWindow(QMainWindow):
     # Voice
     # ================================================================
 
-    def _StartVoiceRecognition(self):
-        ModelPath = _ResolveModelPath("vosk-model-small-es-0.42")
+    def _StartSyncingWithFreeCAD(self):
+        self.UpdateStatus("inactive")
+        self._SyncTimer = QTimer(self)
+        self._SyncTimer.timeout.connect(self._PollFreeCADState)
+        self._SyncTimer.start(500)
 
-        if not os.path.exists(ModelPath):
-            print(f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado en {ModelPath}")
-            return
-        
-        self._VoiceWorker = VoiceWorker(model_path=ModelPath)
-        self._VoiceThread = threading.Thread(target=self._VoiceWorker.run, daemon=True)
-        self._VoiceWorker.partial_result.connect(self.UpdateCurrentText)
-        self._VoiceWorker.final_result.connect(self.ProcessVoiceCommand)
-        self._VoiceWorker.status_signal.connect(self.UpdateStatus)
-        self._VoiceThread.start()
+    def _PollFreeCADState(self):
+        # Leer voice status
+        try:
+            if hasattr(self, "_VoiceStatusPath") and os.path.exists(self._VoiceStatusPath):
+                import json
+                with open(self._VoiceStatusPath, "r", encoding="utf-8") as f:
+                    st_data = json.load(f)
+                st = st_data.get("status", "inactive")
+                dt = st_data.get("detail", "")
+                self.UpdateStatus(st, dt)
+            else:
+                self.UpdateStatus("inactive")
+        except Exception as e:
+            print(f"Error polling voice status: {e}")
 
-    def UpdateStatus(self, Msg: str):
+        # Leer history
+        try:
+            if os.path.exists(self._VoiceHistoryPath):
+                with open(self._VoiceHistoryPath, "rb") as fh:
+                    fh.seek(self._VoiceHistoryOffset)
+                    data = fh.read()
+                    self._VoiceHistoryOffset = fh.tell()
+                
+                if data:
+                    text = data.decode("utf-8", errors="replace")
+                    lines = [l.strip() for l in text.splitlines() if l.strip()]
+                    for line in lines:
+                        if line.startswith("[DAV] Voz:"):
+                            cmd = line.split("Voz:", 1)[1].strip()
+                            self.UpdateCurrentText(f"{self._Texts['detected']} {cmd}")
+                        self.AddToHistory(line, FromVoice=True)
+        except Exception as e:
+            print(f"Error polling history: {e}")
+
+        # Leer context state
+        try:
+            if os.path.exists(self._ContextStatePath):
+                import json
+                with open(self._ContextStatePath, "r", encoding="utf-8") as f:
+                    state = json.load(f)
+                if state != self._LastContextState:
+                    self._LastContextState = state
+                    self._RenderCurrentState()
+        except Exception as e:
+            print(f"Error polling context state: {e}")
+
+    def UpdateStatus(self, Msg: str, Detail: str = ""):
         T = self._T
         L = self._Texts
         if Msg == "active":
-            self._StatusLabel.setText(L["mic_active"])
+            self._StatusLabel.setText(L.get("mic_active", "Micrófono activo"))
             self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
-        elif Msg.startswith("error:"):
-            self._StatusLabel.setText(L["mic_error"])
+        elif Msg == "inactive":
+            text = "Micrófono inactivo (clic en «Iniciar voz DAV» en barra FreeCAD)"
+            self._StatusLabel.setText(text)
+            self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
+        elif Msg.startswith("error") or Msg == "error":
+            err_txt = f"{L.get('mic_error', 'Error de micrófono')}: {Detail}" if Detail else L.get('mic_error', 'Error de micrófono')
+            self._StatusLabel.setText(err_txt)
             self._StatusLabel.setStyleSheet(self._MicQss(T["red"]))
 
     def UpdateCurrentText(self, Text: str):
         self._CurrentText.setText(Text)
-
-    def ProcessVoiceCommand(self, Command: str):
-        CmdNorm = _NormCmd(Command)
-        L       = self._Texts
-        self._CurrentText.setText(f"{L['detected']} {Command}")
-
-        if CmdNorm == "ayuda":
-            self.OpenHelpWindow()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("cerrar ayuda", "cerrar ventana"):
-            self.CloseHelpWindow()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "minimizar":
-            self.showMinimized()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "maximizar":
-            self.showMaximized() if not self.isMaximized() else self.showNormal()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("cerrar programa", "cerrar app", "salir"):
-            self.AddToHistory(Command)
-            self.close()
-            return
-        if CmdNorm in ("subir", "arriba"):
-            self.ScrollHistory(Up=True)
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("bajar", "abajo"):
-            self.ScrollHistory(Up=False)
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "modo claro":
-            if self._CurrentTheme != "light":
-                self.ToggleTheme()
-            return
-        if CmdNorm == "modo oscuro":
-            if self._CurrentTheme != "dark":
-                self.ToggleTheme()
-            return
-
-        if CmdNorm in ("volver", "atras", "atrás", "cerrar menu", "cerrar menú"):
-            if self._Level == LEVEL_GROUP:
-                self.GoBack()
-                self.AddToHistory("Volver")
-            else:
-                self.AddToHistory("Ya en nivel raíz", Unknown=True)
-            return
-
-        if self._Level == LEVEL_ROOT:
-            TargetGroup = None
-            if CmdNorm in ((_NormCmd(G)) for G in self._GroupMeta):
-                TargetGroup = next(G for G in self._GroupMeta if _NormCmd(G) == CmdNorm)
-            elif CmdNorm in self._VoiceMap:
-                Candidate = self._VoiceMap[CmdNorm]
-                if Candidate in self._GroupMeta:
-                    TargetGroup = Candidate
-
-            if TargetGroup is not None:
-                self._EnterGroup(TargetGroup)
-                if self._GroupMeta[TargetGroup].get("children"):
-                    self.AddToHistory(f"Menú: {TargetGroup}")
-                else:
-                    self.AddToHistory(TargetGroup)
-                return
-
-        elif self._Level == LEVEL_GROUP:
-            Meta     = self._GroupMeta.get(self._ActiveGroup, {})
-            Children = Meta.get("children", [])
-            for Child in Children:
-                if _NormCmd(Child["key"]) == CmdNorm:
-                    self._ExecuteChildAction(self._ActiveGroup, Child["key"])
-                    self.AddToHistory(f"{self._ActiveGroup} → {Child['key']}")
-                    return
-            self.AddToHistory(f"'{Command}' no disponible en {self._ActiveGroup}", Unknown=True)
-            return
-
-        self.AddToHistory(Command, Unknown=True)
 
     def ScrollHistory(self, Up: bool = True):
         Scrollbar = self._HistoryList.verticalScrollBar()
@@ -843,16 +808,16 @@ class MainWindow(QMainWindow):
         Scrollbar.setValue(Scrollbar.value() + (-Step if Up else Step))
 
     def AddToHistory(self, Text: str, Unknown: bool = False, FromVoice: bool = True, System: bool = False):
-        T         = self._T
-        L         = self._Texts
+        T = self._T
+        L = self._Texts
         Timestamp = datetime.now().strftime("%H:%M:%S")
         if System:
-            Color   = T["dark_text"]
+            Color = T["dark_text"]
             Display = Text
         else:
-            Color     = T["red"] if Unknown else T["green"]
-            Source    = "Voz" if FromVoice else "Btn"
-            Display   = f"{L['unknown']}: {Text}" if Unknown else f"[{Source}] {Text.upper()}"
+            Color = T["red"] if Unknown else T["green"]
+            Source = "Voz" if FromVoice else "Btn"
+            Display = f"{L['unknown']}: {Text}" if Unknown else f"[{Source}] {Text.upper()}"
         Html = (
             f'<span style="color:{T["dark_text"]}; font-family:{FONT_MONO};'
             f' font-size:12px; font-weight:600;">[{Timestamp}]&nbsp;</span>'
@@ -871,17 +836,20 @@ class MainWindow(QMainWindow):
         try:
             import importlib.util
             import json
-            
+
             CurrentDir = os.path.dirname(os.path.abspath(__file__))
             DavDir = os.path.dirname(CurrentDir)
-            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
-            PreferenceDialogPath = os.path.join(GUIFreeCadPath, "ui", "preferences_dialog.py")
+            GUIFreeCadPath = os.path.join(
+                DavDir, "IntegracionGUI", "GUIFreeCad")
+            PreferenceDialogPath = os.path.join(
+                GUIFreeCadPath, "ui", "preferences_dialog.py")
             SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
-            ConfigPath = os.path.join(GUIFreeCadPath, "config", "settings.json")
-            
+            ConfigPath = os.path.join(
+                GUIFreeCadPath, "config", "settings.json")
+
             if GUIFreeCadPath not in sys.path:
                 sys.path.insert(0, GUIFreeCadPath)
-            
+
             try:
                 # Ensure config directory exists
                 ConfigDir = os.path.dirname(ConfigPath)
@@ -900,17 +868,21 @@ class MainWindow(QMainWindow):
                     SettingsData['theme'] = self._CurrentTheme
 
                     with open(ConfigPath, 'w', encoding='utf-8') as F:
-                        json.dump(SettingsData, F, indent=2, ensure_ascii=False)
+                        json.dump(SettingsData, F, indent=2,
+                                  ensure_ascii=False)
                 except Exception as E:
-                    print(f"[Warning] No se pudo sincronizar theme con settings.json: {E}")
+                    print(
+                        f"[Warning] No se pudo sincronizar theme con settings.json: {E}")
 
                 # Load settings module first
-                SpecSettings = importlib.util.spec_from_file_location("settings", SettingsPath)
+                SpecSettings = importlib.util.spec_from_file_location(
+                    "settings", SettingsPath)
                 SettingsModule = importlib.util.module_from_spec(SpecSettings)
                 sys.modules["settings"] = SettingsModule
                 SpecSettings.loader.exec_module(SettingsModule)
 
-                Spec = importlib.util.spec_from_file_location("preferences_dialog", PreferenceDialogPath)
+                Spec = importlib.util.spec_from_file_location(
+                    "preferences_dialog", PreferenceDialogPath)
                 PrefsModule = importlib.util.module_from_spec(Spec)
                 Spec.loader.exec_module(PrefsModule)
                 PreferencesDialog = PrefsModule.PreferencesDialog
@@ -930,7 +902,8 @@ class MainWindow(QMainWindow):
                 else:
                     self.SetColor("light")
 
-                PrefsDialog.settings_changed.connect(self._OnPreferencesChanged)
+                PrefsDialog.settings_changed.connect(
+                    self._OnPreferencesChanged)
                 PrefsDialog.exec()
             finally:
                 if GUIFreeCadPath in sys.path:
@@ -946,17 +919,19 @@ class MainWindow(QMainWindow):
         """Apply preferences from the shared settings.json."""
         try:
             import importlib.util
-            
+
             CurrentDir = os.path.dirname(os.path.abspath(__file__))
             DavDir = os.path.dirname(CurrentDir)
-            GUIFreeCadPath = os.path.join(DavDir, "IntegracionGUI", "GUIFreeCad")
+            GUIFreeCadPath = os.path.join(
+                DavDir, "IntegracionGUI", "GUIFreeCad")
             SettingsPath = os.path.join(GUIFreeCadPath, "core", "settings.py")
-            
+
             if GUIFreeCadPath not in sys.path:
                 sys.path.insert(0, GUIFreeCadPath)
-            
+
             try:
-                SpecSettings = importlib.util.spec_from_file_location("settings_current", SettingsPath)
+                SpecSettings = importlib.util.spec_from_file_location(
+                    "settings_current", SettingsPath)
                 SettingsModule = importlib.util.module_from_spec(SpecSettings)
                 SpecSettings.loader.exec_module(SettingsModule)
                 Settings = SettingsModule.settings
@@ -978,9 +953,9 @@ class MainWindow(QMainWindow):
                 return
             with open(Path, encoding="utf-8") as F:
                 Data = json.load(F)
-            Theme    = Data.get("theme", self._CurrentTheme)
+            Theme = Data.get("theme", self._CurrentTheme)
             Language = Data.get("language", "es")
-            
+
             # Aplicar tema — solo si cambió
             if Theme in ("dark", "light") and Theme != self._CurrentTheme:
                 self.SetColor(Theme)
@@ -988,7 +963,7 @@ class MainWindow(QMainWindow):
             # Aplicar idioma — solo si cambió
             if Language in ("es", "en", "pt") and Language != self._CurrentLang:
                 self.SetLanguage(Language)
-            
+
             self.AddToHistory("Preferencias actualizadas", FromVoice=False)
         except Exception:
             pass
@@ -1037,8 +1012,4 @@ class MainWindow(QMainWindow):
             self._Flash.setGeometry(self.centralWidget().rect())
 
     def closeEvent(self, Event):
-        if hasattr(self, '_VoiceWorker'):
-            self._VoiceWorker.stop()
-        if hasattr(self, '_VoiceThread'):
-            self._VoiceThread.join(timeout=1)
         Event.accept()

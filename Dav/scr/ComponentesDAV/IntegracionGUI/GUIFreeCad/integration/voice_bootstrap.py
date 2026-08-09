@@ -7,7 +7,15 @@ import traceback
 from pathlib import Path
 
 from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
+from integration.voice_history import reset_voice_history, pop_command_queue, export_voice_status
 from speech.dav_voice_service import DavVoiceService
+
+_command_timer = None
+
+def _poll_command_queue(adapter):
+    command = pop_command_queue()
+    if command:
+        adapter.procesar_frase_final(command)
 
 
 def _resolve_dictionary_root() -> Path:
@@ -62,17 +70,21 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         settings.load()
         model = get_active_model_path(settings.language, settings.model_size)
         if model is None:
-            _print_error(
+            err_msg = (
                 "[DAV] Sin modelo Vosk para idioma "
                 f"'{settings.language}'. Configurá Preferencias DAV o ejecutá "
                 "python scripts/setup_models.py en GUIFreeCad.\n"
             )
+            _print_error(err_msg)
+            export_voice_status("error", f"Sin modelo Vosk ({settings.language})")
             return False
 
         svc = DavVoiceService.get()
         if svc.is_cad_engine_loaded():
             _print_message("[DAV] El motor de voz ya está activo.\n")
+            export_voice_status("active", "Voz activa")
             return True
+        reset_voice_history()
 
         from core.language_code import LanguageCode
         from core.preferences import preferences
@@ -87,9 +99,23 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
         
+        adapter._export_state()
+        
         if not svc.start_cad(adapter):
+            export_voice_status("error", "No se pudo iniciar micrófono")
             return False
 
+        global _command_timer
+        if _command_timer is None:
+            try:
+                from PySide6.QtCore import QTimer
+            except ImportError:
+                from PySide2.QtCore import QTimer
+            _command_timer = QTimer()
+            _command_timer.timeout.connect(lambda: _poll_command_queue(adapter))
+            _command_timer.start(500)
+
+        export_voice_status("active", "Voz activa")
         _print_message(
             "[DAV] Voz activa (motor unificado). Ejemplos: «preferencias enviar», "
             "«archivo enviar» → «nuevo enviar».\n"
@@ -98,17 +124,26 @@ def start_voice_engine(*, debug: bool = False) -> bool:
     except Exception:
         _print_error("[DAV] No se pudo iniciar la voz:\n")
         _print_error(traceback.format_exc())
+        export_voice_status("error", "Error al iniciar motor de voz")
         return False
 
 
 def stop_voice_engine(*, wait: bool = True, timeout: float = 4.0) -> None:
+    global _command_timer
+    if _command_timer is not None:
+        _command_timer.stop()
+        _command_timer = None
+        
     svc = DavVoiceService.get()
     if not svc.is_cad_engine_loaded() and not svc.is_mic_running():
         _print_message("[DAV] El motor de voz no está activo.\n")
+        export_voice_status("inactive", "Voz inactiva")
         return
     _print_message("[DAV] Deteniendo voz… (puede tardar un instante).\n")
     svc.stop(wait=wait, timeout=timeout)
+    export_voice_status("inactive", "Voz inactiva")
     _print_message("[DAV] Motor de voz detenido.\n")
+
 
 
 def _print_message(text: str) -> None:

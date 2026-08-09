@@ -8,6 +8,7 @@ import unicodedata
 from typing import Any
 
 from navigation.browser import Browser
+from integration.voice_history import append_voice_history, export_context_state
 
 
 def _normalize(text: str) -> str:
@@ -40,6 +41,7 @@ class BrowserVoiceAdapter:
 
         normalized = _normalize(raw_phrase)
         print(f"[BrowserVoiceAdapter] Received phrase: '{raw_phrase}'")
+        append_voice_history(f"[DAV] Voz: {raw_phrase}")
 
         token = self._extract_token(normalized)
         if token is None:
@@ -55,16 +57,41 @@ class BrowserVoiceAdapter:
             result = self._browser.ProcessPhrase(token)
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
+                append_voice_history(f"[DAV] OK ({result.Action}): {result.Message}")
                 if result.Action in _NAV_ACTIONS:
                     print(self._browser.DescribeContext())
+                    append_voice_history(self._browser.DescribeContext())
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
+                append_voice_history(f"[DAV] Ignorado: {result.Message}")
+            self._export_state()
 
         try:
             from integration.freecad_gui_bridge import run_on_main_thread
             run_on_main_thread(_run)
         except ImportError:
             _run()
+
+    def _export_state(self) -> None:
+        submenus = []
+        commands = []
+        seen_targets = []
+        for entry in self._browser.Context:
+            if any(self._browser._SameTarget(entry.Target, t) for t in seen_targets):
+                continue
+            seen_targets.append(entry.Target)
+            item = {"spoken": entry.Spoken, "key": entry.InternalKey}
+            if entry.IsSubContext():
+                submenus.append(item)
+            elif entry.IsCallable():
+                commands.append(item)
+                
+        state = {
+            "context_path": self._browser.ContextPath,
+            "submenus": submenus,
+            "commands": commands
+        }
+        export_context_state(state)
 
     @staticmethod
     def _extract_token(normalized: str):
