@@ -17,7 +17,8 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 > Medido sobre el modelo real: `vosk-model-small-es-0.42` carga **100.001
 > palabras**, y el árbol `Dav/dic/` usa **745** (0,75 %). La mediana por contexto
 > es de **12 frases**. La precisión no se arregla agrandando el modelo — se
-> arregla acá, restringiendo la gramática al contexto activo.
+> arregla acá, restringiendo la gramática al contexto activo. Ver **§10** para el
+> análisis completo y las cifras.
 
 ## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real
 
@@ -237,13 +238,224 @@ Esta es una decisión de arquitectura que toca código de varias personas (Luigi
 Mete, Mica Saul, Franco Camen) — conviene discutirla en el grupo antes de mover
 archivos, no resolverla por commit.
 
+## 10. Hallazgo contrafáctico: un modelo de voz más grande NO mejora el reconocimiento de comandos
+
+**Premisa inicial del proyecto:** se asumió que, si el reconocimiento fallaba, la
+solución era subir a un modelo Vosk más grande — `vosk-model-es-0.42` (1.4 GB) en
+lugar de `vosk-model-small-es-0.42` (39 MB).
+
+**Resultado:** la premisa no aplica a DAV. Para un conjunto cerrado de comandos,
+agrandar el modelo **empeora** el problema en vez de resolverlo. La precisión no
+se arregla cambiando de modelo: se arregla restringiendo la gramática (§1).
+
+### 10.a Por qué la premisa era razonable
+
+"Modelo más grande = mejor reconocimiento" es cierto en el dominio para el que
+normalmente se mide el ASR: **dictado libre**. La métrica de referencia es el WER
+(*word error rate*) sobre habla espontánea, y ahí más vocabulario y un modelo de
+lenguaje más rico efectivamente bajan el error.
+
+El README del modelo que usamos trae sus propios números medidos:
+
+```
+%WER 42.63  decode_test_call    (habla telefónica)
+%WER 16.02  decode_test_cv      (Common Voice — gente leyendo frases)
+%WER 11.21  decode_test_mls     (Multilingual LibriSpeech — audiolibros)
+%WER 16.72  decode_test_mtedx   (charlas TEDx)
+```
+
+Entre 11 % y 43 % de error por palabra. Ese es el eje sobre el que se planteó la
+hipótesis original, y sobre ese eje el modelo grande **sí** gana. El problema es
+que ese no es nuestro eje.
+
+Nótese además sobre qué está entrenado: audiolibros, charlas y voluntarios
+leyendo oraciones. **El modelo no sabe nada de ingeniería ni de CAD.**
+
+### 10.b Anatomía del modelo: acústico vs. lenguaje
+
+Vosk (Kaldi por debajo) descompone el reconocimiento en piezas separables. La
+distinción es la que sostiene todo este hallazgo:
+
+```
+audio → [MODELO ACÚSTICO] → fonemas → [LÉXICO] → palabras candidatas
+                                                        ↓
+                                              [MODELO DE LENGUAJE]
+                                                        ↓
+                                            secuencia más probable
+```
+
+| | Modelo acústico | Modelo de lenguaje |
+| --- | --- | --- |
+| Archivo | `am/final.mdl` (16,1 MB) | `graph/Gr.fst` (21,8 MB) |
+| Qué hace | sonido → fonemas | fonemas → palabras plausibles |
+| Entrenado sobre | audio + transcripciones | **texto** (audiolibros, TEDx) |
+| Depende del dominio | poco | **muchísimo** |
+| ¿Sirve para comandos? | **sí, entero** | **no — estorba** |
+| ¿Sustituible? | no | **sí, por una gramática** |
+
+- El **acústico** toma la onda, la corta en ventanas de ~25 ms, extrae MFCC y una
+  red TDNN responde qué fonema suena. No sabe qué es una palabra: sabe cómo suena
+  el español. Es lo caro de entrenar, es genérico, y **hace falta entero**.
+- El **léxico** (dentro de `HCLr.fst`) mapea palabra → fonemas. Define qué
+  palabras *pueden* existir.
+- El de **lenguaje** es un n-grama sobre texto: desempata cuando el acústico duda
+  ("60 % /kasa/, 40 % /kaθa/" → gana "casa" porque es más frecuente).
+
+**El overkill está en el modelo de lenguaje, no en el acústico.** Su estadística
+viene de texto corriente, donde un imperativo aislado como "chaflán" es rarísimo:
+el prior trabaja en contra nuestra. Pasar una gramática a `KaldiRecognizer`
+**reemplaza el `Gr.fst`** y conserva el acústico — se descarta la pieza que no
+aplica y se conserva la difícil.
+
+### 10.c Las cifras, medidas sobre el modelo y el árbol reales
+
+Vocabulario extraído de la tabla de símbolos embebida en `graph/Gr.fst`
+(`flags=3`, symbol table `exp/chain_d/tdnn/lgraph/words.txt`):
+
+| | |
+| --- | --- |
+| Símbolos totales | 100.006 |
+| Especiales (`<eps>`, `[unk]`, `#0`, `<s>`, `</s>`) | 5 |
+| **Palabras reales** | **100.001** |
+| Estados en el grafo de lenguaje | 335.886 |
+| Tamaño en disco del modelo | 60,3 MB |
+
+Vocabulario que DAV realmente usa (122 archivos `TraduceToEs.py`, tras la
+limpieza de §11):
+
+| | |
+| --- | --- |
+| Frases totales | 2.344 |
+| Frases únicas normalizadas | 1.414 |
+| **Palabras distintas** | **745** |
+
+**745 / 100.001 ≈ 0,75 %.** El reconocedor carga ~134 veces más vocabulario del
+que el proyecto usa. Las primeras entradas del vocabulario lo ilustran mejor que
+cualquier argumento: `aa`, `aaa`, `aaah`, `aang`, `abacial`, `abadejo` — todas
+candidatas activas cada vez que alguien dice un comando.
+
+Pero el número decisivo es otro, porque **la gramática se carga por contexto**:
+
+| Contexto | Frases |
+| --- | --- |
+| Máximo (`Workbench/Sketcher`) | 108 |
+| `Workbench/Part` | 99 |
+| `Assembly/joint` | 97 |
+| `StdView/StandardViews` | 86 |
+| **Mediana de los 122 contextos** | **12** |
+| Mínimo | 6 |
+
+En el contexto típico DAV necesita **12 frases**, contra 100.000 palabras: un
+factor de ~8.000×.
+
+### 10.d El otro hallazgo: el modelo también se queda corto
+
+Medición inversa — cuántas palabras de DAV **no existen** en el vocabulario del
+modelo. Son imposibles de reconocer: no es que se reconozcan mal, es que Vosk
+nunca puede emitirlas.
+
+**66 de 745 palabras (8,9 %) están fuera de vocabulario.** Entre ellas:
+
+`chaflán` · `chaflanar` · `biselar` · `extruir` · `espejar` · `intersecar` ·
+`isométrica` · `axonométrico` · `dimétrica` · `trimétrica` · `anaglifo` ·
+`heptágono` · `octágono` · `hiperbólico` · `diametral` · `desmoldeo` ·
+`multitransformación` · `texturización` · `polilínea` · `multilínea` ·
+`bspline` · `nurbs` · `bézier` · `spline` · `wireframe` · `sustractiva` ·
+`booleana` · `perpendicularidad` · `preseleccionar` · `subforma`
+
+Es exactamente el núcleo del vocabulario CAD. Cuando el usuario dice "chaflán",
+el decoder está **obligado** a devolver otra cosa. Esto explica los síntomas de
+§1 mejor que la hipótesis del ruido: "croquis" tampoco está en el vocabulario, y
+por eso salió "crockett" — el vecino fonético más probable del español general.
+
+> El modelo es simultáneamente **demasiado grande y demasiado chico**: sobra en lo
+> que no usamos y falta en lo que sí.
+
+Y el modelo grande tampoco resuelve esto de forma confiable: pasar de 100k a
+~300k palabras del español general agrega más `abadejo`, no `chaflán`. El corte
+sigue siendo por frecuencia en audiolibros y charlas, donde "chaflán" es raro por
+más corpus que se agregue. Alguna entraría, pero por casualidad estadística, no
+por diseño.
+
+La gramática restringida **sí** lo resuelve: al pasar una lista de frases, Vosk
+las fonetiza y las mete en el grafo de decodificación. Las palabras fuera de
+vocabulario dejan de ser imposibles y pasan a ser las únicas candidatas.
+
+> ⚠️ **Salvedad a verificar:** hay que comprobar caso por caso que el G2P del
+> modelo fonetice razonablemente los anglicismos que sobrevivan (`bspline`,
+> `nurbs`, `wireframe`). El fonetizador español puede darles una pronunciación
+> que no coincida con cómo los dice la gente. Es una razón medida más para la
+> regla de §3: usar siempre el sinónimo en español como forma principal.
+
+### 10.e La formulación correcta
+
+La variable que importa no es el tamaño del modelo, sino la **relación entre el
+vocabulario del reconocedor y el vocabulario de la tarea**. Cuanto más cerca de 1
+esté esa relación, mejor:
+
+- El modelo grande la **empeora** (más vocabulario, misma tarea).
+- La gramática restringida por contexto la lleva **casi a 1**.
+
+Dicho de otro modo: la hipótesis original optimizaba la *capacidad* del
+reconocedor, cuando lo que había que optimizar era su *especificidad*.
+
+### 10.f Consecuencia de diseño
+
+Se mantiene `vosk-model-small-es-0.42` y se ataca la precisión por el lado de la
+gramática:
+
+| | Modelo grande, sin gramática | Modelo chico + gramática por contexto |
+| --- | --- | --- |
+| Precisión en comandos | peor | mucho mejor |
+| Palabras compitiendo | ~300.000 | ~12 (mediana por contexto) |
+| Vocabulario CAD fuera de alcance | sí | **no** (se inyecta en la gramática) |
+| Latencia por frase | alta | baja |
+| RAM | ~1,4 GB | ~50 MB |
+| "No entendí" explícito | no (devuelve lo más parecido) | sí (`[unk]`) |
+
+El `[unk]` es un beneficio aparte: hoy el reconocedor **siempre** devuelve algo,
+aunque el usuario haya dicho una frase que no es un comando. Con gramática
+cerrada, "no entendí" pasa a ser un estado explícito que la GUI puede mostrar en
+vez de ejecutar una acción equivocada.
+
+Encaja directamente con el árbol `Dav/dic/`: **el contexto activo del `Browser` ya
+sabe qué comandos son válidos**. Al entrar a `explorer` la gramática son las hojas
+de `explorer` + `NavCommands`; al bajar a `file` se regenera con las de `file`.
+
+```python
+import json
+from vosk import KaldiRecognizer
+
+# frases válidas del contexto actual + comandos de navegación + [unk]
+frases = Browser.Context.SpokenPhrases() + NavCommands.SpokenPhrases() + ["[unk]"]
+recognizer = KaldiRecognizer(model, 16000, json.dumps(frases, ensure_ascii=False))
+```
+
+> **Sin medir todavía:** este análisis explica los síntomas de §1 y §3 y se apoya
+> en cifras reales de vocabulario, pero **no se corrió un benchmark de tasa de
+> acierto**. Antes de presentarlo como resultado experimental en un informe
+> conviene medirlo: ~30 comandos, 5 repeticiones, 2 o 3 hablantes, contando
+> aciertos en cuatro condiciones (chico/grande × con/sin gramática). Es barato y
+> convierte el argumento en dato.
+
+### 10.g Corolario sobre sinónimos repetidos
+
+Restringir el vocabulario le da peso a otra regla que ya existe: **una frase
+hablada no puede mapear a dos callables distintos dentro del mismo contexto**. Con
+gramática cerrada el reconocedor va a acertar la frase, pero el `Browser` no va a
+saber cuál ejecutar.
+
+Es el mismo problema de aplanar subcontextos de §4 (`create`, `help`, `center`
+colisionando). Con subcontextos correctamente anidados casi desaparece, porque
+cada frase sólo necesita ser única **dentro de su nivel** — razón adicional para
+no aplanar nunca.
+
 ## 11. Limpieza de vocabulario: claves internas y anglicismos (2026-08-08)
 
-Al cruzar el vocabulario del árbol `Dav/dic/` contra el del modelo Vosk
-aparecieron 89 palabras que el reconocedor **no puede emitir** —no están en su
-vocabulario—, pero **no eran todas el mismo problema**. Separadas por causa, sólo
-una categoría era limitación del modelo; el resto era deuda técnica del
-diccionario, corregida en esta sesión.
+Al medir §10.d aparecieron 89 palabras que el reconocedor **no puede emitir** —no
+están en su vocabulario—, pero **no eran todas el mismo problema**. Separadas por
+causa, sólo una categoría era limitación del modelo; el resto era deuda técnica
+del diccionario, corregida en esta sesión.
 
 **Resultado: 89 → 66 palabras fuera de vocabulario (11,5 % → 8,9 %).**
 
@@ -282,7 +494,7 @@ un competidor fonético mal fonetizado:
 > revisión: es una palabra de una sílaba que en español compite con "con", "son",
 > "don", "van". A diferencia de `dxf` o `svg` —que se deletrean y por eso tienen
 > redundancia fonética— "bom" se pronuncia como sílaba única, justo el perfil de
-> palabra corta que el reconocedor confunde. Se mantiene porque es la
+> palabra corta que el reconocedor confunde (§10.d). Se mantiene porque es la
 > sigla que el equipo usa; tiene además tres alternativas seguras en el mismo
 > contexto ("lista de materiales", "tabla de materiales", "lista de piezas"). Si
 > aparecen falsos positivos al probar por voz, es la primera que hay que sacar.
@@ -318,3 +530,58 @@ siguen en pie (`explorer`, `stdview`, `workbench`, `lineattributes`,
 > **No verificado:** no se corrieron los tests ni se probó dentro de FreeCAD. Los
 > cambios son de claves habladas, no de callables, pero conviene una pasada por
 > voz sobre los contextos tocados (Sketcher, Part, DraftWork, Assembly, StdView).
+
+## 12. Puente GUI ↔ FreeCAD por archivos de estado (2026-08-09)
+
+Con la integración de `Tade-Cami-Mica` (PR #174), `MainWindow.py` **dejó de usar
+su motor de voz propio** (`_VoiceMap`/`_GroupMeta` sobre `DiccionarioPrueba/`) y
+pasó a alimentarse del `Browser` real. Esto cierra el pendiente de §2, aunque de
+forma parcial: ver §12.b.
+
+### 12.a Cómo funciona
+
+Los dos procesos —la GUI y FreeCAD— se comunican por archivos en
+`IntegracionGUI/GUIFreeCad/config/`, con polling de 500 ms de cada lado:
+
+```
+MainWindow (proceso GUI)                 FreeCAD (proceso Browser)
+   click en botón                          BrowserVoiceAdapter
+        │                                        │
+        └──> command_queue.txt ──[QTimer]──────> pop_command_queue()
+                                                 → ProcessPhrase()
+        ┌──── context_state.json <────────────── export_context_state()
+        ├──── voice_history.log  <────────────── append_voice_history()
+        └──── voice_status.json  <────────────── estado del motor
+   [QTimer 500 ms] lee los tres y re-renderiza
+```
+
+`context_state.json` es el que manda: trae `context_path`, `submenus` y
+`commands` del contexto activo, y la GUI dibuja un botón por entrada.
+
+> Los cuatro archivos son **estado de runtime y están en `.gitignore`**. No
+> versionarlos: cada sesión los reescribe, generan conflictos, y si se commitean
+> la GUI arranca mostrando el contexto de otra persona en vez de la raíz.
+
+### 12.b Pendientes de esta integración
+
+Detectados al revisar, **no corregidos** porque son decisiones de diseño que
+conviene charlar antes de tocar:
+
+- **`pop_command_queue()` descarta comandos.** Lee el archivo entero, lo vacía y
+  devuelve sólo `lines[0]`; si entran dos clicks en la misma ventana de 500 ms,
+  el segundo se pierde en silencio. Tampoco hay lock: la GUI puede estar
+  escribiendo mientras FreeCAD trunca.
+- **`_SearchIcon()` busca los SVG en `Dav/dic/`, donde no están** (están en
+  `InterfazDAV/DiccionarioPrueba/`). Casi todos los botones caen al fallback
+  `Btn.setText(Tooltip[:2])` y muestran dos letras. Además hace `os.walk` del
+  árbol completo por botón, sin caché, en cada re-render.
+- **`DiccionarioPrueba/` sigue vivo como fallback.** `_RenderCurrentState()` cae
+  en `_ShowRootButtonsFallback()` cuando no hay `context_state.json`, y ese
+  fallback lee el diccionario de prueba y sólo hace parpadear la pantalla. El §2
+  no queda del todo cerrado hasta que se elimine.
+- **`on_descend` en `Browser` no lo usa nadie.** Se agregó el callback pero no se
+  pasa desde ningún lado; hoy el refresco depende de `_export_state()` al final
+  de cada frase.
+- **Convención de nombres.** El código nuevo usa snake_case (`export_context_state`,
+  `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
+  atributos. Conviven `entry.Spoken` con `item["spoken"]`.
