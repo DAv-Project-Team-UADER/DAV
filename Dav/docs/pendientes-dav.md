@@ -20,11 +20,18 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 > arregla acá, restringiendo la gramática al contexto activo. Ver **§10** para el
 > análisis completo y las cifras.
 
-## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real
+## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO (parcial)
+
+> **Estado (2026-08-09, PR #174):** resuelto. `MainWindow.py` ya **no** tiene motor
+> de voz propio: se eliminaron `_VoiceMap`, `_LoadVoiceMap`, `ProcessVoiceCommand`
+> y el `VoiceWorker`, y la ventana pasó a alimentarse del `Browser` real a través
+> de un puente por archivos de estado (§2.c). Lo que sigue de esta sección es el
+> diagnóstico original, que se conserva porque §2.b sigue abierto y porque el
+> `DiccionarioPrueba/` **todavía sobrevive como fallback** — ver §2.d.
 
 **Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
 
-Esta ventana tiene su propio motor de navegación por voz, separado de `navigation/browser.py` (`Browser.ProcessPhrase`, el que se audita y mantiene activamente). Lee de:
+Esta ventana tenía su propio motor de navegación por voz, separado de `navigation/browser.py` (`Browser.ProcessPhrase`, el que se audita y mantiene activamente). Leía de:
 
 ```
 Dav/scr/ComponentesDAV/InterfazDAV/DiccionarioPrueba/
@@ -60,6 +67,60 @@ Cada una tiene funcionalidad que a la otra le falta: `InterfazDAV` es la única 
 > **Respuesta parcial (auditoría 2026-08-08):** no son dos GUIs sino **tres
 > motores de voz**, y divergieron por desarrollo paralelo en mayo, no por
 > diseño. Ver §9 para el mapa completo y el estado de ejecución de cada uno.
+
+### 2.c Cómo quedó resuelto: puente por archivos de estado (PR #174)
+
+La GUI y FreeCAD son **dos procesos separados**, así que la conexión no es una
+llamada directa a `Browser`: se comunican por archivos en
+`IntegracionGUI/GUIFreeCad/config/`, con polling de 500 ms de cada lado.
+
+```
+MainWindow (proceso GUI)                 FreeCAD (proceso Browser)
+   click en botón                          BrowserVoiceAdapter
+        │                                        │
+        └──> command_queue.txt ──[QTimer]──────> pop_command_queue()
+                                                 → ProcessPhrase()
+        ┌──── context_state.json <────────────── export_context_state()
+        ├──── voice_history.log  <────────────── append_voice_history()
+        └──── voice_status.json  <────────────── estado del motor
+   [QTimer 500 ms] lee los tres y re-renderiza
+```
+
+`context_state.json` es el que manda: trae `context_path`, `submenus` y
+`commands` del contexto activo, y `_RenderCurrentState()` dibuja un botón por
+entrada. El efecto que faltaba según el diagnóstico de arriba ya se cumple: lo
+que se arregla en `Dav/dic/` ahora **sí** llega a la GUI.
+
+> Los cuatro archivos son **estado de runtime y están en `.gitignore`**. No
+> versionarlos: cada sesión los reescribe, generan conflictos, y si se commitean
+> la GUI arranca mostrando el contexto de otra persona en vez de la raíz (ya
+> pasó: se subió un `context_state.json` congelado en `Base > workbench > part`).
+
+### 2.d Lo que quedó abierto
+
+Por qué el "resuelto" es parcial. Nada de esto se corrigió todavía: son
+decisiones de diseño que conviene charlar antes de tocar.
+
+- **`DiccionarioPrueba/` sigue vivo como fallback.** `_RenderCurrentState()` cae
+  en `_ShowRootButtonsFallback()` cuando falta `context_state.json`, y ese
+  fallback lee el diccionario de prueba y sólo hace parpadear la pantalla
+  (`Btn.clicked.connect(lambda: self._TriggerFlash())`, sin navegar). `_LoadGroupMeta()`
+  también sigue leyendo de ahí. **Hasta que se elimine, esta sección no cierra
+  del todo.**
+- **`_SearchIcon()` busca los SVG en `Dav/dic/`, donde no están** (están en
+  `InterfazDAV/DiccionarioPrueba/`). Casi todos los botones caen al fallback
+  `Btn.setText(Tooltip[:2])` y muestran dos letras en vez del icono. Además hace
+  `os.walk` del árbol completo por botón, sin caché, en cada re-render.
+- **`pop_command_queue()` descarta comandos.** Lee el archivo entero, lo vacía y
+  devuelve sólo `lines[0]`; si entran dos clicks en la misma ventana de 500 ms,
+  el segundo se pierde en silencio. Tampoco hay lock: la GUI puede estar
+  escribiendo mientras FreeCAD trunca.
+- **`on_descend` en `Browser` no lo usa nadie.** Se agregó el callback pero no se
+  pasa desde ningún lado; hoy el refresco depende de `_export_state()` al final
+  de cada frase.
+- **Convención de nombres.** El código nuevo usa snake_case (`export_context_state`,
+  `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
+  atributos. Conviven `entry.Spoken` con `item["spoken"]`.
 
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
 
@@ -530,58 +591,3 @@ siguen en pie (`explorer`, `stdview`, `workbench`, `lineattributes`,
 > **No verificado:** no se corrieron los tests ni se probó dentro de FreeCAD. Los
 > cambios son de claves habladas, no de callables, pero conviene una pasada por
 > voz sobre los contextos tocados (Sketcher, Part, DraftWork, Assembly, StdView).
-
-## 12. Puente GUI ↔ FreeCAD por archivos de estado (2026-08-09)
-
-Con la integración de `Tade-Cami-Mica` (PR #174), `MainWindow.py` **dejó de usar
-su motor de voz propio** (`_VoiceMap`/`_GroupMeta` sobre `DiccionarioPrueba/`) y
-pasó a alimentarse del `Browser` real. Esto cierra el pendiente de §2, aunque de
-forma parcial: ver §12.b.
-
-### 12.a Cómo funciona
-
-Los dos procesos —la GUI y FreeCAD— se comunican por archivos en
-`IntegracionGUI/GUIFreeCad/config/`, con polling de 500 ms de cada lado:
-
-```
-MainWindow (proceso GUI)                 FreeCAD (proceso Browser)
-   click en botón                          BrowserVoiceAdapter
-        │                                        │
-        └──> command_queue.txt ──[QTimer]──────> pop_command_queue()
-                                                 → ProcessPhrase()
-        ┌──── context_state.json <────────────── export_context_state()
-        ├──── voice_history.log  <────────────── append_voice_history()
-        └──── voice_status.json  <────────────── estado del motor
-   [QTimer 500 ms] lee los tres y re-renderiza
-```
-
-`context_state.json` es el que manda: trae `context_path`, `submenus` y
-`commands` del contexto activo, y la GUI dibuja un botón por entrada.
-
-> Los cuatro archivos son **estado de runtime y están en `.gitignore`**. No
-> versionarlos: cada sesión los reescribe, generan conflictos, y si se commitean
-> la GUI arranca mostrando el contexto de otra persona en vez de la raíz.
-
-### 12.b Pendientes de esta integración
-
-Detectados al revisar, **no corregidos** porque son decisiones de diseño que
-conviene charlar antes de tocar:
-
-- **`pop_command_queue()` descarta comandos.** Lee el archivo entero, lo vacía y
-  devuelve sólo `lines[0]`; si entran dos clicks en la misma ventana de 500 ms,
-  el segundo se pierde en silencio. Tampoco hay lock: la GUI puede estar
-  escribiendo mientras FreeCAD trunca.
-- **`_SearchIcon()` busca los SVG en `Dav/dic/`, donde no están** (están en
-  `InterfazDAV/DiccionarioPrueba/`). Casi todos los botones caen al fallback
-  `Btn.setText(Tooltip[:2])` y muestran dos letras. Además hace `os.walk` del
-  árbol completo por botón, sin caché, en cada re-render.
-- **`DiccionarioPrueba/` sigue vivo como fallback.** `_RenderCurrentState()` cae
-  en `_ShowRootButtonsFallback()` cuando no hay `context_state.json`, y ese
-  fallback lee el diccionario de prueba y sólo hace parpadear la pantalla. El §2
-  no queda del todo cerrado hasta que se elimine.
-- **`on_descend` en `Browser` no lo usa nadie.** Se agregó el callback pero no se
-  pasa desde ningún lado; hoy el refresco depende de `_export_state()` al final
-  de cada frase.
-- **Convención de nombres.** El código nuevo usa snake_case (`export_context_state`,
-  `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
-  atributos. Conviven `entry.Spoken` con `item["spoken"]`.
