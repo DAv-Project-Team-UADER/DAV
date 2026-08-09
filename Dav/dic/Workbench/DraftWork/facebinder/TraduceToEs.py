@@ -19,8 +19,9 @@
 from .facebinder import facebinder
 
 TraduceToEs = {
-    "facebinder": facebinder["create"],
-    "crear facebinder": facebinder["create"],
+    "unir caras": facebinder["create"],
+    "crear union de caras": facebinder["create"],
+    "aglutinante": facebinder["create"],
     "crear": facebinder["create"],
 
     "ayuda": facebinder["help"],

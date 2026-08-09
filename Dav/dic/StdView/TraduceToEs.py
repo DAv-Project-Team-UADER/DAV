@@ -69,7 +69,6 @@ TraduceToEs = {
 
     "barras de herramientas": StdView["toolbars"],
     "barra de herramientas": StdView["toolbars"],
-    "toolbars": StdView["toolbars"],
 
     "arbol": StdView["tree"],
     "árbol": StdView["tree"],

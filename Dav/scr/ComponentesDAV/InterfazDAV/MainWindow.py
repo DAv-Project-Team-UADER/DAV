@@ -1,12 +1,8 @@
 # MainWindow.py
 # Asistente de Voz con captura automática del árbol de FreeCAD (cada 5 segundos)
 
-# MainWindow.py
-# Asistente de Voz con captura automática del árbol de FreeCAD (cada 5 segundos)
-
 import trigger_capture
 from componentesDAV.Keychain.Keychain import Keychain
-from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
 from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
 from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
 from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
