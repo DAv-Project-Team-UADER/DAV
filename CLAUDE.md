@@ -147,10 +147,12 @@ Detalle completo en `Dav/docs/pendientes-dav.md` §4.
 | `pendientes-dav.md` | Lo que sigue abierto: hallazgos de auditoría, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** |
 | `completados-dav.md` | Lo ya resuelto, con la **causa real** de cada caso. Consultar antes de re-diagnosticar algo que parece conocido. |
 | `plan-unificacion-guis.md` | Migración de la GUI a panel acoplado (etapas 1-4 hechas, queda la 5) |
+| `acortador-gramatica-vosk.md` | Cómo se acota la gramática de Vosk al contexto activo. **Leer antes de tocar `SetGrammar` o el loop de audio.** |
 | `manual-explorer-voz.md` | Guía de uso del Explorer por voz (comandos y ejemplos) |
 | `plan-migracion-hilos-qthread.md` | Plan de migración a `QThread`. Escrito para `InterfazDAV`, que ya se retiró; queda como referencia del criterio |
 | `plan_arbol_de_objetos_navegable.md` | Plan del árbol de objetos navegable |
-| `diagramas/`, `informes/`, `normativas/`, `licencias/` | Material de cátedra y documentación formal |
+| `diagramas/` | Un archivo por clase, con el nombre de la clase (`Browser.md`, `DavVoiceService.md`…). Índice y vista general en `diagramas/README.md` |
+| `informes/`, `normativas/`, `licencias/` | Material de cátedra y documentación formal |
 
 ---
 
