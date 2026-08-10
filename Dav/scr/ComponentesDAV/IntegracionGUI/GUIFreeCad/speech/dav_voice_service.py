@@ -124,9 +124,12 @@ class DavVoiceService:
             self._last_prefs_cmd_time = 0.0
         try:
             from speech.voice_commands import all_grammar_phrases
+
             self.set_grammar(all_grammar_phrases())
         except Exception:
-            pass
+            # Sin gramatica el reconocimiento sigue andando, pero contra el
+            # vocabulario entero del modelo: hay que enterarse, no tragarlo.
+            log.exception("no se pudo armar la gramatica de preferencias")
         return self._ensure_mic(language, settings.model_size)
 
     def detach_preferences(self) -> None:
@@ -344,10 +347,13 @@ class DavVoiceService:
                                 # Reset() lo devuelve a estado inicial y ahi si
                                 # acepta la gramatica nueva. Verificado contra el
                                 # modelo pt, que era el que crasheaba.
-                                log.debug("aplicando gramatica (%d chars)", len(g_json))
+                                log.info(
+                                    "aplicando gramatica: %d frases",
+                                    g_json.count(",") + 1,
+                                )
                                 recognizer.Reset()
                                 recognizer.SetGrammar(g_json)
-                                log.debug("gramatica aplicada")
+                                log.info("gramatica aplicada")
                         except queue.Empty:
                             break
                         except Exception as exc:
