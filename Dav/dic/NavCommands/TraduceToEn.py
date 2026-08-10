@@ -35,4 +35,16 @@ TraduceToEn = {
     "available options": NavActions["show_context"],
     "show context":   NavActions["show_context"],
     "location":       NavActions["show_context"],
+
+    # Confirm the dictated phrase
+    "send":           NavActions["send"],
+    "enter":          NavActions["send"],
+    "accept":         NavActions["send"],
+    "confirm":        NavActions["send"],
+    "ok":             NavActions["send"],
+
+    # Discard the phrase in progress
+    "cancel":         NavActions["cancel"],
+    "discard":        NavActions["cancel"],
+    "never mind":     NavActions["cancel"],
 }

@@ -42,4 +42,21 @@ TraduceToEs = {
     "mostrar contexto": NavActions["show_context"],
     "ubicacion":      NavActions["show_context"],
     "ubicación":      NavActions["show_context"],
+
+    # Confirmar la frase dictada. Antes estas palabras estaban repartidas
+    # entre browser.py, browser_voice_adapter.py y SpokenNumberParser, y las
+    # listas ya no coincidian: "aceptar" andaba dentro de un prompt numerico
+    # pero no fuera, y ni siquiera entraba en la gramatica de Vosk.
+    "enviar":         NavActions["send"],
+    "aceptar":        NavActions["send"],
+    "confirmar":      NavActions["send"],
+    "entrar":         NavActions["send"],
+    "ok":             NavActions["send"],
+
+    # Descartar la frase en curso
+    "cancelar":       NavActions["cancel"],
+    "cancela":        NavActions["cancel"],
+    "descartar":      NavActions["cancel"],
+    "olvidalo":       NavActions["cancel"],
+    "olvidálo":       NavActions["cancel"],
 }

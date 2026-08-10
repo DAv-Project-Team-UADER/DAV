@@ -60,6 +60,15 @@ class SpokenNumberParser:
         "ponto",
     }
     NegativeWords: set[str] = {"menos", "minus", "negative", "negativo"}
+
+    # Estas dos se completan al final del modulo con lo que haya en
+    # Dav/dic/NavCommands/TraduceTo*.py, para que sumar un sinonimo sea editar
+    # el diccionario y no tres archivos de codigo. Lo que queda escrito aca es
+    # el respaldo por si el diccionario no se puede cargar.
+    #
+    # A diferencia del Browser, que trabaja en un idioma por vez, los prompts
+    # aceptan los tres a la vez: el usuario puede decir "ok" con la interfaz en
+    # espanol y tiene que andar igual.
     ConfirmationWords: set[str] = {
         "enter",
         "entrar",
@@ -188,3 +197,45 @@ class SpokenNumberParser:
         if re.fullmatch(r"-?\d+(?:\.\d+)?", Token):
             return Token
         return None
+
+
+def _LoadNavWordsFromDictionaries() -> None:
+    """Widen the confirm/cancel sets with NavCommands/TraduceTo*.py.
+
+    Los prompts aceptan los tres idiomas a la vez, asi que se juntan los tres
+    TraduceTo. Si el diccionario no esta o falla la importacion, quedan los
+    conjuntos escritos en la clase: los prompts siguen andando con las palabras
+    basicas en vez de romper el arranque.
+    """
+    try:
+        import importlib
+        import sys
+
+        from integration.voice_bootstrap import _resolve_dictionary_root
+
+        root = _resolve_dictionary_root()
+        if not (root / "NavCommands").is_dir():
+            return
+
+        parent = str(root.parent)
+        if parent not in sys.path:
+            sys.path.insert(0, parent)
+
+        package = root.name
+        actions = importlib.import_module(f"{package}.NavCommands.NavActions").NavActions
+        send, cancel = actions.get("send"), actions.get("cancel")
+
+        for lang in ("TraduceToEs", "TraduceToEn", "TraduceToPT"):
+            module = importlib.import_module(f"{package}.NavCommands.{lang}")
+            mapping = getattr(module, lang, {})
+            for spoken, target in mapping.items():
+                if target is send:
+                    SpokenNumberParser.ConfirmationWords.add(spoken.strip().lower())
+                elif target is cancel:
+                    SpokenNumberParser.CancellationWords.add(spoken.strip().lower())
+    except Exception:
+        # Un diccionario roto no puede dejar los prompts sin confirmar.
+        pass
+
+
+_LoadNavWordsFromDictionaries()

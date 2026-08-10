@@ -10,14 +10,18 @@ from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
 from integration.voice_history import reset_voice_history, export_voice_status
 from speech.dav_voice_service import DavVoiceService
 
-# Hay tres puntos que arrancan la voz (el comando de la GUI, el workbench al
-# activarse y freecad_voice_setup) y disparan casi a la vez: el log mostro
-# cuatro start_voice_engine en dos segundos, y hasta seis.
+# Hay varios puntos que arrancan la voz (el comando de la GUI, el workbench al
+# activarse y freecad_voice_setup): el log muestra cuatro start_voice_engine en
+# el arranque de FreeCAD.
 #
-# Todos corren en el hilo de Qt, uno detras de otro, asi que un Lock no sirve:
-# cada llamada lo toma y lo suelta sin encontrarlo ocupado. Lo que hace falta es
-# una guarda de reentrada, para que mientras el primer arranque esta a mitad de
-# camino los demas salgan enseguida en vez de rehacer el trabajo.
+# No se pisan entre si: corren en el hilo de Qt y estan separados en el tiempo
+# (uno termina antes de que empiece el siguiente), asi que quien los frena es
+# is_cad_engine_loaded() -- solo el primero abre microfono y el resto sale por
+# "el motor ya esta activo". Son llamadas legitimas de disparadores distintos,
+# no un bug: por eso el arranque se loguea a nivel debug y no info.
+#
+# La guarda de abajo cubre el caso reentrante (que un arranque dispare otro
+# antes de terminar), que no es el que se ve hoy pero es barato prevenir.
 _starting = False
 
 
@@ -160,11 +164,13 @@ def _start_voice_engine(*, debug: bool = False) -> bool:
 
         log = get_logger("arranque")
         log_unhandled_thread_exceptions()
-        log.info("iniciando motor de voz (debug=%s)", debug)
+        # debug y no info: son cuatro llamadas por arranque de FreeCAD y solo
+        # la primera hace algo (ver el comentario de _starting arriba).
+        log.debug("iniciando motor de voz (debug=%s)", debug)
         _print_message(f"[DAV] Log: {log_file_path()}\n")
 
         settings.load()
-        log.info(
+        log.debug(
             "settings: idioma=%s modelo=%s", settings.language, settings.model_size
         )
         model = get_active_model_path(settings.language, settings.model_size)
@@ -198,6 +204,14 @@ def _start_voice_engine(*, debug: bool = False) -> bool:
         executor = PromptedCommandExecutor(Language=settings.language)
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
+        # El arranque que de verdad monta el motor (los otros ya salieron por
+        # is_cad_engine_loaded): este si conviene verlo siempre.
+        log.info(
+            "montando motor de voz: idioma=%s modelo=%s diccionarios=%s",
+            settings.language,
+            settings.model_size,
+            _dict_root,
+        )
 
         _schedule_panel()
 

@@ -172,6 +172,30 @@ class Browser:
             lines.append("  (sin comandos en este contexto)")
         return "\n".join(lines)
 
+    def GetNavWords(self, action: str) -> set[str]:
+        """Return the spoken words bound to a NavCommands sentinel.
+
+        Args:
+            action: Sentinel key in ``NavCommands/NavActions.py``
+                (``up``, ``show_context``, ``send``, ``cancel``).
+
+        Returns:
+            Every phrase mapped to that sentinel in the active language.
+            Empty if the dictionary is missing, so callers must tolerate it.
+
+        Example::
+
+            send_words = browser.GetNavWords("send")   # {'enviar', 'aceptar', ...}
+        """
+        target = self._nav_actions.get(action)
+        if target is None:
+            return set()
+        return {
+            spoken.strip().lower()
+            for spoken, value in self._nav_translate.items()
+            if value is target and spoken
+        }
+
     def GetSpokenPhrases(self) -> list[str]:
         """Return all valid spoken phrases for the active navigation context.
 
@@ -202,8 +226,11 @@ class Browser:
                 if spoken:
                     phrases.add(spoken.strip().lower())
 
-        phrases.update({"enviar", "send", "cancelar", "cancel", "[unk]"})
-        return sorted(list(phrases))
+        # enviar/cancelar ya entran arriba con el resto de _nav_translate: son
+        # comandos de NavCommands como "subir". Solo queda fijo [unk], que es el
+        # comodin de Vosk para absorber ruido, no una palabra del diccionario.
+        phrases.add("[unk]")
+        return sorted(phrases)
 
     def _NotifyContextChanged(self) -> None:
         if getattr(self, "_on_context_change", None) is not None:
