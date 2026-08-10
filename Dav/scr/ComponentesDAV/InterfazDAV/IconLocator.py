@@ -27,10 +27,9 @@ class IconLocator:
 
     The previous implementation walked the whole dictionary tree **per button
     and per re-render**, with no cache. Here the index is built lazily on the
-    first lookup and reused, and the search covers the three places icons
-    actually live:
+    first lookup and reused, over the two places icons actually live:
 
-    ``Dav/dic`` (494 files) · ``InterfazDAV/Icons`` · ``DiccionarioPrueba``
+    ``InterfazDAV/Icons`` (own icons, win ties) · ``Dav/dic`` (494 files)
 
     Args:
         SearchRoots: directories to index, highest priority first. When
@@ -63,8 +62,6 @@ class IconLocator:
                 roots.append(candidate)
                 break
 
-        # Diccionario de prueba: ultimo, va a desaparecer con la migracion.
-        roots.append(here / "DiccionarioPrueba")
         return [r for r in roots if r.is_dir()]
 
     def _BuildIndex(self) -> dict[str, str]:

@@ -20,14 +20,17 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 > arregla acá, restringiendo la gramática al contexto activo. Ver **§10** para el
 > análisis completo y las cifras.
 
-## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO (parcial)
+## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO
 
-> **Estado (2026-08-09, PR #174):** resuelto. `MainWindow.py` ya **no** tiene motor
-> de voz propio: se eliminaron `_VoiceMap`, `_LoadVoiceMap`, `ProcessVoiceCommand`
-> y el `VoiceWorker`, y la ventana pasó a alimentarse del `Browser` real a través
-> de un puente por archivos de estado (§2.c). Lo que sigue de esta sección es el
-> diagnóstico original, que se conserva porque §2.b sigue abierto y porque el
-> `DiccionarioPrueba/` **todavía sobrevive como fallback** — ver §2.d.
+> **Estado (2026-08-09):** cerrado. `MainWindow.py` y `DiccionarioPrueba/`
+> **ya no existen**: la GUI es un `QDockWidget` dentro de FreeCAD que se alimenta
+> del `Browser` en proceso, sin motor de voz propio, sin diccionario de prueba y
+> sin puente por archivos. Con la ventana externa se fue también el conflicto de
+> Qt de §2.e, porque ya no se lanza ningún proceso aparte.
+>
+> Lo que sigue es el diagnóstico original, conservado como registro y porque
+> **§2.b sigue abierto**: falta decidir qué pasa con
+> `IntegracionGUI/ui/main_window.py` (etapa 5 del plan).
 
 **Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
 
@@ -96,33 +99,32 @@ que se arregla en `Dav/dic/` ahora **sí** llega a la GUI.
 > la GUI arranca mostrando el contexto de otra persona en vez de la raíz (ya
 > pasó: se subió un `context_state.json` congelado en `Base > workbench > part`).
 
-### 2.d Lo que quedó abierto
+### 2.d Lo que quedó abierto — resuelto salvo un punto
 
-Por qué el "resuelto" es parcial. Nada de esto se corrigió todavía: son
-decisiones de diseño que conviene charlar antes de tocar.
+Estado tras retirar la ventana externa (etapa 4 del plan):
 
-- **`DiccionarioPrueba/` sigue vivo como fallback.** `_RenderCurrentState()` cae
-  en `_ShowRootButtonsFallback()` cuando falta `context_state.json`, y ese
-  fallback lee el diccionario de prueba y sólo hace parpadear la pantalla
-  (`Btn.clicked.connect(lambda: self._TriggerFlash())`, sin navegar). `_LoadGroupMeta()`
-  también sigue leyendo de ahí. **Hasta que se elimine, esta sección no cierra
-  del todo.**
-- **`_SearchIcon()` busca los SVG en `Dav/dic/`, donde no están** (están en
-  `InterfazDAV/DiccionarioPrueba/`). Casi todos los botones caen al fallback
-  `Btn.setText(Tooltip[:2])` y muestran dos letras en vez del icono. Además hace
-  `os.walk` del árbol completo por botón, sin caché, en cada re-render.
-- **`pop_command_queue()` descarta comandos.** Lee el archivo entero, lo vacía y
-  devuelve sólo `lines[0]`; si entran dos clicks en la misma ventana de 500 ms,
-  el segundo se pierde en silencio. Tampoco hay lock: la GUI puede estar
-  escribiendo mientras FreeCAD trunca.
-- **`on_descend` en `Browser` no lo usa nadie.** Se agregó el callback pero no se
-  pasa desde ningún lado; hoy el refresco depende de `_export_state()` al final
-  de cada frase.
-- **Convención de nombres.** El código nuevo usa snake_case (`export_context_state`,
-  `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
-  atributos. Conviven `entry.Spoken` con `item["spoken"]`.
+- ~~`DiccionarioPrueba/` sigue vivo como fallback~~ — **borrado**, junto con
+  `_ShowRootButtonsFallback()` y `_LoadGroupMeta()`. Era lo que impedía cerrar
+  esta sección.
+- ~~`_SearchIcon()` busca los SVG donde no están y hace `os.walk` por botón~~ —
+  reemplazado por `IconLocator`, con índice cacheado (467 iconos). El bug real
+  no era la ubicación sino que se resolvía `ComponentesDAV/Dav/dic`, un
+  placeholder vacío que aparece antes al subir ancestros.
+- ~~`pop_command_queue()` descarta comandos~~ — la cola desapareció con el
+  puente: los clicks entran por `procesar_frase_final` en el mismo proceso.
+- ~~`on_descend` no lo usa nadie~~ — sigue sin usarse, pero ya no hace falta: el
+  refresco del contexto va por `PublishContext()` tras cada frase.
+- **Convención de nombres — abierto.** Conviven snake_case
+  (`export_context_state`, `procesar_frase_final`) y PascalCase (`entry.Spoken`,
+  `PublishContext`). El código nuevo sigue la convención del proyecto; el previo
+  no se tocó para no mezclar un renombre masivo con la migración.
 
-### 2.e El puente arrastra un conflicto de Qt que no se puede parchear del todo
+### 2.e El puente arrastraba un conflicto de Qt — RESUELTO al eliminar el proceso externo
+
+> **Cerrado (2026-08-09).** Ya no se lanza ningún proceso aparte: el panel es un
+> `QDockWidget` que usa el Qt de FreeCAD. No hay dos Qt en juego, así que el
+> `DLL load failed` no puede volver. Se conserva el diagnóstico porque explica
+> por qué la migración era la salida y no un parche más.
 
 La `InterfazDAV` **no abre desde FreeCAD** (2026-08-09). Corre como proceso
 externo con PySide6 6.11.1 propio, y FreeCAD 1.1 trae su propio Qt6 en `bin/`.

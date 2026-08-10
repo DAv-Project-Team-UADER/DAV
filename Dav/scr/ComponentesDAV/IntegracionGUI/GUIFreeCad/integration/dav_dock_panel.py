@@ -62,7 +62,29 @@ class BrowserPanelSource:
         """Bind to a panel and draw the current context immediately."""
         self._panel = Panel
         Panel.CommandRequested.connect(self.SendCommand)
+        Panel.PreferencesRequested.connect(self.OpenPreferences)
+        Panel.HelpRequested.connect(self.OpenHelp)
         self.PublishContext()
+
+    def OpenPreferences(self) -> None:
+        """Open the DAV preferences dialog (the GUIFreeCad one)."""
+        try:
+            from integration.launch_preferences import open_preferences
+            open_preferences()
+        except Exception as exc:  # noqa: BLE001 - no tumbar el panel
+            self.PublishHistory(f"[DAV] No se pudieron abrir las preferencias: {exc}", True)
+
+    def OpenHelp(self) -> None:
+        """Show the available commands for the active context.
+
+        Reuses ``Browser.DescribeContext``: la ayuda util aca es que comandos
+        se pueden decir ahora, no un texto fijo como el de la ventana externa.
+        """
+        try:
+            for line in self._browser.DescribeContext().splitlines():
+                self.PublishHistory(line)
+        except Exception as exc:  # noqa: BLE001
+            self.PublishHistory(f"[DAV] No se pudo describir el contexto: {exc}", True)
 
     def SendCommand(self, Spoken: str) -> None:
         """Process a phrase picked in the UI as if it had been spoken."""

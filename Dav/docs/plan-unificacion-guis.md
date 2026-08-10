@@ -200,15 +200,33 @@ avisa por sus propias señales en vez de sondear cada 5 s.
 > en la etapa 4. Borrarlos ahora rompería la ventana externa mientras todavía es
 > la que se usa.
 
-### Etapa 4 — Borrar el andamiaje
+### Etapa 4 — Borrar el andamiaje — HECHO (2026-08-09)
 
-Cuando el panel cubra lo que hacía la ventana externa:
+Antes de borrar se cerró la condición de entrada: los botones de **ayuda** y
+**preferencias** del panel emitían señales que nadie conectaba. Ahora
+`BrowserPanelSource` las atiende — preferencias abre el diálogo de GUIFreeCad, y
+la ayuda vuelca `Browser.DescribeContext()` al historial (los comandos válidos
+*acá y ahora*, más útil que el texto fijo de la ventana externa).
 
-- Borrar `main.py`, `run_interfaz.bat`, `VoiceWorker.py` de `InterfazDAV/`
-- Borrar del puente lo que quedó sin uso en `voice_history.py`
-- Borrar el launcher de `dav_commands.py` y `ui/main_window.py:_launch_interfaz_dav`
-- **Borrar `DiccionarioPrueba/`** — cierra el §2 del todo
-- Sacar las entradas de runtime del `.gitignore` que ya no apliquen
+Borrado:
+
+- `InterfazDAV/`: `main.py`, `run_interfaz.bat`, `VoiceWorker.py`,
+  `MainWindow.py` (1011 líneas), `trigger_capture.py`, `capture_tree.FCMacro`,
+  `HelpWindow.py` y **`DiccionarioPrueba/`** — cierra §2 del todo
+- `DavPanelController.py` + `FileBridgeSource`: eran el puente por archivos que
+  esta etapa retira; sin ventana externa quedaron sin consumidor
+- `dav_commands.py`: `_launch_interfaz_dav`, `_check_interfaz_started`,
+  `_clean_child_env`, `_probe_pyside6`, `_venv_python`, `_bring_interfaz_to_front`,
+  `close_interfaz_dav` (~180 líneas). Con ellas se va el conflicto de Qt: ya no
+  se lanza ningún proceso externo, así que no hay dos Qt que colisionen.
+- `freecad_wb.py`: `_schedule_interfaz_dav_launch()` y su llamada en el arranque
+- `IconLocator`: la raíz `DiccionarioPrueba` (quedan 467 iconos indexados)
+
+`Iniciar voz DAV` ahora abre el panel acoplado en vez de lanzar el proceso
+externo. `iniciar_dav.bat` no cambia: nunca pasó por `run_interfaz.bat`.
+
+Las entradas de `.gitignore` del circuito de captura se conservan a propósito,
+para no versionar los archivos que quedaron en copias de trabajo viejas.
 
 ### Etapa 5 — Qué hacer con `ui/main_window.py`
 
