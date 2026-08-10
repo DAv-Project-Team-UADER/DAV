@@ -268,23 +268,21 @@ class TestBrowserDeveloper2(unittest.TestCase):
         self.assertIn("cancelar", phrases)
         self.assertIn("[unk]", phrases)
 
-    def test_context_change_callback_fires(self) -> None:
-        """on_context_change callback fires when descending or ascending context."""
-        from core.language_code import LanguageCode
-        from core.preferences import Preferences
-        from navigation.browser import Browser
+    def test_spoken_phrases_follow_context(self) -> None:
+        """Grammar tracks the active level: descending adds its leaves, ascending drops them."""
+        browser, _ = self._make_browser()
 
-        changes: list[int] = []
-        p = Preferences()
-        p.SetLanguage = LanguageCode.Es
-        b = Browser(prefs=p, _loader=_MockDictionaryLoader(), on_context_change=lambda: changes.append(1))
-        # Initial ResetFromBase in __init__ fires callback
-        self.assertGreaterEqual(len(changes), 1)
+        at_root = browser.GetSpokenPhrases()
+        self.assertNotIn("imprimir", at_root)
 
-        count_before = len(changes)
-        b.ProcessPhrase("explorador")
-        b.ProcessPhrase("imprimir")
-        self.assertGreater(len(changes), count_before)
+        browser.ProcessPhrase("explorador")
+        inside = browser.GetSpokenPhrases()
+        self.assertIn("imprimir", inside)
+        # Los saltos a raiz siguen disponibles desde adentro.
+        self.assertIn("explorador", inside)
+
+        browser.ProcessPhrase("subir")
+        self.assertNotIn("imprimir", browser.GetSpokenPhrases())
 
 
 # ---------------------------------------------------------------------------
