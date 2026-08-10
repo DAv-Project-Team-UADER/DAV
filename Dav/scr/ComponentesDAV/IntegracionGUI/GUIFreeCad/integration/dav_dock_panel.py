@@ -65,6 +65,21 @@ class BrowserPanelSource:
         Panel.PreferencesRequested.connect(self.OpenPreferences)
         Panel.HelpRequested.connect(self.OpenHelp)
         self.PublishContext()
+        self.RefreshStatus()
+
+    def RefreshStatus(self) -> None:
+        """Sincroniza el cartel del microfono con el motor de voz real.
+
+        Sin esto el panel se queda en el "inactivo" con el que se construye,
+        aunque la voz este andando: nadie le avisaba del estado al montarlo.
+        """
+        try:
+            from speech.dav_voice_service import DavVoiceService
+            svc = DavVoiceService.get()
+            active = svc.is_cad_engine_loaded() or svc.is_mic_running()
+        except Exception:  # noqa: BLE001
+            return
+        self.PublishStatus("active" if active else "inactive")
 
     def OpenPreferences(self) -> None:
         """Open the DAV preferences dialog (the GUIFreeCad one)."""

@@ -65,7 +65,12 @@ class IconLocator:
         return [r for r in roots if r.is_dir()]
 
     def _BuildIndex(self) -> dict[str, str]:
-        """Map ``nombre-sin-extension`` → ruta, recorriendo cada raiz una vez.
+        """Map ``nombre-normalizado`` → ruta, recorriendo cada raiz una vez.
+
+        Las claves se indexan en minusculas y sin separadores: la clave del
+        diccionario es ``lineattributes`` y el archivo ``LineAttributes.svg``,
+        o ``new_sketch`` contra ``NewSketch.svg``. Comparar literal dejaba esos
+        botones con el fallback de dos letras.
 
         La primera raiz que define un nombre gana, para que un icono propio
         de InterfazDAV pueda pisar al del arbol de diccionarios.
@@ -76,8 +81,24 @@ class IconLocator:
                 for filename in filenames:
                     if not filename.lower().endswith(".svg"):
                         continue
-                    index.setdefault(filename[:-4], os.path.join(dirpath, filename))
+                    key = self._Normalize(filename[:-4])
+                    index.setdefault(key, os.path.join(dirpath, filename))
         return index
+
+    @staticmethod
+    def _Normalize(Name: str) -> str:
+        """minusculas, sin guiones ni guiones bajos ni espacios."""
+        return Name.lower().replace("_", "").replace("-", "").replace(" ", "")
+
+    #: Claves cuyo icono existe con otro nombre. El diccionario usa el termino
+    #: en español o abreviado y el SVG el ingles o el nombre largo; en vez de
+    #: renombrar archivos de otras carpetas se mapea acá.
+    _ALIASES = {
+        "pieza": "part",
+        "circulo": "circle",
+        "stdview": "standardviews",
+        "vistaestandar": "standardviews",
+    }
 
     def Find(self, Key: str) -> str:
         """Path to the icon for that key.
@@ -93,7 +114,12 @@ class IconLocator:
             return ""
         if self._index is None:
             self._index = self._BuildIndex()
-        return self._index.get(Key, "")
+        normalized = self._Normalize(Key)
+        found = self._index.get(normalized, "")
+        if found:
+            return found
+        alias = self._ALIASES.get(normalized)
+        return self._index.get(alias, "") if alias else ""
 
     def Invalidate(self) -> None:
         """Drop the cached index so the next lookup re-scans the roots."""
