@@ -26,7 +26,7 @@ class VoiceWorker(QObject):
     final_result = Signal(str)
     status_signal = Signal(str)
 
-    def __init__(self, model_path=None):
+    def __init__(self, model_path=None, phrases=None):
         super().__init__()
         if model_path is None:
             # Fallback: resolver Dav/models si no se pasó ruta explícita.
@@ -43,8 +43,25 @@ class VoiceWorker(QObject):
                         model_path = str(candidate)
                         break
         self.model_path = model_path
+        self.phrases = phrases
         self.running = True
         self.audio_queue = queue.Queue()
+        self.grammar_queue = queue.Queue()
+
+    @staticmethod
+    def _format_grammar(phrases) -> str | None:
+        if phrases is None:
+            return None
+        phrases_list = [p.lower().strip() for p in phrases if p]
+        if "[unk]" not in phrases_list:
+            phrases_list.append("[unk]")
+        return json.dumps(phrases_list, ensure_ascii=False)
+
+    def set_grammar(self, phrases):
+        """Update recognizer grammar dynamically with a new list of phrases."""
+        grammar_json = self._format_grammar(phrases)
+        if grammar_json:
+            self.grammar_queue.put(grammar_json)
 
     def audio_callback(self, indata, frames, time, status):
         self.audio_queue.put(bytes(indata))
@@ -53,13 +70,30 @@ class VoiceWorker(QObject):
         try:
             self.status_signal.emit("active")
             model = vosk.Model(self.model_path)
-            recognizer = vosk.KaldiRecognizer(model, 16000)
+            
+            initial_grammar = self._format_grammar(self.phrases)
+            if initial_grammar:
+                recognizer = vosk.KaldiRecognizer(model, 16000, initial_grammar)
+            else:
+                recognizer = vosk.KaldiRecognizer(model, 16000)
+
             stream = sd.RawInputStream(
                 samplerate=16000, blocksize=8000, channels=1, dtype='int16',
                 callback=self.audio_callback
             )
             with stream:
                 while self.running:
+                    # Apply dynamic grammar updates if available
+                    while not self.grammar_queue.empty():
+                        try:
+                            g_json = self.grammar_queue.get_nowait()
+                            if g_json:
+                                recognizer.SetGrammar(g_json)
+                        except queue.Empty:
+                            break
+                        except Exception as e:
+                            print(f"[VoiceWorker] Error applying SetGrammar: {e}")
+
                     try:
                         data = self.audio_queue.get(timeout=0.5)
                         if recognizer.AcceptWaveform(data):

@@ -27,6 +27,16 @@ class BrowserVoiceAdapter:
     def __init__(self, browser: Browser) -> None:
         self._browser = browser
         self._stop_requested = False
+        self._browser._on_context_change = self._update_grammar
+        self._update_grammar()
+
+    def _update_grammar(self) -> None:
+        try:
+            from speech.dav_voice_service import DavVoiceService
+            phrases = self._browser.GetSpokenPhrases()
+            DavVoiceService.get().set_grammar(phrases)
+        except Exception as e:
+            print(f"[BrowserVoiceAdapter] Error updating voice service grammar: {e}")
 
     @property
     def explorador(self) -> Any:
