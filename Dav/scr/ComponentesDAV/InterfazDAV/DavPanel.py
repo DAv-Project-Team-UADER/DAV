@@ -130,25 +130,34 @@ class DavPanel(QWidget):
         if not self._context.IsRoot():
             buttons.append(self._MakeBackButton())
 
-        columns = self._ColumnCount(len(buttons))
-        self._lastColumns = columns
+        # Se llena por columnas, no por filas: con scroll horizontal la altura
+        # es la dimension fija (TOOL_AREA_MAX_ROWS) y el ancho es el que crece.
+        rows = self._RowCount(len(buttons))
+        self._lastColumns = rows
         for index, button in enumerate(buttons):
-            self._toolAreaLayout.addWidget(button, index // columns, index % columns)
+            self._toolAreaLayout.addWidget(button, index % rows, index // rows)
 
-        # Volver arriba: si se venia de un contexto largo con scroll, el nuevo
+        # Volver al principio: viniendo de un contexto largo, el nuevo
         # aparecia desplazado.
-        self._toolScroll.verticalScrollBar().setValue(0)
+        self._toolScroll.horizontalScrollBar().setValue(0)
 
-    def _ColumnCount(self, Total: int) -> int:
-        """Cuantas columnas entran en el ancho disponible.
+    def _RowCount(self, Total: int) -> int:
+        """Cuantas filas usar para repartir ``Total`` botones.
 
-        Se calcula sobre el ancho real del area, con un minimo de 1 para no
-        dividir por cero antes de que el panel tenga tamaño.
+        Nunca mas de TOOL_AREA_MAX_ROWS, y con pocos botones se usan menos
+        filas para no dejar una sola columna alta al costado.
         """
-        spacing = self._toolAreaLayout.spacing()
-        cell = self.BUTTON_SIZE + spacing
-        available = max(self._toolScroll.viewport().width() - 20, cell)
-        return max(1, min(Total, available // cell))
+        if Total <= 0:
+            return 1
+        columns_that_fit = max(1, self._VisibleColumns())
+        needed = -(-Total // columns_that_fit)  # ceil
+        return max(1, min(self.TOOL_AREA_MAX_ROWS, needed))
+
+    def _VisibleColumns(self) -> int:
+        """Columnas que entran sin scroll, segun el ancho actual."""
+        cell = self.BUTTON_SIZE + self._toolAreaLayout.spacing()
+        available = max(self._toolScroll.viewport().width() - 24, cell)
+        return max(1, available // cell)
 
     def AddToHistory(self, Text: str, FromVoice: bool = True, Unknown: bool = False) -> None:
         """Append a line to the history panel, colour-coded by origin.
@@ -321,9 +330,14 @@ class DavPanel(QWidget):
         self._toolScroll.setWidget(self._toolArea)
         self._toolScroll.setWidgetResizable(True)
         self._toolScroll.setFrameShape(QFrame.NoFrame)
-        self._toolScroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self._toolScroll.setMinimumHeight(self.BUTTON_SIZE + 28)
-        self._toolScroll.setMaximumHeight(self.TOOL_AREA_MAX_ROWS * (self.BUTTON_SIZE + 10) + 20)
+        # Scroll horizontal: los botones se mantienen en filas de altura fija
+        # y, si no entran a lo ancho, se corren en vez de empujar el borde de
+        # la ventana. Asi el panel conserva el alto en cualquier contexto.
+        self._toolScroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self._toolScroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self._toolScroll.setFixedHeight(
+            self.TOOL_AREA_MAX_ROWS * (self.BUTTON_SIZE + 10) + 26
+        )
         layout.addWidget(self._toolScroll)
 
         self._flash = FlashOverlay(self)
@@ -550,5 +564,5 @@ class DavPanel(QWidget):
         # grilla en cada pixel del arrastre.
         if not self._context.IsEmpty():
             total = len(self._toolButtons) + (0 if self._context.IsRoot() else 1)
-            if self._ColumnCount(total) != self._lastColumns:
+            if self._RowCount(total) != self._lastColumns:
                 self.RenderContext(self._context)
