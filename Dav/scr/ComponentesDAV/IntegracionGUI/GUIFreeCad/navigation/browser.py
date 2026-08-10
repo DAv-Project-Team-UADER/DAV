@@ -77,11 +77,13 @@ class Browser:
         prefs: Preferences | None = None,
         on_execute: Callable[[ContextEntry], None] | None = None,
         on_descend: Callable[[ContextEntry], None] | None = None,
+        on_context_change: Callable[[], None] | None = None,
         _loader: DictionaryLoader | None = None,
     ) -> None:
         self._prefs = prefs or preferences
         self._on_execute = on_execute
         self._on_descend = on_descend
+        self._on_context_change = on_context_change
         self._loader = _loader or DictionaryLoader(
             dictionary_root or self._DefaultDictionaryRoot()
         )
@@ -171,32 +173,44 @@ class Browser:
         return "\n".join(lines)
 
     def GetSpokenPhrases(self) -> list[str]:
-        """Return every phrase that is valid to say in the active context.
+        """Return all valid spoken phrases for the active navigation context.
 
-        This is the Vosk grammar for the current navigation level: the entries
-        of Context and BaseContext, the navigation commands, the prompt action
-        tokens, and '[unk]' to absorb noise. It is derived from current state,
-        so callers read it whenever they need it -- nothing is notified.
-
-        Returns:
-            Sorted list of lowercase phrases.
+        Includes current Context entries, BaseContext entries, NavCommands,
+        action tokens (enviar, cancelar), and '[unk]'.
         """
         phrases: set[str] = set()
 
-        for entry in (*self.Context, *self.BaseContext):
+        for entry in self.Context:
             if entry.Spoken:
                 phrases.add(entry.Spoken.strip().lower())
             if entry.InternalKey:
                 phrases.add(entry.InternalKey.strip().lower())
 
-        # Los saltos a nivel raiz y los comandos de navegacion siguen siendo
-        # validos desde cualquier nivel, asi que entran siempre.
-        for spoken in (*self._base_translate, *self._nav_translate):
-            if spoken:
-                phrases.add(spoken.strip().lower())
+        for entry in self.BaseContext:
+            if entry.Spoken:
+                phrases.add(entry.Spoken.strip().lower())
+            if entry.InternalKey:
+                phrases.add(entry.InternalKey.strip().lower())
+
+        if hasattr(self, "_base_translate") and isinstance(self._base_translate, dict):
+            for spoken in self._base_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
+
+        if hasattr(self, "_nav_translate") and isinstance(self._nav_translate, dict):
+            for spoken in self._nav_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
 
         phrases.update({"enviar", "send", "cancelar", "cancel", "[unk]"})
-        return sorted(phrases)
+        return sorted(list(phrases))
+
+    def _NotifyContextChanged(self) -> None:
+        if getattr(self, "_on_context_change", None) is not None:
+            try:
+                self._on_context_change()
+            except Exception as e:
+                print(f"[DAV-Browser] Error in on_context_change callback: {e}")
 
     def ResetFromBase(self) -> None:
         """Reload BaseContext and Context from base.py (current language)."""
@@ -219,6 +233,7 @@ class Browser:
         self.BaseContext = self._BuildBaseContextEntries()
         self.Context = self._BuildContextForFrame(self._stack[-1])
         self.OriginalContext = None
+        self._NotifyContextChanged()
 
     def ProcessPhrase(self, spoken: str) -> BrowserResult:
         """
@@ -298,6 +313,7 @@ class Browser:
         parent = self._stack[-1]
         self.Context = self._BuildContextForFrame(parent)
         self.OriginalContext = None
+        self._NotifyContextChanged()
         return parent.InternalName
 
     # ------------------------------------------------------------------
@@ -476,7 +492,8 @@ class Browser:
         
         if self._on_descend is not None:
             self._on_descend(entry)
-
+            
+        self._NotifyContextChanged()
         return True
 
     def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:
@@ -496,6 +513,7 @@ class Browser:
                     self._stack = temp_stack
                     self.Context = parent_context
                     self.OriginalContext = parent_context
+                    self._NotifyContextChanged()
                     return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
                 elif entry.IsSubContext():
                     self._stack = temp_stack
