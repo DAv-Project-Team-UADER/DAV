@@ -355,10 +355,12 @@ if (-not $fcExe) {
     Write-Host "  3) Si ya esta instalado en otra ruta:"
     Write-Host '       .\run_freecad_dav.ps1 -FreeCADExe "C:\ruta\bin\FreeCAD.exe"'
     Write-Host ""
-    Write-Host "Mientras tanto, proba solo la GUI de preferencias:" -ForegroundColor Cyan
-    Write-Host "  cd ..\luigiIntegracionV1\GUIFreeCad"
+    Write-Host "La interfaz DAV corre dentro de FreeCAD, asi que necesita" -ForegroundColor Cyan
+    Write-Host "FreeCAD instalado. Sin el, lo unico que se puede hacer aparte"
+    Write-Host "es descargar los modelos de voz:"
+    Write-Host "  cd ..\IntegracionGUI\GUIFreeCad"
     Write-Host "  .\.venv\Scripts\activate"
-    Write-Host "  python main.py"
+    Write-Host "  python scripts\setup_models.py"
     exit 1
 }
 

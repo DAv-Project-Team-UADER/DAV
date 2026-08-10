@@ -38,6 +38,20 @@ el Qt de FreeCAD, así que no hay dos Qt que colisionen.
 | 2 | Panel montado como dock, alimentado por el `Browser` en proceso; puente por archivos eliminado en ambas direcciones |
 | 3 | Árbol de objetos desde `App.ActiveDocument` + `DocumentObserver`, sin macro ni polling |
 | 4 | Ventana externa retirada por completo, incluido `DiccionarioPrueba/` |
+| 5 | Launcher de escritorio borrado: queda **una sola GUI**, cierra §2.b |
+
+### Por qué eran "dos GUIs" y por qué ahora hay una
+
+No eran equivalentes: `InterfazDAV/MainWindow.py` (1011 líneas) era la de
+trabajo, y `IntegracionGUI/ui/main_window.py` (138) un *launcher* cuyo botón de
+voz hacía `Popen` de la otra. Divergieron por desarrollo paralelo, no por diseño.
+
+La etapa 5 se resolvió al revés de lo planeado: se recomendaba conservar el
+launcher como configurador de escritorio, pero su botón principal ya estaba roto
+(lanzaba la ventana borrada en la etapa 4) y **no aportaba la descarga de
+modelos** —ese flujo vive en `preferences_dialog.py`, accesible desde la barra
+DAV y el botón ⚙ del panel—. Sólo *avisaba* si faltaba un modelo, aviso que
+`voice_bootstrap` ya da.
 
 ### El puente por archivos, eliminado
 

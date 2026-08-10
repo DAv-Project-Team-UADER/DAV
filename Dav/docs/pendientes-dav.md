@@ -33,9 +33,8 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 > sin puente por archivos. Con la ventana externa se fue también el conflicto de
 > Qt de §2.e, porque ya no se lanza ningún proceso aparte.
 >
-> Lo que sigue es el diagnóstico original, conservado como registro y porque
-> **§2.b sigue abierto**: falta decidir qué pasa con
-> `IntegracionGUI/ui/main_window.py` (etapa 5 del plan).
+> Lo que sigue es el diagnóstico original, conservado como registro. **§2.b
+> también quedó cerrado**: ya no hay dos GUIs en paralelo.
 
 **Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
 
@@ -51,7 +50,19 @@ que es un diccionario de prueba chico (solo `explorer` con `file`/`edit`/`print`
 
 **Pendiente de decidir:** si `MainWindow.py` debe migrar a usar `Browser` (de `navigation/browser.py`) en vez de su propio `_VoiceMap`/`_GroupMeta`, o si son productos deliberadamente separados (uno de prueba rápida, otro el motor "serio") y hay que documentar cuál es cuál.
 
-### 2.b Investigar POR QUÉ hay dos GUIs en paralelo
+### 2.b Investigar POR QUÉ hay dos GUIs en paralelo — RESUELTO
+
+> **Cerrado (2026-08-09).** Ya no hay dos: queda una sola GUI, el `DavPanel`
+> acoplado dentro de FreeCAD.
+>
+> La respuesta a la pregunta original: **no eran dos GUIs equivalentes**.
+> `InterfazDAV/MainWindow.py` (1011 líneas) era la de trabajo;
+> `IntegracionGUI/ui/main_window.py` (138) era un *launcher* cuyo botón de voz
+> hacía `Popen` de la otra. Divergieron por desarrollo paralelo, no por diseño.
+> Ambas se retiraron —etapas 4 y 5 de `plan-unificacion-guis.md`— conservando lo
+> que sí aportaban: preferencias, descarga de modelos, historial y árbol.
+
+El diagnóstico original, conservado como registro:
 
 No están sólo duplicados los motores de voz: son **dos aplicaciones PySide completas**, cada una con su ventana principal, su worker de voz y su arranque.
 

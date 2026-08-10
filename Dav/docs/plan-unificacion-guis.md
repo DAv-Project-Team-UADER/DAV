@@ -250,17 +250,30 @@ externo. `iniciar_dav.bat` no cambia: nunca pasó por `run_interfaz.bat`.
 Las entradas de `.gitignore` del circuito de captura se conservan a propósito,
 para no versionar los archivos que quedaron en copias de trabajo viejas.
 
-### Etapa 5 — Qué hacer con `ui/main_window.py`
+### Etapa 5 — Qué hacer con `ui/main_window.py` — HECHO (2026-08-09): (b)
 
-Decisión aparte: ese launcher tiene **preferencias** y **descarga de modelos**,
-que sí sirven. Opciones:
+Se recomendaba **(a)**, conservarlo como configurador de escritorio. Al revisar
+el estado real la recomendación no se sostuvo y se fue por **(b)**, borrarlo:
 
-- **(a)** Convertirlo en la GUI de escritorio de configuración (sin FreeCAD
-  abierto), quitándole el botón "Iniciar Voz"
-- **(b)** Llevar preferencias y descarga al panel y borrarlo
+- **Su función principal estaba rota.** El botón "Iniciar Voz" —el elemento
+  central, de 150×150 px— hacía `Popen` de `InterfazDAV/main.py`, retirado en la
+  etapa 4.
+- **No aportaba la descarga de modelos.** Ese flujo vive entero en
+  `ui/preferences_dialog.py` (`_download_large` + `DownloadDialog` +
+  `download_large_model`), que se abre desde la barra DAV y desde el botón ⚙ del
+  panel. `main_window` sólo *avisaba* si faltaba un modelo, aviso que
+  `voice_bootstrap` ya da con la línea de `setup_models.py`.
+- **Era el último resto del modelo de dos procesos**, lo que mantenía viva la
+  pregunta de §2.b.
 
-Recomendación: **(a)**. Bajar modelos antes de abrir FreeCAD es un caso de uso
-legítimo, y no arrastra el conflicto de Qt porque no convive con FreeCAD.
+Borrado: `ui/main_window.py` y `GUIFreeCad/main.py` (~180 líneas de wrapper).
+Conservado: `ui/preferences_dialog.py`, `ui/download_dialog.py`,
+`core/model_manager.py`, `scripts/setup_models.py`.
+
+> **Lo que se pierde:** bajar modelos con interfaz gráfica sin abrir FreeCAD.
+> Queda por línea de comandos (`python scripts/setup_models.py`). Si hiciera
+> falta la vía gráfica, es más barato un comando en la barra DAV que abra
+> `DownloadDialog` que mantener una app de escritorio entera.
 
 ---
 
