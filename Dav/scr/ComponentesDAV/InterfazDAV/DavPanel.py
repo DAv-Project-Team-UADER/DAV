@@ -21,8 +21,8 @@ from __future__ import annotations
 import os
 from datetime import datetime
 
-from PySide6.QtCore import Qt, QTimer, Signal
-from PySide6.QtGui import QBrush, QColor, QFont, QTextCharFormat, QTextCursor
+from PySide6.QtCore import QSize, Qt, QTimer, Signal
+from PySide6.QtGui import QBrush, QColor, QFont, QIcon, QTextCharFormat, QTextCursor
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
@@ -280,9 +280,13 @@ class DavPanel(QWidget):
 
         self._toolArea = QWidget()
         self._toolAreaLayout = QHBoxLayout(self._toolArea)
-        self._toolAreaLayout.setSpacing(18)
-        self._toolAreaLayout.setContentsMargins(8, 8, 8, 8)
-        self._toolAreaLayout.setAlignment(Qt.AlignHCenter)
+        self._toolAreaLayout.setSpacing(10)
+        # Margen inferior mayor: sin el, los botones quedan pegados al borde
+        # de la ventana. AlignCenter (no solo horizontal) los centra tambien
+        # en vertical dentro de la franja.
+        self._toolAreaLayout.setContentsMargins(10, 10, 10, 14)
+        self._toolAreaLayout.setAlignment(Qt.AlignCenter)
+        self._toolArea.setFixedHeight(self.BUTTON_SIZE + 24)
         layout.addWidget(self._toolArea)
 
         self._flash = FlashOverlay(self)
@@ -379,19 +383,26 @@ class DavPanel(QWidget):
         hint.setAlignment(Qt.AlignCenter)
         self._toolAreaLayout.addWidget(hint)
 
+    #: Lado del boton y del icono, en px. El icono se deja bastante mas chico
+    #: que el boton para que quede aire parejo alrededor de todos.
+    BUTTON_SIZE = 54
+    ICON_SIZE = 30
+
     def _MakeEntryButton(self, Entry) -> QPushButton:
         button = QPushButton()
-        button.setFixedSize(54, 54)
+        button.setFixedSize(self.BUTTON_SIZE, self.BUTTON_SIZE)
         button.setToolTip(Entry.Spoken)
         button.setStyleSheet(self._ButtonQss())
 
         icon = self._locator.Find(Entry.InternalKey)
         if icon:
-            svg = QSvgWidget(icon)
-            svg.setFixedSize(42, 42)
-            inner = QVBoxLayout(button)
-            inner.addWidget(svg, alignment=Qt.AlignCenter)
-            inner.setContentsMargins(6, 6, 6, 6)
+            # setIcon en vez de un QSvgWidget embebido: Qt escala el SVG a un
+            # cuadrado exacto respetando su relacion de aspecto, con lo cual
+            # todos los botones quedan con el mismo tamaño visual. Con el
+            # widget embebido cada SVG se dibujaba segun su propio viewBox y
+            # unos se veian mas grandes que otros.
+            button.setIcon(QIcon(icon))
+            button.setIconSize(QSize(self.ICON_SIZE, self.ICON_SIZE))
         else:
             button.setText(Entry.Spoken[:2].capitalize())
 
@@ -401,7 +412,7 @@ class DavPanel(QWidget):
 
     def _MakeBackButton(self) -> QPushButton:
         button = QPushButton("←")
-        button.setFixedSize(54, 54)
+        button.setFixedSize(self.BUTTON_SIZE, self.BUTTON_SIZE)
         button.setToolTip("Volver")
         button.setFont(QFont(FONT_SANS, 18, QFont.Bold))
         button.setStyleSheet(self._BackButtonQss())
@@ -434,7 +445,12 @@ class DavPanel(QWidget):
         for label in (self._listenLabel, self._histLabel, self._modelLabel):
             label.setStyleSheet(f"color: {palette['black']};")
 
-        for button in (self._helpButton, self._prefsButton, self._themeButton):
+        for button in (
+            self._helpButton,
+            self._prefsButton,
+            self._themeButton,
+            self._dockButton,
+        ):
             button.setStyleSheet(self._ButtonQss())
 
         if self._treeWidget is not None:
