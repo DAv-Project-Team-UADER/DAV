@@ -45,6 +45,20 @@ def _install_freecad_stub() -> None:
         sys.modules["FreeCADGui"] = gui
     if "FreeCAD" not in sys.modules:
         sys.modules["FreeCAD"] = types.ModuleType("FreeCAD")
+    app = sys.modules["FreeCAD"]
+    if not hasattr(app, "ActiveDocument"):
+        app.ActiveDocument = None
+    class Vector:
+        def __init__(self, *args, **kwargs): pass
+    class Placement:
+        def __init__(self, *args, **kwargs): pass
+    class Rotation:
+        def __init__(self, *args, **kwargs): pass
+    class Matrix:
+        def __init__(self, *args, **kwargs): pass
+    for attr, cls in [("Vector", Vector), ("Placement", Placement), ("Rotation", Rotation), ("Matrix", Matrix)]:
+        if not hasattr(app, attr):
+            setattr(app, attr, cls)
 
 
 # ---------------------------------------------------------------------------
