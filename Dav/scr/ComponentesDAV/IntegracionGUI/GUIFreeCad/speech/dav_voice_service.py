@@ -52,6 +52,17 @@ class DavVoiceService:
         self._model_size = "small"
         self._last_prefs_cmd: str | None = None
         self._last_prefs_cmd_time = 0.0
+        self._grammar_queue: queue.Queue[str] = queue.Queue()
+
+    def set_grammar(self, phrases: list[str] | None) -> None:
+        """Dynamically update recognizer grammar with a list of valid spoken phrases."""
+        if phrases is None:
+            return
+        phrases_list = [p.lower().strip() for p in phrases if p]
+        if "[unk]" not in phrases_list:
+            phrases_list.append("[unk]")
+        grammar_json = json.dumps(phrases_list, ensure_ascii=False)
+        self._grammar_queue.put(grammar_json)
 
     # --- Public API ---
 
@@ -80,6 +91,9 @@ class DavVoiceService:
                 return True
             self._cad_adapter = cad_adapter
             self._mode = "cad"
+        browser = getattr(cad_adapter, "_browser", getattr(cad_adapter, "browser", None))
+        if browser is not None and hasattr(browser, "GetSpokenPhrases"):
+            self.set_grammar(browser.GetSpokenPhrases())
         return self._ensure_mic(settings.language, settings.model_size)
 
     def attach_preferences(
@@ -105,6 +119,11 @@ class DavVoiceService:
             self._mode = "preferences"
             self._last_prefs_cmd = None
             self._last_prefs_cmd_time = 0.0
+        try:
+            from speech.voice_commands import all_grammar_phrases
+            self.set_grammar(all_grammar_phrases())
+        except Exception:
+            pass
         return self._ensure_mic(language, settings.model_size)
 
     def detach_preferences(self) -> None:
@@ -136,6 +155,9 @@ class DavVoiceService:
             model_size = self._model_size
         adapter._stop_requested = False
         self._stop_event.clear()
+        browser = getattr(adapter, "_browser", getattr(adapter, "browser", None))
+        if browser is not None and hasattr(browser, "GetSpokenPhrases"):
+            self.set_grammar(browser.GetSpokenPhrases())
         if self._running and self._thread and self._thread.is_alive():
             self._accept_callbacks = True
             return
@@ -294,6 +316,16 @@ class DavVoiceService:
                 self._mic_open = True
                 self._emit_prefs_status("active")
                 while not self._stop_event.is_set():
+                    while not self._grammar_queue.empty():
+                        try:
+                            g_json = self._grammar_queue.get_nowait()
+                            if g_json:
+                                recognizer.SetGrammar(g_json)
+                        except queue.Empty:
+                            break
+                        except Exception as exc:
+                            print(f"[DavVoiceService] Error setting grammar: {exc}")
+
                     try:
                         data = audio_q.get(timeout=0.5)
                     except queue.Empty:
