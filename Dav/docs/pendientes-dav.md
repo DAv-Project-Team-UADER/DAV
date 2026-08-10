@@ -641,3 +641,112 @@ siguen en pie (`explorer`, `stdview`, `workbench`, `lineattributes`,
 > **No verificado:** no se corrieron los tests ni se probó dentro de FreeCAD. Los
 > cambios son de claves habladas, no de callables, pero conviene una pasada por
 > voz sobre los contextos tocados (Sketcher, Part, DraftWork, Assembly, StdView).
+
+## 12. Integrar las clases de `Dav/scr/selection/` al programa (2026-08-09)
+
+**Dónde:** `Dav/scr/selection/` — `createobjects.py` (`CreateObjects`),
+`tagger.py` (`Tagger`, `LanguageCode`), `object_selection.py` (`ObjectSelection`).
+
+Sirven para el requisito de GUI **"dar historial (navegar objetos creados)"** y
+para el `plan_arbol_de_objetos_navegable.md`: `CreateObjects` descompone una
+forma en sus sub-elementos (caras/aristas en 3D, líneas/puntos en 2D) y los
+publica como objetos reales del documento; `Tagger` les pone nombre localizado
+(`Punto1`, `Linea2`, `Superficie3`) leyendo `Preferences.SetLanguage`;
+`ObjectSelection` los recorre resaltándolos de a uno en la vista 3D y el árbol.
+
+### 12.a La integración está empezada, no ausente
+
+Hay que decirlo porque cambia el trabajo: **40 archivos de `Dav/dic/` ya
+importan `CreateObjects`** (51 llamadas), y `InitGui.py:58` ya llama a
+`_ensure_selection_path()`. No es "conectar algo desconectado" —es **terminar y
+arreglar una integración a medio hacer**. Lo que sí está desconectado es
+`ObjectSelection`: no lo referencia nadie fuera de su propio archivo.
+
+### 12.b Tres bugs que hacen que hoy no funcione
+
+**1. `Execute()` no recibe el objeto — 10 archivos.** La firma real es
+`CreateObjects(ObjectName, Is3D)` + `Execute()` sin argumentos: el objetivo se
+resuelve en el `__init__` vía `GetObjectByName()`. Pero `DraftWork` llama:
+
+```python
+# Dav/dic/Workbench/DraftWork/circle/circle.py:14 — INCORRECTO
+CreateObjects(Is3D=False).Execute(obj)
+```
+
+Falla dos veces: `ObjectName` es obligatorio (`TypeError` en el constructor) y
+`Execute()` no acepta parámetros. Afecta a `annotation`, `arc`, `circle`,
+`creation`, `curve`, `dimension`, `ellipse`, `facebinder`, `modification` y
+`modify`. La forma correcta —la que usa `Part/`— es:
+
+```python
+CreateObjects(ObjectName=App.ActiveDocument.ActiveObject.Name, Is3D=False).Execute()
+```
+
+**2. `.execute()` en minúscula.** `Drafting/drafting.py:22` llama
+`CreateObjects(obj.Name, Is3D=False).execute()`. El método es `Execute()`
+(PascalCase, según la convención del proyecto): `AttributeError`. Es justo el
+callable de la clave hablada `"createobjects"`, o sea el comando más directo
+para probar esto por voz.
+
+**3. Los dos `import` fallan si `InitGui.py` no corrió.** El patrón repetido en
+los 40 archivos es:
+
+```python
+try:
+    from createobjects import CreateObjects
+except ImportError:
+    from selection.createobjects import CreateObjects
+```
+
+`_ensure_selection_path()` inserta la carpeta `selection/` **misma** en
+`sys.path`, no su padre — así que sólo puede funcionar la rama plana
+(`from createobjects import ...`). La rama de respaldo `selection.createobjects`
+necesitaría `Dav/scr/` en el path, y **`DictionaryLoader` sólo agrega `Dav/dic/`
+y `ComponentesDAV/`**; nunca `Dav/scr/`. Verificado con stubs de FreeCAD: con
+`Dav/scr` en el path importa `selection.createobjects`; sin él fallan las dos
+ramas.
+
+Consecuencia: si el árbol se carga sin pasar por `InitGui.py` (tests, consola
+Python a mano, cualquier entrada que no sea el arranque del workbench), los 40
+módulos revientan al importar. Y como `DictionaryLoader` **captura los errores
+de import y sigue de largo** (§6), eso no se ve: los contextos aparecen vacíos
+sin ningún mensaje. Es exactamente el modo de falla silenciosa de §6, con la
+diferencia de que acá alcanza a diez carpetas de DraftWork y Part a la vez.
+
+### 12.c Lo que falta decidir antes de tocar código
+
+- **Dónde va el bootstrap del path.** Hoy depende de `InitGui.py`, que es el
+  arranque del workbench, no la carga del diccionario. Lo consistente con §6 es
+  que `DictionaryLoader` agregue `Dav/scr/` a `sys.path` junto con los otros
+  roots, y que los diccionarios usen **una sola** forma de import
+  (`from selection.createobjects import CreateObjects`), sin `try/except`. Así
+  el árbol se puede importar sin FreeCAD y los tests dejan de depender del orden
+  de arranque.
+- **Si `CreateObjects` debe correr en cada creación.** Hoy cada comando de
+  DraftWork/Part lo invoca después de dibujar, o sea que **toda** figura se
+  descompone en sub-objetos automáticamente. Un rectángulo pasan a ser 4 líneas
+  + 4 puntos en el árbol. Puede ser lo buscado (es lo que habilita "seleccionar
+  la línea de arriba" por voz) o puede llenar el documento de ruido. Conviene
+  confirmarlo con el equipo antes de arreglar las 51 llamadas: si no es lo
+  buscado, la corrección no es cambiar la firma sino sacar la llamada.
+- **`ObjectSelection` no tiene comandos de voz.** Es la pieza que faltaría para
+  el requisito de historial navegable, y su API está pensada para consola
+  (`Instancia.SelectOther = True` como *setter* con efecto). Para voz hay que
+  envolverla —`siguiente objeto` / `anterior` / `seleccionar <nombre>`— y darle
+  una carpeta en `Dav/dic/` con su `TraduceTo*.py`, anidada según §4. El setter
+  con efecto colateral es cómodo en consola pero raro como API; conviene un
+  `SelectNext()` explícito y dejar la property como alias.
+
+### 12.d Cómo probarlo
+
+`selection/console_helpers.py` ya trae `RunCreateObjects(...)` y
+`dav_commands.RunAlexSelectionPrueba()` para la consola de FreeCAD, sin
+configurar rutas. Es el camino más corto para ver qué hace la clase antes de
+decidir lo de §12.c. Ojo con el docstring de `console_helpers.py`: dice que
+*"el módulo DAV agrega selection/ a sys.path al iniciar"*, lo cual es cierto
+sólo por `InitGui.py` — es la misma suposición que rompe fuera de FreeCAD.
+
+> **Sin verificar:** no se probó dentro de FreeCAD. Los tres bugs de §12.b son
+> de lectura de código y del test de imports con stubs; el comportamiento real
+> de `CreateObjects` sobre geometría (si los sub-objetos quedan bien, si
+> `recompute()` alcanza) no se ejerció.
