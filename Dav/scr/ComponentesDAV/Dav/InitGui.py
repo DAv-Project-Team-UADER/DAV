@@ -83,7 +83,7 @@ except Exception:
 if not _wb_registered:
     Gui.addWorkbench(DAVWorkbench())
 
-if os.environ.get("DAV_AUTOLOAD_WORKBENCH") == "1":
+if os.environ.get("DAV_AUTOLOAD_WORKBENCH") != "0":
     try:
         from PySide6.QtCore import QTimer
     except ImportError:

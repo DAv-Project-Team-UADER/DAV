@@ -46,10 +46,48 @@ for _ in range(4):
 sys.path.append(os.path.join(_here, '..', 'Keychain'))
 
 from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QTimer
 from MainWindow import MainWindow
+
+
+def _is_pid_alive(pid: int) -> bool:
+    """Check if a process with the given PID is still running (Windows/POSIX)."""
+    try:
+        if sys.platform == "win32":
+            import ctypes
+            kernel32 = ctypes.windll.kernel32
+            SYNCHRONIZE = 0x00100000
+            handle = kernel32.OpenProcess(SYNCHRONIZE, False, pid)
+            if handle:
+                kernel32.CloseHandle(handle)
+                return True
+            return False
+        else:
+            os.kill(pid, 0)
+            return True
+    except (OSError, PermissionError):
+        return False
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+
+    # --- Auto-close when FreeCAD exits ---
+    freecad_pid_str = os.environ.get("DAV_FREECAD_PID", "").strip()
+    if freecad_pid_str:
+        try:
+            freecad_pid = int(freecad_pid_str)
+
+            def _check_freecad_alive():
+                if not _is_pid_alive(freecad_pid):
+                    app.quit()
+
+            _pid_timer = QTimer()
+            _pid_timer.timeout.connect(_check_freecad_alive)
+            _pid_timer.start(2000)  # Check every 2 seconds
+        except ValueError:
+            pass
+
     sys.exit(app.exec())

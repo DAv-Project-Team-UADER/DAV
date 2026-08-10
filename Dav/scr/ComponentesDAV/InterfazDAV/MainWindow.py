@@ -7,7 +7,7 @@
 import trigger_capture
 from componentesDAV.Keychain.Keychain import Keychain
 from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
-from componentesDAV.InterfazDAV.VoiceWorker import VoiceWorker
+from componentesDAV.InterfazDAV.FlashOverlay import FlashOverlay
 from componentesDAV.InterfazDAV.HelpWindow import HelpWindow
 from componentesDAV.InterfazDAV.Textos import TEXTS, MODEL_PARTS, MODEL_PARTS_ALIASES
 from componentesDAV.InterfazDAV.Paletas import LIGHT, DARK, FONT_SANS, FONT_MONO
@@ -159,12 +159,29 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(900, 650)
 
         self._HelpWindow = None
-        self._Level = LEVEL_ROOT
-        self._ActiveGroup = None
+        self._HelpWindow = None
 
         self._ToolButtons = []
         self._GroupMeta = {}
-        self._VoiceMap = {}
+        self._VoiceHistoryOffset = 0
+        self._LastContextState = None
+        self._VoiceHistoryPath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "voice_history.log"
+        )
+        self._ContextStatePath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "context_state.json"
+        )
+        self._CommandQueuePath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "command_queue.txt"
+        )
+        self._VoiceStatusPath = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "IntegracionGUI", "GUIFreeCad", "config", "voice_status.json"
+        )
+
 
         # Variables para el árbol de datos de FreeCAD
         self._TreeWidget = None
@@ -174,7 +191,7 @@ class MainWindow(QMainWindow):
         self.SetColor(color)
         self.SetLanguage(lang)
         self._SetupUi()
-        self._StartVoiceRecognition()
+        self._StartSyncingWithFreeCAD()
 
         # Timer para auto-refrescar los datos del árbol (cada 2 segundos)
         self._RefreshTimer = QTimer()
@@ -202,9 +219,8 @@ class MainWindow(QMainWindow):
     def SetLanguage(self, Lang: str):
         self._Texts = TEXTS.get(Lang, TEXTS["es"])
         self._CurrentLang = Lang
-        self._LoadVoiceMap()
-        if hasattr(self, '_ToolRow'):
-            self._RebuildButtons()
+        if hasattr(self, '_ToolAreaLayout'):
+            self._RenderCurrentState()
         if hasattr(self, '_ModelLabel'):
             self._ModelLabel.setText("Árbol de FreeCAD")
         if hasattr(self, '_ListenLabel'):
@@ -451,8 +467,7 @@ class MainWindow(QMainWindow):
         self._Flash.setGeometry(CentralWidget.rect())
 
         self._LoadGroupMeta()
-        self._LoadVoiceMap()
-        self._ShowRootButtons()
+        self._RenderCurrentState()
 
     def _TreeQss(self) -> str:
         """QSS para el QTreeWidget del árbol, consistente con la paleta actual."""
@@ -560,6 +575,7 @@ class MainWindow(QMainWindow):
         self._TreeWidget.expandAll()
 
     def _LoadGroupMeta(self):
+        from componentesDAV.Keychain.Keychain import Keychain
         self._GroupMeta = {}
         BaseDir = os.path.dirname(os.path.abspath(__file__))
         DicDir = os.path.join(BaseDir, "DiccionarioPrueba")
@@ -578,48 +594,32 @@ class MainWindow(QMainWindow):
             GroupIconPath = os.path.join(DicDir, f"{GroupName}.svg")
             if not os.path.exists(GroupIconPath):
                 continue
+            self._GroupMeta[GroupName] = {"icon": GroupIconPath}
 
-            GroupFolder = os.path.join(DicDir, GroupName)
-            GroupDictPath = os.path.join(GroupFolder, f"{GroupName}.py")
-            if not os.path.exists(GroupDictPath):
-                GroupDictPath = os.path.join(
-                    GroupFolder, f"{GroupName}_cmds.py")
+    def _ShowRootButtonsFallback(self):
+        self._ClearToolArea()
+        for GroupName, Meta in self._GroupMeta.items():
+            Btn = self._MakeSvgButton(Meta["icon"], GroupName)
+            Btn.clicked.connect(lambda Checked=False: self._TriggerFlash())
+            self._ToolButtons.append(Btn)
+            self._ToolAreaLayout.addWidget(Btn)
 
-            Children = []
-            if os.path.exists(GroupDictPath):
-                ActionKeychain = Keychain(GroupDictPath)
-                for ActionKey in ActionKeychain.GetKeys()[:12]:
-                    ChildIcon = os.path.join(
-                        GroupFolder, f"{ActionKey.replace(' ', '_')}.svg")
-                    if not os.path.exists(ChildIcon):
-                        continue
-                    Children.append({"key": ActionKey, "icon": ChildIcon})
-
-            self._GroupMeta[GroupName] = {
-                "icon":     GroupIconPath,
-                "children": Children,
-            }
-
-    def _LoadVoiceMap(self):
-        self._VoiceMap = {}
-        LangFiles = {"es": "TraduceToEs.py",
-                     "en": "TraduceToEn.py", "pt": "TraduceToPt.py"}
-        LangFile = LangFiles.get(self._CurrentLang, "TraduceToEs.py")
-        DicDir = os.path.join(os.path.dirname(
-            os.path.abspath(__file__)), "DiccionarioPrueba")
-        TransPath = os.path.join(DicDir, LangFile)
-
-        if not os.path.exists(TransPath):
-            return
-
-        KC = Keychain(TransPath)
-        Keys = KC.GetKeys()
-        Values = KC.GetValues()
-
-        for Key, RawValue in zip(Keys, Values):
-            GroupKey = _RawValueToGroupKey(RawValue)
-            if GroupKey is not None:
-                self._VoiceMap[_NormCmd(Key)] = GroupKey
+    def _SearchIcon(self, key: str) -> str:
+        """Busca el SVG correspondiente al key interno dentro de Dav/dic"""
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        dic_dir = os.path.join(base_dir, "dic")
+        target = f"{key}.svg"
+        
+        for root, _, files in os.walk(dic_dir):
+            if target in files:
+                return os.path.join(root, target)
+        
+        # Fallback a icons del sistema si no lo encuentra
+        sys_icon = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons", "system", target)
+        if os.path.exists(sys_icon):
+            return sys_icon
+            
+        return ""
 
     def _ClearToolArea(self):
         while self._ToolAreaLayout.count():
@@ -635,77 +635,56 @@ class MainWindow(QMainWindow):
         Btn.setFixedSize(Size, Size)
         Btn.setToolTip(Tooltip)
         Btn.setStyleSheet(self._BtnQss())
-        Svg = QSvgWidget(IconPath)
-        Svg.setFixedSize(Size - 12, Size - 12)
-        Layout = QVBoxLayout(Btn)
-        Layout.addWidget(Svg, alignment=Qt.AlignCenter)
-        Layout.setContentsMargins(6, 6, 6, 6)
+        if IconPath and os.path.exists(IconPath):
+            Svg = QSvgWidget(IconPath)
+            Svg.setFixedSize(Size - 12, Size - 12)
+            Layout = QVBoxLayout(Btn)
+            Layout.addWidget(Svg, alignment=Qt.AlignCenter)
+            Layout.setContentsMargins(6, 6, 6, 6)
+        else:
+            Btn.setText(Tooltip[:2].capitalize())
         return Btn
 
-    def _ShowRootButtons(self):
+    def _RenderCurrentState(self):
         self._ClearToolArea()
-        self._Level = LEVEL_ROOT
-        self._ActiveGroup = None
-
-        for GroupName, Meta in self._GroupMeta.items():
-            Btn = self._MakeSvgButton(Meta["icon"], GroupName)
-            Btn.clicked.connect(lambda Checked=False,
-                                G=GroupName: self._EnterGroup(G))
-            self._ToolButtons.append(Btn)
-            self._ToolAreaLayout.addWidget(Btn)
-
-    def _ShowGroupButtons(self, GroupName: str):
-        self._ClearToolArea()
-        self._Level = LEVEL_GROUP
-        self._ActiveGroup = GroupName
-
-        Meta = self._GroupMeta.get(GroupName, {})
-        Children = Meta.get("children", [])
-
-        for Child in Children:
-            Btn = self._MakeSvgButton(Child["icon"], Child["key"])
-            Key = Child["key"]
-            Btn.clicked.connect(lambda Checked=False, K=Key,
-                                G=GroupName: self._ExecuteChildAction(G, K))
-            self._ToolButtons.append(Btn)
-            self._ToolAreaLayout.addWidget(Btn)
-
-        BackBtn = QPushButton("←")
-        BackBtn.setFixedSize(54, 54)
-        BackBtn.setToolTip("Volver")
-        BackBtn.setStyleSheet(self._BackBtnQss())
-        BackBtn.setFont(QFont(FONT_SANS, 18, QFont.Bold))
-        BackBtn.clicked.connect(self.GoBack)
-        self._ToolAreaLayout.addWidget(BackBtn)
-
-    def _RebuildButtons(self):
-        if self._Level == LEVEL_GROUP and self._ActiveGroup:
-            self._ShowGroupButtons(self._ActiveGroup)
-        else:
-            self._ShowRootButtons()
-
-    def _EnterGroup(self, GroupName: str):
-        Meta = self._GroupMeta.get(GroupName, {})
-        Children = Meta.get("children", [])
-
-        if not Children:
-            self.AddToHistory(f"{GroupName}", FromVoice=False)
-            self._TriggerFlash()
+        
+        if not self._LastContextState:
+            self._ShowRootButtonsFallback()
             return
 
-        self.AddToHistory(f"Menú: {GroupName}", FromVoice=False)
-        self._ShowGroupButtons(GroupName)
-        self._TriggerFlash()
+        context_path = self._LastContextState.get("context_path", "")
+        
+        for item in self._LastContextState.get("submenus", []):
+            icon_path = self._SearchIcon(item["key"])
+            btn = self._MakeSvgButton(icon_path, item["spoken"])
+            btn.clicked.connect(lambda Checked=False, s=item["spoken"]: self._SendCommand(s))
+            self._ToolButtons.append(btn)
+            self._ToolAreaLayout.addWidget(btn)
 
-    def _ExecuteChildAction(self, GroupName: str, ActionKey: str):
-        self.AddToHistory(f"{GroupName} → {ActionKey}", FromVoice=False)
-        self._TriggerFlash()
+        for item in self._LastContextState.get("commands", []):
+            icon_path = self._SearchIcon(item["key"])
+            btn = self._MakeSvgButton(icon_path, item["spoken"])
+            btn.clicked.connect(lambda Checked=False, s=item["spoken"]: self._SendCommand(s))
+            self._ToolButtons.append(btn)
+            self._ToolAreaLayout.addWidget(btn)
 
-    def GoBack(self):
-        if self._Level == LEVEL_GROUP:
-            PrevGroup = self._ActiveGroup
-            self._ShowRootButtons()
-            self.AddToHistory(f"Volver (desde {PrevGroup})", FromVoice=False)
+        if context_path and context_path != "Base":
+            BackBtn = QPushButton("←")
+            BackBtn.setFixedSize(54, 54)
+            BackBtn.setToolTip("Volver")
+            BackBtn.setStyleSheet(self._BackBtnQss())
+            BackBtn.setFont(QFont(FONT_SANS, 18, QFont.Bold))
+            BackBtn.clicked.connect(lambda: self._SendCommand("subir"))
+            self._ToolAreaLayout.addWidget(BackBtn)
+
+    def _SendCommand(self, spoken: str):
+        self._TriggerFlash()
+        try:
+            os.makedirs(os.path.dirname(self._CommandQueuePath), exist_ok=True)
+            with open(self._CommandQueuePath, "a", encoding="utf-8") as f:
+                f.write(f"{spoken}\n")
+        except Exception as e:
+            self.AddToHistory(f"Error enviando comando: {e}", Unknown=True)
 
     # ================================================================
     # Theme / Tree Image Update
@@ -738,7 +717,7 @@ class MainWindow(QMainWindow):
         for Btn in getattr(self, '_TopBarButtons', []):
             Btn.setStyleSheet(self._BtnQss())
         if hasattr(self, '_ToolAreaLayout'):
-            self._RebuildButtons()
+            self._RenderCurrentState()
 
     # ================================================================
     # Flash overlay
@@ -753,116 +732,75 @@ class MainWindow(QMainWindow):
     # Voice
     # ================================================================
 
-    def _StartVoiceRecognition(self):
-        ModelPath = _ResolveModelPath("vosk-model-small-es-0.42")
+    def _StartSyncingWithFreeCAD(self):
+        self.UpdateStatus("inactive")
+        self._SyncTimer = QTimer(self)
+        self._SyncTimer.timeout.connect(self._PollFreeCADState)
+        self._SyncTimer.start(500)
 
-        if not os.path.exists(ModelPath):
-            print(
-                f"[WARNING] ADVERTENCIA: Modelo Vosk no encontrado en {ModelPath}")
-            return
+    def _PollFreeCADState(self):
+        # Leer voice status
+        try:
+            if hasattr(self, "_VoiceStatusPath") and os.path.exists(self._VoiceStatusPath):
+                import json
+                with open(self._VoiceStatusPath, "r", encoding="utf-8") as f:
+                    st_data = json.load(f)
+                st = st_data.get("status", "inactive")
+                dt = st_data.get("detail", "")
+                self.UpdateStatus(st, dt)
+            else:
+                self.UpdateStatus("inactive")
+        except Exception as e:
+            print(f"Error polling voice status: {e}")
 
-        self._VoiceWorker = VoiceWorker(model_path=ModelPath)
-        self._VoiceThread = threading.Thread(
-            target=self._VoiceWorker.run, daemon=True)
-        self._VoiceWorker.partial_result.connect(self.UpdateCurrentText)
-        self._VoiceWorker.final_result.connect(self.ProcessVoiceCommand)
-        self._VoiceWorker.status_signal.connect(self.UpdateStatus)
-        self._VoiceThread.start()
+        # Leer history
+        try:
+            if os.path.exists(self._VoiceHistoryPath):
+                with open(self._VoiceHistoryPath, "rb") as fh:
+                    fh.seek(self._VoiceHistoryOffset)
+                    data = fh.read()
+                    self._VoiceHistoryOffset = fh.tell()
+                
+                if data:
+                    text = data.decode("utf-8", errors="replace")
+                    lines = [l.strip() for l in text.splitlines() if l.strip()]
+                    for line in lines:
+                        if line.startswith("[DAV] Voz:"):
+                            cmd = line.split("Voz:", 1)[1].strip()
+                            self.UpdateCurrentText(f"{self._Texts['detected']} {cmd}")
+                        self.AddToHistory(line, FromVoice=True)
+        except Exception as e:
+            print(f"Error polling history: {e}")
 
-    def UpdateStatus(self, Msg: str):
+        # Leer context state
+        try:
+            if os.path.exists(self._ContextStatePath):
+                import json
+                with open(self._ContextStatePath, "r", encoding="utf-8") as f:
+                    state = json.load(f)
+                if state != self._LastContextState:
+                    self._LastContextState = state
+                    self._RenderCurrentState()
+        except Exception as e:
+            print(f"Error polling context state: {e}")
+
+    def UpdateStatus(self, Msg: str, Detail: str = ""):
         T = self._T
         L = self._Texts
         if Msg == "active":
-            self._StatusLabel.setText(L["mic_active"])
+            self._StatusLabel.setText(L.get("mic_active", "Micrófono activo"))
             self._StatusLabel.setStyleSheet(self._MicQss(T["green"]))
-        elif Msg.startswith("error:"):
-            self._StatusLabel.setText(L["mic_error"])
+        elif Msg == "inactive":
+            text = "Micrófono inactivo (clic en «Iniciar voz DAV» en barra FreeCAD)"
+            self._StatusLabel.setText(text)
+            self._StatusLabel.setStyleSheet(self._MicQss(T["dark_text"]))
+        elif Msg.startswith("error") or Msg == "error":
+            err_txt = f"{L.get('mic_error', 'Error de micrófono')}: {Detail}" if Detail else L.get('mic_error', 'Error de micrófono')
+            self._StatusLabel.setText(err_txt)
             self._StatusLabel.setStyleSheet(self._MicQss(T["red"]))
 
     def UpdateCurrentText(self, Text: str):
         self._CurrentText.setText(Text)
-
-    def ProcessVoiceCommand(self, Command: str):
-        CmdNorm = _NormCmd(Command)
-        L = self._Texts
-        self._CurrentText.setText(f"{L['detected']} {Command}")
-
-        if CmdNorm == "ayuda":
-            self.OpenHelpWindow()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("cerrar ayuda", "cerrar ventana"):
-            self.CloseHelpWindow()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "minimizar":
-            self.showMinimized()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "maximizar":
-            self.showMaximized() if not self.isMaximized() else self.showNormal()
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("cerrar programa", "cerrar app", "salir"):
-            self.AddToHistory(Command)
-            self.close()
-            return
-        if CmdNorm in ("subir", "arriba"):
-            self.ScrollHistory(Up=True)
-            self.AddToHistory(Command)
-            return
-        if CmdNorm in ("bajar", "abajo"):
-            self.ScrollHistory(Up=False)
-            self.AddToHistory(Command)
-            return
-        if CmdNorm == "modo claro":
-            if self._CurrentTheme != "light":
-                self.ToggleTheme()
-            return
-        if CmdNorm == "modo oscuro":
-            if self._CurrentTheme != "dark":
-                self.ToggleTheme()
-            return
-
-        if CmdNorm in ("volver", "atras", "atrás", "cerrar menu", "cerrar menú"):
-            if self._Level == LEVEL_GROUP:
-                self.GoBack()
-                self.AddToHistory("Volver")
-            else:
-                self.AddToHistory("Ya en nivel raíz", Unknown=True)
-            return
-
-        if self._Level == LEVEL_ROOT:
-            TargetGroup = None
-            if CmdNorm in ((_NormCmd(G)) for G in self._GroupMeta):
-                TargetGroup = next(
-                    G for G in self._GroupMeta if _NormCmd(G) == CmdNorm)
-            elif CmdNorm in self._VoiceMap:
-                Candidate = self._VoiceMap[CmdNorm]
-                if Candidate in self._GroupMeta:
-                    TargetGroup = Candidate
-
-            if TargetGroup is not None:
-                self._EnterGroup(TargetGroup)
-                if self._GroupMeta[TargetGroup].get("children"):
-                    self.AddToHistory(f"Menú: {TargetGroup}")
-                else:
-                    self.AddToHistory(TargetGroup)
-                return
-
-        elif self._Level == LEVEL_GROUP:
-            Meta = self._GroupMeta.get(self._ActiveGroup, {})
-            Children = Meta.get("children", [])
-            for Child in Children:
-                if _NormCmd(Child["key"]) == CmdNorm:
-                    self._ExecuteChildAction(self._ActiveGroup, Child["key"])
-                    self.AddToHistory(f"{self._ActiveGroup} → {Child['key']}")
-                    return
-            self.AddToHistory(
-                f"'{Command}' no disponible en {self._ActiveGroup}", Unknown=True)
-            return
-
-        self.AddToHistory(Command, Unknown=True)
 
     def ScrollHistory(self, Up: bool = True):
         Scrollbar = self._HistoryList.verticalScrollBar()
@@ -1074,8 +1012,4 @@ class MainWindow(QMainWindow):
             self._Flash.setGeometry(self.centralWidget().rect())
 
     def closeEvent(self, Event):
-        if hasattr(self, '_VoiceWorker'):
-            self._VoiceWorker.stop()
-        if hasattr(self, '_VoiceThread'):
-            self._VoiceThread.join(timeout=1)
         Event.accept()
