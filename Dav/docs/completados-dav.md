@@ -8,6 +8,83 @@ Orden: lo más reciente arriba.
 
 ---
 
+## Gramática de Vosk acotada al contexto (2026-08-10)
+
+Era la **§1** de pendientes: el `KaldiRecognizer` se creaba sin `SetGrammar`, así
+que Vosk competía contra las **100.001 palabras** del modelo en cada frase en vez
+de las ~12 del contexto activo. De ahí «croquis» → «crockett» y el «traffic» que
+nadie dijo.
+
+Integrado del PR #176 de SoPerez1, más los arreglos del #178.
+Funcionamiento completo en
+[`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md).
+
+### La causa que no estaba a la vista
+
+La gramática por sí sola no alcanzaba: **tumbaba FreeCAD**. Vosk no acepta que se
+le cambie la gramática a un recognizer que ya procesó audio, y falla con una
+excepción de C++ que ningún `except` de Python atrapa.
+
+```
+SetGrm():recognizer.cc:235
+"Can't add speaker model to already running recognizer"
+```
+
+Como el loop llama `SetGrammar` después de procesar audio, **cada cambio de nivel
+era un intento de crash**. Verificado contra el modelo `pt` en procesos
+separados:
+
+| escenario | resultado |
+| --- | --- |
+| `SetGrammar` antes de audio | ok |
+| `SetGrammar` después de audio | ERROR → crash |
+| `Reset()` + `SetGrammar` | ok |
+
+`speech/voice_commands.py` ya tenía `USE_GRAMMAR = False` con la nota *"can block
+all recognition on some models"*: alguien se había chocado con esto antes. Esa
+variable **no la leía nadie**, así que no apagaba nada, y su diagnóstico era
+incorrecto —no depende del modelo, pasa siempre—. Se eliminó.
+
+### El micrófono que "no tomaba"
+
+Segundo síntoma, misma raíz. El log mostró los dos modos peleándose el
+recognizer:
+
+```
+14:28:27  aplicando gramatica: 82 frases    ← preferencias
+14:28:27  aplicando gramatica: 54 frases    ← CAD
+14:28:27  aplicando gramatica: 82 frases
+```
+
+Cada aplicación hace `Reset()`, que descarta el audio a medio reconocer, así que
+ninguna frase llegaba a completarse. El loop ahora drena la cola y se queda solo
+con la última gramática.
+
+### Qué se hizo
+
+| Cambio | Efecto |
+| --- | --- |
+| `Browser.GetSpokenPhrases()` | Gramática del nivel activo, derivada del diccionario |
+| `Reset()` antes de `SetGrammar` | Cierra el crash |
+| Solo la última gramática de la cola | Cierra el micrófono muerto |
+| `core/dav_log.py` | Log a archivo: sin esto nada de lo anterior era diagnosticable |
+| `enviar`/`cancelar` a `NavCommands/` | Estaban en tres lugares del código, ya desincronizados |
+
+### Verificación
+
+Sesión real por voz dentro de FreeCAD: la gramática sigue la navegación (54 en la
+raíz → 93 en Archivo → 199 en Sketcher), sin crashes ni gramáticas pisándose.
+
+### Lo que sigue abierto
+
+- **La gramática restringe el vocabulario, no la sintaxis.** Vosk puede combinar
+  palabras válidas en frases sin sentido («extender oblongo»). No ejecutan nada,
+  pero con 199 frases activas hay más superficie para el ruido.
+- `settings.json` a veces queda en `pt` entre sesiones y todavía no se sabe qué
+  lo escribe. El log ya registra qué frase dispara cada cambio de idioma.
+
+---
+
 ## Panel DAV acoplado a FreeCAD (2026-08-09)
 
 Migración completa de la GUI: de proceso externo a `QDockWidget` dentro de

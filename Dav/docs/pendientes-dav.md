@@ -3,176 +3,12 @@
 > Lo ya resuelto está en [`completados-dav.md`](completados-dav.md), con la causa
 > real de cada caso. Este documento es sólo lo que sigue abierto.
 
-## 1. Vosk reconoce con vocabulario abierto, no acotado al contexto
-
-**Dónde:** el motor de voz de `GUIFreeCad` (`speech/`). El fragmento de abajo era
-de `InterfazDAV/VoiceWorker.py:56`, ya retirado, pero el planteo sigue vigente:
-el reconocedor se crea sin gramática restringida.
-
-```python
-recognizer = vosk.KaldiRecognizer(model, 16000)
-```
-
-El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que Vosk compite contra todo el vocabulario del modelo español en cada frase, en vez de limitarse a los comandos válidos del contexto actual (`Browser.Context` ya tiene esa lista disponible en todo momento).
-
-**Síntoma observado:** palabras cortas o poco frecuentes se transcriben mal — "croquis" salió como "crockett", apareció "traffic" sin que nadie lo dijera. Con el modelo pequeño (`vosk-model-small-es-0.42`, 39 MB) el efecto es más marcado que con el modelo grande.
-
-**Arreglo sugerido:** pasarle a `KaldiRecognizer` una gramática JSON con las palabras/frases de `Browser.Context` (o `BaseContext` si aún no se descendió), actualizándola cada vez que cambia el contexto de navegación. Debería reducir bastante las transcripciones erráticas.
-
-> Medido sobre el modelo real: `vosk-model-small-es-0.42` carga **100.001
-> palabras**, y el árbol `Dav/dic/` usa **745** (0,75 %). La mediana por contexto
-> es de **12 frases**. La precisión no se arregla agrandando el modelo — se
-> arregla acá, restringiendo la gramática al contexto activo. Ver **§10** para el
-> análisis completo y las cifras.
-
-## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO
-
-> **Estado (2026-08-09):** cerrado. `MainWindow.py` y `DiccionarioPrueba/`
-> **ya no existen**: la GUI es un `QDockWidget` dentro de FreeCAD que se alimenta
-> del `Browser` en proceso, sin motor de voz propio, sin diccionario de prueba y
-> sin puente por archivos. Con la ventana externa se fue también el conflicto de
-> Qt de §2.e, porque ya no se lanza ningún proceso aparte.
->
-> Lo que sigue es el diagnóstico original, conservado como registro. **§2.b
-> también quedó cerrado**: ya no hay dos GUIs en paralelo.
-
-**Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
-
-Esta ventana tenía su propio motor de navegación por voz, separado de `navigation/browser.py` (`Browser.ProcessPhrase`, el que se audita y mantiene activamente). Leía de:
-
-```
-Dav/scr/ComponentesDAV/InterfazDAV/DiccionarioPrueba/
-```
-
-que es un diccionario de prueba chico (solo `explorer` con `file`/`edit`/`print`/`doc`), **no** el árbol completo `Dav/dic/` (Sketcher, Workbench, PartDesign, StdView, NavCommands, etc.).
-
-**Consecuencia práctica:** todo lo arreglado en `Dav/dic/` (imports rotos, duplicados, `base.py` enlazado, `NavCommands` para "subir"/"contexto") no tiene ningún efecto en la GUI real que se está probando. Los logs de este motor tienen formato distinto (`[Voz]`, `[Btn]`, `No entendí: '...' no disponible en <grupo>`) al del `Browser` (`[DAV Browser]`, `[BrowserVoiceAdapter]`).
-
-**Pendiente de decidir:** si `MainWindow.py` debe migrar a usar `Browser` (de `navigation/browser.py`) en vez de su propio `_VoiceMap`/`_GroupMeta`, o si son productos deliberadamente separados (uno de prueba rápida, otro el motor "serio") y hay que documentar cuál es cuál.
-
-### 2.b Investigar POR QUÉ hay dos GUIs en paralelo — RESUELTO
-
-> **Cerrado (2026-08-09).** Ya no hay dos: queda una sola GUI, el `DavPanel`
-> acoplado dentro de FreeCAD.
->
-> La respuesta a la pregunta original: **no eran dos GUIs equivalentes**.
-> `InterfazDAV/MainWindow.py` (1011 líneas) era la de trabajo;
-> `IntegracionGUI/ui/main_window.py` (138) era un *launcher* cuyo botón de voz
-> hacía `Popen` de la otra. Divergieron por desarrollo paralelo, no por diseño.
-> Ambas se retiraron —etapas 4 y 5 de `plan-unificacion-guis.md`— conservando lo
-> que sí aportaban: preferencias, descarga de modelos, historial y árbol.
-
-El diagnóstico original, conservado como registro:
-
-No están sólo duplicados los motores de voz: son **dos aplicaciones PySide completas**, cada una con su ventana principal, su worker de voz y su arranque.
-
-| Componente | `InterfazDAV/` | `IntegracionGUI/GUIFreeCad/` |
-| --- | --- | --- |
-| Ventana | `MainWindow.py` | `ui/main_window.py` |
-| Voz | `VoiceWorker.py` | `speech/dav_voice_service.py`, `speech/voice_commands.py` |
-| Navegación | `_VoiceMap`/`_GroupMeta` propio | `navigation/browser.py` (`Browser`) |
-| Diccionario | `InterfazDAV/DiccionarioPrueba/` | `Dav/dic/` (árbol completo) |
-| Arranque | `main.py` | `main.py`, `integration/voice_bootstrap.py`, `integration/windows_startup.py` |
-| Extras | `FlashOverlay.py`, `HelpWindow.py`, `Paletas.py`, `Textos.py` | `InputPrompts/` (10 módulos), `ui/preferences_dialog.py`, `core/model_manager.py`, `ui/download_dialog.py` |
-
-Cada una tiene funcionalidad que a la otra le falta: `InterfazDAV` es la única con **historial** y con **minimizar/overlay**; `IntegracionGUI` es la única con el **Browser real**, los **InputPrompts** (pedir parámetros por voz), **preferencias/idioma** y **descarga de modelos Vosk**.
-
-**A investigar / decidir con el equipo:**
-
-- ¿Fue una división deliberada por grupos de trabajo, o dos ramas que divergieron y nunca se integraron?
-- ¿Cuál es la que se demuestra/entrega? (hoy se está probando `InterfazDAV`, pero el motor que se mantiene y testea es el de `IntegracionGUI`)
-- Si se unifica: llevar historial + minimizar a `IntegracionGUI`, o llevar `Browser` + InputPrompts a `InterfazDAV`. Mantener las dos implica duplicar cada arreglo (como ya pasó con los diccionarios).
-
-> **Respuesta parcial (auditoría 2026-08-08):** no son dos GUIs sino **tres
-> motores de voz**, y divergieron por desarrollo paralelo en mayo, no por
-> diseño. Ver §9 para el mapa completo y el estado de ejecución de cada uno.
-
-### 2.c Cómo quedó resuelto: puente por archivos de estado (PR #174)
-
-La GUI y FreeCAD son **dos procesos separados**, así que la conexión no es una
-llamada directa a `Browser`: se comunican por archivos en
-`IntegracionGUI/GUIFreeCad/config/`, con polling de 500 ms de cada lado.
-
-```
-MainWindow (proceso GUI)                 FreeCAD (proceso Browser)
-   click en botón                          BrowserVoiceAdapter
-        │                                        │
-        └──> command_queue.txt ──[QTimer]──────> pop_command_queue()
-                                                 → ProcessPhrase()
-        ┌──── context_state.json <────────────── export_context_state()
-        ├──── voice_history.log  <────────────── append_voice_history()
-        └──── voice_status.json  <────────────── estado del motor
-   [QTimer 500 ms] lee los tres y re-renderiza
-```
-
-`context_state.json` es el que manda: trae `context_path`, `submenus` y
-`commands` del contexto activo, y `_RenderCurrentState()` dibuja un botón por
-entrada. El efecto que faltaba según el diagnóstico de arriba ya se cumple: lo
-que se arregla en `Dav/dic/` ahora **sí** llega a la GUI.
-
-> Los cuatro archivos son **estado de runtime y están en `.gitignore`**. No
-> versionarlos: cada sesión los reescribe, generan conflictos, y si se commitean
-> la GUI arranca mostrando el contexto de otra persona en vez de la raíz (ya
-> pasó: se subió un `context_state.json` congelado en `Base > workbench > part`).
-
-### 2.d Lo que quedó abierto — resuelto salvo un punto
-
-Estado tras retirar la ventana externa (etapa 4 del plan):
-
-- ~~`DiccionarioPrueba/` sigue vivo como fallback~~ — **borrado**, junto con
-  `_ShowRootButtonsFallback()` y `_LoadGroupMeta()`. Era lo que impedía cerrar
-  esta sección.
-- ~~`_SearchIcon()` busca los SVG donde no están y hace `os.walk` por botón~~ —
-  reemplazado por `IconLocator`, con índice cacheado (467 iconos). El bug real
-  no era la ubicación sino que se resolvía `ComponentesDAV/Dav/dic`, un
-  placeholder vacío que aparece antes al subir ancestros.
-- ~~`pop_command_queue()` descarta comandos~~ — la cola desapareció con el
-  puente: los clicks entran por `procesar_frase_final` en el mismo proceso.
-- ~~`on_descend` no lo usa nadie~~ — sigue sin usarse, pero ya no hace falta: el
-  refresco del contexto va por `PublishContext()` tras cada frase.
-- **Convención de nombres — abierto.** Conviven snake_case
-  (`export_context_state`, `procesar_frase_final`) y PascalCase (`entry.Spoken`,
-  `PublishContext`). El código nuevo sigue la convención del proyecto; el previo
-  no se tocó para no mezclar un renombre masivo con la migración.
-
-### 2.e El puente arrastraba un conflicto de Qt — RESUELTO al eliminar el proceso externo
-
-> **Cerrado (2026-08-09).** Ya no se lanza ningún proceso aparte: el panel es un
-> `QDockWidget` que usa el Qt de FreeCAD. No hay dos Qt en juego, así que el
-> `DLL load failed` no puede volver. Se conserva el diagnóstico porque explica
-> por qué la migración era la salida y no un parche más.
-
-La `InterfazDAV` **no abre desde FreeCAD** (2026-08-09). Corre como proceso
-externo con PySide6 6.11.1 propio, y FreeCAD 1.1 trae su propio Qt6 en `bin/`.
-Al lanzarse como subproceso hereda `PYTHONHOME`, `PYTHONPATH`, `QT_PLUGIN_PATH`
-y el `PATH` del padre, y termina resolviendo las DLL equivocadas:
-
-```
-ImportError: DLL load failed while importing QtWidgets
-AssertionError: SRE module mismatch          (con PYTHONHOME heredado)
-```
-
-Se puede sanear el entorno del hijo, y se probó (quitar las variables, filtrar el
-`PATH`, anteponer la carpeta de PySide6, cambiar el `cwd`). Pero cada parche tapa
-una vía de contaminación conocida: **mientras haya dos Qt distintos en juego el
-problema puede volver** con otra versión de FreeCAD, de PySide6 o en otra
-máquina.
-
-> El conflicto existe **sólo porque la GUI es un proceso externo**. Un
-> `QDockWidget` dentro de FreeCAD usa el Qt de FreeCAD y el problema deja de
-> existir por construcción, en vez de parchearse.
->
-> Propuesta de migración por etapas en
-> [`plan-unificacion-guis.md`](plan-unificacion-guis.md) — cierra también §2.b y
-> los cinco puntos de §2.d.
-
-**Dato que corrige una suposición común:** `IntegracionGUI/GUIFreeCad/ui/main_window.py`
-**no es la otra GUI**. Son 138 líneas y su botón "Iniciar Voz" hace
-`subprocess.Popen` de `InterfazDAV/main.py`: es un *launcher*, no una
-alternativa. El `Browser` no vive en ninguna de las dos ventanas — corre dentro
-de FreeCAD, lanzado por `voice_bootstrap.start_voice_engine()`.
-
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
+
+> La gramática acotada (ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md))
+> baja bastante el riesgo: dentro de un contexto compiten ~12 frases, no 100.001.
+> Pero **no elimina la ambigüedad**: si dos frases parecidas están en el mismo
+> nivel, Vosk las sigue pudiendo confundir. Esta sección sigue vigente.
 
 `"dibujar"` (Sketcher) y `"dibujo"` (Draft) eran casi indistinguibles para el reconocimiento de voz — se sacó `"dibujo"`/`"dibujos"` de Draft en `Dav/dic/Workbench/TraduceToEs.py` (queda `"banco de dibujo"`, `"borrador"`, `"draftwork"`, `"draft"` como alternativas). Sketcher sigue teniendo `"dibujar"` como sinónimo — si se repite el problema, revisar si conviene sacarlo también y dejar solo `"croquis"`/`"banco de croquis"`.
 
@@ -248,180 +84,16 @@ Ninguna carpeta de comandos quedó sin archivo `TraduceToEs.py`. Los únicos vac
 | Requisito | Estado |
 | --- | --- |
 | Arrancar con FreeCAD | Existe `Dav/scr/ComponentesDAV/Dav/InitGui.py` + `integration/voice_bootstrap.py` y `windows_startup.py` — **verificar que efectivamente levante en un FreeCAD limpio**, no sólo desde consola. |
-| Minimizarse | Implementado sólo en `InterfazDAV` (`FlashOverlay.py`, `MainWindow.py`). Falta en `IntegracionGUI`. |
-| Dar historial | Implementado sólo en `InterfazDAV` (`MainWindow.py`, `Textos.py`). Falta en `IntegracionGUI`. |
+| Minimizarse | Hecho: lo da el `QDockWidget` que contiene al `DavPanel`. |
+| Dar historial | Hecho: `DavPanel._BuildHistoryColumn()` + `AddToHistory`, alimentado por `browser_voice_adapter`. Falta **probarlo por voz dentro de FreeCAD**. |
 
-Los dos últimos quedan atados a la decisión de §2.b: si se unifica en `IntegracionGUI` (el que tiene el `Browser` real), hay que portar historial y minimizar.
+Los dos últimos quedaron cubiertos al unificar la GUI en el panel acoplado (ver [`completados-dav.md`](completados-dav.md), «Panel DAV acoplado a FreeCAD»).
 
 **Otros pendientes transversales:**
 
 - Idiomas **en** y **pt**: el árbol está armado para tres idiomas, pero sólo el español está completo. Si el MVP se demuestra en español, documentarlo como alcance y no como bug.
-- Gramática restringida de Vosk (§1) — impacta la precisión de todo lo anterior.
-- Tests: `tests/test_browser.py` (18 casos) usa un loader mock. **No hay tests que corran contra el árbol real `Dav/dic/`**, que es donde aparecieron todos los bugs de esta sesión (imports rotos, aplanado, acentos). Vale la pena agregar un test de integración que recorra las rutas principales.
-
-## 9. Hay TRES motores de voz en el repo, no dos — RESUELTO
-
-> **Estado (2026-08-10):** cerrado. **Queda un solo motor de voz.** B
-> (`InterfazDAV`) se retiró al acoplar el panel; C (`PruebaIntegracion`) se
-> movió a [`prototipos/`](prototipos/) junto con sus puentes muertos.
->
-> Lo que sigue es el diagnóstico original, conservado como registro, con el
-> cierre de cada punto al final.
-
-Respondía la pregunta abierta de §2.b. Además de los dos de esa tabla existía un
-tercer sistema completo, `PruebaIntegracion/`, que **no se ejecutaba nunca**.
-
-| | A. IntegracionGUI | B. InterfazDAV | C. PruebaIntegracion |
-| --- | --- | --- | --- |
-| Motor | `Browser.ProcessPhrase` + `DictionaryLoader` | `_VoiceMap` / `_GroupMeta` | `ExploradorVoz` + `Navigator` |
-| Diccionario | `Dav/dic/` (árbol oficial) | `InterfazDAV/DiccionarioPrueba/` | `PruebaIntegracion/diccionario/` |
-| GUI | `ui/main_window.py` | `MainWindow.py` | `GUI/asistente_voz.py` |
-| Estado | **Camino principal** | Vivo, pero como proceso aparte | **Huérfano — código muerto** |
-
-**Cómo quedó:** de esa tabla sobrevive **sólo la columna A**. Ni `MainWindow.py`,
-ni `VoiceWorker.py`, ni `DiccionarioPrueba/`, ni el launcher
-`IntegracionGUI/ui/main_window.py` existen ya. De `InterfazDAV/` quedan widgets
-sin motor propio (`DavPanel.py`, `ContextView.py`, `IconLocator.py`,
-`FlashOverlay.py`, `Paletas.py`, `Textos.py`), que el camino A usa.
-
-### 9.a `PruebaIntegracion/` está desconectado — RESUELTO
-
-> **Cerrado (2026-08-10).** Movido a `Dav/docs/prototipos/PruebaIntegracion/`
-> con un `README.md` que explica qué es y por qué se conserva. Se movieron con
-> él `cad_session.py`, `cad_voice_adapter.py` y `voice_aliases.py` (este último
-> sólo lo alcanzaba `cad_session`). Verificado: no quedan imports colgados en
-> `Dav/scr/`, y los 18 tests de `test_browser.py` siguen pasando.
-
-Es un DAVCore completo y autónomo: `core/VoiceExplorer.py`, `core/Navigator.py`,
-`core/Command.py`, `core/FunctionWrapper.py`, `modelo/VoskModel.py` (la
-implementación literal del UML de CLAUDE.md), `hilos/GestorDeHilos.py`, GUI y
-tests propios.
-
-Existen dos puentes que lo conectarían —`integration/cad_session.py` y
-`integration/cad_voice_adapter.py`— pero **nadie los llama**. Buscar referencias
-a `cad_session` / `cad_voice_adapter` fuera de esos archivos no devuelve nada.
-
-La razón se ve en el arranque: `integration/voice_bootstrap.py` arma el motor con
-`Browser` + `BrowserVoiceAdapter`, no con `ExploradorVoz` + `CadVoiceAdapter`.
-Cuando las implementaciones paralelas convergieron, ganó el `Browser`.
-
-`plan_arbol_de_objetos_navegable.md:89` ya propone borrar
-`PruebaIntegracion/hilos/GestorDeHilos.py` como maqueta muerta, pero el problema
-alcanza al árbol entero, no a ese archivo solo.
-
-#### 9.a.bis La trampa que casi rompe el arranque
-
-Vale registrarlo porque no era evidente y afectaba al camino activo: la carpeta
-**no era sólo código muerto**. Se usaba como **marcador de filesystem** para
-localizar la raíz `Dav/scr/`:
-
-```python
-# dav_paths.py — ANTES
-if (base / "PruebaIntegracion").is_dir():
-    return base
-...
-raise FileNotFoundError("No se encontró el repo DAV (PruebaIntegracion).")
-```
-
-Moverla sin más habría hecho que `dav_repo_root()` tirara `FileNotFoundError`,
-y de ahí se cuelgan dos cosas **del camino principal**:
-`voice_bootstrap.start_voice_engine()` (línea 129) y el `Validator` de
-`InputPrompts/PromptedCommandExecutor.py` (línea 70). O sea: se caía el motor de
-voz entero, no el prototipo.
-
-El marcador pasó a ser `validation/` + `selection/`, que son carpetas del camino
-activo y viven en la misma raíz. Mismo cambio en `tests/test_browser.py:24`, que
-duplicaba el criterio.
-
-> **Regla que deja:** antes de mover cualquier carpeta "muerta", buscar su
-> nombre como **string** además de como import. `grep -rn "NombreCarpeta"` sobre
-> `.py` — un `is_dir()` no aparece en un análisis de imports.
-
-### 9.b `InterfazDAV` no está desconectado: corre como proceso separado — RESUELTO
-
-> **Cerrado (2026-08-09/10).** Ya no corre como proceso separado porque ya no
-> existe: se retiró al acoplar el `DavPanel` dentro de FreeCAD (§2). El
-> `Dav/scr/gui/dav_commands.py` que hacía el `Popen` tampoco está en esa ruta;
-> lo que queda es `ComponentesDAV/Dav/scr/gui/dav_commands.py`, que no lanza
-> ningún proceso externo.
-
-Distinto de C. `Dav/scr/gui/dav_commands.py:371` busca `InterfazDAV/main.py` y lo
-**lanza como proceso aparte**. No comparte memoria ni diccionario con A.
-
-La única comunicación entre ambos es por archivo: `freecad_wb.py:239` vigila el
-`settings.json` de IntegracionGUI *"para que los cambios desde InterfazDAV
-apliquen a FreeCAD"*. Se hablan por configuración, no por código — de ahí que un
-fix en `Dav/dic/` no tenga efecto en B (§2).
-
-### 9.c `InputPrompts/` SÍ está en uso (no confundir con C)
-
-Aunque `PruebaIntegracion/` esté muerto, el subsistema de captura de parámetros
-por voz está vivo y en el camino principal, enganchado en dos puntos:
-
-- `integration/voice_bootstrap.py:81-88` — el `PromptedCommandExecutor` se pasa
-  como `on_execute` del `Browser`: **todo comando que ejecuta el Browser pasa por
-  él**.
-- `speech/dav_voice_service.py:338-346` — en modo CAD cada frase se ofrece primero
-  al `PromptVoiceRouter`; si hay un prompt activo esperando un valor, la frase se
-  la queda y no llega al Browser.
-
-Tiene cobertura en `Dav/scr/validation/test_integration.py`.
-
-> ⚠️ `_dispatch_to_active_prompt` envuelve el router en `except Exception: return
-> False`. Si InputPrompts falla, la frase sigue de largo al Browser **sin ninguna
-> señal** de que algo se rompió. Difícil de diagnosticar; considerar loguear la
-> excepción aunque se siga tragando.
-
-### 9.d Qué hacer — NO escribir una GUI nueva — EJECUTADO
-
-Sería el cuarto sistema paralelo. El problema no es que falte una GUI: es que
-sobran dos. A ya tiene Browser, InputPrompts, tests, temas e i18n.
-
-Los cuatro pasos del plan original, con lo que efectivamente pasó:
-
-| # | Paso | Estado |
-| --- | --- | --- |
-| 1 | Declarar A como camino oficial | **Hecho** — es el único que queda; no hay alternativa que declarar |
-| 2 | Retirar `PruebaIntegracion/` + puentes | **Hecho (2026-08-10)** — movido a `prototipos/`, ver 9.a |
-| 3 | Migrar `InterfazDAV` a leer de `Dav/dic/` | **Sin objeto** — no se migró el motor: se retiró. Los widgets que sobrevivieron ya se alimentan del `Browser` |
-| 4 | Decidir si B sobrevive | **Decidido** — no sobrevive como motor; sí sus widgets, sobre el motor de A |
-
-El paso 3 se resolvió por un camino distinto al previsto, y conviene anotarlo
-porque la advertencia de abajo resultó ser el motivo: en vez de enseñarle a
-`MainWindow.py` a leer `Dav/dic/`, se retiró `MainWindow.py` y se conservaron
-sus partes útiles (historial, overlay, iconos, paletas) como widgets del panel
-acoplado. Salió más barato que la migración que este plan proponía.
-
-> **Sin verificar:** no se auditó `MainWindow.py` en detalle, así que no se sabe
-> cuánto de su comportamiento depende del formato de `DiccionarioPrueba/`. Si esa
-> estructura difiere bastante de `Dav/dic/`, el paso 3 es más trabajo del que
-> sugiere este plan. Estimar antes de comprometerlo en un sprint.
-
-Esta es una decisión de arquitectura que toca código de varias personas (Luigi
-Mete, Mica Saul, Franco Camen) — conviene discutirla en el grupo antes de mover
-archivos, no resolverla por commit.
-
-> **Nota sobre lo anterior:** el retiro de `PruebaIntegracion/` se hizo por
-> commit sin esa discusión previa. Se consideró de bajo riesgo porque no cambia
-> comportamiento —el código no se ejecutaba— y porque se movió en vez de
-> borrarse, así que es reversible con un `git mv`. Igual **conviene avisarlo en
-> el grupo**: es trabajo de otras personas, aunque esté inactivo.
-
-### 9.e Lo que sí queda abierto de esta sección
-
-Cerrar §9 no cierra el requisito que la motivaba. De la tabla de §8:
-
-- **Historial** y **minimizar** venían de B y **sí quedaron enganchados**
-  (verificado 2026-08-10): `DavPanel._BuildHistoryColumn()` dibuja la columna y
-  recibe datos reales del motor por `AddToHistory`, llamado desde
-  `browser_voice_adapter.py:41` y `dav_dock_panel.py:111`; `FlashOverlay` se
-  instancia en `DavPanel.py:343`, y el ocultar/mostrar lo da el `QDockWidget`.
-  Lo que falta no es cableado sino **probarlo por voz dentro de FreeCAD**.
-- El **`except Exception: return False`** de `_dispatch_to_active_prompt` (§9.c)
-  ya **no** traga los fallos en silencio: los loguea en `config/dav.log`
-  (`edd50476`). Se separó el `ImportError` —que es el caso normal cuando
-  InputPrompts no está montado— del resto, que sí queda registrado con
-  traceback. Sigue devolviendo `False` para no interrumpir la voz.
+- Gramática restringida de Vosk — resuelta, ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md).
+- Tests: `tests/test_browser.py` (21 casos) usa un loader mock. **No hay tests que corran contra el árbol real `Dav/dic/`**, que es donde aparecieron todos los bugs de esta sesión (imports rotos, aplanado, acentos). Vale la pena agregar un test de integración que recorra las rutas principales.
 
 ## 10. Hallazgo contrafáctico: un modelo de voz más grande NO mejora el reconocimiento de comandos
 
@@ -431,7 +103,7 @@ lugar de `vosk-model-small-es-0.42` (39 MB).
 
 **Resultado:** la premisa no aplica a DAV. Para un conjunto cerrado de comandos,
 agrandar el modelo **empeora** el problema en vez de resolverlo. La precisión no
-se arregla cambiando de modelo: se arregla restringiendo la gramática (§1).
+se arregla cambiando de modelo: se arregla restringiendo la gramática (ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md)).
 
 ### 10.a Por qué la premisa era razonable
 
@@ -550,7 +222,7 @@ nunca puede emitirlas.
 
 Es exactamente el núcleo del vocabulario CAD. Cuando el usuario dice "chaflán",
 el decoder está **obligado** a devolver otra cosa. Esto explica los síntomas de
-§1 mejor que la hipótesis del ruido: "croquis" tampoco está en el vocabulario, y
+la gramática abierta mejor que la hipótesis del ruido: "croquis" tampoco está en el vocabulario, y
 por eso salió "crockett" — el vecino fonético más probable del español general.
 
 > El modelo es simultáneamente **demasiado grande y demasiado chico**: sobra en lo
@@ -616,7 +288,8 @@ frases = Browser.Context.SpokenPhrases() + NavCommands.SpokenPhrases() + ["[unk]
 recognizer = KaldiRecognizer(model, 16000, json.dumps(frases, ensure_ascii=False))
 ```
 
-> **Sin medir todavía:** este análisis explica los síntomas de §1 y §3 y se apoya
+> **Sin medir todavía:** este análisis explica los síntomas de la gramática
+> abierta y de §3, y se apoya
 > en cifras reales de vocabulario, pero **no se corrió un benchmark de tasa de
 > acierto**. Antes de presentarlo como resultado experimental en un informe
 > conviene medirlo: ~30 comandos, 5 repeticiones, 2 o 3 hablantes, contando
