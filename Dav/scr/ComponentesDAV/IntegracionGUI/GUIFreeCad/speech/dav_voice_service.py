@@ -9,9 +9,12 @@ import time
 from dataclasses import dataclass
 from typing import Callable, Literal
 
+from core.dav_log import get_logger
 from core.model_manager import get_active_model_path, has_small_model
 from core.settings import settings
 from speech.voice_commands import _buffer_to_bytes, match_command
+
+log = get_logger("voz")
 
 VoiceMode = Literal["idle", "cad", "preferences"]
 
@@ -222,6 +225,13 @@ class DavVoiceService:
             language != self._language or model_size != self._model_size
         )
         if need_restart:
+            log.info(
+                "reiniciando mic: %s/%s -> %s/%s",
+                self._language,
+                self._model_size,
+                language,
+                model_size,
+            )
             self._accept_callbacks = False
             self._stop_event.set()
             if self._thread and self._thread.is_alive():
@@ -270,10 +280,12 @@ class DavVoiceService:
             self._safe_call(prefs.on_status, message)
 
     def _listen_loop(self, model_path: str) -> None:
+        log.info("hilo de voz arrancando: modelo=%s", model_path)
         try:
             import sounddevice as sd
             from vosk import KaldiRecognizer, Model
         except ImportError as exc:
+            log.exception("faltan dependencias de voz (sounddevice/vosk)")
             self._emit_prefs_status(f"error:import:{exc}")
             self._running = False
             return
@@ -283,9 +295,11 @@ class DavVoiceService:
             model = Model(model_path)
             recognizer = KaldiRecognizer(model, sample_rate)
         except Exception as exc:
+            log.exception("no se pudo cargar el modelo Vosk: %s", model_path)
             self._emit_prefs_status(f"error:model:{exc}")
             self._running = False
             return
+        log.info("modelo cargado, recognizer listo")
 
         audio_q: queue.Queue[bytes] = queue.Queue()
         last_text = ""
@@ -320,10 +334,18 @@ class DavVoiceService:
                         try:
                             g_json = self._grammar_queue.get_nowait()
                             if g_json:
+                                # Se loguea ANTES de llamar: SetGrammar puede
+                                # abortar el proceso desde libvosk sin lanzar
+                                # excepcion de Python (ver crash.log de FreeCAD,
+                                # Recognizer::SetGrm). Si el log corta aca, la
+                                # gramatica de esta linea es la culpable.
+                                log.debug("aplicando gramatica (%d chars)", len(g_json))
                                 recognizer.SetGrammar(g_json)
+                                log.debug("gramatica aplicada")
                         except queue.Empty:
                             break
                         except Exception as exc:
+                            log.exception("fallo SetGrammar")
                             print(f"[DavVoiceService] Error setting grammar: {exc}")
 
                     try:
@@ -337,8 +359,14 @@ class DavVoiceService:
                         partial = json.loads(recognizer.PartialResult())
                         self._dispatch_text(partial.get("partial", ""), final=False)
         except Exception as exc:
+            log.exception("el loop de audio murio")
             self._emit_prefs_status(f"error:mic:{exc}")
         finally:
+            # Si el log termina aca sin "hilo de voz terminado", el proceso se
+            # cayo dentro del loop: mirar crash.log de FreeCAD.
+            log.info(
+                "hilo de voz terminado (stop_event=%s)", self._stop_event.is_set()
+            )
             self._accept_callbacks = False
             self._mic_open = False
             self._running = False
@@ -366,6 +394,7 @@ class DavVoiceService:
             if self._dispatch_to_active_prompt(text, final=final):
                 return
             if final and cad_adapter is not None:
+                log.info("cad: frase reconocida %r", text)
                 cad_adapter.procesar_frase_final(text)
 
     def _dispatch_to_active_prompt(self, text: str, *, final: bool) -> bool:
@@ -373,7 +402,14 @@ class DavVoiceService:
             from InputPrompts.PromptVoiceRouter import PromptVoiceRouter
 
             return PromptVoiceRouter.ProcessVoiceText(text, Final=final)
+        except ImportError:
+            # InputPrompts no montado: es el caso normal, no se loguea.
+            return False
         except Exception:
+            # pendientes-dav.md 9.c: este except se tragaba los fallos de
+            # InputPrompts sin dejar rastro. Sigue sin interrumpir la voz,
+            # pero ahora queda registrado.
+            log.exception("PromptVoiceRouter fallo con %r", text)
             return False
 
     def _handle_preferences_text(self, text: str, final: bool, prefs: _PreferencesCallbacks) -> None:
@@ -383,8 +419,12 @@ class DavVoiceService:
             return
         cmd = match_command(text)
         if not cmd:
+            log.debug("preferencias: sin match para %r", text)
             self._safe_call(prefs.on_status, f"unknown:{text}")
             return
+        # Deja registro de que frase disparo cada comando: es la unica forma de
+        # rastrear los cambios de idioma que el usuario no pidio.
+        log.info("preferencias: %r -> %s", text, cmd)
         now = time.monotonic()
         if cmd == self._last_prefs_cmd and (now - self._last_prefs_cmd_time) < 1.5:
             return

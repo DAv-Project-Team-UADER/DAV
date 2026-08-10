@@ -127,10 +127,19 @@ def start_voice_engine(*, debug: bool = False) -> bool:
     try:
         ensure_gui_on_path()
         ensure_dav_repo_on_path()
+        from core.dav_log import get_logger, log_file_path, log_unhandled_thread_exceptions
         from core.model_manager import get_active_model_path
         from core.settings import settings
 
+        log = get_logger("arranque")
+        log_unhandled_thread_exceptions()
+        log.info("iniciando motor de voz (debug=%s)", debug)
+        _print_message(f"[DAV] Log: {log_file_path()}\n")
+
         settings.load()
+        log.info(
+            "settings: idioma=%s modelo=%s", settings.language, settings.model_size
+        )
         model = get_active_model_path(settings.language, settings.model_size)
         if model is None:
             err_msg = (
