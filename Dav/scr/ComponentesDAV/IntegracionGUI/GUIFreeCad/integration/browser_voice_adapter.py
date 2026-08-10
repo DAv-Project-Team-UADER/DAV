@@ -10,7 +10,7 @@ import unicodedata
 from typing import Any
 
 from navigation.browser import Browser
-from integration.voice_history import append_voice_history, export_context_state
+from integration.voice_history import append_voice_history
 
 
 def _normalize(text: str) -> str:
@@ -133,25 +133,12 @@ class BrowserVoiceAdapter:
             _run()
 
     def _export_state(self) -> None:
-        submenus = []
-        commands = []
-        seen_targets = []
-        for entry in self._browser.Context:
-            if any(self._browser.IsSameTarget(entry.Target, t) for t in seen_targets):
-                continue
-            seen_targets.append(entry.Target)
-            item = {"spoken": entry.Spoken, "key": entry.InternalKey}
-            if entry.IsSubContext():
-                submenus.append(item)
-            elif entry.IsCallable():
-                commands.append(item)
+        """Refresca el panel con el contexto activo.
 
-        state = {
-            "context_path": self._browser.ContextPath,
-            "submenus": submenus,
-            "commands": commands
-        }
-        export_context_state(state)
+        Antes serializaba el contexto a context_state.json para que lo leyera
+        la ventana externa por polling. Esa ventana ya no existe (etapa 4) y
+        nadie leia el archivo, asi que solo se publica al panel acoplado.
+        """
         self._publish_to_dock()
 
     @staticmethod
@@ -189,12 +176,7 @@ class BrowserVoiceAdapter:
 
     @classmethod
     def _publish_to_dock(cls) -> None:
-        """Refresca el panel acoplado, si esta montado.
-
-        Convive con export_context_state(): mientras la ventana externa siga
-        existiendo hay que alimentar las dos. El archivo se deja de escribir
-        en la etapa 4 de plan-unificacion-guis.md.
-        """
+        """Refresca el panel acoplado, si esta montado."""
         if not cls._on_gui_thread():
             return
         try:

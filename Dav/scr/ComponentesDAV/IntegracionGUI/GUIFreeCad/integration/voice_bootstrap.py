@@ -7,15 +7,9 @@ import traceback
 from pathlib import Path
 
 from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
-from integration.voice_history import reset_voice_history, pop_command_queue, export_voice_status
+from integration.voice_history import reset_voice_history, export_voice_status
 from speech.dav_voice_service import DavVoiceService
 
-_command_timer = None
-
-def _poll_command_queue(adapter):
-    command = pop_command_queue()
-    if command:
-        adapter.procesar_frase_final(command)
 
 
 def _active_adapter(svc):
@@ -177,16 +171,6 @@ def start_voice_engine(*, debug: bool = False) -> bool:
             export_voice_status("error", "No se pudo iniciar micrófono")
             return False
 
-        global _command_timer
-        if _command_timer is None:
-            try:
-                from PySide6.QtCore import QTimer
-            except ImportError:
-                from PySide2.QtCore import QTimer
-            _command_timer = QTimer()
-            _command_timer.timeout.connect(lambda: _poll_command_queue(adapter))
-            _command_timer.start(500)
-
         export_voice_status("active", "Voz activa")
         _print_message(
             "[DAV] Voz activa (motor unificado). Ejemplos: «preferencias enviar», "
@@ -201,11 +185,6 @@ def start_voice_engine(*, debug: bool = False) -> bool:
 
 
 def stop_voice_engine(*, wait: bool = True, timeout: float = 4.0) -> None:
-    global _command_timer
-    if _command_timer is not None:
-        _command_timer.stop()
-        _command_timer = None
-        
     svc = DavVoiceService.get()
     if not svc.is_cad_engine_loaded() and not svc.is_mic_running():
         _print_message("[DAV] El motor de voz no está activo.\n")

@@ -162,9 +162,9 @@ Dav/scr/ComponentesDAV/InterfazDAV/tree_capture.png
 Dav/scr/ComponentesDAV/InterfazDAV/tree_data.json
 Dav/scr/ComponentesDAV/InterfazDAV/capture_signal.json
 
-# Estado de runtime del puente GUI <-> FreeCAD: cada proceso los reescribe en
-# cada comando. Versionarlos genera conflictos y hace que la GUI arranque
-# mostrando el contexto de otra sesion.
+# Estado de runtime del motor de voz. context_state.json y command_queue.txt
+# eran del puente hacia la ventana externa, ya retirado; se siguen ignorando
+# para no versionar los que hayan quedado en copias de trabajo viejas.
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/context_state.json
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_status.json
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/command_queue.txt

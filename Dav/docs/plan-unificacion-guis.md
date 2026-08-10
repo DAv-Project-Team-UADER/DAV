@@ -1,7 +1,8 @@
 # Plan: unificar las dos GUIs (resolver §2 de pendientes-dav.md)
 
-**Estado:** plan de trabajo. No implementado todavía.
+**Estado:** etapas 1 a 4 implementadas; queda la 5.
 **Fecha:** 2026-08-09
+**Resultado:** resumido en [`completados-dav.md`](completados-dav.md).
 **Motivo inmediato:** la InterfazDAV no abre desde FreeCAD por un conflicto de
 DLLs de Qt que **sólo existe porque corre como proceso externo**. Parchearlo es
 posible; eliminarlo por construcción es mejor.
@@ -161,6 +162,27 @@ natural para `ContextChanged`.
 
 En esta etapa conviven las dos rutas: el panel acoplado y la ventana externa. Se
 compara comportamiento.
+
+> **Cerrada (2026-08-09).** El puente por archivos ya no existe en ninguna
+> dirección:
+>
+> | Antes | Ahora |
+> | --- | --- |
+> | `export_context_state()` → JSON | `PublishContext()` directo al panel |
+> | `command_queue.txt` + `QTimer` 500 ms | `SendCommand()` → `procesar_frase_final` |
+> | `voice_history.log` leído por polling | `_publish_line()` en el momento |
+> | `tree_data.json` + macro | `App.ActiveDocument` + observador (etapa 3) |
+>
+> Se borraron, ya sin consumidor: `export_context_state`, `read_context_state`,
+> `write_command_queue`, `pop_command_queue`, `read_voice_history_from`, el
+> `QTimer` que sondeaba la cola y el cuerpo de `_export_state`.
+>
+> `voice_history.log` y `voice_status.json` **siguen escribiéndose**: el primero
+> como registro persistente, el segundo porque `export_voice_status` es el punto
+> único por donde pasa el estado del motor y desde ahí se publica al panel.
+>
+> `on_descend` sigue sin usarse: el refresco va por `PublishContext()` al final
+> de cada frase, que cubre también los comandos que no cambian de nivel.
 
 ### Etapa 3 — Árbol de objetos nativo
 

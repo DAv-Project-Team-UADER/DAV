@@ -1,8 +1,13 @@
 # Pendientes DAV — hallazgos de sesión de auditoría de diccionarios y navegación por voz
 
+> Lo ya resuelto está en [`completados-dav.md`](completados-dav.md), con la causa
+> real de cada caso. Este documento es sólo lo que sigue abierto.
+
 ## 1. Vosk reconoce con vocabulario abierto, no acotado al contexto
 
-**Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/VoiceWorker.py:56`
+**Dónde:** el motor de voz de `GUIFreeCad` (`speech/`). El fragmento de abajo era
+de `InterfazDAV/VoiceWorker.py:56`, ya retirado, pero el planteo sigue vigente:
+el reconocedor se crea sin gramática restringida.
 
 ```python
 recognizer = vosk.KaldiRecognizer(model, 16000)
