@@ -284,10 +284,33 @@ class DAV_StartVoiceCommand:
 
     def Activated(self):
         _ensure_gui_path()
-        from integration.voice_bootstrap import start_voice_engine
+        from integration.voice_bootstrap import show_dock_panel, start_voice_engine
 
-        start_voice_engine()
-        _launch_interfaz_dav()
+        if start_voice_engine():
+            show_dock_panel()
+
+    def IsActive(self):
+        return True
+
+
+class DAV_ShowPanelCommand:
+    def GetResources(self):
+        return {
+            # Nombre del tema de iconos, como los otros comandos DAV: los
+            # identificadores de comando tipo "Std_*" no resuelven a un icono.
+            "Pixmap": "view-refresh",
+            "MenuText": "Mostrar panel DAV",
+            "ToolTip": (
+                "Muestra el panel DAV acoplado dentro de FreeCAD "
+                "(requiere la voz activa)"
+            ),
+        }
+
+    def Activated(self):
+        _ensure_gui_path()
+        from integration.voice_bootstrap import show_dock_panel
+
+        show_dock_panel()
 
     def IsActive(self):
         return True
@@ -311,118 +334,17 @@ class DAV_StopVoiceCommand:
         return True
 
 
-_interfaz_proc: subprocess.Popen | None = None
-_last_launch_time: float = 0.0
-
-
-def _find_system_python() -> str:
-    import subprocess as _sp
-
-    gui_root_env = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
-    if gui_root_env:
-        venv_py = Path(gui_root_env) / ".venv" / "Scripts" / "python.exe"
-        if venv_py.exists():
-            return str(venv_py)
-
-    for cmd in (["py", "-3"], ["python3"], ["python"]):
-        try:
-            out = _sp.check_output(
-                cmd + ["-c", "import sys; print(sys.executable)"],
-                stderr=_sp.DEVNULL,
-                timeout=3,
-            ).decode().strip()
-            if out and Path(out).exists():
-                return out
-        except Exception:
-            pass
-
-    import sys as _sys
-    return _sys.executable
-
-
-def _find_pythonw(python_path: str) -> str:
-    p = Path(python_path)
-    candidate = p.parent / "pythonw.exe"
-    return str(candidate) if candidate.exists() else python_path
-
-
-_INTERFAZ_WINDOW_TITLE = "Asistente de Voz - Control por Comandos"
-
-
-def _bring_interfaz_to_front() -> bool:
+def _report(message: str, *, error: bool = False) -> None:
+    """Escribe en la consola de FreeCAD, o en stdout fuera de FreeCAD."""
     try:
-        import ctypes
-        hwnd = ctypes.windll.user32.FindWindowW(None, _INTERFAZ_WINDOW_TITLE)
-        if hwnd:
-            ctypes.windll.user32.ShowWindow(hwnd, 9)   # SW_RESTORE
-            ctypes.windll.user32.SetForegroundWindow(hwnd)
-            return True
-    except Exception:
-        pass
-    return False
+        import FreeCAD as App
+        if error:
+            App.Console.PrintError(message)
+        else:
+            App.Console.PrintWarning(message)
+    except ImportError:
+        print(message, end="")
 
-
-def close_interfaz_dav() -> None:
-    global _interfaz_proc
-    if _interfaz_proc is not None and _interfaz_proc.poll() is None:
-        try:
-            _interfaz_proc.terminate()
-        except Exception:
-            pass
-        _interfaz_proc = None
-
-
-def _launch_interfaz_dav() -> None:
-    global _interfaz_proc, _last_launch_time
-    import os
-    import time
-    import subprocess
-
-    now = time.time()
-    if _interfaz_proc is not None and _interfaz_proc.poll() is None:
-        _bring_interfaz_to_front()
-        return
-
-    if now - _last_launch_time < 3.0:
-        return
-
-    if _bring_interfaz_to_front():
-        return
-
-    _last_launch_time = now
-
-    repo = _dav_repo_root()
-    if repo is None:
-        return
-    script = repo / "InterfazDAV" / "main.py"
-    if not script.exists():
-        script = repo / "componentesDAV" / "InterfazDAV" / "main.py"
-    if not script.exists():
-        try:
-            import FreeCAD as App
-            App.Console.PrintWarning(f"[DAV] InterfazDAV no encontrado en: {script}\n")
-        except ImportError:
-            print(f"[DAV] InterfazDAV no encontrado en: {script}")
-        return
-
-    python = _find_system_python()
-    pythonw = _find_pythonw(python)
-
-    env = os.environ.copy()
-    env["DAV_PASSIVE_HISTORY_VIEWER"] = "1"
-    env["DAV_FREECAD_PID"] = str(os.getpid())
-
-    try:
-        _interfaz_proc = subprocess.Popen([pythonw, str(script)], cwd=str(script.parent), env=env)
-    except Exception:
-        try:
-            _interfaz_proc = subprocess.Popen([python, str(script)], cwd=str(script.parent), env=env)
-        except Exception as e:
-            try:
-                import FreeCAD as App
-                App.Console.PrintError(f"[DAV] No se pudo lanzar InterfazDAV: {e}\n")
-            except ImportError:
-                print(f"[DAV] No se pudo lanzar InterfazDAV: {e}")
 
 
 def register_commands() -> None:
@@ -432,6 +354,7 @@ def register_commands() -> None:
         ("DAV_OpenPreferences", DAV_OpenPreferencesCommand),
         ("DAV_StartVoice", DAV_StartVoiceCommand),
         ("DAV_StopVoice", DAV_StopVoiceCommand),
+        ("DAV_ShowPanel", DAV_ShowPanelCommand),
     ):
         if Gui.listCommands().count(cmd_id) == 0:
             Gui.addCommand(cmd_id, factory())

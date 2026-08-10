@@ -27,8 +27,8 @@ DAV/
 │   ├── models/       # Modelos Vosk es/en/pt (excluidos de git)
 │   └── scr/          # Código fuente
 │       ├── ComponentesDAV/
-│       │   ├── IntegracionGUI/  # GUI + motor Browser (navigation/)
-│       │   ├── InterfazDAV/     # GUI alternativa (ver Dav/docs/pendientes-dav.md)
+│       │   ├── IntegracionGUI/  # Motor Browser (navigation/) + montaje del panel
+│       │   ├── InterfazDAV/     # DavPanel: el widget de la GUI (sin FreeCAD)
 │       │   ├── Keychain/        # Lectura de claves de diccionarios
 │       │   ├── Dav/             # InitGui.py — arranque dentro de FreeCAD
 │       │   ├── Logos/
@@ -114,7 +114,14 @@ El árbol de comandos por voz vive en `Dav/dic/`, organizado por carpetas navega
 
 Los comandos de navegación del propio `Browser` (subir un nivel, mostrar el contexto actual) **no están hardcodeados en código**: viven en `Dav/dic/NavCommands/` igual que cualquier otro comando, para que el equipo pueda agregar sinónimos sin tocar `browser.py`.
 
-> ⚠️ **`MainWindow.py`** (`Dav/scr/ComponentesDAV/InterfazDAV/`) usa un motor de voz propio (`_VoiceMap`/`_GroupMeta`) que lee de un diccionario de prueba aparte (`InterfazDAV/DiccionarioPrueba/`), **no** del árbol `Dav/dic/` ni de `Browser`. Son dos sistemas distintos — ver `Dav/docs/pendientes-dav.md` antes de asumir que un fix en uno aplica al otro.
+> La GUI es **`DavPanel`** (`Dav/scr/ComponentesDAV/InterfazDAV/DavPanel.py`), un
+> `QDockWidget` que corre dentro de FreeCAD y se alimenta del `Browser` en
+> proceso vía `integration/dav_dock_panel.py`. El widget no importa FreeCAD: se
+> le pasan datos y emite señales, así se puede testear aparte.
+>
+> Ya no existen `MainWindow.py`, su motor de voz propio (`_VoiceMap`/`_GroupMeta`)
+> ni `DiccionarioPrueba/`: se retiraron al acoplar el panel. Ver
+> `Dav/docs/completados-dav.md`.
 
 #### Regla crítica: subcontextos anidados, nunca aplanados
 
@@ -137,9 +144,11 @@ Detalle completo en `Dav/docs/pendientes-dav.md` §4.
 
 | Archivo | Contenido |
 |---|---|
-| `pendientes-dav.md` | Hallazgos de auditoría, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** |
+| `pendientes-dav.md` | Lo que sigue abierto: hallazgos de auditoría, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** |
+| `completados-dav.md` | Lo ya resuelto, con la **causa real** de cada caso. Consultar antes de re-diagnosticar algo que parece conocido. |
+| `plan-unificacion-guis.md` | Migración de la GUI a panel acoplado (etapas 1-4 hechas, queda la 5) |
 | `manual-explorer-voz.md` | Guía de uso del Explorer por voz (comandos y ejemplos) |
-| `plan-migracion-hilos-qthread.md` | Plan para migrar el hilo de voz de `InterfazDAV` de `threading.Thread` a `QThread` (causa de los cuelgues de la GUI) |
+| `plan-migracion-hilos-qthread.md` | Plan de migración a `QThread`. Escrito para `InterfazDAV`, que ya se retiró; queda como referencia del criterio |
 | `plan_arbol_de_objetos_navegable.md` | Plan del árbol de objetos navegable |
 | `diagramas/`, `informes/`, `normativas/`, `licencias/` | Material de cátedra y documentación formal |
 

@@ -7,15 +7,78 @@ import traceback
 from pathlib import Path
 
 from integration.dav_paths import ensure_dav_repo_on_path, ensure_gui_on_path
-from integration.voice_history import reset_voice_history, pop_command_queue, export_voice_status
+from integration.voice_history import reset_voice_history, export_voice_status
 from speech.dav_voice_service import DavVoiceService
 
-_command_timer = None
 
-def _poll_command_queue(adapter):
-    command = pop_command_queue()
-    if command:
-        adapter.procesar_frase_final(command)
+
+def _active_adapter(svc):
+    """Adapter del motor de voz en curso, o None si no hay ninguno.
+
+    Se lee del servicio para poder montar el panel cuando la voz ya estaba
+    activa, sin crear un segundo Browser ni reiniciar el microfono.
+    """
+    return getattr(svc, "_cad_adapter", None)
+
+
+def _schedule_panel() -> None:
+    """Abre el panel solo, poco despues de activarse la voz.
+
+    Diferido para no montarlo en medio del arranque del motor, y siempre en el
+    hilo de la GUI (un widget tocado desde otro hilo es access violation).
+
+    Se puede desactivar con ``DAV_AUTO_PANEL=0`` si el panel diera problemas:
+    la voz sigue funcionando y el panel se abre a mano desde la barra DAV.
+    """
+    if os.environ.get("DAV_AUTO_PANEL") == "0":
+        return
+
+    def _open() -> None:
+        try:
+            show_dock_panel()
+        except Exception as exc:  # noqa: BLE001 - el panel no tumba la voz
+            _print_message(f"[DAV] No se pudo abrir el panel: {exc}\n")
+
+    try:
+        from PySide6.QtCore import QTimer
+        QTimer.singleShot(600, _open)
+    except ImportError:
+        _open()
+
+
+def show_dock_panel() -> bool:
+    """Muestra el panel DAV acoplado dentro de FreeCAD.
+
+    Se invoca a mano desde la barra DAV, no en el arranque: usa el Qt de
+    FreeCAD (sin el conflicto de DLLs del proceso externo), pero si algo suyo
+    falla no debe dejar la aplicacion inusable.
+
+    Requiere el motor de voz activo, porque el panel se alimenta del Browser
+    en curso.
+
+    Returns:
+        True si el panel quedo montado.
+    """
+    svc = DavVoiceService.get()
+    adapter = _active_adapter(svc)
+    if adapter is None:
+        _print_message(
+            "[DAV] Primero activá la voz («Iniciar voz DAV»): el panel se "
+            "alimenta del motor en curso.\n"
+        )
+        return False
+
+    browser = getattr(adapter, "_browser", None)
+    if browser is None:
+        _print_message("[DAV] El motor de voz no expone un Browser.\n")
+        return False
+
+    try:
+        from integration.dav_dock_panel import install_dock_panel
+        return install_dock_panel(browser, adapter) is not None
+    except Exception as exc:  # noqa: BLE001 - el panel no debe tumbar la voz
+        _print_message(f"[DAV] No se pudo montar el panel acoplado: {exc}\n")
+        return False
 
 
 def _resolve_dictionary_root() -> Path:
@@ -83,6 +146,7 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         if svc.is_cad_engine_loaded():
             _print_message("[DAV] El motor de voz ya está activo.\n")
             export_voice_status("active", "Voz activa")
+            _schedule_panel()
             return True
         reset_voice_history()
 
@@ -98,22 +162,14 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         executor = PromptedCommandExecutor(Language=settings.language)
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
-        
+
+        _schedule_panel()
+
         adapter._export_state()
-        
+
         if not svc.start_cad(adapter):
             export_voice_status("error", "No se pudo iniciar micrófono")
             return False
-
-        global _command_timer
-        if _command_timer is None:
-            try:
-                from PySide6.QtCore import QTimer
-            except ImportError:
-                from PySide2.QtCore import QTimer
-            _command_timer = QTimer()
-            _command_timer.timeout.connect(lambda: _poll_command_queue(adapter))
-            _command_timer.start(500)
 
         export_voice_status("active", "Voz activa")
         _print_message(
@@ -129,11 +185,6 @@ def start_voice_engine(*, debug: bool = False) -> bool:
 
 
 def stop_voice_engine(*, wait: bool = True, timeout: float = 4.0) -> None:
-    global _command_timer
-    if _command_timer is not None:
-        _command_timer.stop()
-        _command_timer = None
-        
     svc = DavVoiceService.get()
     if not svc.is_cad_engine_loaded() and not svc.is_mic_running():
         _print_message("[DAV] El motor de voz no está activo.\n")

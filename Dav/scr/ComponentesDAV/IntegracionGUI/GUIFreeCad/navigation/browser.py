@@ -378,6 +378,11 @@ class Browser:
             return a.keys() == b.keys()
         return False
 
+    #: Alias publico de _SameTarget. Quien recorre Context desde afuera (la GUI,
+    #: el adapter) necesita deduplicar igual que el Browser; sin esto terminan
+    #: llamando al privado, como venia haciendo BrowserVoiceAdapter.
+    IsSameTarget = _SameTarget
+
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
     ) -> str:

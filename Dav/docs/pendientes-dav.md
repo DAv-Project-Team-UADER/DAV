@@ -1,8 +1,13 @@
 # Pendientes DAV — hallazgos de sesión de auditoría de diccionarios y navegación por voz
 
+> Lo ya resuelto está en [`completados-dav.md`](completados-dav.md), con la causa
+> real de cada caso. Este documento es sólo lo que sigue abierto.
+
 ## 1. Vosk reconoce con vocabulario abierto, no acotado al contexto
 
-**Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/VoiceWorker.py:56`
+**Dónde:** el motor de voz de `GUIFreeCad` (`speech/`). El fragmento de abajo era
+de `InterfazDAV/VoiceWorker.py:56`, ya retirado, pero el planteo sigue vigente:
+el reconocedor se crea sin gramática restringida.
 
 ```python
 recognizer = vosk.KaldiRecognizer(model, 16000)
@@ -20,14 +25,16 @@ El `KaldiRecognizer` se crea sin gramática restringida (`SetGrammar`), así que
 > arregla acá, restringiendo la gramática al contexto activo. Ver **§10** para el
 > análisis completo y las cifras.
 
-## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO (parcial)
+## 2. MainWindow.py (la GUI que se usa hoy) no usa el Browser real — RESUELTO
 
-> **Estado (2026-08-09, PR #174):** resuelto. `MainWindow.py` ya **no** tiene motor
-> de voz propio: se eliminaron `_VoiceMap`, `_LoadVoiceMap`, `ProcessVoiceCommand`
-> y el `VoiceWorker`, y la ventana pasó a alimentarse del `Browser` real a través
-> de un puente por archivos de estado (§2.c). Lo que sigue de esta sección es el
-> diagnóstico original, que se conserva porque §2.b sigue abierto y porque el
-> `DiccionarioPrueba/` **todavía sobrevive como fallback** — ver §2.d.
+> **Estado (2026-08-09):** cerrado. `MainWindow.py` y `DiccionarioPrueba/`
+> **ya no existen**: la GUI es un `QDockWidget` dentro de FreeCAD que se alimenta
+> del `Browser` en proceso, sin motor de voz propio, sin diccionario de prueba y
+> sin puente por archivos. Con la ventana externa se fue también el conflicto de
+> Qt de §2.e, porque ya no se lanza ningún proceso aparte.
+>
+> Lo que sigue es el diagnóstico original, conservado como registro. **§2.b
+> también quedó cerrado**: ya no hay dos GUIs en paralelo.
 
 **Dónde:** `Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py` (`_VoiceMap`, `_GroupMeta`, `_LoadGroupMeta`, `_LoadVoiceMap`)
 
@@ -43,7 +50,19 @@ que es un diccionario de prueba chico (solo `explorer` con `file`/`edit`/`print`
 
 **Pendiente de decidir:** si `MainWindow.py` debe migrar a usar `Browser` (de `navigation/browser.py`) en vez de su propio `_VoiceMap`/`_GroupMeta`, o si son productos deliberadamente separados (uno de prueba rápida, otro el motor "serio") y hay que documentar cuál es cuál.
 
-### 2.b Investigar POR QUÉ hay dos GUIs en paralelo
+### 2.b Investigar POR QUÉ hay dos GUIs en paralelo — RESUELTO
+
+> **Cerrado (2026-08-09).** Ya no hay dos: queda una sola GUI, el `DavPanel`
+> acoplado dentro de FreeCAD.
+>
+> La respuesta a la pregunta original: **no eran dos GUIs equivalentes**.
+> `InterfazDAV/MainWindow.py` (1011 líneas) era la de trabajo;
+> `IntegracionGUI/ui/main_window.py` (138) era un *launcher* cuyo botón de voz
+> hacía `Popen` de la otra. Divergieron por desarrollo paralelo, no por diseño.
+> Ambas se retiraron —etapas 4 y 5 de `plan-unificacion-guis.md`— conservando lo
+> que sí aportaban: preferencias, descarga de modelos, historial y árbol.
+
+El diagnóstico original, conservado como registro:
 
 No están sólo duplicados los motores de voz: son **dos aplicaciones PySide completas**, cada una con su ventana principal, su worker de voz y su arranque.
 
@@ -96,31 +115,62 @@ que se arregla en `Dav/dic/` ahora **sí** llega a la GUI.
 > la GUI arranca mostrando el contexto de otra persona en vez de la raíz (ya
 > pasó: se subió un `context_state.json` congelado en `Base > workbench > part`).
 
-### 2.d Lo que quedó abierto
+### 2.d Lo que quedó abierto — resuelto salvo un punto
 
-Por qué el "resuelto" es parcial. Nada de esto se corrigió todavía: son
-decisiones de diseño que conviene charlar antes de tocar.
+Estado tras retirar la ventana externa (etapa 4 del plan):
 
-- **`DiccionarioPrueba/` sigue vivo como fallback.** `_RenderCurrentState()` cae
-  en `_ShowRootButtonsFallback()` cuando falta `context_state.json`, y ese
-  fallback lee el diccionario de prueba y sólo hace parpadear la pantalla
-  (`Btn.clicked.connect(lambda: self._TriggerFlash())`, sin navegar). `_LoadGroupMeta()`
-  también sigue leyendo de ahí. **Hasta que se elimine, esta sección no cierra
-  del todo.**
-- **`_SearchIcon()` busca los SVG en `Dav/dic/`, donde no están** (están en
-  `InterfazDAV/DiccionarioPrueba/`). Casi todos los botones caen al fallback
-  `Btn.setText(Tooltip[:2])` y muestran dos letras en vez del icono. Además hace
-  `os.walk` del árbol completo por botón, sin caché, en cada re-render.
-- **`pop_command_queue()` descarta comandos.** Lee el archivo entero, lo vacía y
-  devuelve sólo `lines[0]`; si entran dos clicks en la misma ventana de 500 ms,
-  el segundo se pierde en silencio. Tampoco hay lock: la GUI puede estar
-  escribiendo mientras FreeCAD trunca.
-- **`on_descend` en `Browser` no lo usa nadie.** Se agregó el callback pero no se
-  pasa desde ningún lado; hoy el refresco depende de `_export_state()` al final
-  de cada frase.
-- **Convención de nombres.** El código nuevo usa snake_case (`export_context_state`,
-  `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
-  atributos. Conviven `entry.Spoken` con `item["spoken"]`.
+- ~~`DiccionarioPrueba/` sigue vivo como fallback~~ — **borrado**, junto con
+  `_ShowRootButtonsFallback()` y `_LoadGroupMeta()`. Era lo que impedía cerrar
+  esta sección.
+- ~~`_SearchIcon()` busca los SVG donde no están y hace `os.walk` por botón~~ —
+  reemplazado por `IconLocator`, con índice cacheado (467 iconos). El bug real
+  no era la ubicación sino que se resolvía `ComponentesDAV/Dav/dic`, un
+  placeholder vacío que aparece antes al subir ancestros.
+- ~~`pop_command_queue()` descarta comandos~~ — la cola desapareció con el
+  puente: los clicks entran por `procesar_frase_final` en el mismo proceso.
+- ~~`on_descend` no lo usa nadie~~ — sigue sin usarse, pero ya no hace falta: el
+  refresco del contexto va por `PublishContext()` tras cada frase.
+- **Convención de nombres — abierto.** Conviven snake_case
+  (`export_context_state`, `procesar_frase_final`) y PascalCase (`entry.Spoken`,
+  `PublishContext`). El código nuevo sigue la convención del proyecto; el previo
+  no se tocó para no mezclar un renombre masivo con la migración.
+
+### 2.e El puente arrastraba un conflicto de Qt — RESUELTO al eliminar el proceso externo
+
+> **Cerrado (2026-08-09).** Ya no se lanza ningún proceso aparte: el panel es un
+> `QDockWidget` que usa el Qt de FreeCAD. No hay dos Qt en juego, así que el
+> `DLL load failed` no puede volver. Se conserva el diagnóstico porque explica
+> por qué la migración era la salida y no un parche más.
+
+La `InterfazDAV` **no abre desde FreeCAD** (2026-08-09). Corre como proceso
+externo con PySide6 6.11.1 propio, y FreeCAD 1.1 trae su propio Qt6 en `bin/`.
+Al lanzarse como subproceso hereda `PYTHONHOME`, `PYTHONPATH`, `QT_PLUGIN_PATH`
+y el `PATH` del padre, y termina resolviendo las DLL equivocadas:
+
+```
+ImportError: DLL load failed while importing QtWidgets
+AssertionError: SRE module mismatch          (con PYTHONHOME heredado)
+```
+
+Se puede sanear el entorno del hijo, y se probó (quitar las variables, filtrar el
+`PATH`, anteponer la carpeta de PySide6, cambiar el `cwd`). Pero cada parche tapa
+una vía de contaminación conocida: **mientras haya dos Qt distintos en juego el
+problema puede volver** con otra versión de FreeCAD, de PySide6 o en otra
+máquina.
+
+> El conflicto existe **sólo porque la GUI es un proceso externo**. Un
+> `QDockWidget` dentro de FreeCAD usa el Qt de FreeCAD y el problema deja de
+> existir por construcción, en vez de parchearse.
+>
+> Propuesta de migración por etapas en
+> [`plan-unificacion-guis.md`](plan-unificacion-guis.md) — cierra también §2.b y
+> los cinco puntos de §2.d.
+
+**Dato que corrige una suposición común:** `IntegracionGUI/GUIFreeCad/ui/main_window.py`
+**no es la otra GUI**. Son 138 líneas y su botón "Iniciar Voz" hace
+`subprocess.Popen` de `InterfazDAV/main.py`: es un *launcher*, no una
+alternativa. El `Browser` no vive en ninguna de las dos ventanas — corre dentro
+de FreeCAD, lanzado por `voice_bootstrap.start_voice_engine()`.
 
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
 
@@ -591,3 +641,112 @@ siguen en pie (`explorer`, `stdview`, `workbench`, `lineattributes`,
 > **No verificado:** no se corrieron los tests ni se probó dentro de FreeCAD. Los
 > cambios son de claves habladas, no de callables, pero conviene una pasada por
 > voz sobre los contextos tocados (Sketcher, Part, DraftWork, Assembly, StdView).
+
+## 12. Integrar las clases de `Dav/scr/selection/` al programa (2026-08-09)
+
+**Dónde:** `Dav/scr/selection/` — `createobjects.py` (`CreateObjects`),
+`tagger.py` (`Tagger`, `LanguageCode`), `object_selection.py` (`ObjectSelection`).
+
+Sirven para el requisito de GUI **"dar historial (navegar objetos creados)"** y
+para el `plan_arbol_de_objetos_navegable.md`: `CreateObjects` descompone una
+forma en sus sub-elementos (caras/aristas en 3D, líneas/puntos en 2D) y los
+publica como objetos reales del documento; `Tagger` les pone nombre localizado
+(`Punto1`, `Linea2`, `Superficie3`) leyendo `Preferences.SetLanguage`;
+`ObjectSelection` los recorre resaltándolos de a uno en la vista 3D y el árbol.
+
+### 12.a La integración está empezada, no ausente
+
+Hay que decirlo porque cambia el trabajo: **40 archivos de `Dav/dic/` ya
+importan `CreateObjects`** (51 llamadas), y `InitGui.py:58` ya llama a
+`_ensure_selection_path()`. No es "conectar algo desconectado" —es **terminar y
+arreglar una integración a medio hacer**. Lo que sí está desconectado es
+`ObjectSelection`: no lo referencia nadie fuera de su propio archivo.
+
+### 12.b Tres bugs que hacen que hoy no funcione
+
+**1. `Execute()` no recibe el objeto — 10 archivos.** La firma real es
+`CreateObjects(ObjectName, Is3D)` + `Execute()` sin argumentos: el objetivo se
+resuelve en el `__init__` vía `GetObjectByName()`. Pero `DraftWork` llama:
+
+```python
+# Dav/dic/Workbench/DraftWork/circle/circle.py:14 — INCORRECTO
+CreateObjects(Is3D=False).Execute(obj)
+```
+
+Falla dos veces: `ObjectName` es obligatorio (`TypeError` en el constructor) y
+`Execute()` no acepta parámetros. Afecta a `annotation`, `arc`, `circle`,
+`creation`, `curve`, `dimension`, `ellipse`, `facebinder`, `modification` y
+`modify`. La forma correcta —la que usa `Part/`— es:
+
+```python
+CreateObjects(ObjectName=App.ActiveDocument.ActiveObject.Name, Is3D=False).Execute()
+```
+
+**2. `.execute()` en minúscula.** `Drafting/drafting.py:22` llama
+`CreateObjects(obj.Name, Is3D=False).execute()`. El método es `Execute()`
+(PascalCase, según la convención del proyecto): `AttributeError`. Es justo el
+callable de la clave hablada `"createobjects"`, o sea el comando más directo
+para probar esto por voz.
+
+**3. Los dos `import` fallan si `InitGui.py` no corrió.** El patrón repetido en
+los 40 archivos es:
+
+```python
+try:
+    from createobjects import CreateObjects
+except ImportError:
+    from selection.createobjects import CreateObjects
+```
+
+`_ensure_selection_path()` inserta la carpeta `selection/` **misma** en
+`sys.path`, no su padre — así que sólo puede funcionar la rama plana
+(`from createobjects import ...`). La rama de respaldo `selection.createobjects`
+necesitaría `Dav/scr/` en el path, y **`DictionaryLoader` sólo agrega `Dav/dic/`
+y `ComponentesDAV/`**; nunca `Dav/scr/`. Verificado con stubs de FreeCAD: con
+`Dav/scr` en el path importa `selection.createobjects`; sin él fallan las dos
+ramas.
+
+Consecuencia: si el árbol se carga sin pasar por `InitGui.py` (tests, consola
+Python a mano, cualquier entrada que no sea el arranque del workbench), los 40
+módulos revientan al importar. Y como `DictionaryLoader` **captura los errores
+de import y sigue de largo** (§6), eso no se ve: los contextos aparecen vacíos
+sin ningún mensaje. Es exactamente el modo de falla silenciosa de §6, con la
+diferencia de que acá alcanza a diez carpetas de DraftWork y Part a la vez.
+
+### 12.c Lo que falta decidir antes de tocar código
+
+- **Dónde va el bootstrap del path.** Hoy depende de `InitGui.py`, que es el
+  arranque del workbench, no la carga del diccionario. Lo consistente con §6 es
+  que `DictionaryLoader` agregue `Dav/scr/` a `sys.path` junto con los otros
+  roots, y que los diccionarios usen **una sola** forma de import
+  (`from selection.createobjects import CreateObjects`), sin `try/except`. Así
+  el árbol se puede importar sin FreeCAD y los tests dejan de depender del orden
+  de arranque.
+- **Si `CreateObjects` debe correr en cada creación.** Hoy cada comando de
+  DraftWork/Part lo invoca después de dibujar, o sea que **toda** figura se
+  descompone en sub-objetos automáticamente. Un rectángulo pasan a ser 4 líneas
+  + 4 puntos en el árbol. Puede ser lo buscado (es lo que habilita "seleccionar
+  la línea de arriba" por voz) o puede llenar el documento de ruido. Conviene
+  confirmarlo con el equipo antes de arreglar las 51 llamadas: si no es lo
+  buscado, la corrección no es cambiar la firma sino sacar la llamada.
+- **`ObjectSelection` no tiene comandos de voz.** Es la pieza que faltaría para
+  el requisito de historial navegable, y su API está pensada para consola
+  (`Instancia.SelectOther = True` como *setter* con efecto). Para voz hay que
+  envolverla —`siguiente objeto` / `anterior` / `seleccionar <nombre>`— y darle
+  una carpeta en `Dav/dic/` con su `TraduceTo*.py`, anidada según §4. El setter
+  con efecto colateral es cómodo en consola pero raro como API; conviene un
+  `SelectNext()` explícito y dejar la property como alias.
+
+### 12.d Cómo probarlo
+
+`selection/console_helpers.py` ya trae `RunCreateObjects(...)` y
+`dav_commands.RunAlexSelectionPrueba()` para la consola de FreeCAD, sin
+configurar rutas. Es el camino más corto para ver qué hace la clase antes de
+decidir lo de §12.c. Ojo con el docstring de `console_helpers.py`: dice que
+*"el módulo DAV agrega selection/ a sys.path al iniciar"*, lo cual es cierto
+sólo por `InitGui.py` — es la misma suposición que rompe fuera de FreeCAD.
+
+> **Sin verificar:** no se probó dentro de FreeCAD. Los tres bugs de §12.b son
+> de lectura de código y del test de imports con stubs; el comportamiento real
+> de `CreateObjects` sobre geometría (si los sub-objetos quedan bien, si
+> `recompute()` alcanza) no se ejerció.

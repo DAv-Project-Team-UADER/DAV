@@ -4,11 +4,13 @@ BrowserVoiceAdapter: connects Vosk spoken phrases to the new Browser navigation 
 
 from __future__ import annotations
 
+import io
+import sys
 import unicodedata
 from typing import Any
 
 from navigation.browser import Browser
-from integration.voice_history import append_voice_history, export_context_state
+from integration.voice_history import append_voice_history
 
 
 def _normalize(text: str) -> str:
@@ -19,6 +21,42 @@ def _normalize(text: str) -> str:
 
 _SEND_WORDS = {"enviar", "send"}
 _CANCEL_WORDS = {"cancelar", "cancel"}
+
+
+class _CapturedOutput:
+    """Captura lo que un comando escribe con ``print`` mientras corre.
+
+    Los diccionarios imprimen su salida a stdout (988 llamadas repartidas en
+    123 archivos), que en FreeCAD termina en el Report View y no en el panel
+    DAV. Capturarlo aca permite reenviarlo sin tocar cada comando.
+
+    Restaura ``sys.stdout`` incluso si el comando lanza, para no dejar la
+    salida secuestrada.
+
+    Example::
+
+        with _CapturedOutput() as captured:
+            browser.ProcessPhrase(token)
+        for line in captured.Lines():
+            panel.AddToHistory(line)
+    """
+
+    def __init__(self) -> None:
+        self._buffer = io.StringIO()
+        self._previous = None
+
+    def __enter__(self) -> "_CapturedOutput":
+        self._previous = sys.stdout
+        sys.stdout = self._buffer
+        return self
+
+    def __exit__(self, *_exc) -> bool:
+        sys.stdout = self._previous
+        return False
+
+    def Lines(self) -> list[str]:
+        """Lineas capturadas, sin las vacias."""
+        return [line for line in self._buffer.getvalue().splitlines() if line.strip()]
 
 
 class BrowserVoiceAdapter:
@@ -42,6 +80,9 @@ class BrowserVoiceAdapter:
         normalized = _normalize(raw_phrase)
         print(f"[BrowserVoiceAdapter] Received phrase: '{raw_phrase}'")
         append_voice_history(f"[DAV] Voz: {raw_phrase}")
+        # OJO: aca estamos en el hilo del microfono. Tocar un widget Qt desde
+        # aca es access violation (crash duro, no excepcion de Python), por eso
+        # todo lo que llegue a la GUI va dentro de run_on_main_thread mas abajo.
 
         token = self._extract_token(normalized)
         if token is None:
@@ -54,16 +95,35 @@ class BrowserVoiceAdapter:
         _NAV_ACTIONS = {"descend", "back", "base_jump"}
 
         def _run() -> None:
-            result = self._browser.ProcessPhrase(token)
+            # Ya en el hilo principal: recien aca se puede tocar la GUI.
+            self._publish_line(f"[DAV] Voz: {raw_phrase}", recognized=raw_phrase)
+
+            # Los comandos del diccionario (los ayuda.py sobre todo) escriben
+            # su salida con print: son 988 llamadas en 123 archivos, asi que en
+            # vez de tocarlas una por una se captura el stdout mientras corre
+            # el comando y se vuelca al panel. Sin esto la ayuda aparecia solo
+            # en el Report View de FreeCAD.
+            with _CapturedOutput() as captured:
+                result = self._browser.ProcessPhrase(token)
+
+            for line in captured.Lines():
+                print(line)
+                self._publish_line(line)
+
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
                 append_voice_history(f"[DAV] OK ({result.Action}): {result.Message}")
+                self._publish_line(f"[DAV] OK ({result.Action}): {result.Message}")
                 if result.Action in _NAV_ACTIONS:
-                    print(self._browser.DescribeContext())
-                    append_voice_history(self._browser.DescribeContext())
+                    described = self._browser.DescribeContext()
+                    print(described)
+                    append_voice_history(described)
+                    for line in described.splitlines():
+                        self._publish_line(line)
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
                 append_voice_history(f"[DAV] Ignorado: {result.Message}")
+                self._publish_line(f"[DAV] Ignorado: {result.Message}", unknown=True)
             self._export_state()
 
         try:
@@ -73,25 +133,60 @@ class BrowserVoiceAdapter:
             _run()
 
     def _export_state(self) -> None:
-        submenus = []
-        commands = []
-        seen_targets = []
-        for entry in self._browser.Context:
-            if any(self._browser._SameTarget(entry.Target, t) for t in seen_targets):
-                continue
-            seen_targets.append(entry.Target)
-            item = {"spoken": entry.Spoken, "key": entry.InternalKey}
-            if entry.IsSubContext():
-                submenus.append(item)
-            elif entry.IsCallable():
-                commands.append(item)
-                
-        state = {
-            "context_path": self._browser.ContextPath,
-            "submenus": submenus,
-            "commands": commands
-        }
-        export_context_state(state)
+        """Refresca el panel con el contexto activo.
+
+        Antes serializaba el contexto a context_state.json para que lo leyera
+        la ventana externa por polling. Esa ventana ya no existe (etapa 4) y
+        nadie leia el archivo, asi que solo se publica al panel acoplado.
+        """
+        self._publish_to_dock()
+
+    @staticmethod
+    def _on_gui_thread() -> bool:
+        """True si estamos en el hilo de la GUI.
+
+        Tocar un widget Qt desde otro hilo es access violation: crashea el
+        proceso entero sin pasar por ningun except de Python. Se comprueba
+        antes de publicar en vez de confiar en el llamador.
+        """
+        try:
+            from PySide6.QtCore import QCoreApplication, QThread
+        except ImportError:
+            return False
+        app = QCoreApplication.instance()
+        if app is None:
+            return False
+        return QThread.currentThread() is app.thread()
+
+    @classmethod
+    def _publish_line(cls, line: str, *, recognized: str = "", unknown: bool = False) -> None:
+        """Manda una linea de historial al panel acoplado, si esta montado."""
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is None:
+            return
+        if recognized:
+            source.PublishRecognized(recognized)
+        source.PublishHistory(line, unknown)
+
+    @classmethod
+    def _publish_to_dock(cls) -> None:
+        """Refresca el panel acoplado, si esta montado."""
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is not None:
+            source.PublishContext()
+            source.PublishTree()
 
     @staticmethod
     def _extract_token(normalized: str):
