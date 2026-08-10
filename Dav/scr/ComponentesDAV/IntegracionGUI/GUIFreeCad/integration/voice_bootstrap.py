@@ -27,6 +27,31 @@ def _active_adapter(svc):
     return getattr(svc, "_cad_adapter", None)
 
 
+def _schedule_panel() -> None:
+    """Abre el panel solo, poco despues de activarse la voz.
+
+    Diferido para no montarlo en medio del arranque del motor, y siempre en el
+    hilo de la GUI (un widget tocado desde otro hilo es access violation).
+
+    Se puede desactivar con ``DAV_AUTO_PANEL=0`` si el panel diera problemas:
+    la voz sigue funcionando y el panel se abre a mano desde la barra DAV.
+    """
+    if os.environ.get("DAV_AUTO_PANEL") == "0":
+        return
+
+    def _open() -> None:
+        try:
+            show_dock_panel()
+        except Exception as exc:  # noqa: BLE001 - el panel no tumba la voz
+            _print_message(f"[DAV] No se pudo abrir el panel: {exc}\n")
+
+    try:
+        from PySide6.QtCore import QTimer
+        QTimer.singleShot(600, _open)
+    except ImportError:
+        _open()
+
+
 def show_dock_panel() -> bool:
     """Muestra el panel DAV acoplado dentro de FreeCAD.
 
@@ -127,6 +152,7 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         if svc.is_cad_engine_loaded():
             _print_message("[DAV] El motor de voz ya está activo.\n")
             export_voice_status("active", "Voz activa")
+            _schedule_panel()
             return True
         reset_voice_history()
 
@@ -143,10 +169,7 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
 
-        # El panel NO se monta solo: se abre desde la barra DAV con
-        # "Mostrar panel DAV" (show_dock_panel). Montarlo en el arranque
-        # significa que cualquier fallo suyo deja FreeCAD inusable, sin forma
-        # de volver atras sin editar codigo.
+        _schedule_panel()
 
         adapter._export_state()
 

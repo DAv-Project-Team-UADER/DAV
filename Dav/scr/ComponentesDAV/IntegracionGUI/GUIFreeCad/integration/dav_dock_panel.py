@@ -270,15 +270,41 @@ def install_dock_panel(browser, adapter):
         | QDockWidget.DockWidgetFloatable
         | QDockWidget.DockWidgetClosable
     )
+    # Se registra igual en un area aunque arranque suelto: asi Qt sabe adonde
+    # re-anclarlo cuando el usuario lo vuelva a unir.
     main_window.addDockWidget(Qt.RightDockWidgetArea, dock)
+
+    # Arranca como ventana flotante, no pegado al borde. El usuario lo ancla
+    # cuando quiere, con el boton de la cabecera o arrastrando el titulo.
+    dock.setFloating(True)
+    dock.resize(560, 720)
+    _center_on(dock, main_window)
 
     source.Attach(panel)
     source.PublishTree()
     _wire_dock_toggle(dock, panel)
     _install_tree_observer(source)
+    dock.show()
+    dock.raise_()
 
     _dock, _source = dock, source
     return source
+
+
+def _center_on(dock, main_window) -> None:
+    """Ubica la ventana flotante centrada sobre FreeCAD.
+
+    Sin esto Qt la deja en la esquina donde estaba anclada, que suele quedar
+    medio fuera de pantalla en monitores chicos.
+    """
+    try:
+        frame = main_window.frameGeometry()
+        dock.move(
+            frame.center().x() - dock.width() // 2,
+            max(frame.top() + 40, frame.center().y() - dock.height() // 2),
+        )
+    except Exception:  # noqa: BLE001 - la posicion no vale un fallo
+        pass
 
 
 def _wire_dock_toggle(dock, panel) -> None:
