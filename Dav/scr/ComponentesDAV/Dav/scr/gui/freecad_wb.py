@@ -11,6 +11,7 @@ _DAV_TOOLBAR_COMMANDS = (
     "DAV_OpenPreferences",
     "DAV_StartVoice",
     "DAV_StopVoice",
+    "DAV_ShowPanel",
 )
 
 

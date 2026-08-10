@@ -18,6 +18,50 @@ def _poll_command_queue(adapter):
         adapter.procesar_frase_final(command)
 
 
+def _active_adapter(svc):
+    """Adapter del motor de voz en curso, o None si no hay ninguno.
+
+    Se lee del servicio para poder montar el panel cuando la voz ya estaba
+    activa, sin crear un segundo Browser ni reiniciar el microfono.
+    """
+    return getattr(svc, "_cad_adapter", None)
+
+
+def show_dock_panel() -> bool:
+    """Muestra el panel DAV acoplado dentro de FreeCAD.
+
+    Se invoca a mano desde la barra DAV, no en el arranque: usa el Qt de
+    FreeCAD (sin el conflicto de DLLs del proceso externo), pero si algo suyo
+    falla no debe dejar la aplicacion inusable.
+
+    Requiere el motor de voz activo, porque el panel se alimenta del Browser
+    en curso.
+
+    Returns:
+        True si el panel quedo montado.
+    """
+    svc = DavVoiceService.get()
+    adapter = _active_adapter(svc)
+    if adapter is None:
+        _print_message(
+            "[DAV] Primero activá la voz («Iniciar voz DAV»): el panel se "
+            "alimenta del motor en curso.\n"
+        )
+        return False
+
+    browser = getattr(adapter, "_browser", None)
+    if browser is None:
+        _print_message("[DAV] El motor de voz no expone un Browser.\n")
+        return False
+
+    try:
+        from integration.dav_dock_panel import install_dock_panel
+        return install_dock_panel(browser, adapter) is not None
+    except Exception as exc:  # noqa: BLE001 - el panel no debe tumbar la voz
+        _print_message(f"[DAV] No se pudo montar el panel acoplado: {exc}\n")
+        return False
+
+
 def _resolve_dictionary_root() -> Path:
     """Localiza la carpeta de diccionarios respetando DAV_DICTIONARY_ROOT.
 
@@ -98,9 +142,14 @@ def start_voice_engine(*, debug: bool = False) -> bool:
         executor = PromptedCommandExecutor(Language=settings.language)
         browser = Browser(dictionary_root=_dict_root, prefs=preferences, on_execute=executor)
         adapter = BrowserVoiceAdapter(browser)
-        
+
+        # El panel NO se monta solo: se abre desde la barra DAV con
+        # "Mostrar panel DAV" (show_dock_panel). Montarlo en el arranque
+        # significa que cualquier fallo suyo deja FreeCAD inusable, sin forma
+        # de volver atras sin editar codigo.
+
         adapter._export_state()
-        
+
         if not svc.start_cad(adapter):
             export_voice_status("error", "No se pudo iniciar micrófono")
             return False

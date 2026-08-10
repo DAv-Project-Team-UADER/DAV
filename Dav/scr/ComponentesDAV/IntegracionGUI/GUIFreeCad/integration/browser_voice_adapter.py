@@ -42,6 +42,9 @@ class BrowserVoiceAdapter:
         normalized = _normalize(raw_phrase)
         print(f"[BrowserVoiceAdapter] Received phrase: '{raw_phrase}'")
         append_voice_history(f"[DAV] Voz: {raw_phrase}")
+        # OJO: aca estamos en el hilo del microfono. Tocar un widget Qt desde
+        # aca es access violation (crash duro, no excepcion de Python), por eso
+        # todo lo que llegue a la GUI va dentro de run_on_main_thread mas abajo.
 
         token = self._extract_token(normalized)
         if token is None:
@@ -54,16 +57,20 @@ class BrowserVoiceAdapter:
         _NAV_ACTIONS = {"descend", "back", "base_jump"}
 
         def _run() -> None:
+            # Ya en el hilo principal: recien aca se puede tocar la GUI.
+            self._publish_line(f"[DAV] Voz: {raw_phrase}", recognized=raw_phrase)
             result = self._browser.ProcessPhrase(token)
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
                 append_voice_history(f"[DAV] OK ({result.Action}): {result.Message}")
+                self._publish_line(f"[DAV] OK ({result.Action}): {result.Message}")
                 if result.Action in _NAV_ACTIONS:
                     print(self._browser.DescribeContext())
                     append_voice_history(self._browser.DescribeContext())
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
                 append_voice_history(f"[DAV] Ignorado: {result.Message}")
+                self._publish_line(f"[DAV] Ignorado: {result.Message}", unknown=True)
             self._export_state()
 
         try:
@@ -77,7 +84,7 @@ class BrowserVoiceAdapter:
         commands = []
         seen_targets = []
         for entry in self._browser.Context:
-            if any(self._browser._SameTarget(entry.Target, t) for t in seen_targets):
+            if any(self._browser.IsSameTarget(entry.Target, t) for t in seen_targets):
                 continue
             seen_targets.append(entry.Target)
             item = {"spoken": entry.Spoken, "key": entry.InternalKey}
@@ -85,13 +92,66 @@ class BrowserVoiceAdapter:
                 submenus.append(item)
             elif entry.IsCallable():
                 commands.append(item)
-                
+
         state = {
             "context_path": self._browser.ContextPath,
             "submenus": submenus,
             "commands": commands
         }
         export_context_state(state)
+        self._publish_to_dock()
+
+    @staticmethod
+    def _on_gui_thread() -> bool:
+        """True si estamos en el hilo de la GUI.
+
+        Tocar un widget Qt desde otro hilo es access violation: crashea el
+        proceso entero sin pasar por ningun except de Python. Se comprueba
+        antes de publicar en vez de confiar en el llamador.
+        """
+        try:
+            from PySide6.QtCore import QCoreApplication, QThread
+        except ImportError:
+            return False
+        app = QCoreApplication.instance()
+        if app is None:
+            return False
+        return QThread.currentThread() is app.thread()
+
+    @classmethod
+    def _publish_line(cls, line: str, *, recognized: str = "", unknown: bool = False) -> None:
+        """Manda una linea de historial al panel acoplado, si esta montado."""
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is None:
+            return
+        if recognized:
+            source.PublishRecognized(recognized)
+        source.PublishHistory(line, unknown)
+
+    @classmethod
+    def _publish_to_dock(cls) -> None:
+        """Refresca el panel acoplado, si esta montado.
+
+        Convive con export_context_state(): mientras la ventana externa siga
+        existiendo hay que alimentar las dos. El archivo se deja de escribir
+        en la etapa 4 de plan-unificacion-guis.md.
+        """
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is not None:
+            source.PublishContext()
+            source.PublishTree()
 
     @staticmethod
     def _extract_token(normalized: str):

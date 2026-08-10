@@ -293,6 +293,27 @@ class DAV_StartVoiceCommand:
         return True
 
 
+class DAV_ShowPanelCommand:
+    def GetResources(self):
+        return {
+            "Pixmap": "Std_DlgCustomize",
+            "MenuText": "Mostrar panel DAV",
+            "ToolTip": (
+                "Muestra el panel DAV acoplado dentro de FreeCAD "
+                "(requiere la voz activa)"
+            ),
+        }
+
+    def Activated(self):
+        _ensure_gui_path()
+        from integration.voice_bootstrap import show_dock_panel
+
+        show_dock_panel()
+
+    def IsActive(self):
+        return True
+
+
 class DAV_StopVoiceCommand:
     def GetResources(self):
         return {
@@ -555,6 +576,7 @@ def register_commands() -> None:
         ("DAV_OpenPreferences", DAV_OpenPreferencesCommand),
         ("DAV_StartVoice", DAV_StartVoiceCommand),
         ("DAV_StopVoice", DAV_StopVoiceCommand),
+        ("DAV_ShowPanel", DAV_ShowPanelCommand),
     ):
         if Gui.listCommands().count(cmd_id) == 0:
             Gui.addCommand(cmd_id, factory())
