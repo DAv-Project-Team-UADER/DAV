@@ -122,6 +122,38 @@ decisiones de diseño que conviene charlar antes de tocar.
   `context_path`) donde el proyecto pide camelCase para métodos y PascalCase para
   atributos. Conviven `entry.Spoken` con `item["spoken"]`.
 
+### 2.e El puente arrastra un conflicto de Qt que no se puede parchear del todo
+
+La `InterfazDAV` **no abre desde FreeCAD** (2026-08-09). Corre como proceso
+externo con PySide6 6.11.1 propio, y FreeCAD 1.1 trae su propio Qt6 en `bin/`.
+Al lanzarse como subproceso hereda `PYTHONHOME`, `PYTHONPATH`, `QT_PLUGIN_PATH`
+y el `PATH` del padre, y termina resolviendo las DLL equivocadas:
+
+```
+ImportError: DLL load failed while importing QtWidgets
+AssertionError: SRE module mismatch          (con PYTHONHOME heredado)
+```
+
+Se puede sanear el entorno del hijo, y se probó (quitar las variables, filtrar el
+`PATH`, anteponer la carpeta de PySide6, cambiar el `cwd`). Pero cada parche tapa
+una vía de contaminación conocida: **mientras haya dos Qt distintos en juego el
+problema puede volver** con otra versión de FreeCAD, de PySide6 o en otra
+máquina.
+
+> El conflicto existe **sólo porque la GUI es un proceso externo**. Un
+> `QDockWidget` dentro de FreeCAD usa el Qt de FreeCAD y el problema deja de
+> existir por construcción, en vez de parchearse.
+>
+> Propuesta de migración por etapas en
+> [`plan-unificacion-guis.md`](plan-unificacion-guis.md) — cierra también §2.b y
+> los cinco puntos de §2.d.
+
+**Dato que corrige una suposición común:** `IntegracionGUI/GUIFreeCad/ui/main_window.py`
+**no es la otra GUI**. Son 138 líneas y su botón "Iniciar Voz" hace
+`subprocess.Popen` de `InterfazDAV/main.py`: es un *launcher*, no una
+alternativa. El `Browser` no vive en ninguna de las dos ventanas — corre dentro
+de FreeCAD, lanzado por `voice_bootstrap.start_voice_engine()`.
+
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
 
 `"dibujar"` (Sketcher) y `"dibujo"` (Draft) eran casi indistinguibles para el reconocimiento de voz — se sacó `"dibujo"`/`"dibujos"` de Draft en `Dav/dic/Workbench/TraduceToEs.py` (queda `"banco de dibujo"`, `"borrador"`, `"draftwork"`, `"draft"` como alternativas). Sketcher sigue teniendo `"dibujar"` como sinónimo — si se repite el problema, revisar si conviene sacarlo también y dejar solo `"croquis"`/`"banco de croquis"`.
