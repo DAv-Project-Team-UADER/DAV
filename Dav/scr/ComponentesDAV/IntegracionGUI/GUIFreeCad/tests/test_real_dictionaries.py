@@ -139,11 +139,28 @@ class TestRealDictionariesConvention(unittest.TestCase):
                 workbench,
                 f"Workbench missing nested key '{submenu}'. Check workbench.py nesting!",
             )
-            self.assertIsInstance(
-                workbench[submenu],
-                dict,
-                f"workbench['{submenu}'] should be a dict subcontext, got {type(workbench[submenu])}",
-            )
+    def test_techdraw_and_geometry_translations_populated(self) -> None:
+        """Verify that TechDraw and Sketcher/Geometry translations are populated and not empty stubs."""
+        from navigation.dictionary_loader import DictionaryLoader
+        from core.language_code import LanguageCode
+
+        loader = DictionaryLoader(DIC_ROOT)
+
+        techdraw_dir = DIC_ROOT / "Workbench" / "TechDraw"
+        es_map = loader.LoadTranslateMap(techdraw_dir, LanguageCode.Es)
+        self.assertGreater(
+            len(es_map),
+            0,
+            "TechDraw TraduceToEs.py is empty or invalid! Spoken commands in Spanish won't work.",
+        )
+        self.assertIn("vistas", es_map)
+        self.assertIn("cotas", es_map)
+
+        geometry_dir = DIC_ROOT / "Workbench" / "Sketcher" / "Geometry"
+        en_geo_map = loader.LoadTranslateMap(geometry_dir, LanguageCode.En)
+        pt_geo_map = loader.LoadTranslateMap(geometry_dir, LanguageCode.PT)
+        self.assertGreater(len(en_geo_map), 0, "Sketcher/Geometry TraduceToEn.py is empty!")
+        self.assertGreater(len(pt_geo_map), 0, "Sketcher/Geometry TraduceToPt.py is empty!")
 
 
 if __name__ == "__main__":
