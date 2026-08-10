@@ -332,33 +332,48 @@ class DavVoiceService:
             with stream:
                 self._mic_open = True
                 self._emit_prefs_status("active")
+                applied_grammar: str | None = None
                 while not self._stop_event.is_set():
+                    # Solo interesa la ultima: si se encolaron varias mientras
+                    # el loop estaba en AcceptWaveform, las intermedias ya no
+                    # describen el contexto actual. Aplicarlas todas hacia que
+                    # las gramaticas de preferencias (82) y de CAD (54) se
+                    # pisaran alternandose durante el cambio de idioma.
+                    g_json = None
                     while not self._grammar_queue.empty():
                         try:
                             g_json = self._grammar_queue.get_nowait()
-                            if g_json:
-                                # Vosk aborta el proceso si se le cambia la
-                                # gramatica a un recognizer que ya proceso audio:
-                                #   SetGrm():recognizer.cc:235
-                                #   "Can't add speaker model to already running
-                                #    recognizer"
-                                # No es una excepcion de Python: se lleva FreeCAD
-                                # entero (ver crash.log, Recognizer::SetGrm).
-                                # Reset() lo devuelve a estado inicial y ahi si
-                                # acepta la gramatica nueva. Verificado contra el
-                                # modelo pt, que era el que crasheaba.
-                                log.info(
-                                    "aplicando gramatica: %d frases",
-                                    g_json.count(",") + 1,
-                                )
-                                recognizer.Reset()
-                                recognizer.SetGrammar(g_json)
-                                log.info("gramatica aplicada")
                         except queue.Empty:
                             break
+                    if g_json and g_json != applied_grammar:
+                        try:
+                            # Vosk aborta el proceso si se le cambia la gramatica
+                            # a un recognizer que ya proceso audio:
+                            #   SetGrm():recognizer.cc:235
+                            #   "Can't add speaker model to already running
+                            #    recognizer"
+                            # No es una excepcion de Python: se lleva FreeCAD
+                            # entero (ver crash.log, Recognizer::SetGrm).
+                            # Reset() lo devuelve a estado inicial y ahi si
+                            # acepta la gramatica nueva. Verificado contra el
+                            # modelo pt, que era el que crasheaba.
+                            log.info(
+                                "aplicando gramatica: %d frases",
+                                g_json.count(",") + 1,
+                            )
+                            # Reset() descarta el audio a medio reconocer, asi
+                            # que se hace solo cuando la gramatica cambio de
+                            # verdad: reaplicar la misma cortaba frases al medio.
+                            recognizer.Reset()
+                            recognizer.SetGrammar(g_json)
+                            applied_grammar = g_json
+                            log.info("gramatica aplicada")
                         except Exception as exc:
                             log.exception("fallo SetGrammar")
                             print(f"[DavVoiceService] Error setting grammar: {exc}")
+                            # Se marca como aplicada igual: si falla, reintentarla
+                            # en cada vuelta llena el log y no arregla nada.
+                            applied_grammar = g_json
 
                     try:
                         data = audio_q.get(timeout=0.5)

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import threading
 import traceback
 from pathlib import Path
 
@@ -12,12 +11,14 @@ from integration.voice_history import reset_voice_history, export_voice_status
 from speech.dav_voice_service import DavVoiceService
 
 # Hay tres puntos que arrancan la voz (el comando de la GUI, el workbench al
-# activarse y freecad_voice_setup), y en la practica disparan casi a la vez: el
-# log mostro cuatro start_voice_engine en dos segundos. La guarda
-# is_cad_engine_loaded() no alcanza porque el adapter recien queda registrado
-# bastante despues, asi que todas la pasan y cada una abre su propio hilo de voz
-# peleando por el microfono.
-_start_lock = threading.Lock()
+# activarse y freecad_voice_setup) y disparan casi a la vez: el log mostro
+# cuatro start_voice_engine en dos segundos, y hasta seis.
+#
+# Todos corren en el hilo de Qt, uno detras de otro, asi que un Lock no sirve:
+# cada llamada lo toma y lo suelta sin encontrarlo ocupado. Lo que hace falta es
+# una guarda de reentrada, para que mientras el primer arranque esta a mitad de
+# camino los demas salgan enseguida en vez de rehacer el trabajo.
+_starting = False
 
 
 
@@ -133,10 +134,20 @@ def is_voice_running() -> bool:
 
 
 def start_voice_engine(*, debug: bool = False) -> bool:
-    # Serializa los arranques concurrentes: el segundo entra recien cuando el
-    # primero ya registro su adapter, y ahi si is_cad_engine_loaded() lo frena.
-    with _start_lock:
+    """Arranca el motor de voz, ignorando los pedidos duplicados.
+
+    Returns:
+        True si la voz quedo andando (o ya estaba), False si fallo.
+    """
+    global _starting
+    if _starting:
+        # Otro arranque esta a mitad de camino: no rehacer el trabajo.
+        return True
+    _starting = True
+    try:
         return _start_voice_engine(debug=debug)
+    finally:
+        _starting = False
 
 
 def _start_voice_engine(*, debug: bool = False) -> bool:
