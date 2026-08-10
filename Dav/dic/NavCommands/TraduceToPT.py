@@ -38,4 +38,16 @@ TraduceToPT = {
     "mostrar contexto": NavActions["show_context"],
     "localizacao":    NavActions["show_context"],
     "localização":    NavActions["show_context"],
+
+    # Confirmar a frase ditada
+    "enviar":         NavActions["send"],
+    "aceitar":        NavActions["send"],
+    "confirmar":      NavActions["send"],
+    "entrar":         NavActions["send"],
+    "ok":             NavActions["send"],
+
+    # Descartar a frase em curso
+    "cancelar":       NavActions["cancel"],
+    "cancelamento":   NavActions["cancel"],
+    "descartar":      NavActions["cancel"],
 }

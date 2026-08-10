@@ -19,6 +19,9 @@ def _normalize(text: str) -> str:
     return " ".join(stripped.lower().split())
 
 
+# Respaldo minimo por si NavCommands no se pudo cargar (diccionario ausente o
+# roto). Lo normal es que las palabras salgan de NavCommands/TraduceTo*.py via
+# Browser.GetNavWords, para poder sumar sinonimos sin tocar codigo.
 _SEND_WORDS = {"enviar", "send"}
 _CANCEL_WORDS = {"cancelar", "cancel"}
 
@@ -65,6 +68,16 @@ class BrowserVoiceAdapter:
     def __init__(self, browser: Browser) -> None:
         self._browser = browser
         self._stop_requested = False
+        self._browser._on_context_change = self._update_grammar
+        self._update_grammar()
+
+    def _update_grammar(self) -> None:
+        try:
+            from speech.dav_voice_service import DavVoiceService
+            phrases = self._browser.GetSpokenPhrases()
+            DavVoiceService.get().set_grammar(phrases)
+        except Exception as e:
+            print(f"[BrowserVoiceAdapter] Error updating voice service grammar: {e}")
 
     @property
     def explorador(self) -> Any:
@@ -188,13 +201,22 @@ class BrowserVoiceAdapter:
             source.PublishContext()
             source.PublishTree()
 
-    @staticmethod
-    def _extract_token(normalized: str):
+    def _SendWords(self) -> set[str]:
+        """Palabras de confirmacion del idioma activo, con respaldo fijo."""
+        return self._browser.GetNavWords("send") or _SEND_WORDS
+
+    def _CancelWords(self) -> set[str]:
+        """Palabras de cancelacion del idioma activo, con respaldo fijo."""
+        return self._browser.GetNavWords("cancel") or _CANCEL_WORDS
+
+    def _extract_token(self, normalized: str):
         """Return command token, False for cancel, None to ignore."""
-        for word in _CANCEL_WORDS:
+        # Las palabras salen de NavCommands/TraduceTo*.py, no de una lista fija:
+        # agregar un sinonimo es editar el diccionario, igual que "subir".
+        for word in self._CancelWords():
             if normalized == word or normalized.endswith(" " + word):
                 return False
-        for word in _SEND_WORDS:
+        for word in self._SendWords():
             if normalized.endswith(" " + word):
                 token = normalized[: -(len(word) + 1)].strip()
                 return token or None

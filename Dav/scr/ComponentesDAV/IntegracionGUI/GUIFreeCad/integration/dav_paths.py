@@ -73,15 +73,26 @@ def guifreecad_root() -> Path:
     return _GUI_ROOT
 
 
+# Carpetas que identifican a Dav/scr/ como raíz. Antes se usaba
+# "PruebaIntegracion", que se retiró a Dav/docs/prototipos/; se marca por
+# "validation" y "selection", que están en el camino activo (el Validator de
+# PromptedCommandExecutor y CreateObjects de los diccionarios).
+_REPO_MARKERS = ("validation", "selection")
+
+
+def _is_dav_repo(base: Path) -> bool:
+    return any((base / marker).is_dir() for marker in _REPO_MARKERS)
+
+
 def _find_dav_repo() -> Path | None:
     mod = os.environ.get("DAV_MOD_ROOT", "").strip()
     if mod:
         root = Path(mod).resolve().parent
-        if (root / "PruebaIntegracion").is_dir():
+        if _is_dav_repo(root):
             return root
 
     for base in (guifreecad_root().parent, *guifreecad_root().parents):
-        if (base / "PruebaIntegracion").is_dir():
+        if _is_dav_repo(base):
             return base
     return None
 
@@ -96,7 +107,10 @@ def dav_repo_root() -> Path:
         _DAV_REPO_ROOT = found
         return found
 
-    raise FileNotFoundError("No se encontró el repo DAV (PruebaIntegracion).")
+    raise FileNotFoundError(
+        "No se encontró el repo DAV (se buscó "
+        f"{' / '.join(_REPO_MARKERS)} en los ancestros)."
+    )
 
 
 def ensure_gui_on_path() -> Path:

@@ -259,10 +259,17 @@ Los dos últimos quedan atados a la decisión de §2.b: si se unifica en `Integr
 - Gramática restringida de Vosk (§1) — impacta la precisión de todo lo anterior.
 - Tests: `tests/test_browser.py` (18 casos) usa un loader mock. **No hay tests que corran contra el árbol real `Dav/dic/`**, que es donde aparecieron todos los bugs de esta sesión (imports rotos, aplanado, acentos). Vale la pena agregar un test de integración que recorra las rutas principales.
 
-## 9. Hay TRES motores de voz en el repo, no dos (auditoría 2026-08-08)
+## 9. Hay TRES motores de voz en el repo, no dos — RESUELTO
 
-Responde la pregunta abierta de §2.b. Además de los dos de esa tabla existe un
-tercer sistema completo, `PruebaIntegracion/`, que **no se ejecuta nunca**.
+> **Estado (2026-08-10):** cerrado. **Queda un solo motor de voz.** B
+> (`InterfazDAV`) se retiró al acoplar el panel; C (`PruebaIntegracion`) se
+> movió a [`prototipos/`](prototipos/) junto con sus puentes muertos.
+>
+> Lo que sigue es el diagnóstico original, conservado como registro, con el
+> cierre de cada punto al final.
+
+Respondía la pregunta abierta de §2.b. Además de los dos de esa tabla existía un
+tercer sistema completo, `PruebaIntegracion/`, que **no se ejecutaba nunca**.
 
 | | A. IntegracionGUI | B. InterfazDAV | C. PruebaIntegracion |
 | --- | --- | --- | --- |
@@ -271,7 +278,19 @@ tercer sistema completo, `PruebaIntegracion/`, que **no se ejecuta nunca**.
 | GUI | `ui/main_window.py` | `MainWindow.py` | `GUI/asistente_voz.py` |
 | Estado | **Camino principal** | Vivo, pero como proceso aparte | **Huérfano — código muerto** |
 
-### 9.a `PruebaIntegracion/` está desconectado
+**Cómo quedó:** de esa tabla sobrevive **sólo la columna A**. Ni `MainWindow.py`,
+ni `VoiceWorker.py`, ni `DiccionarioPrueba/`, ni el launcher
+`IntegracionGUI/ui/main_window.py` existen ya. De `InterfazDAV/` quedan widgets
+sin motor propio (`DavPanel.py`, `ContextView.py`, `IconLocator.py`,
+`FlashOverlay.py`, `Paletas.py`, `Textos.py`), que el camino A usa.
+
+### 9.a `PruebaIntegracion/` está desconectado — RESUELTO
+
+> **Cerrado (2026-08-10).** Movido a `Dav/docs/prototipos/PruebaIntegracion/`
+> con un `README.md` que explica qué es y por qué se conserva. Se movieron con
+> él `cad_session.py`, `cad_voice_adapter.py` y `voice_aliases.py` (este último
+> sólo lo alcanzaba `cad_session`). Verificado: no quedan imports colgados en
+> `Dav/scr/`, y los 18 tests de `test_browser.py` siguen pasando.
 
 Es un DAVCore completo y autónomo: `core/VoiceExplorer.py`, `core/Navigator.py`,
 `core/Command.py`, `core/FunctionWrapper.py`, `modelo/VoskModel.py` (la
@@ -290,7 +309,41 @@ Cuando las implementaciones paralelas convergieron, ganó el `Browser`.
 `PruebaIntegracion/hilos/GestorDeHilos.py` como maqueta muerta, pero el problema
 alcanza al árbol entero, no a ese archivo solo.
 
-### 9.b `InterfazDAV` no está desconectado: corre como proceso separado
+#### 9.a.bis La trampa que casi rompe el arranque
+
+Vale registrarlo porque no era evidente y afectaba al camino activo: la carpeta
+**no era sólo código muerto**. Se usaba como **marcador de filesystem** para
+localizar la raíz `Dav/scr/`:
+
+```python
+# dav_paths.py — ANTES
+if (base / "PruebaIntegracion").is_dir():
+    return base
+...
+raise FileNotFoundError("No se encontró el repo DAV (PruebaIntegracion).")
+```
+
+Moverla sin más habría hecho que `dav_repo_root()` tirara `FileNotFoundError`,
+y de ahí se cuelgan dos cosas **del camino principal**:
+`voice_bootstrap.start_voice_engine()` (línea 129) y el `Validator` de
+`InputPrompts/PromptedCommandExecutor.py` (línea 70). O sea: se caía el motor de
+voz entero, no el prototipo.
+
+El marcador pasó a ser `validation/` + `selection/`, que son carpetas del camino
+activo y viven en la misma raíz. Mismo cambio en `tests/test_browser.py:24`, que
+duplicaba el criterio.
+
+> **Regla que deja:** antes de mover cualquier carpeta "muerta", buscar su
+> nombre como **string** además de como import. `grep -rn "NombreCarpeta"` sobre
+> `.py` — un `is_dir()` no aparece en un análisis de imports.
+
+### 9.b `InterfazDAV` no está desconectado: corre como proceso separado — RESUELTO
+
+> **Cerrado (2026-08-09/10).** Ya no corre como proceso separado porque ya no
+> existe: se retiró al acoplar el `DavPanel` dentro de FreeCAD (§2). El
+> `Dav/scr/gui/dav_commands.py` que hacía el `Popen` tampoco está en esa ruta;
+> lo que queda es `ComponentesDAV/Dav/scr/gui/dav_commands.py`, que no lanza
+> ningún proceso externo.
 
 Distinto de C. `Dav/scr/gui/dav_commands.py:371` busca `InterfazDAV/main.py` y lo
 **lanza como proceso aparte**. No comparte memoria ni diccionario con A.
@@ -319,26 +372,25 @@ Tiene cobertura en `Dav/scr/validation/test_integration.py`.
 > señal** de que algo se rompió. Difícil de diagnosticar; considerar loguear la
 > excepción aunque se siga tragando.
 
-### 9.d Qué hacer — NO escribir una GUI nueva
+### 9.d Qué hacer — NO escribir una GUI nueva — EJECUTADO
 
 Sería el cuarto sistema paralelo. El problema no es que falte una GUI: es que
 sobran dos. A ya tiene Browser, InputPrompts, tests, temas e i18n.
 
-Orden sugerido:
+Los cuatro pasos del plan original, con lo que efectivamente pasó:
 
-1. **Declarar A como camino oficial.** Ya lo es de hecho, pero no está escrito —
-   por eso los tres siguen conviviendo.
-2. **Retirar `PruebaIntegracion/`** junto con sus puentes muertos
-   (`cad_session.py`, `cad_voice_adapter.py`). Preferible moverlo a
-   `Dav/docs/prototipos/` antes que borrarlo: conserva el trabajo como referencia
-   de diseño sin aparentar código activo.
-3. **Migrar `InterfazDAV` a leer de `Dav/dic/`.** Es el paso de mayor valor:
-   elimina el diccionario duplicado y hace que un comando nuevo sirva en ambas
-   interfaces. Coordinar con Mica Saul (autora principal de `MainWindow.py`) y
-   combinarlo con `plan-migracion-hilos-qthread.md`, que ataca el mismo archivo.
-4. **Decidir si B sobrevive.** Si tras migrar hace lo mismo que A, fusionar. Si
-   aporta algo propio (interfaz flotante más liviana, historial, minimizar),
-   dejarla como vista alternativa **sobre el mismo motor**.
+| # | Paso | Estado |
+| --- | --- | --- |
+| 1 | Declarar A como camino oficial | **Hecho** — es el único que queda; no hay alternativa que declarar |
+| 2 | Retirar `PruebaIntegracion/` + puentes | **Hecho (2026-08-10)** — movido a `prototipos/`, ver 9.a |
+| 3 | Migrar `InterfazDAV` a leer de `Dav/dic/` | **Sin objeto** — no se migró el motor: se retiró. Los widgets que sobrevivieron ya se alimentan del `Browser` |
+| 4 | Decidir si B sobrevive | **Decidido** — no sobrevive como motor; sí sus widgets, sobre el motor de A |
+
+El paso 3 se resolvió por un camino distinto al previsto, y conviene anotarlo
+porque la advertencia de abajo resultó ser el motivo: en vez de enseñarle a
+`MainWindow.py` a leer `Dav/dic/`, se retiró `MainWindow.py` y se conservaron
+sus partes útiles (historial, overlay, iconos, paletas) como widgets del panel
+acoplado. Salió más barato que la migración que este plan proponía.
 
 > **Sin verificar:** no se auditó `MainWindow.py` en detalle, así que no se sabe
 > cuánto de su comportamiento depende del formato de `DiccionarioPrueba/`. Si esa
@@ -348,6 +400,28 @@ Orden sugerido:
 Esta es una decisión de arquitectura que toca código de varias personas (Luigi
 Mete, Mica Saul, Franco Camen) — conviene discutirla en el grupo antes de mover
 archivos, no resolverla por commit.
+
+> **Nota sobre lo anterior:** el retiro de `PruebaIntegracion/` se hizo por
+> commit sin esa discusión previa. Se consideró de bajo riesgo porque no cambia
+> comportamiento —el código no se ejecutaba— y porque se movió en vez de
+> borrarse, así que es reversible con un `git mv`. Igual **conviene avisarlo en
+> el grupo**: es trabajo de otras personas, aunque esté inactivo.
+
+### 9.e Lo que sí queda abierto de esta sección
+
+Cerrar §9 no cierra el requisito que la motivaba. De la tabla de §8:
+
+- **Historial** y **minimizar** venían de B y **sí quedaron enganchados**
+  (verificado 2026-08-10): `DavPanel._BuildHistoryColumn()` dibuja la columna y
+  recibe datos reales del motor por `AddToHistory`, llamado desde
+  `browser_voice_adapter.py:41` y `dav_dock_panel.py:111`; `FlashOverlay` se
+  instancia en `DavPanel.py:343`, y el ocultar/mostrar lo da el `QDockWidget`.
+  Lo que falta no es cableado sino **probarlo por voz dentro de FreeCAD**.
+- El **`except Exception: return False`** de `_dispatch_to_active_prompt` (§9.c)
+  ya **no** traga los fallos en silencio: los loguea en `config/dav.log`
+  (`edd50476`). Se separó el `ImportError` —que es el caso normal cuando
+  InputPrompts no está montado— del resto, que sí queda registrado con
+  traceback. Sigue devolviendo `False` para no interrumpir la voz.
 
 ## 10. Hallazgo contrafáctico: un modelo de voz más grande NO mejora el reconocimiento de comandos
 
