@@ -411,11 +411,17 @@ archivos, no resolverla por commit.
 
 Cerrar §9 no cierra el requisito que la motivaba. De la tabla de §8:
 
-- **Historial** y **minimizar** venían de B. Los widgets se conservaron
-  (`FlashOverlay.py`, `Textos.py`), pero **falta verificar que estén enganchados
-  al panel acoplado** y no sólo presentes en el árbol de archivos.
+- **Historial** y **minimizar** venían de B y **sí quedaron enganchados**
+  (verificado 2026-08-10): `DavPanel._BuildHistoryColumn()` dibuja la columna y
+  recibe datos reales del motor por `AddToHistory`, llamado desde
+  `browser_voice_adapter.py:41` y `dav_dock_panel.py:111`; `FlashOverlay` se
+  instancia en `DavPanel.py:343`, y el ocultar/mostrar lo da el `QDockWidget`.
+  Lo que falta no es cableado sino **probarlo por voz dentro de FreeCAD**.
 - El **`except Exception: return False`** de `_dispatch_to_active_prompt` (§9.c)
-  sigue tragando fallos de InputPrompts sin señal. No lo tocó este retiro.
+  ya **no** traga los fallos en silencio: los loguea en `config/dav.log`
+  (`edd50476`). Se separó el `ImportError` —que es el caso normal cuando
+  InputPrompts no está montado— del resto, que sí queda registrado con
+  traceback. Sigue devolviendo `False` para no interrumpir la voz.
 
 ## 10. Hallazgo contrafáctico: un modelo de voz más grande NO mejora el reconocimiento de comandos
 
