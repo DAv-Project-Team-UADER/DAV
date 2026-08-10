@@ -4,6 +4,8 @@ BrowserVoiceAdapter: connects Vosk spoken phrases to the new Browser navigation 
 
 from __future__ import annotations
 
+import io
+import sys
 import unicodedata
 from typing import Any
 
@@ -19,6 +21,42 @@ def _normalize(text: str) -> str:
 
 _SEND_WORDS = {"enviar", "send"}
 _CANCEL_WORDS = {"cancelar", "cancel"}
+
+
+class _CapturedOutput:
+    """Captura lo que un comando escribe con ``print`` mientras corre.
+
+    Los diccionarios imprimen su salida a stdout (988 llamadas repartidas en
+    123 archivos), que en FreeCAD termina en el Report View y no en el panel
+    DAV. Capturarlo aca permite reenviarlo sin tocar cada comando.
+
+    Restaura ``sys.stdout`` incluso si el comando lanza, para no dejar la
+    salida secuestrada.
+
+    Example::
+
+        with _CapturedOutput() as captured:
+            browser.ProcessPhrase(token)
+        for line in captured.Lines():
+            panel.AddToHistory(line)
+    """
+
+    def __init__(self) -> None:
+        self._buffer = io.StringIO()
+        self._previous = None
+
+    def __enter__(self) -> "_CapturedOutput":
+        self._previous = sys.stdout
+        sys.stdout = self._buffer
+        return self
+
+    def __exit__(self, *_exc) -> bool:
+        sys.stdout = self._previous
+        return False
+
+    def Lines(self) -> list[str]:
+        """Lineas capturadas, sin las vacias."""
+        return [line for line in self._buffer.getvalue().splitlines() if line.strip()]
 
 
 class BrowserVoiceAdapter:
@@ -59,14 +97,29 @@ class BrowserVoiceAdapter:
         def _run() -> None:
             # Ya en el hilo principal: recien aca se puede tocar la GUI.
             self._publish_line(f"[DAV] Voz: {raw_phrase}", recognized=raw_phrase)
-            result = self._browser.ProcessPhrase(token)
+
+            # Los comandos del diccionario (los ayuda.py sobre todo) escriben
+            # su salida con print: son 988 llamadas en 123 archivos, asi que en
+            # vez de tocarlas una por una se captura el stdout mientras corre
+            # el comando y se vuelca al panel. Sin esto la ayuda aparecia solo
+            # en el Report View de FreeCAD.
+            with _CapturedOutput() as captured:
+                result = self._browser.ProcessPhrase(token)
+
+            for line in captured.Lines():
+                print(line)
+                self._publish_line(line)
+
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
                 append_voice_history(f"[DAV] OK ({result.Action}): {result.Message}")
                 self._publish_line(f"[DAV] OK ({result.Action}): {result.Message}")
                 if result.Action in _NAV_ACTIONS:
-                    print(self._browser.DescribeContext())
-                    append_voice_history(self._browser.DescribeContext())
+                    described = self._browser.DescribeContext()
+                    print(described)
+                    append_voice_history(described)
+                    for line in described.splitlines():
+                        self._publish_line(line)
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
                 append_voice_history(f"[DAV] Ignorado: {result.Message}")
