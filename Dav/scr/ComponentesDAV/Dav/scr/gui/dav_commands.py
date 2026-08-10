@@ -296,7 +296,9 @@ class DAV_StartVoiceCommand:
 class DAV_ShowPanelCommand:
     def GetResources(self):
         return {
-            "Pixmap": "Std_DlgCustomize",
+            # Nombre del tema de iconos, como los otros comandos DAV: los
+            # identificadores de comando tipo "Std_*" no resuelven a un icono.
+            "Pixmap": "view-refresh",
             "MenuText": "Mostrar panel DAV",
             "ToolTip": (
                 "Muestra el panel DAV acoplado dentro de FreeCAD "

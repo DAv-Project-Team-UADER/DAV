@@ -293,6 +293,7 @@ def install_dock_panel(browser, adapter):
     # cuando quiere, con el boton de la cabecera o arrastrando el titulo.
     dock.setFloating(True)
     dock.resize(560, 720)
+    _make_real_window(dock)
     _center_on(dock, main_window)
 
     source.Attach(panel)
@@ -304,6 +305,34 @@ def install_dock_panel(browser, adapter):
 
     _dock, _source = dock, source
     return source
+
+
+def _make_real_window(dock) -> None:
+    """Convierte el dock flotante en una ventana del sistema.
+
+    Por defecto un QDockWidget suelto es una ``Qt.Tool``: queda siempre por
+    encima de FreeCAD, sin boton de minimizar y sin entrada propia en la barra
+    de tareas. Con ``Qt.Window`` pasa a comportarse como una ventana normal —
+    se puede minimizar, mandar atras y alt-tabear — sin perder la capacidad de
+    volver a anclarse.
+    """
+    try:
+        from PySide6.QtCore import Qt
+    except ImportError:
+        return
+
+    flags = (
+        Qt.Window
+        | Qt.CustomizeWindowHint
+        | Qt.WindowTitleHint
+        | Qt.WindowMinimizeButtonHint
+        | Qt.WindowMaximizeButtonHint
+        | Qt.WindowCloseButtonHint
+    )
+    try:
+        dock.setWindowFlags(flags)
+    except Exception:  # noqa: BLE001 - sin esto solo se pierde el minimizar
+        pass
 
 
 def _center_on(dock, main_window) -> None:
@@ -338,7 +367,13 @@ def _wire_dock_toggle(dock, panel) -> None:
         _refresh()
 
     def _refresh(*_args) -> None:
-        panel.SetDockState(dock.isFloating())
+        floating = dock.isFloating()
+        if floating:
+            # Qt rehace la ventana al volver a flotar y pierde los flags, con
+            # lo cual vuelve a quedar siempre encima y sin minimizar.
+            _make_real_window(dock)
+            dock.show()
+        panel.SetDockState(floating)
 
     if hasattr(panel, "DockToggleRequested"):
         panel.DockToggleRequested.connect(_toggle)
