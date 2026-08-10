@@ -24,6 +24,7 @@ from pathlib import Path
 _DOCK_OBJECT_NAME = "DAV_Panel"
 _dock = None
 _source = None
+_observer = None
 
 
 def _ensure_interfaz_on_path() -> None:
@@ -104,8 +105,9 @@ class BrowserPanelSource:
     def PublishTree(self) -> None:
         """Refresh the object tree straight from the active document.
 
-        Reads FreeCAD in-process, with no macro and no ``tree_data.json``.
-        Full removal of that bridge is migration stage 3.
+        Reads FreeCAD in-process: no ``capture_tree`` macro, no
+        ``tree_data.json``, no polling. Kept public because the observer and
+        the initial mount both call it.
         """
         if self._panel is None:
             return
@@ -130,6 +132,63 @@ class BrowserPanelSource:
                 "parent": parents[0].Name if parents else None,
             })
         self._panel.SetTree(objects, doc.Name)
+
+
+class _TreeDocumentObserver:
+    """Refreshes the panel tree whenever the FreeCAD document changes.
+
+    Replaces the old capture loop: ``InterfazDAV`` ran a 5 s timer that fired
+    the ``capture_tree`` macro, which serialised the tree to
+    ``tree_data.json``, which a second 2 s timer re-read by mtime. FreeCAD
+    already reports these changes, so the panel just listens.
+
+    All slots funnel into one guarded refresh: an exception raised inside an
+    observer would propagate into FreeCAD's own document handling.
+    """
+
+    def __init__(self, Source: "BrowserPanelSource") -> None:
+        self._source = Source
+
+    def _Refresh(self, *_args) -> None:
+        try:
+            self._source.PublishTree()
+        except Exception:  # noqa: BLE001 - nunca romper al documento
+            pass
+
+    # FreeCAD invoca estos slots por nombre; firmas fijadas por su API.
+    slotCreatedObject = _Refresh
+    slotDeletedObject = _Refresh
+    slotChangedObject = _Refresh
+    slotRecomputedDocument = _Refresh
+    slotActivateDocument = _Refresh
+    slotFinishRestoreDocument = _Refresh
+    slotDeletedDocument = _Refresh
+
+
+def _install_tree_observer(source) -> None:
+    """Registra el observador del arbol, reemplazando al observador previo."""
+    global _observer
+    try:
+        import FreeCAD as App
+    except ImportError:
+        return
+
+    if _observer is not None:
+        try:
+            App.removeDocumentObserver(_observer)
+        except Exception:  # noqa: BLE001
+            pass
+        _observer = None
+
+    observer = _TreeDocumentObserver(source)
+    try:
+        App.addDocumentObserver(observer)
+    except Exception as exc:  # noqa: BLE001 - sin observador el arbol se
+        # refresca igual tras cada comando de voz, solo pierde el refresco
+        # automatico al dibujar con el mouse.
+        print(f"[DAV] No se pudo observar el documento: {exc}")
+        return
+    _observer = observer
 
 
 def install_dock_panel(browser, adapter):
@@ -169,6 +228,7 @@ def install_dock_panel(browser, adapter):
         _dock, _source = existing, source
         source.Attach(panel)
         source.PublishTree()
+        _install_tree_observer(source)
         existing.show()
         existing.raise_()
         return source
@@ -193,6 +253,7 @@ def install_dock_panel(browser, adapter):
     source.Attach(panel)
     source.PublishTree()
     _wire_dock_toggle(dock, panel)
+    _install_tree_observer(source)
 
     _dock, _source = dock, source
     return source
@@ -229,7 +290,18 @@ def get_source():
 
 def remove_dock_panel() -> None:
     """Remove the dock from FreeCAD, if present."""
-    global _dock, _source
+    global _dock, _source, _observer
+
+    # Primero el observador: si queda registrado seguiria refrescando un panel
+    # ya destruido en cada cambio del documento.
+    if _observer is not None:
+        try:
+            import FreeCAD as App
+            App.removeDocumentObserver(_observer)
+        except Exception:  # noqa: BLE001
+            pass
+        _observer = None
+
     if _dock is not None:
         _dock.setParent(None)
         _dock.deleteLater()

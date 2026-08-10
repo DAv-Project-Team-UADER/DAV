@@ -189,6 +189,17 @@ Trabajo: `_PopulateTree()` pasa a leer `App.ActiveDocument.Objects` directo
 `_RefreshTreeData()`, `_LastTreeMtime` y el `QTimer` de refresco — el documento
 avisa por sus propias señales en vez de sondear cada 5 s.
 
+> **Hecho (2026-08-09) para el panel acoplado.** `BrowserPanelSource.PublishTree()`
+> lee `App.ActiveDocument` en proceso, y `_TreeDocumentObserver` (registrado con
+> `App.addDocumentObserver`) lo dispara ante creación, borrado, cambio,
+> recompute y cambio de documento activo. El árbol ahora sigue también lo que se
+> dibuja con el mouse, no sólo lo que entra por voz.
+>
+> **Falta** borrar el camino viejo: `trigger_capture.py` y `capture_tree.FCMacro`
+> siguen en el repo porque su único consumidor es `MainWindow.py`, que se retira
+> en la etapa 4. Borrarlos ahora rompería la ventana externa mientras todavía es
+> la que se usa.
+
 ### Etapa 4 — Borrar el andamiaje
 
 Cuando el panel cubra lo que hacía la ventana externa:
