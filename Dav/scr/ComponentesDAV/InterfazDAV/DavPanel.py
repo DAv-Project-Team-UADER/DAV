@@ -24,9 +24,12 @@ from datetime import datetime
 from PySide6.QtCore import QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QBrush, QColor, QFont, QIcon, QTextCharFormat, QTextCursor
 from PySide6.QtWidgets import (
+    QFrame,
+    QGridLayout,
     QHBoxLayout,
     QLabel,
     QPushButton,
+    QScrollArea,
     QSizePolicy,
     QTextEdit,
     QTreeWidget,
@@ -75,6 +78,14 @@ class DavPanel(QWidget):
     ThemeToggled = Signal(str)
     DockToggleRequested = Signal()
 
+    #: Lado del boton y del icono, en px. El icono se deja bastante mas chico
+    #: que el boton para que quede aire parejo alrededor de todos.
+    BUTTON_SIZE = 54
+    ICON_SIZE = 30
+
+    #: Filas visibles antes de que la grilla empiece a scrollear.
+    TOOL_AREA_MAX_ROWS = 3
+
     def __init__(
         self,
         Parent: QWidget | None = None,
@@ -87,6 +98,7 @@ class DavPanel(QWidget):
         self._context = ContextView()
         self._toolButtons: list[QPushButton] = []
         self._treeWidget: QTreeWidget | None = None
+        self._lastColumns = 0
 
         self._theme = Theme
         self._palette = LIGHT if Theme == "light" else DARK
@@ -113,13 +125,30 @@ class DavPanel(QWidget):
             self._ShowEmptyHint()
             return
 
-        for entry in self._context.Entries():
-            button = self._MakeEntryButton(entry)
-            self._toolButtons.append(button)
-            self._toolAreaLayout.addWidget(button)
-
+        buttons = [self._MakeEntryButton(e) for e in self._context.Entries()]
+        self._toolButtons.extend(buttons)
         if not self._context.IsRoot():
-            self._toolAreaLayout.addWidget(self._MakeBackButton())
+            buttons.append(self._MakeBackButton())
+
+        columns = self._ColumnCount(len(buttons))
+        self._lastColumns = columns
+        for index, button in enumerate(buttons):
+            self._toolAreaLayout.addWidget(button, index // columns, index % columns)
+
+        # Volver arriba: si se venia de un contexto largo con scroll, el nuevo
+        # aparecia desplazado.
+        self._toolScroll.verticalScrollBar().setValue(0)
+
+    def _ColumnCount(self, Total: int) -> int:
+        """Cuantas columnas entran en el ancho disponible.
+
+        Se calcula sobre el ancho real del area, con un minimo de 1 para no
+        dividir por cero antes de que el panel tenga tamaño.
+        """
+        spacing = self._toolAreaLayout.spacing()
+        cell = self.BUTTON_SIZE + spacing
+        available = max(self._toolScroll.viewport().width() - 20, cell)
+        return max(1, min(Total, available // cell))
 
     def AddToHistory(self, Text: str, FromVoice: bool = True, Unknown: bool = False) -> None:
         """Append a line to the history panel, colour-coded by origin.
@@ -278,16 +307,24 @@ class DavPanel(QWidget):
         panels.addLayout(self._BuildHistoryColumn(), stretch=2)
         layout.addLayout(panels, stretch=1)
 
+        # Grilla, no fila: hay contextos de 47 entradas (Part) contra 5 de la
+        # raiz. En una sola fila el ancho pedido crecia con la cantidad y
+        # estiraba la ventana. La grilla envuelve y el scroll acota la altura,
+        # asi el panel mide siempre lo mismo entre en el contexto que entre.
         self._toolArea = QWidget()
-        self._toolAreaLayout = QHBoxLayout(self._toolArea)
+        self._toolAreaLayout = QGridLayout(self._toolArea)
         self._toolAreaLayout.setSpacing(10)
-        # Margen inferior mayor: sin el, los botones quedan pegados al borde
-        # de la ventana. AlignCenter (no solo horizontal) los centra tambien
-        # en vertical dentro de la franja.
-        self._toolAreaLayout.setContentsMargins(10, 10, 10, 14)
+        self._toolAreaLayout.setContentsMargins(10, 10, 10, 10)
         self._toolAreaLayout.setAlignment(Qt.AlignCenter)
-        self._toolArea.setFixedHeight(self.BUTTON_SIZE + 24)
-        layout.addWidget(self._toolArea)
+
+        self._toolScroll = QScrollArea()
+        self._toolScroll.setWidget(self._toolArea)
+        self._toolScroll.setWidgetResizable(True)
+        self._toolScroll.setFrameShape(QFrame.NoFrame)
+        self._toolScroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self._toolScroll.setMinimumHeight(self.BUTTON_SIZE + 28)
+        self._toolScroll.setMaximumHeight(self.TOOL_AREA_MAX_ROWS * (self.BUTTON_SIZE + 10) + 20)
+        layout.addWidget(self._toolScroll)
 
         self._flash = FlashOverlay(self)
         self._flash.setGeometry(self.rect())
@@ -382,11 +419,6 @@ class DavPanel(QWidget):
         hint = QLabel(self._texts["empty_context"])
         hint.setAlignment(Qt.AlignCenter)
         self._toolAreaLayout.addWidget(hint)
-
-    #: Lado del boton y del icono, en px. El icono se deja bastante mas chico
-    #: que el boton para que quede aire parejo alrededor de todos.
-    BUTTON_SIZE = 54
-    ICON_SIZE = 30
 
     def _MakeEntryButton(self, Entry) -> QPushButton:
         button = QPushButton()
@@ -513,3 +545,10 @@ class DavPanel(QWidget):
     def resizeEvent(self, Event) -> None:  # noqa: N802 (API de Qt)
         super().resizeEvent(Event)
         self._flash.setGeometry(self.rect())
+        # Al cambiar el ancho cambia cuantos botones entran por fila. Se
+        # redibuja solo si el numero de columnas cambio, para no rehacer la
+        # grilla en cada pixel del arrastre.
+        if not self._context.IsEmpty():
+            total = len(self._toolButtons) + (0 if self._context.IsRoot() else 1)
+            if self._ColumnCount(total) != self._lastColumns:
+                self.RenderContext(self._context)
