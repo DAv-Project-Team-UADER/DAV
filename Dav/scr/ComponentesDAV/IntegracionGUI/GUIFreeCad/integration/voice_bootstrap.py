@@ -1,4 +1,4 @@
-"""Start/stop unified DAV voice from GUIFreeCad (no changes to PruebaIntegracion core)."""
+"""Start/stop the DAV voice engine (Browser + BrowserVoiceAdapter) from GUIFreeCad."""
 
 from __future__ import annotations
 

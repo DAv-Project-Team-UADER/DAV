@@ -22,8 +22,11 @@ from typing import Any
 
 GUI_ROOT = Path(__file__).resolve().parents[1]
 def _find_repo_root(gui_root: Path) -> Path:
+    # Mismo criterio que integration/dav_paths.py: Dav/scr/ se identifica por
+    # validation/ y selection/, no por PruebaIntegracion/ (retirado a
+    # Dav/docs/prototipos/).
     for parent in (gui_root.parents[1], gui_root.parents[2], gui_root.parents[0]):
-        if (parent / "PruebaIntegracion").is_dir():
+        if (parent / "validation").is_dir() or (parent / "selection").is_dir():
             return parent
     return gui_root.parents[1]
 
