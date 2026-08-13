@@ -13,5 +13,22 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Spanish spoken-word mapping for the Sketcher root dictionary."""
 
 from .root import root
+from .ayuda import ayuda
+
+TraduceToEs = {
+    "raiz": root['root'],
+    "root": root['root'],
+    "origen": root['origin'],
+    "centro": root['origin'],
+    "punto central": root['origin'],
+    "seleccionar origen": root['origin'],
+    "seleccionar raiz": root['root'],
+    "ayuda": root['help'],
+    "información": root['help'],
+    "opciones": root['help'],
+}

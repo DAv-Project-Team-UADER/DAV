@@ -13,5 +13,19 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from .root import root
+import FreeCADGui as Gui
+from .ayuda import ayuda
+
+
+def _execute_root():
+    """Select the Sketcher origin/root point."""
+    Gui.runCommand('Sketcher_SelectOrigin', 0)
+
+
+root = {
+    'root': _execute_root,
+    'origin': _execute_root,
+    'help': ayuda,
+}
