@@ -23,6 +23,8 @@ class ObjectSelection:
         self._ObjectNames = []
         # Current index inside the list
         self._CurrentIndex = 0
+        # Index of the last actually selected object
+        self._LastSelectedIndex = -1
         # Internal state of the boolean property
         self._SelectOther = False
 
@@ -49,6 +51,7 @@ class ObjectSelection:
             
         self._ObjectNames = ListNames
         self._CurrentIndex = 0
+        self._LastSelectedIndex = -1
         print(f"List loaded with {len(self._ObjectNames)} objects. Ready to iterate.")
 
     @property
@@ -56,46 +59,108 @@ class ObjectSelection:
         """Allows reading the current state of the property."""
         return self._SelectOther
 
+    def SelectNext(self):
+        """Advances to the next object in the list (cyclic).
+
+        If the list is empty, loads all objects from the active document first.
+        """
+        ActiveDoc = App.activeDocument()
+
+        if not ActiveDoc:
+            print("Error: There is no active document in FreeCAD.")
+            return
+
+        if not self._ObjectNames:
+            ObjectNames = [Obj.Name for Obj in ActiveDoc.Objects]
+            self.VectorSelection(ObjectNames)
+
+        if not self._ObjectNames:
+            print("Error: The document has no objects.")
+            return
+
+        CurrentName = self._ObjectNames[self._CurrentIndex]
+        Obj = ActiveDoc.getObject(CurrentName)
+
+        if Obj:
+            print(f"\n[Next] Object {self._CurrentIndex + 1} of {len(self._ObjectNames)}")
+            self.MonoSelection(Obj)
+        else:
+            print(f"Warning: The object '{CurrentName}' does not exist in the current document.")
+
+        self._LastSelectedIndex = self._CurrentIndex
+        self._CurrentIndex = (self._CurrentIndex + 1) % len(self._ObjectNames)
+
+    def SelectPrevious(self):
+        """Goes back to the previous object in the list (cyclic).
+
+        If the list is empty, loads all objects from the active document first.
+        """
+        ActiveDoc = App.activeDocument()
+
+        if not ActiveDoc:
+            print("Error: There is no active document in FreeCAD.")
+            return
+
+        if not self._ObjectNames:
+            ObjectNames = [Obj.Name for Obj in ActiveDoc.Objects]
+            self.VectorSelection(ObjectNames)
+
+        if not self._ObjectNames:
+            print("Error: The document has no objects.")
+            return
+
+        if self._LastSelectedIndex >= 0:
+            target = (self._LastSelectedIndex - 1) % len(self._ObjectNames)
+        else:
+            target = (self._CurrentIndex - 1) % len(self._ObjectNames)
+
+        CurrentName = self._ObjectNames[target]
+        Obj = ActiveDoc.getObject(CurrentName)
+
+        if Obj:
+            print(f"\n[Previous] Object {target + 1} of {len(self._ObjectNames)}")
+            self.MonoSelection(Obj)
+        else:
+            print(f"Warning: The object '{CurrentName}' does not exist in the current document.")
+
+        self._LastSelectedIndex = target
+        self._CurrentIndex = (target + 1) % len(self._ObjectNames)
+
+    def SelectAll(self):
+        """Selects all objects in the active document."""
+        ActiveDoc = App.activeDocument()
+
+        if not ActiveDoc:
+            print("Error: There is no active document in FreeCAD.")
+            return
+
+        Gui.Selection.clearSelection()
+
+        for Obj in ActiveDoc.Objects:
+            Gui.Selection.addSelection(Obj)
+
+        print(f"Selected {len(ActiveDoc.Objects)} objects.")
+
+    def DeselectAll(self):
+        """Clears the current selection."""
+        Gui.Selection.clearSelection()
+        print("Selection cleared.")
+
+    def GetCurrentObject(self):
+        """Returns the name of the last selected object, or None."""
+        if not self._ObjectNames or self._LastSelectedIndex < 0:
+            return None
+
+        return self._ObjectNames[self._LastSelectedIndex]
+
+    def GetObjectCount(self):
+        """Returns the number of objects in the current list."""
+        return len(self._ObjectNames)
+
     @SelectOther.setter
     def SelectOther(self, Value):
         """Triggers automatically when the user writes 'Instance.SelectOther = True'."""
         if Value is True:
-            if not self._ObjectNames:
-                print("Error: The object list is empty. Load it first using VectorSelection.")
-                self._SelectOther = False
-                return
-
-            CurrentName = self._ObjectNames[self._CurrentIndex]
-            ActiveDoc = App.activeDocument()
-            
-            if ActiveDoc:
-                Obj = ActiveDoc.getObject(CurrentName)
-                if Obj:
-                    print(f"\n[Advancing] Object {self._CurrentIndex + 1} of {len(self._ObjectNames)}")
-                    self.MonoSelection(Obj)
-                else:
-                    print(f"Warning: The object '{CurrentName}' does not exist in the current document.")
-            else:
-                print("Error: There is no active document in FreeCAD.")
-
-            self._CurrentIndex = (self._CurrentIndex + 1) % len(self._ObjectNames)
-            self._SelectOther = False
+            self.SelectNext()
         else:
             self._SelectOther = Value
-
-# ==============================================================================
-# HOW TO INVOKE THE CLASS USING ALL ACTIVE OBJECTS FROM THE DOCUMENT
-# ==============================================================================
-#
-# # 1. Instantiate the class normally:
-# SelectorInstance = ObjectSelection()
-#
-# # 2. Get the name list of ALL objects from the active document using a list comprehension:
-# ActiveObjectNames = [Obj.Name for Obj in App.activeDocument().Objects]
-#
-# # 3. Pass that automatically generated vector to the VectorSelection method:
-# SelectorInstance.VectorSelection(ActiveObjectNames)
-#
-# # 4. Now you can cyclically iterate through every single object in the tree with:
-# SelectorInstance.SelectOther = True
-# ==============================================================================

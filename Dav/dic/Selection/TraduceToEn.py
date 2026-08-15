@@ -19,12 +19,57 @@ from .selection import selection
 from .ayuda import ayuda
 
 TraduceToEn = {
+    # next
+    "advance": selection["next"],
+    "forward": selection["next"],
+    "skip": selection["next"],
     "next": selection["next"],
     "next object": selection["next"],
     "next item": selection["next"],
     "select next": selection["next"],
     "select next object": selection["next"],
     "object next": selection["next"],
+
+    # previous
+    "back": selection["previous"],
+    "go back": selection["previous"],
+    "previous": selection["previous"],
+    "previous object": selection["previous"],
+    "previous item": selection["previous"],
+    "select previous": selection["previous"],
+    "select previous object": selection["previous"],
+    "object previous": selection["previous"],
+
+    # selectall
+    "all": selection["selectall"],
+    "everything": selection["selectall"],
+    "select all": selection["selectall"],
+    "select all objects": selection["selectall"],
+    "select everything": selection["selectall"],
+
+    # deselectall
+    "none": selection["deselectall"],
+    "nothing": selection["deselectall"],
+    "remove": selection["deselectall"],
+    "uncheck": selection["deselectall"],
+    "uncheck all": selection["deselectall"],
+    "deselect": selection["deselectall"],
+    "deselect all": selection["deselectall"],
+    "clear selection": selection["deselectall"],
+    "unselect": selection["deselectall"],
+    "clear": selection["deselectall"],
+
+    # current
+    "which": selection["current"],
+    "this": selection["current"],
+    "current": selection["current"],
+    "current object": selection["current"],
+    "which object": selection["current"],
+
+    # count
+    "how many": selection["count"],
+    "count": selection["count"],
+    "how many objects": selection["count"],
 
     "help": ayuda,
 }
