@@ -16,8 +16,60 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+"""English spoken-word mapping for the Sketcher Geometry dictionary."""
+
+from .geometry import geometry
 
 TraduceToEn = {
+    # Geometry submenus
+    "line":                   geometry["line"],
+    "straight line":          geometry["line"],
 
+    "polyline":               geometry["polyline"],
+    "multi line":             geometry["polyline"],
+
+    "rectangle":              geometry["rectangle"],
+    "box":                    geometry["rectangle"],
+
+    "circle":                 geometry["circle"],
+
+    "arc":                    geometry["arc"],
+
+    "arc slot":               geometry["arc_slot"],
+
+    "ellipse":                geometry["ellipse"],
+
+    "polygon":                geometry["polygon"],
+
+    "hexagon":                geometry["hexagon"],
+
+    "heptagon":               geometry["heptagon"],
+
+    "bspline":                geometry["bspline"],
+    "spline":                 geometry["bspline"],
+
+    "tools":                  geometry["tools"],
+    "bspline tools":          geometry["tools"],
+
+    # Sketch controls
+    "new":                    geometry["new"],
+    "new sketch":             geometry["new"],
+    "create sketch":          geometry["new"],
+
+    "edit":                   geometry["edit"],
+    "edit sketch":            geometry["edit"],
+
+    "attach":                 geometry["attach"],
+    "map sketch":             geometry["attach"],
+
+    "grid":                   geometry["grid"],
+
+    "stop":                   geometry["stop"],
+
+    "leave":                  geometry["leave"],
+    "exit sketch":            geometry["leave"],
+
+    "help":                   geometry["help"],
+    "info":                   geometry["help"],
+    "options":                geometry["help"],
 }
