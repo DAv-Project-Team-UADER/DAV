@@ -14,4 +14,8 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .root import root
+
+def ayuda():
+    print('Comandos disponibles en root:')
+    print('  root      - Selecciona el punto raíz/origen del boceto | Req: Sketch en edición')
+    print('  origin    - Alias del punto raíz/origen del boceto | Req: Sketch en edición')
