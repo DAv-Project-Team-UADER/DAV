@@ -21,6 +21,7 @@ class PromptVoiceRouter:
         """Register a prompt as the active voice input target."""
         with cls._Lock:
             cls._ActivePrompt = Prompt
+        cls._ApplyPromptGrammar(Prompt)
 
     @classmethod
     def ClearActivePrompt(cls, Prompt: Any | None = None) -> None:
@@ -28,6 +29,7 @@ class PromptVoiceRouter:
         with cls._Lock:
             if Prompt is None or cls._ActivePrompt is Prompt:
                 cls._ActivePrompt = None
+        cls._RestoreCadGrammar()
 
     @classmethod
     def HasActivePrompt(cls) -> bool:
@@ -56,6 +58,32 @@ class PromptVoiceRouter:
 
         cls._RunOnMainThread(_run)
         return True
+
+    @staticmethod
+    def _ApplyPromptGrammar(Prompt: Any) -> None:
+        getter = getattr(Prompt, "VoiceGrammarPhrases", None)
+        phrases = getter() if callable(getter) else None
+        if not phrases:
+            return
+        try:
+            from speech.dav_voice_service import DavVoiceService
+
+            DavVoiceService.get().set_grammar(phrases)
+        except Exception:
+            pass
+
+    @staticmethod
+    def _RestoreCadGrammar() -> None:
+        try:
+            from speech.dav_voice_service import DavVoiceService
+
+            service = DavVoiceService.get()
+            adapter = getattr(service, "_cad_adapter", None)
+            browser = getattr(adapter, "_browser", None) if adapter is not None else None
+            if browser is not None and hasattr(browser, "GetSpokenPhrases"):
+                service.set_grammar(browser.GetSpokenPhrases())
+        except Exception:
+            pass
 
     @staticmethod
     def _RunOnMainThread(Function) -> None:

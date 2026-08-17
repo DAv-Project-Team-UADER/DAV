@@ -191,6 +191,30 @@ class SpokenNumberParser:
         return normalized.replace(",", ".")
 
     @classmethod
+    def GrammarPhrases(cls) -> list[str]:
+        """Phrases Vosk may hear while a numeric prompt is open.
+
+        CAD navigation grammar does not include number words, so "cinco" or
+        "cero" are never recognized until this list replaces it.
+        """
+        phrases: set[str] = {"[unk]"}
+        numbers = list(cls.DigitWords.keys()) + [str(index) for index in range(0, 11)]
+        confirms = list(cls.ConfirmationWords)
+        extras = (
+            list(cls.CancellationWords)
+            + list(cls.DecimalWords)
+            + list(cls.NegativeWords)
+        )
+        for item in numbers + confirms + extras:
+            cleaned = item.strip().lower()
+            if cleaned:
+                phrases.add(cleaned)
+        for number in numbers:
+            for confirm in confirms:
+                phrases.add(f"{number} {confirm}".strip().lower())
+        return sorted(phrases)
+
+    @classmethod
     def _TokenToNumericText(cls, Token: str) -> str | None:
         if Token in cls.DigitWords:
             return cls.DigitWords[Token]

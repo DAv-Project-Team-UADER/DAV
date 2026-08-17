@@ -22,24 +22,43 @@ class FloatInputPrompt(BaseInputPrompt):
     ) -> None:
         super().__init__(Title, Message, Parent)
 
+    def VoiceGrammarPhrases(self) -> list[str]:
+        return SpokenNumberParser.GrammarPhrases()
+
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Parse final recognized text and accept it as a float when valid."""
-        self.SetHeardText(Text)
         tokens = SpokenNumberParser.Tokenize(Text)
 
         if self._HasCancellation(tokens):
             return self.Cancel()
 
-        if not self._HasConfirmation(tokens):
+        combined = self._CombineWithPrevious(Text, tokens)
+        self.SetHeardText(combined)
+
+        if not self._HasConfirmation(SpokenNumberParser.Tokenize(combined)):
             self.SetStatus("Waiting for enter or send...")
             return self.GetResult()
 
         try:
-            value = SpokenNumberParser.ParseFloat(Text)
+            value = SpokenNumberParser.ParseFloat(combined)
         except ValueError as error:
             return self.Fail(str(error))
 
         return self.AcceptValue(value)
+
+    def _CombineWithPrevious(self, Text: str, Tokens: list[str]) -> str:
+        previous = self.GetCurrentText()
+        if not previous or previous == Text:
+            return Text
+        number_tokens = [
+            token
+            for token in Tokens
+            if token not in SpokenNumberParser.ConfirmationWords
+            and token not in SpokenNumberParser.CancellationWords
+        ]
+        if self._HasConfirmation(Tokens) and not number_tokens:
+            return f"{previous} {Text}".strip()
+        return Text
 
     @staticmethod
     def _HasConfirmation(Tokens: list[str]) -> bool:
