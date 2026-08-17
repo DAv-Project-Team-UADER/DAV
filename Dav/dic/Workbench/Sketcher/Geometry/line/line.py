@@ -13,8 +13,8 @@ def create_line_with_objects():
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
-def create_by_points_with_objects():
-    create_by_points()
+def create_by_points_with_objects(x1: float, y1: float, x2: float, y2: float) -> None:
+    create_by_points(x1, y1, x2, y2)
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
