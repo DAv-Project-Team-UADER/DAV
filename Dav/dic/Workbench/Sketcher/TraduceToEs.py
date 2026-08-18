@@ -103,9 +103,9 @@ TraduceToEs = {
    "salir croquis": sketcher["leave"],
    "cerrar croquis": sketcher["leave"],
 
-   "cancelaredit": sketcher["cancelediting"],
    "cancelar edición": sketcher["cancelediting"],
    "detener edición": sketcher["cancelediting"],
+   "cancelar": sketcher["cancelediting"],
 
    # Geometría de Construcción
    "alternar construcción": _toggle_construction,
@@ -169,7 +169,8 @@ TraduceToEs = {
 
    "chaflán": sketcher["chamfer"],
    "crear chaflán": sketcher["chamfer"],
-   "chanflear": sketcher["chamfer"],
+   "chaflanar": sketcher["chamfer"],
+   "biselar": sketcher["chamfer"],
 
 
   "ayuda": sketcher['help'],

@@ -11,6 +11,7 @@ _DAV_TOOLBAR_COMMANDS = (
     "DAV_OpenPreferences",
     "DAV_StartVoice",
     "DAV_StopVoice",
+    "DAV_ShowPanel",
 )
 
 
@@ -77,7 +78,6 @@ def setup_workbench(workbench) -> None:
         apply_dav_toolbar(workbench)
         _schedule_autoload_workbench()
         _schedule_dav_ui_bootstrap()
-        _schedule_interfaz_dav_launch()
         _schedule_toolbar_refresh()
         _schedule_report_view()
         _schedule_settings_watcher()
@@ -127,27 +127,6 @@ def _schedule_dav_ui_bootstrap() -> None:
             App.Console.PrintWarning("[DAV] No se pudo aplicar ajustes de ventana.\n")
 
     QTimer.singleShot(250, _apply_ui)
-
-
-def _schedule_interfaz_dav_launch() -> None:
-    """Lanza la interfaz grafica flotante de DAV (InterfazDAV/main.py)."""
-    if os.environ.get("DAV_AUTO_LAUNCH_INTERFAZ") == "0":
-        return
-    try:
-        from PySide6.QtCore import QTimer
-    except ImportError:
-        from PySide2.QtCore import QTimer  # type: ignore[no-redef]
-
-    def _launch() -> None:
-        try:
-            dav_commands = importlib.import_module("scr.gui.dav_commands")
-            dav_commands._launch_interfaz_dav()
-        except Exception:
-            import FreeCAD as App
-
-            App.Console.PrintWarning("[DAV] No se pudo lanzar la InterfazDAV automatica.\n")
-
-    QTimer.singleShot(800, _launch)
 
 
 def _force_show_dav_toolbar() -> None:

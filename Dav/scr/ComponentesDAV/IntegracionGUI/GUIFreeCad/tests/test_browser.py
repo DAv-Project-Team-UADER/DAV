@@ -22,8 +22,11 @@ from typing import Any
 
 GUI_ROOT = Path(__file__).resolve().parents[1]
 def _find_repo_root(gui_root: Path) -> Path:
+    # Mismo criterio que integration/dav_paths.py: Dav/scr/ se identifica por
+    # validation/ y selection/, no por PruebaIntegracion/ (retirado a
+    # Dav/docs/prototipos/).
     for parent in (gui_root.parents[1], gui_root.parents[2], gui_root.parents[0]):
-        if (parent / "PruebaIntegracion").is_dir():
+        if (parent / "validation").is_dir() or (parent / "selection").is_dir():
             return parent
     return gui_root.parents[1]
 
@@ -42,6 +45,20 @@ def _install_freecad_stub() -> None:
         sys.modules["FreeCADGui"] = gui
     if "FreeCAD" not in sys.modules:
         sys.modules["FreeCAD"] = types.ModuleType("FreeCAD")
+    app = sys.modules["FreeCAD"]
+    if not hasattr(app, "ActiveDocument"):
+        app.ActiveDocument = None
+    class Vector:
+        def __init__(self, *args, **kwargs): pass
+    class Placement:
+        def __init__(self, *args, **kwargs): pass
+    class Rotation:
+        def __init__(self, *args, **kwargs): pass
+    class Matrix:
+        def __init__(self, *args, **kwargs): pass
+    for attr, cls in [("Vector", Vector), ("Placement", Placement), ("Rotation", Rotation), ("Matrix", Matrix)]:
+        if not hasattr(app, attr):
+            setattr(app, attr, cls)
 
 
 # ---------------------------------------------------------------------------
@@ -97,14 +114,27 @@ class _MockDictionaryLoader:
         def _show_context() -> None:
             return None
 
+        def _send() -> None:
+            return None
+
+        def _cancel() -> None:
+            return None
+
         self._nav_actions: dict[str, Any] = {
             "up": _go_up,
             "show_context": _show_context,
+            "send": _send,
+            "cancel": _cancel,
         }
         self._nav_translate_es = {
             "subir":    self._nav_actions["up"],
             "volver":   self._nav_actions["up"],
             "contexto": self._nav_actions["show_context"],
+            # enviar/cancelar salen de NavCommands como cualquier otro comando,
+            # ya no estan hardcodeados en GetSpokenPhrases.
+            "enviar":   self._nav_actions["send"],
+            "aceptar":  self._nav_actions["send"],
+            "cancelar": self._nav_actions["cancel"],
         }
 
     def LoadBaseModuleDict(self) -> dict[str, Any]:
@@ -254,6 +284,43 @@ class TestBrowserDeveloper2(unittest.TestCase):
         browser = Browser(dictionary_root="/nonexistent/path", prefs=p)
         self.assertEqual(browser.BaseContext, [])
         self.assertEqual(browser.Context, [])
+
+    def test_get_spoken_phrases(self) -> None:
+        """GetSpokenPhrases returns current context, base, nav commands, and [unk]."""
+        browser, _ = self._make_browser()
+        phrases = browser.GetSpokenPhrases()
+        self.assertIn("explorador", phrases)
+        self.assertIn("subir", phrases)
+        self.assertIn("enviar", phrases)
+        self.assertIn("cancelar", phrases)
+        self.assertIn("[unk]", phrases)
+
+    def test_nav_words_come_from_dictionary(self) -> None:
+        """Confirm/cancel words are read from NavCommands, not hardcoded."""
+        browser, _ = self._make_browser()
+        self.assertEqual(browser.GetNavWords("send"), {"enviar", "aceptar"})
+        self.assertEqual(browser.GetNavWords("cancel"), {"cancelar"})
+        self.assertEqual(browser.GetNavWords("up"), {"subir", "volver"})
+        # Un sentinel inexistente no rompe: devuelve vacio.
+        self.assertEqual(browser.GetNavWords("nope"), set())
+
+    def test_context_change_callback_fires(self) -> None:
+        """on_context_change callback fires when descending or ascending context."""
+        from core.language_code import LanguageCode
+        from core.preferences import Preferences
+        from navigation.browser import Browser
+
+        changes: list[int] = []
+        p = Preferences()
+        p.SetLanguage = LanguageCode.Es
+        b = Browser(prefs=p, _loader=_MockDictionaryLoader(), on_context_change=lambda: changes.append(1))
+        # Initial ResetFromBase in __init__ fires callback
+        self.assertGreaterEqual(len(changes), 1)
+
+        count_before = len(changes)
+        b.ProcessPhrase("explorador")
+        b.ProcessPhrase("imprimir")
+        self.assertGreater(len(changes), count_before)
 
 
 # ---------------------------------------------------------------------------

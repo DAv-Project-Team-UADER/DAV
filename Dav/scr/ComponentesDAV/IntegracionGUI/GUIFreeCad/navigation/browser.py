@@ -77,11 +77,13 @@ class Browser:
         prefs: Preferences | None = None,
         on_execute: Callable[[ContextEntry], None] | None = None,
         on_descend: Callable[[ContextEntry], None] | None = None,
+        on_context_change: Callable[[], None] | None = None,
         _loader: DictionaryLoader | None = None,
     ) -> None:
         self._prefs = prefs or preferences
         self._on_execute = on_execute
         self._on_descend = on_descend
+        self._on_context_change = on_context_change
         self._loader = _loader or DictionaryLoader(
             dictionary_root or self._DefaultDictionaryRoot()
         )
@@ -170,6 +172,73 @@ class Browser:
             lines.append("  (sin comandos en este contexto)")
         return "\n".join(lines)
 
+    def GetNavWords(self, action: str) -> set[str]:
+        """Return the spoken words bound to a NavCommands sentinel.
+
+        Args:
+            action: Sentinel key in ``NavCommands/NavActions.py``
+                (``up``, ``show_context``, ``send``, ``cancel``).
+
+        Returns:
+            Every phrase mapped to that sentinel in the active language.
+            Empty if the dictionary is missing, so callers must tolerate it.
+
+        Example::
+
+            send_words = browser.GetNavWords("send")   # {'enviar', 'aceptar', ...}
+        """
+        target = self._nav_actions.get(action)
+        if target is None:
+            return set()
+        return {
+            spoken.strip().lower()
+            for spoken, value in self._nav_translate.items()
+            if value is target and spoken
+        }
+
+    def GetSpokenPhrases(self) -> list[str]:
+        """Return all valid spoken phrases for the active navigation context.
+
+        Includes current Context entries, BaseContext entries, NavCommands,
+        action tokens (enviar, cancelar), and '[unk]'.
+        """
+        phrases: set[str] = set()
+
+        for entry in self.Context:
+            if entry.Spoken:
+                phrases.add(entry.Spoken.strip().lower())
+            if entry.InternalKey:
+                phrases.add(entry.InternalKey.strip().lower())
+
+        for entry in self.BaseContext:
+            if entry.Spoken:
+                phrases.add(entry.Spoken.strip().lower())
+            if entry.InternalKey:
+                phrases.add(entry.InternalKey.strip().lower())
+
+        if hasattr(self, "_base_translate") and isinstance(self._base_translate, dict):
+            for spoken in self._base_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
+
+        if hasattr(self, "_nav_translate") and isinstance(self._nav_translate, dict):
+            for spoken in self._nav_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
+
+        # enviar/cancelar ya entran arriba con el resto de _nav_translate: son
+        # comandos de NavCommands como "subir". Solo queda fijo [unk], que es el
+        # comodin de Vosk para absorber ruido, no una palabra del diccionario.
+        phrases.add("[unk]")
+        return sorted(phrases)
+
+    def _NotifyContextChanged(self) -> None:
+        if getattr(self, "_on_context_change", None) is not None:
+            try:
+                self._on_context_change()
+            except Exception as e:
+                print(f"[DAV-Browser] Error in on_context_change callback: {e}")
+
     def ResetFromBase(self) -> None:
         """Reload BaseContext and Context from base.py (current language)."""
         self._language = self._prefs.SetLanguage
@@ -191,6 +260,7 @@ class Browser:
         self.BaseContext = self._BuildBaseContextEntries()
         self.Context = self._BuildContextForFrame(self._stack[-1])
         self.OriginalContext = None
+        self._NotifyContextChanged()
 
     def ProcessPhrase(self, spoken: str) -> BrowserResult:
         """
@@ -270,6 +340,7 @@ class Browser:
         parent = self._stack[-1]
         self.Context = self._BuildContextForFrame(parent)
         self.OriginalContext = None
+        self._NotifyContextChanged()
         return parent.InternalName
 
     # ------------------------------------------------------------------
@@ -378,6 +449,11 @@ class Browser:
             return a.keys() == b.keys()
         return False
 
+    #: Alias publico de _SameTarget. Quien recorre Context desde afuera (la GUI,
+    #: el adapter) necesita deduplicar igual que el Browser; sin esto terminan
+    #: llamando al privado, como venia haciendo BrowserVoiceAdapter.
+    IsSameTarget = _SameTarget
+
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
     ) -> str:
@@ -444,6 +520,7 @@ class Browser:
         if self._on_descend is not None:
             self._on_descend(entry)
             
+        self._NotifyContextChanged()
         return True
 
     def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:
@@ -463,6 +540,7 @@ class Browser:
                     self._stack = temp_stack
                     self.Context = parent_context
                     self.OriginalContext = parent_context
+                    self._NotifyContextChanged()
                     return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
                 elif entry.IsSubContext():
                     self._stack = temp_stack

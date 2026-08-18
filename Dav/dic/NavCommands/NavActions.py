@@ -17,12 +17,12 @@
 
 """Sentinel actions for Browser navigation (not FreeCAD commands).
 
-Browser reacts to these three verbs on every phrase, before looking the
-phrase up in the current spoken context: go up one level, and describe
-where the user currently is. They are represented as distinct no-arg
-callables (not raw strings) so Browser can match them by identity and the
-spoken words stay entirely in NavCommands/TraduceTo*.py — no word is
-hardcoded in browser.py.
+Browser reacts to these verbs on every phrase, before looking the phrase up
+in the current spoken context: go up one level, describe where the user
+currently is, and confirm or discard the phrase being dictated. They are
+represented as distinct no-arg callables (not raw strings) so Browser can
+match them by identity and the spoken words stay entirely in
+NavCommands/TraduceTo*.py — no word is hardcoded in browser.py.
 """
 
 
@@ -36,7 +36,24 @@ def ShowContext() -> None:
     return None
 
 
+def Send() -> None:
+    """Sentinel: confirm the phrase dictated so far.
+
+    Cierra la frase que el usuario venia dictando (el ``enviar`` al final de
+    «archivo nuevo enviar»). Vive aca, y no en el codigo, para que agregar un
+    sinonimo sea editar un TraduceTo*.py como con cualquier otro comando.
+    """
+    return None
+
+
+def Cancel() -> None:
+    """Sentinel: discard the phrase in progress."""
+    return None
+
+
 NavActions = {
     "up":            GoUp,
     "show_context":  ShowContext,
+    "send":          Send,
+    "cancel":        Cancel,
 }

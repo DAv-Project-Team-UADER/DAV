@@ -29,6 +29,14 @@ def _chamfer():
     f.Base = sel[0]
     sel[0].Visibility = False
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        try:
+            from selection.createobjects import CreateObjects
+        except ImportError:
+            from Dav.scr.selection.createobjects import CreateObjects
+    CreateObjects(f.Name, Is3D=True).Execute()
 
 
 part_chamfer = {

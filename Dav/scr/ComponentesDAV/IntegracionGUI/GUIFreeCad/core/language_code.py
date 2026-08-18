@@ -35,9 +35,9 @@ class LanguageCode(Enum):
 
     @property
     def AlternateTranslateSuffixes(self) -> tuple[str, ...]:
-        """Fallback stems (some folders use TraduceToPtBr)."""
+        """Fallback stems (some folders use TraduceToPt or TraduceToPtBr)."""
         if self is LanguageCode.PT:
-            return ("TraduceToPT", "TraduceToPtBr")
+            return ("TraduceToPT", "TraduceToPt", "TraduceToPtBr")
         if self is LanguageCode.En:
             return ("TraduceToEn",)
         return ("TraduceToEs",)

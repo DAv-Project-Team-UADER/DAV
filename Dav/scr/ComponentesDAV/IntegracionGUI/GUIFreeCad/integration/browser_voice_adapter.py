@@ -4,11 +4,13 @@ BrowserVoiceAdapter: connects Vosk spoken phrases to the new Browser navigation 
 
 from __future__ import annotations
 
+import io
+import sys
 import unicodedata
 from typing import Any
 
 from navigation.browser import Browser
-from integration.voice_history import append_voice_history, export_context_state
+from integration.voice_history import append_voice_history
 
 
 def _normalize(text: str) -> str:
@@ -17,8 +19,47 @@ def _normalize(text: str) -> str:
     return " ".join(stripped.lower().split())
 
 
+# Respaldo minimo por si NavCommands no se pudo cargar (diccionario ausente o
+# roto). Lo normal es que las palabras salgan de NavCommands/TraduceTo*.py via
+# Browser.GetNavWords, para poder sumar sinonimos sin tocar codigo.
 _SEND_WORDS = {"enviar", "send"}
 _CANCEL_WORDS = {"cancelar", "cancel"}
+
+
+class _CapturedOutput:
+    """Captura lo que un comando escribe con ``print`` mientras corre.
+
+    Los diccionarios imprimen su salida a stdout (988 llamadas repartidas en
+    123 archivos), que en FreeCAD termina en el Report View y no en el panel
+    DAV. Capturarlo aca permite reenviarlo sin tocar cada comando.
+
+    Restaura ``sys.stdout`` incluso si el comando lanza, para no dejar la
+    salida secuestrada.
+
+    Example::
+
+        with _CapturedOutput() as captured:
+            browser.ProcessPhrase(token)
+        for line in captured.Lines():
+            panel.AddToHistory(line)
+    """
+
+    def __init__(self) -> None:
+        self._buffer = io.StringIO()
+        self._previous = None
+
+    def __enter__(self) -> "_CapturedOutput":
+        self._previous = sys.stdout
+        sys.stdout = self._buffer
+        return self
+
+    def __exit__(self, *_exc) -> bool:
+        sys.stdout = self._previous
+        return False
+
+    def Lines(self) -> list[str]:
+        """Lineas capturadas, sin las vacias."""
+        return [line for line in self._buffer.getvalue().splitlines() if line.strip()]
 
 
 class BrowserVoiceAdapter:
@@ -27,6 +68,16 @@ class BrowserVoiceAdapter:
     def __init__(self, browser: Browser) -> None:
         self._browser = browser
         self._stop_requested = False
+        self._browser._on_context_change = self._update_grammar
+        self._update_grammar()
+
+    def _update_grammar(self) -> None:
+        try:
+            from speech.dav_voice_service import DavVoiceService
+            phrases = self._browser.GetSpokenPhrases()
+            DavVoiceService.get().set_grammar(phrases)
+        except Exception as e:
+            print(f"[BrowserVoiceAdapter] Error updating voice service grammar: {e}")
 
     @property
     def explorador(self) -> Any:
@@ -42,6 +93,9 @@ class BrowserVoiceAdapter:
         normalized = _normalize(raw_phrase)
         print(f"[BrowserVoiceAdapter] Received phrase: '{raw_phrase}'")
         append_voice_history(f"[DAV] Voz: {raw_phrase}")
+        # OJO: aca estamos en el hilo del microfono. Tocar un widget Qt desde
+        # aca es access violation (crash duro, no excepcion de Python), por eso
+        # todo lo que llegue a la GUI va dentro de run_on_main_thread mas abajo.
 
         token = self._extract_token(normalized)
         if token is None:
@@ -54,16 +108,35 @@ class BrowserVoiceAdapter:
         _NAV_ACTIONS = {"descend", "back", "base_jump"}
 
         def _run() -> None:
-            result = self._browser.ProcessPhrase(token)
+            # Ya en el hilo principal: recien aca se puede tocar la GUI.
+            self._publish_line(f"[DAV] Voz: {raw_phrase}", recognized=raw_phrase)
+
+            # Los comandos del diccionario (los ayuda.py sobre todo) escriben
+            # su salida con print: son 988 llamadas en 123 archivos, asi que en
+            # vez de tocarlas una por una se captura el stdout mientras corre
+            # el comando y se vuelca al panel. Sin esto la ayuda aparecia solo
+            # en el Report View de FreeCAD.
+            with _CapturedOutput() as captured:
+                result = self._browser.ProcessPhrase(token)
+
+            for line in captured.Lines():
+                print(line)
+                self._publish_line(line)
+
             if result.Success:
                 print(f"[DAV Browser] Success ({result.Action}): {result.Message}")
                 append_voice_history(f"[DAV] OK ({result.Action}): {result.Message}")
+                self._publish_line(f"[DAV] OK ({result.Action}): {result.Message}")
                 if result.Action in _NAV_ACTIONS:
-                    print(self._browser.DescribeContext())
-                    append_voice_history(self._browser.DescribeContext())
+                    described = self._browser.DescribeContext()
+                    print(described)
+                    append_voice_history(described)
+                    for line in described.splitlines():
+                        self._publish_line(line)
             else:
                 print(f"[DAV Browser] Ignored: {result.Message}")
                 append_voice_history(f"[DAV] Ignorado: {result.Message}")
+                self._publish_line(f"[DAV] Ignorado: {result.Message}", unknown=True)
             self._export_state()
 
         try:
@@ -73,33 +146,77 @@ class BrowserVoiceAdapter:
             _run()
 
     def _export_state(self) -> None:
-        submenus = []
-        commands = []
-        seen_targets = []
-        for entry in self._browser.Context:
-            if any(self._browser._SameTarget(entry.Target, t) for t in seen_targets):
-                continue
-            seen_targets.append(entry.Target)
-            item = {"spoken": entry.Spoken, "key": entry.InternalKey}
-            if entry.IsSubContext():
-                submenus.append(item)
-            elif entry.IsCallable():
-                commands.append(item)
-                
-        state = {
-            "context_path": self._browser.ContextPath,
-            "submenus": submenus,
-            "commands": commands
-        }
-        export_context_state(state)
+        """Refresca el panel con el contexto activo.
+
+        Antes serializaba el contexto a context_state.json para que lo leyera
+        la ventana externa por polling. Esa ventana ya no existe (etapa 4) y
+        nadie leia el archivo, asi que solo se publica al panel acoplado.
+        """
+        self._publish_to_dock()
 
     @staticmethod
-    def _extract_token(normalized: str):
+    def _on_gui_thread() -> bool:
+        """True si estamos en el hilo de la GUI.
+
+        Tocar un widget Qt desde otro hilo es access violation: crashea el
+        proceso entero sin pasar por ningun except de Python. Se comprueba
+        antes de publicar en vez de confiar en el llamador.
+        """
+        try:
+            from PySide6.QtCore import QCoreApplication, QThread
+        except ImportError:
+            return False
+        app = QCoreApplication.instance()
+        if app is None:
+            return False
+        return QThread.currentThread() is app.thread()
+
+    @classmethod
+    def _publish_line(cls, line: str, *, recognized: str = "", unknown: bool = False) -> None:
+        """Manda una linea de historial al panel acoplado, si esta montado."""
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is None:
+            return
+        if recognized:
+            source.PublishRecognized(recognized)
+        source.PublishHistory(line, unknown)
+
+    @classmethod
+    def _publish_to_dock(cls) -> None:
+        """Refresca el panel acoplado, si esta montado."""
+        if not cls._on_gui_thread():
+            return
+        try:
+            from integration.dav_dock_panel import get_source
+        except ImportError:
+            return
+        source = get_source()
+        if source is not None:
+            source.PublishContext()
+            source.PublishTree()
+
+    def _SendWords(self) -> set[str]:
+        """Palabras de confirmacion del idioma activo, con respaldo fijo."""
+        return self._browser.GetNavWords("send") or _SEND_WORDS
+
+    def _CancelWords(self) -> set[str]:
+        """Palabras de cancelacion del idioma activo, con respaldo fijo."""
+        return self._browser.GetNavWords("cancel") or _CANCEL_WORDS
+
+    def _extract_token(self, normalized: str):
         """Return command token, False for cancel, None to ignore."""
-        for word in _CANCEL_WORDS:
+        # Las palabras salen de NavCommands/TraduceTo*.py, no de una lista fija:
+        # agregar un sinonimo es editar el diccionario, igual que "subir".
+        for word in self._CancelWords():
             if normalized == word or normalized.endswith(" " + word):
                 return False
-        for word in _SEND_WORDS:
+        for word in self._SendWords():
             if normalized.endswith(" " + word):
                 token = normalized[: -(len(word) + 1)].strip()
                 return token or None

@@ -1,4 +1,4 @@
-"""Register DAV voice commands and hooks from GUIFreeCad (minimal touch to PruebaIntegracion)."""
+"""Register DAV voice commands and hooks from GUIFreeCad."""
 
 from __future__ import annotations
 

@@ -23,6 +23,7 @@ Base dictionary — top-level commands available at all times.
   'stdview'         → vistas estándar, cámara, apariencia (submenu)
   'workbench'       → PartDesign, Draft, Sketcher, Part, Assembly, TechDraw (submenu)
   'lineattributes'  → atributos de línea (submenu)
+  'selection'       → navegación de objetos por voz (submenu)
   'preferences'     → abre el diálogo de preferencias DAV
 """
 
@@ -30,6 +31,7 @@ from Explorer.Explorer import explorer
 from StdView.StdView import StdView
 from Workbench.workbench import workbench
 from LineAttributes.LineAttributes import LineAttributes
+from Selection.selection import selection
 from integration.launch_preferences import open_preferences
 
 Base = {
@@ -37,5 +39,6 @@ Base = {
     "stdview":        StdView,
     "workbench":      workbench,
     "lineattributes": LineAttributes,
+    "selection":      selection,
     "preferences":    open_preferences,
 }

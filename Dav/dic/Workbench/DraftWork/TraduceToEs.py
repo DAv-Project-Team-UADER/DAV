@@ -50,9 +50,14 @@ TraduceToEs = {
     'ovalo':      draft['ellipse'],
     'óvalo':      draft['ellipse'],
 
-    'facebinder': draft['facebinder'],
-    'binder':     draft['facebinder'],
     'aglutinante': draft['facebinder'],
+    'unir caras': draft['facebinder'],
+    'union de caras': draft['facebinder'],
+
+    'colocacion de puntos': draft['pointplacement'],
+    'colocación de puntos': draft['pointplacement'],
+    'punto especifico':    draft['pointplacement'],
+    'punto específico':    draft['pointplacement'],
 
     "ayuda":                draft["help"],
     "información":          draft["help"],

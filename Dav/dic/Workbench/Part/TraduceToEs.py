@@ -166,7 +166,6 @@ TraduceToEs = {
     "barrer perfil": part_sweep["sweep"],
     "barrer trayectoria": part_sweep["sweep"],
     "barrer por trayectoria": part_sweep["sweep"],
-    "sweep": part_sweep["sweep"],
 
     "ayuda": Part['help'],
     "información": Part['help'],

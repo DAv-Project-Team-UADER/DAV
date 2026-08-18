@@ -29,6 +29,7 @@ from .point.point import point
 from .square.square import square
 from .triangle.triangle import triangle
 from .oblong.oblong import oblong
+from .Root.root import root
 from .text.text import text
 from .slot.slot import slot
 from _lenient import LenientDict
@@ -58,6 +59,7 @@ sketcher.update({'constraints': constraints})
 sketcher.update({'external':    external})
 sketcher.update({'oblong':      oblong})
 sketcher.update({'point':       point})
+sketcher.update({'root':        root})
 sketcher.update({'select':      select})
 sketcher.update({'slot':        slot})
 sketcher.update({'square':      square})
