@@ -10,17 +10,23 @@ from .ayuda import ayuda
 
 def clone():
     Gui.runCommand("Draft_Clone", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def sketch():
     Gui.runCommand("Draft_Draft2Sketch", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def offset():
     Gui.runCommand("Draft_Offset", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 modify = {

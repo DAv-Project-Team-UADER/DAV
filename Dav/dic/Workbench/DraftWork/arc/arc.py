@@ -10,12 +10,16 @@ from .ayuda import ayuda
 
 def center():
     Gui.runCommand("Draft_Arc", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def points():
     Gui.runCommand("Draft_Arc_3Points", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 arc = {

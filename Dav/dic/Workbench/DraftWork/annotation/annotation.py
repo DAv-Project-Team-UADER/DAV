@@ -10,17 +10,23 @@ from .ayuda import ayuda
 
 def text():
     Gui.runCommand("Draft_Text", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def shapestring():
     Gui.runCommand("Draft_ShapeString", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def label():
     Gui.runCommand("Draft_Label", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 annotation = {

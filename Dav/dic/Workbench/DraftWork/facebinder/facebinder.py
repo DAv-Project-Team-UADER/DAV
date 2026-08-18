@@ -10,7 +10,9 @@ from .ayuda import ayuda
 
 def create():
     Gui.runCommand("Draft_Facebinder", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 facebinder = {
