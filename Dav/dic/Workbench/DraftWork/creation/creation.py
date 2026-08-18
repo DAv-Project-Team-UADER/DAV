@@ -26,17 +26,23 @@ from .ayuda import ayuda
 
 def point():
     Gui.runCommand("Draft_Point", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def polygon():
     Gui.runCommand("Draft_Polygon", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def rectangle():
     Gui.runCommand("Draft_Rectangle", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 creation = {

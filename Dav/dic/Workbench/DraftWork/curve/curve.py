@@ -10,17 +10,23 @@ from .ayuda import ayuda
 
 def bezier():
     Gui.runCommand("Draft_BezCurve", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def bspline():
     Gui.runCommand("Draft_BSpline", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def cubic():
     Gui.runCommand("Draft_CubicBezCurve", 0)
-    CreateObjects(Is3D=False).Execute(App.ActiveDocument.ActiveObject)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 curve = {

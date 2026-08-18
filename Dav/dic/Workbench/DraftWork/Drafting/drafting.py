@@ -19,7 +19,7 @@ def create_wire_objects():
         return
 
     obj = doc.ActiveObject
-    CreateObjects(obj.Name, Is3D=False).execute()
+    CreateObjects(ObjectName=obj.Name, Is3D=False).Execute()
 
 
 drafting = {

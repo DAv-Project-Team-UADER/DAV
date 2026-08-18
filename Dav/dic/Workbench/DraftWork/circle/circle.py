@@ -10,8 +10,9 @@ from .ayuda import ayuda
 def center():
     Gui.runCommand("Draft_Circle", 0)
 
-    obj = App.ActiveDocument.ActiveObject
-    CreateObjects(Is3D=False).Execute(obj)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 circle = {
     "center": center,
