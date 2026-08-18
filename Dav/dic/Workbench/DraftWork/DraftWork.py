@@ -27,6 +27,7 @@ from .facebinder.facebinder import facebinder
 from .Drafting.drafting import drafting
 from .creation.creation import creation
 from .modification.modification import modification
+from .pointplacement.pointplacement import pointplacement
 from .ayuda import ayuda
 from _lenient import LenientDict
 
@@ -35,18 +36,19 @@ from _lenient import LenientDict
 # submenús (no aplanados), igual que Explorer/Explorer.py. Aplanarlos hacía
 # que la clave 'center' de arc/circle fuera pisada por la de ellipse.
 draft = {}
-draft.update({'annotation':   annotation})
-draft.update({'arc':          arc})
-draft.update({'curve':        curve})
-draft.update({'circle':       circle})
-draft.update({'array':        array})
-draft.update({'modify':       modify})
-draft.update({'dimension':    dimension})
-draft.update({'ellipse':      ellipse})
-draft.update({'facebinder':   facebinder})
-draft.update({'drafting':     drafting})
-draft.update({'creation':     creation})
-draft.update({'modification': modification})
+draft.update({'annotation':     annotation})
+draft.update({'arc':            arc})
+draft.update({'curve':          curve})
+draft.update({'circle':         circle})
+draft.update({'array':          array})
+draft.update({'modify':         modify})
+draft.update({'dimension':      dimension})
+draft.update({'ellipse':        ellipse})
+draft.update({'facebinder':     facebinder})
+draft.update({'drafting':       drafting})
+draft.update({'creation':       creation})
+draft.update({'modification':   modification})
+draft.update({'pointplacement': pointplacement})
 draft.update({'help': ayuda})
 
 # Tolerante a claves aún no implementadas (no rompe el contexto entero).
