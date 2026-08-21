@@ -59,6 +59,10 @@ TraduceToEs = {
     'punto especifico':    draft['pointplacement'],
     'punto específico':    draft['pointplacement'],
 
+    'conectar puntos': draft['pointconnect'],
+    'conexion de puntos': draft['pointconnect'],
+    'conexión de puntos': draft['pointconnect'],
+
     "ayuda":                draft["help"],
     "información":          draft["help"],
     "opciones":             draft["help"]
