@@ -55,6 +55,10 @@ TraduceToEn = {
     'point placement': draft['pointplacement'],
     'place point':     draft['pointplacement'],
 
+    'pointconnect': draft['pointconnect'],
+    'point connect': draft['pointconnect'],
+    'connect points': draft['pointconnect'],
+
     "help":            draft['help'],
     "info":            draft['help'],
     "options":         draft['help']

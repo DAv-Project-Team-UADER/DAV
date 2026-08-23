@@ -60,6 +60,10 @@ TraduceToPt = {
     'colocação de pontos': draft['pointplacement'],
     'posicionar ponto':    draft['pointplacement'],
 
+    'conectar pontos': draft['pointconnect'],
+    'conexao de pontos': draft['pointconnect'],
+    'conexão de pontos': draft['pointconnect'],
+
     "ajuda":             draft["help"],
     "informação":       draft["help"],
     "opções":            draft["help"]

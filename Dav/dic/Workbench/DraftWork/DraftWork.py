@@ -28,6 +28,7 @@ from .Drafting.drafting import drafting
 from .creation.creation import creation
 from .modification.modification import modification
 from .pointplacement.pointplacement import pointplacement
+from .pointconnect.pointconnect import pointconnect
 from .ayuda import ayuda
 from _lenient import LenientDict
 
@@ -49,6 +50,7 @@ draft.update({'drafting':       drafting})
 draft.update({'creation':       creation})
 draft.update({'modification':   modification})
 draft.update({'pointplacement': pointplacement})
+draft.update({'pointconnect':   pointconnect})
 draft.update({'help': ayuda})
 
 # Tolerante a claves aún no implementadas (no rompe el contexto entero).
