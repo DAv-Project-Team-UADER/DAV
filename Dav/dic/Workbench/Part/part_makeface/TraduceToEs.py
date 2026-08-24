@@ -23,11 +23,18 @@ from .part_makeface import part_makeface
 from .ayuda import ayuda
 
 TraduceToEs = {
-    "cara": part_makeface["make face"],
-    "crear cara": part_makeface["make face"],
-    "hacer cara": part_makeface["make face"],
-    "construir cara": part_makeface["make face"],
-    "generar cara": part_makeface["make face"],
+    "cara": part_makeface["makeface"],
+    "crear cara": part_makeface["makeface"],
+    "hacer cara": part_makeface["makeface"],
+    "construir cara": part_makeface["makeface"],
+    "generar cara": part_makeface["makeface"],
+    "makeface": part_makeface["makeface"],
+    "createface": part_makeface["createface"],
+
+    "upgrade": part_makeface["upgrade"],
+    "actualizar": part_makeface["upgrade"],
+    "mejora": part_makeface["upgrade"],
+    "promover": part_makeface["upgrade"],
 
     "ayuda":            part_makeface['help'],
     "información":      part_makeface['help'],

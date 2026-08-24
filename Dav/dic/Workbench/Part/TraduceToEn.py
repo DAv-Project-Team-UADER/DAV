@@ -105,9 +105,9 @@ TraduceToEn = {
     "make loft": part_loft["loft"],
     "join profiles": part_loft["loft"],
 
-    "make face": part_makeface["make face"],
-    "create face": part_makeface["make face"],
-    "face": part_makeface["make face"],
+    "make face": part_makeface["makeface"],
+    "create face": part_makeface["makeface"],
+    "face": part_makeface["makeface"],
 
     "mirror": part_mirror["mirror"],
     "reflect": part_mirror["mirror"],

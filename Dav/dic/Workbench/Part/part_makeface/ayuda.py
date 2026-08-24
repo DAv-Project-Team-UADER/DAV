@@ -16,6 +16,8 @@
 
 def ayuda():
     print('Comandos disponibles:')
-    print('  crear cara - Genera una cara desde un wire cerrado.')
-    print('                Requiere: wire cerrado seleccionado.')
-    print('                Devuelve: superficie (Face).')
+    print('  makeface / createface - Crea una cara desde el wire cerrado seleccionado.')
+    print('                           Requiere: wire cerrado seleccionado.')
+    print('                           Devuelve: superficie (Part::Feature cara).')
+    print('  upgrade               - Convierte wire cerrado a cara automáticamente.')
+    print('                           Requiere: wire cerrado seleccionado.')
