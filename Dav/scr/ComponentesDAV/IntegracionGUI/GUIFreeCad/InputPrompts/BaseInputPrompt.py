@@ -39,6 +39,7 @@ class BaseInputPrompt(QDialog):
         self._Title = Title
         self._Message = Message
         self._Result = PromptResult.Pending()
+        self._AccumulatedText = ""
         self._BuildUi()
         self.SetTitle(Title)
         self.SetMessage(Message)

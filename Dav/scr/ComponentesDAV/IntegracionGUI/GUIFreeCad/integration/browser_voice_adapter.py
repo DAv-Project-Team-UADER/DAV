@@ -62,12 +62,17 @@ class _CapturedOutput:
         return [line for line in self._buffer.getvalue().splitlines() if line.strip()]
 
 
+_ActiveAdapter: BrowserVoiceAdapter | None = None
+
+
 class BrowserVoiceAdapter:
     """Adapter to feed the raw phrase directly to the Browser's ProcessPhrase."""
 
     def __init__(self, browser: Browser) -> None:
+        global _ActiveAdapter
         self._browser = browser
         self._stop_requested = False
+        _ActiveAdapter = self
         self._browser._on_context_change = self._update_grammar
         self._update_grammar()
 
