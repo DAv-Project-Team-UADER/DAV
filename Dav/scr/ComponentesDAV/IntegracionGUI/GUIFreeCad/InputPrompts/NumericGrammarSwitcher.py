@@ -18,11 +18,12 @@ class NumericGrammarSwitcher:
 
     @staticmethod
     def ActivateNumericGrammar() -> None:
-        """Switch the Vosk grammar to numeric input words."""
+        """Switch the Vosk grammar to numeric input words for the configured language."""
         try:
             import sys
             from pathlib import Path
 
+            from core.settings import settings
             from speech.dav_voice_service import DavVoiceService
             from integration.voice_bootstrap import _resolve_dictionary_root
 
@@ -32,7 +33,7 @@ class NumericGrammarSwitcher:
 
             from Numbers.Numbers import get_numeric_grammar_phrases
 
-            phrases = get_numeric_grammar_phrases()
+            phrases = get_numeric_grammar_phrases(settings.language)
             DavVoiceService.get().set_grammar(phrases)
         except Exception:
             pass

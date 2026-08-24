@@ -40,4 +40,30 @@ TraduceToPt = {
     "vírgula":    Numbers["comma"],
     "virgula":    Numbers["comma"],
     "decimal":    Numbers["point"],
+
+    # 10-19
+    "dez":        Numbers["compound"],
+    "onze":       Numbers["compound"],
+    "doze":       Numbers["compound"],
+    "treze":      Numbers["compound"],
+    "catorze":    Numbers["compound"],
+    "quatorze":   Numbers["compound"],
+    "quinze":     Numbers["compound"],
+    "dezesseis":  Numbers["compound"],
+    "dezessete":  Numbers["compound"],
+    "dezoito":    Numbers["compound"],
+    "dezenove":   Numbers["compound"],
+
+    # Dezenas 20-90, se combinam com uma unidade seguinte: "vinte e um"
+    "vinte":      Numbers["compound"],
+    "trinta":     Numbers["compound"],
+    "quarenta":   Numbers["compound"],
+    "cinquenta":  Numbers["compound"],
+    "sessenta":   Numbers["compound"],
+    "setenta":    Numbers["compound"],
+    "oitenta":    Numbers["compound"],
+    "noventa":    Numbers["compound"],
+
+    # Conector entre dezena e unidade ("vinte e um")
+    "e":          Numbers["compound"],
 }

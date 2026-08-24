@@ -122,7 +122,12 @@ Probar estos casos en cualquiera de las funciones anteriores:
 | 3 | **Confirmar con "ok"** | Decir "ocho" → "ok" | Acepta 8.0 |
 | 4 | **Cancelar** | Decir "cancelar" | Cierra el prompt sin aceptar valor |
 | 5 | **Solo "ok"** | Decir "ok" sin decir número antes | Muestra "No value to confirm" |
-| 6 | **Número grande** | Decir "seiscientos cincuenta" → "enviar" | Verificar si acepta 650 |
+| 6 | **Número compuesto (11-19)** | Decir "trece" → "enviar" | Acepta 13.0 |
+| 6b | **Decena sola (20-90)** | Decir "cuarenta" → "enviar" | Acepta 40.0 |
+| 6c | **Decena + unidad** | Decir "treinta y dos" → "enviar" | Acepta 32.0 (probar también sin el "y": "treinta dos") |
+| 6d | **Contracción española (21-29)** | Decir "veintidós" → "enviar" | Acepta 22.0 |
+| 6e | **Dígito a dígito (respaldo)** | Decir "uno" "uno" → "enviar" | Acepta 11.0 (sigue funcionando como alternativa) |
+| 6f | **Fuera de rango (100+)** | Decir "seiscientos cincuenta" → "enviar" | NO soportado (rango actual: 0-99). "seiscientos" no está en el diccionario y se ignora en silencio: da **50**, no un error. Reportar si esto sorprende en la prueba |
 | 7 | **Dos utterances** | Decir "cinco" → "ok" | Acepta 5.0 (acumula + confirma) |
 
 ---
