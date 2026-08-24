@@ -18,7 +18,7 @@
 import additive as additive
 import ayuda as ayuda
 
-traduceToEn = {
+TraduceToEn = {
     # Pad
     "pad": additive["pad"],
     "pad feature": additive["pad"],

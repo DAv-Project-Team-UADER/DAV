@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from arcslot import arc_slot
+
+TraduceToEn = {
+    # Arc Slot with Arc Ends
+    "arc slot":         arc_slot["arcends"],
+    "curved ends":      arc_slot["arcends"],
+    "rounded slot":     arc_slot["arcends"],
+    "slot with arcs":   arc_slot["arcends"],
+    "arcends":          arc_slot["arcends"],
+
+    # Arc Slot with Flat Ends
+    "flat slot":        arc_slot["flatends"],
+    "straight ends":    arc_slot["flatends"],
+    "rectangular slot": arc_slot["flatends"],
+    "slot with flats":  arc_slot["flatends"],
+    "flatends":         arc_slot["flatends"],
+
+    # Help
+    "help":             arc_slot["help"],
+    "info":             arc_slot["help"],
+    "options":          arc_slot["help"]
+}
