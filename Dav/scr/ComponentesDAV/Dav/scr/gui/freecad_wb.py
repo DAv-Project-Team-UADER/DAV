@@ -274,15 +274,21 @@ def _schedule_settings_watcher() -> None:
                     last_mtime[0] = mtime
                     with open(settings_path, encoding="utf-8") as fh:
                         data = json.load(fh)
+                    theme = data.get("theme", "light")
                     app = QApplication.instance()
                     if app is not None:
                         dav_cmds = importlib.import_module("scr.gui.dav_commands")
                         dav_cmds._ensure_gui_path()
                         from ui.theme import apply_theme
-                        apply_theme(app, data.get("theme", "light"))
+                        apply_theme(app, theme)
+                    from integration.dav_dock_panel import get_source
+                    src = get_source()
+                    if src is not None and src._panel is not None:
+                        src._panel.SetTheme(theme)
+                        src._panel.SetLanguage(data.get("language", "es"))
                     App.Console.PrintMessage(
                         f"[DAV] Preferencias actualizadas "
-                        f"(idioma={data.get('language','?')}, tema={data.get('theme','?')}).\n"
+                        f"(idioma={data.get('language','?')}, tema={theme}).\n"
                     )
                 except Exception:
                     pass
