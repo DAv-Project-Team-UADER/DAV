@@ -15,8 +15,43 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
+from pivy import coin
 
 from .ayuda import ayuda
+
+ZOOM_STEP = 1.1
+
+
+def _apply_zoom(factor):
+    """Apply zoom by modifying camera height/focalDistance by *factor*.
+
+    ``factor < 1`` zooms in (view gets closer), ``factor > 1`` zooms out.
+    Works for both orthographic and perspective cameras.
+    """
+    view = Gui.ActiveDocument.ActiveView
+    if view is None:
+        return
+    cam = view.getCameraNode()
+    if cam is None:
+        return
+    if isinstance(cam, coin.SoOrthographicCamera):
+        cam.height = cam.height.getValue() * factor
+    else:
+        direction = coin.SbVec3f()
+        cam.orientation.getValue().multVec(coin.SbVec3f(0, 0, -1), direction)
+        old_focal = cam.focalDistance.getValue()
+        new_focal = old_focal * factor
+        cam.position = cam.position.getValue() + (new_focal - old_focal) * (-direction)
+        cam.focalDistance = new_focal
+
+
+def _zoom_in():
+    _apply_zoom(1.0 / ZOOM_STEP)
+
+
+def _zoom_out():
+    _apply_zoom(ZOOM_STEP)
+
 
 # Diccionario DAV - StdView / StandardViews
 StandardViews = {
@@ -35,7 +70,7 @@ StandardViews = {
     'right':        lambda: Gui.runCommand('Std_ViewRight', 0),
     'top':          lambda: Gui.runCommand('Std_ViewTop', 0),
     'trimetric':    lambda: Gui.runCommand('Std_ViewTrimetric', 0),
-    'zoomin':       lambda: Gui.runCommand('Std_ViewZoomIn', 0),
-    'zoomout':      lambda: Gui.runCommand('Std_ViewZoomOut', 0),
+    'zoomin':       _zoom_in,
+    'zoomout':      _zoom_out,
     'help':         ayuda,
 }
