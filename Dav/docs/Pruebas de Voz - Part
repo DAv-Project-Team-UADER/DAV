@@ -1,0 +1,16 @@
+Función: Part Line
+Comandos de voz: 
+Archivo
+Nuevo
+Atrás
+Workbench
+Part
+Línea
+Se ingresan los valores solicitados (6 en este caso)
+¿Se abrió el prompt?          SÍ 
+Números reconocidos:      0, 0, 0, 10, 5, 0    
+Números NO reconocidos:       -
+¿Se ejecutó la función?       SÍ 
+¿El objeto se creó correctamente?      SÍ 
+
+Errores observados: El modelo de voz funciona correctamente.
