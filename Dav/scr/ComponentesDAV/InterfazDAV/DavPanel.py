@@ -60,7 +60,6 @@ class DavPanel(QWidget):
             phrase, exactly as if it had been said out loud.
         HelpRequested(): the help button was pressed.
         PreferencesRequested(): the preferences button was pressed.
-        ThemeToggled(str): theme switched; carries ``"light"`` or ``"dark"``.
         DockToggleRequested(): the user asked to detach the panel from the
             FreeCAD window, or to dock it back in. Whoever owns the dock
             decides what that means and calls ``SetDockState`` back.
@@ -75,13 +74,12 @@ class DavPanel(QWidget):
     CommandRequested = Signal(str)
     HelpRequested = Signal()
     PreferencesRequested = Signal()
-    ThemeToggled = Signal(str)
     DockToggleRequested = Signal()
 
     #: Lado del boton y del icono, en px. El icono se deja bastante mas chico
     #: que el boton para que quede aire parejo alrededor de todos.
     BUTTON_SIZE = 54
-    ICON_SIZE = 30
+    ICON_SIZE = 42
 
     #: Filas visibles antes de que la grilla empiece a scrollear.
     TOOL_AREA_MAX_ROWS = 3
@@ -294,19 +292,19 @@ class DavPanel(QWidget):
         layout.addLayout(self._BuildHeader())
 
         self._statusLabel = QLabel(texts.get("status_idle", "Micrófono inactivo"))
-        self._statusLabel.setFont(QFont(FONT_SANS, 13, QFont.DemiBold))
+        self._statusLabel.setFont(QFont(FONT_SANS, 13, QFont.Bold))
         self._statusLabel.setAlignment(Qt.AlignCenter)
         self._statusLabel.setFixedHeight(46)
         self._statusLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layout.addWidget(self._statusLabel)
 
         self._listenLabel = QLabel(texts["section_listen"])
-        self._listenLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
+        self._listenLabel.setFont(QFont(FONT_SANS, 12, QFont.Bold))
         layout.addWidget(self._listenLabel)
 
         self._currentText = QTextEdit()
         self._currentText.setFixedHeight(48)
-        self._currentText.setFont(QFont(FONT_MONO, 12, QFont.DemiBold))
+        self._currentText.setFont(QFont(FONT_MONO, 12, QFont.Bold))
         self._currentText.setReadOnly(True)
         layout.addWidget(self._currentText)
 
@@ -352,33 +350,31 @@ class DavPanel(QWidget):
         logo = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Logos", "color.svg")
         if os.path.exists(logo):
             widget = QSvgWidget(logo)
-            widget.setFixedSize(34, 30)
+            widget.setFixedSize(40, 36)
+            widget.setStyleSheet("background-color: transparent;")
             row.addWidget(widget)
 
         self._titleLabel = QLabel("DAV")
-        self._titleLabel.setFont(QFont(FONT_SANS, 15, QFont.Bold))
+        self._titleLabel.setFont(QFont(FONT_SANS, 28, QFont.Bold))
         row.addWidget(self._titleLabel, stretch=1)
 
         self._dockButton = QPushButton("⧉")
-        self._dockButton.setFixedSize(36, 32)
+        self._dockButton.setFixedSize(48, 44)
+        self._dockButton.setFont(QFont(FONT_SANS, 28, QFont.Bold))
         self._dockButton.setToolTip("Separar de la ventana de FreeCAD")
         self._dockButton.clicked.connect(self.DockToggleRequested.emit)
         row.addWidget(self._dockButton)
 
-        self._themeButton = QPushButton("◐")
-        self._themeButton.setFixedSize(36, 32)
-        self._themeButton.setToolTip("Cambiar tema")
-        self._themeButton.clicked.connect(self._OnThemeToggled)
-        row.addWidget(self._themeButton)
-
         self._prefsButton = QPushButton("⚙")
-        self._prefsButton.setFixedSize(36, 32)
+        self._prefsButton.setFixedSize(48, 44)
+        self._prefsButton.setFont(QFont(FONT_SANS, 28, QFont.Bold))
         self._prefsButton.setToolTip("Preferencias")
         self._prefsButton.clicked.connect(self.PreferencesRequested.emit)
         row.addWidget(self._prefsButton)
 
         self._helpButton = QPushButton("?")
-        self._helpButton.setFixedSize(36, 32)
+        self._helpButton.setFixedSize(48, 44)
+        self._helpButton.setFont(QFont(FONT_SANS, 28, QFont.Bold))
         self._helpButton.setToolTip("Información")
         self._helpButton.clicked.connect(self.HelpRequested.emit)
         row.addWidget(self._helpButton)
@@ -390,7 +386,7 @@ class DavPanel(QWidget):
         column.setSpacing(4)
 
         self._modelLabel = QLabel(self._texts["section_model"])
-        self._modelLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
+        self._modelLabel.setFont(QFont(FONT_SANS, 12, QFont.Bold))
         column.addWidget(self._modelLabel)
 
         self._treeWidget = QTreeWidget()
@@ -406,11 +402,11 @@ class DavPanel(QWidget):
         column.setSpacing(4)
 
         self._histLabel = QLabel(self._texts["section_history"])
-        self._histLabel.setFont(QFont(FONT_SANS, 12, QFont.DemiBold))
+        self._histLabel.setFont(QFont(FONT_SANS, 12, QFont.Bold))
         column.addWidget(self._histLabel)
 
         self._historyList = QTextEdit()
-        self._historyList.setFont(QFont(FONT_MONO, 11, QFont.DemiBold))
+        self._historyList.setFont(QFont(FONT_MONO, 11, QFont.Bold))
         self._historyList.setReadOnly(True)
         self._historyList.setMinimumHeight(150)
         column.addWidget(self._historyList, stretch=1)
@@ -472,29 +468,37 @@ class DavPanel(QWidget):
         self.Flash()
         self.CommandRequested.emit(Spoken)
 
-    def _OnThemeToggled(self) -> None:
-        self.SetTheme("dark" if self._theme == "light" else "light")
-        self.ThemeToggled.emit(self._theme)
-
     # ================================================================
     # Estilos
     # ================================================================
 
     def _ApplyStyles(self) -> None:
         palette = self._palette
-        self.setStyleSheet(f"QWidget {{ background-color: {palette['bg']}; }}")
-        self._titleLabel.setStyleSheet(f"color: {palette['black']};")
+        self.setObjectName("DavPanel")
+        self.setStyleSheet(
+            f"QWidget#DavPanel {{ background-color: {palette['bg']} !important; }}"
+            f"QWidget#DavPanel > * {{ background-color: transparent !important; }}"
+            f"QScrollArea {{ background-color: transparent !important; border: none; }}"
+            f"QScrollArea > QWidget {{ background-color: transparent !important; }}"
+            f"QLabel {{ background-color: transparent !important; }}"
+        )
+        self._titleLabel.setStyleSheet(
+            f"color: {palette['black']}; background-color: transparent !important;"
+            f" font-size: 28pt; font-weight: bold;"
+        )
         self._statusLabel.setStyleSheet(self._StatusQss())
         self._currentText.setStyleSheet(self._TextPanelQss(palette["dark_text"], 12))
         self._historyList.setStyleSheet(self._TextPanelQss(palette["green"], 11))
 
         for label in (self._listenLabel, self._histLabel, self._modelLabel):
-            label.setStyleSheet(f"color: {palette['black']};")
+            label.setStyleSheet(
+                f"color: {palette['black']}; background-color: transparent !important;"
+                f" font-size: 12pt; font-weight: bold;"
+            )
 
         for button in (
             self._helpButton,
             self._prefsButton,
-            self._themeButton,
             self._dockButton,
         ):
             button.setStyleSheet(self._ButtonQss())
@@ -505,7 +509,7 @@ class DavPanel(QWidget):
     def _StatusQss(self) -> str:
         palette = self._palette
         return (
-            f"QLabel {{ background-color: {palette['mic']};"
+            f"QLabel {{ background-color: transparent !important;"
             f" border-top: 1.5px solid {palette['mic_border']};"
             f" border-bottom: 1.5px solid {palette['mic_border']};"
             f" padding: 8px; color: {palette['dark_text']};"
@@ -515,7 +519,7 @@ class DavPanel(QWidget):
     def _TextPanelQss(self, Colour: str, Size: int) -> str:
         palette = self._palette
         return (
-            f"QTextEdit {{ background-color: {palette['panel']}; color: {Colour};"
+            f"QTextEdit {{ background-color: {palette['panel']} !important; color: {Colour};"
             f" border: 1.5px solid {palette['panel_border']}; border-radius: 0px;"
             f" padding: 10px; font-family: {FONT_MONO}; font-size: {Size}px;"
             f" font-weight: 600; }}"
@@ -524,7 +528,7 @@ class DavPanel(QWidget):
     def _TreeQss(self) -> str:
         palette = self._palette
         return (
-            f"QTreeWidget {{ background-color: {palette['panel']};"
+            f"QTreeWidget {{ background-color: {palette['panel']} !important;"
             f" color: {palette['dark_text']};"
             f" border: 1.5px solid {palette['panel_border']};"
             f" padding: 6px; font-family: {FONT_MONO}; font-size: 11px; }}"
@@ -536,12 +540,12 @@ class DavPanel(QWidget):
         return (
             f"QPushButton {{"
             f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
-            f" stop:0 {palette['btn_top']}, stop:1 {palette['btn_bot']});"
+            f" stop:0 {palette['btn_top']}, stop:1 {palette['btn_bot']}) !important;"
             f" border: 1.5px solid {palette['btn_border']}; border-radius: 8px;"
             f" color: {palette['black']}; font-family: {FONT_SANS};"
             f" font-size: 10px; font-weight: bold; }}"
-            f"QPushButton:hover {{ background: {palette['btn_hover']}; }}"
-            f"QPushButton:pressed {{ background: {palette['btn_hover']}; }}"
+            f"QPushButton:hover {{ background: {palette['btn_hover']} !important; }}"
+            f"QPushButton:pressed {{ background: {palette['btn_hover']} !important; }}"
         )
 
     def _BackButtonQss(self) -> str:
@@ -549,11 +553,11 @@ class DavPanel(QWidget):
         return (
             f"QPushButton {{"
             f" background: qlineargradient(x1:0,y1:0,x2:0,y2:1,"
-            f" stop:0 {palette['highlight']}, stop:1 {palette['btn_bot']});"
+            f" stop:0 {palette['highlight']}, stop:1 {palette['btn_bot']}) !important;"
             f" border: 1.5px solid {palette['btn_border']}; border-radius: 8px;"
             f" color: {palette['black']}; font-family: {FONT_SANS};"
             f" font-size: 18px; font-weight: bold; }}"
-            f"QPushButton:hover {{ background: {palette['highlight']}; }}"
+            f"QPushButton:hover {{ background: {palette['highlight']} !important; }}"
         )
 
     def resizeEvent(self, Event) -> None:  # noqa: N802 (API de Qt)

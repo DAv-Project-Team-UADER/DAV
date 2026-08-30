@@ -24,7 +24,7 @@ from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
 from .sketcher import sketcher
 
-TranslateToPt = {
+TraduceToPt = {
   
   # Carpetas de Sketcher  
   "geometria": sketcher["geometry"],

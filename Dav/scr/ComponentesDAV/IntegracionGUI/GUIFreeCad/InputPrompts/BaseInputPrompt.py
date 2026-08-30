@@ -129,6 +129,27 @@ class BaseInputPrompt(QDialog):
         self.SetHeardText(Text)
         return self.GetResult()
 
+    def RequiresNumericGrammar(self) -> bool:
+        """Return True when this prompt needs the Vosk numeric-word grammar.
+
+        Overridden by prompts (see NumericInputPrompt) that collect spoken
+        digits, so callers can switch grammar polymorphically instead of
+        checking concrete prompt types.
+        """
+        return False
+
+    @staticmethod
+    def _HasConfirmation(Tokens: list[str]) -> bool:
+        from InputPrompts.SpokenNumberParser import SpokenNumberParser
+
+        return any(token in SpokenNumberParser.ConfirmationWords for token in Tokens)
+
+    @staticmethod
+    def _HasCancellation(Tokens: list[str]) -> bool:
+        from InputPrompts.SpokenNumberParser import SpokenNumberParser
+
+        return any(token in SpokenNumberParser.CancellationWords for token in Tokens)
+
     def AcceptValue(self, Value: Any | None = None) -> PromptResult:
         """Accept the prompt with a value and close the dialog."""
         if isinstance(Value, str) and not Value.strip():

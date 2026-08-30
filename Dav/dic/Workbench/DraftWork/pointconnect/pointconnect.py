@@ -25,37 +25,38 @@ def _get_selected_points():
     sel = App.Gui.Selection.getSelection()
     if not sel:
         return []
-    
+
     points = []
     for obj in sel:
         if hasattr(obj, 'Shape') and obj.Shape.Vertexes:
             points.append(obj.Shape.Vertexes[0].Point)
     return points
 
-def _connect():
+def _build_geometry(min_points, builder):
+    """Gets the selected points and, if there are enough, runs builder(points)."""
     points = _get_selected_points()
-    if len(points) >= 2:
-        Draft.make_wire(points, closed=False)
+    if len(points) >= min_points:
+        builder(points)
         App.ActiveDocument.recompute()
+
+def _build_wire(min_points, closed):
+    _build_geometry(min_points, lambda points: Draft.make_wire(points, closed=closed))
+
+def _build_line(points):
+    linea = App.ActiveDocument.addObject("Part::Feature", "Line")
+    linea.Shape = Part.makeLine(points[0], points[1])
+
+def _connect():
+    _build_wire(min_points=2, closed=False)
 
 def _createline():
-    points = _get_selected_points()
-    if len(points) >= 2:
-        linea = App.ActiveDocument.addObject("Part::Feature", "Line")
-        linea.Shape = Part.makeLine(points[0], points[1])
-        App.ActiveDocument.recompute()
+    _build_geometry(min_points=2, builder=_build_line)
 
 def _closewire():
-    points = _get_selected_points()
-    if len(points) >= 2:
-        Draft.make_wire(points, closed=True)
-        App.ActiveDocument.recompute()
+    _build_wire(min_points=2, closed=True)
 
 def _createpolygon():
-    points = _get_selected_points()
-    if len(points) >= 3:
-        Draft.make_wire(points, closed=True)
-        App.ActiveDocument.recompute()
+    _build_wire(min_points=3, closed=True)
 
 pointconnect = {
     'connect': _connect,
