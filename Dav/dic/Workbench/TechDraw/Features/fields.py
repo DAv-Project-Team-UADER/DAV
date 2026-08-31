@@ -21,7 +21,11 @@ import os.path
 from datetime import date
 
 import FreeCAD as App
-import TechDraw
+try:
+    import TechDraw
+except ImportError as _e:
+    TechDraw = None  # type: ignore
+    print(f"[DAV] TechDraw no disponible ({_e}); 'fields' queda como no-op.")
 
 _ISO_A4_TEMPLATES = (
     "Mod/TechDraw/Templates/ISO/A4_Landscape_ISO5457_minimal.svg",
@@ -167,6 +171,8 @@ def _scaleText(view):
     """Build a title-block scale string from a TechDraw view scale."""
     if view is None:
         return "1 : 1"
+    if TechDraw is None:
+        return f"1 : {getattr(view, 'Scale', 1)}"
     fracScale = TechDraw.nearestFraction(view.Scale)
     return f"{fracScale[0]} : {fracScale[1]}"
 
@@ -217,6 +223,9 @@ def fillTemplateFields():
     Example::
         fillTemplateFields()
     """
+    if TechDraw is None:
+        print("TechDraw no disponible en este sistema; no se puede rellenar el rótulo.")
+        return
     page = _findTechDrawPage()
     if page is None:
         return
@@ -239,7 +248,8 @@ def fillTemplateFields():
 
     doc = App.activeDocument()
     texts = dict(page.Template.EditableTexts)
-    texts.update(updates)
+    for _k, _v in updates.items():
+        texts[_k] = _v
 
     doc.openTransaction("Fill template fields")
     page.Template.EditableTexts = texts
