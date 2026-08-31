@@ -69,6 +69,18 @@ TraduceToEs = {
     "booleano": subtractive["boolean"],
     "operacion booleana": subtractive["boolean"],
 
+    # Cortes por medida dictada (sin dialogo)
+    "vaciado por medida":    subtractive["pocket_by_length"],
+    "vaciar por medida":     subtractive["pocket_by_length"],
+    "hueco por medida":      subtractive["pocket_by_length"],
+
+    "agujero por medidas":   subtractive["hole_by_size"],
+    "perforar por medidas":  subtractive["hole_by_size"],
+    "agujero por diametro":  subtractive["hole_by_size"],
+
+    "ranura por angulo":     subtractive["groove_by_angle"],
+    "ranurar por angulo":    subtractive["groove_by_angle"],
+
     # Help
     "ayuda": subtractive['help'],
     "información": subtractive['help'],

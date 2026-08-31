@@ -1,6 +1,12 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import (
+    chamfer_by_size,
+    chamfer_by_size_and_angle,
+    fillet_by_radius,
+    thickness_by_value,
+)
 
 
 def _execute_with_objects(command_name: str, is_3d: bool = True) -> None:
@@ -32,5 +38,9 @@ modify = {
     'chamfer':   chamfer,
     'draft':     lambda: Gui.runCommand('PartDesign_Draft', 0),
     'thickness': lambda: Gui.runCommand('PartDesign_Thickness', 0),
+    'fillet_by_radius':          fillet_by_radius,
+    'chamfer_by_size':           chamfer_by_size,
+    'chamfer_by_size_and_angle': chamfer_by_size_and_angle,
+    'thickness_by_value':        thickness_by_value,
     'help':      ayuda,
 }

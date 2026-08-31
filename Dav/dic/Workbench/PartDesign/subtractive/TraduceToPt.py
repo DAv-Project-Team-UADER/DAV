@@ -82,6 +82,15 @@ TraduceToPt = {
     "booleano": subtractive["boolean"],
     "operação booleana": subtractive["boolean"],
 
+    # Cortes por medida ditada (sem dialogo)
+    "vazio por medida":      subtractive["pocket_by_length"],
+    "esvaziar por medida":   subtractive["pocket_by_length"],
+
+    "furo por medidas":      subtractive["hole_by_size"],
+    "perfurar por medidas":  subtractive["hole_by_size"],
+
+    "ranhura por angulo":    subtractive["groove_by_angle"],
+
     # Help
     "ajuda": subtractive['help'],
     "informação": subtractive['help'],
