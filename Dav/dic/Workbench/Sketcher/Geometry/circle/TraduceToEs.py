@@ -34,9 +34,16 @@ TraduceToEs = {
     'informacion':             circle['help'],
     'opciones':             circle['help'],
 
-    # Círculo por coordenadas dictadas
+    # Círculo por coordenadas dictadas (ventana por voz, como línea por puntos)
     "circulo por centro": circle['create_by_center'],
     "crear circulo por centro": circle['create_by_center'],
     "circulo por radio": circle['create_by_center'],
     "circulo por coordenadas": circle['create_by_center'],
+
+    # Círculo por 3 puntos — nuevo paramétrico con 6 floats + label opcional
+    "circulo por tres puntos": circle['create_by_3_points'],
+    "círculo por tres puntos": circle['create_by_3_points'],
+    "crear circulo por tres puntos": circle['create_by_3_points'],
+    "crear círculo por tres puntos": circle['create_by_3_points'],
+    "circulo tres puntos por coordenadas": circle['create_by_3_points'],
 }

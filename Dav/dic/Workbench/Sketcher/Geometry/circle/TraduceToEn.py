@@ -42,4 +42,10 @@ TraduceToEn = {
     "create circle by center": circle['create_by_center'],
     "circle by radius": circle['create_by_center'],
     "circle by coordinates": circle['create_by_center'],
+
+    # Circle by 3 points — new parametric with 6 floats + optional label
+    "circle by three points": circle['create_by_3_points'],
+    "create circle by three points": circle['create_by_3_points'],
+    "circle by 3 points": circle['create_by_3_points'],
+    "create circle by 3 points": circle['create_by_3_points'],
 }
