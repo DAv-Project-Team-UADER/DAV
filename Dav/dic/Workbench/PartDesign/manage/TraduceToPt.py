@@ -16,8 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import manage as manage
-import ayuda as ayuda
+from .manage import manage
+from .ayuda import ayuda
 
 TraduceToPt= {
     #Mover recurso
