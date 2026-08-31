@@ -91,6 +91,11 @@ def CompoundNumber() -> None:
     return None
 
 
+def Negative() -> None:
+    """Sentinel: negative sign ('menos', 'minus', 'negative')."""
+    return None
+
+
 Numbers = {
     "zero":     Zero,
     "one":      One,
@@ -105,6 +110,7 @@ Numbers = {
     "point":    DecimalPoint,
     "comma":    DecimalComma,
     "compound": CompoundNumber,
+    "negative": Negative,
 }
 
 

@@ -58,4 +58,8 @@ TraduceToEn = {
     "seventy":    Numbers["compound"],
     "eighty":     Numbers["compound"],
     "ninety":     Numbers["compound"],
+
+    # Negative sign (for hyperbola/parabola angles)
+    "minus":      Numbers["negative"],
+    "negative":   Numbers["negative"],
 }

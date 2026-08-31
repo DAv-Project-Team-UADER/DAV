@@ -23,9 +23,12 @@
 from ._ellipse import ellipse
 
 TraduceToEn = {
-    # Main commands
+    # Main commands (now parametric with window) — digit + word for Vosk
     "center": ellipse["center"],
     "3points": ellipse["3points"],
+    "3 points": ellipse["3points"],
+    "three points": ellipse["3points"],
+    "three point": ellipse["3points"],
     "elliptic": ellipse["elliptic"],
     "hyperbolic": ellipse["hyperbolic"],
     "parabolic": ellipse["parabolic"],
@@ -33,6 +36,7 @@ TraduceToEn = {
     # Aliases
     "ellipse center": ellipse["center"],
     "ellipse 3 points": ellipse["3points"],
+    "ellipse three points": ellipse["3points"],
     "ellipse arc": ellipse["elliptic"],
     "hyperbola arc": ellipse["hyperbolic"],
     "parabola arc": ellipse["parabolic"],
@@ -41,9 +45,16 @@ TraduceToEn = {
     "info": ellipse["help"],
     "options": ellipse["help"],
 
-    # Ellipse by dictated coordinates
+    # Ellipse by dictated coordinates (window like line by points)
     "ellipse by center": ellipse['create_by_center'],
     "create ellipse by center": ellipse['create_by_center'],
     "ellipse by radii": ellipse['create_by_center'],
     "ellipse by coordinates": ellipse['create_by_center'],
+
+    "ellipse by three points": ellipse['create_by_3_points'],
+    "create ellipse by three points": ellipse['create_by_3_points'],
+    "ellipse by 3 points": ellipse['create_by_3_points'],
+    "elliptic arc by coordinates": ellipse['create_elliptic'],
+    "hyperbolic arc by coordinates": ellipse['create_hyperbolic'],
+    "parabolic arc by coordinates": ellipse['create_parabolic'],
 }
