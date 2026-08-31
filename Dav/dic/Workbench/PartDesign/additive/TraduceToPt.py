@@ -107,6 +107,12 @@ TraduceToPt = {
     "revolucao por angulo": additive["revolve_by_angle"],
     "girar perfil": additive["revolve_by_angle"],
 
+    # Primitivas por medidas ditadas
+    "esfera por raio":       additive["sphere_by_radius"],
+    "cone por medidas":      additive["cone_by_size"],
+    "toro por medidas":      additive["torus_by_size"],
+    "prisma por medidas":    additive["prism_by_size"],
+
     "ajuda":             additive["help"],
     "informação":       additive["help"],
     "opções":            additive["help"]

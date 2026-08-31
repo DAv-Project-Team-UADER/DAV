@@ -105,6 +105,12 @@ TraduceToEn = {
     "revolve by angle": additive["revolve_by_angle"],
     "spin profile": additive["revolve_by_angle"],
 
+    # Primitives by dictated measures
+    "sphere by radius":      additive["sphere_by_radius"],
+    "cone by size":          additive["cone_by_size"],
+    "torus by size":         additive["torus_by_size"],
+    "prism by size":         additive["prism_by_size"],
+
     "help":            additive['help'],
     "info":            additive['help'],
     "options":         additive['help']

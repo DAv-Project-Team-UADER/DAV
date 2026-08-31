@@ -47,13 +47,24 @@ Y desde ahí se entra a `aditivo`, `sustractivo` o `modificar`.
 | Aditivo | `cilindro por medidas` | 2 | cilindro |
 | Aditivo | `extruir por medida` | 1 | perfil → sólido |
 | Aditivo | `revolucion por angulo` | 1 | perfil → revolución |
+| Aditivo | `esfera por radio` | 1 | esfera |
+| Aditivo | `cono por medidas` | 3 | cono / tronco |
+| Aditivo | `toro por medidas` | 2 | toro |
+| Aditivo | `prisma por medidas` | 3 | prisma regular |
 | Sustractivo | `vaciado por medida` | 1 | hueco con forma del perfil |
 | Sustractivo | `agujero por medidas` | 2 | agujero cilíndrico |
 | Sustractivo | `ranura por angulo` | 1 | ranura por revolución |
+| Sustractivo | `cortar caja por medidas` | 3 | resta una caja |
+| Sustractivo | `cortar cilindro por medidas` | 2 | resta un cilindro |
+| Sustractivo | `cortar esfera por radio` | 1 | resta una esfera |
 | Modificar | `redondear por radio` | 1 | redondea todas las aristas |
 | Modificar | `chaflan por medida` | 1 | achaflana todas las aristas |
 | Modificar | `chaflan con angulo` | 2 | chaflán con ángulo propio |
 | Modificar | `espesor por medida` | 1 | ahueca dejando pared |
+| Transformar | `patron lineal por medida` | 2 | N copias en línea |
+| Transformar | `repetir cada` | 2 | N copias con separación |
+| Transformar | `patron circular por medida` | 2 | N copias en círculo |
+| Transformar | `escalar por factor` | 2 | escala el sólido |
 
 ---
 
@@ -179,7 +190,59 @@ Encadena todo. Es la prueba que más valor tiene.
 
 ---
 
-## Prueba 8 — Que los errores avisen
+## Prueba 8 — Más primitivas
+
+Desde `aditivo`, cada una abre su pop-up:
+
+| Decí | Valores | Resultado |
+|---|---|---|
+| `esfera por radio` | `quince` | esfera r=15 |
+| `cono por medidas` | `diez` / `cero` / `veinticinco` | cono con punta |
+| `cono por medidas` | `diez` / `cinco` / `veinticinco` | tronco de cono |
+| `toro por medidas` | `veinte` / `cinco` | toro (anillo 20, tubo 5) |
+| `prisma por medidas` | `seis` / `diez` / `treinta` | prisma hexagonal |
+
+> En el toro, el radio del tubo debe ser **menor** que el del anillo, o el
+> comando avisa y no crea nada.
+
+---
+
+## Prueba 9 — Restar primitivas
+
+Con un sólido ya creado, desde `sustractivo`:
+
+| Decí | Valores | Resultado |
+|---|---|---|
+| `cortar caja por medidas` | `diez` / `diez` / `veinte` | resta una caja |
+| `cortar cilindro por medidas` | `cinco` / `veinte` | resta un cilindro |
+| `cortar esfera por radio` | `ocho` | resta una esfera |
+
+Se restan del **último cuerpo creado**.
+
+---
+
+## Prueba 10 — Patrones y escalado
+
+Con una operación seleccionada (por ejemplo el agujero de la prueba 6), desde
+`transformar`:
+
+| Decí | Valores | Resultado |
+|---|---|---|
+| `patron lineal por medida` | `cinco` / `ochenta` | 5 copias repartidas en 80 mm |
+| `repetir cada` | `cinco` / `veinte` | 5 copias, una cada 20 mm |
+| `patron circular por medida` | `seis` / `trescientos sesenta`* | 6 copias en círculo completo |
+| `escalar por factor` | `dos` / `dos` | duplica el tamaño |
+
+\* **Ojo**: 360 supera el máximo de 99 del diccionario numérico. Probá con
+`noventa` mientras tanto — es una limitación conocida, no un fallo del comando.
+
+> La diferencia entre los dos patrones lineales: `patron lineal por medida`
+> reparte las copias a lo largo del **total** dictado; `repetir cada` usa el
+> valor como **separación entre copias**.
+
+---
+
+## Prueba 11 — Que los errores avisen
 
 Implementadas pero **no probadas dentro de FreeCAD**. Confirmá que el mensaje
 sale en el Report View:
@@ -195,7 +258,7 @@ sale en el Report View:
 
 ---
 
-## Prueba 9 — Los otros idiomas
+## Prueba 12 — Los otros idiomas
 
 PartDesign tenía tres carpetas con diccionarios que fallaban en silencio: el
 loader aísla el módulo roto y sigue con mapa vacío, así que las frases
