@@ -17,6 +17,14 @@
 import FreeCADGui as Gui
 from .joint.joint import joint
 from .ayuda import ayuda
+from ._parametric import (
+    angle_joint,
+    distance_joint,
+    fixed_joint,
+    ground_part,
+    revolute_joint,
+    slider_joint,
+)
 
 # Subcontexto anidado: el Browser navega por niveles y espera
 # assembly['joint'] como submenú (no aplanado), igual que Explorer/Explorer.py.
@@ -32,5 +40,11 @@ assembly.update({
     'bom':         lambda: Gui.runCommand('Assembly_CreateBom', 0),
     'preferences': lambda: Gui.runCommand('Assembly_Preferences', 0),
     'grounded':    lambda: Gui.runCommand('Assembly_ToggleGrounded', 1),
+    'fixed_joint':     fixed_joint,
+    'revolute_joint':  revolute_joint,
+    'slider_joint':    slider_joint,
+    'distance_joint':  distance_joint,
+    'angle_joint':     angle_joint,
+    'ground_part':     ground_part,
     'help':        ayuda,
 })
