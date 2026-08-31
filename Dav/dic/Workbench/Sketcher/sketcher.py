@@ -32,6 +32,7 @@ from .oblong.oblong import oblong
 from .Root.root import root
 from .text.text import text
 from .slot.slot import slot
+from .new_sketch.new_sketch import _new_sketch
 from _lenient import LenientDict
 
 
@@ -69,7 +70,7 @@ sketcher.update({'triangle':    triangle})
 sketcher.update({'validate':    validate})
 sketcher.update({'view':        view})
 sketcher.update({
-    'new':                lambda: Gui.runCommand('Sketcher_NewSketch', 0),
+    'new':                _new_sketch,
     'edit':               lambda: Gui.runCommand('Sketcher_EditSketch', 0),
     'attach':             lambda: Gui.runCommand('Sketcher_MapSketch', 0),
     'grid':               lambda: Gui.runCommand('Sketcher_Grid', 0),
