@@ -84,6 +84,15 @@ TraduceToEn = {
     "booleanoperation": subtractive["boolean"],
     "booleanop": subtractive["boolean"],
 
+    # Cuts by dictated measure (no dialog)
+    "pocket by length":      subtractive["pocket_by_length"],
+    "hollow by length":      subtractive["pocket_by_length"],
+
+    "hole by size":          subtractive["hole_by_size"],
+    "drill by size":         subtractive["hole_by_size"],
+
+    "groove by angle":       subtractive["groove_by_angle"],
+
     # Help
     "help": subtractive['help'],
     "info": subtractive['help'],

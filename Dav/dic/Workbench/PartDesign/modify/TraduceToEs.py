@@ -42,6 +42,21 @@ TraduceToEs = {
     "agregar espesor": modify["thickness"],
     "agregar grosor": modify["thickness"],
 
+    # Acabados por medida dictada (sin dialogo)
+    "redondear por radio":   modify["fillet_by_radius"],
+    "redondeo por radio":    modify["fillet_by_radius"],
+    "redondear aristas":     modify["fillet_by_radius"],
+
+    "chaflan por medida":    modify["chamfer_by_size"],
+    "achaflanar por medida": modify["chamfer_by_size"],
+    "chaflan por tamano":    modify["chamfer_by_size"],
+
+    "chaflan por medida y angulo": modify["chamfer_by_size_and_angle"],
+    "chaflan con angulo":    modify["chamfer_by_size_and_angle"],
+
+    "espesor por medida":    modify["thickness_by_value"],
+    "vaciar solido":         modify["thickness_by_value"],
+
     # Help
     "ayuda":                modify["help"],
     "información":          modify["help"],

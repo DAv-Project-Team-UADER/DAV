@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import groove_by_angle, hole_by_size, pocket_by_length
 
 subtractive = {
     'pocket':               lambda: Gui.runCommand('PartDesign_Pocket', 0),
@@ -32,6 +33,9 @@ subtractive = {
     'subtractivesphere':    lambda: Gui.runCommand('PartDesign_SubtractiveSphere', 0),
     'subtractivetorus':     lambda: Gui.runCommand('PartDesign_SubtractiveTorus', 0),
     'subtractivewedge':     lambda: Gui.runCommand('PartDesign_SubtractiveWedge', 0),
+    'pocket_by_length': pocket_by_length,
+    'hole_by_size':     hole_by_size,
+    'groove_by_angle':  groove_by_angle,
     'boolean':              lambda: Gui.runCommand('PartDesign_Boolean', 0),
     'help':                 ayuda,
 }
