@@ -100,20 +100,31 @@ def _new_sketch() -> None:
 
 
 def _ask_plane():
-    """Show the DAV plane selector and route voice to it."""
+    """Show the DAV plane selector, route voice to it and acotar la gramática."""
     try:
         from InputPrompts.PromptVoiceRouter import PromptVoiceRouter
     except ImportError:
         _ensure_input_prompts_on_path()
         from InputPrompts.PromptVoiceRouter import PromptVoiceRouter
 
+    try:
+        from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+    except ImportError:
+        _ensure_input_prompts_on_path()
+        from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
     PlanePrompt = _import_plane_prompt()
     prompt = PlanePrompt()
+    # Mientras el selector está abierto, Vosk solo escucha arriba/abajo/okey/
+    # cancelar: evita que "abajo" se confunda con "trabajo" u otros falsos
+    # positivos del vocabulario abierto.
+    PlaneGrammarSwitcher.ActivatePlaneGrammar()
     PromptVoiceRouter.SetActivePrompt(prompt)
     try:
         return prompt.RequestValue()
     finally:
         PromptVoiceRouter.ClearActivePrompt(prompt)
+        PlaneGrammarSwitcher.RestoreCadGrammar()
 
 
 def _unique_sketch_name(doc) -> str:
