@@ -18,7 +18,14 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
+def run_cmd(cmd):
+    try:
+        Gui.activateWorkbench("TechDrawWorkbench")
+        Gui.runCommand(cmd, 0)
+    except Exception as e:
+        print(f"[DAV] Error: {e}")
+
 add_vertices = {
-    'cosmetic': lambda: Gui.runCommand('TechDraw_CosmeticVertex', 0),
+    'cosmetic': lambda: run_cmd('TechDraw_CosmeticVertex'),
     'help': ayuda
 }
