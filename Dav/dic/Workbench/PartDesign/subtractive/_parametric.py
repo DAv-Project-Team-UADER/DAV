@@ -218,3 +218,117 @@ def groove_by_angle(angle: float) -> None:
     doc.recompute()
     _RegisterObject(groove)
     print(f"[subtractive] Grooved '{profile.Name}' by {angle} degrees")
+
+
+def _CutPrimitive(TypeId: str, Label: str, Doc):
+    """Create a subtractive primitive inside the body being edited.
+
+    Args:
+        TypeId: FreeCAD type, e.g. ``PartDesign::SubtractiveBox``.
+        Label: Name used for the created object.
+        Doc: Active FreeCAD document.
+
+    Returns:
+        The created feature, or None when there is no body to cut from.
+    """
+    bodies = [obj for obj in Doc.Objects if obj.isDerivedFrom("PartDesign::Body")]
+    if not bodies:
+        print("[subtractive] Error: create a solid first; there is nothing to cut from.")
+        return None
+
+    # se corta del ultimo cuerpo creado, que es el que el usuario acaba de
+    # construir por voz
+    body = bodies[-1]
+    feature = Doc.addObject(TypeId, Label)
+    body.addObject(feature)
+    return feature
+
+
+def cut_box_by_size(length: float, width: float, height: float) -> None:
+    """Cut a box-shaped pocket out of the current solid.
+
+    Args:
+        length: Size along X, in millimetres.
+        width: Size along Y, in millimetres.
+        height: Size along Z, in millimetres.
+
+    Example::
+
+        cut_box_by_size(10, 10, 20)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if length <= 0 or width <= 0 or height <= 0:
+        print("[subtractive] Error: every dimension must be greater than zero.")
+        return
+
+    box = _CutPrimitive("PartDesign::SubtractiveBox", "CutBox", doc)
+    if box is None:
+        return
+    box.Length = length
+    box.Width = width
+    box.Height = height
+
+    doc.recompute()
+    _RegisterObject(box)
+    print(f"[subtractive] Cut a box {length} x {width} x {height}")
+
+
+def cut_cylinder_by_size(radius: float, height: float) -> None:
+    """Cut a cylindrical pocket out of the current solid.
+
+    Args:
+        radius: Cut radius, in millimetres.
+        height: Cut height, in millimetres.
+
+    Example::
+
+        cut_cylinder_by_size(5, 20)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if radius <= 0 or height <= 0:
+        print("[subtractive] Error: radius and height must be greater than zero.")
+        return
+
+    cylinder = _CutPrimitive("PartDesign::SubtractiveCylinder", "CutCylinder", doc)
+    if cylinder is None:
+        return
+    cylinder.Radius = radius
+    cylinder.Height = height
+
+    doc.recompute()
+    _RegisterObject(cylinder)
+    print(f"[subtractive] Cut a cylinder radius {radius} height {height}")
+
+
+def cut_sphere_by_radius(radius: float) -> None:
+    """Cut a spherical pocket out of the current solid.
+
+    Args:
+        radius: Cut radius, in millimetres.
+
+    Example::
+
+        cut_sphere_by_radius(8)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if radius <= 0:
+        print(f"[subtractive] Error: radius must be greater than zero (got {radius}).")
+        return
+
+    sphere = _CutPrimitive("PartDesign::SubtractiveSphere", "CutSphere", doc)
+    if sphere is None:
+        return
+    sphere.Radius = radius
+
+    doc.recompute()
+    _RegisterObject(sphere)
+    print(f"[subtractive] Cut a sphere radius {radius}")

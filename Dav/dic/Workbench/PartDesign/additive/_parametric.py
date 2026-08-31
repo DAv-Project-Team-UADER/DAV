@@ -271,3 +271,144 @@ def loft_profiles(profile_a: object, profile_b: object) -> None:
         f"'{getattr(profile_a, 'Name', profile_a)}' and "
         f"'{getattr(profile_b, 'Name', profile_b)}'"
     )
+
+
+def sphere_by_radius(radius: float) -> None:
+    """Create a sphere from a dictated radius.
+
+    Args:
+        radius: Sphere radius, in millimetres.
+
+    Example::
+
+        sphere_by_radius(15)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if radius <= 0:
+        print(f"[additive] Error: radius must be greater than zero (got {radius}).")
+        return
+
+    body = doc.addObject("PartDesign::Body", "Body")
+    sphere = doc.addObject("PartDesign::AdditiveSphere", "Sphere")
+    sphere.Radius = radius
+    body.addObject(sphere)
+
+    doc.recompute()
+    _RegisterObject(sphere)
+    print(f"[additive] Created sphere radius {radius}")
+
+
+def cone_by_size(radius1: float, radius2: float, height: float) -> None:
+    """Create a cone from two dictated radii and a height.
+
+    Say a second radius of zero for a sharp tip, or two different radii for a
+    truncated cone.
+
+    Args:
+        radius1: Bottom radius, in millimetres.
+        radius2: Top radius, in millimetres. Zero gives a sharp tip.
+        height: Cone height, in millimetres.
+
+    Example::
+
+        cone_by_size(10, 0, 25)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if radius1 < 0 or radius2 < 0:
+        print("[additive] Error: radii cannot be negative.")
+        return
+    if radius1 == radius2:
+        print("[additive] Error: the two radii must differ; use a cylinder instead.")
+        return
+    if height <= 0:
+        print(f"[additive] Error: height must be greater than zero (got {height}).")
+        return
+
+    body = doc.addObject("PartDesign::Body", "Body")
+    cone = doc.addObject("PartDesign::AdditiveCone", "Cone")
+    cone.Radius1 = radius1
+    cone.Radius2 = radius2
+    cone.Height = height
+    body.addObject(cone)
+
+    doc.recompute()
+    _RegisterObject(cone)
+    print(f"[additive] Created cone radii {radius1}/{radius2} height {height}")
+
+
+def torus_by_size(radius1: float, radius2: float) -> None:
+    """Create a torus from a dictated ring radius and tube radius.
+
+    Args:
+        radius1: Ring radius (centre to tube centre), in millimetres.
+        radius2: Tube radius, in millimetres. Must be smaller than radius1.
+
+    Example::
+
+        torus_by_size(20, 5)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if radius1 <= 0 or radius2 <= 0:
+        print("[additive] Error: both radii must be greater than zero.")
+        return
+    # con el tubo mas grueso que el anillo el toro se auto-interseca
+    if radius2 >= radius1:
+        print(
+            f"[additive] Error: the tube radius ({radius2}) must be smaller "
+            f"than the ring radius ({radius1})."
+        )
+        return
+
+    body = doc.addObject("PartDesign::Body", "Body")
+    torus = doc.addObject("PartDesign::AdditiveTorus", "Torus")
+    torus.Radius1 = radius1
+    torus.Radius2 = radius2
+    body.addObject(torus)
+
+    doc.recompute()
+    _RegisterObject(torus)
+    print(f"[additive] Created torus ring {radius1} tube {radius2}")
+
+
+def prism_by_size(sides: int, circumradius: float, height: float) -> None:
+    """Create a prism from a dictated side count, radius and height.
+
+    Args:
+        sides: Number of sides of the base polygon. Must be 3 or more.
+        circumradius: Centre-to-vertex radius of the base, in millimetres.
+        height: Prism height, in millimetres.
+
+    Example::
+
+        prism_by_size(6, 10, 30)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if sides < 3:
+        print(f"[additive] Error: a prism needs at least 3 sides (got {sides}).")
+        return
+    if circumradius <= 0 or height <= 0:
+        print("[additive] Error: radius and height must be greater than zero.")
+        return
+
+    body = doc.addObject("PartDesign::Body", "Body")
+    prism = doc.addObject("PartDesign::AdditivePrism", "Prism")
+    prism.Polygon = sides
+    prism.Circumradius = circumradius
+    prism.Height = height
+    body.addObject(prism)
+
+    doc.recompute()
+    _RegisterObject(prism)
+    print(f"[additive] Created prism of {sides} sides radius {circumradius} height {height}")

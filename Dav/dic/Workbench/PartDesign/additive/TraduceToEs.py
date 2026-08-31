@@ -155,6 +155,19 @@ TraduceToEs = {
     "revolver por angulo": additive["revolve_by_angle"],
     "girar perfil": additive["revolve_by_angle"],
 
+    # Primitivas por medidas dictadas
+    "esfera por radio":      additive["sphere_by_radius"],
+    "crear esfera por radio": additive["sphere_by_radius"],
+
+    "cono por medidas":      additive["cone_by_size"],
+    "crear cono por medidas": additive["cone_by_size"],
+
+    "toro por medidas":      additive["torus_by_size"],
+    "rosquilla por medidas": additive["torus_by_size"],
+
+    "prisma por medidas":    additive["prism_by_size"],
+    "crear prisma por medidas": additive["prism_by_size"],
+
     #Ayuda
     "ayuda":                additive["help"],
     "información":          additive["help"],

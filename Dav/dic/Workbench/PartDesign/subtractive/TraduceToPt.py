@@ -91,6 +91,11 @@ TraduceToPt = {
 
     "ranhura por angulo":    subtractive["groove_by_angle"],
 
+    # Cortes com primitivas por medidas ditadas
+    "cortar caixa por medidas":    subtractive["cut_box_by_size"],
+    "cortar cilindro por medidas": subtractive["cut_cylinder_by_size"],
+    "cortar esfera por raio":      subtractive["cut_sphere_by_radius"],
+
     # Help
     "ajuda": subtractive['help'],
     "informação": subtractive['help'],
