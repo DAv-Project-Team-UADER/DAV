@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from DAV.DiccionariosEnBruto.Workbench import Sketcher
+from .sketcher import sketcher as Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
@@ -24,7 +24,7 @@ from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
 from .sketcher import sketcher
 
-TranslateToPt = {
+TraduceToPt = {
   
   # Carpetas de Sketcher  
   "geometria": sketcher["geometry"],

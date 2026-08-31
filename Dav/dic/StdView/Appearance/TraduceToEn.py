@@ -18,7 +18,7 @@
 
 from .Appearance import appearance
 from .ayuda import ayuda
-from DAV.DiccionariosEnBruto.StdView.Appearance import Appearance
+from .Appearance import appearance as Appearance
 
 TraduceToEn = {
     # Appearance

@@ -36,13 +36,12 @@ TraduceToEs = {
     "banco de ensamble":   assembly,
 
     # Banco de Dibujo
-    "dibujo":            draft,
-    "dibujos":           draft,
+    # Nota: "dibujo" (sola) se sacó a propósito — es casi indistinguible de
+    # "dibujar" (Sketcher, más abajo) para el reconocimiento de voz y
+    # provocaba que se navegara al workbench equivocado.
     "banco de dibujo":   draft,
     "borrador":          draft,
     "borradores":        draft,
-    "draftwork":         draft,
-    "draft":             draft,
 
     # Banco de Piezas
     "pieza":             part,
@@ -58,21 +57,17 @@ TraduceToEs = {
     "diseñador de piezas": partdesign,
     "diseño":            partdesign,
     "banco de diseño":   partdesign,
-    "partdesign":        partdesign,
-    "part design":       partdesign,
 
     # Banco de Croquis
     "croquis":           sketcher,
     "banco de croquis":  sketcher,
     "dibujar croquis":   sketcher,
     "dibujar":           sketcher,
-    "sketcher":          sketcher,
 
     # Banco de Dibujo Técnico
     "dibujo técnico":    techdraw,
     "dibujos técnicos":  techdraw,
     "banco de dibujo técnico": techdraw,
-    "techdraw":          techdraw,
     "dibujo de planos":  techdraw,
     "planos":            techdraw,
 

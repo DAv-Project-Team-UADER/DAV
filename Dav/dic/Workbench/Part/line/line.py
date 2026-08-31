@@ -30,9 +30,14 @@ def _create_line(x1: float, y1: float, z1: float, x2: float, y2: float, z2: floa
     line.Y2 = y2
     line.Z2 = z2
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(line.Name, Is3D=False).Execute()
 
 
 line = {
     'line': _create_line,
     'help':  ayuda,
-}
+}

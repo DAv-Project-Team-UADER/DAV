@@ -18,22 +18,7 @@
 
 """Spanish spoken-word mapping for the DAV StdView dictionary folders."""
 
-from DAV.DiccionariosEnBruto.StdView.StdView import StdView
-
-from .Appearance.Appearance import appearance
-from .Camera.Camera import camera
-from .Clipping.Clipping import clipping
-from .DrawStyles.DrawStyles import drawstyles
-from .Material.Material import material
-from .Overlay.Overlay import overlay
-from .Panels.Panels import Panels
-from .SavedViews.SavedViews import savedviews
-from .StandardViews.StandardViews import StandardViews
-from .Stereo.Stereo import stereo
-from .Toolbars.Toolbars import toolbars
-from .Tree.Tree import tree
-from .Visibility.Visibility import visibility
-from .ayuda import ayuda
+from .StdView import StdView
 
 TraduceToEs = {
     "apariencia": StdView["appearance"],
@@ -84,7 +69,6 @@ TraduceToEs = {
 
     "barras de herramientas": StdView["toolbars"],
     "barra de herramientas": StdView["toolbars"],
-    "toolbars": StdView["toolbars"],
 
     "arbol": StdView["tree"],
     "árbol": StdView["tree"],

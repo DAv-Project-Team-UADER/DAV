@@ -18,7 +18,7 @@
 
 """Mapeamento de palavras em portugues para o dicionario DAV AssemblyWorkbench."""
  
-from .AssemblyWorkbench import assembly
+from .Assembly import assembly
 from .joint.joint import joint
 from .ayuda import ayuda
  
@@ -32,11 +32,10 @@ TraduceToPt = {
     "resolver":            assembly["solve"],
     "resolver conjunto":   assembly["solve"],
     "fixar":      assembly["solve"],
-    "montar conjunto":     assembly["assemble"],
-    "desmontar conjunto":  assembly["disassemble"],
+    "montar conjunto":     assembly["create"],
     "fazer conjunto":         assembly["solve"],
     "verificar conjunto":     assembly["solve"],
-    "conjunto":              assembly["assemble"],
+    "conjunto":              assembly["create"],
     "arranjo":                assembly["solve"],
     
     "vista explodida":     assembly["view"],
@@ -61,6 +60,25 @@ TraduceToPt = {
     "unir":                joint,
     "conectar":            joint,
     "junto":                joint,
+
+    # Juntas por voz (sem dialogo)
+    "junta fixa":            assembly["fixed_joint"],
+    "fixar pecas":           assembly["fixed_joint"],
+
+    "junta giratoria":       assembly["revolute_joint"],
+    "dobradica":             assembly["revolute_joint"],
+
+    "junta deslizante":      assembly["slider_joint"],
+    "deslizar pecas":        assembly["slider_joint"],
+
+    "junta por distancia":   assembly["distance_joint"],
+    "separar pecas":         assembly["distance_joint"],
+
+    "junta por angulo":      assembly["angle_joint"],
+    "angulo entre pecas":    assembly["angle_joint"],
+
+    "fixar ao chao":         assembly["ground_part"],
+    "ancorar peca":          assembly["ground_part"],
 
     "ajuda":               joint['help'],
     "informação":          joint['help'],

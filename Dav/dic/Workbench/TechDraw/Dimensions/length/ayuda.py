@@ -18,4 +18,4 @@
 def ayuda():
     print('=== Length ===')
     print('  length: Calcula y dibuja la distancia de una arista en la pagina de dibujo tecnico.')
-    print('          Req: pagina TechDraw activa, vista con arista seleccionable.')
+    print('          Req: pestaña Page, click en una arista del dibujo (View : Edge…).')

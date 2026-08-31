@@ -262,7 +262,7 @@ Debe:
 Debe:
 
 - Guiar al usuario para seleccionar objetos.
-- Integrarse con la clase `ObjectSelection` existente en `selection/selection.py`.
+- Integrarse con la clase `ObjectSelection` existente en `selection/object_selection.py`.
 - Devolver el objeto seleccionado o el nombre del objeto, segun lo que necesite el flujo de validacion.
 
 Prueba recomendada en FreeCAD:

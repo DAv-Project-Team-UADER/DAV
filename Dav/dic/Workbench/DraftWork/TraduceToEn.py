@@ -51,6 +51,22 @@ TraduceToEn = {
     'binder':     draft['facebinder'],
     'face binder': draft['facebinder'],
 
+    'pointplacement':  draft['pointplacement'],
+    'point placement': draft['pointplacement'],
+    'place point':     draft['pointplacement'],
+
+    'pointconnect': draft['pointconnect'],
+    'point connect': draft['pointconnect'],
+    'connect points': draft['pointconnect'],
+    'creation':        draft['creation'],
+    'create':          draft['creation'],
+    'create object':   draft['creation'],
+    'primitives':      draft['creation'],
+    'drafting':        draft['drafting'],
+    'draw':            draft['drafting'],
+    'modification':    draft['modification'],
+    'modifications':   draft['modification'],
+
     "help":            draft['help'],
     "info":            draft['help'],
     "options":         draft['help']

@@ -16,8 +16,65 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+"""Portuguese spoken-word mapping for the Sketcher Geometry dictionary."""
+
+from .geometry import geometry
 
 TraduceToPt = {
-    
+    # Submenús e geometrias
+    "linha":                  geometry["line"],
+    "reta":                   geometry["line"],
+
+    "polinha":                geometry["polyline"],
+    "polilinha":              geometry["polyline"],
+
+    "retângulo":              geometry["rectangle"],
+    "retangulo":              geometry["rectangle"],
+
+    "círculo":                geometry["circle"],
+    "circulo":                geometry["circle"],
+
+    "arco":                   geometry["arc"],
+
+    "ranura de arco":         geometry["arc_slot"],
+
+    "elipse":                 geometry["ellipse"],
+
+    "polígono":               geometry["polygon"],
+    "poligono":               geometry["polygon"],
+
+    "hexágono":               geometry["hexagon"],
+    "hexagono":               geometry["hexagon"],
+
+    "heptágono":              geometry["heptagon"],
+    "heptagono":              geometry["heptagon"],
+
+    "bspline":                geometry["bspline"],
+    "spline":                 geometry["bspline"],
+
+    "ferramentas":            geometry["tools"],
+
+    # Controle do esboço
+    "novo":                   geometry["new"],
+    "novo esboço":            geometry["new"],
+    "criar esboço":           geometry["new"],
+
+    "editar":                 geometry["edit"],
+    "editar esboço":          geometry["edit"],
+
+    "anexar":                 geometry["attach"],
+
+    "grade":                  geometry["grid"],
+    "grelha":                 geometry["grid"],
+
+    "parar":                  geometry["stop"],
+
+    "sair":                   geometry["leave"],
+    "sair do esboço":         geometry["leave"],
+
+    "ajuda":                  geometry["help"],
+    "informação":             geometry["help"],
+    "opções":                 geometry["help"],
 }
+
+TraduceToPT = TraduceToPt

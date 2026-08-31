@@ -23,7 +23,6 @@ from .ayuda import ayuda
 TraduceToEs = {
     
     # Validación de croquis y sinónimos
-    "validate": validate['validate'],
     "validar": validate['validate'],
     "validar croquis": validate['validate'],
     "comprobar croquis": validate['validate'],

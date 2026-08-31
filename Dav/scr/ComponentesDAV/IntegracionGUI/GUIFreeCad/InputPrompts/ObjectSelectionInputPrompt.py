@@ -150,14 +150,6 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             return None
 
     @staticmethod
-    def _HasConfirmation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.ConfirmationWords for token in Tokens)
-
-    @staticmethod
-    def _HasCancellation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.CancellationWords for token in Tokens)
-
-    @staticmethod
     def _ImportFreeCADApp():
         import FreeCAD as App
 
@@ -166,23 +158,23 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
     @staticmethod
     def _ImportObjectSelection():
         try:
-            from selection import ObjectSelection
+            from selection.object_selection import ObjectSelection
 
             return ObjectSelection
         except ImportError:
             selection_root = Path(__file__).resolve()
             for parent in selection_root.parents:
                 candidate = parent / "selection"
-                if (candidate / "selection.py").is_file():
-                    selection_root = candidate
+                if (candidate / "object_selection.py").is_file():
+                    selection_root = candidate.parent
                     break
             else:
-                selection_root = Path(__file__).resolve().parents[3] / "selection"
+                selection_root = Path(__file__).resolve().parents[3]
 
             if selection_root.is_dir():
                 selection_text = str(selection_root)
                 if selection_text not in sys.path:
                     sys.path.insert(0, selection_text)
-            from selection import ObjectSelection
+            from selection.object_selection import ObjectSelection
 
             return ObjectSelection

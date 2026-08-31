@@ -16,8 +16,8 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
- 
- 
+
+
 def _create_cone(radius1=2, radius2=4, height=10, angle=360):
     doc = App.activeDocument()
     cone = doc.addObject("Part::Cone", "Cone")
@@ -26,10 +26,15 @@ def _create_cone(radius1=2, radius2=4, height=10, angle=360):
     cone.Height  = height
     cone.Angle   = angle
     doc.recompute()
- 
- 
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(cone.Name, Is3D=True).Execute()
+
+
 cone = {
     'cone':           lambda: _create_cone(),
     'primitive cone': lambda: _create_cone(),
     'help':           ayuda,
-}
+}

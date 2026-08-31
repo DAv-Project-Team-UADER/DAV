@@ -23,6 +23,23 @@ def open_preferences(parent=None) -> None:
 
     def on_changed() -> None:
         apply_theme(get_qt_application(), settings.theme)
+        try:
+            from integration.dav_dock_panel import get_source
+            src = get_source()
+            if src is not None and src._panel is not None:
+                src._panel.SetTheme(settings.theme)
+        except Exception:
+            pass
+        try:
+            from integration.apply_settings import apply_report_palette
+            apply_report_palette(settings.theme)
+        except Exception:
+            pass
+        try:
+            from integration.apply_settings import apply_report_palette
+            apply_report_palette(settings.theme)
+        except Exception:
+            pass
 
     dlg.settings_changed.connect(on_changed)
     dlg.exec()

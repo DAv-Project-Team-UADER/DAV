@@ -42,8 +42,9 @@ TraduceToEs = {
     'diámetro':             constraints['diameter'],
     'cota diametral':       constraints['diameter'],
 
-    'radiam':               constraints['radiam'],
     'cota automática':      constraints['radiam'],
+    'cota radio diámetro':  constraints['radiam'],
+    'radio o diámetro':     constraints['radiam'],
 
     'distancia':            constraints['distance'],
     'cota de distancia':    constraints['distance'],

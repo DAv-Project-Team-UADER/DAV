@@ -49,7 +49,7 @@ class DictionaryLoader:
         if not self.IsReady:
             return {}
         try:
-            module = importlib.import_module("base")
+            module = self._ImportFreshModule("base")
         except Exception as error:  # noqa: BLE001 - aislar base.py roto
             print(
                 f"[DAV-Browser] No se pudo cargar 'base.py' en {self.DictionaryRoot}: "
@@ -61,6 +61,28 @@ class DictionaryLoader:
         if not isinstance(base, dict):
             raise ValueError("base.py must define dict Base = {...}")
         return dict(base)
+
+    def LoadModuleDictByName(self, module_name: str, attr_name: str) -> dict[str, Any]:
+        """Import a module by dotted name (relative to DictionaryRoot) and
+        return the dict attribute ``attr_name`` from it, or {} if unavailable.
+
+        Used for fixed infrastructure modules (e.g. NavCommands.NavActions)
+        that are not per-folder TraduceTo*/base.py files but still need to
+        be resolved through the same sys.path as the rest of the dictionary
+        tree, so they are not accidentally hardcoded elsewhere.
+        """
+        if not self.IsReady:
+            return {}
+        try:
+            module = importlib.import_module(module_name)
+        except Exception as error:  # noqa: BLE001 - aislar módulo roto
+            print(
+                f"[DAV-Browser] No se pudo cargar '{module_name}': "
+                f"{error.__class__.__name__}: {error}."
+            )
+            return {}
+        table = getattr(module, attr_name, None)
+        return dict(table) if isinstance(table, dict) else {}
 
     def LoadTranslateMap(self, folder: Path, language: LanguageCode) -> dict[str, Any]:
         if not self.IsReady:
@@ -130,8 +152,30 @@ class DictionaryLoader:
             return dict(table)
         raise ValueError(f"No command dict in {child}")
 
-    def ResolveSubFolder(self, parent_folder: Path, internal_key: str) -> Path:
+    def ResolveSubFolder(
+        self, parent_folder: Path, internal_key: str, target: Any = None
+    ) -> Path:
+        # _InferInternalKey solo devuelve una clave confiable (explorer,
+        # preferences, sketcher...) cuando el destino está anidado como valor
+        # en el dict del nivel actual; si no, cae al spoken en español
+        # ("vista estándar"), que no es nombre de carpeta ni de módulo.
+        # Por eso primero resolvemos por identidad de objeto: cada carpeta
+        # hermana expone su dict maestro con el mismo nombre (StdView/
+        # StdView.py → StdView, Sketcher/sketcher.py → sketcher), así que
+        # comparamos `is target`. Esto aplica en cualquier profundidad del
+        # árbol, no solo al descender desde la raíz.
+        if target is not None:
+            by_identity = self._FindChildByTargetIdentity(parent_folder, target)
+            if by_identity is not None:
+                return by_identity
+        # Carpeta hermana directa por nombre (case-insensitive), útil cuando
+        # internal_key sí es confiable (p. ej. "explorer", "sketcher").
+        direct = self._FindChildCaseInsensitive(parent_folder, internal_key)
+        if direct is not None:
+            return direct
         if parent_folder == self.DictionaryRoot:
+            # Caso especial: los submenús propios de Explorer (file, edit,
+            # windows...) viven anidados dentro de la carpeta Explorer/.
             nested = self.DictionaryRoot / "explorer" / internal_key
             if nested.is_dir():
                 return nested
@@ -141,7 +185,40 @@ class DictionaryLoader:
         child = parent_folder / internal_key
         if child.is_dir():
             return child
-        return parent_folder
+        raise FileNotFoundError(
+            f"No se pudo resolver una subcarpeta para '{internal_key}' "
+            f"dentro de {parent_folder}. Se esperaba una carpeta hermana "
+            "identificable por nombre o por identidad del dict de destino."
+        )
+
+    _SKIP_MODULE_STEMS = frozenset({"ayuda", "help", "__init__"})
+
+    def _FindChildByTargetIdentity(self, parent_folder: Path, target: Any) -> Path | None:
+        rel_parent = parent_folder.relative_to(self.DictionaryRoot)
+        parent_parts = [] if rel_parent == Path(".") else list(rel_parent.parts)
+        for child in parent_folder.iterdir():
+            if not child.is_dir() or child.name.startswith(("_", ".")):
+                continue
+            for module_file in child.glob("*.py"):
+                stem = module_file.stem
+                if stem in self._SKIP_MODULE_STEMS or stem.startswith("TraduceTo"):
+                    continue
+                module_name = ".".join(parent_parts + [child.name, stem])
+                try:
+                    module = importlib.import_module(module_name)
+                except Exception:  # noqa: BLE001 - módulo candidato inválido, seguir buscando
+                    continue
+                if any(value is target for value in vars(module).values()):
+                    return child
+        return None
+
+    @staticmethod
+    def _FindChildCaseInsensitive(parent_folder: Path, internal_key: str) -> Path | None:
+        target = internal_key.lower()
+        for child in parent_folder.iterdir():
+            if child.is_dir() and child.name.lower() == target:
+                return child
+        return None
 
     @staticmethod
     def NormalizeSpoken(text: str) -> str:
@@ -156,4 +233,10 @@ class DictionaryLoader:
         resolved_root = self.DictionaryRoot.resolve()
         rel = resolved_path.relative_to(resolved_root).with_suffix("")
         module_name = ".".join(rel.parts)
-        return importlib.import_module(module_name)
+        return self._ImportFreshModule(module_name)
+
+    @staticmethod
+    def _ImportFreshModule(module_name: str) -> ModuleType:
+        importlib.invalidate_caches()
+        module = importlib.import_module(module_name)
+        return importlib.reload(module)

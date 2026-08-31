@@ -31,5 +31,4 @@ TraduceToEs = {
     "informacion":    dimension["help"],
     "información":    dimension["help"],
     "opciones":       dimension["help"]
-
 }

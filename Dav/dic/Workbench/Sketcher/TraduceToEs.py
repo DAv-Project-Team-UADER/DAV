@@ -16,7 +16,6 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
@@ -104,9 +103,9 @@ TraduceToEs = {
    "salir croquis": sketcher["leave"],
    "cerrar croquis": sketcher["leave"],
 
-   "cancelaredit": sketcher["cancelediting"],
    "cancelar edición": sketcher["cancelediting"],
    "detener edición": sketcher["cancelediting"],
+   "cancelar": sketcher["cancelediting"],
 
    # Geometría de Construcción
    "alternar construcción": _toggle_construction,
@@ -170,10 +169,11 @@ TraduceToEs = {
 
    "chaflán": sketcher["chamfer"],
    "crear chaflán": sketcher["chamfer"],
-   "chanflear": sketcher["chamfer"],
+   "chaflanar": sketcher["chamfer"],
+   "biselar": sketcher["chamfer"],
 
 
-  "ayuda": Sketcher['help'],
-  "información": Sketcher['help'],
-  "opciones": Sketcher['help'],
+  "ayuda": sketcher['help'],
+  "información": sketcher['help'],
+  "opciones": sketcher['help'],
 }

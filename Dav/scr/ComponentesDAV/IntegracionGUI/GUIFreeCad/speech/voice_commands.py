@@ -8,8 +8,16 @@ from typing import Callable
 
 from core.model_manager import has_small_model
 
-# SetGrammar can block all recognition on some models — leave False to debug
-USE_GRAMMAR = False
+# Aca vivia USE_GRAMMAR = False, con la nota "SetGrammar can block all
+# recognition on some models". Nadie leia esa variable, asi que no apagaba
+# nada: era un resto de cuando el motor de voz estaba en este archivo.
+#
+# El sintoma que la motivo era real y ya esta explicado: Vosk aborta el proceso
+# si se le cambia la gramatica a un recognizer que ya proceso audio
+# (SetGrm():recognizer.cc:235). No es "algunos modelos": pasa siempre, y se
+# resuelve con Reset() antes de SetGrammar, como hace dav_voice_service.
+# La gramatica acotada se arma en Browser.GetSpokenPhrases() para el modo CAD
+# y en all_grammar_phrases() para preferencias.
 
 
 def _buffer_to_bytes(indata) -> bytes:

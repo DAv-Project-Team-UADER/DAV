@@ -32,5 +32,11 @@ TraduceToEs = {
 
     'ayuda':                circle['help'],
     'informacion':             circle['help'],
-    'opciones':             circle['help']
+    'opciones':             circle['help'],
+
+    # Círculo por coordenadas dictadas
+    "circulo por centro": circle['create_by_center'],
+    "crear circulo por centro": circle['create_by_center'],
+    "circulo por radio": circle['create_by_center'],
+    "circulo por coordenadas": circle['create_by_center'],
 }

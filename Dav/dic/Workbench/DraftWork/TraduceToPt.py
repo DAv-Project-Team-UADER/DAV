@@ -56,6 +56,23 @@ TraduceToPt = {
     'binder':     draft['facebinder'],
     'aglutinante': draft['facebinder'],
 
+    'colocacao de pontos': draft['pointplacement'],
+    'colocação de pontos': draft['pointplacement'],
+    'posicionar ponto':    draft['pointplacement'],
+
+    'conectar pontos': draft['pointconnect'],
+    'conexao de pontos': draft['pointconnect'],
+    'conexão de pontos': draft['pointconnect'],
+    'criacao':           draft['creation'],
+    'criação':           draft['creation'],
+    'criar':             draft['creation'],
+    'criar objeto':      draft['creation'],
+    'primitivas':        draft['creation'],
+    'desenhar':          draft['drafting'],
+    'desenho':           draft['drafting'],
+    'modificacao':       draft['modification'],
+    'modificação':       draft['modification'],
+
     "ajuda":             draft["help"],
     "informação":       draft["help"],
     "opções":            draft["help"]

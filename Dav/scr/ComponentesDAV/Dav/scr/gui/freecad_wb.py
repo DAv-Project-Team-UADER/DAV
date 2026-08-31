@@ -11,6 +11,7 @@ _DAV_TOOLBAR_COMMANDS = (
     "DAV_OpenPreferences",
     "DAV_StartVoice",
     "DAV_StopVoice",
+    "DAV_ShowPanel",
 )
 
 
@@ -87,7 +88,7 @@ def setup_workbench(workbench) -> None:
 
 def _schedule_autoload_workbench() -> None:
     """Activa workbench DAV al abrir FreeCAD (complementa InitGui.py)."""
-    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") != "1":
+    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") == "0":
         return
     try:
         from PySide6.QtCore import QTimer
@@ -106,7 +107,7 @@ def _schedule_autoload_workbench() -> None:
 
 
 def _schedule_dav_ui_bootstrap() -> None:
-    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") != "1":
+    if os.environ.get("DAV_AUTOLOAD_WORKBENCH") == "0":
         return
     try:
         from PySide6.QtCore import QTimer
@@ -163,12 +164,13 @@ def _auto_start_voice_if_needed() -> None:
         from core.settings import settings
 
         settings.load()
-        if not settings.auto_voice:
+        if not (os.environ.get("DAV_AUTO_START_VOICE") == "1" or settings.auto_voice or settings.startup_enabled):
             return
 
         from integration.voice_bootstrap import start_voice_engine
 
         start_voice_engine()
+        # InterfazDAV launch handled by _schedule_interfaz_dav_launch()
     except Exception:
         pass
 
@@ -272,15 +274,21 @@ def _schedule_settings_watcher() -> None:
                     last_mtime[0] = mtime
                     with open(settings_path, encoding="utf-8") as fh:
                         data = json.load(fh)
+                    theme = data.get("theme", "light")
                     app = QApplication.instance()
                     if app is not None:
                         dav_cmds = importlib.import_module("scr.gui.dav_commands")
                         dav_cmds._ensure_gui_path()
                         from ui.theme import apply_theme
-                        apply_theme(app, data.get("theme", "light"))
+                        apply_theme(app, theme)
+                    from integration.dav_dock_panel import get_source
+                    src = get_source()
+                    if src is not None and src._panel is not None:
+                        src._panel.SetTheme(theme)
+                        src._panel.SetLanguage(data.get("language", "es"))
                     App.Console.PrintMessage(
                         f"[DAV] Preferencias actualizadas "
-                        f"(idioma={data.get('language','?')}, tema={data.get('theme','?')}).\n"
+                        f"(idioma={data.get('language','?')}, tema={theme}).\n"
                     )
                 except Exception:
                     pass

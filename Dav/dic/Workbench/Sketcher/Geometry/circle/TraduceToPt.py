@@ -32,5 +32,11 @@ TraduceToPt = {
 
     'ajuda':                circle['help'],
     'informação':             circle['help'],
-    'opções':               circle['help']
+    'opções':               circle['help'],
+
+    # Círculo por coordenadas ditadas
+    "circulo por centro": circle['create_by_center'],
+    "criar circulo por centro": circle['create_by_center'],
+    "circulo por raio": circle['create_by_center'],
+    "circulo por coordenadas": circle['create_by_center'],
 }

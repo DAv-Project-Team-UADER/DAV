@@ -29,11 +29,14 @@ from .Sketcher.sketcher import sketcher
 from .TechDraw.TechDraw import techdraw
 from .ayuda import ayuda
 
+# Subcontextos anidados: el Browser navega por niveles y Workbench/TraduceTo*.py
+# espera workbench['assembly'], workbench['draft'], ... como submenús (no
+# aplanados), igual que Explorer/Explorer.py.
 workbench = {}
-workbench.update(assembly)
-workbench.update(draft)
-workbench.update(part)
-workbench.update(partdesign)
-workbench.update(sketcher)
-workbench.update(techdraw)
+workbench.update({'assembly':   assembly})
+workbench.update({'draft':      draft})
+workbench.update({'part':       part})
+workbench.update({'partdesign': partdesign})
+workbench.update({'sketcher':   sketcher})
+workbench.update({'techdraw':   techdraw})
 workbench.update({'help': ayuda})

@@ -34,5 +34,11 @@ TraduceToEn = {
     # Sinónimos para la función ayuda
     'help':             arc['help'],
     'info':         arc['help'],
-    'options':          arc['help']
+    'options':          arc['help'],
+
+    # Arc by dictated coordinates
+    "arc by center": arc['create_by_center'],
+    "create arc by center": arc['create_by_center'],
+    "arc by angles": arc['create_by_center'],
+    "arc by coordinates": arc['create_by_center'],
 }

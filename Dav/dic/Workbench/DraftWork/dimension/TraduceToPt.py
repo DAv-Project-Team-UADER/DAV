@@ -32,5 +32,4 @@ TraduceToPt = {
     "informação":     dimension["help"],
     "opcoes":         dimension["help"],
     "opções":         dimension["help"]
-
 }

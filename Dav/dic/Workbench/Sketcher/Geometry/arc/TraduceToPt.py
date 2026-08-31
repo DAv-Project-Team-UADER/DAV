@@ -31,5 +31,11 @@ TraduceToPt = {
 
     'ajuda':                arc['help'],
     'informação':             arc['help'],
-    'opções':               arc['help']
+    'opções':               arc['help'],
+
+    # Arco por coordenadas ditadas
+    "arco por centro": arc['create_by_center'],
+    "criar arco por centro": arc['create_by_center'],
+    "arco por angulos": arc['create_by_center'],
+    "arco por coordenadas": arc['create_by_center'],
 }

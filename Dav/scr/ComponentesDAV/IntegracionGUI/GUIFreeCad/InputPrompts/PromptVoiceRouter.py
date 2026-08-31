@@ -9,6 +9,20 @@ from __future__ import annotations
 import threading
 from typing import Any
 
+from InputPrompts.NumericGrammarSwitcher import NumericGrammarSwitcher
+
+
+def _RequiresNumericGrammar(Prompt: Any) -> bool:
+    """Return True when the prompt needs the numeric Vosk grammar.
+
+    Delegates to the prompt itself (BaseInputPrompt.RequiresNumericGrammar)
+    instead of checking concrete types, so a new numeric prompt class does
+    not require changes here.
+    """
+    if Prompt is None:
+        return False
+    return bool(getattr(Prompt, "RequiresNumericGrammar", lambda: False)())
+
 
 class PromptVoiceRouter:
     """Thread-safe registry for the prompt currently collecting voice input."""
@@ -18,16 +32,31 @@ class PromptVoiceRouter:
 
     @classmethod
     def SetActivePrompt(cls, Prompt: Any) -> None:
-        """Register a prompt as the active voice input target."""
+        """Register a prompt as the active voice input target.
+
+        When the prompt requires numeric grammar, the Vosk grammar is
+        switched to include number words so the recognizer can hear digits
+        and decimal separators.
+        """
         with cls._Lock:
             cls._ActivePrompt = Prompt
+        if _RequiresNumericGrammar(Prompt):
+            NumericGrammarSwitcher.ActivateNumericGrammar()
 
     @classmethod
     def ClearActivePrompt(cls, Prompt: Any | None = None) -> None:
-        """Clear the active prompt, optionally only if it matches Prompt."""
+        """Clear the active prompt, optionally only if it matches Prompt.
+
+        When the cleared prompt required numeric grammar, the Vosk grammar
+        is restored to the CAD navigation context.
+        """
+        was_numeric = False
         with cls._Lock:
             if Prompt is None or cls._ActivePrompt is Prompt:
+                was_numeric = _RequiresNumericGrammar(cls._ActivePrompt)
                 cls._ActivePrompt = None
+        if was_numeric:
+            NumericGrammarSwitcher.RestoreCadGrammar()
 
     @classmethod
     def HasActivePrompt(cls) -> bool:

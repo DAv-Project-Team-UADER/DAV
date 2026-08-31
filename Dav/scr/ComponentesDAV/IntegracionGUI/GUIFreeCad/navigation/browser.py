@@ -12,12 +12,19 @@ Implemented so far (Developer 1 + Developer 2):
   - Language-change callback: reloads from base.py automatically
   - ProcessPhrase: direct BaseContext jump (Requirement 2)
 
-TODO Developer 3 – Search engine (descend + ascend):
-  - Implement _DescendToSubContext: enter a sub-folder context manually
-  - Implement _SearchUpwardAndExecute: if command not in current Context,
+Search engine (descend + ascend):
+  - _DescendToSubContext: enter a sub-folder context manually
+  - _SearchUpwardAndExecute: if command not in current Context,
     save OriginalContext, walk the stack upward, execute if found,
     restore to OriginalContext if not found anywhere
-  - Wire both into ProcessPhrase below (marked TODO)
+
+Multi-word phrases that name a sub-context and a command inside it in one
+shot ("nuevo archivo" without first saying "archivo") are NOT resolved
+automatically: the user must descend explicitly, then say the leaf command.
+
+Navigation words (subir/volver/contexto/...) are NOT hardcoded here: they
+live in Dav/dic/NavCommands/TraduceTo*.py like any other spoken dictionary,
+and are matched by identity against NavActions.GoUp / NavActions.ShowContext.
 """
 
 from __future__ import annotations
@@ -63,20 +70,20 @@ class Browser:
     real dictionary on disk (inject a mock DictionaryLoader).
     """
 
-    # Palabras que suben un nivel en la navegación (ya normalizadas: sin
-    # acentos ni mayúsculas, según DictionaryLoader.NormalizeSpoken).
-    _BACK_WORDS = frozenset({"volver", "atras", "salir", "subir", "regresar"})
-
     def __init__(
         self,
         dictionary_root: Path | str | None = None,
         *,
         prefs: Preferences | None = None,
         on_execute: Callable[[ContextEntry], None] | None = None,
+        on_descend: Callable[[ContextEntry], None] | None = None,
+        on_context_change: Callable[[], None] | None = None,
         _loader: DictionaryLoader | None = None,
     ) -> None:
         self._prefs = prefs or preferences
         self._on_execute = on_execute
+        self._on_descend = on_descend
+        self._on_context_change = on_context_change
         self._loader = _loader or DictionaryLoader(
             dictionary_root or self._DefaultDictionaryRoot()
         )
@@ -84,6 +91,7 @@ class Browser:
         self._stack: list[_ContextFrame] = []
         self._base_translate: dict[str, Any] = {}
         self._base_module: dict[str, Any] = {}
+        self._nav_translate: dict[str, Any] = {}
 
         self.BaseContext: list[ContextEntry] = []
         self.Context: list[ContextEntry] = []
@@ -143,7 +151,7 @@ class Browser:
             # "nuevo" y la clave interna "new"). _BuildContextForFrame agrega
             # primero las habladas del TraduceTo, así que nos quedamos con la
             # primera vista por destino (la español) y omitimos el resto.
-            if any(entry.Target is t for t in seen_targets):
+            if any(self._SameTarget(entry.Target, t) for t in seen_targets):
                 continue
             seen_targets.append(entry.Target)
             if entry.IsSubContext():
@@ -157,10 +165,79 @@ class Browser:
         if commands:
             lines.append("  Comandos (ejecutar): " + ", ".join(sorted(commands)))
         if self._IsDescended():
-            lines.append("  Decí «volver» para subir un nivel.")
+            up_word = self._FirstSpokenForNavAction("up")
+            if up_word:
+                lines.append(f"  Decí «{up_word}» para subir un nivel.")
         if not submenus and not commands:
             lines.append("  (sin comandos en este contexto)")
         return "\n".join(lines)
+
+    def GetNavWords(self, action: str) -> set[str]:
+        """Return the spoken words bound to a NavCommands sentinel.
+
+        Args:
+            action: Sentinel key in ``NavCommands/NavActions.py``
+                (``up``, ``show_context``, ``send``, ``cancel``).
+
+        Returns:
+            Every phrase mapped to that sentinel in the active language.
+            Empty if the dictionary is missing, so callers must tolerate it.
+
+        Example::
+
+            send_words = browser.GetNavWords("send")   # {'enviar', 'aceptar', ...}
+        """
+        target = self._nav_actions.get(action)
+        if target is None:
+            return set()
+        return {
+            spoken.strip().lower()
+            for spoken, value in self._nav_translate.items()
+            if value is target and spoken
+        }
+
+    def GetSpokenPhrases(self) -> list[str]:
+        """Return all valid spoken phrases for the active navigation context.
+
+        Includes current Context entries, BaseContext entries, NavCommands,
+        action tokens (enviar, cancelar), and '[unk]'.
+        """
+        phrases: set[str] = set()
+
+        for entry in self.Context:
+            if entry.Spoken:
+                phrases.add(entry.Spoken.strip().lower())
+            if entry.InternalKey:
+                phrases.add(entry.InternalKey.strip().lower())
+
+        for entry in self.BaseContext:
+            if entry.Spoken:
+                phrases.add(entry.Spoken.strip().lower())
+            if entry.InternalKey:
+                phrases.add(entry.InternalKey.strip().lower())
+
+        if hasattr(self, "_base_translate") and isinstance(self._base_translate, dict):
+            for spoken in self._base_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
+
+        if hasattr(self, "_nav_translate") and isinstance(self._nav_translate, dict):
+            for spoken in self._nav_translate.keys():
+                if spoken:
+                    phrases.add(spoken.strip().lower())
+
+        # enviar/cancelar ya entran arriba con el resto de _nav_translate: son
+        # comandos de NavCommands como "subir". Solo queda fijo [unk], que es el
+        # comodin de Vosk para absorber ruido, no una palabra del diccionario.
+        phrases.add("[unk]")
+        return sorted(phrases)
+
+    def _NotifyContextChanged(self) -> None:
+        if getattr(self, "_on_context_change", None) is not None:
+            try:
+                self._on_context_change()
+            except Exception as e:
+                print(f"[DAV-Browser] Error in on_context_change callback: {e}")
 
     def ResetFromBase(self) -> None:
         """Reload BaseContext and Context from base.py (current language)."""
@@ -169,6 +246,10 @@ class Browser:
         self._base_translate = self._loader.LoadTranslateMap(
             self._loader.DictionaryRoot, self._language
         )
+        self._nav_translate = self._loader.LoadTranslateMap(
+            self._loader.DictionaryRoot / "NavCommands", self._language
+        )
+        self._nav_actions = self._loader.LoadModuleDictByName("NavCommands.NavActions", "NavActions")
         self._stack = [
             _ContextFrame(
                 Folder=self._loader.DictionaryRoot,
@@ -179,6 +260,7 @@ class Browser:
         self.BaseContext = self._BuildBaseContextEntries()
         self.Context = self._BuildContextForFrame(self._stack[-1])
         self.OriginalContext = None
+        self._NotifyContextChanged()
 
     def ProcessPhrase(self, spoken: str) -> BrowserResult:
         """
@@ -197,13 +279,13 @@ class Browser:
         if not normalized:
             return BrowserResult(False, "empty", "Empty phrase")
 
-        # Comando reservado "volver": sube un nivel (file → explorer → base).
-        # Funciona en cualquier contexto sin depender de los diccionarios.
-        if normalized in self._BACK_WORDS:
-            if self._IsDescended():
-                parent = self._AscendOneLevel()
-                return BrowserResult(True, "back", f"Context set to {parent}")
-            return BrowserResult(False, "back", "Already at root context")
+        # Comandos de navegación (subir, mostrar contexto, ...): se resuelven
+        # contra Dav/dic/NavCommands/TraduceTo*.py, no contra un set fijo en
+        # código. Funcionan en cualquier contexto, sin depender de en qué
+        # nivel del árbol de comandos FreeCAD esté parado el usuario.
+        nav_action = self._ResolveNavAction(normalized)
+        if nav_action is not None:
+            return self._ExecuteNavAction(nav_action)
 
         # El contexto actual tiene prioridad sobre el salto base: si ya
         # descendimos a un subcontexto, una palabra que también existe en el
@@ -215,8 +297,9 @@ class Browser:
             entry = FindBySpoken(self.Context, normalized)
             if entry is not None:
                 if entry.IsSubContext():
-                    self._DescendToSubContext(entry)
-                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                    if self._DescendToSubContext(entry):
+                        return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)
                     return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
@@ -234,8 +317,9 @@ class Browser:
         entry = FindBySpoken(self.Context, normalized)
         if entry is not None:
             if entry.IsSubContext():
-                self._DescendToSubContext(entry)
-                return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                if self._DescendToSubContext(entry):
+                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
+                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
             if entry.IsCallable():
                 self._ExecuteEntry(entry)
                 return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
@@ -256,7 +340,45 @@ class Browser:
         parent = self._stack[-1]
         self.Context = self._BuildContextForFrame(parent)
         self.OriginalContext = None
+        self._NotifyContextChanged()
         return parent.InternalName
+
+    # ------------------------------------------------------------------
+    # Navigation words (NavCommands) — not hardcoded, read from
+    # Dav/dic/NavCommands/TraduceTo*.py and matched by identity against
+    # NavActions.GoUp / NavActions.ShowContext.
+    # ------------------------------------------------------------------
+
+    def _ResolveNavAction(self, normalized_spoken: str) -> str | None:
+        """Return the NavActions key ('up', 'show_context', ...) for a
+        spoken phrase, or None if it does not name a navigation command."""
+        for spoken, target in self._nav_translate.items():
+            if DictionaryLoader.NormalizeSpoken(spoken) != normalized_spoken:
+                continue
+            for key, value in self._nav_actions.items():
+                if value is target:
+                    return key
+        return None
+
+    def _ExecuteNavAction(self, action_key: str) -> BrowserResult:
+        if action_key == "up":
+            if self._IsDescended():
+                parent = self._AscendOneLevel()
+                return BrowserResult(True, "back", f"Context set to {parent}")
+            return BrowserResult(False, "back", "Already at root context")
+        if action_key == "show_context":
+            return BrowserResult(True, "show_context", self.DescribeContext())
+        return BrowserResult(False, "nav_unknown", f"Unknown nav action '{action_key}'")
+
+    def _FirstSpokenForNavAction(self, action_key: str) -> str | None:
+        """First spoken word mapped to a NavActions key, for user-facing hints."""
+        target = self._nav_actions.get(action_key)
+        if target is None:
+            return None
+        for spoken, value in self._nav_translate.items():
+            if value is target:
+                return spoken
+        return None
 
     # ------------------------------------------------------------------
     # Internal helpers (Developer 2)
@@ -280,16 +402,27 @@ class Browser:
     def _BuildContextForFrame(self, frame: _ContextFrame) -> list[ContextEntry]:
         entries: list[ContextEntry] = []
         seen_spoken: set[str] = set()
+        seen_keys: set[str] = set()
+        seen_targets: list[Any] = []
 
         translate = self._loader.LoadTranslateMap(frame.Folder, self._language)
         for spoken, target in translate.items():
             key = self._InferInternalKey(spoken, target, frame.ModuleDict)
             entries.append(ContextEntry(Spoken=spoken, InternalKey=key, Target=target))
             seen_spoken.add(DictionaryLoader.NormalizeSpoken(spoken))
+            seen_keys.add(DictionaryLoader.NormalizeSpoken(key))
+            seen_targets.append(target)
 
+        # El diccionario interno (module_dict) es un *fallback* en inglés
+        # para claves que todavía no tienen traducción. Si la clave interna
+        # ya tiene alias hablado (por texto o por destino ya visto vía
+        # _InferInternalKey), no se debe repetir como entrada aparte: eso es
+        # lo que hacía aparecer "explorer" junto a "explorador" en el log.
         for internal_key, target in frame.ModuleDict.items():
-            norm = DictionaryLoader.NormalizeSpoken(internal_key)
-            if norm in seen_spoken:
+            norm_word = DictionaryLoader.NormalizeSpoken(internal_key)
+            if norm_word in seen_spoken or norm_word in seen_keys:
+                continue
+            if any(self._SameTarget(target, t) for t in seen_targets):
                 continue
             entries.append(
                 ContextEntry(
@@ -299,6 +432,27 @@ class Browser:
                 )
             )
         return entries
+
+    @staticmethod
+    def _SameTarget(a: Any, b: Any) -> bool:
+        """True si dos destinos son "el mismo" submenú/comando.
+
+        Compara por identidad primero (caso normal). Si ambos son dict
+        (subcontexto), también compara por claves: dos re-importaciones del
+        mismo módulo de diccionario (p. ej. por rutas de sys.path
+        duplicadas) producen dos objetos distintos mismo con idéntico
+        contenido, y no deben listarse como dos submenús separados.
+        """
+        if a is b:
+            return True
+        if isinstance(a, dict) and isinstance(b, dict):
+            return a.keys() == b.keys()
+        return False
+
+    #: Alias publico de _SameTarget. Quien recorre Context desde afuera (la GUI,
+    #: el adapter) necesita deduplicar igual que el Browser; sin esto terminan
+    #: llamando al privado, como venia haciendo BrowserVoiceAdapter.
+    IsSameTarget = _SameTarget
 
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
@@ -338,15 +492,36 @@ class Browser:
         elif entry.IsCallable():
             self._ExecuteEntry(entry)
 
-    def _DescendToSubContext(self, entry: ContextEntry) -> None:
-        """Descend manually into a sub-folder context."""
+    def _DescendToSubContext(self, entry: ContextEntry) -> bool:
+        """Descend manually into a sub-folder context.
+
+        Returns:
+            True si se pudo resolver y apilar el subcontexto. False si
+            ResolveSubFolder no encontró una carpeta real para la clave
+            (dato roto en el diccionario): se registra el error y el
+            Browser se queda en el contexto actual en vez de apilar un
+            frame que apuntaría a la misma carpeta que su padre.
+        """
+        try:
+            folder = self._loader.ResolveSubFolder(
+                self._stack[-1].Folder, entry.InternalKey, entry.Target
+            )
+        except FileNotFoundError as error:
+            print(f"[DAV-Browser] {error}")
+            return False
         frame = _ContextFrame(
-            Folder=self._loader.ResolveSubFolder(self._stack[-1].Folder, entry.InternalKey),
+            Folder=folder,
             ModuleDict=entry.Target,
             InternalName=entry.InternalKey,
         )
         self._stack.append(frame)
         self.Context = self._BuildContextForFrame(frame)
+        
+        if self._on_descend is not None:
+            self._on_descend(entry)
+            
+        self._NotifyContextChanged()
+        return True
 
     def _SearchUpwardAndExecute(self, normalized_spoken: str) -> BrowserResult:
         """Automatic ascending search."""
@@ -365,13 +540,16 @@ class Browser:
                     self._stack = temp_stack
                     self.Context = parent_context
                     self.OriginalContext = parent_context
+                    self._NotifyContextChanged()
                     return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
                 elif entry.IsSubContext():
                     self._stack = temp_stack
                     self.Context = parent_context
-                    self._DescendToSubContext(entry)
+                    descended = self._DescendToSubContext(entry)
                     self.OriginalContext = self.Context
-                    return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
+                    if descended:
+                        return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
         
         self.Context = self.OriginalContext
         return BrowserResult(False, "not_found", "Command not found in upward search")
