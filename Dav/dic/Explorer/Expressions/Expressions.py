@@ -19,10 +19,10 @@ from .ayuda import ayuda
 from _lenient import LenientDict
 
 expressions = {
-    'copyactdoc': lambda: Gui.runCommand('Std_Expressions_CopyActiveDocument', 0),
-    'copyalldoc': lambda: Gui.runCommand('Std_Expressions_CopyAllDocuments', 0),
-    'copyselected': lambda: Gui.runCommand('Std_Expressions_CopySelected', 0),
-    'pasteexpr': lambda: Gui.runCommand('Std_Expressions_Paste', 0),
+    'copyactdoc': lambda: Gui.runCommand('Std_Expressions', 1),
+    'copyalldoc': lambda: Gui.runCommand('Std_Expressions', 2),
+    'copyselected': lambda: Gui.runCommand('Std_Expressions', 0),
+    'pasteexpr': lambda: Gui.runCommand('Std_Expressions', 3),
     'help': ayuda
 }
 
