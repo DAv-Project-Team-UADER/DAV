@@ -28,6 +28,7 @@ from .Polygon._polygon import polygon
 from .polyline.polyline import polyline
 from .rectangle.rectangle import rectangle
 from .ayuda import ayuda
+from ..new_sketch.new_sketch import _new_sketch
 
 geometry = {
     'arc': arc,
@@ -43,7 +44,7 @@ geometry = {
     'polyline': polyline,
     'rectangle': rectangle,
 
-    'new': lambda: Gui.runCommand('Sketcher_NewSketch', 0),
+    'new': _new_sketch,
     'edit': lambda: Gui.runCommand('Sketcher_EditSketch', 0),
     'attach': lambda: Gui.runCommand('Sketcher_MapSketch', 0),
     'grid': lambda: Gui.runCommand('Sketcher_Grid', 0),
