@@ -22,6 +22,7 @@ from Workbench.workbench import workbench as Workbench
 from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
+from Selection.selection import selection
 from integration.launch_preferences import open_preferences
 
 TraduceToEn = {
@@ -50,6 +51,11 @@ TraduceToEn = {
     "workbench dialog": Workbench,
     "workbench window": Workbench,
 
+    "selection":         selection,
+    "select":            selection,
+    "object selection":  selection,
+    "selected objects":  selection,
+    "objects":           selection,
     "preferences": open_preferences,
     "settings":    open_preferences,
 }

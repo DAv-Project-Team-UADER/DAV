@@ -38,4 +38,10 @@ TraduceToEn = {
     "help": rectangle['help'],
     "info": rectangle['help'],
     "options": rectangle['help'],
+
+    # Rectangle by dictated coordinates
+    "rectangle by corners": rectangle['create_by_corners'],
+    "create rectangle by corners": rectangle['create_by_corners'],
+    "rectangle by points": rectangle['create_by_corners'],
+    "rectangle by coordinates": rectangle['create_by_corners'],
 }
