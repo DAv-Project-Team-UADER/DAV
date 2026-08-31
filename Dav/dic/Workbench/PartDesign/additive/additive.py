@@ -19,11 +19,15 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 from ._parametric import (
     box_by_size,
+    cone_by_size,
     cylinder_by_size,
     loft_profiles,
     pad_by_length,
     pad_sketch,
+    prism_by_size,
     revolve_by_angle,
+    sphere_by_radius,
+    torus_by_size,
 )
 
 
@@ -121,6 +125,10 @@ additive = {
     'box_by_size':       box_by_size,
     'cylinder_by_size':  cylinder_by_size,
     'revolve_by_angle':  revolve_by_angle,
+    'sphere_by_radius':  sphere_by_radius,
+    'cone_by_size':      cone_by_size,
+    'torus_by_size':     torus_by_size,
+    'prism_by_size':     prism_by_size,
     'loft_profiles':     loft_profiles,
     'help':              ayuda,
 }

@@ -84,6 +84,20 @@ TraduceToEn = {
     "booleanoperation": subtractive["boolean"],
     "booleanop": subtractive["boolean"],
 
+    # Cuts by dictated measure (no dialog)
+    "pocket by length":      subtractive["pocket_by_length"],
+    "hollow by length":      subtractive["pocket_by_length"],
+
+    "hole by size":          subtractive["hole_by_size"],
+    "drill by size":         subtractive["hole_by_size"],
+
+    "groove by angle":       subtractive["groove_by_angle"],
+
+    # Primitive cuts by dictated measures
+    "cut box by size":       subtractive["cut_box_by_size"],
+    "cut cylinder by size":  subtractive["cut_cylinder_by_size"],
+    "cut sphere by radius":  subtractive["cut_sphere_by_radius"],
+
     # Help
     "help": subtractive['help'],
     "info": subtractive['help'],

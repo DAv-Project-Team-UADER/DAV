@@ -69,6 +69,27 @@ TraduceToEs = {
     "booleano": subtractive["boolean"],
     "operacion booleana": subtractive["boolean"],
 
+    # Cortes por medida dictada (sin dialogo)
+    "vaciado por medida":    subtractive["pocket_by_length"],
+    "vaciar por medida":     subtractive["pocket_by_length"],
+    "hueco por medida":      subtractive["pocket_by_length"],
+
+    "agujero por medidas":   subtractive["hole_by_size"],
+    "perforar por medidas":  subtractive["hole_by_size"],
+    "agujero por diametro":  subtractive["hole_by_size"],
+
+    "ranura por angulo":     subtractive["groove_by_angle"],
+    "ranurar por angulo":    subtractive["groove_by_angle"],
+
+    # Cortes con primitivas por medidas dictadas
+    "cortar caja por medidas":     subtractive["cut_box_by_size"],
+    "restar caja por medidas":     subtractive["cut_box_by_size"],
+
+    "cortar cilindro por medidas": subtractive["cut_cylinder_by_size"],
+    "restar cilindro por medidas": subtractive["cut_cylinder_by_size"],
+
+    "cortar esfera por radio":     subtractive["cut_sphere_by_radius"],
+
     # Help
     "ayuda": subtractive['help'],
     "información": subtractive['help'],

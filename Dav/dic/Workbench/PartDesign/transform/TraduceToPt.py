@@ -45,6 +45,17 @@ TraduceToPt = {
     "redimensionar": transform["scaled"],
 
     # Ajuda
+    # Padroes por medida ditada (sem dialogo)
+    "padrao linear por medida":   transform["linear_pattern"],
+    "repetir em linha":           transform["linear_pattern"],
+
+    "padrao linear por espacamento": transform["linear_pattern_by_spacing"],
+
+    "padrao circular por medida": transform["polar_pattern"],
+    "repetir em circulo":         transform["polar_pattern"],
+
+    "escalar por fator":          transform["scaled_by_factor"],
+
     "ajuda": transform['help'],
     "informação": transform['help'],
     "opções": transform['help'],
