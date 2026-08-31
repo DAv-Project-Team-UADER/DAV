@@ -17,10 +17,13 @@ Para el flujo completo desde el dibujo 2D y para Assembly, ver
 - **Confirmar un valor**: `enter` · `enviar` · `aceptar` · `confirmar` · `ok`
 - **Abortar un pop-up**: `cancelar`
 
-### Los números llegan hasta 99
+### Números: 0–99 se dicen normal, de 100 en adelante se deletrean
 
-0–30 directos, más las decenas (40, 50, 60, 70, 80, 90). Los intermedios son
-compuestos: `treinta y cinco`. **No existe «cien».**
+Se pronuncian natural hasta 99: 0–30 directos, más las decenas (40, 50, 60, 70,
+80, 90) y los compuestos (`treinta y cinco`).
+
+De 100 en adelante hay que **deletrear**: `uno cero cero` da 100. Ver
+[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
 
 | Para decir | Decí |
 |---|---|
@@ -233,8 +236,9 @@ Con una operación seleccionada (por ejemplo el agujero de la prueba 6), desde
 | `patron circular por medida` | `seis` / `trescientos sesenta`* | 6 copias en círculo completo |
 | `escalar por factor` | `dos` / `dos` | duplica el tamaño |
 
-\* **Ojo**: 360 supera el máximo de 99 del diccionario numérico. Probá con
-`noventa` mientras tanto — es una limitación conocida, no un fallo del comando.
+\* **Ojo**: 360 no se puede pronunciar como palabra; hay que deletrearlo:
+`tres seis cero enter`. Funciona, pero es incómodo — está documentado en
+[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
 
 > La diferencia entre los dos patrones lineales: `patron lineal por medida`
 > reparte las copias a lo largo del **total** dictado; `repetir cada` usa el

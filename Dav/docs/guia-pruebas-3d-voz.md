@@ -22,12 +22,17 @@ Todas las frases de esta guía están tomadas de los diccionarios reales
 
 **Abortar un pop-up**: `cancelar`
 
-### Los números llegan hasta 99
+### Números: 0–99 se dicen normal, de 100 en adelante se deletrean
 
-El diccionario tiene 0–30 directos, más las decenas (40, 50, 60, 70, 80, 90).
-Los intermedios se dicen compuestos: `treinta y cinco`.
+Se pronuncian natural hasta 99: 0–30 directos, más las decenas (40, 50, 60, 70,
+80, 90) y los compuestos (`treinta y cinco`).
 
-**No existe «cien».** Usá valores de 0 a 99 en todas las pruebas.
+De 100 en adelante hay que **deletrear dígito por dígito**: `uno cero cero` da
+100, `tres seis cero` da 360. Funciona, pero es incómodo — ver
+[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
+
+Las pruebas de esta guía usan valores menores a 100 para que las frases suenen
+naturales.
 
 Otros modificadores:
 
@@ -183,6 +188,24 @@ Con **dos piezas** seleccionadas:
 | `ensamble fijo` | — | `Fixed '...' to '...'` |
 | `bisagra` | — | `Hinged '...' to '...'` |
 | `junta deslizante` | — | `Slider between '...' and '...'` |
+
+**Juntas sin medidas** (dos piezas seleccionadas):
+
+| Decí | Qué hace |
+|---|---|
+| `rotula` | libre en cualquier rotación |
+| `junta cilindrica` | gira y desliza sobre un eje |
+| `junta paralela` | mantiene las piezas paralelas |
+| `junta perpendicular` | mantiene las piezas en ángulo recto |
+
+**Juntas de transmisión** (dos piezas seleccionadas, piden radios):
+
+| Decí | Luego | Qué hace |
+|---|---|---|
+| `junta de engranajes` | `veinte` / `diez` | engrana con esa relación |
+| `junta de correa` | `treinta` / `quince` | poleas unidas por correa |
+| `junta de tornillo` | `cinco` | avance de rosca |
+| `junta de cremallera` | `diez` | cremallera y piñón |
 
 Para verificar que el solver corre: `resolver ensamblaje`.
 

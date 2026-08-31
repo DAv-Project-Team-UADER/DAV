@@ -80,6 +80,18 @@ TraduceToPt = {
     "fixar ao chao":         assembly["ground_part"],
     "ancorar peca":          assembly["ground_part"],
 
+    # Juntas restantes por voz
+    "junta esferica":        assembly["ball_joint"],
+    "rotula":                assembly["ball_joint"],
+    "junta cilindrica":      assembly["cylindrical_joint"],
+    "junta paralela":        assembly["parallel_joint"],
+    "junta perpendicular":   assembly["perpendicular_joint"],
+
+    "junta de engrenagens":  assembly["gears_joint"],
+    "junta de correia":      assembly["belt_joint"],
+    "junta de parafuso":     assembly["screw_joint"],
+    "junta de cremalheira":  assembly["rack_pinion_joint"],
+
     "ajuda":               joint['help'],
     "informação":          joint['help'],
     "opções":              joint['help']
