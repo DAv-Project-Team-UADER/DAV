@@ -43,6 +43,25 @@ TraduceToEn = {
     "toggle grounded":   assembly["grounded"],
     "joint":             joint,
     
+    # Voice joints (no dialog)
+    "fixed joint":           assembly["fixed_joint"],
+    "lock parts":            assembly["fixed_joint"],
+
+    "revolute joint":        assembly["revolute_joint"],
+    "hinge":                 assembly["revolute_joint"],
+
+    "slider joint":          assembly["slider_joint"],
+    "slide parts":           assembly["slider_joint"],
+
+    "distance joint":        assembly["distance_joint"],
+    "hold apart":            assembly["distance_joint"],
+
+    "angle joint":           assembly["angle_joint"],
+    "angle between parts":   assembly["angle_joint"],
+
+    "ground part":           assembly["ground_part"],
+    "anchor part":           assembly["ground_part"],
+
     "help":            joint['help'],
     "info":            joint['help'],
     "options":         joint['help']
