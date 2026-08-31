@@ -20,7 +20,7 @@
 # Portuguese translations – Sketcher Polygon
 # ============================================================
 
-from .polygon import polygon
+from ._polygon import polygon
 
 TraduceToPt = {
     # Comandos principais
@@ -37,4 +37,10 @@ TraduceToPt = {
     "ajuda": polygon["help"],
     "informação": polygon["help"],
     "opções": polygon["help"],
+
+    # Polígono regular por coordenadas ditadas
+    "poligono por lados": polygon['create_regular'],
+    "criar poligono por lados": polygon['create_regular'],
+    "poligono regular por lados": polygon['create_regular'],
+    "poligono por coordenadas": polygon['create_regular'],
 }

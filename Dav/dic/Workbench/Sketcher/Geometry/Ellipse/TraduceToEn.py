@@ -20,7 +20,7 @@
 # English translations – Sketcher Ellipse
 # ============================================================
 
-from .ellipse import ellipse
+from ._ellipse import ellipse
 
 TraduceToEn = {
     # Main commands
@@ -40,4 +40,10 @@ TraduceToEn = {
     "help": ellipse["help"],
     "info": ellipse["help"],
     "options": ellipse["help"],
+
+    # Ellipse by dictated coordinates
+    "ellipse by center": ellipse['create_by_center'],
+    "create ellipse by center": ellipse['create_by_center'],
+    "ellipse by radii": ellipse['create_by_center'],
+    "ellipse by coordinates": ellipse['create_by_center'],
 }

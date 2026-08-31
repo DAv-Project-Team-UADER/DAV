@@ -13,16 +13,35 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-
+import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import create_by_center
+from selection.createobjects import CreateObjects
+
+
+def _execute_with_objects(command):
+    Gui.runCommand(command, 0)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
+def create_by_center_with_objects(x: float, y: float, major_radius: float, minor_radius: float, label: str = "Ellipse"):
+    create_by_center(x=x, y=y, major_radius=major_radius, minor_radius=minor_radius, label=label)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
 
 ellipse = {
-    'center':     lambda: Gui.runCommand('Sketcher_CreateEllipseByCenter', 0),
-    '3points':    lambda: Gui.runCommand('Sketcher_CreateEllipseBy3Points', 0),
-    'elliptic':   lambda: Gui.runCommand('Sketcher_CreateArcOfEllipse', 0),
-    'hyperbolic': lambda: Gui.runCommand('Sketcher_CreateArcOfHyperbola', 0),
-    'parabolic':  lambda: Gui.runCommand('Sketcher_CreateArcOfParabola', 0),
-    'help':       ayuda,
+    'center':           lambda: _execute_with_objects('Sketcher_CreateEllipseByCenter'),
+    '3points':          lambda: _execute_with_objects('Sketcher_CreateEllipseBy3Points'),
+    'elliptic':         lambda: _execute_with_objects('Sketcher_CreateArcOfEllipse'),
+    'hyperbolic':       lambda: _execute_with_objects('Sketcher_CreateArcOfHyperbola'),
+    'parabolic':        lambda: _execute_with_objects('Sketcher_CreateArcOfParabola'),
+    'create_by_center': create_by_center_with_objects,
+    'help':             ayuda,
 }

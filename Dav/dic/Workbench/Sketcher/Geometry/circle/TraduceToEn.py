@@ -35,5 +35,11 @@ TraduceToEn = {
     # Sinónimos para la función ayuda
     'help':             circle['help'],
     'info':         circle['help'],
-    'options':          circle['help']
+    'options':          circle['help'],
+
+    # Circle by dictated coordinates
+    "circle by center": circle['create_by_center'],
+    "create circle by center": circle['create_by_center'],
+    "circle by radius": circle['create_by_center'],
+    "circle by coordinates": circle['create_by_center'],
 }
