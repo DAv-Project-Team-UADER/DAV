@@ -24,7 +24,7 @@ from .Ellipse._ellipse import ellipse
 from .heptagon.heptagon import heptagon
 from .hexagon.hexagon import hexagon
 from .line.line import line
-from .Polygon._polygon import polygon
+from .Polygon.polygon import polygon
 from .polyline.polyline import polyline
 from .rectangle.rectangle import rectangle
 from .ayuda import ayuda
