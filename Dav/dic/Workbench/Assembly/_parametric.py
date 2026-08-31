@@ -35,6 +35,10 @@ _JOINT_TYPE_INDEX = {
     "Parallel": 6,
     "Perpendicular": 7,
     "Angle": 8,
+    "RackPinion": 9,
+    "Screw": 10,
+    "Gears": 11,
+    "Belt": 12,
 }
 
 
@@ -331,3 +335,167 @@ def ground_part() -> None:
     doc.recompute()
     _RegisterObject(feature)
     print(f"[assembly] Grounded '{parts[0].Name}'")
+
+
+def _SimpleJoint(JointTypeName: str, Verb: str) -> None:
+    """Create a joint that needs no dictated value between two selected parts.
+
+    Args:
+        JointTypeName: Key of ``_JOINT_TYPE_INDEX``.
+        Verb: Past-tense verb used in the log line.
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+
+    parts = _SelectedParts(2)
+    if parts is None:
+        print("[assembly] Error: select two parts to join first.")
+        return
+
+    joint = _CreateJoint(JointTypeName, doc, parts)
+    if joint is None:
+        return
+
+    doc.recompute()
+    _RegisterObject(joint)
+    print(f"[assembly] {Verb} '{parts[0].Name}' and '{parts[1].Name}'")
+
+
+def ball_joint() -> None:
+    """Join the two selected parts with a ball joint, free to rotate any way.
+
+    Example::
+
+        ball_joint()
+    """
+    _SimpleJoint("Ball", "Ball-jointed")
+
+
+def cylindrical_joint() -> None:
+    """Join the two selected parts so one both slides and turns on an axis.
+
+    Example::
+
+        cylindrical_joint()
+    """
+    _SimpleJoint("Cylindrical", "Cylindrically joined")
+
+
+def parallel_joint() -> None:
+    """Keep the two selected parts parallel to each other.
+
+    Example::
+
+        parallel_joint()
+    """
+    _SimpleJoint("Parallel", "Kept parallel")
+
+
+def perpendicular_joint() -> None:
+    """Keep the two selected parts perpendicular to each other.
+
+    Example::
+
+        perpendicular_joint()
+    """
+    _SimpleJoint("Perpendicular", "Kept perpendicular")
+
+
+def _RatioJoint(JointTypeName: str, Verb: str, Radius1: float, Radius2: float | None) -> None:
+    """Create a joint whose motion ratio comes from one or two dictated radii.
+
+    FreeCAD stores these in the generic ``Distance`` and ``Distance2``
+    properties rather than in fields of their own: ``Distance`` holds the pitch
+    radius (rack and pinion, screw, belt) or the first gear radius, and
+    ``Distance2`` the second gear radius.
+
+    Args:
+        JointTypeName: Key of ``_JOINT_TYPE_INDEX``.
+        Verb: Past-tense verb used in the log line.
+        Radius1: First radius or pitch, in millimetres.
+        Radius2: Second radius, or None when the joint uses only one.
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+    if Radius1 <= 0 or (Radius2 is not None and Radius2 <= 0):
+        print("[assembly] Error: radii must be greater than zero.")
+        return
+
+    parts = _SelectedParts(2)
+    if parts is None:
+        print("[assembly] Error: select two parts to join first.")
+        return
+
+    joint = _CreateJoint(JointTypeName, doc, parts)
+    if joint is None:
+        return
+
+    joint.Distance = Radius1
+    if Radius2 is not None:
+        joint.Distance2 = Radius2
+
+    doc.recompute()
+    _RegisterObject(joint)
+    sizes = f"{Radius1}" if Radius2 is None else f"{Radius1} and {Radius2}"
+    print(f"[assembly] {Verb} '{parts[0].Name}' and '{parts[1].Name}' with {sizes}")
+
+
+def gears_joint(radius1: float, radius2: float) -> None:
+    """Mesh the two selected parts as gears with dictated radii.
+
+    The ratio between the radii sets how fast one gear turns relative to the
+    other.
+
+    Args:
+        radius1: Radius of the first gear, in millimetres.
+        radius2: Radius of the second gear, in millimetres.
+
+    Example::
+
+        gears_joint(20, 10)
+    """
+    _RatioJoint("Gears", "Meshed", radius1, radius2)
+
+
+def belt_joint(radius1: float, radius2: float) -> None:
+    """Link the two selected parts with a belt between dictated pulley radii.
+
+    Args:
+        radius1: Radius of the first pulley, in millimetres.
+        radius2: Radius of the second pulley, in millimetres.
+
+    Example::
+
+        belt_joint(30, 15)
+    """
+    _RatioJoint("Belt", "Belted", radius1, radius2)
+
+
+def screw_joint(pitch: float) -> None:
+    """Join the two selected parts as a screw with a dictated pitch radius.
+
+    Args:
+        pitch: Pitch radius, in millimetres.
+
+    Example::
+
+        screw_joint(5)
+    """
+    _RatioJoint("Screw", "Screwed", pitch, None)
+
+
+def rack_pinion_joint(pitch_radius: float) -> None:
+    """Join the two selected parts as rack and pinion with a dictated radius.
+
+    Args:
+        pitch_radius: Pitch radius of the pinion, in millimetres.
+
+    Example::
+
+        rack_pinion_joint(10)
+    """
+    _RatioJoint("RackPinion", "Rack-and-pinioned", pitch_radius, None)

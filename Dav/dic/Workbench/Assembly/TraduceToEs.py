@@ -120,6 +120,30 @@ TraduceToEs = {
     "anclar pieza":          assembly["ground_part"],
     "poner a tierra":        assembly["ground_part"],
 
+    # Juntas restantes por voz
+    "junta esferica":        assembly["ball_joint"],
+    "rotula":                assembly["ball_joint"],
+
+    "junta cilindrica":      assembly["cylindrical_joint"],
+
+    "junta paralela":        assembly["parallel_joint"],
+    "mantener paralelo":     assembly["parallel_joint"],
+
+    "junta perpendicular":   assembly["perpendicular_joint"],
+    "mantener perpendicular": assembly["perpendicular_joint"],
+
+    "junta de engranajes":   assembly["gears_joint"],
+    "engranar piezas":       assembly["gears_joint"],
+
+    "junta de correa":       assembly["belt_joint"],
+    "correa entre piezas":   assembly["belt_joint"],
+
+    "junta de tornillo":     assembly["screw_joint"],
+    "atornillar piezas":     assembly["screw_joint"],
+
+    "junta de cremallera":   assembly["rack_pinion_joint"],
+    "cremallera y pinon":    assembly["rack_pinion_joint"],
+
     # Ayuda
     "ayuda":            joint['help'],
     "información":            joint['help'],

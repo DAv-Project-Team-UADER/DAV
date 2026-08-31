@@ -19,10 +19,18 @@ from .joint.joint import joint
 from .ayuda import ayuda
 from ._parametric import (
     angle_joint,
+    ball_joint,
+    belt_joint,
+    cylindrical_joint,
     distance_joint,
     fixed_joint,
+    gears_joint,
     ground_part,
+    parallel_joint,
+    perpendicular_joint,
+    rack_pinion_joint,
     revolute_joint,
+    screw_joint,
     slider_joint,
 )
 
@@ -46,5 +54,13 @@ assembly.update({
     'distance_joint':  distance_joint,
     'angle_joint':     angle_joint,
     'ground_part':     ground_part,
+    'ball_joint':          ball_joint,
+    'cylindrical_joint':   cylindrical_joint,
+    'parallel_joint':      parallel_joint,
+    'perpendicular_joint': perpendicular_joint,
+    'gears_joint':         gears_joint,
+    'belt_joint':          belt_joint,
+    'screw_joint':         screw_joint,
+    'rack_pinion_joint':   rack_pinion_joint,
     'help':        ayuda,
 })
