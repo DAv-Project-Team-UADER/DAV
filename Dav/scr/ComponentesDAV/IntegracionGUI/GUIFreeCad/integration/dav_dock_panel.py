@@ -25,6 +25,7 @@ _DOCK_OBJECT_NAME = "DAV_Panel"
 _dock = None
 _source = None
 _observer = None
+_selection_observer = None
 
 
 def _ensure_interfaz_on_path() -> None:
@@ -170,6 +171,27 @@ class BrowserPanelSource:
             })
         self._panel.SetTree(objects, doc.Name)
 
+    def PublishSelection(self) -> None:
+        """Mirror FreeCAD's current selection into the panel tree.
+
+        Completes the round trip: ``ObjectSelection.MonoSelection`` calls
+        ``Gui.Selection.addSelection``, FreeCAD notifies the selection
+        observer, and the panel highlights the same object. Without this the
+        voice commands only moved the native tree.
+        """
+        if self._panel is None:
+            return
+        try:
+            import FreeCADGui as Gui
+        except ImportError:
+            return
+
+        try:
+            names = [Obj.Name for Obj in Gui.Selection.getSelection()]
+        except Exception:  # noqa: BLE001 - sin seleccion valida no resaltamos
+            return
+        self._panel.HighlightSelection(names)
+
 
 class _TreeDocumentObserver:
     """Refreshes the panel tree whenever the FreeCAD document changes.
@@ -228,6 +250,57 @@ def _install_tree_observer(source) -> None:
     _observer = observer
 
 
+class _TreeSelectionObserver:
+    """Highlights in the panel whatever FreeCAD reports as selected.
+
+    ``Gui.Selection`` fires these slots for every pick, whether it came from
+    the mouse or from a voice command going through ``ObjectSelection``.
+
+    Slot names and signatures are fixed by FreeCAD's API. Every slot funnels
+    into one guarded refresh: an exception raised here would propagate into
+    FreeCAD's selection handling.
+    """
+
+    def __init__(self, Source: "BrowserPanelSource") -> None:
+        self._source = Source
+
+    def _Refresh(self, *_args) -> None:
+        try:
+            self._source.PublishSelection()
+        except Exception:  # noqa: BLE001 - nunca romper la seleccion
+            pass
+
+    addSelection = _Refresh
+    removeSelection = _Refresh
+    setSelection = _Refresh
+    clearSelection = _Refresh
+
+
+def _install_selection_observer(source) -> None:
+    """Registra el observador de seleccion, reemplazando al previo."""
+    global _selection_observer
+    try:
+        import FreeCADGui as Gui
+    except ImportError:
+        return
+
+    if _selection_observer is not None:
+        try:
+            Gui.Selection.removeObserver(_selection_observer)
+        except Exception:  # noqa: BLE001
+            pass
+        _selection_observer = None
+
+    observer = _TreeSelectionObserver(source)
+    try:
+        Gui.Selection.addObserver(observer)
+    except Exception as exc:  # noqa: BLE001 - sin observador el arbol sigue
+        # mostrando los objetos, solo pierde el resaltado del seleccionado.
+        print(f"[DAV] No se pudo observar la seleccion: {exc}")
+        return
+    _selection_observer = observer
+
+
 def install_dock_panel(browser, adapter):
     """Create the DAV dock inside FreeCAD and wire it to the Browser.
 
@@ -266,6 +339,8 @@ def install_dock_panel(browser, adapter):
         source.Attach(panel)
         source.PublishTree()
         _install_tree_observer(source)
+        _install_selection_observer(source)
+        source.PublishSelection()
         existing.show()
         existing.raise_()
         return source
@@ -300,6 +375,8 @@ def install_dock_panel(browser, adapter):
     source.PublishTree()
     _wire_dock_toggle(dock, panel)
     _install_tree_observer(source)
+    _install_selection_observer(source)
+    source.PublishSelection()
     dock.show()
     dock.raise_()
 

@@ -1,5 +1,29 @@
 # Plan: Árbol de FreeCAD como datos navegables (reemplazar imagen PNG)
 
+> **Estado: COMPLETADO Y SUPERADO** (verificado 2026-08-18).
+>
+> Las fases 1-3 se cumplieron, pero **no por la vía que este plan describe**.
+> El plan proponía macro → `tree_data.json` → GUI con dos timers; la
+> implementación final lee FreeCAD **en proceso** y se refresca por eventos,
+> sin archivos intermedios ni polling. Los tres archivos que este documento
+> pedía modificar (`MainWindow.py`, `capture_tree.FCMacro`,
+> `trigger_capture.py`) **ya no existen**.
+>
+> Lo vigente hoy:
+> - `InterfazDAV/DavPanel.py` → `SetTree()` pinta el `QTreeWidget`.
+> - `integration/dav_dock_panel.py` → `PublishTree()` lee `doc.Objects`,
+>   `_TreeDocumentObserver` refresca ante cambios del documento.
+> - El contrato de datos (`name`/`label`/`type`/`visible`/`parent`) **se
+>   conservó tal cual** del diseño de abajo.
+>
+> De la sección "Fuera de alcance", el **resaltado bidireccional ya está
+> hecho** (`_TreeSelectionObserver` + `DavPanel.HighlightSelection`, 2026-08-18):
+> lo que se selecciona por voz se resalta en el panel. Siguen pendientes
+> navegar el árbol por voz ("seleccionar el tercero") y el sentido
+> panel → FreeCAD (clic en el panel que seleccione en FreeCAD).
+>
+> Se conserva como registro del diseño y del contrato de datos.
+
 ## Contexto
 
 Hoy el panel **"Árbol de FreeCAD"** de la GUI PySide6 (`Dav/scr/ComponentesDAV/InterfazDAV/MainWindow.py`)

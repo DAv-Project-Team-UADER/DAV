@@ -219,6 +219,41 @@ anglicismos sin sinónimo, typos). Detalle en `pendientes-dav.md` §11.
 - **`IsSameTarget`** como alias público de `_SameTarget`: quien recorre `Context`
   desde afuera necesita deduplicar igual que el `Browser`.
 
+## Resaltado de la selección en el árbol del panel (2026-08-18)
+
+**Problema.** Al decir `"seleccion"` → `"siguiente"`, el objeto se seleccionaba
+en FreeCAD pero el árbol del panel DAV no lo resaltaba. Lo mismo con los objetos
+que crea `CreateObjects`: aparecían en el árbol, pero no se veía cuál estaba
+activo. Había que mirar el árbol nativo de FreeCAD para saberlo.
+
+**Causa real.** No faltaba nada en el árbol ni en `ObjectSelection`: los dos
+funcionaban bien por separado. `ObjectSelection.MonoSelection()` llama a
+`Gui.Selection.addSelection(Obj)` y ahí termina su trabajo — **nadie le avisaba
+al panel**. El `_TreeDocumentObserver` que ya existía escucha cambios del
+*documento* (crear/borrar/recomputar), y seleccionar no cambia el documento,
+así que nunca se disparaba. Faltaba el observador del otro canal.
+
+**Solución.**
+
+- `DavPanel.HighlightSelection(Names)` — recorre el mapa `_treeItems` (que
+  `SetTree` ahora guarda) y marca los seleccionados, con `scrollToItem` al
+  primero. El widget sigue sin importar FreeCAD: recibe una lista de nombres.
+- `BrowserPanelSource.PublishSelection()` — lee `Gui.Selection.getSelection()`
+  y se lo pasa al panel.
+- `_TreeSelectionObserver` — registrado con `Gui.Selection.addObserver()`,
+  mismo patrón que `_TreeDocumentObserver`: todos los slots caen en un
+  `_Refresh` con `try/except`, porque una excepción acá se propagaría al
+  manejo de selección de FreeCAD.
+
+**Detalle no obvio.** `HighlightSelection` envuelve el bucle en
+`blockSignals(True/False)`: `setSelected()` emite `itemSelectionChanged`, y
+cuando se implemente el sentido inverso (clic en el panel → seleccionar en
+FreeCAD) eso se realimentaría en bucle infinito. Bloquear ahora evita el bug
+antes de que exista.
+
+Sigue pendiente el sentido panel → FreeCAD y navegar el árbol por voz
+("seleccionar el tercero"). Ver `plan_arbol_de_objetos_navegable.md`.
+
 ---
 
 ## Cómo se agrega a este documento
