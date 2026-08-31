@@ -97,6 +97,29 @@ TraduceToEs = {
     "unión":                 joint,
     "junta":                 joint,
 
+    # Juntas por voz (sin dialogo)
+    "ensamble fijo":         assembly["fixed_joint"],
+    "junta fija":            assembly["fixed_joint"],
+    "fijar piezas":          assembly["fixed_joint"],
+
+    "junta giratoria":       assembly["revolute_joint"],
+    "bisagra":               assembly["revolute_joint"],
+    "articular piezas":      assembly["revolute_joint"],
+
+    "junta deslizante":      assembly["slider_joint"],
+    "deslizar piezas":       assembly["slider_joint"],
+
+    "junta por distancia":   assembly["distance_joint"],
+    "separar piezas":        assembly["distance_joint"],
+    "distancia entre piezas": assembly["distance_joint"],
+
+    "junta por angulo":      assembly["angle_joint"],
+    "angulo entre piezas":   assembly["angle_joint"],
+
+    "fijar al suelo":        assembly["ground_part"],
+    "anclar pieza":          assembly["ground_part"],
+    "poner a tierra":        assembly["ground_part"],
+
     # Ayuda
     "ayuda":            joint['help'],
     "información":            joint['help'],
