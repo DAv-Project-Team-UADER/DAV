@@ -16,8 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import additive as additive
-import ayuda as ayuda
+from .additive import additive
+from .ayuda import ayuda
 
 TraduceToEs = {
     # Rellenar
@@ -131,6 +131,29 @@ TraduceToEs = {
     "mezclar formas": additive["loft_profiles"],
     "barrer superficies": additive["loft_profiles"],
     "deformar secciones": additive["loft_profiles"],
+
+
+    # Extrusion por medida dictada (sin dialogo)
+    "extruir por medida": additive["pad_by_length"],
+    "extruir por altura": additive["pad_by_length"],
+    "extruir altura": additive["pad_by_length"],
+    "dar altura": additive["pad_by_length"],
+
+    # Caja por dimensiones dictadas
+    "caja por medidas": additive["box_by_size"],
+    "cubo por medidas": additive["box_by_size"],
+    "crear caja por medidas": additive["box_by_size"],
+    "caja por dimensiones": additive["box_by_size"],
+
+    # Cilindro por dimensiones dictadas
+    "cilindro por medidas": additive["cylinder_by_size"],
+    "crear cilindro por medidas": additive["cylinder_by_size"],
+    "cilindro por radio y altura": additive["cylinder_by_size"],
+
+    # Revolucion por angulo dictado
+    "revolucion por angulo": additive["revolve_by_angle"],
+    "revolver por angulo": additive["revolve_by_angle"],
+    "girar perfil": additive["revolve_by_angle"],
 
     #Ayuda
     "ayuda":                additive["help"],
