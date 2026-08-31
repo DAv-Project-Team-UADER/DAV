@@ -54,13 +54,10 @@ TraduceToPt = {
     "espelho": modify["mirror"],
     "refletir": modify["mirror"],
 
-<<<<<<< HEAD
-    "ajuda":             modify["help"],
-    "informação":       modify["help"],
-    "opções":            modify["help"]
-=======
-    "help": modify["help"],
-    "ajuda": modify["help"],
-    "opções": modify["help"],
->>>>>>> ab0008d5c571ed323a300c3168bedfe72882654d
+    "ajuda":          modify["help"],
+    "informacao":     modify["help"],
+    "informação":     modify["help"],
+    "opcoes":         modify["help"],
+    "opções":         modify["help"]
+
 }
