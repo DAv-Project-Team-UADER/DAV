@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import additive as additive
 import ayuda as ayuda
+from measure import CreateDimension
 
 traduceToEn = {
     # Pad
@@ -85,4 +86,19 @@ traduceToEn = {
     "help":            additive['help'],
     "info":            additive['help'],
     "options":         additive['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

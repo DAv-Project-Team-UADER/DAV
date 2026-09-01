@@ -127,11 +127,11 @@ def get_numeric_grammar_phrases() -> list[str]:
 
     # Confirmation and cancellation words, so the user can say "enviar" /
     # "cancelar" while in a numeric prompt.
-    phrases.update({
+    phrases |= {
         "enviar", "aceptar", "confirmar", "entrar", "ok",
         "send", "enter", "accept", "confirm",
         "cancelar", "cancel", "cancela",
-    })
+    }
 
     phrases.add("[unk]")
     return sorted(phrases)
