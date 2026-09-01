@@ -82,6 +82,9 @@ TraduceToEs = {
    "nuevo": sketcher["new"],
    "nuevo croquis": sketcher["new"],
    "crear croquis": sketcher["new"],
+   "nuevo boceto": sketcher["new"],
+   "crear boceto": sketcher["new"],
+   "boceto nuevo": sketcher["new"],
 
    "editar": sketcher["edit"],
    "editar croquis": sketcher["edit"],

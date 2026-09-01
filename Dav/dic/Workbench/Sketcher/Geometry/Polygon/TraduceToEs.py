@@ -20,7 +20,7 @@
 # Spanish translations – Sketcher Polygon
 # ============================================================
 
-from .polygon import polygon
+from ._polygon import polygon
 
 TraduceToEs = {
     # Comandos principales
@@ -37,4 +37,10 @@ TraduceToEs = {
     "ayuda": polygon["help"],
     "informacion": polygon["help"],
     "opciones": polygon["help"],
+
+    # Polígono regular por coordenadas dictadas
+    "poligono por lados": polygon['create_regular'],
+    "crear poligono por lados": polygon['create_regular'],
+    "poligono regular por lados": polygon['create_regular'],
+    "poligono por coordenadas": polygon['create_regular'],
 }

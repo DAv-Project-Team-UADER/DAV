@@ -9,17 +9,19 @@ from __future__ import annotations
 import threading
 from typing import Any
 
+from InputPrompts.NumericGrammarSwitcher import NumericGrammarSwitcher
 
-def _IsNumericPrompt(Prompt: Any) -> bool:
-    """Return True when the prompt requires numeric voice input."""
+
+def _RequiresNumericGrammar(Prompt: Any) -> bool:
+    """Return True when the prompt needs the numeric Vosk grammar.
+
+    Delegates to the prompt itself (BaseInputPrompt.RequiresNumericGrammar)
+    instead of checking concrete types, so a new numeric prompt class does
+    not require changes here.
+    """
     if Prompt is None:
         return False
-    try:
-        from InputPrompts.IntegerInputPrompt import IntegerInputPrompt
-        from InputPrompts.FloatInputPrompt import FloatInputPrompt
-        return isinstance(Prompt, (IntegerInputPrompt, FloatInputPrompt))
-    except ImportError:
-        return False
+    return bool(getattr(Prompt, "RequiresNumericGrammar", lambda: False)())
 
 
 class PromptVoiceRouter:
@@ -32,29 +34,29 @@ class PromptVoiceRouter:
     def SetActivePrompt(cls, Prompt: Any) -> None:
         """Register a prompt as the active voice input target.
 
-        When the prompt is numeric (Integer/Float), the Vosk grammar is
+        When the prompt requires numeric grammar, the Vosk grammar is
         switched to include number words so the recognizer can hear digits
         and decimal separators.
         """
         with cls._Lock:
             cls._ActivePrompt = Prompt
-        if _IsNumericPrompt(Prompt):
-            cls._ActivateNumericGrammar()
+        if _RequiresNumericGrammar(Prompt):
+            NumericGrammarSwitcher.ActivateNumericGrammar()
 
     @classmethod
     def ClearActivePrompt(cls, Prompt: Any | None = None) -> None:
         """Clear the active prompt, optionally only if it matches Prompt.
 
-        When the cleared prompt was numeric, the Vosk grammar is restored
-        to the CAD navigation context.
+        When the cleared prompt required numeric grammar, the Vosk grammar
+        is restored to the CAD navigation context.
         """
         was_numeric = False
         with cls._Lock:
             if Prompt is None or cls._ActivePrompt is Prompt:
-                was_numeric = _IsNumericPrompt(cls._ActivePrompt)
+                was_numeric = _RequiresNumericGrammar(cls._ActivePrompt)
                 cls._ActivePrompt = None
         if was_numeric:
-            cls._RestoreCadGrammar()
+            NumericGrammarSwitcher.RestoreCadGrammar()
 
     @classmethod
     def HasActivePrompt(cls) -> bool:
@@ -83,39 +85,6 @@ class PromptVoiceRouter:
 
         cls._RunOnMainThread(_run)
         return True
-
-    @classmethod
-    def _ActivateNumericGrammar(cls) -> None:
-        """Switch Vosk grammar to include number words for numeric input."""
-        try:
-            import sys
-            from pathlib import Path
-            from speech.dav_voice_service import DavVoiceService
-            from integration.voice_bootstrap import _resolve_dictionary_root
-
-            dic_root = str(_resolve_dictionary_root())
-            if dic_root not in sys.path:
-                sys.path.insert(0, dic_root)
-
-            from Numbers.Numbers import get_numeric_grammar_phrases
-            phrases = get_numeric_grammar_phrases()
-            DavVoiceService.get().set_grammar(phrases)
-        except Exception:
-            pass
-
-    @classmethod
-    def _RestoreCadGrammar(cls) -> None:
-        """Restore the CAD navigation grammar after numeric input."""
-        try:
-            from speech.dav_voice_service import DavVoiceService
-            from integration.browser_voice_adapter import _ActiveAdapter
-            if _ActiveAdapter is not None:
-                browser = _ActiveAdapter._browser
-                if browser is not None and hasattr(browser, "GetSpokenPhrases"):
-                    phrases = browser.GetSpokenPhrases()
-                    DavVoiceService.get().set_grammar(phrases)
-        except Exception:
-            pass
 
     @staticmethod
     def _RunOnMainThread(Function) -> None:

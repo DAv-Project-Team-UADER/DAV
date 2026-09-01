@@ -65,6 +65,11 @@ class _CapturedOutput:
 _ActiveAdapter: BrowserVoiceAdapter | None = None
 
 
+def get_active_adapter() -> "BrowserVoiceAdapter | None":
+    """Return the adapter for the currently active Browser session, if any."""
+    return _ActiveAdapter
+
+
 class BrowserVoiceAdapter:
     """Adapter to feed the raw phrase directly to the Browser's ProcessPhrase."""
 
@@ -74,6 +79,15 @@ class BrowserVoiceAdapter:
         self._stop_requested = False
         _ActiveAdapter = self
         self._browser._on_context_change = self._update_grammar
+        self._update_grammar()
+
+    def RestoreGrammar(self) -> None:
+        """Re-apply the Vosk grammar for the browser's current context.
+
+        Public entry point for callers outside this module (e.g. a prompt
+        that temporarily swapped the grammar) so they don't need to reach
+        into ``_browser`` directly.
+        """
         self._update_grammar()
 
     def _update_grammar(self) -> None:

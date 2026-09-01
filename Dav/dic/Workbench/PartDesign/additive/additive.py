@@ -17,7 +17,18 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
-from ._parametric import loft_profiles, pad_sketch
+from ._parametric import (
+    box_by_size,
+    cone_by_size,
+    cylinder_by_size,
+    loft_profiles,
+    pad_by_length,
+    pad_sketch,
+    prism_by_size,
+    revolve_by_angle,
+    sphere_by_radius,
+    torus_by_size,
+)
 
 
 def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = True) -> None:
@@ -110,6 +121,14 @@ additive = {
     'additivetorus':     additive_torus,
     'additivewedge':     additive_wedge,
     'pad_sketch':        pad_sketch,
+    'pad_by_length':     pad_by_length,
+    'box_by_size':       box_by_size,
+    'cylinder_by_size':  cylinder_by_size,
+    'revolve_by_angle':  revolve_by_angle,
+    'sphere_by_radius':  sphere_by_radius,
+    'cone_by_size':      cone_by_size,
+    'torus_by_size':     torus_by_size,
+    'prism_by_size':     prism_by_size,
     'loft_profiles':     loft_profiles,
     'help':              ayuda,
 }

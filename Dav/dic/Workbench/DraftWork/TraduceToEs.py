@@ -63,6 +63,19 @@ TraduceToEs = {
     'conectar puntos': draft['pointconnect'],
     'conexion de puntos': draft['pointconnect'],
     'conexión de puntos': draft['pointconnect'],
+    'creacion':            draft['creation'],
+    'creación':            draft['creation'],
+    'crear':               draft['creation'],
+    'crear objeto':        draft['creation'],
+    'primitivas':          draft['creation'],
+
+    'dibujar':             draft['drafting'],
+    'dibujo':              draft['drafting'],
+    'trazar':              draft['drafting'],
+
+    'modificacion':        draft['modification'],
+    'modificación':        draft['modification'],
+    'modificaciones':      draft['modification'],
 
     "ayuda":                draft["help"],
     "información":          draft["help"],

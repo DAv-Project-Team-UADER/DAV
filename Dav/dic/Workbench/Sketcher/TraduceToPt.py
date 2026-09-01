@@ -25,7 +25,7 @@ from .ayuda import ayuda as sketcher_ayuda
 from .sketcher import sketcher
 from measure import CreateDimension
 
-TranslateToPt = {
+TraduceToPt = {
   
   # Carpetas de Sketcher  
   "geometria": sketcher["geometry"],

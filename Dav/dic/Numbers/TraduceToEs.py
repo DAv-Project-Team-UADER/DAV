@@ -38,4 +38,44 @@ TraduceToEs = {
     "punto":      Numbers["point"],
     "coma":       Numbers["comma"],
     "decimal":    Numbers["point"],
+
+    # 10-19
+    "diez":         Numbers["compound"],
+    "once":         Numbers["compound"],
+    "doce":         Numbers["compound"],
+    "trece":        Numbers["compound"],
+    "catorce":      Numbers["compound"],
+    "quince":       Numbers["compound"],
+    "dieciseis":    Numbers["compound"],
+    "diecisiete":   Numbers["compound"],
+    "dieciocho":    Numbers["compound"],
+    "diecinueve":   Numbers["compound"],
+
+    # 20-29 (veinte suelto y las contracciones veintiuno..veintinueve)
+    "veinte":       Numbers["compound"],
+    "veintiuno":    Numbers["compound"],
+    "veintidos":    Numbers["compound"],
+    "veintitres":   Numbers["compound"],
+    "veinticuatro": Numbers["compound"],
+    "veinticinco":  Numbers["compound"],
+    "veintiseis":   Numbers["compound"],
+    "veintisiete":  Numbers["compound"],
+    "veintiocho":   Numbers["compound"],
+    "veintinueve":  Numbers["compound"],
+
+    # Decenas 30-90, se combinan con una unidad siguiente: "treinta y dos"
+    "treinta":      Numbers["compound"],
+    "cuarenta":     Numbers["compound"],
+    "cincuenta":    Numbers["compound"],
+    "sesenta":      Numbers["compound"],
+    "setenta":      Numbers["compound"],
+    "ochenta":      Numbers["compound"],
+    "noventa":      Numbers["compound"],
+
+    # Conector entre decena y unidad ("treinta y dos")
+    "y":            Numbers["compound"],
+
+    # Signo negativo (para ángulos de hipérbola/parábola)
+    "menos":        Numbers["negative"],
+    "negativo":     Numbers["negative"],
 }

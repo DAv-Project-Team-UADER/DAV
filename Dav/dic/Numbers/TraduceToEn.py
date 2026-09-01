@@ -36,4 +36,30 @@ TraduceToEn = {
     "point":      Numbers["point"],
     "comma":      Numbers["comma"],
     "decimal":    Numbers["point"],
+
+    # 10-19
+    "ten":        Numbers["compound"],
+    "eleven":     Numbers["compound"],
+    "twelve":     Numbers["compound"],
+    "thirteen":   Numbers["compound"],
+    "fourteen":   Numbers["compound"],
+    "fifteen":    Numbers["compound"],
+    "sixteen":    Numbers["compound"],
+    "seventeen":  Numbers["compound"],
+    "eighteen":   Numbers["compound"],
+    "nineteen":   Numbers["compound"],
+
+    # Tens 20-90, combine with a following unit: "twenty two"
+    "twenty":     Numbers["compound"],
+    "thirty":     Numbers["compound"],
+    "forty":      Numbers["compound"],
+    "fifty":      Numbers["compound"],
+    "sixty":      Numbers["compound"],
+    "seventy":    Numbers["compound"],
+    "eighty":     Numbers["compound"],
+    "ninety":     Numbers["compound"],
+
+    # Negative sign (for hyperbola/parabola angles)
+    "minus":      Numbers["negative"],
+    "negative":   Numbers["negative"],
 }

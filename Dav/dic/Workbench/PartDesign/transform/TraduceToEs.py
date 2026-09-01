@@ -45,6 +45,21 @@ TraduceToEs = {
     "redimensionar": transform["scaled"],
 
     # Ayuda
+    # Patrones por medida dictada (sin dialogo)
+    "patron lineal por medida":   transform["linear_pattern"],
+    "repetir en linea":           transform["linear_pattern"],
+    "patron lineal":              transform["linear_pattern"],
+
+    "patron lineal por separacion": transform["linear_pattern_by_spacing"],
+    "repetir cada":               transform["linear_pattern_by_spacing"],
+
+    "patron circular por medida": transform["polar_pattern"],
+    "patron polar por medida":    transform["polar_pattern"],
+    "repetir en circulo":         transform["polar_pattern"],
+
+    "escalar por factor":         transform["scaled_by_factor"],
+    "escalar solido":             transform["scaled_by_factor"],
+
     "ayuda": transform['help'],
     "información": transform['help'],
     "opciones": transform['help'],

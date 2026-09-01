@@ -16,7 +16,11 @@
 
 import FreeCAD as App
 import FreeCADGui as Gui
-import TechDraw
+try:
+    import TechDraw
+except ImportError as _e:
+    TechDraw = None  # type: ignore
+    print(f"[DAV] TechDraw no disponible ({_e}); 'extent' queda como no-op.")
 from .ayuda import ayuda
 
 
@@ -25,6 +29,9 @@ def _create_extent():
 
     The user must pre-select two edges in a TechDraw view.
     """
+    if TechDraw is None:
+        print("TechDraw no disponible en este sistema; no se puede crear cota de extensión.")
+        return
     sel = Gui.Selection.getSelectionEx()
     if not sel or len(sel[0].SubElementNames) < 2:
         print("Seleccioná dos aristas en la vista TechDraw primero.")

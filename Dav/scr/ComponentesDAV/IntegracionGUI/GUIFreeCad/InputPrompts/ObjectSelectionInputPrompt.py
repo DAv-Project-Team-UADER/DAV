@@ -150,14 +150,6 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             return None
 
     @staticmethod
-    def _HasConfirmation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.ConfirmationWords for token in Tokens)
-
-    @staticmethod
-    def _HasCancellation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.CancellationWords for token in Tokens)
-
-    @staticmethod
     def _ImportFreeCADApp():
         import FreeCAD as App
 

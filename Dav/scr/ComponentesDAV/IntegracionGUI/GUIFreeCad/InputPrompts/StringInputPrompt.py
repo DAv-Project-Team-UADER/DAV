@@ -41,14 +41,6 @@ class StringInputPrompt(BaseInputPrompt):
         return self.AcceptValue(value)
 
     @staticmethod
-    def _HasConfirmation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.ConfirmationWords for token in Tokens)
-
-    @staticmethod
-    def _HasCancellation(Tokens: list[str]) -> bool:
-        return any(token in SpokenNumberParser.CancellationWords for token in Tokens)
-
-    @staticmethod
     def _StripConfirmation(Text: str) -> str:
         words = Text.strip().split()
         while words:

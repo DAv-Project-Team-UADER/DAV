@@ -38,4 +38,10 @@ TraduceToPt = {
     "ajuda": rectangle['help'],
     "informação": rectangle['help'],
     "opções": rectangle['help'],
+
+    # Retângulo por coordenadas ditadas
+    "retangulo por cantos": rectangle['create_by_corners'],
+    "criar retangulo por cantos": rectangle['create_by_corners'],
+    "retangulo por pontos": rectangle['create_by_corners'],
+    "retangulo por coordenadas": rectangle['create_by_corners'],
 }

@@ -46,6 +46,18 @@ TraduceToPt = {
     "adicionar espessura": modify["thickness"],
     "adicionar casca": modify["thickness"],
 
+    # Acabamentos por medida ditada (sem dialogo)
+    "arredondar por raio":   modify["fillet_by_radius"],
+    "arredondar arestas":    modify["fillet_by_radius"],
+
+    "chanfro por medida":    modify["chamfer_by_size"],
+    "chanfrar por medida":   modify["chamfer_by_size"],
+
+    "chanfro por medida e angulo": modify["chamfer_by_size_and_angle"],
+
+    "espessura por medida":  modify["thickness_by_value"],
+    "esvaziar solido":       modify["thickness_by_value"],
+
     # Help
     "ajuda":             modify["help"],
     "informação":       modify["help"],

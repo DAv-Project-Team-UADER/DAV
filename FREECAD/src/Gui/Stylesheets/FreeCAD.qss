@@ -807,6 +807,7 @@ report view
 --------------------------------------------------------------------------- */
 QTextEdit {
   background-color: @TextEditFieldBackgroundColor;
+  color: @TextForegroundColor;
   border-top: 1px solid @GeneralBorderColor;
 }
 
@@ -1199,7 +1200,36 @@ QAbstractButton[flat="true"] {
 }
 
 #CreateNewRow > QPushButton {
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
   border-radius: @InputFieldBorderRadius;
+  min-width: 0;
+  padding: 3px;
+}
+
+#CreateNewRow > QPushButton QLabel {
+  background-color: transparent;
+}
+
+#CreateNewRow > QPushButton:hover {
+  background-color: @GeneralBackgroundHoverColor;
+  background-image: none;
+  border: 1px solid @ButtonBorderColor;
+}
+
+#newFileButton {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+#newFileButton QLabel {
+  background-color: transparent;
+}
+
+#newFileButton:hover {
+  background-color: @GeneralBackgroundHoverColor;
+  border: 1px solid @ButtonBorderColor;
 }
 
 Gui--FileChooser QPushButton {
@@ -1237,6 +1267,7 @@ QPushButton:hover {
 
 QAbstractButton[flat="true"]:hover {
   border: 1px solid @ButtonBorderColor;
+  background-color: @GeneralBackgroundHoverColor;
 }
 
 QPushButton:pressed, QAbstractButton[flat="true"]:pressed {
@@ -1267,10 +1298,11 @@ QToolButton {
 
 QToolBar QToolButton {
   background-color: transparent;
-  padding: @ToolbarButtonsPadding;
+  padding: 4px;
   outline: none;
   border: 1px solid transparent;
   border-radius: @InputFieldBorderRadius;
+  margin: 0 2px;
 }
 
 QDialog QToolButton:hover {
@@ -1318,6 +1350,7 @@ QToolButton:hover {
  */
 QToolBar QToolButton:hover {
     border: 1px solid @ButtonBorderColor;
+    background-color: @GeneralBackgroundHoverColor;
 }
 
 QToolButton:pressed {
@@ -2662,6 +2695,21 @@ QWidget#thumbnailWidget[state="hovered"] {
 
 QWidget#thumbnailWidget[state="pressed"] {
   border: 1px solid @AccentColor;
+}
+
+#newFileButton {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: @InputFieldBorderRadius;
+}
+
+#newFileButton QLabel {
+  background-color: transparent;
+}
+
+#newFileButton:hover {
+  background-color: @GeneralBackgroundHoverColor;
+  border: 1px solid @ButtonBorderColor;
 }
 
 /**

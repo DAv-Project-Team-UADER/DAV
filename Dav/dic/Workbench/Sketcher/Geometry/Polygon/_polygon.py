@@ -13,13 +13,33 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import create_regular
+from selection.createobjects import CreateObjects
+
+
+def _execute_with_objects(command):
+    Gui.runCommand(command, 0)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
+def create_regular_with_objects(sides: int, x: float, y: float, radius: float, label: str = "Polygon"):
+    create_regular(sides=sides, x=x, y=y, radius=radius, label=label)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
 
 polygon = {
-    'pentagon': lambda: Gui.runCommand('Sketcher_CreatePentagon', 0),
-    'octagon':  lambda: Gui.runCommand('Sketcher_CreateOctagon', 0),
-    'regular':  lambda: Gui.runCommand('Sketcher_CreateRegularPolygon', 0),
-    'help':     ayuda,
+    'pentagon':       lambda: _execute_with_objects('Sketcher_CreatePentagon'),
+    'octagon':        lambda: _execute_with_objects('Sketcher_CreateOctagon'),
+    'regular':        lambda: _execute_with_objects('Sketcher_CreateRegularPolygon'),
+    'create_regular': create_regular_with_objects,
+    'help':           ayuda,
 }

@@ -80,8 +80,9 @@ Funciones sin-op que representan dígitos y separadores:
 |-----------|-------|
 | `Zero`, `One`, ..., `Nine` | Dígitos 0-9 |
 | `DecimalPoint`, `DecimalComma` | Separadores decimales |
+| `CompoundNumber` | Cualquier palabra numérica de 10 en adelante (10-19, decenas 20-90, contracciones españolas 21-29) y el conector "y"/"e". Un único sentinel para todas: la identidad del valor nunca se usa (`get_numeric_grammar_phrases` solo lee las *keys*), el valor real lo calcula `SpokenNumberParser` a partir de la palabra. |
 
-### Traducciones
+### Traducciones — dígitos 0-9
 
 | Español | Inglés | Portugués | Sentinel |
 |---------|--------|-----------|----------|
@@ -98,16 +99,47 @@ Funciones sin-op que representan dígitos y separadores:
 | punto, decimal | point, decimal | ponto, decimal | DecimalPoint |
 | coma | comma | vírgula, virgula | DecimalComma |
 
-### `get_numeric_grammar_phrases()`
+### Traducciones — números compuestos 10-99
 
-Construye la lista de frases para la gramática de Vosk durante input numérico:
+Rango soportado: **0-99**. Números de 100 en adelante no están implementados:
+la palabra ("cien", "cincuenta", "hundred"...) no está en `DigitWords` ni en
+la gramática, así que `SpokenNumberParser` la ignora en silencio en vez de
+fallar — por ejemplo "seiscientos cincuenta" da **50**, no un error (el
+tokenizer descarta "seiscientos" por no reconocerlo y solo parsea
+"cincuenta"). Extender a centenas/miles requeriría el mismo mecanismo de
+`TensWords`/`_MergeTensAndUnits` para un nivel más.
 
-1. Carga `TraduceToEs.py`, `TraduceToEn.py`, `TraduceToPt.py` via `importlib`
-2. Agrega palabras de confirmación: `enviar`, `ok`, `send`, `enter`, etc.
-3. Agrega palabras de cancelación: `cancelar`, `cancel`, etc.
+| Español | Inglés | Portugués |
+|---------|--------|-----------|
+| diez..diecinueve | ten..nineteen | dez..dezenove (dezenove también admite catorze/quatorze) |
+| veinte, treinta, ..., noventa | twenty, thirty, ..., ninety | vinte, trinta, ..., noventa |
+| veintiuno..veintinueve (contracción de una sola palabra) | *(se dice "twenty one", dos palabras)* | *(se dice "vinte e um", dos palabras)* |
+| conector "y" (treinta **y** dos) | *(sin conector: "twenty two")* | conector "e" (vinte **e** um) |
+
+`SpokenNumberParser._MergeTensAndUnits` combina "decena [conector] unidad" en
+un solo valor antes de parsear (`InputPrompts/SpokenNumberParser.py`). El
+conector es opcional: si Vosk se lo come, "treinta dos" también da 32. El
+dictado dígito por dígito ("uno" "uno" → 11) se mantiene como alternativa:
+una palabra de un solo dígito sin decena adelante no se combina, se
+concatena como antes.
+
+### `get_numeric_grammar_phrases(language: str = "es")`
+
+Construye la lista de frases para la gramática de Vosk durante input numérico,
+**solo para el idioma indicado** — antes cargaba los tres idiomas a la vez, lo
+que hacía que Vosk reconociera dígitos en inglés o portugués aunque la app
+estuviera configurada en español (o cualquier combinación cruzada). El
+llamador (`NumericGrammarSwitcher`) pasa `core.settings.settings.language`,
+el idioma efectivamente configurado.
+
+1. Carga solo `TraduceTo{Es,En,Pt}.py` correspondiente a `language` via `importlib`
+2. Agrega las palabras de confirmación de ese idioma, leídas de
+   `NavCommands/TraduceTo*.py` (mismo origen que usa el resto de la app),
+   con un respaldo fijo por idioma si el diccionario no carga
+3. Agrega las palabras de cancelación de ese idioma, con el mismo respaldo
 4. Agrega `[unk]` (comodín de Vosk para ruido)
 
-Total: **52 frases** en los 3 idiomas.
+Un idioma desconocido cae a español (`"es"`) por defecto.
 
 ---
 
@@ -119,17 +151,20 @@ Cuando un `IntegerInputPrompt` o `FloatInputPrompt` está activo, la gramática 
 
 ### Solución
 
-`PromptVoiceRouter` detecta prompts numéricos y cambia la gramática:
+`PromptVoiceRouter` detecta prompts numéricos por polimorfismo
+(`prompt.RequiresNumericGrammar()`, ver `NumericInputPrompt`) y delega el
+cambio de gramática a `NumericGrammarSwitcher`:
 
 ```
 SetActivePrompt(prompt)
-  → _IsNumericPrompt(prompt) = True
-  → _ActivateNumericGrammar()
-  → DavVoiceService.set_grammar(get_numeric_grammar_phrases())
+  → _RequiresNumericGrammar(prompt) = True
+  → NumericGrammarSwitcher.ActivateNumericGrammar()
+  → DavVoiceService.set_grammar(get_numeric_grammar_phrases(settings.language))
 
 ClearActivePrompt(prompt)
   → was_numeric = True
-  → _RestoreCadGrammar()
+  → NumericGrammarSwitcher.RestoreCadGrammar()
+  → BrowserVoiceAdapter.RestoreGrammar() (adaptador activo)
   → DavVoiceService.set_grammar(browser.GetSpokenPhrases())
 ```
 

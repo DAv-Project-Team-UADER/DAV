@@ -45,9 +45,113 @@ class SpokenNumberParser:
         "nueve": "9",
         "nine": "9",
         "nove": "9",
+        # 10-19: numeros de una sola palabra, no se arman por concatenacion.
         "diez": "10",
         "ten": "10",
         "dez": "10",
+        "once": "11",
+        "eleven": "11",
+        "onze": "11",
+        "doce": "12",
+        "twelve": "12",
+        "doze": "12",
+        "trece": "13",
+        "thirteen": "13",
+        "treze": "13",
+        "catorce": "14",
+        "fourteen": "14",
+        "catorze": "14",
+        "quatorze": "14",
+        "quince": "15",
+        "fifteen": "15",
+        "quinze": "15",
+        "dieciseis": "16",
+        "sixteen": "16",
+        "dezesseis": "16",
+        "diecisiete": "17",
+        "seventeen": "17",
+        "dezessete": "17",
+        "dieciocho": "18",
+        "eighteen": "18",
+        "dezoito": "18",
+        "diecinueve": "19",
+        "nineteen": "19",
+        "dezenove": "19",
+        # Decenas (20-90) dichas solas, sin unidad detras ("treinta" -> 30).
+        "veinte": "20",
+        "twenty": "20",
+        "vinte": "20",
+        "treinta": "30",
+        "thirty": "30",
+        "trinta": "30",
+        "cuarenta": "40",
+        "forty": "40",
+        "quarenta": "40",
+        "cincuenta": "50",
+        "fifty": "50",
+        "cinquenta": "50",
+        "sesenta": "60",
+        "sixty": "60",
+        "sessenta": "60",
+        "setenta": "70",
+        "seventy": "70",
+        "ochenta": "80",
+        "eighty": "80",
+        "oitenta": "80",
+        "noventa": "90",
+        "ninety": "90",
+        # 21-29 contraidos en español ("veintidos"), unica lengua de las tres
+        # que los dice como una sola palabra en vez de "veinte y dos".
+        "veintiuno": "21",
+        "veintidos": "22",
+        "veintitres": "23",
+        "veinticuatro": "24",
+        "veinticinco": "25",
+        "veintiseis": "26",
+        "veintisiete": "27",
+        "veintiocho": "28",
+        "veintinueve": "29",
+    }
+
+    # Palabras de decena (20-90) que se combinan con una unidad siguiente
+    # ("treinta y dos" -> 32, "twenty two" -> 22, "vinte e um" -> 21). Se
+    # necesitan como valores enteros aparte de DigitWords porque hay que
+    # sumarlas con la unidad, no solo reconocerlas como palabra suelta.
+    TensWords: dict[str, int] = {
+        "veinte": 20,
+        "twenty": 20,
+        "vinte": 20,
+        "treinta": 30,
+        "thirty": 30,
+        "trinta": 30,
+        "cuarenta": 40,
+        "forty": 40,
+        "quarenta": 40,
+        "cincuenta": 50,
+        "fifty": 50,
+        "cinquenta": 50,
+        "sesenta": 60,
+        "sixty": 60,
+        "sessenta": 60,
+        "setenta": 70,
+        "seventy": 70,
+        "ochenta": 80,
+        "eighty": 80,
+        "oitenta": 80,
+        "noventa": 90,
+        "ninety": 90,
+    }
+
+    # Conector opcional entre decena y unidad. El ingles no usa uno en este
+    # rango ("twenty two"), por eso no aparece aca.
+    ConnectorWords: set[str] = {"y", "e"}
+
+    # Unidades 1-9 con valor entero, derivadas de DigitWords para no repetir
+    # la lista: se usan solo para sumarlas a una decena en _MergeTensAndUnits.
+    UnitWords: dict[str, int] = {
+        word: int(value)
+        for word, value in DigitWords.items()
+        if value.isdigit() and 1 <= int(value) <= 9
     }
 
     DecimalWords: set[str] = {
@@ -115,6 +219,7 @@ class SpokenNumberParser:
         tokens = cls.Tokenize(Phrase)
         if not tokens:
             raise ValueError("No numeric phrase was provided.")
+        tokens = cls._MergeTensAndUnits(tokens)
 
         sign = ""
         digits: list[str] = []
@@ -170,6 +275,31 @@ class SpokenNumberParser:
         if number_text in {"", "-", ".", "-."}:
             raise ValueError(f"Invalid numeric value parsed from: {Phrase!r}")
         return number_text
+
+    @classmethod
+    def _MergeTensAndUnits(cls, Tokens: list[str]) -> list[str]:
+        """Merge "tens [connector] unit" sequences into one number token.
+
+        Lets users say a natural compound number ("treinta y dos", "twenty
+        two", "vinte e um") instead of dictating each digit separately. A
+        lone digit word with no preceding tens word is left untouched, so
+        digit-by-digit dictation (saying "uno" "uno" for 11) still works.
+        """
+        merged: list[str] = []
+        index, total = 0, len(Tokens)
+        while index < total:
+            token = Tokens[index]
+            if token in cls.TensWords:
+                lookahead = index + 1
+                if lookahead < total and Tokens[lookahead] in cls.ConnectorWords:
+                    lookahead += 1
+                if lookahead < total and Tokens[lookahead] in cls.UnitWords:
+                    merged.append(str(cls.TensWords[token] + cls.UnitWords[Tokens[lookahead]]))
+                    index = lookahead + 1
+                    continue
+            merged.append(token)
+            index += 1
+        return merged
 
     @classmethod
     def Tokenize(cls, Phrase: str) -> list[str]:
