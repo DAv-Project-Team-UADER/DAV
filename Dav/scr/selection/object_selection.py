@@ -14,6 +14,9 @@
 #  You should have received a copy of the GNU General Public License        |#  Deberías haber recibido una copia de la Licencia Pública General GNU
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 
+import re
+import unicodedata
+
 import FreeCAD as App
 import FreeCADGui as Gui
 
@@ -145,6 +148,74 @@ class ObjectSelection:
         """Clears the current selection."""
         Gui.Selection.clearSelection()
         print("Selection cleared.")
+
+    def SelectByLabel(self, Text):
+        """Selects the object whose Label matches the dictated text.
+
+        Matching is lenient: accents, case and spaces are ignored, so "mesa
+        chica" matches a label of "Mesa Chica". Falls back to a prefix match
+        when no exact match exists.
+
+        Args:
+            Text: Name dictated by the user.
+
+        Returns:
+            The matched object Name, or None when nothing matched.
+        """
+        ActiveDoc = App.activeDocument()
+
+        if not ActiveDoc:
+            print("Error: There is no active document in FreeCAD.")
+            return None
+
+        Wanted = self._NormalizeForMatch(Text)
+        if not Wanted:
+            print("Error: No name was dictated.")
+            return None
+
+        Exact = []
+        Partial = []
+        for Obj in ActiveDoc.Objects:
+            Candidate = self._NormalizeForMatch(getattr(Obj, "Label", ""))
+            if not Candidate:
+                continue
+            if Candidate == Wanted:
+                Exact.append(Obj)
+            elif Candidate.startswith(Wanted) or Wanted.startswith(Candidate):
+                Partial.append(Obj)
+
+        Matches = Exact or Partial
+        if not Matches:
+            print(f"Warning: No object matches the name '{Text}'.")
+            return None
+
+        if len(Matches) > 1:
+            Names = ", ".join(Obj.Label for Obj in Matches)
+            print(f"Warning: '{Text}' is ambiguous ({Names}). Using the first one.")
+
+        Target = Matches[0]
+        self.MonoSelection(Target)
+
+        # Deja el cursor de recorrido sobre el objeto elegido, para que un
+        # "siguiente" posterior continue desde aca y no desde el indice viejo.
+        if Target.Name in self._ObjectNames:
+            self._LastSelectedIndex = self._ObjectNames.index(Target.Name)
+            self._CurrentIndex = (self._LastSelectedIndex + 1) % len(self._ObjectNames)
+
+        return Target.Name
+
+    @staticmethod
+    def _NormalizeForMatch(Text):
+        """Folds text for lenient matching (no accents, no case, no spaces)."""
+        if not Text:
+            return ""
+        Folded = (
+            unicodedata.normalize("NFKD", Text)
+            .encode("ASCII", "ignore")
+            .decode()
+            .lower()
+        )
+        return re.sub(r"[^a-z0-9]", "", Folded)
 
     def GetCurrentObject(self):
         """Returns the name of the last selected object, or None."""

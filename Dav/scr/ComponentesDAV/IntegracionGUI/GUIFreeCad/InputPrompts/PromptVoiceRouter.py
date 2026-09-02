@@ -10,6 +10,8 @@ import threading
 from typing import Any
 
 from InputPrompts.NumericGrammarSwitcher import NumericGrammarSwitcher
+from InputPrompts.ObjectNameGrammarSwitcher import ObjectNameGrammarSwitcher
+from InputPrompts.NewObjectNameGrammarSwitcher import NewObjectNameGrammarSwitcher
 
 
 def _RequiresNumericGrammar(Prompt: Any) -> bool:
@@ -22,6 +24,24 @@ def _RequiresNumericGrammar(Prompt: Any) -> bool:
     if Prompt is None:
         return False
     return bool(getattr(Prompt, "RequiresNumericGrammar", lambda: False)())
+
+
+def _RequiresObjectNameGrammar(Prompt: Any) -> bool:
+    """Return True when the prompt needs the object-label Vosk grammar.
+
+    Same polymorphic approach as _RequiresNumericGrammar: the prompt declares
+    its own grammar need, so adding a prompt type needs no change here.
+    """
+    if Prompt is None:
+        return False
+    return bool(getattr(Prompt, "RequiresObjectNameGrammar", lambda: False)())
+
+
+def _RequiresNewObjectNameGrammar(Prompt: Any) -> bool:
+    """Return True when the prompt needs the new-object-name vocabulary."""
+    if Prompt is None:
+        return False
+    return bool(getattr(Prompt, "RequiresNewObjectNameGrammar", lambda: False)())
 
 
 class PromptVoiceRouter:
@@ -42,6 +62,10 @@ class PromptVoiceRouter:
             cls._ActivePrompt = Prompt
         if _RequiresNumericGrammar(Prompt):
             NumericGrammarSwitcher.ActivateNumericGrammar()
+        elif _RequiresObjectNameGrammar(Prompt):
+            ObjectNameGrammarSwitcher.ActivateObjectNameGrammar()
+        elif _RequiresNewObjectNameGrammar(Prompt):
+            NewObjectNameGrammarSwitcher.ActivateNewObjectNameGrammar()
 
     @classmethod
     def ClearActivePrompt(cls, Prompt: Any | None = None) -> None:
@@ -51,12 +75,20 @@ class PromptVoiceRouter:
         is restored to the CAD navigation context.
         """
         was_numeric = False
+        was_object_name = False
+        was_new_object_name = False
         with cls._Lock:
             if Prompt is None or cls._ActivePrompt is Prompt:
                 was_numeric = _RequiresNumericGrammar(cls._ActivePrompt)
+                was_object_name = _RequiresObjectNameGrammar(cls._ActivePrompt)
+                was_new_object_name = _RequiresNewObjectNameGrammar(cls._ActivePrompt)
                 cls._ActivePrompt = None
         if was_numeric:
             NumericGrammarSwitcher.RestoreCadGrammar()
+        elif was_object_name:
+            ObjectNameGrammarSwitcher.RestoreCadGrammar()
+        elif was_new_object_name:
+            NewObjectNameGrammarSwitcher.RestoreCadGrammar()
 
     @classmethod
     def HasActivePrompt(cls) -> bool:

@@ -44,4 +44,17 @@ TraduceToEs = {
     "crear rectangulo por esquinas": rectangle['create_by_corners'],
     "rectangulo por puntos": rectangle['create_by_corners'],
     "rectangulo por coordenadas": rectangle['create_by_corners'],
+
+    # Sinónimos SIN la palabra "rectangulo": Vosk la confunde con "ventana",
+    # "banco" o "atras" (palabras de la gramatica global), mientras que "por
+    # esquinas" se reconoce bien. Dentro de esta carpeta no hay ambiguedad:
+    # ya se sabe que la figura es un rectangulo.
+    "por esquinas": rectangle['create_by_corners'],
+    "por puntos": rectangle['create_by_corners'],
+    "por coordenadas": rectangle['create_by_corners'],
+    "esquinas": rectangle['create_by_corners'],
+    "coordenadas": rectangle['create_by_corners'],
+    "medidas": rectangle['create_by_corners'],
+    "por medidas": rectangle['create_by_corners'],
+    "dictar medidas": rectangle['create_by_corners'],
 }

@@ -31,6 +31,15 @@ TraduceToEs = {
     "seleccionar siguiente": selection["next"],
     "seleccionar siguiente objeto": selection["next"],
 
+    # byname
+    "por nombre": selection["byname"],
+    "buscar": selection["byname"],
+    "buscar objeto": selection["byname"],
+    "buscar por nombre": selection["byname"],
+    "seleccionar por nombre": selection["byname"],
+    "nombre": selection["byname"],
+    "llamar": selection["byname"],
+
     # previous
     "retroceder": selection["previous"],
     "volver": selection["previous"],

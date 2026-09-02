@@ -79,8 +79,35 @@ def ObjectCount():
         print("No objects loaded. Say 'next' or 'previous' to start.")
 
 
+def SelectByName():
+    """Asks for a name by voice and selects the matching object."""
+    Name = _AskName()
+    if not Name:
+        print("No name was dictated.")
+        return
+
+    Selected = SelectorInstance.SelectByLabel(Name)
+    if Selected:
+        print(f"Selected by name: {Selected}")
+
+
+def _AskName():
+    """Opens the DAV string prompt and returns the dictated text, or ''."""
+    scr_selection = Path(__file__).resolve().parents[2] / "scr" / "selection"
+    if str(scr_selection) not in sys.path:
+        sys.path.insert(0, str(scr_selection))
+    try:
+        from nameprompt import AskExistingObjectName
+
+        return AskExistingObjectName()
+    except Exception as Error:
+        print(f"Could not open the name prompt: {Error}")
+        return ""
+
+
 selection = {
     'next': SelectNext,
+    'byname': SelectByName,
     'previous': SelectPrevious,
     'selectall': SelectAll,
     'deselectall': DeselectAll,

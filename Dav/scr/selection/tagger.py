@@ -20,7 +20,9 @@
 
 from __future__ import annotations
 
+import re
 import sys
+import unicodedata
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -50,7 +52,7 @@ class LanguageCode(Enum):
         return cls.Es
 
 
-_KINDS = ("point", "line", "surface", "edge")
+_KINDS = ("point", "line", "surface", "edge", "object")
 
 _LABELS: dict[LanguageCode, dict[str, str]] = {
     LanguageCode.En: {
@@ -58,18 +60,21 @@ _LABELS: dict[LanguageCode, dict[str, str]] = {
         "line": "Line",
         "surface": "Surface",
         "edge": "Edge",
+        "object": "Object",
     },
     LanguageCode.Es: {
         "point": "Punto",
         "line": "Linea",
         "surface": "Superficie",
         "edge": "Arista",
+        "object": "Objeto",
     },
     LanguageCode.PT: {
         "point": "Ponto",
         "line": "Linha",
         "surface": "Superficie",
         "edge": "Aresta",
+        "object": "Objeto",
     },
 }
 
@@ -180,3 +185,86 @@ class Tagger:
         kind_key = kind.strip().lower()
         if hasattr(obj, "Label"):
             obj.Label = self.FormatLabel(kind_key, self._counters[kind_key])
+
+    def ApplyCustomName(self, obj: Any, spoken: str, kind: str = "object") -> str:
+        """Rename obj with a user-dictated name, falling back to the counter.
+
+        The spoken text goes to ``obj.Label`` as-is (FreeCAD labels accept
+        spaces and accents). ``obj.Name`` is read-only once the object exists,
+        so only the Label carries the dictated name; lookups by voice go
+        through ObjectSelection.SelectByLabel.
+
+        Args:
+            obj: FreeCAD object to rename.
+            spoken: Raw text dictated by the user; may be empty.
+            kind: Tagger kind used for the automatic fallback name.
+
+        Returns:
+            The label actually applied.
+
+        Example::
+
+            Tagger().ApplyCustomName(box, "mesa")  # -> "mesa"
+        """
+        if obj is None:
+            return ""
+
+        label = self.SanitizeSpokenName(spoken)
+        if not label:
+            # Sin dictado valido se cae al nombre automatico (Objeto 1, Objeto 2...)
+            self._counters[kind] = self._counters.get(kind, 0) + 1
+            label = self.FormatLabel(kind, self._counters[kind])
+
+        label = self._UniqueLabel(label, obj)
+        if hasattr(obj, "Label"):
+            obj.Label = label
+        return label
+
+    def _UniqueLabel(self, label: str, obj: Any = None) -> str:
+        """Append a numeric suffix while another object already uses the label.
+
+        ``obj`` itself is excluded from the check: FreeCAD copies the base
+        object's Label into a derived one (an extrusion of "Mesa" is born
+        named "Mesa"), and without this the object would be renamed away from
+        the very name being applied to it — "Mesa" turning into "Mesa 2".
+        """
+        if self._document is None:
+            return label
+
+        existing = {
+            getattr(other, "Label", "")
+            for other in getattr(self._document, "Objects", [])
+            if other is not obj
+        }
+        if label not in existing:
+            return label
+
+        index = 2
+        while f"{label} {index}" in existing:
+            index += 1
+        return f"{label} {index}"
+
+    @staticmethod
+    def SanitizeSpokenName(spoken: str) -> str:
+        """Clean dictated text into a usable FreeCAD label.
+
+        Collapses whitespace and drops characters FreeCAD rejects in labels.
+        Accents are kept: the label is what the user reads in the tree.
+        """
+        if not spoken:
+            return ""
+        cleaned = re.sub(r"[^\w\s-]", "", spoken, flags=re.UNICODE)
+        return re.sub(r"\s+", " ", cleaned).strip()
+
+    @staticmethod
+    def NormalizeForMatch(text: str) -> str:
+        """Fold text for lenient voice matching (no accents, no case, no spaces)."""
+        if not text:
+            return ""
+        folded = (
+            unicodedata.normalize("NFKD", text)
+            .encode("ASCII", "ignore")
+            .decode()
+            .lower()
+        )
+        return re.sub(r"[^a-z0-9]", "", folded)

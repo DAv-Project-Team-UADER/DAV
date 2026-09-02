@@ -23,22 +23,39 @@ class StringInputPrompt(BaseInputPrompt):
         super().__init__(Title, Message, Parent)
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
-        """Accept final recognized text after a confirmation word."""
-        self.SetHeardText(Text)
+        """Accumulate spoken text and accept it once a confirmation arrives.
+
+        Accumulates across utterances, like NumericInputPrompt: saying the
+        name and then "aceptar" as two separate phrases has to work. Without
+        this the confirmation arrived on its own, with the name already gone,
+        and the value came out empty.
+        """
         tokens = SpokenNumberParser.Tokenize(Text)
 
         if self._HasCancellation(tokens):
+            self._AccumulatedText = ""
             return self.Cancel()
 
-        if not self._HasConfirmation(tokens):
-            self.SetStatus("Waiting for enter or send...")
-            return self.GetResult()
+        if self._HasConfirmation(tokens):
+            # La confirmacion puede venir sola ("aceptar") o cerrando la misma
+            # frase ("rectangulo aceptar"): se toma lo acumulado mas lo que
+            # traiga esta frase antes de la palabra de confirmacion.
+            spoken_now = self._StripConfirmation(Text)
+            value = " ".join(part for part in (self._AccumulatedText, spoken_now) if part)
+            value = value.strip()
+            self._AccumulatedText = ""
+            if not value:
+                self.SetStatus("No hay texto para confirmar. Diga un nombre primero.")
+                return self.GetResult()
+            self.SetHeardText(value)
+            return self.AcceptValue(value)
 
-        value = self._StripConfirmation(Text)
-        if not value:
-            return self.Fail("Text value cannot be empty.")
-
-        return self.AcceptValue(value)
+        self._AccumulatedText = (
+            (self._AccumulatedText + " " + Text).strip() if self._AccumulatedText else Text
+        )
+        self.SetHeardText(self._AccumulatedText)
+        self.SetStatus("Diga aceptar o enviar para confirmar.")
+        return self.GetResult()
 
     @staticmethod
     def _StripConfirmation(Text: str) -> str:

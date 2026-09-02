@@ -31,7 +31,12 @@ except ImportError:
 
 
 class CreateObjects:
-    """Extract tacit Part objects from an existing shape using Tagger names."""
+    """Extract tacit Part objects from an existing shape using Tagger names.
+
+    When ``AskName`` is true (the default) the user is prompted by voice for a
+    name for the source object before it is decomposed, so it can later be
+    picked from the tree with ObjectSelection.SelectByLabel.
+    """
 
     def __init__(
         self,
@@ -40,9 +45,11 @@ class CreateObjects:
         *,
         TaggerInstance: Tagger | None = None,
         Language=None,
+        AskName: bool = True,
     ) -> None:
         self.ObjectName = ObjectName
         self.Is3D = Is3D
+        self.AskName = AskName
         self.ActiveDoc = App.ActiveDocument
         self.Tagger = TaggerInstance or Tagger(Language, self.ActiveDoc)
         self.TargetObj = self.GetObjectByName()
@@ -69,6 +76,9 @@ class CreateObjects:
         if not self.TargetObj:
             return
 
+        if self.AskName:
+            self.RequestName()
+
         TargetShape = self.TargetObj.Shape
 
         if self.Is3D:
@@ -77,6 +87,22 @@ class CreateObjects:
             self.Process2D(TargetShape)
 
         self.ActiveDoc.recompute()
+
+    def RequestName(self) -> str:
+        """Ask the user to name the target object before decomposing it.
+
+        Failure to prompt is not fatal: the Tagger's automatic name is used,
+        so object creation never gets blocked by the voice layer.
+        """
+        try:
+            try:
+                from .nameprompt import AskObjectName
+            except ImportError:
+                from nameprompt import AskObjectName
+            return AskObjectName(self.TargetObj, self.Tagger)
+        except Exception as Error:
+            print(f"Warning: could not ask for a name ({Error}). Keeping default.")
+            return ""
 
     def Process3D(self, TargetShape) -> None:
         """Extracts faces and edges from 3D solid objects."""
