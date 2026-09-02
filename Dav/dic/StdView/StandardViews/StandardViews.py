@@ -15,7 +15,10 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
-from pivy import coin
+try:
+    from pivy import coin
+except ImportError:
+    coin = None
 
 from .ayuda import ayuda
 

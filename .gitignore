@@ -169,3 +169,7 @@ Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/context_state.json
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_status.json
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/command_queue.txt
 Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_history.log
+
+
+.gemini/
+ComponentesDAV/

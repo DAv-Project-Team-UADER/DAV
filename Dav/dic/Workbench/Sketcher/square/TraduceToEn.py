@@ -19,6 +19,7 @@
 
 from .square import square
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     
@@ -31,4 +32,19 @@ TraduceToEn = {
     "help": square['help'],
     "info": square['help'],
     "options": square['help'],
+
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }
