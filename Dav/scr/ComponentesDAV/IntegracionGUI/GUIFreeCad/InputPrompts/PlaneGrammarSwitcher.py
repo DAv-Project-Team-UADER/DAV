@@ -16,11 +16,33 @@ from __future__ import annotations
 
 # Frases mínimas por idioma para navegar el selector de plano. Se mantienen
 # deliberadamente chicas (es el punto de acotar): arriba/abajo para mover el
-# eje, okey para confirmar y cancelar para salir.
+# eje, y un abanico de sinónimos de confirmación/cancelación para que el
+# usuario pueda decir "okey", "enviar", "listo", "vale", etc. sin tener que
+# recordar una sola palabra. Toda palabra aquí debe existir también en
+# NavCommands/TraduceTo*.py o SpokenNumberParser, de modo que el prompt la
+# reconozca al llegar el texto final.
 _PLANE_PHRASES: dict[str, list[str]] = {
-    "es": ["arriba", "abajo", "okey", "ok", "aceptar", "cancelar"],
-    "en": ["up", "down", "okey", "ok", "accept", "cancel"],
-    "pt": ["cima", "abaixo", "okey", "ok", "aceitar", "cancelar"],
+    "es": [
+        "arriba", "abajo",
+        # confirmación — incluye "okey" pedido explícitamente + sinónimos de NavCommands
+        "okey", "okay", "ok", "enviar", "aceptar", "confirmar", "entrar",
+        "listo", "vale", "hecho", "dale", "si", "sí", "bueno",
+        # cancelación
+        "cancelar", "cancela", "descartar", "anular", "abortar", "no",
+        "olvidalo", "olvidálo",
+    ],
+    "en": [
+        "up", "down",
+        "okey", "okay", "ok", "send", "enter", "accept", "confirm",
+        "done", "yes", "yep",
+        "cancel", "discard", "abort", "no", "never mind",
+    ],
+    "pt": [
+        "cima", "abaixo",
+        "okey", "okay", "ok", "enviar", "aceitar", "confirmar", "entrar",
+        "pronto", "feito", "sim",
+        "cancelar", "cancelamento", "descartar", "anular", "abortar", "nao", "não",
+    ],
 }
 
 

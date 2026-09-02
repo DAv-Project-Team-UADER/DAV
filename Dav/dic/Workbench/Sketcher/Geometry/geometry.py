@@ -48,7 +48,5 @@ geometry = {
     'edit': lambda: Gui.runCommand('Sketcher_EditSketch', 0),
     'attach': lambda: Gui.runCommand('Sketcher_MapSketch', 0),
     'grid': lambda: Gui.runCommand('Sketcher_Grid', 0),
-    'stop': lambda: Gui.runCommand('Sketcher_StopOperation', 0),
-    'leave': lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
     'help': ayuda
     }

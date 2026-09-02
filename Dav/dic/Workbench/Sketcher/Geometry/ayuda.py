@@ -35,8 +35,6 @@ def ayuda():
     print('  edit        - Edita el sketch seleccionado.')
     print('  attach      - Adjunta o mapea el sketch seleccionado.')
     print('  grid        - Alterna la grilla del Sketcher.')
-    print('  stop        - Cancela la operación activa.')
-    print('  leave       - Sale del modo edición del sketch.')
 
     print('')
     print('              (Ejecutar ayuda de cada subconjunto para ver sus comandos en detalle)')

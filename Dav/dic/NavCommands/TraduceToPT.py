@@ -45,9 +45,18 @@ TraduceToPT = {
     "confirmar":      NavActions["send"],
     "entrar":         NavActions["send"],
     "ok":             NavActions["send"],
+    "okey":           NavActions["send"],
+    "okay":           NavActions["send"],
+    "pronto":         NavActions["send"],
+    "feito":          NavActions["send"],
+    "sim":            NavActions["send"],
 
     # Descartar a frase em curso
     "cancelar":       NavActions["cancel"],
     "cancelamento":   NavActions["cancel"],
     "descartar":      NavActions["cancel"],
+    "anular":         NavActions["cancel"],
+    "abortar":        NavActions["cancel"],
+    "nao":            NavActions["cancel"],
+    "não":            NavActions["cancel"],
 }

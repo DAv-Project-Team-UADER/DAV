@@ -95,20 +95,11 @@ TraduceToPt = {
    "mapear esboço": sketcher["attach"],
    "anexar esboço": sketcher["attach"],
 
-   "grade": sketcher["grid"],
-   "alternar grade": sketcher["grid"],
-   "mostrar grade": sketcher["grid"],
+    "grade": sketcher["grid"],
+    "alternar grade": sketcher["grid"],
+    "mostrar grade": sketcher["grid"],
 
-   "parar": sketcher["stop"],
-   "parar operação": sketcher["stop"],
-   "abortar": sketcher["stop"],
-
-   "sair": sketcher["leave"],
-   "sair do esboço": sketcher["leave"],
-   "sair esboço": sketcher["leave"],
-   "fechar esboço": sketcher["leave"],
-
-   "cancelaredit": sketcher["cancelediting"],
+    "cancelaredit": sketcher["cancelediting"],
    "cancelar edição": sketcher["cancelediting"],
    "parar edição": sketcher["cancelediting"],
 

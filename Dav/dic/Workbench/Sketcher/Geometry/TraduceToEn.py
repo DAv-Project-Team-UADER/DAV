@@ -64,11 +64,6 @@ TraduceToEn = {
 
     "grid":                   geometry["grid"],
 
-    "stop":                   geometry["stop"],
-
-    "leave":                  geometry["leave"],
-    "exit sketch":            geometry["leave"],
-
     "help":                   geometry["help"],
     "info":                   geometry["help"],
     "options":                geometry["help"],

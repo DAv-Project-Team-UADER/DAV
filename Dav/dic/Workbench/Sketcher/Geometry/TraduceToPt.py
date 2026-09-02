@@ -67,11 +67,6 @@ TraduceToPt = {
     "grade":                  geometry["grid"],
     "grelha":                 geometry["grid"],
 
-    "parar":                  geometry["stop"],
-
-    "sair":                   geometry["leave"],
-    "sair do esboço":         geometry["leave"],
-
     "ajuda":                  geometry["help"],
     "informação":             geometry["help"],
     "opções":                 geometry["help"],

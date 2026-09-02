@@ -74,8 +74,6 @@ sketcher.update({
     'edit':               lambda: Gui.runCommand('Sketcher_EditSketch', 0),
     'attach':             lambda: Gui.runCommand('Sketcher_MapSketch', 0),
     'grid':               lambda: Gui.runCommand('Sketcher_Grid', 0),
-    'stop':               lambda: Gui.runCommand('Sketcher_StopOperation', 0),
-    'leave':              lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
     'toggleconstruction': _toggle_construction,
     'cancelediting':      lambda: Gui.runCommand('Sketcher_StopEditing', 0),
     'carboncopy':         lambda: Gui.runCommand('Sketcher_CarbonCopy', 0),

@@ -75,12 +75,6 @@ TraduceToEs = {
     "cuadricula":         geometry["grid"],
     "cuadrícula":         geometry["grid"],
 
-    "detener":            geometry["stop"],
-    "abortar":            geometry["stop"],
-
-    "salir":              geometry["leave"],
-    "salir del croquis":  geometry["leave"],
-
     "ayuda":              geometry["help"],
     "información":        geometry["help"],
     "opciones":           geometry["help"],

@@ -42,9 +42,16 @@ TraduceToEn = {
     "accept":         NavActions["send"],
     "confirm":        NavActions["send"],
     "ok":             NavActions["send"],
+    "okey":           NavActions["send"],
+    "okay":           NavActions["send"],
+    "done":           NavActions["send"],
+    "yes":            NavActions["send"],
+    "yep":            NavActions["send"],
 
     # Discard the phrase in progress
     "cancel":         NavActions["cancel"],
     "discard":        NavActions["cancel"],
     "never mind":     NavActions["cancel"],
+    "abort":          NavActions["cancel"],
+    "no":             NavActions["cancel"],
 }

@@ -19,8 +19,11 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
     Replaces FreeCAD's native ``SketchOrientationDialog`` when creating a new
     sketch, because that dialog is not reachable from the DAV voice pipeline.
     The user browses the three axes with ``arriba``/``abajo`` (up/down),
-    highlights the current selection, and confirms an axis with ``okey``/
-    ``ok``/``aceptar`` or cancels with ``cancelar``.
+    highlights the current selection, and confirms with any confirmation word
+    (``okey``/``ok``/``enviar``/``aceptar``/``listo``/``vale``/etc.) or
+    cancels with ``cancelar``/``descartar``/``no``/etc. The sets are shared
+    with ``SpokenNumberParser`` and ``NavCommands`` so adding a synonym there
+    automatically works here.
 
     The accepted value is one of the plane keys ``XY``, ``XZ`` or ``YZ``.
     """
@@ -55,9 +58,10 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
         "seguinte",
     }
 
-    # "okey" no esta en las palabras de confirmacion compartidas
-    # (SpokenNumberParser.ConfirmationWords), asi que se suma aca sin tocar
-    # el comportamiento de los demas prompts.
+    # Sinónimos extra de confirmación propios del selector; ahora
+    # SpokenNumberParser ya incluye "okey"/"okay", pero se mantienen acá
+    # por compatibilidad y para que el selector siga aceptando "okey"
+    # aunque el módulo de números no se haya cargado todavía.
     OkeyWords: set[str] = {"okey", "okay", "ok"}
 
     def __init__(
@@ -101,7 +105,7 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
         if tokens_set & self.OkeyWords or self._HasConfirmation(tokens):
             return self.AcceptValue(self._Plane)
 
-        self.SetStatus("Decí arriba o abajo, y después okey o cancelar.")
+        self.SetStatus("Decí arriba o abajo, y después okey/enviar/listos para confirmar, cancelar para salir.")
         return self.GetResult()
 
     @property
@@ -122,5 +126,5 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
     def _StatusText(self) -> str:
         return (
             f"Plano {self._Plane} ({self._CurrentIndex + 1}/{len(self.PlaneKeys)})"
-            " — decí arriba o abajo, okey para confirmar, cancelar para salir."
+            " — decí arriba o abajo, okey/enviar para confirmar, cancelar para salir."
         )
