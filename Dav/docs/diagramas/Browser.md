@@ -73,7 +73,7 @@ classDiagram
 | Método | Qué hace |
 | --- | --- |
 | `ProcessPhrase(spoken)` | Punto de entrada. Resuelve una frase contra el contexto activo: comando de navegación, salto a raíz, descenso a submenú, ejecución, o búsqueda ascendente |
-| `GetSpokenPhrases()` | Gramática de Vosk del nivel activo. Ver [`acortador-gramatica-vosk.md`](../acortador-gramatica-vosk.md) |
+| `GetSpokenPhrases()` | Gramática de Vosk del nivel activo. Ver [`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md) |
 | `GetNavWords(action)` | Palabras ligadas a un sentinel de `NavCommands` (`up`, `send`, `cancel`, `show_context`) en el idioma activo |
 | `DescribeContext()` | Texto legible de dónde está parado el usuario y qué puede decir |
 | `ResetFromBase()` | Recarga todo desde `base.py`. Se dispara al cambiar de idioma |

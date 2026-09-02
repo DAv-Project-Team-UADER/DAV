@@ -2,7 +2,7 @@
 
 **Estado:** etapas 1 a 4 implementadas; queda la 5.
 **Fecha:** 2026-08-09
-**Resultado:** resumido en [`completados-dav.md`](completados-dav.md).
+**Resultado:** resumido en [`completados-dav.md`](../estado/completados-dav.md).
 **Motivo inmediato:** la InterfazDAV no abre desde FreeCAD por un conflicto de
 DLLs de Qt que **sólo existe porque corre como proceso externo**. Parchearlo es
 posible; eliminarlo por construcción es mejor.

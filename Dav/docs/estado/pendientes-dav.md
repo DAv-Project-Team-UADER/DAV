@@ -1,11 +1,11 @@
 # Pendientes DAV — hallazgos de sesión de auditoría de diccionarios y navegación por voz
 
-> Lo ya resuelto está en [`completados-dav.md`](completados-dav.md), con la causa
+> Lo ya resuelto está en [`completados-dav.md`](../estado/completados-dav.md), con la causa
 > real de cada caso. Este documento es sólo lo que sigue abierto.
 
 ## 3. Palabras ambiguas entre workbenches (parcialmente resuelto)
 
-> La gramática acotada (ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md))
+> La gramática acotada (ver [`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md))
 > baja bastante el riesgo: dentro de un contexto compiten ~12 frases, no 100.001.
 > Pero **no elimina la ambigüedad**: si dos frases parecidas están en el mismo
 > nivel, Vosk las sigue pudiendo confundir. Esta sección sigue vigente.
@@ -87,12 +87,12 @@ Ninguna carpeta de comandos quedó sin archivo `TraduceToEs.py`. Los únicos vac
 | Minimizarse | Hecho: lo da el `QDockWidget` que contiene al `DavPanel`. |
 | Dar historial | Hecho: `DavPanel._BuildHistoryColumn()` + `AddToHistory`, alimentado por `browser_voice_adapter`. Falta **probarlo por voz dentro de FreeCAD**. |
 
-Los dos últimos quedaron cubiertos al unificar la GUI en el panel acoplado (ver [`completados-dav.md`](completados-dav.md), «Panel DAV acoplado a FreeCAD»).
+Los dos últimos quedaron cubiertos al unificar la GUI en el panel acoplado (ver [`completados-dav.md`](../estado/completados-dav.md), «Panel DAV acoplado a FreeCAD»).
 
 **Otros pendientes transversales:**
 
 - Idiomas **en** y **pt**: el árbol está armado para tres idiomas, pero sólo el español está completo. Si el MVP se demuestra en español, documentarlo como alcance y no como bug.
-- Gramática restringida de Vosk — resuelta, ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md).
+- Gramática restringida de Vosk — resuelta, ver [`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md).
 - Tests: `tests/test_browser.py` (21 casos) usa un loader mock. **No hay tests que corran contra el árbol real `Dav/dic/`**, que es donde aparecieron todos los bugs de esta sesión (imports rotos, aplanado, acentos). Vale la pena agregar un test de integración que recorra las rutas principales.
 
 ## 10. Hallazgo contrafáctico: un modelo de voz más grande NO mejora el reconocimiento de comandos
@@ -103,7 +103,7 @@ lugar de `vosk-model-small-es-0.42` (39 MB).
 
 **Resultado:** la premisa no aplica a DAV. Para un conjunto cerrado de comandos,
 agrandar el modelo **empeora** el problema en vez de resolverlo. La precisión no
-se arregla cambiando de modelo: se arregla restringiendo la gramática (ver [`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md)).
+se arregla cambiando de modelo: se arregla restringiendo la gramática (ver [`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md)).
 
 ### 10.a Por qué la premisa era razonable
 
@@ -878,3 +878,40 @@ tilde.
 > **Sin verificar dentro de FreeCAD:** el arreglo se probó con un doble del
 > prompt (sin Qt). Falta confirmar en vivo que se pueda decir el nombre, esperar,
 > y confirmar después.
+
+---
+
+## 18. Tests de regresión para el nombrado por voz (2026-09-02)
+
+**Dónde:** `Dav/scr/.../GUIFreeCad/tests/test_object_naming.py` — 35 casos.
+
+Todo lo de §13–17 se verificó con dobles y **nunca dentro de FreeCAD**, así que
+este archivo es la única guarda automática que tiene. Cada test corresponde a un
+bug real encontrado a mano; están para que esas fallas no vuelvan calladas.
+
+| Grupo | Cubre |
+|---|---|
+| `TaggerNamingTests` | Nombre dictado al Label, `obj.Name` intacto, fallback automático, sufijo sólo en duplicados **reales**, y el label heredado que daba "mesa 2" (§15.d) |
+| `SelectByLabelTests` | Match sin acentos/mayúsculas/espacios, exacto por encima del parcial, y los casos que devuelven `None` |
+| `StringPromptAccumulationTests` | Acumulación entre frases (§17), incluidos los cinco sinónimos de confirmación y el nombre de dos palabras dictado en partes |
+| `ObjectNameVocabularyTests` | El vocabulario de los tres idiomas, y que "rectangulo"/"rectángulo" den la misma etiqueta |
+| `GrammarContentTests` | Que no entren palabras de otros idiomas (§16.a) y que los sub-elementos no ahoguen el nombre del usuario (§16.b) |
+| `GrammarRoutingTests` | Que cada prompt pida **exactamente una** gramática |
+| `SelectionDictionaryTests` | Que la hoja `byname` y los sinónimos sin "rectangulo" (§14) estén registrados |
+
+Corre **sin FreeCAD y sin Qt**. El prompt se ejercita sólo por su lógica de
+texto: construir el `QDialog` sin `QApplication` abortaría el intérprete (§13.d),
+así que el test nunca instancia el widget.
+
+```
+cd Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad
+python -m unittest tests.test_object_naming
+```
+
+> Los 3 fallos de `tests/test_real_dictionaries.py` (base.py vacío, workbenches
+> no anidados, `Numbers.py:171`) son **preexistentes**: se reproducen igual
+> revirtiendo estos cambios. Valen como pendiente aparte — apuntan a §4 y §6.
+
+**Lo que estos tests NO cubren:** que Vosk reconozca las palabras en vivo. Eso
+sólo se comprueba con micrófono dentro de FreeCAD, siguiendo
+[`guias/guia-prueba-nombre-y-seleccion.md`](../guias/guia-prueba-nombre-y-seleccion.md).

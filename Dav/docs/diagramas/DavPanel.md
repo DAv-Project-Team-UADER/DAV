@@ -7,7 +7,7 @@ el contexto de navegación, el historial de comandos y el árbol de objetos del
 documento.
 
 Reemplazó a `MainWindow.py` (1011 líneas, proceso externo) en la migración
-documentada en [`plan-unificacion-guis.md`](../plan-unificacion-guis.md).
+documentada en [`plan-unificacion-guis.md`](../planes/plan-unificacion-guis.md).
 
 ```mermaid
 classDiagram

@@ -1,6 +1,6 @@
 # Completados — DAV
 
-Contraparte de [`pendientes-dav.md`](pendientes-dav.md): lo que **ya está
+Contraparte de [`pendientes-dav.md`](../estado/pendientes-dav.md): lo que **ya está
 resuelto**, con qué era el problema y cómo se cerró. Sirve para no re-diagnosticar
 lo mismo dos veces y para ver el avance real sin leer el historial de git.
 
@@ -17,7 +17,7 @@ nadie dijo.
 
 Integrado del PR #176 de SoPerez1, más los arreglos del #178.
 Funcionamiento completo en
-[`acortador-gramatica-vosk.md`](acortador-gramatica-vosk.md).
+[`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md).
 
 ### La causa que no estaba a la vista
 
@@ -88,7 +88,7 @@ raíz → 93 en Archivo → 199 en Sketcher), sin crashes ni gramáticas pisánd
 ## Panel DAV acoplado a FreeCAD (2026-08-09)
 
 Migración completa de la GUI: de proceso externo a `QDockWidget` dentro de
-FreeCAD. Plan y etapas en [`plan-unificacion-guis.md`](plan-unificacion-guis.md).
+FreeCAD. Plan y etapas en [`plan-unificacion-guis.md`](../planes/plan-unificacion-guis.md).
 
 ### El problema de fondo
 

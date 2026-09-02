@@ -4,7 +4,7 @@ Prueba de punta a punta: crear un cuadrado, nombrarlo, extruirlo a un cubo y
 volver a seleccionarlo diciendo su nombre.
 
 Todas las frases de acá están verificadas contra los `TraduceTo*.py` reales.
-Lo implementado se documenta en [`pendientes-dav.md`](pendientes-dav.md) §13.
+Lo implementado se documenta en [`pendientes-dav.md`](../estado/pendientes-dav.md) §13.
 
 ---
 
@@ -59,7 +59,7 @@ En el árbol de FreeCAD el objeto queda con el label **`mesa`**.
 
 ### Nombres que se pueden dictar
 
-Están en [`Dav/dic/ObjectNames/TraduceToEs.py`](../dic/ObjectNames/TraduceToEs.py)
+Están en [`Dav/dic/ObjectNames/TraduceToEs.py`](../../dic/ObjectNames/TraduceToEs.py)
 — 56 en español:
 
 | Grupo | Palabras |
@@ -128,7 +128,7 @@ justamente por ser un objeto suelto.
 **Los números de 100 en adelante hay que deletrearlos.** Hasta 99 se dicen
 normal ("cuarenta", "treinta y cinco"); de ahí en más va dígito por dígito
 ("uno cero cero" = 100). Detalle en
-[`numeros-por-voz-limites-y-propuesta.md`](numeros-por-voz-limites-y-propuesta.md).
+[`numeros-por-voz-limites-y-propuesta.md`](../referencia/numeros-por-voz-limites-y-propuesta.md).
 
 ### ¿Cuál de las dos usar?
 

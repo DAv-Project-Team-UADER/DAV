@@ -29,7 +29,7 @@ Se pronuncian natural hasta 99: 0–30 directos, más las decenas (40, 50, 60, 7
 
 De 100 en adelante hay que **deletrear dígito por dígito**: `uno cero cero` da
 100, `tres seis cero` da 360. Funciona, pero es incómodo — ver
-[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
+[numeros-por-voz-limites-y-propuesta.md](../referencia/numeros-por-voz-limites-y-propuesta.md).
 
 Las pruebas de esta guía usan valores menores a 100 para que las frases suenen
 naturales.

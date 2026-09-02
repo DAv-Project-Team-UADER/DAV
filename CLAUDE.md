@@ -121,7 +121,7 @@ Los comandos de navegación del propio `Browser` (subir un nivel, mostrar el con
 >
 > Ya no existen `MainWindow.py`, su motor de voz propio (`_VoiceMap`/`_GroupMeta`)
 > ni `DiccionarioPrueba/`: se retiraron al acoplar el panel. Ver
-> `Dav/docs/completados-dav.md`.
+> `Dav/docs/estado/completados-dav.md`.
 
 #### Regla crítica: subcontextos anidados, nunca aplanados
 
@@ -136,23 +136,29 @@ explorer.update(file)             # INCORRECTO — aplana las hojas del hijo
 Aplanar rompe dos cosas en silencio: colisiona claves repetidas entre hojas
 (`create`, `help`, `center`) quedándose solo con la última, y deja la carpeta
 fuera del árbol navegable, con lo cual su `TraduceTo*.py` no se carga nunca.
-Detalle completo en `Dav/docs/pendientes-dav.md` §4.
+Detalle completo en `Dav/docs/estado/pendientes-dav.md` §4.
 
 ---
 
 ## Documentación del proyecto (`Dav/docs/`)
 
-| Archivo | Contenido |
+Los documentos están agrupados por tipo. El índice completo, con una línea por
+archivo, está en **`Dav/docs/README.md`**.
+
+| Carpeta | Contenido |
 |---|---|
-| `pendientes-dav.md` | Lo que sigue abierto: hallazgos de auditoría, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** |
-| `completados-dav.md` | Lo ya resuelto, con la **causa real** de cada caso. Consultar antes de re-diagnosticar algo que parece conocido. |
-| `plan-unificacion-guis.md` | Migración de la GUI a panel acoplado (etapas 1-4 hechas, queda la 5) |
-| `acortador-gramatica-vosk.md` | Cómo se acota la gramática de Vosk al contexto activo. **Leer antes de tocar `SetGrammar` o el loop de audio.** |
-| `manual-explorer-voz.md` | Guía de uso del Explorer por voz (comandos y ejemplos) |
-| `plan-migracion-hilos-qthread.md` | Plan de migración a `QThread`. Escrito para `InterfazDAV`, que ya se retiró; queda como referencia del criterio |
-| `plan_arbol_de_objetos_navegable.md` | Plan del árbol de objetos navegable |
-| `diagramas/` | Un archivo por clase, con el nombre de la clase (`Browser.md`, `DavVoiceService.md`…). Índice y vista general en `diagramas/README.md` |
+| `estado/` | **`pendientes-dav.md`** — lo que sigue abierto: hallazgos, convenciones y qué falta para el MVP. **Leer antes de tocar diccionarios o navegación.** Y **`completados-dav.md`** — lo ya resuelto, con la **causa real** de cada caso; consultar antes de re-diagnosticar algo que parece conocido. |
+| `guias/` | Guías de prueba por voz, paso a paso, con las frases **verificadas contra los `TraduceTo*.py` reales** (nombre y selección, 3D, PartDesign, números) |
+| `manuales/` | Cómo se usa cada módulo por voz (Explorer, Selection) |
+| `referencia/` | Cómo funciona por dentro. **`acortador-gramatica-vosk.md` hay que leerlo antes de tocar `SetGrammar` o el loop de audio** |
+| `planes/` | Diseños y migraciones, con su estado (unificación de GUIs, árbol navegable, hilos QThread) |
+| `diagramas/` | Un archivo por clase, con el nombre de la clase (`Browser.md`, `DavVoiceService.md`…). Índice en `diagramas/README.md` |
+| `prototipos/` | Código retirado que se conserva como referencia de diseño |
 | `informes/`, `normativas/`, `licencias/` | Material de cátedra y documentación formal |
+
+Al agregar documentación: una guía de prueba va en `guias/`; un hallazgo nuevo
+va como sección numerada en `estado/pendientes-dav.md`, con la causa real y qué
+quedó **sin verificar**.
 
 ---
 

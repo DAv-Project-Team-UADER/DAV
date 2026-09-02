@@ -92,7 +92,7 @@ UI de FreeCAD. En cada vuelta:
 3. `AcceptWaveform()` y despacha el texto según el modo
 
 Detalle de por qué el `Reset()` es obligatorio (Vosk aborta el proceso sin él):
-[`acortador-gramatica-vosk.md`](../acortador-gramatica-vosk.md).
+[`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md).
 
 ## Notas de diseño
 

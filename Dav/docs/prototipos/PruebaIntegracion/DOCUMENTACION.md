@@ -45,7 +45,7 @@ Además, el flujo usa:
 
 ### 4.1 `ParamSpec`
 
-Archivo: [PruebaIntegracion/core/ParamSpec.py](PruebaIntegracion/core/ParamSpec.py)
+Archivo: [PruebaIntegracion/core/ParamSpec.py](core/ParamSpec.py)
 
 Su tarea es describir cómo debe ser un parámetro de una función.
 
@@ -71,7 +71,7 @@ Sin esta clase, cada función tendría su propia validación manual. Con `ParamS
 
 ### 4.2 `EnvoltorioFuncion`
 
-Archivo: [PruebaIntegracion/core/EnvoltorioFuncion.py](PruebaIntegracion/core/EnvoltorioFuncion.py)
+Archivo: [PruebaIntegracion/core/EnvoltorioFuncion.py](core/FunctionWrapper.py)
 
 Envuelve una función real para inspeccionar su firma, validar argumentos y ejecutarla de forma controlada.
 
@@ -106,7 +106,7 @@ Este módulo convierte una función común en una herramienta segura para el sis
 
 ### 4.3 `NodoContexto`
 
-Archivo: [PruebaIntegracion/core/NodoContexto.py](PruebaIntegracion/core/NodoContexto.py)
+Archivo: [PruebaIntegracion/core/NodoContexto.py](core/ContextNode.py)
 
 Representa un nivel de navegación dentro del sistema. Puede contener funciones, subcontextos y traducciones.
 
@@ -135,7 +135,7 @@ La aplicación no trabaja con un menú plano, sino con una jerarquía. `NodoCont
 
 ### 4.4 `Navegador`
 
-Archivo: [PruebaIntegracion/core/Navegador.py](PruebaIntegracion/core/Navegador.py)
+Archivo: [PruebaIntegracion/core/Navegador.py](core/Navigator.py)
 
 Es el orquestador del árbol de contextos. Mantiene el contexto actual y resuelve búsquedas ascendentes.
 
@@ -160,7 +160,7 @@ Cuando `llamar()` encuentra la función, actualiza `contexto_actual` al nodo don
 
 ### 4.5 `Command`
 
-Archivo: [PruebaIntegracion/core/Comando.py](PruebaIntegracion/core/Comando.py)
+Archivo: [PruebaIntegracion/core/Comando.py](core/Command.py)
 
 Es el adaptador de entrada por voz. Recibe frases desde el modelo de voz y filtra solo las palabras que están permitidas en el vocabulario activo.
 
@@ -186,7 +186,7 @@ La intención del sistema no es transcribir cualquier cosa, sino reconocer solo 
 
 ### 4.6 `ExploradorVoz`
 
-Archivo: [PruebaIntegracion/core/ExploradorVoz.py](PruebaIntegracion/core/ExploradorVoz.py)
+Archivo: [PruebaIntegracion/core/ExploradorVoz.py](core/VoiceExplorer.py)
 
 Es el coordinador principal del comportamiento. Maneja navegación, selección de funciones y recolección de parámetros.
 
@@ -231,7 +231,7 @@ Es el módulo que transforma la infraestructura de datos en comportamiento inter
 
 ### 4.7 `CargadorConTraducciones`
 
-Archivo: [PruebaIntegracion/core/CargadorConTraducciones.py](PruebaIntegracion/core/CargadorConTraducciones.py)
+Archivo: [PruebaIntegracion/core/CargadorConTraducciones.py](core/LoaderWithTranslations.py)
 
 Carga dinámica de módulos desde `dic/` y construcción del árbol de contextos.
 
@@ -300,7 +300,7 @@ En otras palabras: el cargador crea la estructura, el navegador la recorre, el c
 
 ## 6. Flujo de arranque actual
 
-Archivo: [PruebaIntegracion/main.py](PruebaIntegracion/main.py)
+Archivo: [PruebaIntegracion/main.py](main.py)
 
 El `main` actual reemplaza el arranque rígido por un flujo más flexible.
 

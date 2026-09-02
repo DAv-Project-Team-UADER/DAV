@@ -108,7 +108,7 @@ y cada una infla la gramática de Vosk.
 ## El detalle que condiciona todo: la gramática de Vosk
 
 **El parser no alcanza por sí solo.** La gramática de Vosk se acota al contexto
-activo (ver [acortador-gramatica-vosk.md](acortador-gramatica-vosk.md)), y
+activo (ver [acortador-gramatica-vosk.md](../referencia/acortador-gramatica-vosk.md)), y
 durante un pop-up numérico se cambia a la lista que devuelve
 `get_numeric_grammar_phrases()` en `Dav/dic/Numbers/Numbers.py`, vía
 `NumericGrammarSwitcher.ActivateNumericGrammar()`.

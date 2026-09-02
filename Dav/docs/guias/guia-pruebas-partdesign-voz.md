@@ -6,7 +6,7 @@ extruir perfiles, cortarlos y darles acabado, sin abrir los diálogos de FreeCAD
 Todas las frases están tomadas de los diccionarios reales (`Dav/dic/`).
 
 Para el flujo completo desde el dibujo 2D y para Assembly, ver
-[guia-pruebas-3d-voz.md](guia-pruebas-3d-voz.md).
+[guia-pruebas-3d-voz.md](../guias/guia-pruebas-3d-voz.md).
 
 ---
 
@@ -23,7 +23,7 @@ Se pronuncian natural hasta 99: 0–30 directos, más las decenas (40, 50, 60, 7
 80, 90) y los compuestos (`treinta y cinco`).
 
 De 100 en adelante hay que **deletrear**: `uno cero cero` da 100. Ver
-[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
+[numeros-por-voz-limites-y-propuesta.md](../referencia/numeros-por-voz-limites-y-propuesta.md).
 
 | Para decir | Decí |
 |---|---|
@@ -238,7 +238,7 @@ Con una operación seleccionada (por ejemplo el agujero de la prueba 6), desde
 
 \* **Ojo**: 360 no se puede pronunciar como palabra; hay que deletrearlo:
 `tres seis cero enter`. Funciona, pero es incómodo — está documentado en
-[numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
+[numeros-por-voz-limites-y-propuesta.md](../referencia/numeros-por-voz-limites-y-propuesta.md).
 
 > La diferencia entre los dos patrones lineales: `patron lineal por medida`
 > reparte las copias a lo largo del **total** dictado; `repetir cada` usa el

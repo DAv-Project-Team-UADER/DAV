@@ -5,7 +5,7 @@ contexto de navegación activo, en vez de dejarlo competir contra el vocabulario
 entero del modelo.
 
 Resuelto en el PR #178 (integra el #176 de SoPerez1). El análisis que lo motivó
-está en [`pendientes-dav.md`](pendientes-dav.md) §10.
+está en [`pendientes-dav.md`](../estado/pendientes-dav.md) §10.
 
 ---
 
@@ -45,7 +45,7 @@ flowchart LR
 
 ## De dónde salen las frases
 
-`Browser.GetSpokenPhrases()` ([`navigation/browser.py`](../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/navigation/browser.py))
+`Browser.GetSpokenPhrases()` ([`navigation/browser.py`](../../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/navigation/browser.py))
 junta cuatro fuentes, **todas del diccionario**:
 
 | Fuente | De dónde sale | Ejemplo en la raíz |
@@ -182,7 +182,7 @@ deja de reconocer todo.
 ## Diagnóstico
 
 Todo esto queda registrado en `config/dav.log` (ver
-[`core/dav_log.py`](../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/core/dav_log.py)):
+[`core/dav_log.py`](../../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/core/dav_log.py)):
 
 ```
 14:44:03  cad: frase reconocida 'archivo'

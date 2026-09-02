@@ -6,7 +6,7 @@ firma de los métodos.
 
 > Antes esto era un único `diagramas_clases_DAV.md`. Se separó y se actualizó:
 > documentaba `MainWindow` y `VoiceWorker`, que ya no existen (ver
-> [`completados-dav.md`](../completados-dav.md)).
+> [`completados-dav.md`](../estado/completados-dav.md)).
 
 ## Motor de navegación
 
@@ -24,7 +24,7 @@ firma de los métodos.
 | [`BrowserVoiceAdapter`](BrowserVoiceAdapter.md) | Une la voz con el `Browser` y publica al panel |
 
 Cómo se acota la gramática al contexto:
-[`acortador-gramatica-vosk.md`](../acortador-gramatica-vosk.md).
+[`acortador-gramatica-vosk.md`](../referencia/acortador-gramatica-vosk.md).
 
 ## Interfaz y configuración
 
