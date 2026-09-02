@@ -21,6 +21,7 @@
 
 from .modify import modify
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     # Fillet
@@ -56,4 +57,19 @@ TraduceToEn = {
     "help":            modify['help'],
     "info":            modify['help'],
     "options":         modify['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

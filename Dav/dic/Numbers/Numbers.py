@@ -174,10 +174,10 @@ def get_numeric_grammar_phrases(language: str = "es") -> list[str]:
     # say "enviar" / "cancelar" while in a numeric prompt. Sourced from
     # NavCommands/TraduceTo*.py (the app's single source of truth for these
     # words) instead of a second hardcoded list.
-    phrases.update(
+    phrases |= (
         _GetNavWords(language, "send") or _FALLBACK_CONFIRMATION_WORDS[language]
     )
-    phrases.update(
+    phrases |= (
         _GetNavWords(language, "cancel") or _FALLBACK_CANCELLATION_WORDS[language]
     )
 

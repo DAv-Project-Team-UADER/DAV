@@ -19,6 +19,7 @@
 """English spoken-word mapping for the Sketcher Geometry dictionary."""
 
 from .geometry import geometry
+from measure import CreateDimension
 
 TraduceToEn = {
     # Geometry submenus
@@ -67,4 +68,19 @@ TraduceToEn = {
     "help":                   geometry["help"],
     "info":                   geometry["help"],
     "options":                geometry["help"],
+
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }
