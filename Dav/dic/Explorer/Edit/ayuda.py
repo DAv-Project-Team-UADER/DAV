@@ -14,23 +14,25 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print('Comandos disponibles en Edit:')
-    print('  undo       - Deshace la última acción')
-    print('  redo       - Rehace la última acción')
-    print('  cut        - Copia y elimina la selección')
-    print('  copy       - Copia la selección')
-    print('  paste      - Pega la selección')
-    print('  duplicate  - Duplica la selección')
-    print('  selectall  - Selecciona todo')
-    print('  delete     - Elimina la selección')
-    print('  placement  - Abre la ventana de colocación. Permite modificar la posición, rotación y escala de los objetos seleccionados')
-    print('  transform  - Abre la ventana de transformación. Permite modificar la posición, rotación y escala de los objetos seleccionados usando manipuladores gráficos en la vista 3D')
-    print('  align      - Abre la ventana de alineación. Permite alinear objetos seleccionados con otros objetos o con el sistema de coordenadas global')
-    print('  note       - Crea una nota de texto en la vista 3D')
-    print('  screenshot - Captura la vista activa')
-    print('  preferences  - Abre el diálogo de Preferencias de FreeCAD')
-    print('  properties   - Muestra o enfoca el panel de propiedades (Datos y Vista) del objeto seleccionado.')
-    print('  sendtopython - Envía la selección actual a la consola Python')
-    print('  editmode     - Abre el modo de edición específico del objeto seleccionado')
+    content = """Comandos disponibles en Edición:
+  deshacer   - Deshace la última acción
+  rehacer    - Rehace la última acción
+  cortar     - Copia y elimina la selección
+  copiar     - Copia la selección
+  pegar      - Pega la selección
+  duplicar   - Duplica la selección
+  seleccionar todo - Selecciona todos los objetos
+  borrar     - Elimina la selección
+  colocación - Modifica posición, rotación y escala
+  transformar - Manipuladores gráficos 3D
+  alinear    - Alinea objetos seleccionados
+  preferencias - Abre diálogo de Preferencias
+  propiedades - Muestra panel de propiedades
+  enviar a python - Envía selección a consola Python
+  modo edición - Activa modo de edición del objeto"""
+    show_help_dialog("Edición", content)
+
 

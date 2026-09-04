@@ -17,7 +17,7 @@
 import FreeCAD
 import FreeCADGui as Gui
 from .ayuda import ayuda
-from .linkActions import linkActions as link
+from .linkActions.linkActions import link
 
 structure = {
     'part': lambda: Gui.runCommand('Std_Part', 0),

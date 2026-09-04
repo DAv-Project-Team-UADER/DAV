@@ -16,7 +16,11 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print("Comandos disponibles en imprimir:")
-    print("  print  - Imprime el documento activo")
-    print("  pdf    - Exporta el documento a PDF")
+    content = """Comandos disponibles en Imprimir:
+  imprimir  - Imprime el documento activo
+  pdf       - Exporta el documento activo a archivo PDF"""
+    show_help_dialog("Imprimir", content)
+
