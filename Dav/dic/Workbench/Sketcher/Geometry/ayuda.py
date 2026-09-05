@@ -32,8 +32,8 @@ def ayuda():
 
     print('')
     print('  new         - Crea un nuevo sketch.')
-    print('  edit        - Edita el sketch seleccionado.')
-    print('  attach      - Adjunta o mapea el sketch seleccionado.')
+    print('  edit        - Abre la ventana DAV y dicta el nombre del sketch a editar.')
+    print('  attach      - Abre la ventana DAV y dicta el sketch y la cara/soporte para adjuntarlo.')
     print('  grid        - Alterna la grilla del Sketcher.')
 
     print('')

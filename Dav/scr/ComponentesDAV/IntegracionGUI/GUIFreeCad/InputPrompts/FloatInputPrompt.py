@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from InputPrompts.NumericInputPrompt import NumericInputPrompt
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import KindLabel, ResolveLanguage, T
 
 
 class FloatInputPrompt(NumericInputPrompt):
@@ -15,11 +16,16 @@ class FloatInputPrompt(NumericInputPrompt):
 
     def __init__(
         self,
-        Title: str = "DAV Float Input",
-        Message: str = "Say a decimal value",
+        Title: str | None = None,
+        Message: str | None = None,
         Parent=None,
     ) -> None:
-        super().__init__(Title, Message, Parent)
+        language = ResolveLanguage()
+        super().__init__(
+            Title or T(language, "param_title", index="float"),
+            Message or T(language, "param_message", kind=KindLabel(language, "float"), name="radius"),
+            Parent,
+        )
 
     def _ParseAccumulatedText(self, Text: str) -> float:
         return SpokenNumberParser.ParseFloat(Text)

@@ -2,20 +2,48 @@
 # Universidad Autónoma de Entre Ríos (UADER)
 
 import FreeCAD as App
-import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._parametric import (
+    create_bspline,
+    create_bspline_interpolated,
+    create_bspline_periodic,
+    create_bspline_periodic_interpolated,
+)
 from selection.createobjects import CreateObjects
 
-def _execute_with_objects(command):
-    Gui.runCommand(command, 0)
+
+def create_bspline_with_objects(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4: float, y4: float, label: str = "BSpline"):
+    create_bspline(x1=x1, y1=y1, x2=x2, y2=y2, x3=x3, y3=y3, x4=x4, y4=y4, label=label)
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
+
+def create_bspline_interpolated_with_objects(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4: float, y4: float, label: str = "BSplineInterp"):
+    create_bspline_interpolated(x1=x1, y1=y1, x2=x2, y2=y2, x3=x3, y3=y3, x4=x4, y4=y4, label=label)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
+def create_bspline_periodic_with_objects(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4: float, y4: float, label: str = "BSplineClosed"):
+    create_bspline_periodic(x1=x1, y1=y1, x2=x2, y2=y2, x3=x3, y3=y3, x4=x4, y4=y4, label=label)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
+def create_bspline_periodic_interpolated_with_objects(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4: float, y4: float, label: str = "BSplineClosedInterp"):
+    create_bspline_periodic_interpolated(x1=x1, y1=y1, x2=x2, y2=y2, x3=x3, y3=y3, x4=x4, y4=y4, label=label)
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
 bspline = {
-    'create':         lambda: _execute_with_objects('Sketcher_CreateBSpline'),
-    'interpolation': lambda: _execute_with_objects('Sketcher_CreateBSplineByInterpolation'),
-    'periodic':      lambda: _execute_with_objects('Sketcher_CreatePeriodicBSpline'),
-    'periodicinterp': lambda: _execute_with_objects('Sketcher_CreatePeriodicBSplineByInterpolation'),
-    'help':           ayuda,
+    'create':         create_bspline_with_objects,
+    'interpolation':  create_bspline_interpolated_with_objects,
+    'periodic':       create_bspline_periodic_with_objects,
+    'periodicinterp': create_bspline_periodic_interpolated_with_objects,
+    'help':        ayuda,
 }

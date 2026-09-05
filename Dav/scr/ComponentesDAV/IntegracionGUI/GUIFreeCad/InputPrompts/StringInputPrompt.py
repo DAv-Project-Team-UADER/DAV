@@ -9,6 +9,7 @@ from __future__ import annotations
 from InputPrompts.BaseInputPrompt import BaseInputPrompt
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import KindLabel, ResolveLanguage, T
 
 
 class StringInputPrompt(BaseInputPrompt):
@@ -16,11 +17,16 @@ class StringInputPrompt(BaseInputPrompt):
 
     def __init__(
         self,
-        Title: str = "DAV Text Input",
-        Message: str = "Say a text value",
+        Title: str | None = None,
+        Message: str | None = None,
         Parent=None,
     ) -> None:
-        super().__init__(Title, Message, Parent)
+        language = ResolveLanguage()
+        super().__init__(
+            Title or T(language, "param_title", index="str"),
+            Message or T(language, "param_message", kind=KindLabel(language, "str"), name="label"),
+            Parent,
+        )
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Accept final recognized text after a confirmation word."""
@@ -31,12 +37,12 @@ class StringInputPrompt(BaseInputPrompt):
             return self.Cancel()
 
         if not self._HasConfirmation(tokens):
-            self.SetStatus("Waiting for enter or send...")
+            self.SetStatus(T(self._Language, "string_waiting"))
             return self.GetResult()
 
         value = self._StripConfirmation(Text)
         if not value:
-            return self.Fail("Text value cannot be empty.")
+            return self.Fail(T(self._Language, "string_not_empty"))
 
         return self.AcceptValue(value)
 
