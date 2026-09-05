@@ -23,12 +23,14 @@
 from ._polygon import polygon
 
 TraduceToEs = {
-    # Comandos principales
     "pentagono": polygon["pentagon"],
     "octagono": polygon["octagon"],
     "regular": polygon["regular"],
+    "poligono por parametros": polygon["create_regular_polygon"],
+    "polígono por parámetros": polygon["create_regular_polygon"],
+    "poligono con lados": polygon["create_regular_polygon"],
+    "crear poligono por parametros": polygon["create_regular_polygon"],
 
-    # Sinónimos
     "poligono regular": polygon["regular"],
     "poligono": polygon["regular"],
     "cinco lados": polygon["pentagon"],

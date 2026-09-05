@@ -112,9 +112,9 @@ TraduceToEs = {
     "hacer loft": part_loft["loft"],
     "unir perfiles": part_loft["loft"],
 
-    "crear cara": part_makeface["make face"],
-    "hacer cara": part_makeface["make face"],
-    "cara": part_makeface["make face"],
+    "crear cara": part_makeface["makeface"],
+    "hacer cara": part_makeface["makeface"],
+    "cara": part_makeface["makeface"],
 
     "espejo": part_mirror["mirror"],
     "reflejar": part_mirror["mirror"],

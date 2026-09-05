@@ -21,40 +21,31 @@
 from .constraints import constraints
 
 TraduceToEs = {
-    'dimensión':            constraints['dimension'],
-    'cota':                 constraints['dimension'],
-    'longitud':             constraints['dimension'],
-
-    'horizontal':           constraints['horizontal'],
-    'cota horizontal':      constraints['horizontal'],
+    'dimensión': constraints['dimension'],
+    'cota': constraints['dimension'],
+    'cota horizontal': constraints['horizontal'],
     'distancia horizontal': constraints['horizontal'],
-
-    'vertical':             constraints['vertical'],
-    'cota vertical':        constraints['vertical'],
-    'distancia vertical':   constraints['vertical'],
-
-    'ángulo':               constraints['angle'],
-    'cota angular':         constraints['angle'],
-
-    'radio':                constraints['radius'],
-    'cota radial':          constraints['radius'],
-
-    'diámetro':             constraints['diameter'],
-    'cota diametral':       constraints['diameter'],
-
-    'cota automática':      constraints['radiam'],
-    'cota radio diámetro':  constraints['radiam'],
-    'radio o diámetro':     constraints['radiam'],
-
-    'distancia':            constraints['distance'],
-    'cota de distancia':    constraints['distance'],
-
-    'geométricas':           constraints['geometric'],
-    'geométrica':           constraints['geometric'],
-    'restricciones geométricas':        constraints['geometric'],
-    'restricciones de geometría':        constraints['geometric'],
-
-    'ayuda':                constraints['help'],
-    'información':             constraints['help'],
-    'opciones':             constraints['help']
+    'cota vertical': constraints['vertical'],
+    'distancia vertical': constraints['vertical'],
+    'cota angular': constraints['angle'],
+    'ángulo': constraints['angle'],
+    'radio': constraints['radius'],
+    'cota radial': constraints['radius'],
+    'diámetro': constraints['diameter'],
+    'cota diametral': constraints['diameter'],
+    'distancia': constraints['distance'],
+    'cota de distancia': constraints['distance'],
+    'geométricas': constraints['geometric'],
+    'geométrica': constraints['geometric'],
+    'restricciones geométricas': constraints['geometric'],
+    'restricciones de geometría': constraints['geometric'],
+    'ayuda': constraints['help'],
+    'información': constraints['help'],
+    'opciones': constraints['help'],
+    'longitud': constraints['dimension'],
+    'horizontal': constraints['horizontal'],
+    'vertical': constraints['vertical'],
+    'cota automática': constraints['radiam'],
+    'cota radio diámetro': constraints['radiam'],
+    'radio o diámetro': constraints['radiam'],
 }

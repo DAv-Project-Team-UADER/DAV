@@ -115,9 +115,9 @@ TraduceToPt = {
     "fazer loft": part_loft["loft"],
     "unir perfis": part_loft["loft"],
 
-    "criar face": part_makeface["make face"],
-    "fazer face": part_makeface["make face"],
-    "face": part_makeface["make face"],
+    "criar face": part_makeface["makeface"],
+    "fazer face": part_makeface["makeface"],
+    "face": part_makeface["makeface"],
 
     "espelho": part_mirror["mirror"],
     "espelhar": part_mirror["mirror"],
