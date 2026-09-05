@@ -18,12 +18,19 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 
 # Diccionario del subgrupo Page (Gestión de lienzos de planos y salidas)
+def run_cmd(cmd):
+    try:
+        Gui.activateWorkbench("TechDrawWorkbench")
+        Gui.runCommand(cmd, 0)
+    except Exception as e:
+        print(f"[DAV] Error: {e}")
+
 page = {
-    'default': lambda: Gui.runCommand('TechDraw_PageDefault', 0),
-    'template': lambda: Gui.runCommand('TechDraw_PageTemplate', 0),
-    'redraw': lambda: Gui.runCommand('TechDraw_RedrawPage', 0),
-    'print': lambda: Gui.runCommand('TechDraw_PrintAll', 0),
-    'dxf': lambda: Gui.runCommand('TechDraw_ExportPageDXF', 0),
-    'svg': lambda: Gui.runCommand('TechDraw_ExportPageSVG', 0),
+    'default': lambda: run_cmd('TechDraw_PageDefault'),
+    'template': lambda: run_cmd('TechDraw_PageTemplate'),
+    'redraw': lambda: run_cmd('TechDraw_RedrawPage'),
+    'print': lambda: run_cmd('TechDraw_PrintAll'),
+    'dxf': lambda: run_cmd('TechDraw_ExportPageDXF'),
+    'svg': lambda: run_cmd('TechDraw_ExportPageSVG'),
     'help': ayuda
 }

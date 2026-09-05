@@ -23,9 +23,12 @@ TraduceToPt = {
     'circulo':  circle['circle'],
     'círculo':  circle['circle'],
     'redondo':  circle['circle'],
-    'roda':              circle['circle'],
-    'desenhar círculo': circle['circle'],
-    "ajuda":             circle['help'],
-    "informação":        circle['help'],
-    "opções":            circle['help'],
+    'roda':                circle['circle'],
+    'desenhar círculo':    circle['circle'],
+    "ajuda":               circle["help"],
+    "informacao":          circle["help"],
+    "informação":          circle["help"],
+    "opcoes":              circle["help"],
+    "opções":              circle["help"]
 }
+

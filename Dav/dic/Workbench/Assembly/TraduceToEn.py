@@ -43,6 +43,39 @@ TraduceToEn = {
     "toggle grounded":   assembly["grounded"],
     "joint":             joint,
     
+    # Voice joints (no dialog)
+    "fixed joint":           assembly["fixed_joint"],
+    "lock parts":            assembly["fixed_joint"],
+
+    "revolute joint":        assembly["revolute_joint"],
+    "hinge":                 assembly["revolute_joint"],
+
+    "slider joint":          assembly["slider_joint"],
+    "slide parts":           assembly["slider_joint"],
+
+    "distance joint":        assembly["distance_joint"],
+    "hold apart":            assembly["distance_joint"],
+
+    "angle joint":           assembly["angle_joint"],
+    "angle between parts":   assembly["angle_joint"],
+
+    "ground part":           assembly["ground_part"],
+    "anchor part":           assembly["ground_part"],
+
+    # Remaining voice joints
+    "ball joint":            assembly["ball_joint"],
+    "cylindrical joint":     assembly["cylindrical_joint"],
+    "parallel joint":        assembly["parallel_joint"],
+    "keep parallel":         assembly["parallel_joint"],
+    "perpendicular joint":   assembly["perpendicular_joint"],
+    "keep perpendicular":    assembly["perpendicular_joint"],
+
+    "gears joint":           assembly["gears_joint"],
+    "mesh gears":            assembly["gears_joint"],
+    "belt joint":            assembly["belt_joint"],
+    "screw joint":           assembly["screw_joint"],
+    "rack and pinion joint": assembly["rack_pinion_joint"],
+
     "help":            joint['help'],
     "info":            joint['help'],
     "options":         joint['help']

@@ -16,8 +16,9 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import additive as additive
-import ayuda as ayuda
+from .additive import additive
+from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToPt = {
     #Ressalto
@@ -86,7 +87,99 @@ TraduceToPt = {
     "varrer superfícies": additive["loft_profiles"],
     "deformar seções": additive["loft_profiles"],
 
+
+    # Extrusao por medida ditada (sem dialogo)
+    "extrudar por medida": additive["pad_by_length"],
+    "extrudar por altura": additive["pad_by_length"],
+    "dar altura": additive["pad_by_length"],
+
+    # Caixa por dimensoes ditadas
+    "caixa por medidas": additive["box_by_size"],
+    "cubo por medidas": additive["box_by_size"],
+    "criar caixa por medidas": additive["box_by_size"],
+    "caixa por dimensoes": additive["box_by_size"],
+
+    # Cilindro por dimensoes ditadas
+    "cilindro por medidas": additive["cylinder_by_size"],
+    "criar cilindro por medidas": additive["cylinder_by_size"],
+    "cilindro por raio e altura": additive["cylinder_by_size"],
+
+    # Revolucao por angulo ditado
+    "revolucao por angulo": additive["revolve_by_angle"],
+    "girar perfil": additive["revolve_by_angle"],
+
+    # Primitivas por medidas ditadas
+    "esfera por raio":       additive["sphere_by_radius"],
+    "cone por medidas":      additive["cone_by_size"],
+    "toro por medidas":      additive["torus_by_size"],
+    "prisma por medidas":    additive["prism_by_size"],
+
     "ajuda":             additive["help"],
     "informação":       additive["help"],
     "opções":            additive["help"]
+,
+    # MEASURE
+    "medir": CreateDimension,
+    "medida": CreateDimension,
+    "medir distancia": CreateDimension,
+    "medir distância": CreateDimension,
+    "distância": CreateDimension,
+    "distancia": CreateDimension,
+    "cotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "aferir": CreateDimension,
+    "mensurar": CreateDimension,
+    "calcular distância": CreateDimension,
+    "calcular distancia": CreateDimension,
+    "comprimento": CreateDimension,
+    "separação": CreateDimension,
+    "separacao": CreateDimension,
+    "afastamento": CreateDimension,
+    "extensão": CreateDimension,
+    "extensao": CreateDimension,
+    "cota": CreateDimension,
+    "cotagem": CreateDimension,
+    "acotação": CreateDimension,
+    "acotacao": CreateDimension,
+    "dimensão": CreateDimension,
+    "dimensao": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "dimensionamento": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "flexômetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrolável": CreateDimension,
+    "metro enrolavel": CreateDimension,
+    "régua": CreateDimension,
+    "regua": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "paquímetro": CreateDimension,
+    "paquimetro": CreateDimension,
+    "micrômetro": CreateDimension,
+    "micrometro": CreateDimension,
+    "tolerância": CreateDimension,
+    "tolerancia": CreateDimension,
+    "desvio": CreateDimension,
+    "ajuste": CreateDimension,
+    "medição": CreateDimension,
+    "medicao": CreateDimension,
+    "mensuração": CreateDimension,
+    "mensuracao": CreateDimension,
+    "aferição": CreateDimension,
+    "afericao": CreateDimension,
+    "calibração": CreateDimension,
+    "calibracao": CreateDimension,
+    "verificação": CreateDimension,
+    "verificacao": CreateDimension,
+    "inspeção": CreateDimension,
+    "inspecao": CreateDimension,
+    "controle dimensional": CreateDimension,
+    "metrologia": CreateDimension,
 }

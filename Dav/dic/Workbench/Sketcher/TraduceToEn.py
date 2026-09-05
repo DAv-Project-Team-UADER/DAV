@@ -24,6 +24,7 @@ import FreeCADGui as Gui
 from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
 from .sketcher import sketcher
+from measure import CreateDimension
 
 TraduceToEn = {
 
@@ -93,15 +94,6 @@ TraduceToEn = {
     "grid": sketcher["grid"],
     "toggle grid": sketcher["grid"],
     "show grid": sketcher["grid"],
-
-    "stop": sketcher["stop"],
-    "stop operation": sketcher["stop"],
-    "abort": sketcher["stop"],
-
-    "leave": sketcher["leave"],
-    "leave sketch": sketcher["leave"],
-    "exit sketch": sketcher["leave"],
-    "close sketch": sketcher["leave"],
 
     "cancelediting": sketcher["cancelediting"],
     "cancel editing": sketcher["cancelediting"],
@@ -173,4 +165,19 @@ TraduceToEn = {
     "help": Sketcher['help'],
     "info": Sketcher['help'],
     "options": Sketcher['help'],
+
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

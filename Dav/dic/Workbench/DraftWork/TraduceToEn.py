@@ -18,6 +18,7 @@
 
 from .DraftWork import draft
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     'annotation': draft['annotation'],
@@ -58,8 +59,31 @@ TraduceToEn = {
     'pointconnect': draft['pointconnect'],
     'point connect': draft['pointconnect'],
     'connect points': draft['pointconnect'],
+    'creation':        draft['creation'],
+    'create':          draft['creation'],
+    'create object':   draft['creation'],
+    'primitives':      draft['creation'],
+    'drafting':        draft['drafting'],
+    'draw':            draft['drafting'],
+    'modification':    draft['modification'],
+    'modifications':   draft['modification'],
 
     "help":            draft['help'],
     "info":            draft['help'],
     "options":         draft['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

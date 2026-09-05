@@ -32,5 +32,18 @@ TraduceToPt = {
 
     'ajuda':                circle['help'],
     'informação':             circle['help'],
-    'opções':               circle['help']
+    'opções':               circle['help'],
+
+    # Círculo por coordenadas ditadas
+    "circulo por centro": circle['create_by_center'],
+    "criar circulo por centro": circle['create_by_center'],
+    "circulo por raio": circle['create_by_center'],
+    "circulo por coordenadas": circle['create_by_center'],
+
+    # Círculo por 3 pontos — novo paramétrico com 6 floats + label opcional
+    "circulo por tres pontos": circle['create_by_3_points'],
+    "círculo por três pontos": circle['create_by_3_points'],
+    "criar circulo por tres pontos": circle['create_by_3_points'],
+    "criar círculo por três pontos": circle['create_by_3_points'],
+    "circulo por 3 pontos": circle['create_by_3_points'],
 }

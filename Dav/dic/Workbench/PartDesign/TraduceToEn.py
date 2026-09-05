@@ -21,6 +21,7 @@
 # ============================================================
 
 from .partdesign import partdesign
+from measure import CreateDimension
 
 TraduceToEn = {
 
@@ -58,4 +59,19 @@ TraduceToEn = {
     "help":            partdesign['help'],
     "info":            partdesign['help'],
     "options":         partdesign['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

@@ -46,6 +46,7 @@ from .part_section.part_section import part_section
 from .part_sweep.part_sweep import part_sweep
 
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     "box": box["box"],
@@ -155,5 +156,19 @@ TraduceToEn = {
     "help": Part['help'],
     "info": Part['help'],
     "options": Part['help'],
-}
 
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
+}

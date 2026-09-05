@@ -35,7 +35,7 @@ from typing import Any, Callable
 
 from core.language_code import LanguageCode
 from core.preferences import Preferences, preferences
-from navigation.context_entry import ContextEntry, FindBySpoken
+from navigation.context_entry import ContextEntry, FindBySpoken, FindClosestBySpoken
 from navigation.dictionary_loader import DictionaryLoader
 
 
@@ -294,7 +294,7 @@ class Browser:
         # actual primero. Así "archivo → archivo → nuevo" baja por niveles en
         # vez de quedar saltando siempre al mismo contexto base.
         if self._IsDescended():
-            entry = FindBySpoken(self.Context, normalized)
+            entry, _is_fuzzy = self._FindWithFallback(self.Context, normalized)
             if entry is not None:
                 if entry.IsSubContext():
                     if self._DescendToSubContext(entry):
@@ -314,7 +314,7 @@ class Browser:
                 f"Context set to {base_hit.InternalKey}",
             )
 
-        entry = FindBySpoken(self.Context, normalized)
+        entry, _is_fuzzy = self._FindWithFallback(self.Context, normalized)
         if entry is not None:
             if entry.IsSubContext():
                 if self._DescendToSubContext(entry):
@@ -325,6 +325,28 @@ class Browser:
                 return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
 
         return self._SearchUpwardAndExecute(normalized)
+
+    def _FindWithFallback(
+        self, entries: list[ContextEntry], normalized: str
+    ) -> tuple[ContextEntry | None, bool]:
+        """Exacto primero, fuzzy (difflib) después.
+
+        El modelo small-es confunde terminaciones ('eliptica'/'eliptico',
+        'hiperbolica'/'hiperbola') y Vosk con gramática acotada a veces
+        devuelve la variante cercana. Si el exacto falla, probamos
+        FindClosestBySpoken (cutoff 0.82) y logueamos para diagnóstico.
+        """
+        entry = FindBySpoken(entries, normalized)
+        if entry is not None:
+            return entry, False
+        fuzzy = FindClosestBySpoken(entries, normalized, cutoff=0.82)
+        if fuzzy is not None:
+            print(
+                f"[DAV-Browser] fuzzy '{normalized}' ~ '{fuzzy.NormalizeSpoken()}' "
+                f"-> '{fuzzy.Spoken}' ({fuzzy.InternalKey})"
+            )
+            return fuzzy, True
+        return None, False
 
     def _IsDescended(self) -> bool:
         """True si estamos dentro de un subcontexto (no en el nivel base)."""
@@ -532,8 +554,8 @@ class Browser:
             temp_stack.pop()
             parent_frame = temp_stack[-1]
             parent_context = self._BuildContextForFrame(parent_frame)
-            
-            entry = FindBySpoken(parent_context, normalized_spoken)
+
+            entry, _is_fuzzy = self._FindWithFallback(parent_context, normalized_spoken)
             if entry is not None:
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)

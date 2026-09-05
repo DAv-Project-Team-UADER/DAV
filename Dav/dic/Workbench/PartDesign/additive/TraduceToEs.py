@@ -16,8 +16,9 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import additive as additive
-import ayuda as ayuda
+from .additive import additive
+from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEs = {
     # Rellenar
@@ -132,8 +133,85 @@ TraduceToEs = {
     "barrer superficies": additive["loft_profiles"],
     "deformar secciones": additive["loft_profiles"],
 
+
+    # Extrusion por medida dictada (sin dialogo)
+    "extruir por medida": additive["pad_by_length"],
+    "extruir por altura": additive["pad_by_length"],
+    "extruir altura": additive["pad_by_length"],
+    "dar altura": additive["pad_by_length"],
+
+    # Caja por dimensiones dictadas
+    "caja por medidas": additive["box_by_size"],
+    "cubo por medidas": additive["box_by_size"],
+    "crear caja por medidas": additive["box_by_size"],
+    "caja por dimensiones": additive["box_by_size"],
+
+    # Cilindro por dimensiones dictadas
+    "cilindro por medidas": additive["cylinder_by_size"],
+    "crear cilindro por medidas": additive["cylinder_by_size"],
+    "cilindro por radio y altura": additive["cylinder_by_size"],
+
+    # Revolucion por angulo dictado
+    "revolucion por angulo": additive["revolve_by_angle"],
+    "revolver por angulo": additive["revolve_by_angle"],
+    "girar perfil": additive["revolve_by_angle"],
+
+    # Primitivas por medidas dictadas
+    "esfera por radio":      additive["sphere_by_radius"],
+    "crear esfera por radio": additive["sphere_by_radius"],
+
+    "cono por medidas":      additive["cone_by_size"],
+    "crear cono por medidas": additive["cone_by_size"],
+
+    "toro por medidas":      additive["torus_by_size"],
+    "rosquilla por medidas": additive["torus_by_size"],
+
+    "prisma por medidas":    additive["prism_by_size"],
+    "crear prisma por medidas": additive["prism_by_size"],
+
     #Ayuda
     "ayuda":                additive["help"],
     "información":          additive["help"],
     "opciones":             additive["help"]
+,
+    # MEASURE
+    "medir": CreateDimension,
+    "medir distancia": CreateDimension,
+    "acotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "cotar": CreateDimension,
+    "distancia": CreateDimension,
+    "medida": CreateDimension,
+    "longitud": CreateDimension,
+    "separación": CreateDimension,
+    "separacion": CreateDimension,
+    "cota": CreateDimension,
+    "acotación": CreateDimension,
+    "acotacion": CreateDimension,
+    "dimensión": CreateDimension,
+    "dimension": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "cinta": CreateDimension,
+    "flexómetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrollable": CreateDimension,
+    "regla": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "pie de rey": CreateDimension,
+    "línea de cota": CreateDimension,
+    "linea de cota": CreateDimension,
+    "cota lineal": CreateDimension,
+    "acotación lineal": CreateDimension,
+    "acotacion lineal": CreateDimension,
+    "dimensionado": CreateDimension,
+    "micrómetro": CreateDimension,
+    "micrometro": CreateDimension,
 }

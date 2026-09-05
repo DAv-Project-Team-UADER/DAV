@@ -26,7 +26,9 @@ TraduceToPT = {
     'folha':    print_cmds['print'],
     'pdf':      print_cmds['pdf'],
     
-    "ajuda":     ayuda['help'],
-    "informação": ayuda['help'],
-    "opções":    ayuda['help'],
+    "ajuda":     print_cmds['help'],
+    "informação": print_cmds['help'],
+    "opções":    print_cmds['help'],
 }
+
+TraduceToPt = TraduceToPT

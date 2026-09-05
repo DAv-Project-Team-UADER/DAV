@@ -18,6 +18,7 @@
 
 from .modify import modify
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEs = {
     # Fillet
@@ -42,8 +43,64 @@ TraduceToEs = {
     "agregar espesor": modify["thickness"],
     "agregar grosor": modify["thickness"],
 
+    # Acabados por medida dictada (sin dialogo)
+    "redondear por radio":   modify["fillet_by_radius"],
+    "redondeo por radio":    modify["fillet_by_radius"],
+    "redondear aristas":     modify["fillet_by_radius"],
+
+    "chaflan por medida":    modify["chamfer_by_size"],
+    "achaflanar por medida": modify["chamfer_by_size"],
+    "chaflan por tamano":    modify["chamfer_by_size"],
+
+    "chaflan por medida y angulo": modify["chamfer_by_size_and_angle"],
+    "chaflan con angulo":    modify["chamfer_by_size_and_angle"],
+
+    "espesor por medida":    modify["thickness_by_value"],
+    "vaciar solido":         modify["thickness_by_value"],
+
     # Help
     "ayuda":                modify["help"],
     "información":          modify["help"],
     "opciones":             modify["help"]
+,
+    # MEASURE
+    "medir": CreateDimension,
+    "medir distancia": CreateDimension,
+    "acotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "cotar": CreateDimension,
+    "distancia": CreateDimension,
+    "medida": CreateDimension,
+    "longitud": CreateDimension,
+    "separación": CreateDimension,
+    "separacion": CreateDimension,
+    "cota": CreateDimension,
+    "acotación": CreateDimension,
+    "acotacion": CreateDimension,
+    "dimensión": CreateDimension,
+    "dimension": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "cinta": CreateDimension,
+    "flexómetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrollable": CreateDimension,
+    "regla": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "pie de rey": CreateDimension,
+    "línea de cota": CreateDimension,
+    "linea de cota": CreateDimension,
+    "cota lineal": CreateDimension,
+    "acotación lineal": CreateDimension,
+    "acotacion lineal": CreateDimension,
+    "dimensionado": CreateDimension,
+    "micrómetro": CreateDimension,
+    "micrometro": CreateDimension,
 }

@@ -74,4 +74,8 @@ TraduceToEs = {
 
     # Conector entre decena y unidad ("treinta y dos")
     "y":            Numbers["compound"],
+
+    # Signo negativo (para ángulos de hipérbola/parábola)
+    "menos":        Numbers["negative"],
+    "negativo":     Numbers["negative"],
 }

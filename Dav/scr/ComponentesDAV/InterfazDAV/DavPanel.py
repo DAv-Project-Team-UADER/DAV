@@ -96,6 +96,7 @@ class DavPanel(QWidget):
         self._context = ContextView()
         self._toolButtons: list[QPushButton] = []
         self._treeWidget: QTreeWidget | None = None
+        self._treeItems: dict[str, QTreeWidgetItem] = {}
         self._lastColumns = 0
 
         self._theme = Theme
@@ -214,6 +215,7 @@ class DavPanel(QWidget):
             return
 
         tree.clear()
+        self._treeItems = {}
         if not Objects:
             tree.addTopLevelItem(QTreeWidgetItem(["(sin documento abierto)"]))
             return
@@ -222,6 +224,7 @@ class DavPanel(QWidget):
         tree.addTopLevelItem(root)
 
         items: dict[str, QTreeWidgetItem] = {}
+        self._treeItems = items
         for obj in Objects:
             label = obj.get("label") or obj.get("name") or "?"
             if not obj.get("visible", True):
@@ -236,6 +239,37 @@ class DavPanel(QWidget):
             (parent or root).addChild(item)
 
         tree.expandAll()
+
+    def HighlightSelection(self, Names: list[str]) -> None:
+        """Mirror FreeCAD's current selection in the panel tree.
+
+        Called by the selection observer so that objects picked by voice
+        (``ObjectSelection.SelectNext``) light up here too, not only in
+        FreeCAD's own tree. Names that are not in the tree are ignored.
+
+        Args:
+            Names: FreeCAD object ``Name`` values that are currently selected.
+        """
+        tree = self._treeWidget
+        if tree is None:
+            return
+
+        Wanted = set(Names or [])
+        Current = None
+        # blockSignals: setSelected dispara itemSelectionChanged, y si el panel
+        # llegara a reenviar eso a FreeCAD se realimentaria en bucle.
+        tree.blockSignals(True)
+        try:
+            for name, item in self._treeItems.items():
+                Selected = name in Wanted
+                item.setSelected(Selected)
+                if Selected and Current is None:
+                    Current = item
+        finally:
+            tree.blockSignals(False)
+
+        if Current is not None:
+            tree.scrollToItem(Current)
 
     def SetTheme(self, Theme: str) -> None:
         """Switch between the light and dark palettes."""

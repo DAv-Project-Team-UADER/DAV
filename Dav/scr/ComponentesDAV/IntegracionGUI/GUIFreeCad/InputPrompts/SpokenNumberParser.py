@@ -179,11 +179,41 @@ class SpokenNumberParser:
         "enviar",
         "send",
         "ok",
+        "okey",
+        "okay",
         "aceptar",
         "aceitar",
         "confirmar",
+        "accept",
+        "confirm",
+        "listo",
+        "vale",
+        "hecho",
+        "dale",
+        "si",
+        "bueno",
+        "done",
+        "yes",
+        "yep",
+        "pronto",
+        "feito",
+        "sim",
     }
-    CancellationWords: set[str] = {"cancelar", "cancel", "cancela", "cancelamento"}
+    CancellationWords: set[str] = {
+        "cancelar",
+        "cancel",
+        "cancela",
+        "cancelamento",
+        "descartar",
+        "discard",
+        "anular",
+        "abortar",
+        "abort",
+        "no",
+        "nao",
+        "olvidalo",
+        "never mind",
+    }
 
     @classmethod
     def ParseInteger(cls, Phrase: str) -> int:
@@ -359,10 +389,16 @@ def _LoadNavWordsFromDictionaries() -> None:
             module = importlib.import_module(f"{package}.NavCommands.{lang}")
             mapping = getattr(module, lang, {})
             for spoken, target in mapping.items():
+                raw = spoken.strip().lower()
+                normalized = SpokenNumberParser.NormalizeText(raw).strip()
                 if target is send:
-                    SpokenNumberParser.ConfirmationWords.add(spoken.strip().lower())
+                    SpokenNumberParser.ConfirmationWords.add(raw)
+                    if normalized != raw:
+                        SpokenNumberParser.ConfirmationWords.add(normalized)
                 elif target is cancel:
-                    SpokenNumberParser.CancellationWords.add(spoken.strip().lower())
+                    SpokenNumberParser.CancellationWords.add(raw)
+                    if normalized != raw:
+                        SpokenNumberParser.CancellationWords.add(normalized)
     except Exception:
         # Un diccionario roto no puede dejar los prompts sin confirmar.
         pass

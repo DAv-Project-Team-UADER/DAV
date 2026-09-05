@@ -52,6 +52,15 @@ TraduceToEs = {
     "confirmar":      NavActions["send"],
     "entrar":         NavActions["send"],
     "ok":             NavActions["send"],
+    "okey":           NavActions["send"],
+    "okay":           NavActions["send"],
+    "listo":          NavActions["send"],
+    "vale":           NavActions["send"],
+    "hecho":          NavActions["send"],
+    "dale":           NavActions["send"],
+    "si":             NavActions["send"],
+    "sí":             NavActions["send"],
+    "bueno":          NavActions["send"],
 
     # Descartar la frase en curso
     "cancelar":       NavActions["cancel"],
@@ -59,4 +68,7 @@ TraduceToEs = {
     "descartar":      NavActions["cancel"],
     "olvidalo":       NavActions["cancel"],
     "olvidálo":       NavActions["cancel"],
+    "anular":         NavActions["cancel"],
+    "abortar":        NavActions["cancel"],
+    "no":             NavActions["cancel"],
 }

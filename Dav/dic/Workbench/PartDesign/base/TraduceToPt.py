@@ -16,8 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import base as base
-import ayuda as ayuda
+from .base import base
+from .ayuda import ayuda
 
 TraduceToPt = {
     #Corpo

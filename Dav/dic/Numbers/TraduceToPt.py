@@ -66,4 +66,8 @@ TraduceToPt = {
 
     # Conector entre dezena e unidade ("vinte e um")
     "e":          Numbers["compound"],
+
+    # Sinal negativo (para ângulos de hipérbole/parábola)
+    "menos":      Numbers["negative"],
+    "negativo":   Numbers["negative"],
 }

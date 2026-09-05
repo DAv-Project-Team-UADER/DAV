@@ -20,6 +20,7 @@
 
 from .subtractive import subtractive
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToPt = {
     # Pocket
@@ -82,8 +83,87 @@ TraduceToPt = {
     "booleano": subtractive["boolean"],
     "operação booleana": subtractive["boolean"],
 
+    # Cortes por medida ditada (sem dialogo)
+    "vazio por medida":      subtractive["pocket_by_length"],
+    "esvaziar por medida":   subtractive["pocket_by_length"],
+
+    "furo por medidas":      subtractive["hole_by_size"],
+    "perfurar por medidas":  subtractive["hole_by_size"],
+
+    "ranhura por angulo":    subtractive["groove_by_angle"],
+
+    # Cortes com primitivas por medidas ditadas
+    "cortar caixa por medidas":    subtractive["cut_box_by_size"],
+    "cortar cilindro por medidas": subtractive["cut_cylinder_by_size"],
+    "cortar esfera por raio":      subtractive["cut_sphere_by_radius"],
+
     # Help
     "ajuda": subtractive['help'],
     "informação": subtractive['help'],
     "opções": subtractive['help'],
+
+    # MEASURE
+    "medir": CreateDimension,
+    "medida": CreateDimension,
+    "medir distancia": CreateDimension,
+    "medir distância": CreateDimension,
+    "distância": CreateDimension,
+    "distancia": CreateDimension,
+    "cotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "aferir": CreateDimension,
+    "mensurar": CreateDimension,
+    "calcular distância": CreateDimension,
+    "calcular distancia": CreateDimension,
+    "comprimento": CreateDimension,
+    "separação": CreateDimension,
+    "separacao": CreateDimension,
+    "afastamento": CreateDimension,
+    "extensão": CreateDimension,
+    "extensao": CreateDimension,
+    "cota": CreateDimension,
+    "cotagem": CreateDimension,
+    "acotação": CreateDimension,
+    "acotacao": CreateDimension,
+    "dimensão": CreateDimension,
+    "dimensao": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "dimensionamento": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "flexômetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrolável": CreateDimension,
+    "metro enrolavel": CreateDimension,
+    "régua": CreateDimension,
+    "regua": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "paquímetro": CreateDimension,
+    "paquimetro": CreateDimension,
+    "micrômetro": CreateDimension,
+    "micrometro": CreateDimension,
+    "tolerância": CreateDimension,
+    "tolerancia": CreateDimension,
+    "desvio": CreateDimension,
+    "ajuste": CreateDimension,
+    "medição": CreateDimension,
+    "medicao": CreateDimension,
+    "mensuração": CreateDimension,
+    "mensuracao": CreateDimension,
+    "aferição": CreateDimension,
+    "afericao": CreateDimension,
+    "calibração": CreateDimension,
+    "calibracao": CreateDimension,
+    "verificação": CreateDimension,
+    "verificacao": CreateDimension,
+    "inspeção": CreateDimension,
+    "inspecao": CreateDimension,
+    "controle dimensional": CreateDimension,
+    "metrologia": CreateDimension,
 }

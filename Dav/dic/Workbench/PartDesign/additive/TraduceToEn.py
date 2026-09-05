@@ -15,8 +15,9 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
-import additive as additive
-import ayuda as ayuda
+from .additive import additive
+from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     # Pad
@@ -82,7 +83,51 @@ TraduceToEn = {
     "morph sections": additive["loft_profiles"],
 
 
+
+    # Pad by dictated length (no dialog)
+    "pad by length": additive["pad_by_length"],
+    "extrude by length": additive["pad_by_length"],
+    "extrude by height": additive["pad_by_length"],
+    "give height": additive["pad_by_length"],
+
+    # Box by dictated dimensions
+    "box by size": additive["box_by_size"],
+    "cube by size": additive["box_by_size"],
+    "create box by size": additive["box_by_size"],
+    "box by dimensions": additive["box_by_size"],
+
+    # Cylinder by dictated dimensions
+    "cylinder by size": additive["cylinder_by_size"],
+    "create cylinder by size": additive["cylinder_by_size"],
+    "cylinder by radius and height": additive["cylinder_by_size"],
+
+    # Revolution by dictated angle
+    "revolution by angle": additive["revolve_by_angle"],
+    "revolve by angle": additive["revolve_by_angle"],
+    "spin profile": additive["revolve_by_angle"],
+
+    # Primitives by dictated measures
+    "sphere by radius":      additive["sphere_by_radius"],
+    "cone by size":          additive["cone_by_size"],
+    "torus by size":         additive["torus_by_size"],
+    "prism by size":         additive["prism_by_size"],
+
     "help":            additive['help'],
     "info":            additive['help'],
     "options":         additive['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

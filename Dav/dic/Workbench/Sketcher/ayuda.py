@@ -45,8 +45,6 @@ def ayuda():
     print('  edit          - Edita el sketch seleccionado.')
     print('  attach        - Adjunta o mapea el sketch seleccionado.')
     print('  grid          - Alterna la grilla del Sketcher.')
-    print('  stop          - Cancela la operación activa.')
-    print('  leave         - Sale del modo edición del sketch.')
 
     print('  toggleconstruction - Alterna el estado de construcción de la geometría en el boceto activo.')
     print('  cancelediting      - Sale del modo de edición del boceto actual cancelando los cambios.')
