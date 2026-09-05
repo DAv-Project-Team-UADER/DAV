@@ -13,6 +13,7 @@ from typing import Any
 from InputPrompts.BaseInputPrompt import BaseInputPrompt
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import KindLabel, ResolveLanguage, T
 
 
 class ObjectSelectionInputPrompt(BaseInputPrompt):
@@ -48,12 +49,17 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
 
     def __init__(
         self,
-        Title: str = "DAV Object Selection",
-        Message: str = "Select an object",
+        Title: str | None = None,
+        Message: str | None = None,
         Parent=None,
         ReturnObject: bool = False,
     ) -> None:
-        super().__init__(Title, Message, Parent)
+        language = ResolveLanguage()
+        super().__init__(
+            Title or T(language, "param_title", index="obj"),
+            Message or T(language, "param_message", kind=KindLabel(language, "object"), name="object"),
+            Parent,
+        )
         self._ReturnObject = ReturnObject
         self._Selector: Any | None = None
         self._ObjectNames: list[str] = []
@@ -65,22 +71,22 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             App = self._ImportFreeCADApp()
             ObjectSelection = self._ImportObjectSelection()
         except Exception as error:
-            self.Fail(f"Object selection is not available: {error}")
+            self.Fail(T(self._Language, "object_unavailable", error=error))
             return
 
         document = App.activeDocument()
         if document is None:
-            self.Fail("No active FreeCAD document.")
+            self.Fail(T(self._Language, "object_no_doc"))
             return
 
         self._ObjectNames = [obj.Name for obj in getattr(document, "Objects", [])]
         if not self._ObjectNames:
-            self.Fail("The active FreeCAD document has no objects.")
+            self.Fail(T(self._Language, "object_no_objects"))
             return
 
         self._Selector = ObjectSelection()
         self._Selector.VectorSelection(self._ObjectNames)
-        self.SetStatus("Say next to browse objects, then enter or send to confirm.")
+        self.SetStatus(T(self._Language, "object_browse_confirm"))
         self._SelectNextObject()
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
@@ -99,7 +105,7 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         if self._HasConfirmation(tokens) or any(token in self.SelectWords for token in tokens):
             return self._AcceptCurrentObject()
 
-        self.SetStatus("Say next to browse, or enter/send to confirm.")
+        self.SetStatus(T(self._Language, "object_browse"))
         return self.GetResult()
 
     def GetSelectedObjectName(self) -> str | None:
@@ -121,17 +127,23 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             self._CurrentIndex = (self._Selector._CurrentIndex - 1) % len(self._ObjectNames)
             current_name = self._ObjectNames[self._CurrentIndex]
         except Exception as error:
-            self.Fail(f"Could not select object: {error}")
+            self.Fail(T(self._Language, "object_select_error", error=error))
             return
 
         self.SetHeardText(current_name)
         self.SetStatus(
-            f"Selected {current_name} ({self._CurrentIndex + 1}/{len(self._ObjectNames)})."
+            T(
+                self._Language,
+                "object_selected",
+                name=current_name,
+                current=self._CurrentIndex + 1,
+                total=len(self._ObjectNames),
+            )
         )
 
     def _AcceptCurrentObject(self) -> PromptResult:
         if self._CurrentIndex < 0 or not self._ObjectNames:
-            return self.Fail("No object is currently selected.")
+            return self.Fail(T(self._Language, "object_none"))
 
         current_name = self._ObjectNames[self._CurrentIndex]
         value = self._ResolveObject(current_name) if self._ReturnObject else current_name

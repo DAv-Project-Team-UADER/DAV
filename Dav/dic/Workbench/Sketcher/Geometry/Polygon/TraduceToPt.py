@@ -20,17 +20,19 @@
 # Portuguese translations – Sketcher Polygon
 # ============================================================
 
-from ._polygon import polygon
+from .polygon import polygon
 
 TraduceToPt = {
     # Comandos principais
     "pentagono": polygon["pentagon"],
     "octogono": polygon["octagon"],
     "regular": polygon["regular"],
-
-    # Sinônimos
-    "poligono regular": polygon["regular"],
+    "pentagono regular": polygon["pentagon"],
+    "octogono regular": polygon["octagon"],
     "poligono": polygon["regular"],
+    "poligono regular": polygon["regular"],
+    "criar pentagono": polygon["pentagon"],
+    "criar octogono": polygon["octagon"],
     "cinco lados": polygon["pentagon"],
     "oito lados": polygon["octagon"],
 
@@ -43,4 +45,9 @@ TraduceToPt = {
     "criar poligono por lados": polygon['create_regular'],
     "poligono regular por lados": polygon['create_regular'],
     "poligono por coordenadas": polygon['create_regular'],
+
+    # Polígono regular por parâmetros
+    "poligono por parametros": polygon['create_regular_polygon'],
+    "poligono com lados": polygon['create_regular_polygon'],
+    "criar poligono por parametros": polygon['create_regular_polygon'],
 }

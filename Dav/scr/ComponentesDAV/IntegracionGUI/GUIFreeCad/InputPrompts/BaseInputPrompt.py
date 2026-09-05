@@ -16,6 +16,7 @@ except ImportError:
     from PySide2.QtWidgets import QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout  # type: ignore[assignment]
 
 from InputPrompts.PromptResult import PromptResult
+from InputPrompts.InputPromptI18n import ResolveLanguage, T
 
 
 def _AlignCenter():
@@ -36,6 +37,7 @@ class BaseInputPrompt(QDialog):
         Parent=None,
     ) -> None:
         super().__init__(Parent)
+        self._Language = ResolveLanguage()
         self._Title = Title
         self._Message = Message
         self._Result = PromptResult.Pending()
@@ -43,7 +45,7 @@ class BaseInputPrompt(QDialog):
         self._BuildUi()
         self.SetTitle(Title)
         self.SetMessage(Message)
-        self.SetStatus("Listening...")
+        self.SetStatus(T(self._Language, "listening"))
 
     def _BuildUi(self) -> None:
         self.setModal(True)
@@ -72,8 +74,8 @@ class BaseInputPrompt(QDialog):
 
         button_row = QHBoxLayout()
         button_row.addStretch()
-        self._OkButton = QPushButton("OK", self)
-        self._CancelButton = QPushButton("Cancel", self)
+        self._OkButton = QPushButton(T(self._Language, "ok"), self)
+        self._CancelButton = QPushButton(T(self._Language, "cancel"), self)
         self._OkButton.setAutoDefault(False)
         self._OkButton.setDefault(False)
         self._CancelButton.setAutoDefault(False)
@@ -118,7 +120,7 @@ class BaseInputPrompt(QDialog):
     def ProcessPartialText(self, Text: str) -> None:
         """Process partial recognized text."""
         self.SetHeardText(Text)
-        self.SetStatus("Listening...")
+        self.SetStatus(T(self._Language, "listening"))
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Process final recognized text.
@@ -153,9 +155,9 @@ class BaseInputPrompt(QDialog):
     def AcceptValue(self, Value: Any | None = None) -> PromptResult:
         """Accept the prompt with a value and close the dialog."""
         if isinstance(Value, str) and not Value.strip():
-            return self.Fail("Value cannot be empty.")
+            return self.Fail(T(self._Language, "value_not_empty"))
         self._Result = PromptResult.Ok(Value)
-        self.SetStatus("Accepted")
+        self.SetStatus(T(self._Language, "accepted"))
         self.ResultReady.emit(self._Result)
         self.accept()
         return self._Result
@@ -170,7 +172,7 @@ class BaseInputPrompt(QDialog):
     def Cancel(self) -> PromptResult:
         """Cancel the prompt and close the dialog."""
         self._Result = PromptResult.Cancel()
-        self.SetStatus("Cancelled")
+        self.SetStatus(T(self._Language, "cancelled"))
         self.ResultReady.emit(self._Result)
         self.reject()
         return self._Result

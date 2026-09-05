@@ -1,9 +1,11 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  arc_ends  - Crea una ranura curva con bordes redondeados.')
-    print('              Requiere: Objeto croquis activo, coordenadas del centro, radio central, ángulos de inicio/fin y radio de los semicírculos.')
+    print('              Abre la ventana DAV y dicta: coordenadas del centro (X/Y),')
+    print('              radio central, ángulo de inicio, ángulo de fin y radio de los semicírculos (ancho).')
     print('')
     print('  flat_ends - Crea una ranura curva con bordes planos.')
-    print('              Requiere: Objeto croquis activo, coordenadas del centro, radios interno/externo y ángulos de inicio/fin.')
+    print('              Abre la ventana DAV y dicta: coordenadas del centro (X/Y),')
+    print('              radio central, ángulo de inicio, ángulo de fin y ancho.')
     print('')
     print('              Nota: Ambas variantes insertan geometrías y restricciones formando un contorno cerrado válido.')

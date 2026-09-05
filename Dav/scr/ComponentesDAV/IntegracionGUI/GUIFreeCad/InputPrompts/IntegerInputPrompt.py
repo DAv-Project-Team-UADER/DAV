@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from InputPrompts.NumericInputPrompt import NumericInputPrompt
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import KindLabel, ResolveLanguage, T
 
 
 class IntegerInputPrompt(NumericInputPrompt):
@@ -15,11 +16,16 @@ class IntegerInputPrompt(NumericInputPrompt):
 
     def __init__(
         self,
-        Title: str = "DAV Integer Input",
-        Message: str = "Say an integer value",
+        Title: str | None = None,
+        Message: str | None = None,
         Parent=None,
     ) -> None:
-        super().__init__(Title, Message, Parent)
+        language = ResolveLanguage()
+        super().__init__(
+            Title or T(language, "param_title", index="int"),
+            Message or T(language, "param_message", kind=KindLabel(language, "int"), name="sides"),
+            Parent,
+        )
 
     def _ParseAccumulatedText(self, Text: str) -> int:
         return SpokenNumberParser.ParseInteger(Text)

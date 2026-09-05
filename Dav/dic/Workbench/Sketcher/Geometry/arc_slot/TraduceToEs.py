@@ -24,11 +24,13 @@ TraduceToEs = {
     'ranura redondeada':    arc_slot['arc_ends'],
     'extremos curvos':      arc_slot['arc_ends'],
     'ranura curva':         arc_slot['arc_ends'],
+    'ranura de arco redondeada': arc_slot['arc_ends'],
 
     'bordes planos':        arc_slot['flat_ends'],
     'ranura plana':         arc_slot['flat_ends'],
     'extremos planos':      arc_slot['flat_ends'],
     'ranura recta':         arc_slot['flat_ends'],
+    'ranura de arco plana':     arc_slot['flat_ends'],
 
     'ayuda':                arc_slot['help'],
     'informacion':             arc_slot['help'],

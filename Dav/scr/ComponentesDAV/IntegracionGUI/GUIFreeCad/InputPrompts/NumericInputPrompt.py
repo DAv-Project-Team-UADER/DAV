@@ -9,6 +9,7 @@ from __future__ import annotations
 from InputPrompts.BaseInputPrompt import BaseInputPrompt
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import T
 
 
 class NumericInputPrompt(BaseInputPrompt):
@@ -37,7 +38,7 @@ class NumericInputPrompt(BaseInputPrompt):
 
         if self._HasConfirmation(tokens):
             if not self._AccumulatedText:
-                self.SetStatus("No value to confirm. Say a number first.")
+                self.SetStatus(T(self._Language, "numeric_no_value"))
                 return self.GetResult()
             parse_text = self._AccumulatedText
             self._AccumulatedText = ""
@@ -50,7 +51,7 @@ class NumericInputPrompt(BaseInputPrompt):
         self._AccumulatedText = (
             (self._AccumulatedText + " " + Text).strip() if self._AccumulatedText else Text
         )
-        self.SetStatus("Say a number, then say ok or send.")
+        self.SetStatus(T(self._Language, "numeric_prompt"))
         return self.GetResult()
 
     def _ParseAccumulatedText(self, Text: str):

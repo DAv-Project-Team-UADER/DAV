@@ -20,19 +20,19 @@
 # Spanish translations – Sketcher Polygon
 # ============================================================
 
-from ._polygon import polygon
+from .polygon import polygon
 
 TraduceToEs = {
+    # Comandos principales
     "pentagono": polygon["pentagon"],
     "octagono": polygon["octagon"],
     "regular": polygon["regular"],
-    "poligono por parametros": polygon["create_regular_polygon"],
-    "polígono por parámetros": polygon["create_regular_polygon"],
-    "poligono con lados": polygon["create_regular_polygon"],
-    "crear poligono por parametros": polygon["create_regular_polygon"],
-
-    "poligono regular": polygon["regular"],
+    "pentagono regular": polygon["pentagon"],
+    "octagono regular": polygon["octagon"],
     "poligono": polygon["regular"],
+    "poligono regular": polygon["regular"],
+    "crear pentagono": polygon["pentagon"],
+    "crear octagono": polygon["octagon"],
     "cinco lados": polygon["pentagon"],
     "ocho lados": polygon["octagon"],
 
@@ -45,4 +45,10 @@ TraduceToEs = {
     "crear poligono por lados": polygon['create_regular'],
     "poligono regular por lados": polygon['create_regular'],
     "poligono por coordenadas": polygon['create_regular'],
+
+    # Polígono regular por parámetros
+    "poligono por parametros": polygon["create_regular_polygon"],
+    "polígono por parámetros": polygon["create_regular_polygon"],
+    "poligono con lados": polygon["create_regular_polygon"],
+    "crear poligono por parametros": polygon["create_regular_polygon"],
 }
