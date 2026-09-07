@@ -17,6 +17,70 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
+ZOOM_FACTOR = 0.9  # 10% de variación
+
+
+def _apply_zoom(factor):
+    """Apply zoom by directly modifying the active 3D view camera node.
+
+    Args:
+        factor (float): Multiplier for zoom. < 1 zooms in (closer), > 1 zooms out (farther).
+    """
+    view = getattr(Gui.ActiveDocument, 'ActiveView', None) if getattr(Gui, 'ActiveDocument', None) else None
+    if view is None and hasattr(Gui, 'activeView'):
+        view = Gui.activeView()
+    if view is None:
+        return
+
+    cam = view.getCameraNode()
+    if cam is None:
+        return
+
+    # Cámara Ortográfica (modo por defecto de FreeCAD)
+    if hasattr(cam, 'height'):
+        cam.height.setValue(cam.height.getValue() * factor)
+    # Cámara Perspectiva
+    elif hasattr(cam, 'position') and hasattr(cam, 'focalDistance'):
+        direction = view.getViewDirection()
+        old_focal = cam.focalDistance.getValue()
+        new_focal = old_focal * factor
+        delta = old_focal - new_focal  # positivo al acercar (factor < 1)
+
+        pos = cam.position.getValue()
+        new_pos = [
+            pos[0] + delta * direction.x,
+            pos[1] + delta * direction.y,
+            pos[2] + delta * direction.z,
+        ]
+        cam.position.setValue(new_pos)
+        cam.focalDistance.setValue(new_focal)
+
+    view.redraw()
+
+
+def _zoom_in():
+    """Acercar la cámara un 10%."""
+    _apply_zoom(ZOOM_FACTOR)
+
+
+def _zoom_out():
+    """Alejar la cámara un 10%."""
+    _apply_zoom(1.0 / ZOOM_FACTOR)
+
+def _toggle_fullscreen():
+    """Alterna el modo de pantalla completa de la ventana principal."""
+    try:
+        Gui.runCommand('Std_MainFullscreen', 0)
+    except Exception:
+        mw = Gui.getMainWindow()
+        if mw:
+            if mw.isFullScreen():
+                mw.showNormal()
+            else:
+                mw.showFullScreen()
+
+
+
 
 # Diccionario DAV - StdView / StandardViews
 StandardViews = {
@@ -27,7 +91,7 @@ StandardViews = {
     'fitall':       lambda: Gui.runCommand('Std_ViewFitAll', 0),
     'fitselection': lambda: Gui.runCommand('Std_ViewFitSelection', 0),
     'front':        lambda: Gui.runCommand('Std_ViewFront', 0),
-    'fullscreen':   lambda: Gui.runCommand('Std_ViewFullscreen', 0),
+    'fullscreen':   _toggle_fullscreen,
     'home':         lambda: Gui.runCommand('Std_ViewHome', 0),
     'isometric':    lambda: Gui.runCommand('Std_ViewIsometric', 0),
     'left':         lambda: Gui.runCommand('Std_ViewLeft', 0),
@@ -35,7 +99,7 @@ StandardViews = {
     'right':        lambda: Gui.runCommand('Std_ViewRight', 0),
     'top':          lambda: Gui.runCommand('Std_ViewTop', 0),
     'trimetric':    lambda: Gui.runCommand('Std_ViewTrimetric', 0),
-    'zoomin':       lambda: Gui.runCommand('Std_ViewZoomIn', 0),
-    'zoomout':      lambda: Gui.runCommand('Std_ViewZoomOut', 0),
+    'zoomin':       _zoom_in,
+    'zoomout':      _zoom_out,
     'help':         ayuda,
 }
