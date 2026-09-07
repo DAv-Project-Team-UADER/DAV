@@ -76,6 +76,21 @@ TraduceToEs = {
     "cuantos objetos": selection["count"],
     "cuantos hay": selection["count"],
 
+    # delete — borrar el objeto actualmente seleccionado (avanzar/anterior + borrar)
+    "borrar": selection["delete"],
+    "borrar objeto": selection["delete"],
+    "borrar elemento": selection["delete"],
+    "borrar seleccion": selection["delete"],
+    "borrar selección": selection["delete"],
+    "eliminar": selection["delete"],
+    "eliminar objeto": selection["delete"],
+    "eliminar elemento": selection["delete"],
+    "eliminar seleccion": selection["delete"],
+    "eliminar selección": selection["delete"],
+    "suprimir": selection["delete"],
+    "suprimir objeto": selection["delete"],
+    "quitar objeto": selection["delete"],
+
     "ayuda": ayuda,
     "help": ayuda,
 }

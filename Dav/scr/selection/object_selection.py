@@ -146,6 +146,96 @@ class ObjectSelection:
         Gui.Selection.clearSelection()
         print("Selection cleared.")
 
+    def DeleteSelected(self):
+        """Deletes the currently selected object.
+
+        Uses the internal _LastSelectedIndex when available (set by
+        SelectNext/SelectPrevious); otherwise falls back to the
+        current Gui selection. Keeps the internal name list in sync
+        and recomputes the document.
+        """
+        ActiveDoc = App.activeDocument()
+
+        if not ActiveDoc:
+            print("Error: There is no active document in FreeCAD.")
+            return
+
+        # 1) Preferred: object tracked by SelectNext/Previous
+        Name = self.GetCurrentObject()
+        if Name:
+            Obj = ActiveDoc.getObject(Name)
+            if not Obj:
+                print(f"Warning: The object '{Name}' does not exist in the current document.")
+                return
+            try:
+                ActiveDoc.removeObject(Name)
+                ActiveDoc.recompute()
+                print(f"Deleted object: '{Name}'")
+            except Exception as exc:
+                print(f"Error deleting '{Name}': {exc}")
+                return
+            # Keep internal list consistent
+            try:
+                idx = self._ObjectNames.index(Name)
+                self._ObjectNames.pop(idx)
+            except ValueError:
+                idx = self._LastSelectedIndex
+            if not self._ObjectNames:
+                self._CurrentIndex = 0
+                self._LastSelectedIndex = -1
+                print("No more objects in list.")
+            else:
+                # After removal the next object occupies the same index
+                if idx >= len(self._ObjectNames):
+                    idx = 0
+                self._LastSelectedIndex = -1
+                # Point _CurrentIndex so that next SelectNext picks idx
+                self._CurrentIndex = idx
+            try:
+                Gui.Selection.clearSelection()
+            except Exception:
+                pass
+            return
+
+        # 2) Fallback: whatever is selected in the GUI
+        try:
+            GuiSelected = Gui.Selection.getSelection()
+        except Exception:
+            GuiSelected = []
+        if GuiSelected:
+            Deleted = []
+            for Obj in list(GuiSelected):
+                ObjName = getattr(Obj, "Name", None)
+                if not ObjName:
+                    continue
+                try:
+                    ActiveDoc.removeObject(ObjName)
+                    Deleted.append(ObjName)
+                except Exception as exc:
+                    print(f"Error deleting '{ObjName}': {exc}")
+                if ObjName in self._ObjectNames:
+                    try:
+                        self._ObjectNames.remove(ObjName)
+                    except ValueError:
+                        pass
+            if Deleted:
+                try:
+                    ActiveDoc.recompute()
+                except Exception:
+                    pass
+                print(f"Deleted object(s): {', '.join(Deleted)}")
+                self._LastSelectedIndex = -1
+                self._CurrentIndex = 0
+                try:
+                    Gui.Selection.clearSelection()
+                except Exception:
+                    pass
+                if not self._ObjectNames:
+                    print("No more objects in list.")
+            return
+
+        print("No object selected. Say 'avanzar' or 'anterior' to select one, then 'borrar'.")
+
     def GetCurrentObject(self):
         """Returns the name of the last selected object, or None."""
         if not self._ObjectNames or self._LastSelectedIndex < 0:

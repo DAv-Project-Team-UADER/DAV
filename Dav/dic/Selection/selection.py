@@ -79,6 +79,11 @@ def ObjectCount():
         print("No objects loaded. Say 'next' or 'previous' to start.")
 
 
+def DeleteSelected():
+    """Deletes the currently selected object."""
+    SelectorInstance.DeleteSelected()
+
+
 selection = {
     'next': SelectNext,
     'previous': SelectPrevious,
@@ -86,5 +91,6 @@ selection = {
     'deselectall': DeselectAll,
     'current': CurrentObject,
     'count': ObjectCount,
+    'delete': DeleteSelected,
     'help': ayuda,
 }

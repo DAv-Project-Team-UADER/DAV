@@ -6,3 +6,4 @@ def ayuda():
     print(" deselectall - Clear the current selection")
     print(" current     - Show the name of the current object")
     print(" count       - Show the number of objects in the list")
+    print(" delete      - Delete the currently selected object (use next/previous then delete/borrar)")

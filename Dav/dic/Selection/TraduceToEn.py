@@ -71,5 +71,16 @@ TraduceToEn = {
     "count": selection["count"],
     "how many objects": selection["count"],
 
+    # delete — remove the currently selected object (next/previous + delete)
+    "delete": selection["delete"],
+    "delete object": selection["delete"],
+    "delete element": selection["delete"],
+    "delete selection": selection["delete"],
+    "remove object": selection["delete"],
+    "remove": selection["delete"],
+    "erase": selection["delete"],
+    "erase object": selection["delete"],
+    "suppress": selection["delete"],
+
     "help": ayuda,
 }

@@ -74,6 +74,17 @@ TraduceToPt = {
     "quantos objetos": selection["count"],
     "quantos há": selection["count"],
 
+    # delete — remover o objeto atualmente selecionado (avançar/anterior + apagar)
+    "apagar": selection["delete"],
+    "apagar objeto": selection["delete"],
+    "apagar elemento": selection["delete"],
+    "excluir": selection["delete"],
+    "excluir objeto": selection["delete"],
+    "remover": selection["delete"],
+    "remover objeto": selection["delete"],
+    "deletar": selection["delete"],
+    "deletar objeto": selection["delete"],
+
     "ajuda": ayuda,
     "help": ayuda,
 }
