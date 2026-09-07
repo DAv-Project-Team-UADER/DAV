@@ -173,3 +173,14 @@ Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_history.log
 
 .gemini/
 ComponentesDAV/
+
+# Los scripts reales del proyecto viven en Dav/scr/ComponentesDAV/scripts.
+# La regla "ComponentesDAV/" (a cualquier profundidad) es para la copia
+# histórica a nivel raíz. Para que los scripts propios se versionen sin
+# git add -f, re-incluimos la rama Dav/scr/ComponentesDAV/ pero dejamos
+# visible únicamente su subcarpeta scripts/ (el resto — runtime, .venv,
+# config — sigue ignorado).
+!Dav/scr/ComponentesDAV/
+Dav/scr/ComponentesDAV/*
+!Dav/scr/ComponentesDAV/scripts/
+!Dav/scr/ComponentesDAV/scripts/**
