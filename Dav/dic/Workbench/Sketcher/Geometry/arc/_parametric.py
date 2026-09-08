@@ -65,13 +65,25 @@ def create_by_center(
         print("[geometry.arc] Error: start and end angles describe an empty sweep.")
         return
 
-    safe_name = "".join(ch for ch in label if ch.isalnum()) or "Arc"
     circle = Part.Circle(App.Vector(x, y, 0), App.Vector(0, 0, 1), radius)
-    shape = Part.ArcOfCircle(
+    arc_geo = Part.ArcOfCircle(
         circle,
         math.radians(angle_start),
         math.radians(angle_end),
-    ).toShape()
+    )
+
+    sketch = getattr(doc, "ActiveObject", None)
+    if sketch and getattr(sketch, "TypeId", "") == "Sketcher::SketchObject":
+        sketch.addGeometry(arc_geo, False)
+        doc.recompute()
+        print(
+            f"[geometry.arc] Added arc to sketch at ({x},{y}) radius {radius} "
+            f"from {angle_start} to {angle_end} degrees"
+        )
+        return
+
+    safe_name = "".join(ch for ch in label if ch.isalnum()) or "Arc"
+    shape = arc_geo.toShape()
 
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
@@ -80,4 +92,49 @@ def create_by_center(
     print(
         f"[geometry.arc] Created '{label}' at ({x},{y}) radius {radius} "
         f"from {angle_start} to {angle_end} degrees"
+    )
+
+
+def create_by_3points(
+    x1: float,
+    y1: float,
+    x2: float,
+    y2: float,
+    x3: float,
+    y3: float,
+    label: str = "Arc",
+) -> None:
+    """Create an arc passing through 3 points (p1: start, p2: midpoint/minimum, p3: end)."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[geometry.arc] Error: no active document.")
+        return
+
+    p1 = App.Vector(x1, y1, 0)
+    p2 = App.Vector(x2, y2, 0)
+    p3 = App.Vector(x3, y3, 0)
+
+    try:
+        arc_geo = Part.ArcOfCircle(p1, p2, p3)
+    except Exception as exc:
+        print(f"[geometry.arc] Error creating 3-point arc: {exc}")
+        return
+
+    sketch = getattr(doc, "ActiveObject", None)
+    if sketch and getattr(sketch, "TypeId", "") == "Sketcher::SketchObject":
+        sketch.addGeometry(arc_geo, False)
+        doc.recompute()
+        print(
+            f"[geometry.arc] Added 3-point arc to sketch through ({x1},{y1}), ({x2},{y2}), ({x3},{y3})"
+        )
+        return
+
+    safe_name = "".join(ch for ch in label if ch.isalnum()) or "Arc"
+    shape = arc_geo.toShape()
+    feature = doc.addObject("Part::Feature", safe_name)
+    feature.Label = label
+    feature.Shape = shape
+    doc.recompute()
+    print(
+        f"[geometry.arc] Created 3-point arc '{label}' through ({x1},{y1}), ({x2},{y2}), ({x3},{y3})"
     )
