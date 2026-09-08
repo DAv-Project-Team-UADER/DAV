@@ -37,4 +37,11 @@ TraduceToEs = {
     "crear arco por centro": arc['create_by_center'],
     "arco por angulos": arc['create_by_center'],
     "arco por coordenadas": arc['create_by_center'],
+
+    # Arco por 3 puntos (6 floats: p1, p2, p3)
+    "arco por tres puntos": arc['create_by_3points'],
+    "arco de tres puntos": arc['create_by_3points'],
+    "crear arco por tres puntos": arc['create_by_3points'],
+    "tres puntos por coordenadas": arc['create_by_3points'],
+    "arco tres puntos por parametros": arc['create_by_3points'],
 }

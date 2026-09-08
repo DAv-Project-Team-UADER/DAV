@@ -173,6 +173,7 @@ Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_history.log
 
 .gemini/
 ComponentesDAV/
+*.pptx
 
 # Los scripts reales del proyecto viven en Dav/scr/ComponentesDAV/scripts.
 # La regla "ComponentesDAV/" (a cualquier profundidad) es para la copia
