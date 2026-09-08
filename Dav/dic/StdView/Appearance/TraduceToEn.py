@@ -19,6 +19,7 @@
 from .Appearance import appearance
 from .ayuda import ayuda
 from .Appearance import appearance as Appearance
+from StdView.Panels.Panels import Panels
 
 TraduceToEn = {
     # Appearance
@@ -46,5 +47,13 @@ TraduceToEn = {
     'help':     Appearance['help'],
     'info':     Appearance['help'],
     'options':  Appearance['help'],
+
+    # comand globals
+    "maximize": Panels['panel'],
+    "minimize": Panels['panel'],
+    "reduce": Panels['panel'],
+    "increase": Panels['panel'],
+    "decrease": Panels['panel'],
+    "enlarge": Panels['panel'],
 
 }
