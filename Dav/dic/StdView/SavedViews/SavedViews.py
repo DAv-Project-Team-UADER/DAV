@@ -18,14 +18,23 @@ import FreeCADGui as Gui
 
 from .ayuda import ayuda
 
+def _restore_frozen_view():
+    try:
+        Gui.runCommand('Std_FreezeViews', 6)
+    except Exception:
+        try:
+            Gui.runCommand('Std_ViewRestoreCamera', 0)
+        except Exception:
+            pass
+
 # Diccionario DAV - StdView / SavedViews
 savedviews = {
-    'clear':   lambda: Gui.runCommand('Std_ClearViews', 0),
-    'freeze':  lambda: Gui.runCommand('Std_FreezeView', 0),
-    'restore': lambda: Gui.runCommand('Std_FreezeViewsRestore', 0),
+    'clear':   lambda: Gui.runCommand('Std_FreezeViews', 4),
+    'freeze':  lambda: Gui.runCommand('Std_FreezeViews', 3),
+    'restore': _restore_frozen_view,
     'recall':  lambda: Gui.runCommand('Std_RecallWorkingView', 0),
-    'load':    lambda: Gui.runCommand('Std_RestoreView', 0),
-    'save':    lambda: Gui.runCommand('Std_FreezeViewsSave', 0),
+    'load':    lambda: Gui.runCommand('Std_FreezeViews', 1),
+    'save':    lambda: Gui.runCommand('Std_FreezeViews', 0),
     'store':   lambda: Gui.runCommand('Std_StoreWorkingView', 0),
     'help':    ayuda,
 }

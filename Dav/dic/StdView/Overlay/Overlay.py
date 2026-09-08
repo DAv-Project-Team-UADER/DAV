@@ -18,14 +18,29 @@ import FreeCADGui as Gui
 
 from .ayuda import ayuda
 
+def _toggle_floating():
+    mw = Gui.getMainWindow() if hasattr(Gui, 'getMainWindow') else None
+    if not mw:
+        return
+    focus = mw.focusWidget()
+    while focus:
+        if hasattr(focus, 'isFloating') and hasattr(focus, 'setFloating'):
+            focus.setFloating(not focus.isFloating())
+            return
+        focus = focus.parentWidget()
+    for child in mw.children():
+        if hasattr(child, 'isFloating') and hasattr(child, 'setFloating') and child.isVisible():
+            child.setFloating(not child.isFloating())
+            return
+
 # Diccionario DAV - StdView / Overlay
 overlay = {
-    'bottom':     lambda: Gui.runCommand('Std_OverlayToggleBottom', 0),
-    'float':      lambda: Gui.runCommand('Std_OverlayToggleFloating', 0),
-    'left':       lambda: Gui.runCommand('Std_OverlayToggleLeft', 0),
-    'right':      lambda: Gui.runCommand('Std_OverlayToggleRight', 0),
+    'bottom':     lambda: Gui.runCommand('Std_DockOverlay', 11),
+    'float':      _toggle_floating,
+    'left':       lambda: Gui.runCommand('Std_DockOverlay', 8),
+    'right':      lambda: Gui.runCommand('Std_DockOverlay', 9),
     'axis':       lambda: Gui.runCommand('Std_AxisCross', 0),
     'navigation': lambda: Gui.runCommand('Std_ToggleNavigation', 0),
-    'toggle':     lambda: Gui.runCommand('Std_ToggleOverlay', 0),
+    'toggle':     lambda: Gui.runCommand('Std_DockOverlay', 3),
     'help':       ayuda,
 }

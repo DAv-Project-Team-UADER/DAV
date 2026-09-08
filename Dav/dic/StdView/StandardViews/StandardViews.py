@@ -15,45 +15,71 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
-try:
-    from pivy import coin
-except ImportError:
-    coin = None
-
 from .ayuda import ayuda
 
-ZOOM_STEP = 1.1
+ZOOM_FACTOR = 0.9  # 10% de variación
 
 
 def _apply_zoom(factor):
-    """Apply zoom by modifying camera height/focalDistance by *factor*.
+    """Apply zoom by directly modifying the active 3D view camera node.
 
-    ``factor < 1`` zooms in (view gets closer), ``factor > 1`` zooms out.
-    Works for both orthographic and perspective cameras.
+    Args:
+        factor (float): Multiplier for zoom. < 1 zooms in (closer), > 1 zooms out (farther).
     """
-    view = Gui.ActiveDocument.ActiveView
+    view = getattr(Gui.ActiveDocument, 'ActiveView', None) if getattr(Gui, 'ActiveDocument', None) else None
+    if view is None and hasattr(Gui, 'activeView'):
+        view = Gui.activeView()
     if view is None:
         return
+
     cam = view.getCameraNode()
     if cam is None:
         return
-    if isinstance(cam, coin.SoOrthographicCamera):
-        cam.height = cam.height.getValue() * factor
-    else:
-        direction = coin.SbVec3f()
-        cam.orientation.getValue().multVec(coin.SbVec3f(0, 0, -1), direction)
+
+    # Cámara Ortográfica (modo por defecto de FreeCAD)
+    if hasattr(cam, 'height'):
+        cam.height.setValue(cam.height.getValue() * factor)
+    # Cámara Perspectiva
+    elif hasattr(cam, 'position') and hasattr(cam, 'focalDistance'):
+        direction = view.getViewDirection()
         old_focal = cam.focalDistance.getValue()
         new_focal = old_focal * factor
-        cam.position = cam.position.getValue() + (new_focal - old_focal) * (-direction)
-        cam.focalDistance = new_focal
+        delta = old_focal - new_focal  # positivo al acercar (factor < 1)
+
+        pos = cam.position.getValue()
+        new_pos = [
+            pos[0] + delta * direction.x,
+            pos[1] + delta * direction.y,
+            pos[2] + delta * direction.z,
+        ]
+        cam.position.setValue(new_pos)
+        cam.focalDistance.setValue(new_focal)
+
+    view.redraw()
 
 
 def _zoom_in():
-    _apply_zoom(1.0 / ZOOM_STEP)
+    """Acercar la cámara un 10%."""
+    _apply_zoom(ZOOM_FACTOR)
 
 
 def _zoom_out():
-    _apply_zoom(ZOOM_STEP)
+    """Alejar la cámara un 10%."""
+    _apply_zoom(1.0 / ZOOM_FACTOR)
+
+def _toggle_fullscreen():
+    """Alterna el modo de pantalla completa de la ventana principal."""
+    try:
+        Gui.runCommand('Std_MainFullscreen', 0)
+    except Exception:
+        mw = Gui.getMainWindow()
+        if mw:
+            if mw.isFullScreen():
+                mw.showNormal()
+            else:
+                mw.showFullScreen()
+
+
 
 
 # Diccionario DAV - StdView / StandardViews
@@ -65,7 +91,7 @@ StandardViews = {
     'fitall':       lambda: Gui.runCommand('Std_ViewFitAll', 0),
     'fitselection': lambda: Gui.runCommand('Std_ViewFitSelection', 0),
     'front':        lambda: Gui.runCommand('Std_ViewFront', 0),
-    'fullscreen':   lambda: Gui.runCommand('Std_ViewFullscreen', 0),
+    'fullscreen':   _toggle_fullscreen,
     'home':         lambda: Gui.runCommand('Std_ViewHome', 0),
     'isometric':    lambda: Gui.runCommand('Std_ViewIsometric', 0),
     'left':         lambda: Gui.runCommand('Std_ViewLeft', 0),
