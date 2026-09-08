@@ -23,6 +23,7 @@ from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
 
 TraduceToEs = {
@@ -69,4 +70,12 @@ TraduceToEs = {
     "preferencias":  open_preferences,
     "configuracion": open_preferences,
     "ajustes":       open_preferences,
+
+    # Panel DAV
+    "minimizar":  hide_dav_panel,
+    "reducir":    hide_dav_panel,
+    "disminuir":  hide_dav_panel,
+    "maximizar":  show_dav_panel,
+    "aumentar":   show_dav_panel,
+    "agrandar":   show_dav_panel,
 }

@@ -59,6 +59,10 @@ def _install_freecad_stub() -> None:
     for mod in ("Part", "PartDesign", "Sketcher", "Draft", "TechDraw", "Assembly", "Mesh", "Fem"):
         if mod not in sys.modules:
             sys.modules[mod] = types.ModuleType(mod)
+    if "integration.launch_preferences" not in sys.modules:
+        preferences = types.ModuleType("integration.launch_preferences")
+        preferences.open_preferences = lambda: None  # type: ignore[attr-defined]
+        sys.modules["integration.launch_preferences"] = preferences
 
 
 class TestRealDictionariesConvention(unittest.TestCase):
@@ -139,6 +143,24 @@ class TestRealDictionariesConvention(unittest.TestCase):
                 workbench,
                 f"Workbench missing nested key '{submenu}'. Check workbench.py nesting!",
             )
+
+    def test_dav_panel_visibility_commands_are_global_in_spanish(self) -> None:
+        """Verify Spanish panel visibility aliases resolve from the base dictionary."""
+        from core.language_code import LanguageCode
+        from navigation.dictionary_loader import DictionaryLoader
+
+        loader = DictionaryLoader(DIC_ROOT)
+        base_dict = loader.LoadBaseModuleDict()
+        spanish = loader.LoadTranslateMap(DIC_ROOT, LanguageCode.Es)
+
+        self.assertIn("hide_dav_panel", base_dict)
+        self.assertIn("show_dav_panel", base_dict)
+
+        for phrase in ("minimizar", "reducir", "disminuir"):
+            self.assertIs(spanish[phrase], base_dict["hide_dav_panel"])
+        for phrase in ("maximizar", "aumentar", "agrandar"):
+            self.assertIs(spanish[phrase], base_dict["show_dav_panel"])
+
     def test_techdraw_and_geometry_translations_populated(self) -> None:
         """Verify that TechDraw and Sketcher/Geometry translations are populated and not empty stubs."""
         from navigation.dictionary_loader import DictionaryLoader

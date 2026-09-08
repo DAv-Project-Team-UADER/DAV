@@ -32,6 +32,7 @@ from StdView.StdView import StdView
 from Workbench.workbench import workbench
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
 
 Base = {
@@ -41,4 +42,6 @@ Base = {
     "lineattributes": LineAttributes,
     "selection":      selection,
     "preferences":    open_preferences,
+    "hide_dav_panel": hide_dav_panel,
+    "show_dav_panel": show_dav_panel,
 }
