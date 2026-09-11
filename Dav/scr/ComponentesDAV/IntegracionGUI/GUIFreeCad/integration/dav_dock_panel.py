@@ -28,6 +28,19 @@ _observer = None
 _selection_observer = None
 
 
+def hide_dav_panel() -> None:
+    """Hide the DAV dock panel when it is mounted."""
+    if _dock is not None:
+        _dock.hide()
+
+
+def show_dav_panel() -> None:
+    """Show and foreground the DAV dock panel when it is mounted."""
+    if _dock is not None:
+        _dock.show()
+        _dock.raise_()
+
+
 def _ensure_interfaz_on_path() -> None:
     """Make ``InterfazDAV`` importable (it lives outside GUIFreeCad)."""
     here = Path(__file__).resolve()
