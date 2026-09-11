@@ -28,17 +28,102 @@ _observer = None
 _selection_observer = None
 
 
-def hide_dav_panel() -> None:
-    """Hide the DAV dock panel when it is mounted."""
-    if _dock is not None:
-        _dock.hide()
+def _notify_panel_failure(message: str) -> None:
+    """Inform the failure through the project's logging/messaging channel."""
+    try:
+        from core.dav_log import get_logger
+
+        get_logger("panel").warning(message)
+    except Exception:  # noqa: BLE001 - logging must not break the command
+        pass
+    try:
+        import FreeCAD as App  # type: ignore[import-not-found]
+
+        App.Console.PrintWarning(f"[DAV] {message}\n")
+    except ImportError:
+        print(f"[DAV] {message}")
 
 
-def show_dav_panel() -> None:
-    """Show and foreground the DAV dock panel when it is mounted."""
+def _bring_to_front(dock) -> None:
+    """Bring a dock to the front, compatible with test doubles and Qt versions."""
+    dock.show()
+    dock.raise_()
+    if hasattr(dock, "activateWindow") and callable(getattr(dock, "activateWindow")):
+        dock.activateWindow()
+
+
+def hide_dav_panel() -> bool:
+    """Hide the DAV dock panel when it is mounted.
+
+    Returns:
+        True if the panel was hidden or was already hidden, False if no dock
+        is mounted (nothing to hide).
+    """
+    if _dock is None:
+        return False
+    _dock.hide()
+    return True
+
+
+def show_dav_panel() -> bool:
+    """Show and foreground the DAV dock panel, mounting it on demand if needed.
+
+    If the dock is already mounted it is shown and raised. If it is not yet
+    mounted the existing ``integration.voice_bootstrap.show_dock_panel()`` flow
+    is reused so the panel is created without duplicating mount logic.
+
+    Returns:
+        True if the panel is visible after the call, False otherwise. Failures
+        (voice engine inactive, mount error) are reported through the project's
+        logging/messaging channel so the voice command does not appear to have
+        succeeded silently.
+    """
     if _dock is not None:
-        _dock.show()
-        _dock.raise_()
+        _bring_to_front(_dock)
+        # Avoid false success: confirm the dock reports itself as visible when
+        # the Qt API is available. Test doubles expose isVisible(); real
+        # QDockWidgets do as well.
+        if hasattr(_dock, "isVisible"):
+            try:
+                if not _dock.isVisible():
+                    _notify_panel_failure("No se pudo mostrar el panel DAV.")
+                    return False
+            except Exception:  # noqa: BLE001 - visibility check must not hide panel errors
+                pass
+        return True
+
+    # Dock not yet mounted — reuse the existing bootstrap flow.
+    try:
+        from integration.voice_bootstrap import show_dock_panel
+    except ImportError as exc:
+        _notify_panel_failure(f"No se pudo montar el panel DAV: {exc}")
+        return False
+
+    mounted = show_dock_panel()
+    if not mounted:
+        # voice_bootstrap already emitted a console message explaining why
+        # (voice inactive, missing browser, mount exception), but ensure the
+        # caller does not see a false success and leave a log trace.
+        if _dock is None:
+            _notify_panel_failure("No se pudo montar el panel DAV.")
+        return False
+
+    if _dock is None:
+        _notify_panel_failure("No se pudo montar el panel DAV.")
+        return False
+
+    # Newly mounted dock was already shown/raised by install_dock_panel, but
+    # ensure activation for the voice-triggered path as well.
+    if hasattr(_dock, "activateWindow") and callable(getattr(_dock, "activateWindow")):
+        _dock.activateWindow()
+    if hasattr(_dock, "isVisible"):
+        try:
+            if not _dock.isVisible():
+                _notify_panel_failure("No se pudo mostrar el panel DAV.")
+                return False
+        except Exception:  # noqa: BLE001
+            pass
+    return True
 
 
 def _ensure_interfaz_on_path() -> None:
