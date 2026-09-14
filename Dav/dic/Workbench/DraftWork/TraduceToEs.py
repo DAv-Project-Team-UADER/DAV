@@ -17,6 +17,7 @@
 
 from .DraftWork import draft
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEs = {
     'anotacion':  draft['annotation'],
@@ -50,12 +51,75 @@ TraduceToEs = {
     'ovalo':      draft['ellipse'],
     'óvalo':      draft['ellipse'],
 
-    'facebinder': draft['facebinder'],
-    'binder':     draft['facebinder'],
     'aglutinante': draft['facebinder'],
+    'unir caras': draft['facebinder'],
+    'union de caras': draft['facebinder'],
+
+    'colocacion de puntos': draft['pointplacement'],
+    'colocación de puntos': draft['pointplacement'],
+    'punto especifico':    draft['pointplacement'],
+    'punto específico':    draft['pointplacement'],
+
+    'conectar puntos': draft['pointconnect'],
+    'conexion de puntos': draft['pointconnect'],
+    'conexión de puntos': draft['pointconnect'],
+    'creacion':            draft['creation'],
+    'creación':            draft['creation'],
+    'crear':               draft['creation'],
+    'crear objeto':        draft['creation'],
+    'primitivas':          draft['creation'],
+
+    'dibujar':             draft['drafting'],
+    'dibujo':              draft['drafting'],
+    'trazar':              draft['drafting'],
+
+    'modificacion':        draft['modification'],
+    'modificación':        draft['modification'],
+    'modificaciones':      draft['modification'],
 
     "ayuda":                draft["help"],
     "información":          draft["help"],
     "opciones":             draft["help"]
 
+,
+    # MEASURE
+    "medir": CreateDimension,
+    "medir distancia": CreateDimension,
+    "acotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "cotar": CreateDimension,
+    "distancia": CreateDimension,
+    "medida": CreateDimension,
+    "longitud": CreateDimension,
+    "separación": CreateDimension,
+    "separacion": CreateDimension,
+    "cota": CreateDimension,
+    "acotación": CreateDimension,
+    "acotacion": CreateDimension,
+    "dimensión": CreateDimension,
+    "dimension": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "cinta": CreateDimension,
+    "flexómetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrollable": CreateDimension,
+    "regla": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "pie de rey": CreateDimension,
+    "línea de cota": CreateDimension,
+    "linea de cota": CreateDimension,
+    "cota lineal": CreateDimension,
+    "acotación lineal": CreateDimension,
+    "acotacion lineal": CreateDimension,
+    "dimensionado": CreateDimension,
+    "micrómetro": CreateDimension,
+    "micrometro": CreateDimension,
 }

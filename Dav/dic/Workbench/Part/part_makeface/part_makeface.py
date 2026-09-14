@@ -26,17 +26,22 @@ def _makeface():
     if not sel:
         return
     doc = FreeCAD.activeDocument()
-    shape = sel[0].Shape
-    face = Part.makeFilledFace(shape.Wires)
+    if not doc:
+        return
+    obj_sel = sel[0]
+    if not hasattr(obj_sel, "Shape") or not obj_sel.Shape.Wires:
+        return
+    face = Part.makeFilledFace(obj_sel.Shape.Wires)
     obj = doc.addObject("Part::Feature", "Face")
     obj.Shape = face
-    sel[0].Visibility = False
+    if hasattr(obj_sel, "Visibility"):
+        obj_sel.Visibility = False
     doc.recompute()
 
 
 part_makeface = {
-    'crear cara': _makeface,
-    'make face': _makeface,
-    'cara': _makeface,
+    'makeface': _makeface,
+    'createface': _makeface,
+    'upgrade': lambda: Gui.runCommand('Draft_Upgrade', 0),
     'help': ayuda,
 }

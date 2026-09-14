@@ -15,10 +15,4 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.   |#  junto con este programa. Si no es así, consulte <https://www.gnu.org/licenses/>.
 
 
-"""IntegracionGUI package init.
-
-Expose `base` at package level for convenience.
-"""
-from . import base
-
-__all__ = ["base"]
+"""IntegracionGUI package init."""

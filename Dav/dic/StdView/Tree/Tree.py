@@ -18,12 +18,23 @@ import FreeCADGui as Gui
 
 from .ayuda import ayuda
 
+def _single_expand():
+    """Modo de documento individual en el árbol y expandir ítems seleccionados."""
+    try:
+        Gui.runCommand('Std_TreeSingleDocument', 0)
+    except Exception:
+        pass
+    try:
+        Gui.runCommand('Std_TreeExpand', 0)
+    except Exception:
+        pass
+
 # Diccionario DAV - StdView / Tree
 tree = {
     'collapse':        lambda: Gui.runCommand('Std_TreeCollapseDocument', 0),
     'preselection':    lambda: Gui.runCommand('Std_TreePreSelection', 0),
     'recordselection': lambda: Gui.runCommand('Std_TreeRecordSelection', 0),
-    'singleexpand':    lambda: Gui.runCommand('Std_TreeSingleExpand', 0),
+    'singleexpand':    _single_expand,
     'syncplacement':   lambda: Gui.runCommand('Std_TreeSyncPlacement', 0),
     'syncselection':   lambda: Gui.runCommand('Std_TreeSyncSelection', 0),
     'syncview':        lambda: Gui.runCommand('Std_TreeSyncView', 0),

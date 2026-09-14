@@ -31,7 +31,6 @@ TraduceToEs = {
     "crear seccion transversal": part_cross_sections["cross sections"],
     "crear sección transversal": part_cross_sections["cross sections"],
     "secciones": part_cross_sections["cross sections"],
-    "cross sections": part_cross_sections["cross sections"],
 
     "ayuda":                part_cross_sections['help'],
     "información":          part_cross_sections['help'],

@@ -25,7 +25,7 @@ TraduceToEs = {
     'impresora': print_cmds['print'],
     'pdf':       print_cmds['pdf'],
     
-    "ayuda":     ayuda['help'],
-    "información": ayuda['help'],
-    "opciones":  ayuda['help'],
+    "ayuda":     print_cmds['help'],
+    "información": print_cmds['help'],
+    "opciones":  print_cmds['help'],
 }

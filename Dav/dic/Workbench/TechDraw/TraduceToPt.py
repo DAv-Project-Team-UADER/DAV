@@ -13,5 +13,55 @@
 # Licencia Pública General GNU para más detalles.
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# junto me com este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Portuguese spoken-word mapping for TechDraw workbench dictionary."""
+
+from .TechDraw import techdraw
+
+TraduceToPt = {
+    # Submenús do TechDraw
+    "vistas":                 techdraw["views"],
+    "vista":                  techdraw["views"],
+
+    "dimensões":              techdraw["dimensions"],
+    "dimensoes":              techdraw["dimensions"],
+    "cotas":                  techdraw["dimensions"],
+    "medidas":                techdraw["dimensions"],
+
+    "linhas":                 techdraw["addlines"],
+    "adicionar linhas":       techdraw["addlines"],
+
+    "símbolos":               techdraw["symbols"],
+    "simbolos":               techdraw["symbols"],
+
+    "capturas":               techdraw["snaps"],
+    "snaps":                  techdraw["snaps"],
+
+    "topologia":              techdraw["topology"],
+
+    "página":                 techdraw["page"],
+    "pagina":                 techdraw["page"],
+    "folha":                  techdraw["page"],
+
+    "anotações":              techdraw["annotations"],
+    "anotacoes":              techdraw["annotations"],
+    "notas":                  techdraw["annotations"],
+
+    "hachura":                techdraw["hatching"],
+    "hachuras":               techdraw["hatching"],
+
+    "vértices":               techdraw["addvertices"],
+    "vertices":               techdraw["addvertices"],
+
+    "outras vistas":          techdraw["otherviews"],
+
+    "recursos":               techdraw["features"],
+
+    "ajuda":                  techdraw["help"],
+    "informação":             techdraw["help"],
+    "informacao":             techdraw["help"],
+}
+
+TraduceToPT = TraduceToPt

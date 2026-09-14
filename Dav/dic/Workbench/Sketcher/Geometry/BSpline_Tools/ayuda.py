@@ -17,17 +17,17 @@
 def ayuda():
     print('=== B-Spline Tools ===')
 
-    print('  tonurbs  - Convierte geometrías en curvas B-Spline (NURBS) editables.')
-    print('             Requiere: croquis activo, una o más geometrías seleccionadas.')
+    print('  tonurbs  - Convierte una geometría B-Spline en curva NURBS editable.')
+    print('             Abre la ventana DAV y dicta el nombre del objeto a convertir.')
 
     print('  decrease - Disminuye el grado matemático de una curva B-Spline.')
-    print('             Requiere: croquis activo, una o más B-Splines seleccionadas.')
+    print('             Abre la ventana DAV y dicta el nombre del objeto.')
 
     print('  increase - Aumenta el grado matemático de una B-Spline sin alterar su forma.')
-    print('             Requiere: croquis activo, una o más B-Splines seleccionadas.')
+    print('             Abre la ventana DAV y dicta el nombre del objeto.')
 
-    print('  knot     - Inserta un nuevo nudo en una posición paramétrica de una B-Spline.')
-    print('             Requiere: croquis activo y una curva B-Spline.')
+    print('  knot     - Inserta un nudo en una posición paramétrica de una B-Spline.')
+    print('             Abre la ventana DAV y dicta el nombre del objeto y la posición (0 a 1).')
 
     print('  join     - Fusiona dos curvas conectadas en un único B-Spline continuo.')
-    print('             Requiere: croquis activo, vértice coincidente seleccionado.')
+    print('             Abre la ventana DAV y dicta los nombres de las dos curvas.')

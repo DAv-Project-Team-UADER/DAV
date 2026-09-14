@@ -20,7 +20,7 @@
 # Portuguese translations – Sketcher BSpline Tools
 # ============================================================
 
-from .bspline_tools import bspline_tools
+from ._tools import bspline_tools
 
 TraduceToPt = {
     # Comandos principais

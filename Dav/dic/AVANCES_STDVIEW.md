@@ -34,39 +34,39 @@ StdView/
 |--------|---------|---------|-------|
 | `StdOrthographicCamera` | `Gui.runCommand('Std_OrthographicCamera', 1)` | `Camera.py` | `'orthographic'` |
 | `StdPerspectiveCamera` | `Gui.runCommand('Std_PerspectiveCamera', 1)` | `Camera.py` | `'perspective'` |
-| `StdDrawStyleAsIs` | `Gui.runCommand('Std_DrawStyleAsIs', 0)` | `DrawStyles.py` | `'styleasis'` |
-| `StdDrawStyleFlatLines` | `Gui.runCommand('Std_DrawStyleFlatLines', 0)` | `DrawStyles.py` | `'flatlines'` |
-| `StdDrawStyleHiddenLine` | `Gui.runCommand('Std_DrawStyleHiddenLine', 0)` | `DrawStyles.py` | `'hiddenline'` |
-| `StdDrawStyleNoShading` | `Gui.runCommand('Std_DrawStyleNoShading', 0)` | `DrawStyles.py` | `'noshading'` |
-| `StdDrawStylePoints` | `Gui.runCommand('Std_DrawStylePoints', 0)` | `DrawStyles.py` | `'points'` |
-| `StdDrawStyleShaded` | `Gui.runCommand('Std_DrawStyleShaded', 0)` | `DrawStyles.py` | `'shaded'` |
-| `StdDrawStyleWireframe` | `Gui.runCommand('Std_DrawStyleWireframe', 0)` | `DrawStyles.py` | `'wireframe'` |
-| `StdOverlayToggleBottom` | `Gui.runCommand('Std_OverlayToggleBottom', 0)` | `Overlay.py` | `'bottom'` |
-| `StdOverlayToggleFloating` | `Gui.runCommand('Std_OverlayToggleFloating', 0)` | `Overlay.py` | `'float'` |
-| `StdOverlayToggleLeft` | `Gui.runCommand('Std_OverlayToggleLeft', 0)` | `Overlay.py` | `'left'` |
-| `StdOverlayToggleRight` | `Gui.runCommand('Std_OverlayToggleRight', 0)` | `Overlay.py` | `'right'` |
-| `StdToggleOverlay` | `Gui.runCommand('Std_ToggleOverlay', 0)` | `Overlay.py` | `'toggle'` |
+| `StdDrawStyleAsIs` | `Gui.runCommand('Std_DrawStyle', 0)` | `DrawStyles.py` | `'styleasis'` |
+| `StdDrawStylePoints` | `Gui.runCommand('Std_DrawStyle', 1)` | `DrawStyles.py` | `'points'` |
+| `StdDrawStyleWireframe` | `Gui.runCommand('Std_DrawStyle', 2)` | `DrawStyles.py` | `'wireframe'` |
+| `StdDrawStyleHiddenLine` | `Gui.runCommand('Std_DrawStyle', 3)` | `DrawStyles.py` | `'hiddenline'` |
+| `StdDrawStyleNoShading` | `Gui.runCommand('Std_DrawStyle', 4)` | `DrawStyles.py` | `'noshading'` |
+| `StdDrawStyleShaded` | `Gui.runCommand('Std_DrawStyle', 5)` | `DrawStyles.py` | `'shaded'` |
+| `StdDrawStyleFlatLines` | `Gui.runCommand('Std_DrawStyle', 6)` | `DrawStyles.py` | `'flatlines'` |
+| `StdOverlayToggleBottom` | `Gui.runCommand('Std_DockOverlay', 11)` | `Overlay.py` | `'bottom'` |
+| `StdOverlayToggleFloating` | `_toggle_floating()` (Qt `setFloating`) | `Overlay.py` | `'float'` |
+| `StdOverlayToggleLeft` | `Gui.runCommand('Std_DockOverlay', 8)` | `Overlay.py` | `'left'` |
+| `StdOverlayToggleRight` | `Gui.runCommand('Std_DockOverlay', 9)` | `Overlay.py` | `'right'` |
+| `StdToggleOverlay` | `Gui.runCommand('Std_DockOverlay', 3)` | `Overlay.py` | `'toggle'` |
 | `StdToggleAxisCross` | `Gui.runCommand('Std_AxisCross', 0)` | `Overlay.py` | `'axis'` |
 | `StdToggleNavigationEditMode` | `Gui.runCommand('Std_ToggleNavigation', 0)` | `Overlay.py` | `'navigation'` |
-| `StdDockedPanel` | `Gui.runCommand('Std_PanelView', 0)` | `Panels.py` | `'panel'` |
-| `StdDocumentWindowDocked` | `Gui.runCommand('Std_DockView', 0)` | `Panels.py` | `'dock'` |
-| `StdDocumentWindowFullscreen` | `Gui.runCommand('Std_ViewFullscreen', 0)` | `Panels.py` | `'fullscreen'` |
-| `StdDocumentWindowUndocked` | `Gui.runCommand('Std_UndockView', 0)` | `Panels.py` | `'undock'` |
-| `StdPanelDAGView` | `Gui.runCommand('Std_DAGView', 0)` | `Panels.py` | `'dagview'` |
-| `StdPanelModel` | `Gui.runCommand('Std_ComboView', 0)` | `Panels.py` | `'comboview'` |
-| `StdPanelSelectionView` | `Gui.runCommand('Std_SelectionView', 0)` | `Panels.py` | `'selectionview'` |
-| `StdPanelTasks` | `Gui.runCommand('Std_TaskView', 0)` | `Panels.py` | `'tasks'` |
-| `StdPanelsPropertyView` | `Gui.runCommand('Std_PropertyView', 0)` | `Panels.py` | `'properties'` |
-| `StdPanelsPythonConsole` | `Gui.runCommand('Std_PythonConsole', 0)` | `Panels.py` | `'console'` |
-| `StdPanelsReportView` | `Gui.runCommand('Std_ReportView', 0)` | `Panels.py` | `'report'` |
-| `StdPanelsTreeView` | `Gui.runCommand('Std_TreeView', 0)` | `Panels.py` | `'treeview'` |
-| `StdViewStatusBar` | `Gui.runCommand('Std_ViewStatusBar', 0)` | `Panels.py` | `'statusbar'` |
-| `StdClearViews` | `Gui.runCommand('Std_ClearViews', 0)` | `SavedViews.py` | `'clear'` |
-| `StdFreezeView` | `Gui.runCommand('Std_FreezeView', 0)` | `SavedViews.py` | `'freeze'` |
-| `StdLoadViews` | `Gui.runCommand('Std_FreezeViewsRestore', 0)` | `SavedViews.py` | `'restore'` |
+| `StdDockedPanel` | `_toggle_panel(['DAV_Panel', 'Std_ComboView', ...])` | `Panels.py` | `'panel'` |
+| `StdDocumentWindowDocked` | `_dock_window()` (`Std_ViewDockUndockFullscreen`, 0) | `Panels.py` | `'dock'` |
+| `StdDocumentWindowFullscreen` | `_toggle_fullscreen()` (`Std_MainFullscreen` / Qt) | `Panels.py` | `'fullscreen'` |
+| `StdDocumentWindowUndocked` | `_undock_window()` (`Std_ViewDockUndockFullscreen`, 1) | `Panels.py` | `'undock'` |
+| `StdPanelDAGView` | `_toggle_panel(['Std_DAGView', ...])` | `Panels.py` | `'dagview'` |
+| `StdPanelModel` | `_toggle_panel(['Std_ComboView', 'Model', ...])` | `Panels.py` | `'comboview'` |
+| `StdPanelSelectionView` | `_toggle_panel(['Std_SelectionView', ...])` | `Panels.py` | `'selectionview'` |
+| `StdPanelTasks` | `_toggle_panel(['Std_TaskView', ...])` | `Panels.py` | `'tasks'` |
+| `StdPanelsPropertyView` | `_toggle_panel(['Std_PropertyView', ...])` | `Panels.py` | `'properties'` |
+| `StdPanelsPythonConsole` | `_toggle_panel(['Std_PythonView', ...])` | `Panels.py` | `'console'` |
+| `StdPanelsReportView` | `_toggle_panel(['Std_ReportView', ...])` | `Panels.py` | `'report'` |
+| `StdPanelsTreeView` | `_toggle_panel(['Std_TreeView', ...])` | `Panels.py` | `'treeview'` |
+| `StdViewStatusBar` | `_toggle_statusbar()` (Qt `statusBar`) | `Panels.py` | `'statusbar'` |
+| `StdClearViews` | `Gui.runCommand('Std_FreezeViews', 4)` | `SavedViews.py` | `'clear'` |
+| `StdFreezeView` | `Gui.runCommand('Std_FreezeViews', 3)` | `SavedViews.py` | `'freeze'` |
+| `StdLoadViews` | `_restore_frozen_view()` (`Std_FreezeViews`, 6) | `SavedViews.py` | `'restore'` |
 | `StdRecallWorkingView` | `Gui.runCommand('Std_RecallWorkingView', 0)` | `SavedViews.py` | `'recall'` |
-| `StdRestoreView` | `Gui.runCommand('Std_RestoreView', 0)` | `SavedViews.py` | `'load'` |
-| `StdSaveViews` | `Gui.runCommand('Std_FreezeViewsSave', 0)` | `SavedViews.py` | `'save'` |
+| `StdRestoreView` | `Gui.runCommand('Std_FreezeViews', 1)` | `SavedViews.py` | `'load'` |
+| `StdSaveViews` | `Gui.runCommand('Std_FreezeViews', 0)` | `SavedViews.py` | `'save'` |
 | `StdStoreWorkingView` | `Gui.runCommand('Std_StoreWorkingView', 0)` | `SavedViews.py` | `'store'` |
 | `StdViewBottom` | `Gui.runCommand('Std_ViewBottom', 0)` | `StandardViews.py` | `'bottom'` |
 | `StdViewBoxZoom` | `Gui.runCommand('Std_ViewBoxZoom', 0)` | `StandardViews.py` | `'boxzoom'` |
@@ -91,20 +91,20 @@ StdView/
 | `StdViewIvStereoOff` | `Gui.runCommand('Std_ViewIvStereoOff', 0)` | `Stereo.py` | `'stereooff'` |
 | `StdViewIvStereoQuadBuff` | `Gui.runCommand('Std_ViewIvStereoQuadBuff', 0)` | `Stereo.py` | `'stereoquad'` |
 | `StdViewIvStereoRedGreen` | `Gui.runCommand('Std_ViewIvStereoRedGreen', 0)` | `Stereo.py` | `'stereoanaglyph'` |
-| `StdToolbarClipboard` | `Gui.runCommand('Std_ToolbarClipboard', 0)` | `Toolbars.py` | `'clipboard'` |
-| `StdToolbarEdit` | `Gui.runCommand('Std_ToolbarEdit', 0)` | `Toolbars.py` | `'edit'` |
-| `StdToolbarFile` | `Gui.runCommand('Std_ToolbarFile', 0)` | `Toolbars.py` | `'file'` |
-| `StdToolbarHelp` | `Gui.runCommand('Std_ToolbarHelp', 0)` | `Toolbars.py` | `'toolbarshelp'` |
-| `StdToolbarIndividualViews` | `Gui.runCommand('Std_ToolbarIndividualViews', 0)` | `Toolbars.py` | `'views'` |
-| `StdToolbarLockToolbars` | `Gui.runCommand('Std_ToggleToolbarsLock', 0)` | `Toolbars.py` | `'lock'` |
-| `StdToolbarMacro` | `Gui.runCommand('Std_ToolbarMacro', 0)` | `Toolbars.py` | `'macro'` |
-| `StdToolbarStructure` | `Gui.runCommand('Std_ToolbarStructure', 0)` | `Toolbars.py` | `'structure'` |
-| `StdToolbarView` | `Gui.runCommand('Std_ToolbarView', 0)` | `Toolbars.py` | `'view'` |
-| `StdToolbarWorkbench` | `Gui.runCommand('Std_ToolbarWorkbench', 0)` | `Toolbars.py` | `'workbench'` |
+| `StdToolbarClipboard` | `_toggle_toolbar(['Clipboard', ...])` | `Toolbars.py` | `'clipboard'` |
+| `StdToolbarEdit` | `_toggle_toolbar(['Edit', ...])` | `Toolbars.py` | `'edit'` |
+| `StdToolbarFile` | `_toggle_toolbar(['File', ...])` | `Toolbars.py` | `'file'` |
+| `StdToolbarHelp` | `_toggle_toolbar(['Help', ...])` | `Toolbars.py` | `'toolbarshelp'` |
+| `StdToolbarIndividualViews` | `_toggle_toolbar(['Individual Views', ...])` | `Toolbars.py` | `'views'` |
+| `StdToolbarLockToolbars` | `_toggle_toolbar_lock()` (Qt `setMovable` / App param) | `Toolbars.py` | `'lock'` |
+| `StdToolbarMacro` | `_toggle_toolbar(['Macro', ...])` | `Toolbars.py` | `'macro'` |
+| `StdToolbarStructure` | `_toggle_toolbar(['Structure', ...])` | `Toolbars.py` | `'structure'` |
+| `StdToolbarView` | `_toggle_toolbar(['View', ...])` | `Toolbars.py` | `'view'` |
+| `StdToolbarWorkbench` | `_toggle_toolbar(['Workbench', ...])` | `Toolbars.py` | `'workbench'` |
 | `StdTreeCollapseDocument` | `Gui.runCommand('Std_TreeCollapseDocument', 0)` | `Tree.py` | `'collapse'` |
 | `StdTreePreSelection` | `Gui.runCommand('Std_TreePreSelection', 0)` | `Tree.py` | `'preselection'` |
 | `StdTreeRecordSelection` | `Gui.runCommand('Std_TreeRecordSelection', 0)` | `Tree.py` | `'recordselection'` |
-| `StdTreeSingleExpand` | `Gui.runCommand('Std_TreeSingleExpand', 0)` | `Tree.py` | `'singleexpand'` |
+| `StdTreeSingleExpand` | `_single_expand()` (`Std_TreeSingleDocument` / `Std_TreeExpand`) | `Tree.py` | `'singleexpand'` |
 | `StdTreeSyncPlacement` | `Gui.runCommand('Std_TreeSyncPlacement', 0)` | `Tree.py` | `'syncplacement'` |
 | `StdTreeSyncSelection` | `Gui.runCommand('Std_TreeSyncSelection', 0)` | `Tree.py` | `'syncselection'` |
 | `StdTreeSyncView` | `Gui.runCommand('Std_TreeSyncView', 0)` | `Tree.py` | `'syncview'` |

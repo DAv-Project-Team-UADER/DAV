@@ -14,9 +14,16 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
+def run_cmd(cmd):
+    try:
+        Gui.activateWorkbench("TechDrawWorkbench")
+        Gui.runCommand(cmd, 0)
+    except Exception as e:
+        print(f"[DAV] Error: {e}")
+
 symbols = {
-    'weldsymbol': lambda: Gui.runCommand('TechDraw_WeldSymbol', 0),
-    'richtext': lambda: Gui.runCommand('TechDraw_RichTextAnnotation', 0),
-    'finish': lambda: Gui.runCommand('TechDraw_SurfaceFinishSymbols', 0),
+    'weldsymbol': lambda: run_cmd('TechDraw_WeldSymbol'),
+    'richtext': lambda: run_cmd('TechDraw_RichTextAnnotation'),
+    'finish': lambda: run_cmd('TechDraw_SurfaceFinishSymbols'),
     'help': ayuda
 }

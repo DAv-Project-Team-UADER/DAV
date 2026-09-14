@@ -16,12 +16,14 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print("Comandos disponibles en Tools:")
-    print("  measure  - Mide distancias y ángulos")
-    print("  clarify selection  - Muestra un menú desplegable que separa los objetos seleccionados por tipo, facilitando la selección de objetos específicos dentro de una selección mixta")
-    print("  demomode       - Activa o configura una rotación continua de la cámara en la vista 3D")
-    print("  customize      - Abre el diálogo de personalización de interfaz.")
-    print("  editparameters - Muestra el Parameter Editor y permite modificar parámetros")
-    print("  proyectutil    - Extrae el contenido de un FCStd a una carpeta")
-    print("  help     - Muestra esta ayuda")
+    content = """Comandos disponibles en Herramientas:
+  medir             - Mide distancias y ángulos
+  aclarar selección - Despliega menú para separar objetos seleccionados por tipo
+  modo demo         - Activa o configura rotación continua de cámara en 3D
+  personalizar      - Abre diálogo de personalización de interfaz
+  editar parámetros - Abre el editor de parámetros de FreeCAD
+  utilidades proyecto - Extrae y gestiona el contenido del archivo de proyecto"""
+    show_help_dialog("Herramientas", content)

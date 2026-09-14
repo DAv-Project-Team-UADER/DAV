@@ -25,15 +25,22 @@ from .diameter.diameter     import diameter
 from .angle.angle           import angle
 from .ayuda import ayuda
 
-dimensions = {}
-dimensions.update(dimension)
-dimensions.update(length)
-dimensions.update(horizontal)
-dimensions.update(extent)
-dimensions.update(radius)
-dimensions.update(diameter)
-dimensions.update(angle)
+# Subcontextos anidados: el Browser navega por niveles y espera
+# dimensions['dimension'], dimensions['length'], ... como submenús (no
+# aplanados), igual que Explorer/Explorer.py.
+# Antes los .update() de los sub-dicts se descartaban por completo: la
+# reasignación `dimensions = {...}` que venía justo después los pisaba, así
+# que dimension/length/horizontal/extent/radius/diameter/angle quedaban fuera
+# del diccionario.
 dimensions = {
+    'dimension':  dimension,
+    'length':     length,
+    'horizontal': horizontal,
+    'extent':     extent,
+    'radius':     radius,
+    'diameter':   diameter,
+    'angle':      angle,
+
     'vertical': lambda: Gui.runCommand('TechDraw_VerticalDimension', 0),
     'area': lambda: Gui.runCommand('TechDraw_AreaDimension', 0),
     'fit': lambda: Gui.runCommand('TechDraw_HoleShaftFit', 0),

@@ -27,14 +27,27 @@ TraduceToPt = {
     "pentagono": polygon["pentagon"],
     "octogono": polygon["octagon"],
     "regular": polygon["regular"],
-
-    # Sinônimos
-    "poligono regular": polygon["regular"],
+    "pentagono regular": polygon["pentagon"],
+    "octogono regular": polygon["octagon"],
     "poligono": polygon["regular"],
+    "poligono regular": polygon["regular"],
+    "criar pentagono": polygon["pentagon"],
+    "criar octogono": polygon["octagon"],
     "cinco lados": polygon["pentagon"],
     "oito lados": polygon["octagon"],
 
     "ajuda": polygon["help"],
     "informação": polygon["help"],
     "opções": polygon["help"],
+
+    # Polígono regular por coordenadas ditadas
+    "poligono por lados": polygon['create_regular'],
+    "criar poligono por lados": polygon['create_regular'],
+    "poligono regular por lados": polygon['create_regular'],
+    "poligono por coordenadas": polygon['create_regular'],
+
+    # Polígono regular por parâmetros
+    "poligono por parametros": polygon['create_regular_polygon'],
+    "poligono com lados": polygon['create_regular_polygon'],
+    "criar poligono por parametros": polygon['create_regular_polygon'],
 }

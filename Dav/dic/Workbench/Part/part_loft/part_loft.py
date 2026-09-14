@@ -32,6 +32,11 @@ def _loft():
     for obj in sel:
         obj.Visibility = False
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(f.Name, Is3D=True).Execute()
 
 
 part_loft = {
@@ -39,4 +44,4 @@ part_loft = {
     'loft': _loft,
     'unir perfiles': _loft,
     'help': ayuda,
-}
+}

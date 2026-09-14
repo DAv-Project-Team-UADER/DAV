@@ -16,13 +16,13 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from DAV.DiccionariosEnBruto.Workbench import Sketcher
 import FreeCADGui as Gui
 
 # Importaciones relativas porque estamos en la misma carpeta
 from .sketcher import _toggle_construction
 from .ayuda import ayuda as sketcher_ayuda
 from .sketcher import sketcher
+from measure import CreateDimension
 
 TraduceToEs = {
   "geometria": sketcher["geometry"],
@@ -82,6 +82,9 @@ TraduceToEs = {
    "nuevo": sketcher["new"],
    "nuevo croquis": sketcher["new"],
    "crear croquis": sketcher["new"],
+   "nuevo boceto": sketcher["new"],
+   "crear boceto": sketcher["new"],
+   "boceto nuevo": sketcher["new"],
 
    "editar": sketcher["edit"],
    "editar croquis": sketcher["edit"],
@@ -91,22 +94,13 @@ TraduceToEs = {
    "mapear croquis": sketcher["attach"],
    "adjuntar croquis": sketcher["attach"],
 
-   "cuadrícula": sketcher["grid"],
-   "alternar cuadrícula": sketcher["grid"],
-   "mostrar cuadrícula": sketcher["grid"],
+    "cuadrícula": sketcher["grid"],
+    "alternar cuadrícula": sketcher["grid"],
+    "mostrar cuadrícula": sketcher["grid"],
 
-   "detener": sketcher["stop"],
-   "detener operación": sketcher["stop"],
-   "abortar": sketcher["stop"],
-
-   "salir": sketcher["leave"],
-   "salir del croquis": sketcher["leave"],
-   "salir croquis": sketcher["leave"],
-   "cerrar croquis": sketcher["leave"],
-
-   "cancelaredit": sketcher["cancelediting"],
-   "cancelar edición": sketcher["cancelediting"],
+    "cancelar edición": sketcher["cancelediting"],
    "detener edición": sketcher["cancelediting"],
+   "cancelar": sketcher["cancelediting"],
 
    # Geometría de Construcción
    "alternar construcción": _toggle_construction,
@@ -170,10 +164,52 @@ TraduceToEs = {
 
    "chaflán": sketcher["chamfer"],
    "crear chaflán": sketcher["chamfer"],
-   "chanflear": sketcher["chamfer"],
+   "chaflanar": sketcher["chamfer"],
+   "biselar": sketcher["chamfer"],
 
 
-  "ayuda": Sketcher['help'],
-  "información": Sketcher['help'],
-  "opciones": Sketcher['help'],
+  "ayuda": sketcher['help'],
+  "información": sketcher['help'],
+  "opciones": sketcher['help'],
+
+    # MEASURE
+    "medir": CreateDimension,
+    "medir distancia": CreateDimension,
+    "acotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "cotar": CreateDimension,
+    "distancia": CreateDimension,
+    "medida": CreateDimension,
+    "longitud": CreateDimension,
+    "separación": CreateDimension,
+    "separacion": CreateDimension,
+    "cota": CreateDimension,
+    "acotación": CreateDimension,
+    "acotacion": CreateDimension,
+    "dimensión": CreateDimension,
+    "dimension": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "cinta": CreateDimension,
+    "flexómetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrollable": CreateDimension,
+    "regla": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "pie de rey": CreateDimension,
+    "línea de cota": CreateDimension,
+    "linea de cota": CreateDimension,
+    "cota lineal": CreateDimension,
+    "acotación lineal": CreateDimension,
+    "acotacion lineal": CreateDimension,
+    "dimensionado": CreateDimension,
+    "micrómetro": CreateDimension,
+    "micrometro": CreateDimension,
 }

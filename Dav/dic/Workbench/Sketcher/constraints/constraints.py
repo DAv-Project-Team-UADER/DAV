@@ -36,15 +36,43 @@ def _apply(constraint_type, args, min_geom, hint, label):
         Finish(doc, label)
 
 
+def set_dimension(value: float):
+    _apply('Distance', (0, 1, 0, 2, value), 1, 'una línea', 'Dimension')
+
+
+def set_horizontal(value: float):
+    _apply('DistanceX', (0, 1, 0, 2, value), 1, 'una línea', 'Horizontal Dimension')
+
+
+def set_vertical(value: float):
+    _apply('DistanceY', (0, 1, 0, 2, value), 1, 'una línea', 'Vertical Dimension')
+
+
+def set_angle(value: float):
+    _apply('Angle', (0, 1, value), 2, 'dos líneas', 'Angle Dimension')
+
+
+def set_radius(value: float):
+    _apply('Radius', (0, value), 1, 'un arco o círculo', 'Radius Dimension')
+
+
+def set_diameter(value: float):
+    _apply('Diameter', (0, value), 1, 'un círculo', 'Diameter Dimension')
+
+
+def set_distance(value: float):
+    _apply('Distance', (0, 1, 0, 2, value), 1, 'una línea', 'Distance Dimension')
+
+
 constraints = {
-    'dimension':  lambda: _apply('Distance',   (0, 1, 0, 2, 15.0),  1, 'una línea',           'Dimension'),
-    'horizontal': lambda: _apply('DistanceX',  (0, 1, 0, 2, 18.0),  1, 'una línea',           'Horizontal Dimension'),
-    'vertical':   lambda: _apply('DistanceY',  (0, 1, 0, 2, 20.0),  1, 'una línea',           'Vertical Dimension'),
-    'angle':      lambda: _apply('Angle',      (0, 1, 45.0),         2, 'dos líneas',           'Angle Dimension'),
-    'radius':     lambda: _apply('Radius',     (0, 10.0),            1, 'un arco o círculo',   'Radius Dimension'),
-    'diameter':   lambda: _apply('Diameter',   (0, 14.0),            1, 'un círculo',          'Diameter Dimension'),
-    'radiam':     lambda: _apply('Diameter',   (0, 14.0),            1, 'un círculo',          'Radius/Diameter Dimension'),
-    'distance':   lambda: _apply('Distance',   (0, 1, 0, 2, 20.0),  1, 'una línea',           'Distance Dimension'),
-    'geometric':  geometric,
-    'help':       ayuda,
+    'dimension': set_dimension,
+    'horizontal': set_horizontal,
+    'vertical': set_vertical,
+    'angle': set_angle,
+    'radius': set_radius,
+    'diameter': set_diameter,
+    'radiam': set_diameter,
+    'distance': set_distance,
+    'geometric': geometric,
+    'help': ayuda,
 }

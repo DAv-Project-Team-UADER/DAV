@@ -27,14 +27,27 @@ TraduceToEn = {
     "pentagon": polygon["pentagon"],
     "octagon": polygon["octagon"],
     "regular": polygon["regular"],
-
-    # Aliases
-    "regular polygon": polygon["regular"],
+    "regular pentagon": polygon["pentagon"],
+    "regular octagon": polygon["octagon"],
     "polygon": polygon["regular"],
+    "regular polygon": polygon["regular"],
+    "create pentagon": polygon["pentagon"],
+    "create octagon": polygon["octagon"],
     "five sides": polygon["pentagon"],
     "eight sides": polygon["octagon"],
 
     "help": polygon["help"],
     "info": polygon["help"],
     "options": polygon["help"],
+
+    # Regular polygon by dictated coordinates
+    "polygon by sides": polygon['create_regular'],
+    "create polygon by sides": polygon['create_regular'],
+    "regular polygon by sides": polygon['create_regular'],
+    "polygon by coordinates": polygon['create_regular'],
+
+    # Regular polygon by dictated parameters
+    "polygon by parameters": polygon['create_regular_polygon'],
+    "polygon with sides": polygon['create_regular_polygon'],
+    "create polygon by parameters": polygon['create_regular_polygon'],
 }

@@ -22,8 +22,9 @@ TraduceToEs = {
     'escalar': modification['scale'],
     'redimensionar': modification['scale'],
 
-    'vista_2d': modification['shape_2d_view'],
-    'proyeccion_2d': modification['shape_2d_view'],
+    'vista dos de': modification['shape_2d_view'],
+    'proyección dos de': modification['shape_2d_view'],
+    'vista plana': modification['shape_2d_view'],
 
     'pendiente': modification['slope'],
     'inclinacion': modification['slope'],
@@ -34,7 +35,7 @@ TraduceToEs = {
     'estirar': modification['stretch'],
     'extender': modification['stretch'],
 
-    'resaltar_subelemento': modification['subelement_highlight'],
+    'resaltar subelemento': modification['subelement_highlight'],
     'resaltar': modification['subelement_highlight'],
 
     'recortar': modification['trimex'],
@@ -43,7 +44,9 @@ TraduceToEs = {
     'mejorar': modification['upgrade'],
     'actualizar': modification['upgrade'],
 
-    'cable_a_bspline': modification['wire_to_bspline'],
+    'convertir a curva': modification['wire_to_bspline'],
+    'cable a curva': modification['wire_to_bspline'],
+    'alambre a curva': modification['wire_to_bspline'],
     'bspline': modification['wire_to_bspline'],
 
     'ayuda': modification['help'],

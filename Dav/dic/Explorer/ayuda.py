@@ -14,16 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-from .File.ayuda    import ayuda as ayuda_file
-from .Edit.ayuda    import ayuda as ayuda_edit
-from .Windows.ayuda import ayuda as ayuda_windows
-from .Tools.ayuda   import ayuda as ayuda_tools
-from .Expressions.ayuda import ayuda as ayuda_expressions
+from ._help_gui import show_help_dialog
 
 def ayuda():
-    ayuda_file()
-    ayuda_edit()
-    ayuda_windows()
-    ayuda_tools()
-    ayuda_expressions()
+    content = """Submenús disponibles:
+  archivo        - Gestión de archivos (nuevo, abrir, guardar, importar, exportar)
+  editar         - Operaciones de edición (deshacer, rehacer, cortar, copiar, pegar)
+  imprimir       - Impresión y exportación a PDF
+  ventanas       - Gestión de ventanas (cerrar, cerrar todo, salir)
+  expresiones    - Copiar y pegar expresiones y fórmulas
+  herramientas   - Herramientas auxiliares (medir, personalizar, parámetros)
+  estructura     - Creación de piezas, grupos y enlaces
+
+Comandos directos:
+  refrescar      - Recarga la vista y el árbol
+  foto           - Captura de pantalla de la vista activa
+  texto          - Crea un documento de texto
+  desvincular    - Quita el enlace del objeto seleccionado
+  congelar       - Bloquea/congela el objeto seleccionado
+  instancias     - Selecciona todas las instancias del objeto
+  variables      - Crea un conjunto de variables (VarSet)"""
+    show_help_dialog("Explorador", content)
+
 

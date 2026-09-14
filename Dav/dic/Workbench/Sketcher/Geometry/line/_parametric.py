@@ -22,6 +22,13 @@ def create_by_points(
         print("[geometry.line] Error: no active document.")
         return
 
+    sketch = getattr(doc, "ActiveObject", None)
+    if sketch and getattr(sketch, "TypeId", "") == "Sketcher::SketchObject":
+        sketch.addGeometry(Part.LineSegment(App.Vector(x1, y1, 0), App.Vector(x2, y2, 0)), False)
+        doc.recompute()
+        print(f"[geometry.line] Added line to sketch from ({x1},{y1}) to ({x2},{y2})")
+        return
+
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "Segment"
     segment = Part.makeLine(App.Vector(x1, y1, 0), App.Vector(x2, y2, 0))
     feature = doc.addObject("Part::Feature", safe_name)

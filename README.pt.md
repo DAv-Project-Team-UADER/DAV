@@ -30,11 +30,8 @@ O DAV está atualmente em uma fase inicial de **MVP** (*Minimum Viable Product*)
 - **Interface Gráfica:** PySide6
 - **Controle de Versão:** Git
 
-## Licença: GPLv3
 
-## Documentação
-
-## Manual de uso
+## Licença
 
 Este projeto é distribuído sob a licença **GNU GPL v3**.
 

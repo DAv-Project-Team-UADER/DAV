@@ -21,22 +21,7 @@
 from .Visibility import visibility
 
 TraduceToEs = {
-    "ocultar objetos":      visibility["hideobjects"],
-    "ocultar":              visibility["hide"],
-    "todos los enlaces":   visibility["alllinks"],
-    "vinculado":            visibility["linked"],
-    "vínculo final":        visibility["linkedfinal"],
     "volver atrás":         visibility["selback"],
-    "caja de límites":      visibility["boundingbox"],
-    "avanzar selección":    visibility["selforward"],
-    "seleccionar visibles": visibility["selectvisible"],
-    "mostrar objetos":      visibility["showobjects"],
-    "mostrar":              visibility["show"],
-    "alternar todo":        visibility["toggleall"],
-    "seleccionabilidad":    visibility["selectability"],
-    "transparencia":        visibility["transparency"],
-    "alternar":             visibility["toggle"],
-    "alinear a selección":  visibility["aligntoselection"],
 
     "ocultar objetos":      visibility["hideobjects"],
     "ocultar todo":         visibility["hideobjects"],

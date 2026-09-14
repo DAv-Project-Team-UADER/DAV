@@ -21,6 +21,8 @@ from .File import file
 TraduceToPt = {
     "novo": file["new"],
     "novo arquivo": file["new"],
+    "criar": file["new"],
+    "criar arquivo": file["new"],
 
     "abrir": file["open"],
     "abrir arquivo": file["open"],

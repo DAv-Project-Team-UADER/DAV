@@ -16,8 +16,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import base as base
-import ayuda as ayuda
+from .base import base
+from .ayuda import ayuda
 
 TraduceToEs = {
     #Body
@@ -27,12 +27,12 @@ TraduceToEs = {
     "nuevo cuerpo": base["body"],
     
     #Nuevo croquis
-    "nuevo croquis": base["new sketch"],
-    "crear croquis": base["new sketch"],
-    "croquis nuevo": base["new sketch"],
-    "nuevo boceto": base["new sketch"],
-    "crear boceto": base["new sketch"],
-    "boceto nuevo": base["new sketch"],
+    "nuevo croquis": base["newsketch"],
+    "crear croquis": base["newsketch"],
+    "croquis nuevo": base["newsketch"],
+    "nuevo boceto": base["newsketch"],
+    "crear boceto": base["newsketch"],
+    "boceto nuevo": base["newsketch"],
 
     #Clonar
     "clonar":        base["clone"],

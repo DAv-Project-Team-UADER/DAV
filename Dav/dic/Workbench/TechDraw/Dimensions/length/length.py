@@ -19,24 +19,64 @@ import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
+def _selectedEdge(selEx):
+    """Return the first selected edge sub-element name, if any.
+
+    Args:
+        selEx: FreeCAD selection entry from Gui.Selection.getSelectionEx().
+
+    Returns:
+        str | None: Edge name such as ``Edge1``, or None when missing.
+    """
+    for name in selEx.SubElementNames:
+        if name.startswith("Edge"):
+            return name
+    return None
+
+
 def _create_length():
     """Add a length dimension to the active TechDraw page using the current selection.
 
     The user must pre-select one edge in a TechDraw view before invoking this command.
+
+    Example::
+        _create_length()
     """
     sel = Gui.Selection.getSelectionEx()
     if not sel:
         print("Seleccioná una arista en la vista TechDraw primero.")
         return
-    doc  = App.activeDocument()
+
     view = sel[0].Object
-    edge = sel[0].SubElementNames[0] if sel[0].SubElementNames else "Edge1"
-    page = next((o for o in doc.Objects if o.isDerivedFrom("TechDraw::DrawPage")), None)
+    if view is None or not view.isDerivedFrom("TechDraw::DrawView"):
+        print("La selección debe ser una arista dentro de una vista TechDraw.")
+        return
+
+    edge = _selectedEdge(sel[0])
+    if edge is None:
+        print(
+            "Seleccioná una arista en el plano (pestaña Page, click en la línea "
+            "del dibujo). Debe verse View : Edge… en la barra de estado."
+        )
+        return
+
+    doc = App.activeDocument()
+    if doc is None:
+        print("No hay documento activo.")
+        return
+
+    page = getattr(view, "Page", None)
+    if page is None:
+        page = next(
+            (obj for obj in doc.Objects if obj.isDerivedFrom("TechDraw::DrawPage")),
+            None,
+        )
     if page is None:
         print("No se encontró ninguna página TechDraw en el documento.")
         return
-    dim              = doc.addObject("TechDraw::DrawViewDimension", "LengthDimension")
-    dim.Type         = "Distance"
+
+    dim = doc.addObject("TechDraw::DrawViewDimension", "LengthDimension")
+    dim.Type = "Distance"
     dim.References2D = [(view, edge)]
     page.addView(dim)
     doc.recompute()

@@ -22,8 +22,11 @@ from typing import Any
 
 GUI_ROOT = Path(__file__).resolve().parents[1]
 def _find_repo_root(gui_root: Path) -> Path:
+    # Mismo criterio que integration/dav_paths.py: Dav/scr/ se identifica por
+    # validation/ y selection/, no por PruebaIntegracion/ (retirado a
+    # Dav/docs/prototipos/).
     for parent in (gui_root.parents[1], gui_root.parents[2], gui_root.parents[0]):
-        if (parent / "PruebaIntegracion").is_dir():
+        if (parent / "validation").is_dir() or (parent / "selection").is_dir():
             return parent
     return gui_root.parents[1]
 
@@ -42,6 +45,20 @@ def _install_freecad_stub() -> None:
         sys.modules["FreeCADGui"] = gui
     if "FreeCAD" not in sys.modules:
         sys.modules["FreeCAD"] = types.ModuleType("FreeCAD")
+    app = sys.modules["FreeCAD"]
+    if not hasattr(app, "ActiveDocument"):
+        app.ActiveDocument = None
+    class Vector:
+        def __init__(self, *args, **kwargs): pass
+    class Placement:
+        def __init__(self, *args, **kwargs): pass
+    class Rotation:
+        def __init__(self, *args, **kwargs): pass
+    class Matrix:
+        def __init__(self, *args, **kwargs): pass
+    for attr, cls in [("Vector", Vector), ("Placement", Placement), ("Rotation", Rotation), ("Matrix", Matrix)]:
+        if not hasattr(app, attr):
+            setattr(app, attr, cls)
 
 
 # ---------------------------------------------------------------------------
@@ -89,13 +106,51 @@ class _MockDictionaryLoader:
             "imprimir": lambda: None,
         }
 
+        # NavCommands: mismos sentinels que Dav/dic/NavCommands/NavActions.py,
+        # replicados en memoria para no depender del disco en los tests.
+        def _go_up() -> None:
+            return None
+
+        def _show_context() -> None:
+            return None
+
+        def _send() -> None:
+            return None
+
+        def _cancel() -> None:
+            return None
+
+        self._nav_actions: dict[str, Any] = {
+            "up": _go_up,
+            "show_context": _show_context,
+            "send": _send,
+            "cancel": _cancel,
+        }
+        self._nav_translate_es = {
+            "subir":    self._nav_actions["up"],
+            "volver":   self._nav_actions["up"],
+            "contexto": self._nav_actions["show_context"],
+            # enviar/cancelar salen de NavCommands como cualquier otro comando,
+            # ya no estan hardcodeados en GetSpokenPhrases.
+            "enviar":   self._nav_actions["send"],
+            "aceptar":  self._nav_actions["send"],
+            "cancelar": self._nav_actions["cancel"],
+        }
+
     def LoadBaseModuleDict(self) -> dict[str, Any]:
         return dict(self._base_module)
+
+    def LoadModuleDictByName(self, module_name: str, attr_name: str) -> dict[str, Any]:
+        if module_name == "NavCommands.NavActions" and attr_name == "NavActions":
+            return dict(self._nav_actions)
+        return {}
 
     def LoadTranslateMap(self, folder: Path, language: Any) -> dict[str, Any]:
         from core.language_code import LanguageCode
 
         name = folder.name
+        if name == "NavCommands":
+            return dict(self._nav_translate_es)
         if name in ("dict", "root") or folder == self.DictionaryRoot:
             if language is LanguageCode.En:
                 return dict(self._base_translate_en)
@@ -109,7 +164,7 @@ class _MockDictionaryLoader:
     def LoadTranslateSpokenKeys(self, folder: Path, language: Any) -> list[str]:
         return list(self.LoadTranslateMap(folder, language).keys())
 
-    def ResolveSubFolder(self, parent_folder: Path, internal_key: str) -> Path:
+    def ResolveSubFolder(self, parent_folder: Path, internal_key: str, target: Any = None) -> Path:
         return Path(f"/mock/{internal_key}")
 
     @staticmethod
@@ -230,6 +285,43 @@ class TestBrowserDeveloper2(unittest.TestCase):
         self.assertEqual(browser.BaseContext, [])
         self.assertEqual(browser.Context, [])
 
+    def test_get_spoken_phrases(self) -> None:
+        """GetSpokenPhrases returns current context, base, nav commands, and [unk]."""
+        browser, _ = self._make_browser()
+        phrases = browser.GetSpokenPhrases()
+        self.assertIn("explorador", phrases)
+        self.assertIn("subir", phrases)
+        self.assertIn("enviar", phrases)
+        self.assertIn("cancelar", phrases)
+        self.assertIn("[unk]", phrases)
+
+    def test_nav_words_come_from_dictionary(self) -> None:
+        """Confirm/cancel words are read from NavCommands, not hardcoded."""
+        browser, _ = self._make_browser()
+        self.assertEqual(browser.GetNavWords("send"), {"enviar", "aceptar"})
+        self.assertEqual(browser.GetNavWords("cancel"), {"cancelar"})
+        self.assertEqual(browser.GetNavWords("up"), {"subir", "volver"})
+        # Un sentinel inexistente no rompe: devuelve vacio.
+        self.assertEqual(browser.GetNavWords("nope"), set())
+
+    def test_context_change_callback_fires(self) -> None:
+        """on_context_change callback fires when descending or ascending context."""
+        from core.language_code import LanguageCode
+        from core.preferences import Preferences
+        from navigation.browser import Browser
+
+        changes: list[int] = []
+        p = Preferences()
+        p.SetLanguage = LanguageCode.Es
+        b = Browser(prefs=p, _loader=_MockDictionaryLoader(), on_context_change=lambda: changes.append(1))
+        # Initial ResetFromBase in __init__ fires callback
+        self.assertGreaterEqual(len(changes), 1)
+
+        count_before = len(changes)
+        b.ProcessPhrase("explorador")
+        b.ProcessPhrase("imprimir")
+        self.assertGreater(len(changes), count_before)
+
 
 # ---------------------------------------------------------------------------
 # Tests — Developer 3 (Descend and Ascend)
@@ -301,6 +393,63 @@ class TestBrowserDeveloper3(unittest.TestCase):
         # should revert to what it was
         self.assertEqual(len(browser.Context), len(original_ctx))
         self.assertEqual(browser.Context[0].InternalKey, original_ctx[0].InternalKey)
+
+
+# ---------------------------------------------------------------------------
+# Tests — NavCommands (subir / mostrar contexto, no hardcodeados)
+# ---------------------------------------------------------------------------
+
+class TestBrowserNavCommands(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        _install_freecad_stub()
+
+    def _make_browser(self):
+        from core.language_code import LanguageCode
+        from core.preferences import Preferences
+        from navigation.browser import Browser
+
+        p = Preferences()
+        p.SetLanguage = LanguageCode.Es
+        return Browser(prefs=p, _loader=_MockDictionaryLoader())
+
+    def test_subir_ascends_like_old_volver(self) -> None:
+        """'subir' viene de NavCommands/TraduceToEs.py, no de un set fijo."""
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        self.assertEqual(len(browser._stack), 2)
+
+        res = browser.ProcessPhrase("subir")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "back")
+        self.assertEqual(len(browser._stack), 1)
+
+    def test_volver_still_ascends(self) -> None:
+        """El viejo sinónimo 'volver' sigue andando vía NavCommands."""
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        res = browser.ProcessPhrase("volver")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "back")
+
+    def test_up_at_root_fails(self) -> None:
+        browser = self._make_browser()
+        res = browser.ProcessPhrase("subir")
+        self.assertFalse(res.Success)
+        self.assertEqual(res.Action, "back")
+
+    def test_contexto_describes_current_context(self) -> None:
+        """'contexto' dispara ShowContext y no ejecuta ningún comando FreeCAD."""
+        browser = self._make_browser()
+        browser.ProcessPhrase("explorador")
+        stack_before = len(browser._stack)
+
+        res = browser.ProcessPhrase("contexto")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "show_context")
+        self.assertIn("Contexto", res.Message)
+        # No debe haber navegado ni ejecutado nada
+        self.assertEqual(len(browser._stack), stack_before)
 
 
 if __name__ == "__main__":

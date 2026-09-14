@@ -14,9 +14,11 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print("Comandos disponibles en Structure Toolbar:")
-    print("  part       - Crea un nuevo contenedor de tipo Part, que puede contener otros objetos y organizar la estructura del proyecto.")
-    print("  new Group   - Crea un nuevo grupo genérico, que puede contener otros objetos y organizar la estructura del proyecto sin las propiedades específicas de un Part.")
-    print("  link actions - Muestra un submenú con comandos relacionados a la gestión de enlaces.")
-    print("  help     - Muestra esta ayuda")
+    content = """Comandos disponibles en Estructura:
+  pieza         - Crea un nuevo contenedor de tipo Pieza (Part)
+  nuevo grupo   - Crea un nuevo grupo para organizar objetos
+  enlace        - Submenú con comandos de gestión de enlaces (links)"""
+    show_help_dialog("Estructura", content)

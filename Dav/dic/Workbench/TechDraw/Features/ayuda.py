@@ -4,6 +4,6 @@
 
 def ayuda():
     print("=== Subgrupo TechDraw: Features ===")
-    print("  'fields' : Actualiza los campos de texto editables dentro del bloque de título (rótulo). | Req: Plantilla activa")
+    print("  'fields' : Rellena el rótulo (autor, título, escala, fechas) en la plantilla. | Req: Página con al menos una vista")
     print("  'image'  : Inserta una imagen de mapa de bits (PNG, JPG) directamente en el plano. | Req: Archivo de imagen")
     print("  'symbol' : Inserta un símbolo vectorial independiente basado en un archivo SVG externo. | Req: Archivo SVG")

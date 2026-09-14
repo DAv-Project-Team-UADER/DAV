@@ -17,7 +17,10 @@
 from .ayuda import ayuda
 from .attributes.attributes import attributes
 
+# Subcontexto anidado: el Browser navega por niveles y
+# LineAttributes/TraduceTo*.py espera LineAttributes['attributes'] como
+# submenú (no aplanado), igual que Explorer/Explorer.py.
 LineAttributes = {}
-LineAttributes.update(attributes)
+LineAttributes.update({'attributes': attributes})
 LineAttributes.update({
     'help': ayuda})

@@ -1,9 +1,11 @@
-"""Register DAV voice commands and hooks from GUIFreeCad (minimal touch to PruebaIntegracion)."""
+"""Register DAV voice commands and hooks from GUIFreeCad."""
 
 from __future__ import annotations
 
 import os
+import subprocess
 import traceback
+from pathlib import Path
 
 _INSTALLED = False
 
@@ -57,22 +59,6 @@ def _register_voice_commands(Gui) -> None:
             from integration.voice_bootstrap import start_voice_engine
 
             start_voice_engine()
-
-            import subprocess
-            import os
-            
-            this_dir = os.path.dirname(__file__)
-            repo_root = os.path.abspath(os.path.join(this_dir, "..", "..", ".."))
-            iface_dir = os.path.join(repo_root, "InterfazDAV")
-            iface_main = os.path.join(iface_dir, "main.py")
-
-            _print_message(f"[DAV-Launcher] Buscando en: {iface_main}\n")
-            if os.path.exists(iface_main):
-                cmd = ["py", "-3", "main.py"]
-                p = subprocess.Popen(cmd, cwd=iface_dir)
-                _print_message(f"[DAV-Launcher] InterfazDAV lanzada (PID: {p.pid})\n")
-            else:
-                _print_message(f"[DAV-Launcher] Archivo no encontrado\n")
 
         def IsActive(self):
             return True
@@ -147,6 +133,10 @@ def _print_voice_startup_hint() -> None:
         pass
 
 
+# _launch_interfaz_dav removed: launching is handled by dav_commands._launch_interfaz_dav()
+# which has proper deduplication guards. Called from freecad_wb._schedule_interfaz_dav_launch().
+
+
 def _maybe_autostart_voice() -> None:
     try:
         import os
@@ -155,7 +145,7 @@ def _maybe_autostart_voice() -> None:
         from core.settings import settings
 
         settings.load()
-        if not (os.environ.get("DAV_AUTO_START_VOICE") == "1" or settings.startup_enabled):
+        if not (os.environ.get("DAV_AUTO_START_VOICE") == "1" or settings.startup_enabled or settings.auto_voice):
             return
 
         try:
@@ -171,6 +161,7 @@ def _maybe_autostart_voice() -> None:
                     "[DAV] No se pudo iniciar la voz. "
                     "Probá «Iniciar voz DAV» manualmente.\n"
                 )
+            # InterfazDAV launch handled by freecad_wb._schedule_interfaz_dav_launch()
 
         QTimer.singleShot(1500, _start)
     except Exception:

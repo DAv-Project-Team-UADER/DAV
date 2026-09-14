@@ -14,6 +14,7 @@ from typing import Any, Callable, Iterable
 
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
+from InputPrompts.InputPromptI18n import KindLabel, T
 
 
 @dataclass(frozen=True)
@@ -153,7 +154,7 @@ class ParameterCollector:
 
     def _CreatePromptForSpec(self, Spec: Any):
         kind = getattr(Spec, "kind", "object")
-        title = f"DAV Parameter {getattr(Spec, 'index', '')}".strip()
+        title = T(self.Language, "param_title", index=getattr(Spec, "index", ""))
         message = self._BuildPromptMessage(Spec)
 
         if kind == "int":
@@ -176,7 +177,12 @@ class ParameterCollector:
     def _BuildPromptMessage(self, Spec: Any) -> str:
         name = getattr(Spec, "name", "value")
         kind = getattr(Spec, "kind", "object")
-        return f"Say the {kind} value for '{name}', then say enter or send."
+        return T(
+            self.Language,
+            "param_message",
+            kind=KindLabel(self.Language, kind),
+            name=name,
+        )
 
     @staticmethod
     def _StripConfirmation(Text: str) -> str:

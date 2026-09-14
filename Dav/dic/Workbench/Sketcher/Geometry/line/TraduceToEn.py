@@ -29,6 +29,12 @@ TraduceToEn = {
     "line": line['create'],
     "sketch line": line['create'],
 
+    # Line by dictated coordinates & synonyms
+    "line by points": line['create_by_points'],
+    "create line by points": line['create_by_points'],
+    "draw line by points": line['create_by_points'],
+    "line by coordinates": line['create_by_points'],
+
     "help": line['help'],
     "info": line['help'],
     "options": line['help'],

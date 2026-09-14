@@ -46,6 +46,19 @@ TraduceToEn = {
 
     # Help
     "help": transform['help'],
+    # Patterns by dictated measure (no dialog)
+    "linear pattern by length":   transform["linear_pattern"],
+    "repeat in line":             transform["linear_pattern"],
+
+    "linear pattern by spacing":  transform["linear_pattern_by_spacing"],
+    "repeat every":               transform["linear_pattern_by_spacing"],
+
+    "polar pattern by angle":     transform["polar_pattern"],
+    "repeat in circle":           transform["polar_pattern"],
+
+    "scale by factor":            transform["scaled_by_factor"],
+    "scale solid":                transform["scaled_by_factor"],
+
     "info": transform['help'],
     "options": transform['help'],
 }

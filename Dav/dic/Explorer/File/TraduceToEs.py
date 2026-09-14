@@ -21,6 +21,8 @@ from .File import file
 TraduceToEs = {
     "nuevo": file["new"],
     "nuevo archivo": file["new"],
+    "crear": file["new"],
+    "crear archivo": file["new"],
 
     "abrir": file["open"],
     "abrir archivo": file["open"],

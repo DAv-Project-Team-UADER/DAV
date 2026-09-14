@@ -14,12 +14,14 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from ..._help_gui import show_help_dialog
+
 def ayuda():
-    print("Comandos disponibles en Link Actions:")
-    print("  make link     - Crea un enlace al objeto seleccionado.")
-    print("  relative link - Crea un sub-enlace relativo al subelemento seleccionado (cara, arista, vértice) dentro de un objeto, en lugar de enlazar el objeto completo.")
-    print("  import link   - Importa el objeto enlazado seleccionado desde su documento externo al documento activo, convirtiendo el enlace externo en una copia local.")
-    print("  import all links - Importa todos los objetos enlazados desde documentos externos al documento activo en una sola operación.")
-    print("  replace link  - Reemplaza el objeto seleccionado en su contenedor padre por un enlace al mismo objeto, convirtiendo la copia directa en una referencia.")
-    print("  linkgroups    - Crea un grupo de enlaces a partir de los objetos seleccionados, agrupando múltiples enlaces en un contenedor.")
-    print("  help     - Muestra esta ayuda")
+    content = """Comandos disponibles en Acciones de Enlace:
+  crear enlace        - Crea un enlace al objeto seleccionado
+  enlace relativo     - Crea un sub-enlace relativo a una cara/arista/vértice
+  importar enlace     - Importa el objeto enlazado al documento activo
+  importar todos      - Importa todos los enlaces externos al documento activo
+  reemplazar enlace   - Reemplaza el objeto por un enlace al mismo
+  grupo de enlaces    - Crea un grupo de enlaces con los objetos seleccionados"""
+    show_help_dialog("Acciones de Enlace", content)

@@ -134,3 +134,93 @@ QLabel#voiceStatus {
     color: #2d6cb5;
     font-style: italic;
 }
+
+/* --- FreeCAD toolbar buttons transparent + hover --- */
+QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 4px;
+    margin: 0 2px;
+}
+
+QToolButton:hover {
+    background-color: #c8daf5;
+    border: 1px solid #9a9a9a;
+}
+
+QToolButton:pressed {
+    background-color: #a8c4e8;
+}
+
+QToolButton:checked {
+    background-color: #d0d0d0;
+    border: 1px solid #9a9a9a;
+}
+
+QToolButton:checked:hover {
+    background-color: #c8daf5;
+}
+
+QToolButton::menu-button {
+    border: 1px solid transparent;
+    width: 15px;
+}
+
+QToolButton::menu-arrow {
+    image: none;
+    height: 13px;
+}
+
+/* --- Start page buttons: small border per mode --- */
+#CreateNewRow > QPushButton {
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
+    min-width: 0;
+    padding: 3px;
+}
+
+#CreateNewRow > QPushButton QLabel {
+    background-color: transparent;
+}
+
+#CreateNewRow > QPushButton:hover {
+    background-color: #c8daf5;
+    background-image: none;
+    border: 1px solid #4a90d9;
+}
+
+/* --- Report view: dark text on light background --- */
+QTextEdit {
+    color: #222222;
+}
+
+/* --- FreeCAD panel separators --- */
+QSplitter::handle {
+    background-color: #b8b8b8;
+}
+
+QSplitter::handle:horizontal {
+    width: 2px;
+}
+
+QSplitter::handle:vertical {
+    height: 2px;
+}
+
+QSplitter::handle:hover {
+    background-color: #4a90d9;
+}
+
+/* --- Tree / list separators --- */
+QTreeView, QTreeView::item {
+    border: none;
+}
+
+QHeaderView::section {
+    background-color: #e0e0e0;
+    border: 1px solid #b8b8b8;
+    padding: 4px;
+}

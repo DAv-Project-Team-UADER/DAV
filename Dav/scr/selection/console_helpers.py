@@ -59,7 +59,7 @@ def RunSelectionDemo():
         selector.SelectOther = True
     """
     import FreeCAD as App
-    from selection import ObjectSelection
+    from object_selection import ObjectSelection
 
     doc = App.ActiveDocument
     if doc is None:

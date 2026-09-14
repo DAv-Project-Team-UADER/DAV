@@ -16,9 +16,12 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print("Comandos disponibles en Expressions:")
-    print("  copyactdoc     - Copia todas las expresiones del documento activo para poder pegarlas en otro documento.")
-    print("  copyalldoc     - Copia todas las expresiones de todos los documentos abiertos en la sesión actual.")
-    print("  copyselected   - Las expresiones de los objetos seleccionados quedan en el portapapeles de expresiones.")
-    print("  paste          - Las expresiones copiadas se aplican a los objetos del documento activo.")
+    content = """Comandos disponibles en Expresiones:
+  copiar documento activo   - Copia las expresiones del documento activo
+  copiar todos los documentos - Copia las expresiones de todos los documentos
+  copiar selección          - Copia las expresiones de los objetos seleccionados
+  pegar expresión           - Pega las expresiones copiadas en el documento activo"""
+    show_help_dialog("Expresiones", content)

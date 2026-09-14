@@ -18,22 +18,8 @@
 
 """Spanish spoken-word mapping for the DAV StdView dictionary folders."""
 
-from DAV.DiccionariosEnBruto.StdView.StdView import StdView
-
-from .Appearance.Appearance import appearance
-from .Camera.Camera import camera
-from .Clipping.Clipping import clipping
-from .DrawStyles.DrawStyles import drawstyles
-from .Material.Material import material
-from .Overlay.Overlay import overlay
-from .Panels.Panels import Panels
-from .SavedViews.SavedViews import savedviews
-from .StandardViews.StandardViews import StandardViews
-from .Stereo.Stereo import stereo
-from .Toolbars.Toolbars import toolbars
-from .Tree.Tree import tree
-from .Visibility.Visibility import visibility
-from .ayuda import ayuda
+from .StdView import StdView
+from measure import CreateDimension
 
 TraduceToEs = {
     "apariencia": StdView["appearance"],
@@ -84,7 +70,6 @@ TraduceToEs = {
 
     "barras de herramientas": StdView["toolbars"],
     "barra de herramientas": StdView["toolbars"],
-    "toolbars": StdView["toolbars"],
 
     "arbol": StdView["tree"],
     "árbol": StdView["tree"],
@@ -100,4 +85,45 @@ TraduceToEs = {
     "ayuda": StdView["help"],
     "información": StdView["help"],
     "opciones": StdView["help"],
+
+    # MEASURE
+    "medir": CreateDimension,
+    "medir distancia": CreateDimension,
+    "acotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "cotar": CreateDimension,
+    "distancia": CreateDimension,
+    "medida": CreateDimension,
+    "longitud": CreateDimension,
+    "separación": CreateDimension,
+    "separacion": CreateDimension,
+    "cota": CreateDimension,
+    "acotación": CreateDimension,
+    "acotacion": CreateDimension,
+    "dimensión": CreateDimension,
+    "dimension": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "cinta": CreateDimension,
+    "flexómetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrollable": CreateDimension,
+    "regla": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "pie de rey": CreateDimension,
+    "línea de cota": CreateDimension,
+    "linea de cota": CreateDimension,
+    "cota lineal": CreateDimension,
+    "acotación lineal": CreateDimension,
+    "acotacion lineal": CreateDimension,
+    "dimensionado": CreateDimension,
+    "micrómetro": CreateDimension,
+    "micrometro": CreateDimension,
 }

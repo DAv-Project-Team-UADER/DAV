@@ -18,7 +18,16 @@
 
 import FreeCAD as App
 
-from tagger import Tagger
+try:
+    from .tagger import Tagger
+except ImportError:
+    try:
+        from tagger import Tagger
+    except ImportError:
+        try:
+            from selection.tagger import Tagger
+        except ImportError:
+            from Dav.scr.selection.tagger import Tagger
 
 
 class CreateObjects:

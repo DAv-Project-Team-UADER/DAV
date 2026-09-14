@@ -15,3 +15,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+from arcslot import arc_slot
+
+TraduceToEs = {
+    # Ranura con extremos curvos
+    "ranura arco":      arc_slot["arcends"],
+    "extremos curvos":  arc_slot["arcends"],
+    "ranura redondeada":arc_slot["arcends"],
+    "slot con arcos":   arc_slot["arcends"],
+    "arcends":          arc_slot["arcends"],
+
+    # Ranura con extremos planos
+    "ranura plana":     arc_slot["flatends"],
+    "extremos rectos":  arc_slot["flatends"],
+    "ranura rectangular": arc_slot["flatends"],
+    "slot con planos":  arc_slot["flatends"],
+    "flatends":         arc_slot["flatends"],
+
+    # Ayuda
+    "ayuda":            arc_slot["help"],
+    "información":      arc_slot["help"],
+    "opciones":         arc_slot["help"]
+}

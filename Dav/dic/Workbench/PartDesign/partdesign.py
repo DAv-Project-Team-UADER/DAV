@@ -24,13 +24,16 @@ from .manage.manage import manage
 from .ayuda import ayuda
 from _lenient import LenientDict
 
+# Subcontextos anidados: el Browser navega por niveles y
+# PartDesign/TraduceTo*.py espera partdesign['base'], partdesign['additive'],
+# ... como submenús (no aplanados), igual que Explorer/Explorer.py.
 partdesign = {}
-partdesign.update(base)
-partdesign.update(additive)
-partdesign.update(subtractive)
-partdesign.update(modify)
-partdesign.update(transform)
-partdesign.update(manage)
+partdesign.update({'base':        base})
+partdesign.update({'additive':    additive})
+partdesign.update({'subtractive': subtractive})
+partdesign.update({'modify':      modify})
+partdesign.update({'transform':   transform})
+partdesign.update({'manage':      manage})
 partdesign.update({'help': ayuda})
 
 # Tolerante a claves aún no implementadas (no rompe el contexto entero).

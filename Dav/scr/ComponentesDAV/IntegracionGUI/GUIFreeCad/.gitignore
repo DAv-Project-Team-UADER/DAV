@@ -5,6 +5,8 @@ venv/
 .env
 config/settings.json
 config/dav_launch.json
+config/*.log
+config/*.log.1
 models/*.zip
 models/vosk-model*/
 !.gitkeep

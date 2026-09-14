@@ -17,30 +17,74 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """English spoken-word mapping for the DAV joint dictionary."""
- 
+
 from .joint import joint
 from .ayuda import ayuda
- 
+
 TraduceToEn = {
-    "angle joint":         joint["angle"],
-    "ball joint":          joint["ball"],
-    "sphere joint":        joint["ball"],
-    "parallel joint":      joint["parallel"],
+
+    # Angle
+    "angle joint": joint["angle"],
+    "angle": joint["angle"],
+
+    # Ball
+    "ball joint": joint["ball"],
+    "ball": joint["ball"],
+    "sphere joint": joint["ball"],
+    "sphere": joint["ball"],
+
+    # Parallel
+    "parallel joint": joint["parallel"],
+    "parallel": joint["parallel"],
+
+    # Perpendicular
     "perpendicular joint": joint["perpendicular"],
-    "belt joint":          joint["belt"],
-    "chain joint":         joint["belt"],
-    "gear joint":          joint["gears"],
-    "rack pinion":         joint["rackpinion"],
-    "screw joint":         joint["screw"],
-    "lead screw":          joint["screw"],
-    "cylindrical joint":   joint["cylindrical"],
-    "distance joint":      joint["distance"],
-    "fixed joint":         joint["fixed"],
-    "revolute joint":      joint["revolute"],
-    "slider joint":        joint["slider"],
+    "perpendicular": joint["perpendicular"],
 
-    "help":            joint["help"],
-    "info":            joint["help"],
-    "options":         joint["help"]
+    # Belt
+    "belt joint": joint["belt"],
+    "belt": joint["belt"],
+    "chain joint": joint["belt"],
+    "chain": joint["belt"],
 
+    # Gear
+    "gear joint": joint["gears"],
+    "gear": joint["gears"],
+    "gears": joint["gears"],
+
+    # Rack and pinion
+    "rack pinion": joint["rackpinion"],
+    "rack and pinion": joint["rackpinion"],
+    "rack pinion joint": joint["rackpinion"],
+    "rack and pinion joint": joint["rackpinion"],
+
+    # Screw
+    "screw joint": joint["screw"],
+    "screw": joint["screw"],
+    "lead screw": joint["screw"],
+
+    # Cylindrical
+    "cylindrical joint": joint["cylindrical"],
+    "cylindrical": joint["cylindrical"],
+
+    # Distance
+    "distance joint": joint["distance"],
+    "distance": joint["distance"],
+
+    # Fixed
+    "fixed joint": joint["fixed"],
+    "fixed": joint["fixed"],
+
+    # Revolute
+    "revolute joint": joint["revolute"],
+    "revolute": joint["revolute"],
+
+    # Slider
+    "slider joint": joint["slider"],
+    "slider": joint["slider"],
+
+    # Help
+    "help": joint["help"],
+    "info": joint["help"],
+    "options": joint["help"]
 }

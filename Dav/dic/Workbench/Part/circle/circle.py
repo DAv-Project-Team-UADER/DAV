@@ -16,8 +16,8 @@
 
 import FreeCAD as App
 from .ayuda import ayuda
- 
- 
+
+
 def _create_circle(radius=2, angle1=0, angle2=360):
     doc = App.activeDocument()
     circle = doc.addObject("Part::Circle", "Circle")
@@ -25,9 +25,14 @@ def _create_circle(radius=2, angle1=0, angle2=360):
     circle.Angle1 = angle1
     circle.Angle2 = angle2
     doc.recompute()
- 
- 
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(circle.Name, Is3D=False).Execute()
+
+
 circle = {
     'circle': lambda: _create_circle(),
     'help':    ayuda,
-}
+}

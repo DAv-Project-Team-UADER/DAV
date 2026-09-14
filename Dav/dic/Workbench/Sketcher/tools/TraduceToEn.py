@@ -19,6 +19,7 @@
 
 from .tools import tools
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     
@@ -53,4 +54,19 @@ TraduceToEn = {
     "help": tools['help'],
     "info": tools['help'],
     "options": tools['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

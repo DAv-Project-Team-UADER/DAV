@@ -13,13 +13,42 @@
 #
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-import FreeCADGui as Gui
+import FreeCAD as App
 from .ayuda import ayuda
+from ._parametric import create_regular
+from selection.createobjects import CreateObjects
 
+
+def _register_active_object():
+    active_doc = App.ActiveDocument
+    if active_doc and active_doc.ActiveObject:
+        CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
+
+
+def create_regular_with_objects(sides: int, x: float, y: float, radius: float, label: str = "Polygon"):
+    create_regular(sides=sides, x=x, y=y, radius=radius, label=label)
+    _register_active_object()
+
+
+def create_pentagon_with_objects(x: float, y: float, radius: float, label: str = "Pentagon"):
+    create_regular(sides=5, x=x, y=y, radius=radius, label=label)
+    _register_active_object()
+
+
+def create_octagon_with_objects(x: float, y: float, radius: float, label: str = "Octagon"):
+    create_regular(sides=8, x=x, y=y, radius=radius, label=label)
+    _register_active_object()
+
+
+# 'create_regular_polygon' se mantiene como alias de la clave histórica que usa
+# TraduceTo*.py (polígono por parámetros), apuntando al mismo flujo por voz.
 polygon = {
-    'pentagon': lambda: Gui.runCommand('Sketcher_CreatePentagon', 0),
-    'octagon':  lambda: Gui.runCommand('Sketcher_CreateOctagon', 0),
-    'regular':  lambda: Gui.runCommand('Sketcher_CreateRegularPolygon', 0),
-    'help':     ayuda,
+    'pentagon': create_pentagon_with_objects,
+    'octagon':  create_octagon_with_objects,
+    'regular':  create_regular_with_objects,
+    'create_regular': create_regular_with_objects,
+    'create_regular_polygon': create_regular_with_objects,
+    'help':    ayuda,
 }

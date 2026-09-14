@@ -32,6 +32,11 @@ def _extrude():
     f.Solid = True
     sel[0].Visibility = False
     doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(f.Name, Is3D=True).Execute()
 
 
 part_extrude = {
@@ -39,4 +44,4 @@ part_extrude = {
     'extrude': _extrude,
     'extruir objeto': _extrude,
     'help': ayuda,
-}
+}

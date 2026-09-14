@@ -14,25 +14,121 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
-from ._parametric import loft_profiles, pad_sketch
+from ._parametric import (
+    box_by_size,
+    cone_by_size,
+    cylinder_by_size,
+    loft_profiles,
+    pad_by_length,
+    pad_sketch,
+    prism_by_size,
+    revolve_by_angle,
+    sphere_by_radius,
+    torus_by_size,
+)
+
+
+def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = True) -> None:
+    doc = App.activeDocument()
+    if doc is None:
+        doc = App.newDocument()
+    body = doc.addObject("PartDesign::Body", "Body")
+    obj = doc.addObject(type_id, default_name)
+    body.addObject(obj)
+    doc.recompute()
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        try:
+            from selection.createobjects import CreateObjects
+        except ImportError:
+            from Dav.scr.selection.createobjects import CreateObjects
+    CreateObjects(ObjectName=obj.Name, Is3D=is_3d).Execute()
+
+
+def _execute_gui_command_with_objects(command_name: str, is_3d: bool = True) -> None:
+    try:
+        Gui.activateWorkbench("PartDesignWorkbench")
+    except Exception:
+        pass
+    Gui.runCommand(command_name, 0)
+    active_doc = App.ActiveDocument
+    if not active_doc or not getattr(active_doc, 'ActiveObject', None):
+        return
+    obj_name = active_doc.ActiveObject.Name
+    try:
+        from createobjects import CreateObjects
+    except ImportError:
+        from selection.createobjects import CreateObjects
+    CreateObjects(ObjectName=obj_name, Is3D=is_3d).Execute()
+
+
+def additive_box() -> None:
+    _create_additive_primitive("PartDesign::AdditiveBox", "Box", is_3d=True)
+
+
+def additive_cone() -> None:
+    _create_additive_primitive("PartDesign::AdditiveCone", "Cone", is_3d=True)
+
+
+def additive_cylinder() -> None:
+    _create_additive_primitive("PartDesign::AdditiveCylinder", "Cylinder", is_3d=True)
+
+
+def additive_ellipsoid() -> None:
+    _create_additive_primitive("PartDesign::AdditiveEllipsoid", "Ellipsoid", is_3d=True)
+
+
+def additive_prism() -> None:
+    _create_additive_primitive("PartDesign::AdditivePrism", "Prism", is_3d=True)
+
+
+def additive_sphere() -> None:
+    _create_additive_primitive("PartDesign::AdditiveSphere", "Sphere", is_3d=True)
+
+
+def additive_torus() -> None:
+    _create_additive_primitive("PartDesign::AdditiveTorus", "Torus", is_3d=True)
+
+
+def additive_wedge() -> None:
+    _create_additive_primitive("PartDesign::AdditiveWedge", "Wedge", is_3d=True)
+
+
+def pad() -> None:
+    _execute_gui_command_with_objects('PartDesign_Pad', is_3d=True)
+
+
+def revolution() -> None:
+    _execute_gui_command_with_objects('PartDesign_Revolution', is_3d=True)
+
 
 additive = {
-    'pad':               lambda: Gui.runCommand('PartDesign_Pad', 0),
-    'revolution':        lambda: Gui.runCommand('PartDesign_Revolution', 0),
+    'pad':               pad,
+    'revolution':        revolution,
     'additivehelix':     lambda: Gui.runCommand('PartDesign_AdditiveHelix', 0),
     'additiveloft':      lambda: Gui.runCommand('PartDesign_AdditiveLoft', 0),
     'additivepipe':      lambda: Gui.runCommand('PartDesign_AdditivePipe', 0),
-    'additivebox':       lambda: Gui.runCommand('PartDesign_AdditiveBox', 0),
-    'additivecone':      lambda: Gui.runCommand('PartDesign_AdditiveCone', 0),
-    'additivecylinder':  lambda: Gui.runCommand('PartDesign_AdditiveCylinder', 0),
-    'additiveellipsoid': lambda: Gui.runCommand('PartDesign_AdditiveEllipsoid', 0),
-    'additiveprism':     lambda: Gui.runCommand('PartDesign_AdditivePrism', 0),
-    'additivesphere':    lambda: Gui.runCommand('PartDesign_AdditiveSphere', 0),
-    'additivetorus':     lambda: Gui.runCommand('PartDesign_AdditiveTorus', 0),
-    'additivewedge':     lambda: Gui.runCommand('PartDesign_AdditiveWedge', 0),
+    'additivebox':       additive_box,
+    'additivecone':      additive_cone,
+    'additivecylinder':  additive_cylinder,
+    'additiveellipsoid': additive_ellipsoid,
+    'additiveprism':     additive_prism,
+    'additivesphere':    additive_sphere,
+    'additivetorus':     additive_torus,
+    'additivewedge':     additive_wedge,
     'pad_sketch':        pad_sketch,
+    'pad_by_length':     pad_by_length,
+    'box_by_size':       box_by_size,
+    'cylinder_by_size':  cylinder_by_size,
+    'revolve_by_angle':  revolve_by_angle,
+    'sphere_by_radius':  sphere_by_radius,
+    'cone_by_size':      cone_by_size,
+    'torus_by_size':     torus_by_size,
+    'prism_by_size':     prism_by_size,
     'loft_profiles':     loft_profiles,
     'help':              ayuda,
 }

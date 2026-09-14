@@ -21,6 +21,7 @@
 
 from .modify import modify
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToEn = {
     # Fillet
@@ -39,8 +40,36 @@ TraduceToEn = {
     "thickness": modify["thickness"],
     "shell": modify["thickness"],
 
+    # Dress-ups by dictated measure (no dialog)
+    "fillet by radius":      modify["fillet_by_radius"],
+    "round edges":           modify["fillet_by_radius"],
+
+    "chamfer by size":       modify["chamfer_by_size"],
+    "bevel by size":         modify["chamfer_by_size"],
+
+    "chamfer by size and angle": modify["chamfer_by_size_and_angle"],
+    "chamfer with angle":    modify["chamfer_by_size_and_angle"],
+
+    "thickness by value":    modify["thickness_by_value"],
+    "hollow solid":          modify["thickness_by_value"],
+
     # Help
     "help":            modify['help'],
     "info":            modify['help'],
     "options":         modify['help']
+,
+    # MEASURE
+    "measure": CreateDimension,
+    "measure distance": CreateDimension,
+    "distance": CreateDimension,
+    "dimension": CreateDimension,
+    "dimensioning": CreateDimension,
+    "meter": CreateDimension,
+    "milimeter": CreateDimension,
+    "millimeter": CreateDimension,
+    "centimeter": CreateDimension,
+    "tape measure": CreateDimension,
+    "tape tool": CreateDimension,
+    "tape": CreateDimension,
+    "ruler": CreateDimension,
 }

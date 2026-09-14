@@ -39,11 +39,14 @@ class LanguageCode(Enum):
     PT = "pt"
 
     @classmethod
-    def FromStorage(cls, value: str) -> "LanguageCode":
-        normalized = (value or "es").strip().lower()
-        for item in cls:
-            if item.value == normalized:
-                return item
+    def FromStorage(cls, value: Any) -> "LanguageCode":
+        if hasattr(value, "value"):
+            value = value.value
+        val_str = str(value or "es").strip().lower()
+        if "en" in val_str:
+            return cls.En
+        if "pt" in val_str:
+            return cls.PT
         return cls.Es
 
 
@@ -71,13 +74,13 @@ _LABELS: dict[LanguageCode, dict[str, str]] = {
 }
 
 
-def ResolveLanguage(language: LanguageCode | str | None = None) -> LanguageCode:
+def ResolveLanguage(language: Any = None) -> LanguageCode:
     """Return explicit language or read Preferences.SetLanguage from GUIFreeCad."""
     if language is None:
         return _LanguageFromPreferences()
-    if isinstance(language, LanguageCode):
+    if type(language) is LanguageCode:
         return language
-    return LanguageCode.FromStorage(str(language))
+    return LanguageCode.FromStorage(language)
 
 
 def _LanguageFromPreferences() -> LanguageCode:
@@ -104,7 +107,7 @@ def _LanguageFromPreferences() -> LanguageCode:
         try:
             from core.preferences import preferences
 
-            return preferences.SetLanguage
+            return LanguageCode.FromStorage(preferences.SetLanguage)
         except Exception:
             continue
 
@@ -121,7 +124,7 @@ class Tagger:
 
     def __init__(
         self,
-        language: LanguageCode | str | None = None,
+        language: LanguageCode | str | Any = None,
         document: Any | None = None,
     ) -> None:
         self._language = ResolveLanguage(language)
@@ -135,8 +138,16 @@ class Tagger:
         return self._language
 
     @SetLanguage.setter
-    def SetLanguage(self, value: LanguageCode | str) -> None:
+    def SetLanguage(self, value: LanguageCode | str | Any) -> None:
         self._language = ResolveLanguage(value)
+
+    def _GetLabels(self) -> dict[str, str]:
+        lang_str = getattr(self._language, "value", str(self._language)).lower()
+        if "en" in lang_str:
+            return _LABELS[LanguageCode.En]
+        if "pt" in lang_str:
+            return _LABELS[LanguageCode.PT]
+        return _LABELS[LanguageCode.Es]
 
     def NextName(self, kind: str) -> str:
         """Return a unique FreeCAD object Name for the given geometry kind."""
@@ -144,7 +155,8 @@ class Tagger:
         if kind_key not in _KINDS:
             raise ValueError(f"Unknown kind '{kind}'. Use: {', '.join(_KINDS)}")
 
-        label = _LABELS[self._language][kind_key]
+        labels = self._GetLabels()
+        label = labels[kind_key]
         while True:
             self._counters[kind_key] += 1
             candidate = f"{label}{self._counters[kind_key]}"
@@ -156,7 +168,8 @@ class Tagger:
         kind_key = kind.strip().lower()
         if kind_key not in _KINDS:
             raise ValueError(f"Unknown kind '{kind}'. Use: {', '.join(_KINDS)}")
-        label = _LABELS[self._language][kind_key]
+        labels = self._GetLabels()
+        label = labels[kind_key]
         index = number if number is not None else self._counters[kind_key]
         return f"{label} {index}"
 

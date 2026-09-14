@@ -18,7 +18,7 @@
 
 """Portuguese spoken-word mapping for the DAV PartWorkbench dictionary."""
 
-from DAV.DiccionariosEnBruto.Workbench.Part import Part
+from .Part import part as Part
 
 from .box.box import box
 from .circle.circle import circle
@@ -46,6 +46,7 @@ from .part_section.part_section import part_section
 from .part_sweep.part_sweep import part_sweep
 
 from .ayuda import ayuda
+from measure import CreateDimension
 
 TraduceToPt = {
     "caixa": box["box"],
@@ -114,9 +115,9 @@ TraduceToPt = {
     "fazer loft": part_loft["loft"],
     "unir perfis": part_loft["loft"],
 
-    "criar face": part_makeface["make face"],
-    "fazer face": part_makeface["make face"],
-    "face": part_makeface["make face"],
+    "criar face": part_makeface["makeface"],
+    "fazer face": part_makeface["makeface"],
+    "face": part_makeface["makeface"],
 
     "espelho": part_mirror["mirror"],
     "espelhar": part_mirror["mirror"],
@@ -178,5 +179,69 @@ TraduceToPt = {
     "ajuda": Part["help"],
     "informação": Part["help"],
     "opções": Part["help"]
+,
+    # MEASURE
+    "medir": CreateDimension,
+    "medida": CreateDimension,
+    "medir distancia": CreateDimension,
+    "medir distância": CreateDimension,
+    "distância": CreateDimension,
+    "distancia": CreateDimension,
+    "cotar": CreateDimension,
+    "dimensionar": CreateDimension,
+    "aferir": CreateDimension,
+    "mensurar": CreateDimension,
+    "calcular distância": CreateDimension,
+    "calcular distancia": CreateDimension,
+    "comprimento": CreateDimension,
+    "separação": CreateDimension,
+    "separacao": CreateDimension,
+    "afastamento": CreateDimension,
+    "extensão": CreateDimension,
+    "extensao": CreateDimension,
+    "cota": CreateDimension,
+    "cotagem": CreateDimension,
+    "acotação": CreateDimension,
+    "acotacao": CreateDimension,
+    "dimensão": CreateDimension,
+    "dimensao": CreateDimension,
+    "métrica": CreateDimension,
+    "metrica": CreateDimension,
+    "dimensionamento": CreateDimension,
+    "metro": CreateDimension,
+    "milímetro": CreateDimension,
+    "milimetro": CreateDimension,
+    "centímetro": CreateDimension,
+    "centimetro": CreateDimension,
+    "flexômetro": CreateDimension,
+    "flexometro": CreateDimension,
+    "metro enrolável": CreateDimension,
+    "metro enrolavel": CreateDimension,
+    "régua": CreateDimension,
+    "regua": CreateDimension,
+    "escalímetro": CreateDimension,
+    "escalimetro": CreateDimension,
+    "calibre": CreateDimension,
+    "paquímetro": CreateDimension,
+    "paquimetro": CreateDimension,
+    "micrômetro": CreateDimension,
+    "micrometro": CreateDimension,
+    "tolerância": CreateDimension,
+    "tolerancia": CreateDimension,
+    "desvio": CreateDimension,
+    "ajuste": CreateDimension,
+    "medição": CreateDimension,
+    "medicao": CreateDimension,
+    "mensuração": CreateDimension,
+    "mensuracao": CreateDimension,
+    "aferição": CreateDimension,
+    "afericao": CreateDimension,
+    "calibração": CreateDimension,
+    "calibracao": CreateDimension,
+    "verificação": CreateDimension,
+    "verificacao": CreateDimension,
+    "inspeção": CreateDimension,
+    "inspecao": CreateDimension,
+    "controle dimensional": CreateDimension,
+    "metrologia": CreateDimension,
 }
-

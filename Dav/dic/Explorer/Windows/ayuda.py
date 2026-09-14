@@ -14,8 +14,12 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print('Comandos disponibles en Windows:')
-    print('  close     - Cierra la ventana activa')
-    print('  closeall  - Cierra todas las ventanas')
-    print('  quit      - Sale de FreeCAD')
+    content = """Comandos disponibles en Ventanas:
+  cerrar     - Cierra la ventana activa
+  cerrar todo - Cierra todas las ventanas abiertas
+  salir      - Cierra FreeCAD"""
+    show_help_dialog("Ventanas", content)
+

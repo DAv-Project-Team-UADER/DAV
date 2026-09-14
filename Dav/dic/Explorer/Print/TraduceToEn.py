@@ -23,7 +23,7 @@ TraduceToEn = {
     'print': print_cmds['print'],
     'pdf':   print_cmds['pdf'],
 
-    "help": ayuda['help'],
-    "info": ayuda['help'],
-    "options": ayuda['help'],
+    "help": print_cmds['help'],
+    "info": print_cmds['help'],
+    "options": print_cmds['help'],
 }

@@ -29,9 +29,8 @@ TraduceToEs = {
     "colorear cara": part_color_per_face["paint face"],
     "cambiar color de cara": part_color_per_face["paint face"],
     "establecer color de cara": part_color_per_face["paint face"],
-    "paint face": part_color_per_face["paint face"],
 
     "ayuda":           part_color_per_face['help'],
     "información":            part_color_per_face['help'],
-    "options":         part_color_per_face['help']
+    "opciones":        part_color_per_face['help']
 }

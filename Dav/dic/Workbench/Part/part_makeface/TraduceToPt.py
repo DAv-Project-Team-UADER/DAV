@@ -23,11 +23,17 @@ from .part_makeface import part_makeface
 from .ayuda import ayuda
 
 TraduceToPt = {
-    "face": part_makeface["make face"],
-    "criar face": part_makeface["make face"],
-    "fazer face": part_makeface["make face"],
-    "construir face": part_makeface["make face"],
-    "gerar face": part_makeface["make face"],
+    "face": part_makeface["makeface"],
+    "criar face": part_makeface["makeface"],
+    "fazer face": part_makeface["makeface"],
+    "construir face": part_makeface["makeface"],
+    "gerar face": part_makeface["makeface"],
+    "makeface": part_makeface["makeface"],
+    "createface": part_makeface["createface"],
+
+    "upgrade": part_makeface["upgrade"],
+    "atualizar": part_makeface["upgrade"],
+    "promover": part_makeface["upgrade"],
 
     "ajuda":           part_makeface['help'],
     "informação":      part_makeface['help'],

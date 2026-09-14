@@ -42,7 +42,6 @@ TraduceToEs = {
     "plano lineas": drawstyles["flatlines"],
 
     "oculto": drawstyles["hiddenline"],
-    "lineas ocultas": drawstyles["hiddenline"],
 
     "sin color": drawstyles["noshading"],
     "sin relleno": drawstyles["noshading"],

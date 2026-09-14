@@ -22,6 +22,8 @@ from Workbench.workbench import workbench as Workbench
 from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
+from Selection.selection import selection
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
 
 TraduceToEs = {
@@ -33,6 +35,9 @@ TraduceToEs = {
     "carpetas":      explorer,
     "directorio":    explorer,
     "directorios":   explorer,
+    "mesa de trabajo": Workbench,
+    "banco de trabajo": Workbench,
+    "workbench":   Workbench,
 
     # Line attributes (atributos de linea)
     "atributos de línea": LineAttributes,
@@ -53,13 +58,24 @@ TraduceToEs = {
     # Workbench
     "banco de trabajo": Workbench,
     "bancos de trabajo": Workbench,
-    "workbench":       Workbench,
-    "workbenches":     Workbench,
-    "workbench dialog": Workbench,
-    "workbench window": Workbench,
+    "entorno de trabajo": Workbench,
 
     # Preferencias
+    "seleccion":            selection,
+    "selección":            selection,
+    "seleccionar":          selection,
+    "seleccion de objetos": selection,
+    "selección de objetos": selection,
+    "objetos":              selection,
     "preferencias":  open_preferences,
     "configuracion": open_preferences,
     "ajustes":       open_preferences,
+
+    # Panel DAV
+    "minimizar":  hide_dav_panel,
+    "reducir":    hide_dav_panel,
+    "disminuir":  hide_dav_panel,
+    "maximizar":  show_dav_panel,
+    "aumentar":   show_dav_panel,
+    "agrandar":   show_dav_panel,
 }

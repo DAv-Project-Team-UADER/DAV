@@ -15,10 +15,26 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import FreeCAD as App
 import FreeCADGui as Gui
+
 from .ayuda import ayuda
+from selection.createobjects import CreateObjects
+
+
+def create_triangle_with_objects():
+    Gui.runCommand('Sketcher_CreateTriangle', 0)
+
+    active_doc = App.ActiveDocument
+    if not active_doc or not getattr(active_doc, 'ActiveObject', None):
+        return
+
+    obj_name = active_doc.ActiveObject.Name
+    creator = CreateObjects(ObjectName=obj_name, Is3D=False)
+    creator.Execute()
+
 
 triangle = {
-    'create': lambda: Gui.runCommand('Sketcher_CreateTriangle', 0),
+    'create': create_triangle_with_objects,
     'help':   ayuda
 }

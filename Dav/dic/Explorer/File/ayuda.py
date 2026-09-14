@@ -14,16 +14,20 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+from .._help_gui import show_help_dialog
+
 def ayuda():
-    print('Comandos disponibles en File:')
-    print('  new       - Crea un nuevo documento')
-    print('  open      - Abre un archivo existente')
-    print('  save      - Guarda el documento activo')
-    print('  saveas    - Guarda con un nuevo nombre')
-    print('  savecopy  - Guarda una copia del documento')
-    print('  revert    - Revierte al último guardado')
-    print('  merge     - Combina proyectos')
-    print('  import     - Importa un archivo externo')
-    print('  export     - Exporta el documento')
-    print('  recent     - Abre la lista de archivos recientes')
-    print('  loadimage  - Carga una imagen en la vista 3D')
+    content = """Comandos disponibles en Archivo:
+  nuevo       - Crea un nuevo documento
+  abrir       - Abre un archivo existente
+  guardar     - Guarda el documento activo
+  guardar como - Guarda con un nuevo nombre
+  guardar copia - Guarda una copia del documento
+  revertir    - Revierte al último guardado
+  combinar    - Combina proyectos
+  importar    - Importa un archivo externo
+  exportar    - Exporta el documento
+  recientes   - Abre la lista de archivos recientes
+  cargar imagen - Carga una imagen en la vista 3D"""
+    show_help_dialog("Archivo", content)
+

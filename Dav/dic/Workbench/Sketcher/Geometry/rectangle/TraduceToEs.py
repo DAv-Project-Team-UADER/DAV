@@ -38,4 +38,10 @@ TraduceToEs = {
     "ayuda": rectangle['help'],
     "informacion": rectangle['help'],
     "opciones": rectangle['help'],
+
+    # Rectángulo por coordenadas dictadas
+    "rectangulo por esquinas": rectangle['create_by_corners'],
+    "crear rectangulo por esquinas": rectangle['create_by_corners'],
+    "rectangulo por puntos": rectangle['create_by_corners'],
+    "rectangulo por coordenadas": rectangle['create_by_corners'],
 }

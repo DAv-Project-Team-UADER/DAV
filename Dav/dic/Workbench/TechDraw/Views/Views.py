@@ -14,13 +14,20 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
+def run_cmd(cmd):
+    try:
+        Gui.activateWorkbench("TechDrawWorkbench")
+        Gui.runCommand(cmd, 0)
+    except Exception as e:
+        print(f"[DAV] Error: {e}")
+
 views = {
-    'view': lambda: Gui.runCommand('TechDraw_View', 0),
-    'detailview': lambda: Gui.runCommand('TechDraw_DetailView', 0),
-    'brokenview': lambda: Gui.runCommand('TechDraw_BrokenView', 0),
-    'clipgroup': lambda: Gui.runCommand('TechDraw_ClipGroup', 0),
-    'complexsection': lambda: Gui.runCommand('TechDraw_ComplexSection', 0),
-    'draft': lambda: Gui.runCommand('TechDraw_DraftView', 0),
-    'spreadsheet': lambda: Gui.runCommand('TechDraw_SpreadsheetView', 0),
+    'view': lambda: run_cmd('TechDraw_View'),
+    'detailview': lambda: run_cmd('TechDraw_DetailView'),
+    'brokenview': lambda: run_cmd('TechDraw_BrokenView'),
+    'clipgroup': lambda: run_cmd('TechDraw_ClipGroup'),
+    'complexsection': lambda: run_cmd('TechDraw_ComplexSection'),
+    'draft': lambda: run_cmd('TechDraw_DraftView'),
+    'spreadsheet': lambda: run_cmd('TechDraw_SpreadsheetView'),
     'help': ayuda
 }

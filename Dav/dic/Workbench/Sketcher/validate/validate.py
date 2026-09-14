@@ -14,10 +14,26 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
+import FreeCAD as App
 import FreeCADGui as Gui
+
 from .ayuda import ayuda
+from selection.createobjects import CreateObjects
+
+
+def create_validate_with_objects():
+    Gui.runCommand('Sketcher_ValidateSketch', 0)
+
+    active_doc = App.ActiveDocument
+    if not active_doc or not getattr(active_doc, 'ActiveObject', None):
+        return
+
+    obj_name = active_doc.ActiveObject.Name
+    creator = CreateObjects(ObjectName=obj_name, Is3D=False)
+    creator.Execute()
+
 
 validate = {
     'help': ayuda,
-    'validate': lambda: Gui.runCommand('Sketcher_ValidateSketch', 0)
+    'validate': create_validate_with_objects
 }

@@ -18,22 +18,49 @@ import FreeCADGui as Gui
 from .arc.arc import arc
 from .arc_slot.arc_slot import arc_slot
 from .BSpline.bspline import bspline
-from .BSpline_Tools._tools import tools
+from .BSpline_Tools._tools import bspline_tools
 from .circle.circle import circle
 from .Ellipse._ellipse import ellipse
 from .heptagon.heptagon import heptagon
 from .hexagon.hexagon import hexagon
 from .line.line import line
-from .Polygon._polygon import polygon
+from .Polygon.polygon import polygon
 from .polyline.polyline import polyline
 from .rectangle.rectangle import rectangle
 from .ayuda import ayuda
+from ..new_sketch.new_sketch import _new_sketch
+
+
+def edit_sketch_by_voice(sketch: object):
+    """Edit (open) a sketch dictated by voice.
+
+    Args:
+        sketch: The sketch document object to edit, selected by voice.
+    """
+    Gui.Selection.clearSelection()
+    Gui.Selection.addSelection(sketch)
+    Gui.runCommand('Sketcher_EditSketch', 0)
+
+
+def attach_sketch_by_voice(sketch: object, support: object):
+    """Attach (map) a sketch onto a support face or plane dictated by voice.
+
+    Args:
+        sketch: The sketch document object to re-map, selected by voice.
+        support: The support body/face where the sketch is mapped, also
+            selected by voice.
+    """
+    Gui.Selection.clearSelection()
+    Gui.Selection.addSelection(sketch)
+    Gui.Selection.addSelection(support)
+    Gui.runCommand('Sketcher_MapSketch', 0)
+
 
 geometry = {
     'arc': arc,
     'arc_slot': arc_slot,
     'bspline': bspline,
-    'tools': tools,
+    'tools': bspline_tools,
     'circle': circle,
     'ellipse': ellipse,
     'heptagon': heptagon,
@@ -43,11 +70,9 @@ geometry = {
     'polyline': polyline,
     'rectangle': rectangle,
 
-    'new': lambda: Gui.runCommand('Sketcher_NewSketch', 0),
-    'edit': lambda: Gui.runCommand('Sketcher_EditSketch', 0),
-    'attach': lambda: Gui.runCommand('Sketcher_MapSketch', 0),
+    'new': _new_sketch,
+    'edit': edit_sketch_by_voice,
+    'attach': attach_sketch_by_voice,
     'grid': lambda: Gui.runCommand('Sketcher_Grid', 0),
-    'stop': lambda: Gui.runCommand('Sketcher_StopOperation', 0),
-    'leave': lambda: Gui.runCommand('Sketcher_LeaveSketch', 0),
     'help': ayuda
     }
