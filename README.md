@@ -39,3 +39,8 @@ DAV is currently in an early **MVP** (*Minimum Viable Product*) stage, focusing 
 This project is distributed under the **GNU GPL v3** license.
 
 It also makes use of third-party technologies and libraries under various open-source licenses, including components associated with FreeCAD, Qt/PySide, and Vosk.
+##Acknowledgements
+We would like to extend our special thanks to the Autonomous University of Entre Ríos (UADER) for providing us with the space and resources necessary to carry out this project; to professors Jesús Valenzuela and Bernabe Arias, for their support, guidance, and willingness throughout the process; and to communicators Naitria Peralta Montoya and Bruno Contigiani, for their collaboration and contributions to the development and dissemination of the project
+
+To everyone who, in one way or another, contributed to making this project possible, thank you very
+much.
