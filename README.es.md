@@ -3,7 +3,7 @@
 
 **DAV** es un proyecto académico desarrollado en el marco de una **Práctica Educativa Territorial (PET)** de la [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). Está orientado a la integración de comandos de voz en el software de modelado [**FreeCAD**](https://www.freecad.org/index.php).
 
-El objetivo del proyecto es permitir que personas con dificultades motrices en brazos pero sin reastornos del habla puedan crear y modificar modelos, dibujos y piezas 3D mediante comandos de voz. De esta manera, se busca reducir la dependencia exclusiva del teclado y el mouse, complementando la interacción tradicional dentro del entorno CAD y fomentando la accesibilidad tecnológica.
+El objetivo del proyecto es permitir que personas con dificultades motrices en brazos pero sin dificultades en el habla puedan crear y modificar modelos, dibujos y piezas 3D mediante comandos de voz. De esta manera, se busca reducir la dependencia exclusiva del teclado y el mouse, complementando la interacción tradicional dentro del entorno CAD y fomentando la accesibilidad tecnológica.
 
 DAV funciona como una capa de asistencia sobre FreeCAD, integrándose mediante Python y aprovechando  arquitectura nativa. El reconocimiento de voz se procesa localmente utilizando [**Vosk**](https://alphacephei.com/vosk/), un motor ASR (*Automatic Speech Recognition*) de código abierto.
 
