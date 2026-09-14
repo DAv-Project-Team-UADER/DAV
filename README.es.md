@@ -29,7 +29,7 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 - **Interfaz Gráfica:** PySide6
 - **Control de Versiones:** Git
 
-## Documentación
+## Manual de Usuario
 
 - [Manual de Usuario (PDF)](manual_PDF/Manual_Usuario.pdf)
 
@@ -38,7 +38,7 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 Este proyecto se distribuye bajo la licencia **GNU GPL v3**. 
 
 Además, utiliza tecnologías y bibliotecas de terceros bajo distintas licencias open source, incluyendo componentes asociados a FreeCAD, Qt/PySide y Vosk.
-##Agradecimientos
+## Agradecimientos
 Queremos agradecer especialmente a la Universidad Autónoma de Entre Ríos (UADER) por brindarnos el espacio y los recursos necesarios para llevar adelante este proyecto; a los profesores Jesús Valenzuela y Bernabe Arias, por su acompañamiento, orientación y disposición durante el
 proceso; y a los comunicadores Naitria Peralta Montoya y Bruno Contigiani, por su colaboración y aportes en el desarrollo y difusión del proyecto.
 
