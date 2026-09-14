@@ -21,6 +21,7 @@
 # ============================================================
 
 from .drawstyles import drawstyles
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Estilos principais
@@ -57,4 +58,13 @@ TraduceToPt = {
     "ajuda": drawstyles["help"],
     "informação": drawstyles["help"],
     "opções": drawstyles["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

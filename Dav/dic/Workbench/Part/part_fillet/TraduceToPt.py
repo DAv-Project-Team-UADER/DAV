@@ -21,6 +21,7 @@
 from .part_fillet import part_fillet
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "arredondar": part_fillet["fillet"],
@@ -35,5 +36,14 @@ TraduceToPt = {
 
     "ajuda":             ayuda,
     "informação":       ayuda,
-    "opções":            ayuda
+    "opções":            ayuda,
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

@@ -19,6 +19,7 @@
 from .Appearance import appearance
 from .ayuda import ayuda
 from .Appearance import appearance as Appearance
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
 
@@ -46,4 +47,13 @@ TraduceToPt = {
     'ajuda':                Appearance['help'],
     'informação':           Appearance['help'],
     'opções':               Appearance['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

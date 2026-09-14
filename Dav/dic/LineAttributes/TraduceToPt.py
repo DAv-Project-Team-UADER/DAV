@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the LineAttributes dictionary."""
 
 from .LineAttributes import LineAttributes
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Atributos de Linha
@@ -30,6 +31,15 @@ TraduceToPt = {
     # Ajuda
     "ajuda":           LineAttributes["help"],
     "informações":     LineAttributes["help"],
-    "opções":          LineAttributes["help"]
+    "opções":          LineAttributes["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

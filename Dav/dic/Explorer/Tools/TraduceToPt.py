@@ -17,6 +17,7 @@
 
 from .Tools import tools
 from measure import CreateDimension
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "medir": tools["measure"],
@@ -115,4 +116,13 @@ TraduceToPt = {
     "inspecao": CreateDimension,
     "controle dimensional": CreateDimension,
     "metrologia": CreateDimension,
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

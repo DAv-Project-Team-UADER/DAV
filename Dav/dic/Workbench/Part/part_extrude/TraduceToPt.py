@@ -21,6 +21,7 @@
 from .part_extrude import part_extrude
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "extrudir": part_extrude["extrude"],
@@ -35,5 +36,14 @@ TraduceToPt = {
 
     "ajuda":             part_extrude['help'],
     "informação":       part_extrude['help'],
-    "opções":            part_extrude['help']
+    "opções":            part_extrude['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

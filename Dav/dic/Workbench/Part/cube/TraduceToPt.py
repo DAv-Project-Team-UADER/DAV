@@ -18,6 +18,7 @@
 from .cube import cube
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     'cubo':     cube['cube'],
@@ -25,5 +26,14 @@ TraduceToPt = {
     
     "ajuda":             cube['help'],
     "informação":       cube['help'],
-    "opções":            cube['help']
+    "opções":            cube['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

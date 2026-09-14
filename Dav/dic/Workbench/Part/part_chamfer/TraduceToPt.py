@@ -21,6 +21,7 @@
 from .part_chamfer import part_chamfer
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "chanfro": part_chamfer["chaflan"],
@@ -35,5 +36,14 @@ TraduceToPt = {
 
     "ajuda":             part_chamfer['help'],
     "informação":        part_chamfer['help'],
-    "opções":            part_chamfer['help']
+    "opções":            part_chamfer['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

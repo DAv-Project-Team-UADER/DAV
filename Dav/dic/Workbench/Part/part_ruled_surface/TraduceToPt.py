@@ -21,6 +21,7 @@
 from .part_ruled_surface import part_ruled_surface
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "superfície regrada": part_ruled_surface["ruled surface"],
@@ -30,6 +31,15 @@ TraduceToPt = {
 
     "ajuda": part_ruled_surface['help'],
     "informação": part_ruled_surface['help'],
-    "opções": part_ruled_surface['help']
+    "opções": part_ruled_surface['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

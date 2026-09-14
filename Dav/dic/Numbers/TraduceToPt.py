@@ -18,6 +18,7 @@
 """Portuguese spoken-word mapping for numeric input."""
 
 from .Numbers import Numbers
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Dígitos 0-9
@@ -70,4 +71,13 @@ TraduceToPt = {
     # Sinal negativo (para ângulos de hipérbole/parábola)
     "menos":      Numbers["negative"],
     "negativo":   Numbers["negative"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

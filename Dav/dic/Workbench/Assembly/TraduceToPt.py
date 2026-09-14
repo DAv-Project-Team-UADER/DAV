@@ -21,6 +21,7 @@
 from .Assembly import assembly
 from .joint.joint import joint
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
  
 TraduceToPt = {
     "novo conjunto":       assembly["create"],
@@ -94,5 +95,14 @@ TraduceToPt = {
 
     "ajuda":               joint['help'],
     "informação":          joint['help'],
-    "opções":              joint['help']
+    "opções":              joint['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

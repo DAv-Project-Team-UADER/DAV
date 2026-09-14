@@ -21,6 +21,7 @@
 from .part_makeface import part_makeface
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "face": part_makeface["makeface"],
@@ -37,5 +38,14 @@ TraduceToPt = {
 
     "ajuda":           part_makeface['help'],
     "informação":      part_makeface['help'],
-    "opções":          part_makeface['help']
+    "opções":          part_makeface['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

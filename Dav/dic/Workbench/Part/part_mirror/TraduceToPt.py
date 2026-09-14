@@ -21,6 +21,7 @@
 from .part_mirror import part_mirror
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "espelho": part_mirror["mirror"],
@@ -31,5 +32,14 @@ TraduceToPt = {
     "ajuda": part_mirror['help'],
     "informação": part_mirror['help'],
     "opções": part_mirror['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

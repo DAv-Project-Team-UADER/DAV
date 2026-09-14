@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Explorer import explorer
+from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     # Sub-contextos
@@ -89,4 +90,13 @@ TraduceToPT = {
     "ajuda":                            explorer['help'],
     "informação":                       explorer['help'],
     "opções":                           explorer['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

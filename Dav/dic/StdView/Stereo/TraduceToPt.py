@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Stereo import stereo
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # camerapos
@@ -57,5 +58,14 @@ TraduceToPt = {
     # help
     "ajuda":                  stereo["help"],
     "informação":             stereo["help"],           
-    "opções":                 stereo["help"],           
+    "opções":                 stereo["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

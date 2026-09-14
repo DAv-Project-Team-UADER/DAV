@@ -18,6 +18,7 @@
 
 from .Print import print_cmds
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     'imprimir': print_cmds['print'],
@@ -29,6 +30,15 @@ TraduceToPT = {
     "ajuda":     print_cmds['help'],
     "informação": print_cmds['help'],
     "opções":    print_cmds['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 
 TraduceToPt = TraduceToPT

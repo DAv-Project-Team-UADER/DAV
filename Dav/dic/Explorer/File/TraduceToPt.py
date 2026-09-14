@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .File import file
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "novo": file["new"],
@@ -57,4 +58,13 @@ TraduceToPt = {
     "ajuda": file["help"],
     "informação": file["help"],
     "opções": file["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

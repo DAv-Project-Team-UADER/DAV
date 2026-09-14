@@ -20,6 +20,7 @@
 
 from .part_sweep import part_sweep
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "varredura": part_sweep["sweep"],
@@ -32,6 +33,15 @@ TraduceToPt = {
 
     "ajuda": part_sweep['help'],
     "informação": part_sweep['help'],
-    "opções": part_sweep['help']
+    "opções": part_sweep['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

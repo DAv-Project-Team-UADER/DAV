@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .Windows import windows
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "fechar": windows["close"],
@@ -32,4 +33,13 @@ TraduceToPt = {
     "ajuda": windows["help"],
     "informação": windows["help"],
     "opções": windows["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

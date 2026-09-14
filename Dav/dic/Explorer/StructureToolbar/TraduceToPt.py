@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .StructureToolbar import structure
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Part
@@ -40,5 +41,14 @@ TraduceToPt = {
     # Help
     "ajuda":       structure["help"],
     "informações": structure["help"],
-    "opções":      structure["help"]
+    "opções":      structure["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

@@ -19,6 +19,7 @@
 from .additive import additive
 from .ayuda import ayuda
 from measure import CreateDimension
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     #Ressalto
@@ -182,4 +183,13 @@ TraduceToPt = {
     "inspecao": CreateDimension,
     "controle dimensional": CreateDimension,
     "metrologia": CreateDimension,
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

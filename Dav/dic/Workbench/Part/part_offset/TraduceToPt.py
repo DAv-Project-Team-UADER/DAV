@@ -21,6 +21,7 @@
 from .part_offset import part_offset
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "deslocamento": part_offset["offset"],
@@ -30,6 +31,15 @@ TraduceToPt = {
 
     "ajuda": part_offset['help'],
     "informação": part_offset['help'],
-    "opções": part_offset['help']
+    "opções": part_offset['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

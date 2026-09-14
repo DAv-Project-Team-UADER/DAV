@@ -60,5 +60,14 @@ TraduceToPt = {
 
     "ajuda": Panels['help'],
     "informação": Panels['help'],
-    "opções": Panels['help']
+    "opções": Panels['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

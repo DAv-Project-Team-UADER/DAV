@@ -24,6 +24,7 @@ from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
 from integration.launch_preferences import open_preferences
+from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     # Explorer / arquivos / pastas
@@ -71,4 +72,13 @@ TraduceToPT = {
     "preferencias":  open_preferences,
     "configuracoes": open_preferences,
     "ajustes":       open_preferences,
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

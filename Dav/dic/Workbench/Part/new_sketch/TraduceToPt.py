@@ -21,6 +21,7 @@
 from .new_sketch import new_sketch
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "esboco": new_sketch["new sketch"],
@@ -38,7 +39,14 @@ TraduceToPt = {
 
     "ajuda":             new_sketch["help"],
     "informação":       new_sketch["help"],
-    "opções":            new_sketch["help"]
+    "opções":            new_sketch["help"],
 
-
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

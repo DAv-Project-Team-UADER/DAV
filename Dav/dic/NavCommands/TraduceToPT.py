@@ -18,6 +18,7 @@
 """Portuguese spoken-word mapping for Browser navigation commands."""
 
 from .NavActions import NavActions
+from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     # Subir um nível na navegação
@@ -59,4 +60,13 @@ TraduceToPT = {
     "abortar":        NavActions["cancel"],
     "nao":            NavActions["cancel"],
     "não":            NavActions["cancel"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

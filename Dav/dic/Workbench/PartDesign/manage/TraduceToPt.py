@@ -18,6 +18,7 @@
 
 from .manage import manage
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt= {
     #Mover recurso
@@ -42,6 +43,14 @@ TraduceToPt= {
 
     "ajuda":             manage["help"],
     "informação":       manage["help"],
-    "opções":            manage["help"]
+    "opções":            manage["help"],
 
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

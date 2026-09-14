@@ -19,6 +19,7 @@
 """Mapeamento de palavras faladas em português para a pasta de dicionários DAV StdView/Visibility."""
 
 from .Visibility import visibility
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "ocultar objetos":      visibility["hideobjects"],
@@ -131,4 +132,13 @@ TraduceToPt = {
     "ajuda":                visibility["help"],
     "informação":           visibility["help"],
     "opções":               visibility["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

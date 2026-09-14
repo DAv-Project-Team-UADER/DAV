@@ -21,6 +21,7 @@
 from .part_offset2d import part_offset2d
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "contorno": part_offset2d["offset 2d"],
@@ -30,6 +31,15 @@ TraduceToPt = {
 
     "ajuda": part_offset2d['help'],
     "informação": part_offset2d['help'],
-    "opções": part_offset2d['help']
+    "opções": part_offset2d['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

@@ -21,6 +21,7 @@
 from .part_section import part_section
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "secao": part_section["section"],
@@ -37,6 +38,15 @@ TraduceToPt = {
     
     "ajuda": part_section['help'],
     "informação": part_section['help'],
-    "opções": part_section['help']
+    "opções": part_section['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

@@ -18,6 +18,7 @@
 from .ellipse import ellipse
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     'elipse':   ellipse['ellipse'],
@@ -26,5 +27,14 @@ TraduceToPt = {
     
     "ajuda":             ellipse['help'],
     "informação":       ellipse['help'],
-    "opções":            ellipse['help']
+    "opções":            ellipse['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

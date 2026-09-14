@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .StandardViews import StandardViews
+from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     # bottom

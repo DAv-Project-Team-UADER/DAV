@@ -18,6 +18,7 @@
 from .circle import circle
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     'circulo':  circle['circle'],
@@ -29,6 +30,15 @@ TraduceToPt = {
     "informacao":          circle["help"],
     "informação":          circle["help"],
     "opcoes":              circle["help"],
-    "opções":              circle["help"]
+    "opções":              circle["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

@@ -21,6 +21,7 @@
 from .part_scale import part_scale
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "escala": part_scale["scale"],
@@ -30,6 +31,15 @@ TraduceToPt = {
 
     "ajuda": part_scale['help'],
     "informação": part_scale['help'],
-    "opções": part_scale['help']
+    "opções": part_scale['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

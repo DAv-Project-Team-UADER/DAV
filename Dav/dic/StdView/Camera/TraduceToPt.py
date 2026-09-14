@@ -20,6 +20,7 @@
 
 from .Camera import camera
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Ortográfica
@@ -34,4 +35,13 @@ TraduceToPt = {
     "ajuda": camera["help"],
     "informação": camera["help"],
     "opções": camera["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

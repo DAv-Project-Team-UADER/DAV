@@ -21,6 +21,7 @@
 from .part_projection_on_surface import part_projection_on_surface
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "projeção": part_projection_on_surface["projection"],
@@ -31,6 +32,15 @@ TraduceToPt = {
 
     "ajuda": part_projection_on_surface['help'],
     "informação": part_projection_on_surface['help'],
-    "opções": part_projection_on_surface['help']
+    "opções": part_projection_on_surface['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

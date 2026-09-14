@@ -20,6 +20,7 @@
 
 from .Tree import tree
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Comandos de árvore
@@ -54,4 +55,13 @@ TraduceToPt = {
     "ajuda": tree["help"],
     "informação": tree["help"],
     "opções": tree["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

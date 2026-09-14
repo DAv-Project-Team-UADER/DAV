@@ -17,6 +17,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .linkActions import link
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # MakeLink
@@ -58,5 +59,14 @@ TraduceToPt = {
     # Help
     "ajuda":            link["help"],
     "informações":      link["help"],
-    "opções":           link["help"]
+    "opções":           link["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

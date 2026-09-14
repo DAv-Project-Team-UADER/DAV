@@ -19,6 +19,7 @@
 """Portuguese spoken-word mapping for the material dictionary."""
 
 from .Material import material
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     # Comandos para atribuir material
@@ -31,5 +32,14 @@ TraduceToPt = {
     # Comandos de ajuda estandarizados
     'ajuda':                material['help'],
     'informação':             material['help'],
-    'opções':               material['help']
+    'opções':               material['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

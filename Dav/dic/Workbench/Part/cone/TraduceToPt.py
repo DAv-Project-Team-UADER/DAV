@@ -18,6 +18,7 @@
 from .cone import cone
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     'cone':             cone['cone'],
@@ -28,5 +29,14 @@ TraduceToPt = {
 
     "ajuda":             cone['help'],
     "informação":       cone['help'],
-    "opções":            cone['help']
+    "opções":            cone['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

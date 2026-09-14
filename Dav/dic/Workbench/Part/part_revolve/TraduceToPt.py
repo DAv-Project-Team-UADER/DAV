@@ -21,6 +21,7 @@
 from .part_revolve import part_revolve
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "revolução": part_revolve["revolve"],
@@ -31,6 +32,15 @@ TraduceToPt = {
 
     "ajuda": part_revolve['help'],
     "informação": part_revolve['help'],
-    "opções": part_revolve['help']
+    "opções": part_revolve['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
 

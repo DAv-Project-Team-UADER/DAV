@@ -21,6 +21,7 @@
 from .part_loft import part_loft
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     "loft": part_loft["loft"],
@@ -32,4 +33,13 @@ TraduceToPt = {
     "ajuda":             ayuda,
     "informação":       ayuda,
     "opções":           ayuda,
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

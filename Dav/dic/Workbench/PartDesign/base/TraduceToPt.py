@@ -18,6 +18,7 @@
 
 from .base import base
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     #Corpo
@@ -45,5 +46,14 @@ TraduceToPt = {
 
     "ajuda":             base["help"],
     "informação":       base["help"],
-    "opções":            base["help"]
+    "opções":            base["help"],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }

@@ -18,6 +18,7 @@
 from .line import line
 
 from .ayuda import ayuda
+from StdView.Panels.Panels import Panels
 
 TraduceToPt = {
     'linha':    line['line'],
@@ -25,5 +26,14 @@ TraduceToPt = {
     
     "ajuda":             line['help'],
     "informação":       line['help'],
-    "opções":            line['help']
+    "opções":            line['help'],
+
+    # comand globals
+    "maximizar": Panels['panel'],
+    "minimizar": Panels['panel'],
+    "reduzir":   Panels['panel'],
+    "aumentar":  Panels['panel'],
+    "diminuir":  Panels['panel'],
+    "fechar":   Panels['panel'],
+    "expandir":  Panels['panel'],
 }
