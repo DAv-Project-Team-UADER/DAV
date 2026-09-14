@@ -29,9 +29,12 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 - **Interfaz Gráfica:** PySide6
 - **Control de Versiones:** Git
 
-## Licencia: GPLV3
 ## Documentación
-## Manual de uso
+
+- [Manual de Usuario (PDF)](manual_PDF/Manual_Usuario.pdf)
+
+## Licencia
+
 Este proyecto se distribuye bajo la licencia **GNU GPL v3**. 
 
 Además, utiliza tecnologías y bibliotecas de terceros bajo distintas licencias open source, incluyendo componentes asociados a FreeCAD, Qt/PySide y Vosk.
