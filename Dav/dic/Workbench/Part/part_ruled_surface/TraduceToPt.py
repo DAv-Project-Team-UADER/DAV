@@ -21,7 +21,7 @@
 from .part_ruled_surface import part_ruled_surface
 
 from .ayuda import ayuda
-from StdView.Panels.Panels import Panels
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 
 TraduceToPt = {
     "superfície regrada": part_ruled_surface["ruled surface"],
@@ -33,13 +33,13 @@ TraduceToPt = {
     "informação": part_ruled_surface['help'],
     "opções": part_ruled_surface['help'],
 
-    # comand globals
-    "maximizar": Panels['panel'],
-    "minimizar": Panels['panel'],
-    "reduzir":   Panels['panel'],
-    "aumentar":  Panels['panel'],
-    "diminuir":  Panels['panel'],
-    "fechar":   Panels['panel'],
-    "expandir":  Panels['panel'],
+    # Panel DAV
+    "minimizar": hide_dav_panel,
+    "reducir":   hide_dav_panel,
+    "diminuir":  hide_dav_panel,
+    "fechar":    hide_dav_panel,
+    "maximizar": show_dav_panel,
+    "aumentar":  show_dav_panel,
+    "expandir":  show_dav_panel,
 }
 

@@ -23,8 +23,8 @@ from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
-from StdView.Panels.Panels import Panels
 
 TraduceToPT = {
     # Explorer / arquivos / pastas
@@ -73,12 +73,12 @@ TraduceToPT = {
     "configuracoes": open_preferences,
     "ajustes":       open_preferences,
 
-    # comand globals
-    "maximizar": Panels['panel'],
-    "minimizar": Panels['panel'],
-    "reduzir":   Panels['panel'],
-    "aumentar":  Panels['panel'],
-    "diminuir":  Panels['panel'],
-    "fechar":   Panels['panel'],
-    "expandir":  Panels['panel'],
+    # Panel DAV
+    "minimizar": hide_dav_panel,
+    "reducir":   hide_dav_panel,
+    "diminuir":  hide_dav_panel,
+    "fechar":    hide_dav_panel,
+    "maximizar": show_dav_panel,
+    "aumentar":  show_dav_panel,
+    "expandir":  show_dav_panel,
 }
