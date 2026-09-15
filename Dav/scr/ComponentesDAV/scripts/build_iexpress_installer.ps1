@@ -64,8 +64,8 @@ function Copy-RelevantSource {
 
     # Copia el repo sin los directorios pesados ni entornos virtuales.
     & robocopy $RepoRoot $Payload /E `
-        /XD .git FREECAD models .venv __pycache__ build Build BUILD dist out `
-        /XF *.pyc *.pyo *.log *.FCBak *.lock `
+        /XD .git FREECAD models .venv __pycache__ build Build BUILD dist out Installer `
+        /XF *.pyc *.pyo *.log *.FCBak *.lock DAV_Installer*.exe DAV_Installer*-Linux `
         /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
     if ($LASTEXITCODE -ge 8) {
         throw "robocopy no pudo copiar el repo (exit $LASTEXITCODE)"
