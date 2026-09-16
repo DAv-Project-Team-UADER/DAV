@@ -36,8 +36,13 @@ TraduceToEs = {
     "directorio":    explorer,
     "directorios":   explorer,
     "mesa de trabajo": Workbench,
+    "mesa": Workbench,
     "banco de trabajo": Workbench,
-    "workbench":   Workbench,
+    "trabajo": Workbench,
+    "banco": Workbench,
+    "taller": Workbench,
+    "herramientas":   Workbench,
+    "crear":   Workbench,
 
     # Line attributes (atributos de linea)
     "atributos de línea": LineAttributes,
