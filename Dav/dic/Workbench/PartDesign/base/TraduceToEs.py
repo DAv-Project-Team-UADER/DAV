@@ -25,7 +25,11 @@ TraduceToEs = {
     "crear cuerpo": base["body"],
     "cuerpo nuevo": base["body"],
     "nuevo cuerpo": base["body"],
-    
+    "objeto": base["body"],
+    "nuevo objeto": base["body"],
+    "body": base["body"],
+    "pieza": base["body"],
+    "nueva pieza": base["body"],
     #Nuevo croquis
     "nuevo croquis": base["newsketch"],
     "crear croquis": base["newsketch"],
