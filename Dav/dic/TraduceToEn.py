@@ -47,6 +47,7 @@ TraduceToEn = {
     "standard view window": StdView,
 
     "workbench":   Workbench,
+    "work":   Workbench,
     "workbenches": Workbench,
     "workbench dialog": Workbench,
     "workbench window": Workbench,
