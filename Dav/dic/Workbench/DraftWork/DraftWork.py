@@ -24,7 +24,7 @@ from .modify.modify import modify
 from .dimension.dimension import dimension
 from .ellipse.ellipse import ellipse
 from .facebinder.facebinder import facebinder
-from .Drafting.drafting import drafting
+from .drafting.drafting import drafting
 from .creation.creation import creation
 from .modification.modification import modification
 from .pointplacement.pointplacement import pointplacement

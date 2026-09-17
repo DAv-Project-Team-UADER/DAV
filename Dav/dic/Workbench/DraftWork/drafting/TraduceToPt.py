@@ -1,4 +1,5 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
+# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,31 +16,27 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .pointplacement import pointplacement
+from .drafting import drafting
 
 TraduceToPt = {
-    "adicionar ponto":     pointplacement["addpoint"],
-    "adicionarponto":     pointplacement["addpoint"],
-    "por ponto":           pointplacement["addpoint"],
-    "pôr ponto":           pointplacement["addpoint"],
+    # Polilinhas (Wire)
+    "polilinha":          drafting["wire"],
+    "desenhar polilinha": drafting["wire"],
+    "traça polilinha":   drafting["wire"],
+    "desenhar linha":     drafting["wire"],
+    "desenhar traço":     drafting["wire"],
+    "traçar polilinha":     drafting["wire"],
+    "arame":                drafting["wire"],
+    "traçar arame":                drafting["wire"],
+    "linha continua":     drafting["wire"],
+    "linha segmentada":     drafting["wire"],
+    "linha quebrada":     drafting["wire"],
+    "linha por partes":              drafting["wire"],
     
-    "ponto no vertice":    pointplacement["pointatvertex"],
-    "ponto no vértice":    pointplacement["pointatvertex"],
-    "pontovértice":        pointplacement["pointatvertex"],
-    
-    "ponto medio":         pointplacement["midpoint"],
-    "ponto médio":         pointplacement["midpoint"],
-    "meio":                pointplacement["midpoint"],
-    
-    "ponto em coordenadas": pointplacement["pointatcoords"],
-    "ponto coordenadas":   pointplacement["pointatcoords"],
-    "pontocoordenadas":    pointplacement["pointatcoords"],
-    
-    "ajuda":               pointplacement["help"],
-    "informacao":          pointplacement["help"],
-    "informação":          pointplacement["help"],
-    "opcoes":              pointplacement["help"],
-    "opções":              pointplacement["help"]
+    # Ajuda
+    "ajuda":             drafting["help"],
+    "informação":       drafting["help"],
+    "opções":            drafting["help"]
 }
 
 from dic.StdView.StandardViews.StandardViews import *

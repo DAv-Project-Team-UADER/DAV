@@ -1,4 +1,5 @@
 # Copyright (C) 2026 El Equipo del Proyecto DAV
+# Copyright (C) 2026 The DAV Project Team
 # Universidad Autónoma de Entre Ríos (UADER)
 # Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
 #
@@ -15,31 +16,19 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .pointplacement import pointplacement
+from .Print import print_cmds
+from .ayuda import ayuda
 
 TraduceToPt = {
-    "adicionar ponto":     pointplacement["addpoint"],
-    "adicionarponto":     pointplacement["addpoint"],
-    "por ponto":           pointplacement["addpoint"],
-    "pôr ponto":           pointplacement["addpoint"],
+    'imprimir': print_cmds['print'],
+    'impressão': print_cmds['print'],
+    'papel':    print_cmds['print'],
+    'folha':    print_cmds['print'],
+    'pdf':      print_cmds['pdf'],
     
-    "ponto no vertice":    pointplacement["pointatvertex"],
-    "ponto no vértice":    pointplacement["pointatvertex"],
-    "pontovértice":        pointplacement["pointatvertex"],
-    
-    "ponto medio":         pointplacement["midpoint"],
-    "ponto médio":         pointplacement["midpoint"],
-    "meio":                pointplacement["midpoint"],
-    
-    "ponto em coordenadas": pointplacement["pointatcoords"],
-    "ponto coordenadas":   pointplacement["pointatcoords"],
-    "pontocoordenadas":    pointplacement["pointatcoords"],
-    
-    "ajuda":               pointplacement["help"],
-    "informacao":          pointplacement["help"],
-    "informação":          pointplacement["help"],
-    "opcoes":              pointplacement["help"],
-    "opções":              pointplacement["help"]
+    "ajuda":     print_cmds['help'],
+    "informação": print_cmds['help'],
+    "opções":    print_cmds['help'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
