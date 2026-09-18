@@ -15,31 +15,50 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .pointplacement import pointplacement
+"""Portuguese spoken-word mapping for Browser navigation commands."""
+
+from .NavActions import NavActions
 
 TraduceToPt = {
-    "adicionar ponto":     pointplacement["addpoint"],
-    "adicionarponto":     pointplacement["addpoint"],
-    "por ponto":           pointplacement["addpoint"],
-    "pôr ponto":           pointplacement["addpoint"],
-    
-    "ponto no vertice":    pointplacement["pointatvertex"],
-    "ponto no vértice":    pointplacement["pointatvertex"],
-    "pontovértice":        pointplacement["pointatvertex"],
-    
-    "ponto medio":         pointplacement["midpoint"],
-    "ponto médio":         pointplacement["midpoint"],
-    "meio":                pointplacement["midpoint"],
-    
-    "ponto em coordenadas": pointplacement["pointatcoords"],
-    "ponto coordenadas":   pointplacement["pointatcoords"],
-    "pontocoordenadas":    pointplacement["pointatcoords"],
-    
-    "ajuda":               pointplacement["help"],
-    "informacao":          pointplacement["help"],
-    "informação":          pointplacement["help"],
-    "opcoes":              pointplacement["help"],
-    "opções":              pointplacement["help"]
+    # Subir um nível na navegação
+    "subir":          NavActions["up"],
+    "voltar":         NavActions["up"],
+    "atras":          NavActions["up"],
+    "atrás":          NavActions["up"],
+    "sair":           NavActions["up"],
+    "regressar":      NavActions["up"],
+    "retroceder":     NavActions["up"],
+
+    # Mostrar o contexto atual
+    "contexto":       NavActions["show_context"],
+    "onde estou":     NavActions["show_context"],
+    "o que posso dizer": NavActions["show_context"],
+    "opcoes disponiveis": NavActions["show_context"],
+    "opções disponíveis": NavActions["show_context"],
+    "mostrar contexto": NavActions["show_context"],
+    "localizacao":    NavActions["show_context"],
+    "localização":    NavActions["show_context"],
+
+    # Confirmar a frase ditada
+    "enviar":         NavActions["send"],
+    "aceitar":        NavActions["send"],
+    "confirmar":      NavActions["send"],
+    "entrar":         NavActions["send"],
+    "ok":             NavActions["send"],
+    "okey":           NavActions["send"],
+    "okay":           NavActions["send"],
+    "pronto":         NavActions["send"],
+    "feito":          NavActions["send"],
+    "sim":            NavActions["send"],
+
+    # Descartar a frase em curso
+    "cancelar":       NavActions["cancel"],
+    "cancelamento":   NavActions["cancel"],
+    "descartar":      NavActions["cancel"],
+    "anular":         NavActions["cancel"],
+    "abortar":        NavActions["cancel"],
+    "nao":            NavActions["cancel"],
+    "não":            NavActions["cancel"],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

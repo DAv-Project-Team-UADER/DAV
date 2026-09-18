@@ -16,16 +16,19 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .ellipse import ellipse
+"""English spoken-word mapping for the Drafting dictionary."""
+
+from .drafting import drafting
 
 TraduceToEn = {
-    "ellipse": ellipse["center"],
-    "center ellipse": ellipse["center"],
-    "oval": ellipse["center"],
-
-    "help": ellipse["help"],
-    "info": ellipse["help"],
-    "options": ellipse["help"],
+    "wire":            drafting['wire'],
+    "polyline":        drafting['wire'],
+    "continuous line": drafting['wire'],
+    "multi line":      drafting['wire'],
+    
+    "help":            drafting['help'],
+    "info":            drafting['help'],
+    "options":         drafting['help']
 }
 
 from dic.StdView.StandardViews.StandardViews import *

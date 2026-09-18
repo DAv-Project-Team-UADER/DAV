@@ -15,23 +15,84 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .Windows import windows
+from .selection import selection
+from .ayuda import ayuda
 
 TraduceToEs = {
-    "cerrar": windows["close"],
-    "cerrar ventana": windows["close"],
+    # next
+    "avanzar": selection["next"],
+    "otro": selection["next"],
+    "otra": selection["next"],
+    "pasar": selection["next"],
+    "siguiente": selection["next"],
+    "siguiente objeto": selection["next"],
+    "objeto siguiente": selection["next"],
+    "siguiente elemento": selection["next"],
+    "seleccionar siguiente": selection["next"],
+    "seleccionar siguiente objeto": selection["next"],
 
-    "cerrar todo": windows["closeall"],
-    "cerrar todas": windows["closeall"],
-    "cerrar todas las ventanas": windows["closeall"],
+    # previous
+    "retroceder": selection["previous"],
+    "volver": selection["previous"],
+    "anterior": selection["previous"],
+    "anterior objeto": selection["previous"],
+    "objeto anterior": selection["previous"],
+    "anterior elemento": selection["previous"],
+    "seleccionar anterior": selection["previous"],
+    "seleccionar anterior objeto": selection["previous"],
 
-    "salir": windows["quit"],
-    "salir del programa": windows["quit"],
-    "abandonar": windows["quit"],
+    # selectall
+    "todos": selection["selectall"],
+    "todo": selection["selectall"],
+    "seleccionar todos": selection["selectall"],
+    "seleccionar todo": selection["selectall"],
+    "seleccionar todos los objetos": selection["selectall"],
 
-    "ayuda": windows["help"],
-    "información": windows["help"],
-    "opciones": windows["help"],
+    # deselectall
+    "nada": selection["deselectall"],
+    "ninguno": selection["deselectall"],
+    "ninguna": selection["deselectall"],
+    "quitar": selection["deselectall"],
+    "quitar todos": selection["deselectall"],
+    "desmarcar": selection["deselectall"],
+    "desmarcar todo": selection["deselectall"],
+    "desmarcar todos": selection["deselectall"],
+    "deseleccionar": selection["deselectall"],
+    "deseleccionar todo": selection["deselectall"],
+    "deseleccionar todos": selection["deselectall"],
+    "limpiar seleccion": selection["deselectall"],
+    "limpiar seleccion": selection["deselectall"],
+
+    # current
+    "cual": selection["current"],
+    "este": selection["current"],
+    "actual": selection["current"],
+    "objeto actual": selection["current"],
+    "que objeto tengo": selection["current"],
+
+    # count
+    "cuantos": selection["count"],
+    "cantidad": selection["count"],
+    "cuantos objetos": selection["count"],
+    "cuantos hay": selection["count"],
+
+    # delete — borrar el objeto actualmente seleccionado (avanzar/anterior + borrar)
+    "borrar": selection["delete"],
+    "borrar objeto": selection["delete"],
+    "borrar elemento": selection["delete"],
+    "borrar seleccion": selection["delete"],
+    "borrar selección": selection["delete"],
+    "eliminar": selection["delete"],
+    "eliminar objeto": selection["delete"],
+    "eliminar elemento": selection["delete"],
+    "eliminar seleccion": selection["delete"],
+    "eliminar selección": selection["delete"],
+    "suprimir": selection["delete"],
+    "suprimir objeto": selection["delete"],
+    "quitar objeto": selection["delete"],
+
+    "ayuda": ayuda,
+    "help": ayuda,
 }
 
 from dic.StdView.StandardViews.StandardViews import *
