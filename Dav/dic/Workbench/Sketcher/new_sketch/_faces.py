@@ -67,8 +67,17 @@ def _resolveSolid(obj):
     return None, None
 
 
-def _findSolid(doc):
-    """Pick the solid to offer faces from: selection, active Body or newest solid."""
+def findSolid(doc):
+    """Pick the solid to work on: selection, active Body or newest solid.
+
+    Args:
+        doc: Active FreeCAD document.
+
+    Returns:
+        ``(support, body)``: the object whose shape holds the solid and its
+        owning Body (None for a solid outside any Body); ``(None, None)`` when
+        the document has no solid.
+    """
     candidates = []
     try:
         import FreeCADGui as Gui
@@ -112,7 +121,7 @@ def listPlanarFaces(doc) -> dict:
     """
     if doc is None:
         return {}
-    support, body = _findSolid(doc)
+    support, body = findSolid(doc)
     if support is None:
         return {}
 

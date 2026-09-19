@@ -58,6 +58,13 @@ TraduceToPt = {
     "espessura por medida":  modify["thickness_by_value"],
     "esvaziar solido":       modify["thickness_by_value"],
 
+    # Gravacao / serigrafia de texto
+    "gravar":                modify["engrave"],
+    "gravar texto":          modify["engrave"],
+    "serigrafar":            modify["engrave"],
+    "texto em relevo":       modify["engrave"],
+    "colocar texto":         modify["engrave"],
+
     # Help
     "ajuda":             modify["help"],
     "informação":       modify["help"],

@@ -53,6 +53,14 @@ TraduceToEn = {
     "thickness by value":    modify["thickness_by_value"],
     "hollow solid":          modify["thickness_by_value"],
 
+    # Text engraving / embossing
+    "engrave":               modify["engrave"],
+    "engrave text":          modify["engrave"],
+    "emboss":                modify["engrave"],
+    "emboss text":           modify["engrave"],
+    "silkscreen":            modify["engrave"],
+    "text relief":           modify["engrave"],
+
     # Help
     "help":            modify['help'],
     "info":            modify['help'],

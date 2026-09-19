@@ -154,6 +154,45 @@ def _discard(doc, feature) -> None:
         pass
 
 
+def _revolveProfile(doc, profile, angle: float):
+    """Revolve profile about its own vertical axis, inside its Body.
+
+    Sin un eje de giro la Revolución queda inválida, así que se usa el eje
+    vertical del boceto (``V_Axis``): el perfil se dibuja a un lado de ese eje,
+    con x como radio e y a lo largo de la pieza.
+
+    Args:
+        doc: Active FreeCAD document.
+        profile: Sketch holding the closed profile.
+        angle: Sweep angle, in degrees (1 to 360).
+
+    Returns:
+        The ``PartDesign::Revolution`` feature, or None when it could not be
+        built (for instance a profile that crosses the axis).
+    """
+    body = _BodyOf(doc, profile)
+    revolution = body.newObject("PartDesign::Revolution", "Revolution")
+    revolution.Profile = profile
+    revolution.ReferenceAxis = (profile, ["V_Axis"])
+    revolution.Angle = angle
+    doc.recompute()
+
+    if not revolution.isValid():
+        _discard(doc, revolution)
+        print(
+            f"[additive] Error: could not revolve '{profile.Name}'. The profile must be "
+            "a closed figure on one side of the sketch's vertical axis."
+        )
+        return None
+    try:
+        profile.Visibility = False
+    except Exception:
+        pass
+    _RegisterObject(revolution)
+    print(f"[additive] Revolved '{profile.Name}' by {angle} degrees")
+    return revolution
+
+
 def _PadProfile(doc, profile, length: float) -> None:
     """Pad profile by length inside its Body and register the result."""
     if profile.GeometryCount == 0:
@@ -252,22 +291,7 @@ def revolve_choose_sketch() -> None:
         print(f"[additive] Error: el boceto '{profile.Name}' está vacío; dibujá una figura primero.")
         return
 
-    body = _BodyOf(doc, profile)
-    revolution = body.newObject("PartDesign::Revolution", "Revolution")
-    revolution.Profile = profile
-    revolution.Angle = angle
-    doc.recompute()
-
-    if not revolution.isValid():
-        _discard(doc, revolution)
-        print(f"[additive] Error: could not revolve '{profile.Name}'.")
-        return
-    try:
-        profile.Visibility = False
-    except Exception:
-        pass
-    _RegisterObject(revolution)
-    print(f"[additive] Revolved '{profile.Name}' by {angle} degrees")
+    _revolveProfile(doc, profile, angle)
 
 
 def box_by_size(length: float, width: float, height: float) -> None:
@@ -363,20 +387,8 @@ def revolve_by_angle(angle: float) -> None:
         print(f"[additive] Error: '{getattr(target, 'Name', target)}' has no usable outline.")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
-    body.addObject(profile)
-
-    revolution = doc.addObject("PartDesign::Revolution", "Revolution")
-    revolution.Profile = profile
-    revolution.Angle = angle
-    body.addObject(revolution)
-
-    if target is not profile:
+    if _revolveProfile(doc, profile, angle) is not None and target is not profile:
         target.Visibility = False
-
-    doc.recompute()
-    _RegisterObject(revolution)
-    print(f"[additive] Revolved '{profile.Name}' by {angle} degrees")
 
 
 def pad_sketch(sketch: object, length: float = 10.0) -> None:

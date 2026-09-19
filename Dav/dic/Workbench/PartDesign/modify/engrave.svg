@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- degradado para el frente de la letra -->
+    <linearGradient id="frontGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fce38a"/>
+      <stop offset="100%" stop-color="#f5c211"/>
+    </linearGradient>
+    <!-- degradado lateral del relieve -->
+    <linearGradient id="sideGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a36a00"/>
+      <stop offset="100%" stop-color="#6e4700"/>
+    </linearGradient>
+  </defs>
+
+  <!-- base -->
+  <ellipse cx="32" cy="54" rx="20" ry="5" fill="#000" opacity="0.15"/>
+
+  <!-- sombra / profundidad - duplicado desplazado para efecto relieve -->
+  <!-- Capa 3D: caras laterales simuladas -->
+  <g opacity="1">
+    <!-- sombra de extrusión -->
+    <text x="35" y="45" font-family="Inter, Arial Black, sans-serif" font-size="32" font-weight="900" text-anchor="middle"
+          fill="#6e4700" stroke="#6e4700" stroke-width="0.8" stroke-linejoin="round">A</text>
+    <text x="34.5" y="44.5" font-family="Inter, Arial Black, sans-serif" font-size="32" font-weight="900" text-anchor="middle"
+          fill="#8c5a00" stroke="#8c5a00" stroke-width="0.8" stroke-linejoin="round">A</text>
+    <text x="34" y="44" font-family="Inter, Arial Black, sans-serif" font-size="32" font-weight="900" text-anchor="middle"
+          fill="#a36a00" stroke="#a36a00" stroke-width="0.8" stroke-linejoin="round">A</text>
+  </g>
+
+  <!-- frente de la letra -->
+  <text x="32" y="42" font-family="Inter, Arial Black, sans-serif" font-size="32" font-weight="900" text-anchor="middle"
+        fill="url(#frontGrad)" stroke="#1f1f1f" stroke-width="1.8" stroke-linejoin="round" paint-order="stroke">A</text>
+
+  <!-- highlight superior para efecto relieve -->
+  <text x="32" y="42" font-family="Inter, Arial Black, sans-serif" font-size="32" font-weight="900" text-anchor="middle"
+        fill="none" stroke="#fff" stroke-width="0.6" stroke-opacity="0.5" stroke-linejoin="round" style="clip-path: inset(0 0 50% 0)">A</text>
+</svg>

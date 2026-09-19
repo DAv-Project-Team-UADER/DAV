@@ -169,3 +169,67 @@ def askPlane():
     if result is None or result.Cancelled or not result.Value:
         return None
     return str(result.Value).upper()
+
+
+def _askWithGrammar(prompt, phrases):
+    """Show prompt with the Vosk grammar narrowed to phrases, then restore it."""
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+    PlaneGrammarSwitcher.ActivateGrammar(phrases)
+    try:
+        return _requestPrompt(prompt)
+    finally:
+        PlaneGrammarSwitcher.RestoreCadGrammar()
+
+
+def askChoice(title: str, message: str, options):
+    """Ask the user to pick one option by voice.
+
+    Args:
+        title: Dialog title.
+        message: What the user has to choose.
+        options: ``(key, label, spokenWords)`` triples; saying one of the
+            spoken words picks the option, or arriba/abajo plus okey.
+
+    Returns:
+        The chosen key, or None when cancelled.
+
+    Example::
+
+        askChoice("Grabar", "Elegí el tipo", [
+            ("emboss", "Relieve", ("relieve",)),
+            ("engrave", "Perforación", ("perforacion", "hundido")),
+        ])
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.ChoiceInputPrompt import ChoiceInputPrompt
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+    prompt = ChoiceInputPrompt(Options=list(options), Title=title, Message=message)
+    phrases = prompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return result.Value
+
+
+def askText(title: str, message: str):
+    """Ask a text spelled letter by letter, with "espacio" between words.
+
+    Args:
+        title: Dialog title.
+        message: What the user has to spell.
+
+    Returns:
+        The text in upper case, or None when cancelled.
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+    from InputPrompts.SpellingInputPrompt import SpellingInputPrompt
+
+    prompt = SpellingInputPrompt(Title=title, Message=message)
+    phrases = SpellingInputPrompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return result.Value

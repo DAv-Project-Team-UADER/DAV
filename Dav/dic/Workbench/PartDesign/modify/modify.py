@@ -1,6 +1,7 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from .engrave import engraveText
 from ._parametric import (
     chamfer_by_size,
     chamfer_by_size_and_angle,
@@ -42,5 +43,6 @@ modify = {
     'chamfer_by_size':           chamfer_by_size,
     'chamfer_by_size_and_angle': chamfer_by_size_and_angle,
     'thickness_by_value':        thickness_by_value,
+    'engrave':                   engraveText,
     'help':      ayuda,
 }

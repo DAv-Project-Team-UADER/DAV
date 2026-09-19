@@ -58,6 +58,14 @@ TraduceToEs = {
     "espesor por medida":    modify["thickness_by_value"],
     "vaciar solido":         modify["thickness_by_value"],
 
+    # Grabado / serigrafia de texto (relieve o perforacion)
+    "grabar":                modify["engrave"],
+    "grabar texto":          modify["engrave"],
+    "serigrafiar":           modify["engrave"],
+    "serigrafia":            modify["engrave"],
+    "texto en relieve":      modify["engrave"],
+    "poner texto":           modify["engrave"],
+
     # Help
     "ayuda":                modify["help"],
     "información":          modify["help"],

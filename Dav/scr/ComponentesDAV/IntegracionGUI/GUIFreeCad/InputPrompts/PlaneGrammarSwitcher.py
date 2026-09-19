@@ -55,19 +55,33 @@ class PlaneGrammarSwitcher:
         return list(_PLANE_PHRASES.get(Language, _PLANE_PHRASES["es"]))
 
     @staticmethod
-    def ActivatePlaneGrammar() -> None:
-        """Restrict the Vosk grammar to the plane-selection words."""
+    def CurrentLanguage() -> str:
+        """Return the configured DAV language ("es"/"en"/"pt"), "es" if unknown."""
         try:
             from core.settings import settings
+
+            return str(settings.language)
+        except Exception:
+            return "es"
+
+    @staticmethod
+    def ActivateGrammar(Phrases: list[str]) -> None:
+        """Restrict the Vosk grammar to ``Phrases`` (used by any restricted prompt)."""
+        try:
             from speech.dav_voice_service import DavVoiceService
 
-            DavVoiceService.get().set_grammar(
-                PlaneGrammarSwitcher.PlanePhrases(settings.language)
-            )
+            DavVoiceService.get().set_grammar(Phrases)
         except Exception:
             # Sin gramática acotada el reconocimiento sigue andando, solo con
             # el vocabulario abierto: se nota, no se derriba el selector.
             pass
+
+    @staticmethod
+    def ActivatePlaneGrammar() -> None:
+        """Restrict the Vosk grammar to the plane-selection words."""
+        PlaneGrammarSwitcher.ActivateGrammar(
+            PlaneGrammarSwitcher.PlanePhrases(PlaneGrammarSwitcher.CurrentLanguage())
+        )
 
     @staticmethod
     def RestoreCadGrammar() -> None:
