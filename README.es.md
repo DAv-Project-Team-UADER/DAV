@@ -29,9 +29,16 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 - **Interfaz Gráfica:** PySide6
 - **Control de Versiones:** Git
 
+## Requerimientos mínimos del sistema 
+
+- **Sistema operativo:** Windows 10 (64-bit) o superior; o cualquier distribución linux de 64 bits (por ejemplo: Ubuntu 20.04)
+-**Procesador**: CPU x86 de 64 bits (Intel Core o AMD Athlon/Ryzen).
+-**Memoria RAM**: 8 GB mínimo 
+-**Almacenamiento:** 2.5 GB de espacio libre en disco.
+
 ## Manual de Usuario
 
-- [Manual de Usuario (PDF)](manual_PDF/Manual_Usuario.pdf)
+- [Manual de Usuario (PDF)](Manual_Usuario.pdf)
 
 ## Licencia
 
