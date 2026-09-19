@@ -25,6 +25,7 @@ elegido del Origin del Body.
 from __future__ import annotations
 
 from ..._display import enterSketcherContext
+from ...Sketcher.new_sketch._faces import attachSketchToFace, listPlanarFaces
 from ...Sketcher.new_sketch.new_sketch import _ask_plane, _unique_sketch_name
 
 # Rol de cada plano en el Origin de un Body de PartDesign.
@@ -67,32 +68,43 @@ def _originPlane(body, plane: str):
 
 
 def _new_sketch_partdesign() -> None:
-    """Ask the user (by voice) for the plane and create the sketch in the Body."""
+    """Ask the user (by voice) for a plane or a face and create the sketch in the Body."""
     import FreeCAD as App
 
-    result = _ask_plane()
+    faces = listPlanarFaces(App.activeDocument())
+    result = _ask_plane(faces)
     if result is None or result.Cancelled or not result.Value:
         print("[DAV] Nuevo boceto cancelado por el usuario.")
         return
 
-    plane = str(result.Value).upper()
+    choice = str(result.Value)
     doc = App.activeDocument()
     if doc is None:
         doc = App.newDocument("SinTítulo")
     if doc is None:
         return
 
-    body = _activeBody(doc)
-    origin_plane = _originPlane(body, plane)
-    if origin_plane is None:
-        print(f"[DAV] No se encontró el plano {plane} en el Body '{body.Name}'.")
-        return
+    if choice in faces:
+        option = faces[choice]
+        # el boceto va en el Body dueño de la cara, no en uno nuevo
+        body = option["body"] or _activeBody(doc)
+        sketch = body.newObject("Sketcher::SketchObject", _unique_sketch_name(doc))
+        attachSketchToFace(sketch, option)
+        where = f"la {option['label'].lower()}"
+    else:
+        plane = choice.upper()
+        body = _activeBody(doc)
+        origin_plane = _originPlane(body, plane)
+        if origin_plane is None:
+            print(f"[DAV] No se encontró el plano {plane} en el Body '{body.Name}'.")
+            return
 
-    sketch = body.newObject("Sketcher::SketchObject", _unique_sketch_name(doc))
-    # FreeCAD 0.21 usa "Support"; 1.x lo renombró a "AttachmentSupport".
-    support = "AttachmentSupport" if hasattr(sketch, "AttachmentSupport") else "Support"
-    setattr(sketch, support, [(origin_plane, "")])
-    sketch.MapMode = "FlatFace"
+        sketch = body.newObject("Sketcher::SketchObject", _unique_sketch_name(doc))
+        # FreeCAD 0.21 usa "Support"; 1.x lo renombró a "AttachmentSupport".
+        support = "AttachmentSupport" if hasattr(sketch, "AttachmentSupport") else "Support"
+        setattr(sketch, support, [(origin_plane, "")])
+        sketch.MapMode = "FlatFace"
+        where = f"el plano {plane}"
     doc.recompute()
 
     # Entrar al modo de edición del boceto recién creado, como hace el nativo.
@@ -103,5 +115,5 @@ def _new_sketch_partdesign() -> None:
     except Exception:
         pass
 
-    print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en el plano {plane} del Body '{body.Name}'.")
+    print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en {where} del Body '{body.Name}'.")
     enterSketcherContext()

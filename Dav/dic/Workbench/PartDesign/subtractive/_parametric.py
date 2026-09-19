@@ -248,6 +248,106 @@ def _finishFeature(doc, feature, profile) -> bool:
     return True
 
 
+def _pendingSketch(doc):
+    """Return the sketch to drill: the selected/active one, else the newest unused one.
+
+    Args:
+        doc: Active FreeCAD document.
+
+    Returns:
+        A ``Sketcher::SketchObject`` with geometry, or None when there is none.
+    """
+    target = _SelectedOrActive(doc)
+    if target is not None and target.isDerivedFrom("Sketcher::SketchObject"):
+        return target
+    for sketch in reversed(doc.Objects):
+        if not sketch.isDerivedFrom("Sketcher::SketchObject") or sketch.GeometryCount == 0:
+            continue
+        # se descartan los que ya alimentan otra operacion (pad, agujero, etc.)
+        used = [o for o in sketch.InList if o.isDerivedFrom("PartDesign::Feature")]
+        if not used:
+            return sketch
+    return None
+
+
+def _bodyOfSketch(doc, sketch):
+    """Return the Body that must receive a feature built on ``sketch``, or None."""
+    body = sketch.getParentGeoFeatureGroup()
+    if body is not None and body.isDerivedFrom("PartDesign::Body"):
+        return body
+    try:
+        body = Gui.activeView().getActiveObject("pdbody")
+    except Exception:
+        body = None
+    if body is None:
+        bodies = [o for o in doc.Objects if o.isDerivedFrom("PartDesign::Body")]
+        body = bodies[-1] if bodies else None
+    if body is not None:
+        body.addObject(sketch)
+    return body
+
+
+def blind_hole_by_size(diameter: float, depth: float) -> None:
+    """Drill a blind (non-through) hole at every circle of the sketch.
+
+    The hole stops at the dictated depth and has a flat bottom. The sketch is
+    the selected one or, failing that, the newest sketch not yet used; its
+    circle centres say where each hole goes. If the hole would point out of
+    the solid, its direction is flipped automatically.
+
+    Args:
+        diameter: Hole diameter, in millimetres.
+        depth: Hole depth, in millimetres.
+
+    Example::
+
+        blind_hole_by_size(4, 2)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if diameter <= 0 or depth <= 0:
+        print("[subtractive] Error: diameter and depth must be greater than zero.")
+        return
+
+    sketch = _pendingSketch(doc)
+    if sketch is None:
+        print("[subtractive] Error: draw the hole centres in a sketch first.")
+        return
+    body = _bodyOfSketch(doc, sketch)
+    if body is None:
+        print("[subtractive] Error: create a solid first; there is nothing to drill.")
+        return
+
+    # el agujero se crea dentro del Body antes de asignarle el perfil: fuera
+    # de un Body, FreeCAD rechaza el perfil con "No base set"
+    hole = body.newObject("PartDesign::Hole", "BlindHole")
+    hole.Profile = sketch
+    # ThreadType 0 = sin rosca. En FreeCAD 1.x DepthType es 0 = Dimension
+    # (usa Depth) y 1 = ThroughAll (lo ignoraria); DrillPoint 0 = fondo plano.
+    hole.ThreadType = 0
+    hole.DepthType = 0
+    hole.DrillPoint = 0
+    hole.Diameter = diameter
+    hole.Depth = depth
+
+    before = body.Shape.Volume
+    doc.recompute()
+    if abs(body.Shape.Volume - before) < 1e-6:
+        # el Hole corta en sentido contrario a la normal del boceto: si no
+        # sacó material, apunta hacia afuera y se invierte
+        hole.Reversed = True
+        doc.recompute()
+    if abs(body.Shape.Volume - before) < 1e-6:
+        print("[subtractive] Warning: the hole removed no material; check the sketch position.")
+        return
+
+    sketch.Visibility = False
+    _RegisterObject(hole)
+    print(f"[subtractive] Drilled a blind hole of diameter {diameter} and depth {depth}")
+
+
 def _profileFor(doc, chosen):
     """Return a sketch for the chosen drawing (converting a loose shape), or None."""
     profile = _ResolveProfile(doc, chosen)

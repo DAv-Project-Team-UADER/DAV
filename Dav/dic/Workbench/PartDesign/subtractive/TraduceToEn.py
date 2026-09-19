@@ -91,6 +91,9 @@ TraduceToEn = {
 
     "hole by size":          subtractive["hole_by_size"],
     "drill by size":         subtractive["hole_by_size"],
+    "blind hole":            subtractive["blind_hole"],
+    "blind hole by size":    subtractive["blind_hole"],
+    "blind drill":           subtractive["blind_hole"],
 
     "groove by angle":       subtractive["groove_by_angle"],
 

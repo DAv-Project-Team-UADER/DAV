@@ -75,9 +75,13 @@ TraduceToEs = {
     "vaciar por medida":     subtractive["pocket_by_length"],
     "hueco por medida":      subtractive["pocket_by_length"],
 
-    "agujero por medidas":   subtractive["hole_by_size"],
+    "pasante":   subtractive["hole_by_size"],
+    "agujero pasante":   subtractive["hole_by_size"],
     "perforar por medidas":  subtractive["hole_by_size"],
     "agujero por diametro":  subtractive["hole_by_size"],
+    "agujero ciego":         subtractive["blind_hole"],
+    "agujero ciego por medidas": subtractive["blind_hole"],
+    "hueco ciego":           subtractive["blind_hole"],
 
     "ranura por angulo":     subtractive["groove_by_angle"],
     "ranurar por angulo":    subtractive["groove_by_angle"],
@@ -222,7 +226,7 @@ TraduceToEs.update ({
     'desde la izquierda':   StandardViews['left'],
     'vista de izquierda':    StandardViews['left'],
     'lado' :                  StandardViews['left'],
-
+    'el otro lado':           StandardViews['right'],
     # rear
     'trasera':              StandardViews['rear'],
     'detras':               StandardViews['rear'],
