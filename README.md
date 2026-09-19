@@ -32,10 +32,10 @@ DAV is currently in an early **MVP** (*Minimum Viable Product*) stage, focusing 
 
 ## Minimum system requirements
 
--**Operating system:** Windows 10 (64-bit) or higher; or any 64-bit Linux distribution (e.g., Ubuntu 20.04)
--**Processor:** 64-bit x86 CPU (Intel Core or AMD Athlon/Ryzen).
--**RAM:** 8 GB minimum
--**Storage:** 2.5 GB of free disk space.
+- **Operating system:** Windows 10 (64-bit) or higher; or any 64-bit Linux distribution (e.g., Ubuntu 20.04)
+- **Processor:** 64-bit x86 CPU (Intel Core or AMD Athlon/Ryzen).
+- **RAM:** 8 GB minimum
+- **Storage:** 2.5 GB of free disk space.
 ## Documentation
 
 - [User Manual (PDF)](User_Manual.pdf)
