@@ -18,6 +18,7 @@ def ayuda():
     print('Comandos disponibles en tools:')
     print('  deleteconstraints - Elimina todas las restricciones | Req: Sketch en edición')
     print('  deletegeometry    - Elimina toda la geometría y restricciones | Req: Sketch en edición')
+    print('  leave             - Cierra el croquis en edición conservando el dibujo ("cerrar croquis")')
     print('  merge             - Une geometría de múltiples bocetos | Req: Al menos dos bocetos seleccionados')
     print('  reorient          - Reorienta el sketch seleccionado a otra cara | Req: Sketch seleccionado')
     print('  removeaxes        - Elimina el alineamiento a los ejes del objeto | Req: Objeto con ejes alineados')

@@ -32,6 +32,11 @@ TraduceToPt = {
     "apagar geometria": tools['deletegeometry'],
     "limpar geometria": tools['deletegeometry'],
     "apagar esboco": tools['deletegeometry'],
+    "fechar esboço": tools['leave'],
+    "fechar croqui": tools['leave'],
+    "sair do croqui": tools['leave'],
+    "terminar croqui": tools['leave'],
+    "finalizar croqui": tools['leave'],
     
     # Mesclar e sinônimos
     "mesclar": tools['merge'],

@@ -56,6 +56,10 @@ TraduceToEn = {
     "new":                    geometry["new"],
     "new sketch":             geometry["new"],
     "create sketch":          geometry["new"],
+    "close sketch":           geometry["leave"],
+    "leave sketch":           geometry["leave"],
+    "exit sketch":            geometry["leave"],
+    "finish sketch":          geometry["leave"],
 
     "edit":                   geometry["edit"],
     "edit sketch":            geometry["edit"],

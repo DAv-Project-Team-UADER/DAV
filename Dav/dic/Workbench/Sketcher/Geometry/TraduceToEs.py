@@ -66,6 +66,13 @@ TraduceToEs = {
     "nuevo":              geometry["new"],
     "nuevo croquis":      geometry["new"],
     "crear croquis":      geometry["new"],
+    "cerrar croquis":     geometry["leave"],
+    "cerrar boceto":      geometry["leave"],
+    "salir del croquis":  geometry["leave"],
+    "salir del boceto":   geometry["leave"],
+    "terminar croquis":   geometry["leave"],
+    "terminar boceto":    geometry["leave"],
+    "finalizar croquis":  geometry["leave"],
 
     "editar":             geometry["edit"],
     "editar croquis":     geometry["edit"],

@@ -98,6 +98,14 @@ TraduceToEs = {
     "alternar cuadrícula": sketcher["grid"],
     "mostrar cuadrícula": sketcher["grid"],
 
+    "cerrar croquis": sketcher["leave"],
+    "cerrar boceto": sketcher["leave"],
+    "salir del croquis": sketcher["leave"],
+    "salir del boceto": sketcher["leave"],
+    "terminar croquis": sketcher["leave"],
+    "terminar boceto": sketcher["leave"],
+    "finalizar croquis": sketcher["leave"],
+
     "cancelar edición": sketcher["cancelediting"],
    "detener edición": sketcher["cancelediting"],
    "cancelar": sketcher["cancelediting"],

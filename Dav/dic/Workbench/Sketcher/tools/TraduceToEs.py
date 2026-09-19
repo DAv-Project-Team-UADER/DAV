@@ -32,6 +32,15 @@ TraduceToEs = {
     "borrar geometria": tools['deletegeometry'],
     "limpiar geometria": tools['deletegeometry'],
     "borrar croquis": tools['deletegeometry'],
+    # "cerrar croquis" se parece a "borrar croquis": se registra acá para que
+    # la coincidencia exacta gane y nunca se confunda con borrar todo
+    "cerrar croquis": tools['leave'],
+    "cerrar boceto": tools['leave'],
+    "salir del croquis": tools['leave'],
+    "salir del boceto": tools['leave'],
+    "terminar croquis": tools['leave'],
+    "terminar boceto": tools['leave'],
+    "finalizar croquis": tools['leave'],
     "limpiar croquis": tools['deletegeometry'],
     
     # Fusionar y sinónimos

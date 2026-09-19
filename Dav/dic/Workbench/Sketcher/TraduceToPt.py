@@ -100,6 +100,12 @@ TraduceToPt = {
     "alternar grade": sketcher["grid"],
     "mostrar grade": sketcher["grid"],
 
+    "fechar croqui": sketcher["leave"],
+    "fechar esboço": sketcher["leave"],
+    "sair do croqui": sketcher["leave"],
+    "terminar croqui": sketcher["leave"],
+    "finalizar croqui": sketcher["leave"],
+
     "cancelaredit": sketcher["cancelediting"],
    "cancelar edição": sketcher["cancelediting"],
    "parar edição": sketcher["cancelediting"],

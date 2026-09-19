@@ -95,6 +95,11 @@ TraduceToEn = {
     "toggle grid": sketcher["grid"],
     "show grid": sketcher["grid"],
 
+    "close sketch": sketcher["leave"],
+    "leave sketch": sketcher["leave"],
+    "exit sketch": sketcher["leave"],
+    "finish sketch": sketcher["leave"],
+
     "cancelediting": sketcher["cancelediting"],
     "cancel editing": sketcher["cancelediting"],
     "stop editing": sketcher["cancelediting"],

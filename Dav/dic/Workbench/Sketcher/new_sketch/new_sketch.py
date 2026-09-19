@@ -115,6 +115,36 @@ def _new_sketch() -> None:
     print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en {where}.")
 
 
+def _leave_sketch() -> None:
+    """Close the sketch being edited, keeping its drawing.
+
+    Runs FreeCAD's own "Leave Sketch", which also stops a drawing tool that is
+    still active. When the sketch belongs to a PartDesign Body, the voice goes
+    back to PartDesign so the next step (extrude, revolve, drill...) is at hand.
+
+    Example::
+
+        _leave_sketch()
+    """
+    import FreeCADGui as Gui
+
+    gui_doc = getattr(Gui, "ActiveDocument", None)
+    in_edit = gui_doc.getInEdit() if gui_doc is not None else None
+    sketch = getattr(in_edit, "Object", None)
+    if sketch is None or not sketch.isDerivedFrom("Sketcher::SketchObject"):
+        print("[DAV] No hay ningún croquis abierto para cerrar.")
+        return
+
+    Gui.runCommand("Sketcher_LeaveSketch", 0)
+    print(f"[DAV] Croquis '{sketch.Name}' cerrado.")
+
+    body = sketch.getParentGeoFeatureGroup()
+    if body is not None and body.isDerivedFrom("PartDesign::Body"):
+        from ..._display import enterPartDesignContext
+
+        enterPartDesignContext()
+
+
 def _ask_plane(faces: dict | None = None):
     """Show the DAV plane selector, route voice to it and acotar la gramática.
 

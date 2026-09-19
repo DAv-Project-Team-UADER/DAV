@@ -42,6 +42,7 @@ def ayuda():
     print('  constraints   - Subconjunto para restricciones dimensionales.')
 
     print('  new           - Crea un nuevo sketch.')
+    print('  leave         - Cierra el croquis en edición conservando el dibujo ("cerrar croquis").')
     print('  edit          - Edita el sketch seleccionado.')
     print('  attach        - Adjunta o mapea el sketch seleccionado.')
     print('  grid          - Alterna la grilla del Sketcher.')

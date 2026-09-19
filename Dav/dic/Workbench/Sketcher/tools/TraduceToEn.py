@@ -34,6 +34,10 @@ TraduceToEn = {
     "delete geometry": tools['deletegeometry'],
     "clear geometry": tools['deletegeometry'],
     "clear sketch": tools['deletegeometry'],
+    "close sketch": tools['leave'],
+    "leave sketch": tools['leave'],
+    "exit sketch": tools['leave'],
+    "finish sketch": tools['leave'],
     "erase sketch": tools['deletegeometry'],
     
     # Merge & synonyms

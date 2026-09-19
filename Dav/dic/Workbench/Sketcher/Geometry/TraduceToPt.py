@@ -59,6 +59,11 @@ TraduceToPt = {
     "novo":                   geometry["new"],
     "novo esboço":            geometry["new"],
     "criar esboço":           geometry["new"],
+    "fechar esboço":          geometry["leave"],
+    "fechar croqui":          geometry["leave"],
+    "sair do croqui":         geometry["leave"],
+    "terminar croqui":        geometry["leave"],
+    "finalizar croqui":       geometry["leave"],
 
     "editar":                 geometry["edit"],
     "editar esboço":          geometry["edit"],
