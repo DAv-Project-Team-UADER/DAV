@@ -13,6 +13,9 @@ pruebas de los comandos de PartDesign que ya existían ver
 > adelante hay que **deletrear** (`dos cinco cero` = 250). Palabras como
 > «doscientos cincuenta» **no** dan error: se leen como `50`. Detalle en
 > [numeros-por-voz-limites-y-propuesta.md](numeros-por-voz-limites-y-propuesta.md).
+>
+> **Confirmar:** cada número se dice y, **en otra frase**, `okey`. Una sola frase
+> como «veinte okey» **no** se acepta (se comprobó con `FloatInputPrompt`).
 
 ---
 
@@ -183,6 +186,11 @@ flowchart TD
     J -->|no| L["Pocket"]
 ```
 
+Un diagrama por clase, con sus notas de diseño, en
+[`diagramas/`](diagramas/README.md): [`SpellingInputPrompt`](diagramas/SpellingInputPrompt.md),
+[`ChoiceInputPrompt`](diagramas/ChoiceInputPrompt.md) y
+[`PlaneSelectionInputPrompt`](diagramas/PlaneSelectionInputPrompt.md).
+
 ```mermaid
 classDiagram
     class BaseInputPrompt {
@@ -272,54 +280,103 @@ con tests en `tests/test_dav_dock_panel.py`.
 
 ---
 
-## 6. Ejemplo completo: una maza
+## 6. Ejemplo completo: una maza, palabra por palabra
 
-Una maza es cabeza + mango: un **sólido de revolución**. Las medidas de abajo son
-**de ejemplo** (mango Ø20 × 250 mm, cabeza Ø50 × 60 mm). **La norma DIN 6475 no
-está en el repositorio**, así que hay que reemplazarlas por las de su tabla.
+Una maza es cabeza + mango: un **sólido de revolución**. Las medidas son **de
+ejemplo** (mango Ø20 × 250 mm, cabeza Ø50 × 60 mm). **La norma DIN 6475 no está
+en el repositorio**: hay que reemplazarlas por las de su tabla.
 
-**1. Preparar**
+Cómo leer las tablas: cada casilla `así` es **una frase** que decís y esperás a que
+aparezca en el panel. Los números y `okey` van siempre en frases separadas.
 
-```
-explorador → archivo → nuevo
-banco de trabajo → diseño de pieza → base → nuevo croquis → plano XZ → okey
-```
+### A. Documento nuevo
 
-El cuerpo se crea solo. Quedás dentro del croquis.
+| # | Decí | Qué pasa |
+|---|---|---|
+| 1 | `explorador` | contexto Base > explorer |
+| 2 | `archivo` | contexto explorer > file |
+| 3 | `nuevo` | documento nuevo |
 
-**2. Dibujar el perfil** — `geometria` → `linea` → **`linea por puntos`**, seis
-veces (x1, y1, x2, y2). En el croquis, x es el radio e y la altura:
+### B. Abrir el croquis en el plano XZ
 
-| Línea | x1 | y1 | x2 | y2 |
-|---|---|---|---|---|
-| 1. fondo del mango | `cero` | `cero` | `diez` | `cero` |
-| 2. lado del mango | `diez` | `cero` | `diez` | `dos cinco cero` |
-| 3. escalón | `diez` | `dos cinco cero` | `veinticinco` | `dos cinco cero` |
-| 4. lado de la cabeza | `veinticinco` | `dos cinco cero` | `veinticinco` | `tres uno cero` |
-| 5. tope de la cabeza | `veinticinco` | `tres uno cero` | `cero` | `tres uno cero` |
-| 6. sobre el eje | `cero` | `tres uno cero` | `cero` | `cero` |
+| # | Decí | Qué pasa |
+|---|---|---|
+| 4 | `banco de trabajo` | contexto workbench |
+| 5 | `diseño de pieza` | contexto partdesign |
+| 6 | `base` | contexto base |
+| 7 | `nuevo croquis` | aparece el selector, resaltando **XY** |
+| 8 | `abajo` | pasa a **XZ** |
+| 9 | `okey` | se crea el cuerpo y el croquis; queda abierto y la voz pasa al contexto sketcher |
 
-**3. Cerrar el croquis:** **`cerrar croquis`**.
+### C. Dibujar el perfil (6 líneas)
 
-**4. Girar**
+Primero, una sola vez:
 
-```
-diseño de pieza → agregar → transformar → (avanzar hasta el croquis) okey → tres seis cero
-```
+| # | Decí | Qué pasa |
+|---|---|---|
+| 10 | `geometria` | contexto geometry |
+| 11 | `linea` | contexto line |
 
-`tres seis cero` = 360°.
+Después, **para cada línea** decís `linea por puntos` y contestás los cuatro
+valores que pide, en orden **x1, y1, x2, y2**. En el croquis, x es el radio e y la
+altura sobre el eje. Cada casilla es una frase:
 
-**5. Opcional: marcar la norma en la base**
+| Línea | Empezá con | x1 | y1 | x2 | y2 |
+|---|---|---|---|---|---|
+| 1. fondo del mango | `linea por puntos` | `cero` `okey` | `cero` `okey` | `diez` `okey` | `cero` `okey` |
+| 2. lado del mango | `linea por puntos` | `diez` `okey` | `cero` `okey` | `diez` `okey` | `dos cinco cero` `okey` |
+| 3. escalón | `linea por puntos` | `diez` `okey` | `dos cinco cero` `okey` | `veinticinco` `okey` | `dos cinco cero` `okey` |
+| 4. lado de la cabeza | `linea por puntos` | `veinticinco` `okey` | `dos cinco cero` `okey` | `veinticinco` `okey` | `tres uno cero` `okey` |
+| 5. tope de la cabeza | `linea por puntos` | `veinticinco` `okey` | `tres uno cero` `okey` | `cero` `okey` | `tres uno cero` `okey` |
+| 6. sobre el eje | `linea por puntos` | `cero` `okey` | `tres uno cero` `okey` | `cero` `okey` | `cero` `okey` |
 
-```
-editar → grabar → Cara inferior → okey → relieve → d i n espacio seis cuatro siete cinco → okey → cinco → uno
-```
+Los números de tres cifras se deletrean: `dos cinco cero` = 250 y `tres uno cero` =
+310. Después de las seis líneas queda un contorno cerrado: mango + cabeza, y el
+eje como lado izquierdo.
 
-(altura de letra 5 mm, relieve de 1 mm).
+### D. Cerrar el croquis y girar
+
+| # | Decí | Qué pasa |
+|---|---|---|
+| 12 | `cerrar croquis` | se cierra el croquis; la voz queda en geometry |
+| 13 | `banco de trabajo` | contexto workbench |
+| 14 | `diseño de pieza` | contexto partdesign |
+| 15 | `agregar` | contexto additive |
+| 16 | `transformar` | aparece «Elegí el dibujo»; si el croquis mostrado no es el tuyo, decí `avanzar` |
+| 17 | `okey` | elige el croquis |
+| 18 | `tres seis cero` | ángulo: 360 |
+| 19 | `okey` | se crea la maza |
+
+Resultado esperado: un sólido de **310 mm de alto y 50 mm de ancho**, con el eje
+en Z.
+
+### E. Opcional: grabar la norma en la cabeza
+
+| # | Decí | Qué pasa |
+|---|---|---|
+| 20 | `subir` | vuelve al contexto partdesign |
+| 21 | `editar` | contexto modify |
+| 22 | `grabar` | aparece el selector, resaltando **XY** |
+| 23 | `abajo` `abajo` `abajo` | XZ, YZ y luego **Cara superior**, la tapa de la cabeza |
+| 24 | `okey` | elige esa cara |
+| 25 | `relieve` | elige el tipo (queda elegido sin `okey`) |
+| 26 | `de` `i` `ene` `espacio` `seis` `cuatro` `siete` `cinco` | el panel muestra `DIN 6475_` |
+| 27 | `okey` | termina el texto |
+| 28 | `cinco` `okey` | altura de las letras: 5 mm |
+| 29 | `uno` `okey` | relieve: 1 mm |
+
+El texto ocupa unos **27 mm** de ancho, dentro de los 50 de la tapa. Las letras se
+pueden decir juntas en una frase (`de i ene`) o de a una.
 
 Alternativa sin revolución, con los comandos que ya existían: extruir un círculo
 de radio 25 por 60 y, en un croquis sobre la **Cara superior**, un círculo de
 radio 10 extruido 250. Da el mismo sólido.
+
+> **Sin verificar en la ventana de FreeCAD:** que cada `linea por puntos` dibuje
+> **dentro** del croquis abierto (el comando lo toma del objeto activo; si en
+> cambio aparecen líneas sueltas en el árbol, es ahí donde falla), y las frases de
+> navegación por contexto. El modelado en sí (giro de 360° y grabado) se comprobó
+> por completo: ver la tabla siguiente.
 
 ---
 
@@ -337,6 +394,7 @@ funciones reales del diccionario y, cuando hacía falta, al `Browser` real con
 | Deletreo: `hache o ele a` → HOLA, `d a v espacio uno dos` → DAV 12, `borrar`, `okey`, `cancelar` | Correcto |
 | Perfil de maza girado 360° / 180° | 196 349,5 mm³ / 98 174,8 mm³, iguales al cálculo |
 | Perfil que cruza el eje | Error claro, sin objetos rotos |
+| Maza completa: croquis XZ en un Body → `transformar` 360° → grabar `DIN 6475` en la Cara superior | 196 349,5 mm³ y 310 × 50 mm; el grabado suma 57,7 mm³ (311 mm de alto), un solo sólido válido; la Cara superior es la primera cara del selector |
 | «cerrar croquis» en los 29 contextos del Sketcher | En los 29 llama a `Sketcher_LeaveSketch` |
 | Botones de vistas por contexto (Browser y diccionario reales) | 0 en workbench/part/partdesign/sketcher, todos en stdview |
 | Tests del panel y del Browser (`unittest`) | Pasan |
@@ -381,8 +439,10 @@ Problemas que aparecieron y **siguen abiertos** (no se tocaron):
 7. **Texto grabado sobre superficies curvas:** queda plano (ver la sección 3).
 8. **Números ≥ 100** hay que deletrearlos; las palabras compuestas se leen mal en
    silencio (`doscientos cincuenta` → 50).
-9. **Documentación:** falta el archivo de `SpellingInputPrompt` y
-   `ChoiceInputPrompt` en `docs/diagramas/`.
+9. **Guía de pruebas con un dato dudoso.** `guia-pruebas-partdesign-voz.md` dice
+   `veinte enter` en una sola frase, pero `FloatInputPrompt` la deja pendiente: el
+   número y la confirmación tienen que ir en frases separadas. Conviene revisar
+   esa guía en una prueba con voz real.
 
 ### Al subir estos cambios a git
 

@@ -26,6 +26,16 @@ firma de los métodos.
 Cómo se acota la gramática al contexto:
 [`acortador-gramatica-vosk.md`](../acortador-gramatica-vosk.md).
 
+## Diálogos de voz (InputPrompts)
+
+| Clase | Rol |
+| --- | --- |
+| [`PlaneSelectionInputPrompt`](PlaneSelectionInputPrompt.md) | Elige el plano o la cara donde dibujar un croquis |
+| [`ChoiceInputPrompt`](ChoiceInputPrompt.md) | Elige una opción entre pocas (p. ej. relieve o perforación) |
+| [`SpellingInputPrompt`](SpellingInputPrompt.md) | Arma un texto letra por letra |
+
+Uso completo: [`manual-croquis-y-grabado-voz.md`](../manual-croquis-y-grabado-voz.md).
+
 ## Interfaz y configuración
 
 | Clase | Rol |
