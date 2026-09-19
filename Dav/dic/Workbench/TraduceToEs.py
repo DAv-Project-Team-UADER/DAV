@@ -146,6 +146,11 @@ TraduceToEs.update ({
     'isométrica':           StandardViews['isometric'],
     'vista isometrica':     StandardViews['isometric'],
     'vista isométrica':     StandardViews['isometric'],
+    'tres de':              StandardViews['isometric'],
+    'profundidad':          StandardViews['isometric'],
+    'vista de tres de':      StandardViews['isometric'],
+    'vista de profundidad':  StandardViews['isometric'],
+    'proyectar':             StandardViews['isometric'],
 
     # left
     'izquierda':            StandardViews['left'],
@@ -153,6 +158,8 @@ TraduceToEs.update ({
     'vista izquierda':      StandardViews['left'],
     'lateral izquierdo':    StandardViews['left'],
     'desde la izquierda':   StandardViews['left'],
+    'vista de izquierda':    StandardViews['left'],
+    'lado' :                  StandardViews['left'],
 
     # rear
     'trasera':              StandardViews['rear'],

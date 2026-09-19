@@ -22,6 +22,9 @@ from __future__ import annotations
 import FreeCAD as App
 import FreeCADGui as Gui
 
+from .._prompts import askNumber, askSketch
+from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
+
 
 def _RegisterObject(Feature) -> None:
     """Register a created feature in the DAV navigable object tree."""
@@ -52,12 +55,11 @@ def _SketchFromShape(Doc, Source, Name: str):
         return None
 
     sketch = Doc.addObject("Sketcher::SketchObject", Name)
-    for edge in shape.Edges:
-        try:
-            sketch.addGeometry(edge.Curve, False)
-        except Exception as error:
-            # una arista no convertible no invalida el resto del perfil
-            print(f"[additive] Skipped an edge while building the sketch: {error}")
+    geometry = shapeToSketchGeometry(shape)
+    if not geometry:
+        Doc.removeObject(sketch.Name)
+        return None
+    sketch.addGeometry(geometry, False)
     return sketch
 
 
@@ -117,21 +119,153 @@ def pad_by_length(length: float) -> None:
         print(f"[additive] Error: '{getattr(target, 'Name', target)}' has no usable outline.")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
-    body.addObject(profile)
-
-    pad = doc.addObject("PartDesign::Pad", "Pad")
-    pad.Profile = profile
-    pad.Length = length
-    body.addObject(pad)
-
     # el perfil plano ya no aporta nada visual una vez que hay solido
     if target is not profile:
         target.Visibility = False
 
+    _PadProfile(doc, profile, length)
+
+
+def _BodyOf(doc, profile):
+    """Return the Body that owns profile, else the active Body, else a new one."""
+    body = profile.getParentGeoFeatureGroup()
+    if body is not None and body.isDerivedFrom("PartDesign::Body"):
+        return body
+    try:
+        import FreeCADGui as Gui
+
+        body = Gui.activeView().getActiveObject("pdbody")
+    except Exception:
+        body = None
+    if body is None:
+        body = doc.addObject("PartDesign::Body", "Body")
+    body.addObject(profile)
+    return body
+
+
+def _discard(doc, feature) -> None:
+    """Remove a feature that failed to compute, so it does not break the model."""
+    try:
+        doc.removeObject(feature.Name)
+        doc.recompute()
+    except Exception:
+        pass
+
+
+def _PadProfile(doc, profile, length: float) -> None:
+    """Pad profile by length inside its Body and register the result."""
+    if profile.GeometryCount == 0:
+        print(f"[additive] Error: el boceto '{profile.Name}' está vacío; dibujá una figura cerrada primero.")
+        return
+    body = _BodyOf(doc, profile)
+
+    pad = body.newObject("PartDesign::Pad", "Pad")
+    pad.Profile = profile
+    pad.Length = length
     doc.recompute()
+
+    if not pad.isValid():
+        _discard(doc, pad)
+        print(f"[additive] Error: could not pad '{profile.Name}' (is the sketch a closed profile?).")
+        return
+
+    try:
+        profile.Visibility = False
+    except Exception:
+        pass
     _RegisterObject(pad)
     print(f"[additive] Padded '{profile.Name}' by {length}")
+
+
+def pad_choose_sketch() -> None:
+    """Extrude a sketch chosen by voice among the existing ones.
+
+    Opens the DAV object selector restricted to sketches (say "next" to move
+    to the following one, "okey" to pick it), then asks the height and pads
+    the sketch inside its Body. No native FreeCAD dialog is involved.
+
+    Example::
+
+        pad_choose_sketch()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+
+    sketch = askSketch(doc, "Extruir")
+    if sketch is None:
+        print("[additive] Extrusion cancelled.")
+        return
+
+    length = askNumber("Extruir", "Decí la altura de extrusión en mm")
+    if length is None:
+        print("[additive] Extrusion cancelled.")
+        return
+    if length <= 0:
+        print(f"[additive] Error: length must be greater than zero (got {length}).")
+        return
+
+    profile = _ResolveProfile(doc, sketch)
+    if profile is None:
+        print(f"[additive] Error: '{sketch.Name}' has no usable outline.")
+        return
+    if profile is not sketch:
+        sketch.Visibility = False
+    _PadProfile(doc, profile, length)
+
+
+def revolve_choose_sketch() -> None:
+    """Revolve a sketch chosen by voice among the existing ones.
+
+    Example::
+
+        revolve_choose_sketch()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+
+    sketch = askSketch(doc, "Revolución")
+    if sketch is None:
+        print("[additive] Revolution cancelled.")
+        return
+
+    angle = askNumber("Revolución", "Decí el ángulo de giro en grados (1 a 360)")
+    if angle is None:
+        print("[additive] Revolution cancelled.")
+        return
+    if angle <= 0 or angle > 360:
+        print(f"[additive] Error: angle must be between 0 and 360 (got {angle}).")
+        return
+
+    profile = _ResolveProfile(doc, sketch)
+    if profile is None:
+        print(f"[additive] Error: '{sketch.Name}' has no usable outline.")
+        return
+    if profile is not sketch:
+        sketch.Visibility = False
+    if profile.GeometryCount == 0:
+        print(f"[additive] Error: el boceto '{profile.Name}' está vacío; dibujá una figura primero.")
+        return
+
+    body = _BodyOf(doc, profile)
+    revolution = body.newObject("PartDesign::Revolution", "Revolution")
+    revolution.Profile = profile
+    revolution.Angle = angle
+    doc.recompute()
+
+    if not revolution.isValid():
+        _discard(doc, revolution)
+        print(f"[additive] Error: could not revolve '{profile.Name}'.")
+        return
+    try:
+        profile.Visibility = False
+    except Exception:
+        pass
+    _RegisterObject(revolution)
+    print(f"[additive] Revolved '{profile.Name}' by {angle} degrees")
 
 
 def box_by_size(length: float, width: float, height: float) -> None:

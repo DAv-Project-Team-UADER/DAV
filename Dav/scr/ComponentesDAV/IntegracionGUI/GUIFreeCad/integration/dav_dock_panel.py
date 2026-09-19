@@ -399,6 +399,15 @@ def _install_selection_observer(source) -> None:
     _selection_observer = observer
 
 
+def _install_estilo() -> None:
+    """Instala el estilo visual DAV; un fallo aca no debe tumbar el panel."""
+    try:
+        from integration.EstiloDav import instalarEstiloDav
+        instalarEstiloDav()
+    except Exception as exc:  # noqa: BLE001
+        print(f"[DAV] Estilo visual no disponible: {exc}")
+
+
 def install_dock_panel(browser, adapter):
     """Create the DAV dock inside FreeCAD and wire it to the Browser.
 
@@ -438,6 +447,7 @@ def install_dock_panel(browser, adapter):
         source.PublishTree()
         _install_tree_observer(source)
         _install_selection_observer(source)
+        _install_estilo()
         source.PublishSelection()
         existing.show()
         existing.raise_()
@@ -474,6 +484,7 @@ def install_dock_panel(browser, adapter):
     _wire_dock_toggle(dock, panel)
     _install_tree_observer(source)
     _install_selection_observer(source)
+    _install_estilo()
     source.PublishSelection()
     dock.show()
     dock.raise_()
