@@ -298,11 +298,11 @@ class Browser:
             if entry is not None:
                 if entry.IsSubContext():
                     if self._DescendToSubContext(entry):
-                        return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
-                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                        return BrowserResult(True, "descend", f"Context set to {self._ActionLabel(entry)}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)
-                    return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
+                    return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
 
         # Requirement 2 (Developer 2): direct jump for BaseContext commands
         base_hit = self._ResolveBaseJump(normalized)
@@ -311,18 +311,18 @@ class Browser:
             return BrowserResult(
                 True,
                 "base_jump",
-                f"Context set to {base_hit.InternalKey}",
+                f"Context set to {self._ActionLabel(base_hit)}",
             )
 
         entry, _is_fuzzy = self._FindWithFallback(self.Context, normalized)
         if entry is not None:
             if entry.IsSubContext():
                 if self._DescendToSubContext(entry):
-                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
-                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                    return BrowserResult(True, "descend", f"Context set to {self._ActionLabel(entry)}")
+                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
             if entry.IsCallable():
                 self._ExecuteEntry(entry)
-                return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
+                return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
 
         return self._SearchUpwardAndExecute(normalized)
 
@@ -476,13 +476,65 @@ class Browser:
     #: llamando al privado, como venia haciendo BrowserVoiceAdapter.
     IsSameTarget = _SameTarget
 
+    #: Etiquetas en español para el log cuando InternalKey es la clave canónica
+    #: en inglés de StandardViews (p. ej. iso → isometric → «isometrica»).
+    _STANDARD_VIEW_LABEL_ES: dict[str, str] = {
+        "bottom": "abajo",
+        "boxzoom": "zoom caja",
+        "newview": "nueva vista",
+        "dimetric": "dimetrica",
+        "fitall": "ajustar todo",
+        "fitselection": "ajustar seleccion",
+        "front": "frontal",
+        "fullscreen": "pantalla completa",
+        "home": "inicio",
+        "isometric": "isometrica",
+        "left": "izquierda",
+        "rear": "trasera",
+        "right": "derecha",
+        "top": "arriba",
+        "trimetric": "trimetrica",
+        "zoomin": "acercar",
+        "zoomout": "alejar",
+    }
+
+    def _ActionLabel(self, entry: ContextEntry) -> str:
+        """Human-readable action name for history / BrowserResult messages."""
+        return self._STANDARD_VIEW_LABEL_ES.get(entry.InternalKey, entry.InternalKey)
+
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
     ) -> str:
         for key, value in module_dict.items():
             if value is target:
                 return key
+        # Comandos de StandardViews propagados a otros contextos (Lista 3/4):
+        # el TraduceTo apunta al callable de StandardViews, pero ModuleDict es
+        # el del submenú actual (camera, features, ...). Sin este fallback,
+        # InternalKey queda en el sinónimo hablado ("iso") en vez de la clave
+        # canónica ("isometric") — y el log/ícono muestran mal la acción.
+        views = self._LoadStandardViewsDict()
+        if views:
+            for key, value in views.items():
+                if value is target:
+                    return key
         return spoken
+
+    @staticmethod
+    def _LoadStandardViewsDict() -> dict[str, Any] | None:
+        """Load StandardViews using the same import paths as TraduceTo updates."""
+        for module_name in (
+            "dic.StdView.StandardViews.StandardViews",
+            "StdView.StandardViews.StandardViews",
+        ):
+            try:
+                mod = __import__(module_name, fromlist=["StandardViews"])
+                table = getattr(mod, "StandardViews", None)
+                if isinstance(table, dict):
+                    return table
+            except Exception:
+                continue
+        return None
 
     def _ResolveBaseJump(self, normalized_spoken: str) -> ContextEntry | None:
         """Return a BaseContext entry if the spoken word maps to a base command."""
@@ -563,15 +615,15 @@ class Browser:
                     self.Context = parent_context
                     self.OriginalContext = parent_context
                     self._NotifyContextChanged()
-                    return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
+                    return BrowserResult(True, "execute", f"Ascending: executed {self._ActionLabel(entry)}")
                 elif entry.IsSubContext():
                     self._stack = temp_stack
                     self.Context = parent_context
                     descended = self._DescendToSubContext(entry)
                     self.OriginalContext = self.Context
                     if descended:
-                        return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
-                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                        return BrowserResult(True, "descend", f"Ascending: descended into {self._ActionLabel(entry)}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
         
         self.Context = self.OriginalContext
         return BrowserResult(False, "not_found", "Command not found in upward search")
