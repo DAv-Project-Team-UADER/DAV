@@ -33,6 +33,8 @@ TraduceToEn = {
     "options": hatching["help"],
 }
 
+    
+
 from dic.StdView.StandardViews.StandardViews import *
 
 TraduceToEn.update ({
@@ -109,8 +111,4 @@ TraduceToEn.update ({
     'full screen': StandardViews['fullscreen'],
     'full screenmode': StandardViews['fullscreen'],
 
-    # Help
-    "help":            StandardViews['help'],
-    "info":            StandardViews['help'],
-    "options":         StandardViews['help']
 })

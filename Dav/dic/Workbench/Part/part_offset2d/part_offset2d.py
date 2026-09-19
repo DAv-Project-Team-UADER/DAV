@@ -1,35 +1,33 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askNumber, askSketch
 from .ayuda import ayuda
 
 
-def _offset2d():
-    """Apply a 2D offset of 1.0 mm to the selected wire or face."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _offset2d() -> None:
+    """Offset a closed drawing chosen by voice by a dictated distance."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Offset2D", "Offset2D")
-    f.Source = sel[0]
-    f.Value = 1.0
-    sel[0].Visibility = False
-    doc.recompute()
+    source = askSketch(doc, "Contorno")
+    if source is None:
+        print("[part] Offset cancelled.")
+        return
+    value = askNumber("Contorno", "Decí la distancia del contorno en mm (negativa hacia adentro)")
+    if value is None:
+        print("[part] Offset cancelled.")
+        return
+    if value == 0:
+        print("[part] Error: the offset cannot be zero.")
+        return
+
+    offset = doc.addObject("Part::Offset2D", "Offset2D")
+    offset.Source = source
+    offset.Value = value
+    finishFeature(doc, offset, "2D offset", is3D=False, hide=(source,))
 
 
 part_offset2d = {

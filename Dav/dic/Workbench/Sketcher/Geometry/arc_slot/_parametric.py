@@ -24,6 +24,8 @@ import math
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def _point(cx: float, cy: float, radius: float, angle_deg: float) -> App.Vector:
     """Return a point on a radius at a given angle (degrees), in the XY plane."""
@@ -150,6 +152,8 @@ def _create_arc_slot(
         shape = wire
 
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "ArcSlot"
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape

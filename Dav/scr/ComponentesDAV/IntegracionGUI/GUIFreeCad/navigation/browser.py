@@ -558,6 +558,33 @@ class Browser:
                     return entry
         return None
 
+    def JumpToPath(self, keys: list[str]) -> bool:
+        """Move the context to a nested sub-context, e.g. ``["workbench", "sketcher"]``.
+
+        Lets a command hand the voice over to another context (for example
+        after creating a sketch) without the user having to navigate there.
+
+        Args:
+            keys: Internal keys of the sub-contexts to descend, from the base.
+
+        Returns:
+            True when every level was found; False leaves the context as it was.
+        """
+        previous = list(self._stack)
+        self._stack = [self._stack[0]]
+        self.Context = self._BuildContextForFrame(self._stack[-1])
+        for key in keys:
+            entry = next(
+                (e for e in self.Context if e.IsSubContext() and e.InternalKey == key),
+                None,
+            )
+            if entry is None or not self._DescendToSubContext(entry):
+                self._stack = previous
+                self.Context = self._BuildContextForFrame(self._stack[-1])
+                self._NotifyContextChanged()
+                return False
+        return True
+
     def _ApplyBaseJump(self, entry: ContextEntry) -> None:
         """Jump directly to a BaseContext entry."""
         if entry.IsSubContext():

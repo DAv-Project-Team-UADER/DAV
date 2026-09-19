@@ -22,6 +22,8 @@ from __future__ import annotations
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def _poles(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4: float, y4: float) -> list[App.Vector]:
     return [
@@ -34,6 +36,8 @@ def _poles(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, x4:
 
 def _publish_curve(doc: App.Document, curve: Part.BSplineCurve, label: str, safe_fallback: str) -> None:
     safe_name = "".join(ch for ch in label if ch.isalnum()) or safe_fallback
+    if addToEditedSketch(doc, curve.toShape()):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = curve.toShape()

@@ -154,8 +154,4 @@ TraduceToEn.update ({
     'full screen': StandardViews['fullscreen'],
     'full screenmode': StandardViews['fullscreen'],
 
-    # Help
-    "help":            StandardViews['help'],
-    "info":            StandardViews['help'],
-    "options":         StandardViews['help']
 })

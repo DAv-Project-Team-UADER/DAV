@@ -198,8 +198,4 @@ TraduceToPt.update ({
     'zoom out':             StandardViews['zoomout'],
     'menos zoom':           StandardViews['zoomout'],
 
-    # help
-    'ajuda':                StandardViews['help'],
-    "informação":           StandardViews['help'],
-    'opções':               StandardViews['help'],
 })

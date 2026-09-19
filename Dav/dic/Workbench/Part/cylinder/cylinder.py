@@ -1,39 +1,33 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 
 import FreeCAD as App
+from ..._display import finishFeature
 from .ayuda import ayuda
 
 
-def _create_cylinder(radius=2, height=10, angle=360):
-    doc = App.activeDocument()
+def _create_cylinder(radius: float, height: float) -> None:
+    """Create a Part cylinder from a dictated radius and height.
+
+    Args:
+        radius: Base radius, in millimetres.
+        height: Cylinder height, in millimetres.
+
+    Example::
+
+        _create_cylinder(5, 20)
+    """
+    if radius <= 0 or height <= 0:
+        print("[part] Error: radius and height must be greater than zero.")
+        return
+    doc = App.activeDocument() or App.newDocument()
     cylinder = doc.addObject("Part::Cylinder", "Cylinder")
     cylinder.Radius = radius
     cylinder.Height = height
-    cylinder.Angle  = angle
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(cylinder.Name, Is3D=True).Execute()
+    finishFeature(doc, cylinder, "cylinder")
 
 
 cylinder = {
-    'cylinder':           lambda: _create_cylinder(),
-    'primitive cylinder': lambda: _create_cylinder(),
+    'cylinder':           _create_cylinder,
+    'primitive cylinder': _create_cylinder,
     'help':               ayuda,
-}
+}

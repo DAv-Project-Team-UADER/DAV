@@ -22,9 +22,14 @@ from __future__ import annotations
 import FreeCAD as App
 import FreeCADGui as Gui
 
+from ..._display import showResult
+from ..._prompts import askNumber, askSketch
+from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
+
 
 def _RegisterObject(Feature) -> None:
-    """Register a created feature in the DAV navigable object tree."""
+    """Show a created feature and register it in the DAV navigable object tree."""
+    showResult(Feature)
     try:
         from createobjects import CreateObjects
     except ImportError:
@@ -63,12 +68,11 @@ def _SketchFromShape(Doc, Source, Name: str):
         return None
 
     sketch = Doc.addObject("Sketcher::SketchObject", Name)
-    for edge in shape.Edges:
-        try:
-            sketch.addGeometry(edge.Curve, False)
-        except Exception as error:
-            # una arista no convertible no invalida el resto del perfil
-            print(f"[subtractive] Skipped an edge while building the sketch: {error}")
+    geometry = shapeToSketchGeometry(shape)
+    if not geometry:
+        Doc.removeObject(sketch.Name)
+        return None
+    sketch.addGeometry(geometry, False)
     return sketch
 
 
@@ -82,11 +86,16 @@ def _ResolveProfile(Doc, Target):
 
 
 def _OwningBody(Doc, Profile):
-    """Return the body that owns Profile, or a new one when there is none."""
+    """Return the body that owns Profile, else the active body, else a new one."""
     for obj in Doc.Objects:
         if obj.isDerivedFrom("PartDesign::Body") and Profile in obj.Group:
             return obj
-    body = Doc.addObject("PartDesign::Body", "Body")
+    try:
+        body = Gui.activeView().getActiveObject("pdbody")
+    except Exception:
+        body = None
+    if body is None:
+        body = Doc.addObject("PartDesign::Body", "Body")
     body.addObject(Profile)
     return body
 
@@ -218,6 +227,135 @@ def groove_by_angle(angle: float) -> None:
     doc.recompute()
     _RegisterObject(groove)
     print(f"[subtractive] Grooved '{profile.Name}' by {angle} degrees")
+
+
+def _finishFeature(doc, feature, profile) -> bool:
+    """Recompute, verify the feature is valid and register it in the DAV tree."""
+    doc.recompute()
+    if not feature.isValid():
+        try:
+            doc.removeObject(feature.Name)
+            doc.recompute()
+        except Exception:
+            pass
+        print(f"[subtractive] Error: could not cut with '{profile.Name}' (needs a closed profile on the body).")
+        return False
+    try:
+        profile.Visibility = False
+    except Exception:
+        pass
+    _RegisterObject(feature)
+    return True
+
+
+def _profileFor(doc, chosen):
+    """Return a sketch for the chosen drawing (converting a loose shape), or None."""
+    profile = _ResolveProfile(doc, chosen)
+    if profile is None or profile.GeometryCount == 0:
+        print(f"[subtractive] Error: '{chosen.Name}' has no usable outline.")
+        return None
+    if profile is not chosen:
+        chosen.Visibility = False
+    return profile
+
+
+def pocket_choose_sketch() -> None:
+    """Cut a pocket with a sketch chosen by voice and a dictated depth."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    sketch = askSketch(doc, "Vaciado")
+    if sketch is None:
+        print("[subtractive] Pocket cancelled.")
+        return
+    length = askNumber("Vaciado", "Decí la profundidad del vaciado en mm")
+    if length is None:
+        print("[subtractive] Pocket cancelled.")
+        return
+    if length <= 0:
+        print(f"[subtractive] Error: depth must be greater than zero (got {length}).")
+        return
+
+    sketch = _profileFor(doc, sketch)
+    if sketch is None:
+        return
+    body = _OwningBody(doc, sketch)
+    pocket = body.newObject("PartDesign::Pocket", "Pocket")
+    pocket.Profile = sketch
+    pocket.Length = length
+    if _finishFeature(doc, pocket, sketch):
+        print(f"[subtractive] Pocketed '{sketch.Name}' by {length}")
+
+
+def hole_choose_sketch() -> None:
+    """Drill a hole at a sketch chosen by voice, with dictated diameter and depth.
+
+    The sketch must hold the circle(s) or point(s) where the hole goes.
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    sketch = askSketch(doc, "Agujero")
+    if sketch is None:
+        print("[subtractive] Hole cancelled.")
+        return
+    diameter = askNumber("Agujero", "Decí el diámetro del agujero en mm")
+    if diameter is None:
+        print("[subtractive] Hole cancelled.")
+        return
+    depth = askNumber("Agujero", "Decí la profundidad del agujero en mm")
+    if depth is None:
+        print("[subtractive] Hole cancelled.")
+        return
+    if diameter <= 0 or depth <= 0:
+        print("[subtractive] Error: diameter and depth must be greater than zero.")
+        return
+
+    sketch = _profileFor(doc, sketch)
+    if sketch is None:
+        return
+    body = _OwningBody(doc, sketch)
+    hole = body.newObject("PartDesign::Hole", "Hole")
+    hole.Profile = sketch
+    # ThreadType 0 = sin rosca; DepthType 1 = profundidad explicita en Depth,
+    # si se deja en 0 ("hasta el final") FreeCAD ignora el valor dictado.
+    hole.ThreadType = 0
+    hole.DepthType = 1
+    hole.Diameter = diameter
+    hole.Depth = depth
+    if _finishFeature(doc, hole, sketch):
+        print(f"[subtractive] Drilled a hole of diameter {diameter} and depth {depth}")
+
+
+def groove_choose_sketch() -> None:
+    """Cut a groove revolving a sketch chosen by voice by a dictated angle."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    sketch = askSketch(doc, "Ranura")
+    if sketch is None:
+        print("[subtractive] Groove cancelled.")
+        return
+    angle = askNumber("Ranura", "Decí el ángulo de giro en grados (1 a 360)")
+    if angle is None:
+        print("[subtractive] Groove cancelled.")
+        return
+    if angle <= 0 or angle > 360:
+        print(f"[subtractive] Error: angle must be between 0 and 360 (got {angle}).")
+        return
+
+    sketch = _profileFor(doc, sketch)
+    if sketch is None:
+        return
+    body = _OwningBody(doc, sketch)
+    groove = body.newObject("PartDesign::Groove", "Groove")
+    groove.Profile = sketch
+    groove.Angle = angle
+    if _finishFeature(doc, groove, sketch):
+        print(f"[subtractive] Grooved '{sketch.Name}' by {angle} degrees")
 
 
 def _CutPrimitive(TypeId: str, Label: str, Doc):

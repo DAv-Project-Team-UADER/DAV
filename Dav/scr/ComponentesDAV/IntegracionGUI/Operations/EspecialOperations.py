@@ -53,6 +53,45 @@ def _get_tree_view() -> QTreeView | None:
         return None
 
 
+def AplicarEstilo(a, b):
+    """Aplicar el estilo visual DAV a la selección actual y fondo blanco.
+
+    La lógica vive en ``integration/EstiloDav.py``; aquí solo se expone
+    con la firma (a, b) del backend de voz.
+    """
+    try:
+        from integration.EstiloDav import aplicarEstiloDav, aplicarFondoBlanco
+
+        aplicarFondoBlanco()
+        for obj in FreeCADGui.Selection.getSelection():
+            aplicarEstiloDav(obj)
+    except Exception as e:
+        if FreeCAD is not None:
+            FreeCAD.Console.PrintError(f"AplicarEstilo error: {e}\n")
+
+
+def ZoomUltimoObjeto(a, b):
+    """Encuadrar la vista con zoom sobre el último objeto creado del documento."""
+    try:
+        doc = FreeCADGui.ActiveDocument
+        if doc is None or doc.ActiveView is None:
+            return
+        # Los objetos de origen (ejes/planos) no cuentan como "creados".
+        ignorados = ("App::Origin", "App::Line", "App::Plane")
+        for obj in reversed(doc.Document.Objects):
+            vo = getattr(obj, "ViewObject", None)
+            if vo is None or obj.TypeId in ignorados:
+                continue
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(obj)
+            FreeCADGui.SendMsgToActiveView("ViewSelection")
+            FreeCADGui.Selection.clearSelection()
+            return
+    except Exception as e:
+        if FreeCAD is not None:
+            FreeCAD.Console.PrintError(f"ZoomUltimoObjeto error: {e}\n")
+
+
 def Minimize(a, b):
     """Minimizar la ventana principal de FreeCAD."""
     try:

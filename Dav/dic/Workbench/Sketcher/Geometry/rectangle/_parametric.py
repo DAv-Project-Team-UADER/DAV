@@ -22,6 +22,8 @@ from __future__ import annotations
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def create_by_corners(
     x1: float,
@@ -69,6 +71,8 @@ def create_by_corners(
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "Rectangle"
     shape = Part.makePolygon(corners + [corners[0]])
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape

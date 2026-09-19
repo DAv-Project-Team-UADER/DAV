@@ -17,12 +17,15 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ..._display import showResult
 from ._parametric import (
     box_by_size,
     cone_by_size,
     cylinder_by_size,
     loft_profiles,
     pad_by_length,
+    pad_choose_sketch,
+    revolve_choose_sketch,
     pad_sketch,
     prism_by_size,
     revolve_by_angle,
@@ -39,6 +42,7 @@ def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = Tr
     obj = doc.addObject(type_id, default_name)
     body.addObject(obj)
     doc.recompute()
+    showResult(obj)
     try:
         from createobjects import CreateObjects
     except ImportError:
@@ -99,11 +103,13 @@ def additive_wedge() -> None:
 
 
 def pad() -> None:
-    _execute_gui_command_with_objects('PartDesign_Pad', is_3d=True)
+    # Reemplaza al dialogo nativo de Pad: se elige el boceto y la altura por voz.
+    pad_choose_sketch()
 
 
 def revolution() -> None:
-    _execute_gui_command_with_objects('PartDesign_Revolution', is_3d=True)
+    # Reemplaza al dialogo nativo: se elige el boceto y el angulo por voz.
+    revolve_choose_sketch()
 
 
 additive = {
@@ -112,13 +118,13 @@ additive = {
     'additivehelix':     lambda: Gui.runCommand('PartDesign_AdditiveHelix', 0),
     'additiveloft':      lambda: Gui.runCommand('PartDesign_AdditiveLoft', 0),
     'additivepipe':      lambda: Gui.runCommand('PartDesign_AdditivePipe', 0),
-    'additivebox':       additive_box,
-    'additivecone':      additive_cone,
-    'additivecylinder':  additive_cylinder,
+    'additivebox':       box_by_size,
+    'additivecone':      cone_by_size,
+    'additivecylinder':  cylinder_by_size,
     'additiveellipsoid': additive_ellipsoid,
-    'additiveprism':     additive_prism,
-    'additivesphere':    additive_sphere,
-    'additivetorus':     additive_torus,
+    'additiveprism':     prism_by_size,
+    'additivesphere':    sphere_by_radius,
+    'additivetorus':     torus_by_size,
     'additivewedge':     additive_wedge,
     'pad_sketch':        pad_sketch,
     'pad_by_length':     pad_by_length,

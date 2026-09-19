@@ -1,35 +1,33 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askNumber, askSolid
 from .ayuda import ayuda
 
 
-def _offset():
-    """Apply a 3D offset of 1.0 mm to the selected Part object."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _offset() -> None:
+    """Thicken (positive) or shrink (negative) a piece chosen by voice."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Offset3D", "Offset3D")
-    f.Source = sel[0]
-    f.Value = 1.0
-    sel[0].Visibility = False
-    doc.recompute()
+    piece = askSolid(doc, "Desfase")
+    if piece is None:
+        print("[part] Offset cancelled.")
+        return
+    value = askNumber("Desfase", "Decí cuántos mm ensanchar (negativo para encoger)")
+    if value is None:
+        print("[part] Offset cancelled.")
+        return
+    if value == 0:
+        print("[part] Error: the offset cannot be zero.")
+        return
+
+    offset = doc.addObject("Part::Offset", "Offset3D")
+    offset.Source = piece
+    offset.Value = value
+    finishFeature(doc, offset, "offset", hide=(piece,))
 
 
 part_offset = {
