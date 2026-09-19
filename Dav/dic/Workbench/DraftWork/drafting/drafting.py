@@ -1,15 +1,15 @@
 import FreeCAD as App
-import FreeCADGui as Gui
 
 try:
     from createobjects import CreateObjects
 except ImportError:
     from selection.createobjects import CreateObjects
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 
 
 def wire():
-    Gui.runCommand("Draft_Wire", 0)
+    runDraftCommand("Draft_Wire")
 
 
 def create_wire_objects():

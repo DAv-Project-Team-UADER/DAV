@@ -15,31 +15,31 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCAD as App
-import FreeCADGui as Gui
 
 try:
     from createobjects import CreateObjects
 except ImportError:
     from selection.createobjects import CreateObjects
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 
 
 def point():
-    Gui.runCommand("Draft_Point", 0)
+    runDraftCommand("Draft_Point")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def polygon():
-    Gui.runCommand("Draft_Polygon", 0)
+    runDraftCommand("Draft_Polygon")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def rectangle():
-    Gui.runCommand("Draft_Rectangle", 0)
+    runDraftCommand("Draft_Rectangle")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
@@ -47,7 +47,7 @@ def rectangle():
 
 creation = {
     "help": ayuda,
-    "hatch": lambda: Gui.runCommand("Draft_Hatch", 0),
+    "hatch": lambda: runDraftCommand("Draft_Hatch"),
     "point": point,
     "polygon": polygon,
     "rectangle": rectangle,

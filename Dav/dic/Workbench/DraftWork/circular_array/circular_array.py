@@ -1,53 +1,53 @@
 import FreeCAD as App
-import FreeCADGui as Gui
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 from selection.createobjects import CreateObjects
 
 
 def circular():
-    Gui.runCommand('Draft_CircularArray', 0)
+    runDraftCommand("Draft_CircularArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def ortho():
-    Gui.runCommand('Draft_OrthoArray', 0)
+    runDraftCommand("Draft_OrthoArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def polar():
-    Gui.runCommand('Draft_PolarArray', 0)
+    runDraftCommand("Draft_PolarArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def path():
-    Gui.runCommand('Draft_PathArray', 0)
+    runDraftCommand("Draft_PathArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def pathlink():
-    Gui.runCommand('Draft_PathLinkArray', 0)
+    runDraftCommand("Draft_PathLinkArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def point():
-    Gui.runCommand('Draft_PointArray', 0)
+    runDraftCommand("Draft_PointArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def pointlink():
-    Gui.runCommand('Draft_PointLinkArray', 0)
+    runDraftCommand("Draft_PointLinkArray")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()

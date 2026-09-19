@@ -1,29 +1,29 @@
 import FreeCAD as App
-import FreeCADGui as Gui
 
 try:
     from createobjects import CreateObjects
 except ImportError:
     from selection.createobjects import CreateObjects
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 
 
 def bezier():
-    Gui.runCommand("Draft_BezCurve", 0)
+    runDraftCommand("Draft_BezCurve")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def bspline():
-    Gui.runCommand("Draft_BSpline", 0)
+    runDraftCommand("Draft_BSpline")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 
 def cubic():
-    Gui.runCommand("Draft_CubicBezCurve", 0)
+    runDraftCommand("Draft_CubicBezCurve")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
