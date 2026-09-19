@@ -53,12 +53,25 @@ TraduceToEs = {
     "panel atributos de línea": LineAttributes,
 
     # Std View (vista estandar)
+    # "estándar"/"visor" suelen fallar en Vosk (los oye como "vista estoy/por").
+    # Preferir frases sin la palabra "vista" al inicio:
     "vista estándar": StdView,
     "vista estandar":  StdView,
     "vistas estándar": StdView,
     "vistas estandar":  StdView,
     "diálogo vista estándar": StdView,
     "ventana vista estándar": StdView,
+    "visor": StdView,
+    "vistas basicas": StdView,
+    "vistas básicas": StdView,
+    "vista basica": StdView,
+    "vista básica": StdView,
+    "vista del modelo": StdView,
+    "vistas del modelo": StdView,
+    "orientacion": StdView,
+    "orientación": StdView,
+    "control de vista": StdView,
+    "stdview": StdView,
 
     # Workbench
     "banco de trabajo": Workbench,

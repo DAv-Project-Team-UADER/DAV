@@ -160,15 +160,21 @@ TraduceToEs.update ({
     'vista por defecto':    StandardViews['home'],
 
     # isometric
+    # Vosk suele oír solo "metrica" (medir). Preferir "iso".
+    'iso':                  StandardViews['isometric'],
+    'vista iso':            StandardViews['isometric'],
+    'iso metrica':          StandardViews['isometric'],
+    'iso métrica':          StandardViews['isometric'],
+    'iso isometrica':       StandardViews['isometric'],
+    'iso isométrica':       StandardViews['isometric'],
     'isometrica':           StandardViews['isometric'],
     'isométrica':           StandardViews['isometric'],
     'vista isometrica':     StandardViews['isometric'],
     'vista isométrica':     StandardViews['isometric'],
-    'tres de':              StandardViews['isometric'],
-    'profundidad':          StandardViews['isometric'],
-    'vista de tres de':      StandardViews['isometric'],
-    'vista de profundidad':  StandardViews['isometric'],
-    'proyectar':             StandardViews['isometric'],
+    'axonometrica':         StandardViews['isometric'],
+    'axonométrica':         StandardViews['isometric'],
+    'vista axonometrica':   StandardViews['isometric'],
+    'vista axonométrica':   StandardViews['isometric'],
 
     # left
     'izquierda':            StandardViews['left'],
@@ -176,8 +182,6 @@ TraduceToEs.update ({
     'vista izquierda':      StandardViews['left'],
     'lateral izquierdo':    StandardViews['left'],
     'desde la izquierda':   StandardViews['left'],
-    'vista de izquierda':    StandardViews['left'],
-    'lado' :                  StandardViews['left'],
 
     # rear
     'trasera':              StandardViews['rear'],
@@ -221,4 +225,8 @@ TraduceToEs.update ({
     'disminuir zoom':       StandardViews['zoomout'],
     'zoom menos':           StandardViews['zoomout'],
 
+    # help
+    'ayuda':                StandardViews['help'],
+    "información":          StandardViews['help'],
+    'opciones':             StandardViews['help'],
 })
