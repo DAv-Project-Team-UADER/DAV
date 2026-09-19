@@ -1,38 +1,36 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askObject, isProfile
 from .ayuda import ayuda
 
+_EMPTY = "[DAV] Error: no hay dibujos para barrer. Dibujá un perfil y un camino."
 
-def _sweep():
-    """Sweep the first selected profile along the second selected path."""
-    sel = Gui.Selection.getSelection()
-    if len(sel) < 2:
+
+def _sweep() -> None:
+    """Sweep a profile chosen by voice along a path chosen by voice."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Sweep", "Sweep")
-    f.Sections = [sel[0]]
-    f.Spine = (sel[1], ["Edge1"])
-    f.Solid = True
-    f.Frenet = False
-    for obj in sel:
-        obj.Visibility = False
-    doc.recompute()
+    profile = askObject(doc, "Barrido", "Elegí el perfil", isProfile, _EMPTY)
+    if profile is None:
+        print("[part] Sweep cancelled.")
+        return
+    path = askObject(
+        doc, "Barrido", "Elegí el camino", lambda o: isProfile(o) and o is not profile, _EMPTY
+    )
+    if path is None:
+        print("[part] Sweep cancelled.")
+        return
+
+    sweep = doc.addObject("Part::Sweep", "Sweep")
+    sweep.Sections = [profile]
+    sweep.Spine = (path, ["Edge1"])
+    sweep.Solid = True
+    sweep.Frenet = False
+    finishFeature(doc, sweep, "sweep", hide=(profile, path))
 
 
 part_sweep = {

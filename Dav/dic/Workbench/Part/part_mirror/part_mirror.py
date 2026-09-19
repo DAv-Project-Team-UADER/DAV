@@ -1,37 +1,39 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
+
+import FreeCAD as App
 from FreeCAD import Vector
-import FreeCADGui as Gui
+from ..._display import finishFeature
+from ..._prompts import askObject, askPlane, isProfile, isSolid
 from .ayuda import ayuda
 
+_EMPTY = "[DAV] Error: no hay nada para reflejar. Creá una pieza o un dibujo primero."
 
-def _mirror():
-    """Mirror the selected Part object across the XY plane."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+# Normal del plano de simetria segun el plano elegido.
+_NORMALS = {"XY": Vector(0, 0, 1), "XZ": Vector(0, 1, 0), "YZ": Vector(1, 0, 0)}
+
+
+def _mirror() -> None:
+    """Mirror an object chosen by voice across a plane chosen by voice."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Mirroring", "Mirror")
-    f.Source = sel[0]
-    f.Normal = Vector(0, 0, 1)
-    f.Base = Vector(0, 0, 0)
-    sel[0].Visibility = False
-    doc.recompute()
+    source = askObject(
+        doc, "Espejo", "Elegí qué reflejar", lambda o: isSolid(o) or isProfile(o), _EMPTY
+    )
+    if source is None:
+        print("[part] Mirror cancelled.")
+        return
+    plane = askPlane()
+    if plane is None:
+        print("[part] Mirror cancelled.")
+        return
+
+    mirror = doc.addObject("Part::Mirroring", "Mirror")
+    mirror.Source = source
+    mirror.Normal = _NORMALS.get(plane, _NORMALS["XY"])
+    mirror.Base = Vector(0, 0, 0)
+    finishFeature(doc, mirror, "mirror", hide=(source,))
 
 
 part_mirror = {

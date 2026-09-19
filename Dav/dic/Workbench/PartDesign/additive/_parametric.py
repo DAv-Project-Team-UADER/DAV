@@ -22,12 +22,14 @@ from __future__ import annotations
 import FreeCAD as App
 import FreeCADGui as Gui
 
-from .._prompts import askNumber, askSketch
+from ..._display import showResult
+from ..._prompts import askNumber, askSketch
 from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
 
 
 def _RegisterObject(Feature) -> None:
-    """Register a created feature in the DAV navigable object tree."""
+    """Show a created feature and register it in the DAV navigable object tree."""
+    showResult(Feature)
     try:
         from createobjects import CreateObjects
     except ImportError:

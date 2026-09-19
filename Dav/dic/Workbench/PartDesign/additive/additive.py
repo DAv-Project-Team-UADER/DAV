@@ -17,6 +17,7 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ..._display import showResult
 from ._parametric import (
     box_by_size,
     cone_by_size,
@@ -41,6 +42,7 @@ def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = Tr
     obj = doc.addObject(type_id, default_name)
     body.addObject(obj)
     doc.recompute()
+    showResult(obj)
     try:
         from createobjects import CreateObjects
     except ImportError:

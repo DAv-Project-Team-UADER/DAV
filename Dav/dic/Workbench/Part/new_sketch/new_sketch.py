@@ -1,33 +1,25 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 
 import FreeCAD as App
-from .ayuda import ayuda
 from _lenient import LenientDict
+from ..._display import enterSketcherContext
+from ...Sketcher.new_sketch.new_sketch import _new_sketch as _create_on_plane
+from .ayuda import ayuda
 
 
-def _new_sketch():
-    doc = App.activeDocument()
-    obj = doc.addObject('Sketcher::SketchObject', 'Sketch')
-    doc.recompute()
+def _new_sketch() -> None:
+    """Create a sketch on a plane chosen by voice and switch to the sketch tools.
+
+    Uses the same DAV plane selector as the Sketcher workbench (arriba/abajo,
+    okey/cancelar); the sketch is created on the chosen plane and edited.
+    """
+    _create_on_plane()
+    enterSketcherContext()
 
 
 new_sketch = {
-    'new sketch': lambda: _new_sketch(),
-    'sketch': lambda: _new_sketch(),
+    'new sketch': _new_sketch,
+    'sketch': _new_sketch,
     'help': ayuda,
 }
 

@@ -1,44 +1,40 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
+
+import FreeCAD as App
 from FreeCAD import Vector
-import FreeCADGui as Gui
+from ..._display import finishFeature
+from ..._prompts import askNumber, askSketch
 from .ayuda import ayuda
 
 
-def _revolve():
-    """Revolve the selected Part object 360 degrees around the Z axis."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _revolve() -> None:
+    """Revolve a drawing chosen by voice around its own Y axis by a dictated angle."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Revolution", "Revolve")
-    f.Source = sel[0]
-    f.Axis = Vector(0, 0, 1)
-    f.Base = Vector(0, 0, 0)
-    f.Angle = 360.0
-    f.Solid = True
-    sel[0].Visibility = False
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(f.Name, Is3D=True).Execute()
+    profile = askSketch(doc, "Revolución")
+    if profile is None:
+        print("[part] Revolution cancelled.")
+        return
+    angle = askNumber("Revolución", "Decí el ángulo de giro en grados (1 a 360)")
+    if angle is None:
+        print("[part] Revolution cancelled.")
+        return
+    if angle <= 0 or angle > 360:
+        print(f"[part] Error: the angle must be between 0 and 360 (got {angle}).")
+        return
+
+    # Eje: el Y local del perfil (dentro de su plano), como hace PartDesign con
+    # el eje V del boceto; girar alrededor de la normal daria una figura plana.
+    rotation = profile.Placement.Rotation
+    revolution = doc.addObject("Part::Revolution", "Revolve")
+    revolution.Source = profile
+    revolution.Axis = rotation.multVec(Vector(0, 1, 0))
+    revolution.Base = profile.Placement.Base
+    revolution.Angle = angle
+    revolution.Solid = True
+    finishFeature(doc, revolution, "revolution", hide=(profile,))
 
 
 part_revolve = {
@@ -46,4 +42,4 @@ part_revolve = {
     'revolución': _revolve,
     'revolve': _revolve,
     'help': ayuda,
-}
+}

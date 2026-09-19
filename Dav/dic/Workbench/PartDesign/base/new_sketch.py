@@ -24,6 +24,7 @@ elegido del Origin del Body.
 
 from __future__ import annotations
 
+from ..._display import enterSketcherContext
 from ...Sketcher.new_sketch.new_sketch import _ask_plane, _unique_sketch_name
 
 # Rol de cada plano en el Origin de un Body de PartDesign.
@@ -65,23 +66,6 @@ def _originPlane(body, plane: str):
     return None
 
 
-def _enterSketcherContext() -> None:
-    """Hand the voice over to the Sketcher tools (lines, constraints, ...).
-
-    Mientras se edita el boceto, FreeCAD cambia a las herramientas de croquis;
-    el contexto de voz hace lo mismo para que todas queden al alcance.
-    """
-    try:
-        from integration.browser_voice_adapter import get_active_adapter
-
-        adapter = get_active_adapter()
-        browser = getattr(adapter, "_browser", None)
-        if browser is not None and browser.JumpToPath(["workbench", "sketcher"]):
-            print("[DAV] Herramientas de croquis activadas.")
-    except Exception as error:
-        print(f"[DAV] No se pudo pasar al contexto de croquis: {error}")
-
-
 def _new_sketch_partdesign() -> None:
     """Ask the user (by voice) for the plane and create the sketch in the Body."""
     import FreeCAD as App
@@ -120,4 +104,4 @@ def _new_sketch_partdesign() -> None:
         pass
 
     print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en el plano {plane} del Body '{body.Name}'.")
-    _enterSketcherContext()
+    enterSketcherContext()

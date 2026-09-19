@@ -1,42 +1,35 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askObject, isProfile
 from .ayuda import ayuda
 
+_EMPTY = "[DAV] Error: no hay dibujos para unir. Dibujá al menos dos perfiles."
 
-def _loft():
-    """Loft through all selected Part objects (minimum 2 profiles required)."""
-    sel = Gui.Selection.getSelection()
-    if len(sel) < 2:
+
+def _loft() -> None:
+    """Loft between two drawings chosen by voice (first and last profile)."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Loft", "Loft")
-    f.Sections = sel
-    f.Solid = True
-    f.Ruled = False
-    for obj in sel:
-        obj.Visibility = False
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(f.Name, Is3D=True).Execute()
+    first = askObject(doc, "Loft", "Elegí el primer perfil", isProfile, _EMPTY)
+    if first is None:
+        print("[part] Loft cancelled.")
+        return
+    second = askObject(
+        doc, "Loft", "Elegí el segundo perfil", lambda o: isProfile(o) and o is not first, _EMPTY
+    )
+    if second is None:
+        print("[part] Loft cancelled.")
+        return
+
+    loft = doc.addObject("Part::Loft", "Loft")
+    loft.Sections = [first, second]
+    loft.Solid = True
+    loft.Ruled = False
+    finishFeature(doc, loft, "loft", hide=(first, second))
 
 
 part_loft = {
@@ -44,4 +37,4 @@ part_loft = {
     'loft': _loft,
     'unir perfiles': _loft,
     'help': ayuda,
-}
+}

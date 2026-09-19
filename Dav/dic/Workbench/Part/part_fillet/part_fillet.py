@@ -1,34 +1,33 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askNumber, askSolid
 from .ayuda import ayuda
 
 
-def _fillet():
-    """Apply fillet to the selected Part object with default radius 1.0 mm."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _fillet() -> None:
+    """Round every edge of a piece chosen by voice with a dictated radius."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Fillet", "Fillet")
-    f.Base = sel[0]
-    sel[0].Visibility = False
-    doc.recompute()
+    piece = askSolid(doc, "Redondear")
+    if piece is None:
+        print("[part] Fillet cancelled.")
+        return
+    radius = askNumber("Redondear", "Decí el radio del redondeo en mm")
+    if radius is None:
+        print("[part] Fillet cancelled.")
+        return
+    if radius <= 0:
+        print(f"[part] Error: the radius must be greater than zero (got {radius}).")
+        return
+
+    fillet = doc.addObject("Part::Fillet", "Fillet")
+    fillet.Base = piece
+    fillet.Edges = [(i + 1, radius, radius) for i in range(len(piece.Shape.Edges))]
+    finishFeature(doc, fillet, "fillet", hide=(piece,))
 
 
 part_fillet = {
