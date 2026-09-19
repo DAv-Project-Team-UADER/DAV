@@ -34,43 +34,50 @@ TraduceToEs = {
     "orificio": subtractive["hole"],
 
     # Subtractive Box
-    "caja sustractiva": subtractive["subtractivebox"],
+    "caja": subtractive["subtractivebox"],
 
     # Subtractive Cone
-    "cono sustractivo": subtractive["subtractivecone"],
+    "cono": subtractive["subtractivecone"],
 
     # Subtractive Cylinder
-    "cilindro sustractivo": subtractive["subtractivecylinder"],
+    "cilindro": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
-    "elipsoide sustractivo": subtractive["subtractiveellipsoid"],
+    "elipsoide": subtractive["subtractiveellipsoid"],
 
     # Subtractive Helix
-    "helice sustractiva": subtractive["subtractivehelix"],
+    "helice": subtractive["subtractivehelix"],
 
     # Subtractive Loft
-    "recubrimiento sustractivo": subtractive["subtractiveloft"],
+    "recubrimiento": subtractive["subtractiveloft"],
 
     # Subtractive Pipe
-    "tuberia sustractiva": subtractive["subtractivepipe"],
+    "tuberia": subtractive["subtractivepipe"],
 
     # Subtractive Prism
-    "prisma sustractivo": subtractive["subtractiveprism"],
+    "prisma": subtractive["subtractiveprism"],
 
     # Subtractive Sphere
-    "esfera sustractiva": subtractive["subtractivesphere"],
+    "esfera": subtractive["subtractivesphere"],
 
     # Subtractive Torus
-    "toro sustractivo": subtractive["subtractivetorus"],
+    "toro": subtractive["subtractivetorus"],
 
     # Subtractive Wedge
-    "cuna sustractiva": subtractive["subtractivewedge"],
+    "cuna": subtractive["subtractivewedge"],
+    "cuña": subtractive["subtractivewedge"],
 
     # Boolean
     "booleano": subtractive["boolean"],
     "operacion booleana": subtractive["boolean"],
+    "binario": subtractive["boolean"],
+    "binaria": subtractive["boolean"],
+    "lógica": subtractive["boolean"],
 
     # Cortes por medida dictada (sin dialogo)
+    "vaciado":    subtractive["pocket_by_length"],
+    "vaciar":     subtractive["pocket_by_length"],
+    "vacio":      subtractive["pocket_by_length"],
     "vaciado por medida":    subtractive["pocket_by_length"],
     "vaciar por medida":     subtractive["pocket_by_length"],
     "hueco por medida":      subtractive["pocket_by_length"],
@@ -262,7 +269,7 @@ TraduceToEs.update ({
     'aumentar zoom':        StandardViews['zoomin'],
     'zoom mas':             StandardViews['zoomin'],
     'zoom más':             StandardViews['zoomin'],
-
+    
     # zoomout
     'alejar':               StandardViews['zoomout'],
     'zoom alejar':          StandardViews['zoomout'],
