@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ._page import exportPagePdf, newPageFromTemplate
 
 # Diccionario del subgrupo Page (Gestión de lienzos de planos y salidas)
 def run_cmd(cmd):
@@ -27,9 +28,10 @@ def run_cmd(cmd):
 
 page = {
     'default': lambda: run_cmd('TechDraw_PageDefault'),
-    'template': lambda: run_cmd('TechDraw_PageTemplate'),
+    'template': newPageFromTemplate,
     'redraw': lambda: run_cmd('TechDraw_RedrawPage'),
     'print': lambda: run_cmd('TechDraw_PrintAll'),
+    'pdf': exportPagePdf,
     'dxf': lambda: run_cmd('TechDraw_ExportPageDXF'),
     'svg': lambda: run_cmd('TechDraw_ExportPageSVG'),
     'help': ayuda

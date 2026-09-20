@@ -19,8 +19,18 @@
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
+def _pdf():
+    """Export to PDF by voice when the document has a TechDraw page, else use the native command."""
+    from dic.Workbench.TechDraw.Page._page import exportPagePdf, hasPage
+
+    if hasPage():
+        exportPagePdf()
+    else:
+        Gui.runCommand('Std_PrintPdf', 0)
+
+
 print_cmds = {
     'print': lambda: Gui.runCommand('Std_Print', 0),
-    'pdf':   lambda: Gui.runCommand('Std_PrintPdf', 0),
+    'pdf':   _pdf,
     'help':  ayuda,
 }
