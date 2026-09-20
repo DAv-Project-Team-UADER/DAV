@@ -11,7 +11,7 @@ selector y el reproductor.
 ```mermaid
 classDiagram
     class ExampleStep {
-        <<dataclass, frozen>>
+        <<dataclass frozen>>
         +dict Text
         +dict Say
         +Callable Action

@@ -31,7 +31,7 @@ classDiagram
     }
 
     class NavActions {
-        <<Dav/dic/NavCommands>>
+        <<Dav dic NavCommands>>
         +send
         +cancel
     }

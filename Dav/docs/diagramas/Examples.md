@@ -29,7 +29,7 @@ classDiagram
     }
 
     class ExampleModule {
-        <<_sketcher, _draft, _techdraw, _partdesign>>
+        <<_sketcher _draft _techdraw _partdesign>>
         +dict TITLE
         +steps() list
     }

@@ -25,13 +25,13 @@ classDiagram
     }
 
     class IconsFolder {
-        <<InterfazDAV/Icons>>
+        <<InterfazDAV Icons>>
         íconos propios
     }
 
     class DicTree {
-        <<Dav/dic>>
-        ~494 archivos SVG
+        <<Dav dic>>
+        unos 500 archivos SVG
     }
 
     DavPanel ..> IconLocator : Find(Entry.InternalKey)

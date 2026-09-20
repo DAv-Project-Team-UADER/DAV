@@ -20,7 +20,7 @@ classDiagram
     }
 
     class Numbers {
-        <<Dav/dic/Numbers>>
+        <<Dav dic Numbers>>
         +get_numeric_grammar_phrases(Language) list
     }
 

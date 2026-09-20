@@ -15,7 +15,7 @@ classDiagram
     }
 
     class PreferencesDialog {
-        <<ui/preferences_dialog>>
+        <<ui preferences_dialog>>
         +Signal settings_changed
         +exec()
     }

@@ -31,7 +31,7 @@ classDiagram
     }
 
     class ObjectSelection {
-        <<selection/object_selection.py>>
+        <<selection object_selection py>>
         +VectorSelection(ListNames) void
         +MonoSelection(Obj) void
         +SelectNext() void

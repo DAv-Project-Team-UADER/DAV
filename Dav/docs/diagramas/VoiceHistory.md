@@ -21,12 +21,12 @@ classDiagram
     }
 
     class HistoryLog {
-        <<config/voice_history.log>>
+        <<config voice_history log>>
         una frase por línea
     }
 
     class StatusFile {
-        <<config/voice_status.json>>
+        <<config voice_status json>>
         status y detail
     }
 

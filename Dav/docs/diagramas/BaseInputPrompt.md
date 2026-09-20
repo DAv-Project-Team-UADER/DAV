@@ -38,7 +38,7 @@ classDiagram
     }
 
     class PromptResult {
-        <<dataclass, frozen>>
+        <<dataclass frozen>>
         +bool Success
         +Any Value
         +bool Cancelled

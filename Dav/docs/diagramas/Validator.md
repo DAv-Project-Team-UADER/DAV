@@ -22,7 +22,7 @@ classDiagram
     }
 
     class RequirementSpec {
-        <<dataclass, frozen>>
+        <<dataclass frozen>>
         +int index
         +str name
         +str kind

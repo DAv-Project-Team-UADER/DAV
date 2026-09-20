@@ -22,7 +22,7 @@ classDiagram
     }
 
     class settings {
-        <<core/settings>>
+        <<core settings>>
         +Path MODELS_DIR
     }
 
@@ -32,11 +32,11 @@ classDiagram
     }
 
     class PreferencesDialog {
-        <<ui/preferences_dialog>>
+        <<ui preferences_dialog>>
     }
 
     class Vosk {
-        <<alphacephei.com>>
+        <<alphacephei com>>
     }
 
     model_manager ..> settings : MODELS_DIR
