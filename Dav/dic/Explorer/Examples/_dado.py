@@ -190,7 +190,7 @@ def steps() -> list:
             Path={
                 "es": ("banco", "diseño", "sumar", "caja"),
                 "en": ("workbench", "design", "add", "box"),
-                "pt": ("trabalho", "design", "aditivo", "caixa"),
+                "pt": ("trabalho", "projeto", "aditivo", "caixa"),
             },
             Values=values(SIDE, SIDE, SIDE, 10, 10, 10),
             Action=_cube,
@@ -250,7 +250,7 @@ def steps() -> list:
                 Path={
                     "es": ("cerrar croquis", "banco", "diseño", "cortar", "vaciar"),
                     "en": ("close sketch", "workbench", "design", "cut", "hollow"),
-                    "pt": ("fechar esboco", "trabalho", "design", "cortar", "esvaziar"),
+                    "pt": ("fechar esboco", "trabalho", "projeto", "cortar", "esvaziar"),
                 },
                 Values=_pocketValues,
                 Action=_pocket,

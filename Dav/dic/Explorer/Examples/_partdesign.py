@@ -157,7 +157,7 @@ def steps() -> list:
             Path={
                 "es": ("banco", "diseño", "sumar", "cilindro"),
                 "en": ("workbench", "design", "add", "cylinder"),
-                "pt": ("trabalho", "design", "aditivo", "cilindro"),
+                "pt": ("trabalho", "projeto", "aditivo", "cilindro"),
             },
             Values=lambda language: numbers(language, 5, 16, 0, 0, 12),
             Action=_shank,
@@ -233,7 +233,7 @@ def steps() -> list:
             Path={
                 "es": ("cerrar croquis", "banco", "diseño", "cortar", "helice"),
                 "en": ("close sketch", "workbench", "design", "cut", "helix"),
-                "pt": ("fechar esboco", "trabalho", "design", "cortar", "helice"),
+                "pt": ("fechar esboco", "trabalho", "projeto", "cortar", "helice"),
             },
             Values=lambda language: numbers(language, 3, 12) + send(language),
             Action=_thread,

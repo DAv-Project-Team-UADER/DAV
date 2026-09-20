@@ -273,7 +273,7 @@ def steps() -> list:
             Path={
                 "es": ("banco", "diseño", "sumar", "extruir por medida"),
                 "en": ("workbench", "design", "add", "extrude by length"),
-                "pt": ("trabalho", "design", "aditivo", "extrudar por medida"),
+                "pt": ("trabalho", "projeto", "aditivo", "extrudar por medida"),
             },
             Values=lambda language: numbers(language, THICKNESS) + send(language),
             Action=_pad,

@@ -248,16 +248,16 @@ def steps() -> list:
             Path={
                 "es": ("banco", "diseño", "sumar", "cilindro"),
                 "en": ("workbench", "design", "add", "cylinder"),
-                "pt": ("trabalho", "design", "aditivo", "cilindro"),
+                "pt": ("trabalho", "projeto", "aditivo", "cilindro"),
             },
             Values=values(SHANK_RADIUS, SHANK_LENGTH, 0, 0, SHANK_LENGTH // 2),
             Action=_shank,
         ),
         ExampleStep(
             Text={
-                "es": "La cabeza hexagonal: un prisma de 6 lados, radio 6 y 4 de alto, centro en (0, 0, 22). Como ya hay un cuerpo, se responde «no» a «¿cuerpo nuevo?» y se elige el existente.",
-                "en": "The hex head: a 6-sided prism, radius 6 and 4 high, centred at (0, 0, 22). There is a body already, so answer “no” to “new body?” and pick the existing one.",
-                "pt": "A cabeça sextavada: um prisma de 6 lados, raio 6 e 4 de altura, centro em (0, 0, 22). Como já há um corpo, responda «não» a «corpo novo?» e escolha o existente.",
+                "es": "La cabeza hexagonal: un prisma de 6 lados, radio 6 y 4 de alto, centro en (0, 0, 22). Como ya hay un cuerpo, después de los valores decí «no» a «¿cuerpo nuevo?» y, en la lista de cuerpos, «enviar» para elegir el existente.",
+                "en": "The hex head: a 6-sided prism, radius 6 and 4 high, centred at (0, 0, 22). There is a body already, so after the values say “no” to “new body?” and, in the list of bodies, “send” to pick the existing one.",
+                "pt": "A cabeça sextavada: um prisma de 6 lados, raio 6 e 4 de altura, centro em (0, 0, 22). Como já há um corpo, depois dos valores diga «nao» a «corpo novo?» e, na lista de corpos, «enviar» para escolher o existente.",
             },
             Path={"es": ("prisma",), "en": ("prism",), "pt": ("prisma",)},
             Values=lambda language: numbers(language, 6, HEX_RADIUS, HEAD_HEIGHT, 0, 0, SHANK_LENGTH + HEAD_HEIGHT // 2)
@@ -377,9 +377,9 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Mirá el conjunto terminado en la vista «tres de» (isométrica).",
-                "en": "See the finished set in the isometric view.",
-                "pt": "Veja o conjunto pronto na vista isométrica.",
+                "es": "Mirá el conjunto terminado: decí «tres de» (vista isométrica). Después decí «enviar» para cerrar el ejemplo.",
+                "en": "See the finished set: say “isometric”. Then say “send” to close the example.",
+                "pt": "Veja o conjunto pronto: diga «isometrica». Depois diga «enviar» para fechar o exemplo.",
             },
             Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isometrica",)},
             Action=_isometric,
