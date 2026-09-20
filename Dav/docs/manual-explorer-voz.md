@@ -105,7 +105,7 @@ Dentro de **ejemplos** (la carpeta no tiene ícono) hay dos opciones:
 | Opción | Palabras | Qué hace |
 | --- | --- | --- |
 | Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés y también en portugués |
-| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con seis ejemplos guiados |
+| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con siete ejemplos guiados |
 
 Ejemplos guiados:
 
@@ -117,6 +117,7 @@ Ejemplos guiados:
 | **PartDesign** | Un tornillo: vástago, punta, cabeza, chaflán y rosca | Cota en 3D y vista «tres de» |
 | **Dado** | Un dado de 20 mm: la cara del 1 con un cilindro y las otras cinco con un boceto y un vaciado cada una | Cota en 3D, las seis vistas y «tres de» |
 | **Arandela plana M6** | Un croquis con el agujero (Ø 6,4) y el borde (Ø 12), extruido 1,6 mm en PartDesign y puesto en una hoja de TechDraw con vista isométrica, vista del boceto y el texto «M6 arandela» | Restricción de diámetro y cota en 2D |
+| **Bulón-tuerca** | Un bulón M6 de cabeza hexagonal (simplificado de la DIN 931) y su tuerca, hechos en PartDesign, insertados en un ensamblaje, con el bulón anclado y una junta cilíndrica que lleva la tuerca al eje | Ensamblaje con junta cilíndrica y vista «tres de» |
 
 El selector se maneja con **retroceder**, **avanzar** y **enviar**. Ya elegido el
 ejemplo, aparece una ventana (no bloquea FreeCAD, así ves cómo se arma la pieza)

@@ -17,7 +17,7 @@
 
 """Pick a guided example by voice and play it frame by frame."""
 
-from . import _arandela, _dado, _draft, _partdesign, _sketcher, _techdraw
+from . import _arandela, _bulontuerca, _dado, _draft, _partdesign, _sketcher, _techdraw
 
 # (clave, módulo). Cada módulo aporta TITLE (por idioma) y steps().
 _EXAMPLES = (
@@ -27,6 +27,7 @@ _EXAMPLES = (
     ("partdesign", _partdesign),
     ("dado", _dado),
     ("arandela", _arandela),
+    ("bulontuerca", _bulontuerca),
 )
 
 _CHOOSE_TITLE = {
@@ -102,7 +103,7 @@ def _play(module, language: str) -> None:
 
 
 def startExample() -> None:
-    """Let the user pick one of the six examples and start it.
+    """Let the user pick one of the seven examples and start it.
 
     The picker moves with ``retroceder`` / ``avanzar`` and confirms with
     ``enviar``. The chosen example then shows one frame at a time: the user

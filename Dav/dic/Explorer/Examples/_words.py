@@ -41,6 +41,7 @@ _SEND = {"es": "enviar", "en": "send", "pt": "enviar"}
 _DOWN = {"es": "abajo", "en": "down", "pt": "abaixo"}
 _NEXT = {"es": "avanzar", "en": "next", "pt": "avancar"}
 _NO = {"es": "no", "en": "no", "pt": "nao"}
+_YES = {"es": "si", "en": "yes", "pt": "sim"}
 _POINT = {"es": "coma", "en": "point", "pt": "virgula"}
 
 
@@ -56,6 +57,11 @@ def send(language: str) -> tuple[str, ...]:
 def no(language: str) -> tuple[str, ...]:
     """The answer «no» to a yes/no question."""
     return (_NO[_lang(language)],)
+
+
+def yes(language: str) -> tuple[str, ...]:
+    """The answer «sí» to a yes/no question."""
+    return (_YES[_lang(language)],)
 
 
 def down(language: str, times: int) -> tuple[str, ...]:
