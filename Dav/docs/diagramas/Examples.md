@@ -29,7 +29,7 @@ classDiagram
     }
 
     class ExampleModule {
-        <<_sketcher _draft _techdraw _partdesign _dado>>
+        <<_sketcher _draft _techdraw _partdesign _dado _arandela>>
         +dict TITLE
         +steps() list
     }
@@ -41,7 +41,7 @@ classDiagram
 
     examples ..> _manual : manual
     examples ..> _demos : demos
-    _demos o-- "5" ExampleModule : _EXAMPLES
+    _demos o-- "6" ExampleModule : _EXAMPLES
     _demos ..> ExampleChoiceInputPrompt : elige el ejemplo
     _demos ..> GuidedExampleInputPrompt : lo reproduce
     _demos ..> PromptVoiceRouter : enruta la voz
@@ -65,6 +65,7 @@ classDiagram
 | `_techdraw` | Un círculo en una hoja A4 con rótulo | — | 4 |
 | `_partdesign` | Un tornillo: cilindro, cono, prisma, chaflán y rosca con una hélice | Cota 3D y «tres de» | 9 |
 | `_dado` | Un dado: el 1 con un cilindro, del 2 al 6 con un boceto y un vaciado por cara | Cota 3D, seis vistas y «tres de» | 25 |
+| `_arandela` | Una arandela plana M6: dos círculos en un croquis, extrusión de 1,6 mm y una hoja de TechDraw con vista isométrica, vista del boceto y texto | Restricción de diámetro y cota 2D | 11 |
 
 Cada módulo expone `TITLE` (por idioma) y `steps()`, que devuelve la lista de
 [`ExampleStep`](ExampleStep.md). Para sumar un ejemplo alcanza con crear el módulo
