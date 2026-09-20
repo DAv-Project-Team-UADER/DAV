@@ -44,15 +44,18 @@ TraduceToPt = {
 
     #Caixa aditiva
     'caixaaditiva':     additive['additivebox'],
+    'caixa':            additive['additivebox'],
     'paralelepipado aditivo':     additive['additivebox'],
     'bloco aditivo':     additive['additivebox'],
 
     #Cone aditivo
     'cone aditivo':      additive['additivecone'],
+    'cone':              additive['additivecone'],
     'conical aditivo':      additive['additivecone'],
     
     #Cilindro aditivo
     'cilindro aditivo':  additive['additivecylinder'],
+    'cilindro':          additive['additivecylinder'],
 
     #Elipsoide aditivo
     'elipsoide aditivo': additive['additiveellipsoid'],
@@ -61,6 +64,7 @@ TraduceToPt = {
 
     #Prisma aditivo
     'prisma aditivo':     additive['additiveprism'],
+    'prisma':             additive['additiveprism'],
     'prisma triangular aditivo':     additive['additiveprism'],
     'prisma quadrangular aditivo':     additive['additiveprism'],
 

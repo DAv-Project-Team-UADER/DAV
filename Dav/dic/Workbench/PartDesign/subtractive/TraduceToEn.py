@@ -47,6 +47,7 @@ TraduceToEn = {
     # Subtractive Cylinder
     "subtractivecylinder": subtractive["subtractivecylinder"],
     "cutcylinder": subtractive["subtractivecylinder"],
+    "cylinder": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
     "subtractiveellipsoid": subtractive["subtractiveellipsoid"],
@@ -55,6 +56,7 @@ TraduceToEn = {
     # Subtractive Helix
     "subtractivehelix": subtractive["subtractivehelix"],
     "cuthelix": subtractive["subtractivehelix"],
+    "helix": subtractive["subtractivehelix"],
 
     # Subtractive Loft
     "subtractiveloft": subtractive["subtractiveloft"],
@@ -88,6 +90,7 @@ TraduceToEn = {
     # Cuts by dictated measure (no dialog)
     "pocket by length":      subtractive["pocket_by_length"],
     "hollow by length":      subtractive["pocket_by_length"],
+    "hollow":                subtractive["pocket_by_length"],
 
     "hole by size":          subtractive["hole_by_size"],
     "drill by size":         subtractive["hole_by_size"],

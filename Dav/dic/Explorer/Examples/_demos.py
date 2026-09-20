@@ -17,7 +17,7 @@
 
 """Pick a guided example by voice and play it frame by frame."""
 
-from . import _draft, _partdesign, _sketcher, _techdraw
+from . import _dado, _draft, _partdesign, _sketcher, _techdraw
 
 # (clave, módulo). Cada módulo aporta TITLE (por idioma) y steps().
 _EXAMPLES = (
@@ -25,6 +25,7 @@ _EXAMPLES = (
     ("draft", _draft),
     ("techdraw", _techdraw),
     ("partdesign", _partdesign),
+    ("dado", _dado),
 )
 
 _CHOOSE_TITLE = {
@@ -100,12 +101,13 @@ def _play(module, language: str) -> None:
 
 
 def startExample() -> None:
-    """Let the user pick one of the four examples and start it.
+    """Let the user pick one of the five examples and start it.
 
     The picker moves with ``retroceder`` / ``avanzar`` and confirms with
     ``enviar``. The chosen example then shows one frame at a time: the user
-    says the words of each frame and, once all of them are heard, the action
-    runs in FreeCAD.
+    says what they would say to do the same in DAV (the path through the command
+    tree and the values dictated in its dialogs) and, once all of it is heard,
+    the action runs in FreeCAD.
     """
     _importPrompts()
     from InputPrompts.InputPromptI18n import ResolveLanguage

@@ -44,14 +44,17 @@ TraduceToEn = {
 
     # AdditiveBox
     "additive box": additive["additivebox"],
+    "box": additive["additivebox"],
     "Additive solid box": additive["additivebox"],
 
     # AdditiveCone
     "additive cone": additive["additivecone"],
+    "cone": additive["additivecone"],
     "cone feature": additive["additivecone"],
 
     # AdditiveCylinder
     "additive cylinder": additive["additivecylinder"],
+    "cylinder": additive["additivecylinder"],
     "cylinder feature": additive["additivecylinder"],
 
     # AdditiveEllipsoid
@@ -60,6 +63,7 @@ TraduceToEn = {
 
     # AdditivePrism
     "additive prism": additive["additiveprism"],
+    "prism": additive["additiveprism"],
     "prism feature": additive["additiveprism"],
 
     # AdditiveSphere

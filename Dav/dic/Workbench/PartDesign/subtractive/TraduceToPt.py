@@ -46,6 +46,7 @@ TraduceToPt = {
     # Subtractive Cylinder
     "cilindro sustractivo": subtractive["subtractivecylinder"],
     "corte cilindro": subtractive["subtractivecylinder"],
+    "cilindro": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
     "elipsoide sustractivo": subtractive["subtractiveellipsoid"],
@@ -54,6 +55,7 @@ TraduceToPt = {
     # Subtractive Helix
     "helice subtrativa": subtractive["subtractivehelix"],
     "corte helice": subtractive["subtractivehelix"],
+    "helice": subtractive["subtractivehelix"],
 
     # Subtractive Loft
     "loft sustractivo": subtractive["subtractiveloft"],
@@ -86,6 +88,7 @@ TraduceToPt = {
     # Cortes por medida ditada (sem dialogo)
     "vazio por medida":      subtractive["pocket_by_length"],
     "esvaziar por medida":   subtractive["pocket_by_length"],
+    "esvaziar":              subtractive["pocket_by_length"],
 
     "furo por medidas":      subtractive["hole_by_size"],
     "perfurar por medidas":  subtractive["hole_by_size"],

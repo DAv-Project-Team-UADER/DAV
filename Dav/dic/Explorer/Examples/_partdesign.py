@@ -15,15 +15,14 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""PartDesign example: a hexagonal-head screw, built one operation at a time."""
-
-import math
+"""PartDesign example: a screw with a chamfer and a thread, then measured in 3D."""
 
 import Part
 import Sketcher
 from FreeCAD import Vector
 
-from ._common import activeDoc, fitView, lastOfType
+from ._common import activeDoc, attachAt, fitView, lastOfType, setView
+from ._words import decimal, down, no, numbers, send
 
 TITLE = {
     "es": "PartDesign: un tornillo paso a paso",
@@ -31,94 +30,83 @@ TITLE = {
     "pt": "PartDesign: um parafuso passo a passo",
 }
 
-HEAD_RADIUS = 8.0  # radio circunscripto del hexágono
-HEAD_HEIGHT = 5.0
-SHANK_RADIUS = 4.0
-SHANK_LENGTH = 25.0
-
 
 def _body(doc):
     return lastOfType(doc, "PartDesign::Body")
 
 
-def _sketchOnXY(doc):
-    """Add a sketch to the body, attached to its XY plane."""
+def _shank() -> None:
+    doc = activeDoc()
+    body = doc.addObject("PartDesign::Body", "Body")
+    shank = doc.addObject("PartDesign::AdditiveCylinder", "Shank")
+    shank.Radius = 5
+    shank.Height = 16
+    body.addObject(shank)
+    # el cilindro nace con su base en el origen: se baja media altura del centro dictado
+    attachAt(body, shank, 0, 0, 12 - 16 / 2)
+    doc.recompute()
+    fitView()
+
+
+def _tip() -> None:
+    doc = activeDoc()
     body = _body(doc)
-    plane = [item for item in body.Origin.OriginFeatures if item.Role == "XY_Plane"][0]
-    sketch = body.newObject("Sketcher::SketchObject", "Sketch")
-    sketch.AttachmentSupport = [(plane, "")]
-    sketch.MapMode = "FlatFace"
-    return sketch
-
-
-def _newBody() -> None:
-    doc = activeDoc()
-    doc.addObject("PartDesign::Body", "Body")
+    tip = doc.addObject("PartDesign::AdditiveCone", "Tip")
+    tip.Radius1 = 1
+    tip.Radius2 = 5
+    tip.Height = 4
+    body.addObject(tip)
+    attachAt(body, tip, 0, 0, 2 - 4 / 2)
     doc.recompute()
     fitView()
 
 
-def _hexagon() -> None:
+def _head() -> None:
     doc = activeDoc()
-    sketch = _sketchOnXY(doc)
-    corners = [
-        Vector(
-            HEAD_RADIUS * math.cos(math.radians(60 * i)),
-            HEAD_RADIUS * math.sin(math.radians(60 * i)),
-            0,
-        )
-        for i in range(6)
-    ]
-    for index in range(6):
-        sketch.addGeometry(Part.LineSegment(corners[index], corners[(index + 1) % 6]), False)
-    for index in range(6):
-        sketch.addConstraint(Sketcher.Constraint("Coincident", index, 2, (index + 1) % 6, 1))
+    body = _body(doc)
+    head = doc.addObject("PartDesign::AdditivePrism", "Head")
+    head.Polygon = 6
+    head.Circumradius = 8
+    head.Height = 4
+    body.addObject(head)
+    attachAt(body, head, 0, 0, 22 - 4 / 2)
     doc.recompute()
     fitView()
-
-
-def _pad(length: float, reversed_: bool) -> None:
-    doc = activeDoc()
-    sketch = lastOfType(doc, "Sketcher::SketchObject")
-    pad = _body(doc).newObject("PartDesign::Pad", "Pad")
-    pad.Profile = sketch
-    pad.Length = length
-    pad.Reversed = reversed_
-    sketch.Visibility = False
-    doc.recompute()
-    fitView()
-
-
-def _padHead() -> None:
-    _pad(HEAD_HEIGHT, False)
-
-
-def _shankCircle() -> None:
-    doc = activeDoc()
-    sketch = _sketchOnXY(doc)
-    sketch.addGeometry(Part.Circle(Vector(0, 0, 0), Vector(0, 0, 1), SHANK_RADIUS), False)
-    doc.recompute()
-    fitView()
-
-
-def _padShank() -> None:
-    # hacia abajo: el vástago queda debajo de la cabeza
-    _pad(SHANK_LENGTH, True)
 
 
 def _chamfer() -> None:
     doc = activeDoc()
-    pad = lastOfType(doc, "PartDesign::Pad")
-    tip = pad.Shape
-    # el borde circular de la punta, a la profundidad del vástago
-    edges = [
-        f"Edge{index + 1}"
-        for index, edge in enumerate(tip.Edges)
-        if abs(edge.BoundBox.ZMin + SHANK_LENGTH) < 1e-6 and abs(edge.BoundBox.ZMax + SHANK_LENGTH) < 1e-6
-    ]
-    chamfer = _body(doc).newObject("PartDesign::Chamfer", "Chamfer")
-    chamfer.Base = (pad, edges)
-    chamfer.Size = 0.8
+    body = _body(doc)
+    # como el comando del diccionario: todos los bordes de la última operación
+    chamfer = doc.addObject("PartDesign::Chamfer", "Chamfer")
+    chamfer.Base = (body.Tip, [""])
+    chamfer.UseAllEdges = True
+    chamfer.Size = 0.5
+    body.addObject(chamfer)
+    doc.recompute()
+    fitView()
+
+
+def _threadSketch() -> None:
+    doc = activeDoc()
+    body = _body(doc)
+    plane = next(item for item in body.Origin.OriginFeatures if item.Role == "XZ_Plane")
+    sketch = body.newObject("Sketcher::SketchObject", "ThreadProfile")
+    sketch.AttachmentSupport = [(plane, "")]
+    sketch.MapMode = "FlatFace"
+    doc.recompute()
+    fitView()
+
+
+def _threadProfile() -> None:
+    doc = activeDoc()
+    sketch = lastOfType(doc, "Sketcher::SketchObject")
+    # rectángulo por esquinas (4, 2) - (6, 3): un surco que entra en el vástago desde afuera
+    corners = [Vector(4, 2, 0), Vector(6, 2, 0), Vector(6, 3, 0), Vector(4, 3, 0)]
+    for index in range(4):
+        sketch.addGeometry(Part.LineSegment(corners[index], corners[(index + 1) % 4]), False)
+    for index in range(4):
+        sketch.addConstraint(Sketcher.Constraint("Coincident", index, 2, (index + 1) % 4, 1))
     doc.recompute()
     fitView()
 
@@ -126,96 +114,147 @@ def _chamfer() -> None:
 def _thread() -> None:
     doc = activeDoc()
     body = _body(doc)
-    plane = [item for item in body.Origin.OriginFeatures if item.Role == "XZ_Plane"][0]
-    profile = body.newObject("Sketcher::SketchObject", "ThreadProfile")
-    profile.AttachmentSupport = [(plane, "")]
-    profile.MapMode = "FlatFace"
-    # triángulo que se hunde en el vástago, cerca de la punta
-    z = -SHANK_LENGTH + 2.0
-    depth = SHANK_RADIUS - 0.8
-    apex = Vector(SHANK_RADIUS, z, 0)
-    lower = Vector(depth, z - 0.4, 0)
-    upper = Vector(depth, z + 0.4, 0)
-    profile.addGeometry(Part.LineSegment(apex, lower), False)
-    profile.addGeometry(Part.LineSegment(lower, upper), False)
-    profile.addGeometry(Part.LineSegment(upper, apex), False)
-    doc.recompute()
+    sketch = lastOfType(doc, "Sketcher::SketchObject")
     helix = body.newObject("PartDesign::SubtractiveHelix", "Thread")
-    helix.Profile = profile
-    helix.ReferenceAxis = (profile, ["V_Axis"])
-    helix.Pitch = 1.5
-    helix.Height = SHANK_LENGTH - 7.0
-    profile.Visibility = False
+    helix.Profile = sketch
+    helix.ReferenceAxis = (sketch, ["V_Axis"])
+    helix.Mode = "pitch-height-angle"
+    helix.Pitch = 3
+    helix.Height = 12
+    sketch.Visibility = False
     doc.recompute()
     fitView()
+
+
+def _dimension() -> None:
+    # la misma función que ejecuta el comando «cota» del diccionario (3D: hay un sólido)
+    from measure import _dimension3d
+
+    _dimension3d(-8, 0, 24, 8, 0, 24)
+    activeDoc().recompute()
+    fitView()
+
+
+def _isometric() -> None:
+    setView("isometric")
 
 
 def steps() -> list:
     """Return the frames of the screw example."""
     from InputPrompts.ExampleStep import ExampleStep
 
+    def more(*items):
+        # tras los valores, la figura se suma a un cuerpo que ya existe: «no» a cuerpo nuevo y elegirlo
+        return lambda language: numbers(language, *items) + no(language) + send(language)
+
     return [
         ExampleStep(
             Text={
-                "es": "Creá un cuerpo: es el contenedor donde se arma la pieza.",
-                "en": "Create a body: the container where the part is built.",
-                "pt": "Crie um corpo: o contêiner onde a peça é montada.",
+                "es": "Empezá por el vástago: un cilindro de radio 5 y 16 de alto, con el centro en (0, 0, 12).",
+                "en": "Start with the shank: a cylinder with radius 5 and height 16, centred at (0, 0, 12).",
+                "pt": "Comece pela haste: um cilindro de raio 5 e 16 de altura, com o centro em (0, 0, 12).",
             },
-            Say={"es": ("cuerpo",), "en": ("body",), "pt": ("corpo",)},
-            Action=_newBody,
+            Path={
+                "es": ("banco", "diseño", "sumar", "cilindro"),
+                "en": ("workbench", "design", "add", "cylinder"),
+                "pt": ("trabalho", "design", "aditivo", "cilindro"),
+            },
+            Values=lambda language: numbers(language, 5, 16, 0, 0, 12),
+            Action=_shank,
         ),
         ExampleStep(
             Text={
-                "es": "Dibujá la cabeza: un hexágono sobre el plano base.",
-                "en": "Draw the head: a hexagon on the base plane.",
-                "pt": "Desenhe a cabeça: um hexágono no plano base.",
+                "es": "Agregá la punta: un cono de radio 1 abajo y 5 arriba, 4 de alto, centro en (0, 0, 2). Como ya hay un cuerpo, se responde «no» a «¿cuerpo nuevo?» y se elige el existente.",
+                "en": "Add the tip: a cone with radius 1 at the bottom and 5 at the top, 4 high, centred at (0, 0, 2). There is a body already, so answer “no” to “new body?” and pick the existing one.",
+                "pt": "Adicione a ponta: um cone de raio 1 embaixo e 5 em cima, 4 de altura, centro em (0, 0, 2). Como já há um corpo, responda «não» a «corpo novo?» e escolha o existente.",
             },
-            Say={"es": ("hexágono",), "en": ("hexagon",), "pt": ("hexágono",)},
-            Action=_hexagon,
+            Path={"es": ("cono",), "en": ("cone",), "pt": ("cone",)},
+            Values=more(1, 5, 4, 0, 0, 2),
+            Action=_tip,
         ),
         ExampleStep(
             Text={
-                "es": "Extruí el hexágono 5 mm hacia arriba: ya tenés la cabeza.",
-                "en": "Extrude the hexagon 5 mm up: that is the head.",
-                "pt": "Extrude o hexágono 5 mm para cima: essa é a cabeça.",
+                "es": "Ahora la cabeza: un prisma de 6 lados, radio 8 y 4 de alto, centro en (0, 0, 22).",
+                "en": "Now the head: a 6-sided prism, radius 8 and 4 high, centred at (0, 0, 22).",
+                "pt": "Agora a cabeça: um prisma de 6 lados, raio 8 e 4 de altura, centro em (0, 0, 22).",
             },
-            Say={"es": ("extruir",), "en": ("extrude",), "pt": ("extrudar",)},
-            Action=_padHead,
+            Path={"es": ("prisma",), "en": ("prism",), "pt": ("prisma",)},
+            Values=more(6, 8, 4, 0, 0, 22),
+            Action=_head,
         ),
         ExampleStep(
             Text={
-                "es": "Dibujá el vástago: un círculo de 4 mm de radio.",
-                "en": "Draw the shank: a circle with a 4 mm radius.",
-                "pt": "Desenhe a haste: um círculo de 4 mm de raio.",
+                "es": "Achaflaná los bordes: 0,5 mm. El comando trabaja sobre la pieza seleccionada o, si no hay ninguna, sobre la última operación. Dictás «cero coma cinco».",
+                "en": "Chamfer the edges: 0.5 mm. The command works on the selected part or, if there is none, on the last operation. Say “zero point five”.",
+                "pt": "Chanfre as bordas: 0,5 mm. O comando trabalha sobre a peça selecionada ou, se não houver, sobre a última operação. Diga «zero virgula cinco».",
             },
-            Say={"es": ("círculo",), "en": ("circle",), "pt": ("círculo",)},
-            Action=_shankCircle,
-        ),
-        ExampleStep(
-            Text={
-                "es": "Extruí el círculo 25 mm hacia abajo.",
-                "en": "Extrude the circle 25 mm down.",
-                "pt": "Extrude o círculo 25 mm para baixo.",
+            Path={
+                "es": ("subir", "editar", "chaflan por medida"),
+                "en": ("up", "edit", "chamfer by size"),
+                "pt": ("subir", "editar", "chanfro por medida"),
             },
-            Say={"es": ("extruir",), "en": ("extrude",), "pt": ("extrudar",)},
-            Action=_padShank,
-        ),
-        ExampleStep(
-            Text={
-                "es": "Achaflaná la punta para que entre fácil.",
-                "en": "Chamfer the tip so it goes in easily.",
-                "pt": "Chanfre a ponta para que entre com facilidade.",
-            },
-            Say={"es": ("chaflán",), "en": ("chamfer",), "pt": ("chanfro",)},
+            Values=lambda language: decimal(language, 0, 5),
             Action=_chamfer,
         ),
         ExampleStep(
             Text={
-                "es": "Cortá la rosca con una hélice: ¡el tornillo está listo!",
-                "en": "Cut the thread with a helix: the screw is ready!",
-                "pt": "Corte a rosca com uma hélice: o parafuso está pronto!",
+                "es": "Para la rosca hace falta un dibujo del surco. Boceto nuevo sobre el plano XZ (es el segundo de la lista: «abajo» una vez y «enviar»).",
+                "en": "The thread needs a drawing of the groove. New sketch on the XZ plane (second in the list: “down” once and “send”).",
+                "pt": "Para a rosca é preciso um desenho do sulco. Esboço novo no plano XZ (é o segundo da lista: «abaixo» uma vez e «enviar»).",
             },
-            Say={"es": ("hélice",), "en": ("helix",), "pt": ("hélice",)},
+            Path={
+                "es": ("base", "nuevo boceto"),
+                "en": ("base", "new sketch"),
+                "pt": ("base", "esboco novo"),
+            },
+            Values=lambda language: down(language, 1) + send(language),
+            Action=_threadSketch,
+        ),
+        ExampleStep(
+            Text={
+                "es": "Dibujá el surco: un rectángulo de (4, 2) a (6, 3). Entra 1 mm en el vástago, que tiene radio 5.",
+                "en": "Draw the groove: a rectangle from (4, 2) to (6, 3). It goes 1 mm into the shank, which has radius 5.",
+                "pt": "Desenhe o sulco: um retângulo de (4, 2) a (6, 3). Entra 1 mm na haste, que tem raio 5.",
+            },
+            Path={
+                "es": ("geometria", "rectangulo", "rectangulo por esquinas"),
+                "en": ("geometry", "rectangle", "rectangle by corners"),
+                "pt": ("geometria", "retangulo", "retangulo por cantos"),
+            },
+            Values=lambda language: numbers(language, 4, 2, 6, 3),
+            Action=_threadProfile,
+        ),
+        ExampleStep(
+            Text={
+                "es": "Cerrá el croquis y cortá la rosca con una hélice: paso 3 y altura 12. Después elegís el dibujo de la lista (es el único: «enviar»).",
+                "en": "Close the sketch and cut the thread with a helix: pitch 3 and height 12. Then pick the drawing from the list (it is the only one: “send”).",
+                "pt": "Feche o esboço e corte a rosca com uma hélice: passo 3 e altura 12. Depois escolha o desenho da lista (é o único: «enviar»).",
+            },
+            Path={
+                "es": ("cerrar croquis", "banco", "diseño", "cortar", "helice"),
+                "en": ("close sketch", "workbench", "design", "cut", "helix"),
+                "pt": ("fechar esboco", "trabalho", "design", "cortar", "helice"),
+            },
+            Values=lambda language: numbers(language, 3, 12) + send(language),
             Action=_thread,
+        ),
+        ExampleStep(
+            Text={
+                "es": "Medí el ancho de la cabeza en 3D: de (-8, 0, 24) a (8, 0, 24). Con un sólido en el documento, «cota» pide 6 valores: X, Y y Z de cada punto.",
+                "en": "Measure the width of the head in 3D: from (-8, 0, 24) to (8, 0, 24). With a solid in the document, “measure” asks for 6 values: X, Y and Z of each point.",
+                "pt": "Meça a largura da cabeça em 3D: de (-8, 0, 24) a (8, 0, 24). Com um sólido no documento, «medir» pede 6 valores: X, Y e Z de cada ponto.",
+            },
+            Path={"es": ("cota",), "en": ("measure",), "pt": ("medir",)},
+            Values=lambda language: numbers(language, -8, 0, 24, 8, 0, 24),
+            Action=_dimension,
+        ),
+        ExampleStep(
+            Text={
+                "es": "Mirá el tornillo terminado en la vista «tres de» (isométrica).",
+                "en": "See the finished screw in the isometric view.",
+                "pt": "Veja o parafuso pronto na vista isométrica.",
+            },
+            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isometrica",)},
+            Action=_isometric,
         ),
     ]
