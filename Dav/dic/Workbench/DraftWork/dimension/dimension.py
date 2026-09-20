@@ -5,7 +5,6 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
-from .._parametric import linear_dimension
 from .ayuda import ayuda
 
 
@@ -17,8 +16,7 @@ def linear():
 
 
 dimension = {
-    "linear": linear_dimension,
-    "interactive": linear,
+    "linear": linear,
     "flip": lambda: runDraftCommand("Draft_FlipDimension"),
     "help": ayuda,
 }

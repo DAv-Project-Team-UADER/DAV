@@ -66,6 +66,25 @@ def isSolid(obj) -> bool:
     return shape is not None and bool(shape.Solids)
 
 
+def isShape(obj) -> bool:
+    """True for any drawable top-level object (a figure, sketch, body...).
+
+    Lo que vive dentro de un Body o un Part viaja con su contenedor y no se
+    ofrece por separado.
+    """
+    if _shapeOf(obj) is None:
+        return False
+    try:
+        return obj.getParentGeoFeatureGroup() is None
+    except Exception:
+        return True
+
+
+def isSketch(obj) -> bool:
+    """True for a Sketcher sketch that already has some drawing in it."""
+    return obj.isDerivedFrom("Sketcher::SketchObject") and obj.GeometryCount > 0
+
+
 def isBody(obj) -> bool:
     """True for a PartDesign body holding a valid solid (something to cut or drill).
 
@@ -141,6 +160,14 @@ def askSketch(doc, title: str):
         isProfile,
         "[DAV] Error: no hay ningún dibujo para usar. Dibujá algo primero "
         "(un boceto con figuras o una figura suelta).",
+    )
+
+
+def askShape(doc, title: str, message: str = "Elegí el objeto"):
+    """Let the user pick any drawable object; None when cancelled or there are none."""
+    return askObject(
+        doc, title, message, isShape,
+        "[DAV] Error: no hay ningún objeto para usar. Creá algo primero.",
     )
 
 
@@ -247,3 +274,30 @@ def askText(title: str, message: str):
     if result is None or result.Cancelled or not result.Success:
         return None
     return result.Value
+
+
+def askYesNo(title: str, message: str):
+    """Ask a yes/no question by voice.
+
+    Args:
+        title: Dialog title.
+        message: The question, e.g. "¿Crear un cuerpo nuevo?".
+
+    Returns:
+        True for yes, False for no, or None when cancelled ("cancelar").
+
+    Example::
+
+        if askYesNo("Nueva figura", "¿Crear un cuerpo nuevo?"):
+            ...
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+    from InputPrompts.YesNoInputPrompt import YesNoInputPrompt
+
+    prompt = YesNoInputPrompt(Title=title, Message=message)
+    phrases = prompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return bool(result.Value)

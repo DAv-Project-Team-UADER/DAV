@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .. import _modify
 from .ayuda import ayuda
 
 
@@ -30,15 +31,25 @@ def offset():
 
 
 modify = {
-    "clone": clone,
-    "downgrade": lambda: runDraftCommand("Draft_Downgrade"),
-    "sketch": sketch,
-    "edit": lambda: runDraftCommand("Draft_Edit"),
-    "fillet": lambda: runDraftCommand("Draft_Fillet"),
-    "join": lambda: runDraftCommand("Draft_Join"),
-    "move": lambda: runDraftCommand("Draft_Move"),
-    "offset": offset,
-    "rotate": lambda: runDraftCommand("Draft_Rotate"),
-    "mirror": lambda: runDraftCommand("Draft_Mirror"),
+    "clone": _modify.clone,
+    "downgrade": _modify.downgrade,
+    "sketch": _modify.to_sketch,
+    "edit": _modify.edit_point,
+    "fillet": _modify.fillet,
+    "join": _modify.join,
+    "move": _modify.move,
+    "offset": _modify.offset,
+    "rotate": _modify.rotate,
+    "mirror": _modify.mirror,
     "help": ayuda,
+    "interactive_clone": clone,
+    "interactive_sketch": sketch,
+    "interactive_offset": offset,
+    "interactive_downgrade": lambda: runDraftCommand("Draft_Downgrade"),
+    "interactive_edit": lambda: runDraftCommand("Draft_Edit"),
+    "interactive_fillet": lambda: runDraftCommand("Draft_Fillet"),
+    "interactive_join": lambda: runDraftCommand("Draft_Join"),
+    "interactive_move": lambda: runDraftCommand("Draft_Move"),
+    "interactive_rotate": lambda: runDraftCommand("Draft_Rotate"),
+    "interactive_mirror": lambda: runDraftCommand("Draft_Mirror"),
 }

@@ -20,7 +20,7 @@ from .ayuda import ayuda
 
 from .StandardViews import StandardViews
 
-TraducteToEn = {
+TraduceToEn = {
     # Bottom
     'bottom': StandardViews['bottom'],
     'below': StandardViews['bottom'],

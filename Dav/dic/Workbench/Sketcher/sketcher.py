@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from . import _edit
 from typing import Any
 from .validate.validate import validate
 from .tools.tools import tools as sketcher_tools
@@ -75,23 +76,23 @@ sketcher.update({
     'edit':               lambda: Gui.runCommand('Sketcher_EditSketch', 0),
     'attach':             lambda: Gui.runCommand('Sketcher_MapSketch', 0),
     'grid':               lambda: Gui.runCommand('Sketcher_Grid', 0),
-    'toggleconstruction': _toggle_construction,
+    'toggleconstruction': _edit.toggle_construction_element,
     'cancelediting':      lambda: Gui.runCommand('Sketcher_StopEditing', 0),
     'carboncopy':         lambda: Gui.runCommand('Sketcher_CarbonCopy', 0),
     'copyelements':       lambda: Gui.runCommand('Sketcher_CopyClipboard', 0),
     'cutelements':        lambda: Gui.runCommand('Sketcher_Cut', 0),
     'pasteelements':      lambda: Gui.runCommand('Sketcher_Paste', 0),
-    'mirror':             lambda: Gui.runCommand('Sketcher_Symmetry', 0),
+    'mirror':             _edit.mirror_elements,
     'mirrorsketch':       lambda: Gui.runCommand('Sketcher_MirrorSketch', 0),
     'offset':             lambda: Gui.runCommand('Sketcher_Offset', 0),
-    'movearray':          lambda: Gui.runCommand('Sketcher_Translate', 0),
+    'movearray':          _edit.move_elements,
     'rotatepolar':        lambda: Gui.runCommand('Sketcher_Rotate', 0),
     'scale':              lambda: Gui.runCommand('Sketcher_Scale', 0),
-    'trimedge':           lambda: Gui.runCommand('Sketcher_Trimming', 0),
-    'splitedge':          lambda: Gui.runCommand('Sketcher_Split', 0),
-    'extendedge':         lambda: Gui.runCommand('Sketcher_Extend', 0),
-    'fillet':             lambda: Gui.runCommand('Sketcher_CreateFillet', 0),
-    'chamfer':            lambda: Gui.runCommand('Sketcher_CreateChamfer', 0),
+    'trimedge':           _edit.trim_edge,
+    'splitedge':          _edit.split_edge,
+    'extendedge':         _edit.extend_edge,
+    'fillet':             _edit.fillet_corner,
+    'chamfer':            _edit.chamfer_corner,
     'help':               ayuda,
 })
 

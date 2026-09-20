@@ -25,7 +25,7 @@ import FreeCADGui as Gui
 from ..._display import showResult
 from ..._prompts import askNumber, askSketch
 from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
-from .._placement import chooseBody, placeAt
+from .._placement import askTwoProfiles, chooseBody, placeAt, sketchEdges
 
 
 def _RegisterObject(Feature) -> None:
@@ -36,17 +36,6 @@ def _RegisterObject(Feature) -> None:
     except ImportError:
         from selection.createobjects import CreateObjects
     CreateObjects(ObjectName=Feature.Name, Is3D=True).Execute()
-
-
-def _SelectedOrActive(Doc):
-    """Return the current selection, falling back to the active object."""
-    try:
-        selection = Gui.Selection.getSelection()
-    except Exception:
-        selection = []
-    if selection:
-        return selection[0]
-    return getattr(Doc, "ActiveObject", None)
 
 
 def _SketchFromShape(Doc, Source, Name: str):
@@ -87,22 +76,25 @@ def _ResolveProfile(Doc, Target):
 
 
 def _OwningBody(Doc, Profile):
-    """Return the body that owns Profile, else the active body, else a new one."""
+    """Return the body that owns Profile, or the one the user picks for a loose drawing.
+
+    Un dibujo suelto no tiene cuerpo: antes se le creaba uno vacío nuevo y el
+    corte fallaba por falta de base. Ahora se pregunta sobre cuál trabajar.
+
+    Returns:
+        The body, or None when there is none to cut from or the user cancelled.
+    """
     for obj in Doc.Objects:
         if obj.isDerivedFrom("PartDesign::Body") and Profile in obj.Group:
             return obj
-    try:
-        body = Gui.activeView().getActiveObject("pdbody")
-    except Exception:
-        body = None
-    if body is None:
-        body = Doc.addObject("PartDesign::Body", "Body")
-    body.addObject(Profile)
+    body = chooseBody(Doc, "Corte")
+    if body is not None:
+        body.addObject(Profile)
     return body
 
 
 def pocket_by_length(length: float) -> None:
-    """Cut a pocket into the body using the selected profile and a dictated depth.
+    """Cut a pocket into the body using a profile chosen by voice and a dictated depth.
 
     The subtractive counterpart of ``pad_by_length``: instead of adding
     material it removes it, so a square on a face becomes a square hollow.
@@ -122,9 +114,10 @@ def pocket_by_length(length: float) -> None:
         print(f"[subtractive] Error: length must be greater than zero (got {length}).")
         return
 
-    target = _SelectedOrActive(doc)
+    # se pregunta el dibujo: el objeto activo suele ser la última figura creada, no un perfil
+    target = askSketch(doc, "Vaciado")
     if target is None:
-        print("[subtractive] Error: select a 2D profile to cut with first.")
+        print("[subtractive] Pocket cancelled.")
         return
 
     profile = _ResolveProfile(doc, target)
@@ -133,6 +126,8 @@ def pocket_by_length(length: float) -> None:
         return
 
     body = _OwningBody(doc, profile)
+    if body is None:
+        return
 
     pocket = doc.addObject("PartDesign::Pocket", "Pocket")
     pocket.Profile = profile
@@ -250,7 +245,7 @@ def hole_by_size(diameter: float, x: float, y: float, z: float) -> None:
 
 
 def groove_by_angle(angle: float) -> None:
-    """Cut a groove by revolving the selected profile a dictated angle.
+    """Cut a groove by revolving a profile chosen by voice a dictated angle.
 
     Args:
         angle: Sweep angle, in degrees. Must be between 0 and 360.
@@ -267,9 +262,10 @@ def groove_by_angle(angle: float) -> None:
         print(f"[subtractive] Error: angle must be between 0 and 360 (got {angle}).")
         return
 
-    target = _SelectedOrActive(doc)
+    # se pregunta el dibujo: el objeto activo suele ser la última figura creada, no un perfil
+    target = askSketch(doc, "Ranura")
     if target is None:
-        print("[subtractive] Error: select a 2D profile to groove with first.")
+        print("[subtractive] Groove cancelled.")
         return
 
     profile = _ResolveProfile(doc, target)
@@ -278,6 +274,8 @@ def groove_by_angle(angle: float) -> None:
         return
 
     body = _OwningBody(doc, profile)
+    if body is None:
+        return
 
     groove = doc.addObject("PartDesign::Groove", "Groove")
     groove.Profile = profile
@@ -372,6 +370,8 @@ def pocket_choose_sketch() -> None:
     if sketch is None:
         return
     body = _OwningBody(doc, sketch)
+    if body is None:
+        return
     pocket = body.newObject("PartDesign::Pocket", "Pocket")
     pocket.Profile = sketch
     pocket.Length = length
@@ -408,6 +408,8 @@ def hole_choose_sketch() -> None:
     if sketch is None:
         return
     body = _OwningBody(doc, sketch)
+    if body is None:
+        return
     hole = body.newObject("PartDesign::Hole", "Hole")
     hole.Profile = sketch
     # ThreadType 0 = sin rosca; DepthType 0 = Dimension (usa Depth). El valor 1
@@ -442,6 +444,8 @@ def groove_choose_sketch() -> None:
     if sketch is None:
         return
     body = _OwningBody(doc, sketch)
+    if body is None:
+        return
     groove = body.newObject("PartDesign::Groove", "Groove")
     groove.Profile = sketch
     groove.Angle = angle
@@ -449,7 +453,9 @@ def groove_choose_sketch() -> None:
         print(f"[subtractive] Grooved '{sketch.Name}' by {angle} degrees")
 
 
-def _cutPrimitive(doc, typeId: str, label: str, properties: dict, center, shift, text: str) -> None:
+def _cutPrimitive(
+    doc, typeId: str, label: str, properties: dict, center, shift, text: str, rotation=None
+) -> None:
     """Cut a primitive out of a solid chosen by voice, centred on a dictated point.
 
     Args:
@@ -460,6 +466,7 @@ def _cutPrimitive(doc, typeId: str, label: str, properties: dict, center, shift,
         center: ``(x, y, z)`` where the centre of the figure goes.
         shift: ``(dx, dy, dz)`` from the primitive's own origin to its centre.
         text: Description printed on success.
+        rotation: Optional ``App.Rotation`` applied about the primitive's origin.
     """
     body = chooseBody(doc, "Corte")
     if body is None:
@@ -471,7 +478,7 @@ def _cutPrimitive(doc, typeId: str, label: str, properties: dict, center, shift,
     for name, value in properties.items():
         setattr(feature, name, value)
     x, y, z = center
-    placeAt(body, feature, x - shift[0], y - shift[1], z - shift[2])
+    placeAt(body, feature, x - shift[0], y - shift[1], z - shift[2], rotation)
 
     doc.recompute()
     if not feature.isValid() or abs(body.Shape.Volume - before) < 1e-6:
@@ -662,3 +669,185 @@ def cut_prism_by_size(
         (x, y, z), (0, 0, height / 2),
         f"a prism of {sides} sides radius {circumradius} height {height}",
     )
+
+
+def cut_ellipsoid_by_size(
+    radiusX: float, radiusY: float, radiusZ: float, x: float, y: float, z: float
+) -> None:
+    """Cut an ellipsoid-shaped pocket out of the chosen solid, centred on a point.
+
+    Args:
+        radiusX: Semi-axis along X, in millimetres.
+        radiusY: Semi-axis along Y.
+        radiusZ: Semi-axis along Z.
+        x: X of the centre, in millimetres.
+        y: Y of the centre.
+        z: Z of the centre.
+
+    Example::
+
+        cut_ellipsoid_by_size(20, 10, 5, 0, 0, 5)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if radiusX <= 0 or radiusY <= 0 or radiusZ <= 0:
+        print("[subtractive] Error: the three radii must be greater than zero.")
+        return
+    _cutPrimitive(
+        doc, "PartDesign::SubtractiveEllipsoid", "CutEllipsoid",
+        {"Radius1": radiusZ, "Radius2": radiusX, "Radius3": radiusY},
+        (x, y, z), (0, 0, 0),
+        f"an ellipsoid {radiusX} x {radiusY} x {radiusZ}",
+    )
+
+
+def cut_wedge_by_size(
+    length: float, depth: float, height: float, topLength: float, topDepth: float,
+    x: float, y: float, z: float,
+) -> None:
+    """Cut a wedge-shaped pocket out of the chosen solid, centred on a point.
+
+    Args:
+        length: Base size along X, in millimetres.
+        depth: Base size along Y.
+        height: Height along Z.
+        topLength: Top face size along X (zero gives a ridge).
+        topDepth: Top face size along Y (zero gives a ridge).
+        x: X of the centre, in millimetres.
+        y: Y of the centre.
+        z: Z of the centre (halfway up its height).
+
+    Example::
+
+        cut_wedge_by_size(20, 20, 10, 10, 10, 0, 0, 5)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if length <= 0 or depth <= 0 or height <= 0:
+        print("[subtractive] Error: base sizes and height must be greater than zero.")
+        return
+    if topLength < 0 or topDepth < 0 or topLength > length or topDepth > depth:
+        print("[subtractive] Error: the top face cannot be negative or larger than the base.")
+        return
+    # base en X-Z y altura en Y, girada 90 grados sobre X para que la altura sea Z
+    _cutPrimitive(
+        doc, "PartDesign::SubtractiveWedge", "CutWedge",
+        {
+            "Xmin": 0, "Xmax": length, "Zmin": 0, "Zmax": depth, "Ymin": 0, "Ymax": height,
+            "X2min": (length - topLength) / 2, "X2max": (length + topLength) / 2,
+            "Z2min": (depth - topDepth) / 2, "Z2max": (depth + topDepth) / 2,
+        },
+        (x, y, z), (length / 2, -depth / 2, height / 2),
+        f"a wedge {length} x {depth} x {height}",
+        rotation=App.Rotation(App.Vector(1, 0, 0), 90),
+    )
+
+
+def cut_helix_by_size(pitch: float, height: float) -> None:
+    """Cut a helical groove with a drawing chosen by voice.
+
+    Args:
+        pitch: Advance per turn, in millimetres.
+        height: Total height of the helix, in millimetres.
+
+    Example::
+
+        cut_helix_by_size(5, 30)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    if pitch <= 0 or height <= 0:
+        print("[subtractive] Error: pitch and height must be greater than zero.")
+        return
+    chosen = askSketch(doc, "Hélice")
+    if chosen is None:
+        print("[subtractive] Helix cancelled.")
+        return
+    profile = _profileFor(doc, chosen)
+    if profile is None:
+        return
+    body = _OwningBody(doc, profile)
+    if body is None:
+        return
+    helix = body.newObject("PartDesign::SubtractiveHelix", "CutHelix")
+    helix.Profile = profile
+    helix.ReferenceAxis = (profile, ["V_Axis"])
+    helix.Mode = "pitch-height-angle"
+    helix.Pitch = pitch
+    helix.Height = height
+    if _finishFeature(doc, helix, profile):
+        print(f"[subtractive] Cut a helix pitch {pitch} height {height}")
+
+
+def cut_loft_choose_sketches() -> None:
+    """Cut a smooth pocket between two drawings chosen by voice (subtractive loft).
+
+    Example::
+
+        cut_loft_choose_sketches()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    chosen = askTwoProfiles(doc, "Loft", "Elegí el primer dibujo", "Elegí el segundo dibujo")
+    if chosen is None:
+        print("[subtractive] Loft cancelled.")
+        return
+    first, second = _profileFor(doc, chosen[0]), _profileFor(doc, chosen[1])
+    if first is None or second is None:
+        return
+    body = _OwningBody(doc, first)
+    if body is None:
+        return
+    if second.getParentGeoFeatureGroup() is None:
+        body.addObject(second)
+    elif second.getParentGeoFeatureGroup() is not body:
+        print("[subtractive] Error: both drawings must belong to the same body.")
+        return
+    loft = body.newObject("PartDesign::SubtractiveLoft", "CutLoft")
+    loft.Profile = first
+    loft.Sections = [second]
+    if _finishFeature(doc, loft, first):
+        second.Visibility = False
+        print(f"[subtractive] Cut a loft between '{first.Name}' and '{second.Name}'")
+
+
+def cut_pipe_choose_sketches() -> None:
+    """Cut a pocket sweeping a profile along a path, both chosen by voice.
+
+    Example::
+
+        cut_pipe_choose_sketches()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[subtractive] Error: no active document.")
+        return
+    chosen = askTwoProfiles(doc, "Tubo", "Elegí el perfil que se recorre", "Elegí la trayectoria")
+    if chosen is None:
+        print("[subtractive] Pipe cancelled.")
+        return
+    profile, path = _profileFor(doc, chosen[0]), _profileFor(doc, chosen[1])
+    if profile is None or path is None:
+        return
+    body = _OwningBody(doc, profile)
+    if body is None:
+        return
+    if path.getParentGeoFeatureGroup() is None:
+        body.addObject(path)
+    elif path.getParentGeoFeatureGroup() is not body:
+        print("[subtractive] Error: profile and path must belong to the same body.")
+        return
+    pipe = body.newObject("PartDesign::SubtractivePipe", "CutPipe")
+    pipe.Profile = profile
+    pipe.Spine = (path, sketchEdges(path))
+    if _finishFeature(doc, pipe, profile):
+        path.Visibility = False
+        print(f"[subtractive] Cut a pipe of '{profile.Name}' along '{path.Name}'")

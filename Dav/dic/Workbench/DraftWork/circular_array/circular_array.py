@@ -1,5 +1,6 @@
 import FreeCAD as App
 from ..draftcommand import runDraftCommand
+from .. import _modify
 from .ayuda import ayuda
 from selection.createobjects import CreateObjects
 
@@ -54,12 +55,19 @@ def pointlink():
 
 
 array = {
-    'circular': circular,
-    'ortho': ortho,
-    'polar': polar,
-    'path': path,
-    'pathlink': pathlink,
-    'point': point,
-    'pointlink': pointlink,
-    'help': ayuda
+    "circular": _modify.circular_array,
+    "ortho": _modify.ortho_array,
+    "polar": _modify.polar_array,
+    "path": _modify.path_array,
+    "pathlink": _modify.path_link_array,
+    "point": _modify.point_array,
+    "pointlink": _modify.point_link_array,
+    "help": ayuda,
+    "interactive_circular": circular,
+    "interactive_ortho": ortho,
+    "interactive_polar": polar,
+    "interactive_path": path,
+    "interactive_pathlink": pathlink,
+    "interactive_point": point,
+    "interactive_pointlink": pointlink,
 }

@@ -48,6 +48,10 @@ TraduceToEn = {
     "create circle by three points": circle['create_by_3_points'],
     "circle by 3 points": circle['create_by_3_points'],
     "create circle by 3 points": circle['create_by_3_points'],
+    'circle by parameters':             circle['create_by_center_radius'],
+    'circle by center and radius':      circle['create_by_center_radius'],
+    'parametric three point circle':    circle['create_by_3points'],
+    'three points parametric':          circle['create_by_3points'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -127,3 +131,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)

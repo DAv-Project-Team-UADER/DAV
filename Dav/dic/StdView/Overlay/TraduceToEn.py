@@ -18,7 +18,7 @@
 
 """English spoken-word mapping for the overlay dictionary."""
 
-from .overlay import overlay
+from .Overlay import overlay
 
 TraduceToEn = {
     # Overlay positions and toggles

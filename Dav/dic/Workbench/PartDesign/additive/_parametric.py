@@ -25,7 +25,7 @@ import FreeCADGui as Gui
 from ..._display import showResult
 from ..._prompts import askNumber, askSketch
 from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
-from .._placement import placeAt
+from .._placement import askTwoProfiles, bodyForAdditive, placeAt, sketchEdges
 
 
 def _RegisterObject(Feature) -> None:
@@ -75,22 +75,11 @@ def _ResolveProfile(Doc, Target):
     return _SketchFromShape(Doc, Target, f"{Target.Name}Profile")
 
 
-def _SelectedOrActive(Doc):
-    """Return the current selection, falling back to the active object."""
-    try:
-        selection = Gui.Selection.getSelection()
-    except Exception:
-        selection = []
-    if selection:
-        return selection[0]
-    return getattr(Doc, "ActiveObject", None)
-
-
 def pad_by_length(length: float) -> None:
-    """Extrude the selected 2D profile by a dictated length.
+    """Extrude a 2D profile chosen by voice by a dictated length.
 
     This is the voice path from a flat shape to a solid: draw a square with the
-    Sketcher geometry commands, select it, and say the height. Unlike ``pad``,
+    Sketcher geometry commands, choose it from the list, and say the height. Unlike ``pad``,
     no FreeCAD dialog is opened -- the length comes from the prompt, so the
     whole flow runs without mouse or keyboard.
 
@@ -112,9 +101,10 @@ def pad_by_length(length: float) -> None:
         print(f"[additive] Error: length must be greater than zero (got {length}).")
         return
 
-    target = _SelectedOrActive(doc)
+    # se pregunta el dibujo: el objeto activo suele ser la última figura creada, no un perfil
+    target = askSketch(doc, "Extruir")
     if target is None:
-        print("[additive] Error: select a 2D profile to extrude first.")
+        print("[additive] Extrusion cancelled.")
         return
 
     profile = _ResolveProfile(doc, target)
@@ -295,6 +285,26 @@ def revolve_choose_sketch() -> None:
     _revolveProfile(doc, profile, angle)
 
 
+def _RegisterAdditive(doc, feature) -> bool:
+    """Register an additive figure, or discard it when it could not join the body.
+
+    Al sumar una figura a un cuerpo existente, FreeCAD exige un único sólido:
+    si no toca ni se superpone con el actual la operación falla.
+
+    Returns:
+        True when the figure is valid and registered.
+    """
+    if not feature.isValid():
+        _discard(doc, feature)
+        print(
+            "[additive] Error: la figura no se pudo unir al cuerpo; tiene que tocar "
+            "o superponerse con el sólido existente (o creá un cuerpo nuevo)."
+        )
+        return False
+    _RegisterObject(feature)
+    return True
+
+
 def box_by_size(length: float, width: float, height: float, x: float, y: float, z: float) -> None:
     """Create a box from three dictated dimensions and the position of its centre.
 
@@ -321,7 +331,9 @@ def box_by_size(length: float, width: float, height: float, x: float, y: float, 
         print("[additive] Error: every dimension must be greater than zero.")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     box = doc.addObject("PartDesign::AdditiveBox", "Box")
     box.Length = length
     box.Width = width
@@ -331,8 +343,8 @@ def box_by_size(length: float, width: float, height: float, x: float, y: float, 
     placeAt(body, box, x - length / 2, y - width / 2, z - height / 2)
 
     doc.recompute()
-    _RegisterObject(box)
-    print(f"[additive] Created box {length} x {width} x {height}")
+    if _RegisterAdditive(doc, box):
+        print(f"[additive] Created box {length} x {width} x {height}")
 
 
 def cylinder_by_size(radius: float, height: float, x: float, y: float, z: float) -> None:
@@ -357,7 +369,9 @@ def cylinder_by_size(radius: float, height: float, x: float, y: float, z: float)
         print("[additive] Error: radius and height must be greater than zero.")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     cylinder = doc.addObject("PartDesign::AdditiveCylinder", "Cylinder")
     cylinder.Radius = radius
     cylinder.Height = height
@@ -366,12 +380,12 @@ def cylinder_by_size(radius: float, height: float, x: float, y: float, z: float)
     placeAt(body, cylinder, x, y, z - height / 2)
 
     doc.recompute()
-    _RegisterObject(cylinder)
-    print(f"[additive] Created cylinder radius {radius} height {height}")
+    if _RegisterAdditive(doc, cylinder):
+        print(f"[additive] Created cylinder radius {radius} height {height}")
 
 
 def revolve_by_angle(angle: float) -> None:
-    """Revolve the selected 2D profile by a dictated angle.
+    """Revolve a 2D profile chosen by voice by a dictated angle.
 
     Args:
         angle: Sweep angle, in degrees. Must be between 0 and 360.
@@ -388,9 +402,10 @@ def revolve_by_angle(angle: float) -> None:
         print(f"[additive] Error: angle must be between 0 and 360 (got {angle}).")
         return
 
-    target = _SelectedOrActive(doc)
+    # se pregunta el dibujo: el objeto activo suele ser la última figura creada, no un perfil
+    target = askSketch(doc, "Revolución")
     if target is None:
-        print("[additive] Error: select a 2D profile to revolve first.")
+        print("[additive] Revolution cancelled.")
         return
 
     profile = _ResolveProfile(doc, target)
@@ -453,15 +468,17 @@ def sphere_by_radius(radius: float, x: float, y: float, z: float) -> None:
         print(f"[additive] Error: radius must be greater than zero (got {radius}).")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     sphere = doc.addObject("PartDesign::AdditiveSphere", "Sphere")
     sphere.Radius = radius
     body.addObject(sphere)
     placeAt(body, sphere, x, y, z)
 
     doc.recompute()
-    _RegisterObject(sphere)
-    print(f"[additive] Created sphere radius {radius}")
+    if _RegisterAdditive(doc, sphere):
+        print(f"[additive] Created sphere radius {radius}")
 
 
 def cone_by_size(
@@ -498,7 +515,9 @@ def cone_by_size(
         print(f"[additive] Error: height must be greater than zero (got {height}).")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     cone = doc.addObject("PartDesign::AdditiveCone", "Cone")
     cone.Radius1 = radius1
     cone.Radius2 = radius2
@@ -507,8 +526,8 @@ def cone_by_size(
     placeAt(body, cone, x, y, z - height / 2)
 
     doc.recompute()
-    _RegisterObject(cone)
-    print(f"[additive] Created cone radii {radius1}/{radius2} height {height}")
+    if _RegisterAdditive(doc, cone):
+        print(f"[additive] Created cone radii {radius1}/{radius2} height {height}")
 
 
 def torus_by_size(radius1: float, radius2: float, x: float, y: float, z: float) -> None:
@@ -540,7 +559,9 @@ def torus_by_size(radius1: float, radius2: float, x: float, y: float, z: float) 
         )
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     torus = doc.addObject("PartDesign::AdditiveTorus", "Torus")
     torus.Radius1 = radius1
     torus.Radius2 = radius2
@@ -548,8 +569,8 @@ def torus_by_size(radius1: float, radius2: float, x: float, y: float, z: float) 
     placeAt(body, torus, x, y, z)
 
     doc.recompute()
-    _RegisterObject(torus)
-    print(f"[additive] Created torus ring {radius1} tube {radius2}")
+    if _RegisterAdditive(doc, torus):
+        print(f"[additive] Created torus ring {radius1} tube {radius2}")
 
 
 def prism_by_size(
@@ -580,7 +601,9 @@ def prism_by_size(
         print("[additive] Error: radius and height must be greater than zero.")
         return
 
-    body = doc.addObject("PartDesign::Body", "Body")
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
     prism = doc.addObject("PartDesign::AdditivePrism", "Prism")
     prism.Polygon = sides
     prism.Circumradius = circumradius
@@ -589,5 +612,228 @@ def prism_by_size(
     placeAt(body, prism, x, y, z - height / 2)
 
     doc.recompute()
-    _RegisterObject(prism)
-    print(f"[additive] Created prism of {sides} sides radius {circumradius} height {height}")
+    if _RegisterAdditive(doc, prism):
+        print(f"[additive] Created prism of {sides} sides radius {circumradius} height {height}")
+
+
+def ellipsoid_by_size(
+    radiusX: float, radiusY: float, radiusZ: float, x: float, y: float, z: float
+) -> None:
+    """Create an ellipsoid from its three semi-axes and its centre position.
+
+    Args:
+        radiusX: Semi-axis along X, in millimetres.
+        radiusY: Semi-axis along Y.
+        radiusZ: Semi-axis along Z.
+        x: X of the centre, in millimetres.
+        y: Y of the centre.
+        z: Z of the centre.
+
+    Example::
+
+        ellipsoid_by_size(20, 10, 5, 0, 0, 5)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if radiusX <= 0 or radiusY <= 0 or radiusZ <= 0:
+        print("[additive] Error: the three radii must be greater than zero.")
+        return
+
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
+    ellipsoid = doc.addObject("PartDesign::AdditiveEllipsoid", "Ellipsoid")
+    # Radius1 es el semieje local en Z, Radius2 en X y Radius3 en Y
+    ellipsoid.Radius1 = radiusZ
+    ellipsoid.Radius2 = radiusX
+    ellipsoid.Radius3 = radiusY
+    body.addObject(ellipsoid)
+    placeAt(body, ellipsoid, x, y, z)
+
+    doc.recompute()
+    if _RegisterAdditive(doc, ellipsoid):
+        print(f"[additive] Created ellipsoid {radiusX} x {radiusY} x {radiusZ}")
+
+
+def wedge_by_size(
+    length: float, depth: float, height: float, topLength: float, topDepth: float,
+    x: float, y: float, z: float,
+) -> None:
+    """Create a wedge (a box whose top face is smaller) from its sizes and centre.
+
+    Args:
+        length: Base size along X, in millimetres.
+        depth: Base size along Y.
+        height: Height along Z.
+        topLength: Top face size along X (zero gives a ridge).
+        topDepth: Top face size along Y (zero gives a ridge).
+        x: X of the centre, in millimetres.
+        y: Y of the centre.
+        z: Z of the centre (halfway up its height).
+
+    Example::
+
+        wedge_by_size(20, 20, 10, 10, 10, 0, 0, 5)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if length <= 0 or depth <= 0 or height <= 0:
+        print("[additive] Error: base sizes and height must be greater than zero.")
+        return
+    if topLength < 0 or topDepth < 0 or topLength > length or topDepth > depth:
+        print("[additive] Error: the top face cannot be negative or larger than the base.")
+        return
+
+    body = bodyForAdditive(doc, "Nueva figura")
+    if body is None:
+        return
+    wedge = doc.addObject("PartDesign::AdditiveWedge", "Wedge")
+    # en FreeCAD la base es X-Z y la altura va en Y: se define así y luego se
+    # pone de pie (giro de 90 grados sobre X) para que la altura sea Z
+    wedge.Xmin, wedge.Xmax = 0, length
+    wedge.Zmin, wedge.Zmax = 0, depth
+    wedge.Ymin, wedge.Ymax = 0, height
+    wedge.X2min, wedge.X2max = (length - topLength) / 2, (length + topLength) / 2
+    wedge.Z2min, wedge.Z2max = (depth - topDepth) / 2, (depth + topDepth) / 2
+    body.addObject(wedge)
+    # el centro local (L/2, H/2, D/2) queda en (L/2, -D/2, H/2) tras el giro
+    placeAt(
+        body, wedge, x - length / 2, y + depth / 2, z - height / 2,
+        App.Rotation(App.Vector(1, 0, 0), 90),
+    )
+
+    doc.recompute()
+    if _RegisterAdditive(doc, wedge):
+        print(f"[additive] Created wedge {length} x {depth} x {height}")
+
+
+def helix_by_size(pitch: float, height: float) -> None:
+    """Sweep a drawing chosen by voice along a helix around its vertical axis.
+
+    The drawing (a closed profile beside the sketch's vertical axis) becomes
+    a spring or thread.
+
+    Args:
+        pitch: Advance per turn, in millimetres.
+        height: Total height of the helix, in millimetres.
+
+    Example::
+
+        helix_by_size(5, 30)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    if pitch <= 0 or height <= 0:
+        print("[additive] Error: pitch and height must be greater than zero.")
+        return
+
+    chosen = askSketch(doc, "Hélice")
+    if chosen is None:
+        print("[additive] Helix cancelled.")
+        return
+    profile = _ResolveProfile(doc, chosen)
+    if profile is None or profile.GeometryCount == 0:
+        print(f"[additive] Error: '{chosen.Name}' has no usable outline.")
+        return
+
+    body = _BodyOf(doc, profile)
+    helix = body.newObject("PartDesign::AdditiveHelix", "Helix")
+    helix.Profile = profile
+    helix.ReferenceAxis = (profile, ["V_Axis"])
+    helix.Mode = "pitch-height-angle"
+    helix.Pitch = pitch
+    helix.Height = height
+    doc.recompute()
+    if not helix.isValid():
+        _discard(doc, helix)
+        print("[additive] Error: could not make the helix (the profile must be closed and not cross the vertical axis).")
+        return
+    profile.Visibility = False
+    _RegisterObject(helix)
+    print(f"[additive] Created helix pitch {pitch} height {height}")
+
+
+def loft_choose_sketches() -> None:
+    """Join two drawings chosen by voice with a smooth solid (loft).
+
+    Example::
+
+        loft_choose_sketches()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    chosen = askTwoProfiles(doc, "Loft", "Elegí el primer dibujo", "Elegí el segundo dibujo")
+    if chosen is None:
+        print("[additive] Loft cancelled.")
+        return
+    first, second = (_ResolveProfile(doc, item) for item in chosen)
+    if first is None or second is None:
+        print("[additive] Error: one of the drawings has no usable outline.")
+        return
+
+    body = _BodyOf(doc, first)
+    if second.getParentGeoFeatureGroup() is None:
+        body.addObject(second)
+    elif second.getParentGeoFeatureGroup() is not body:
+        print("[additive] Error: both drawings must belong to the same body.")
+        return
+    loft = body.newObject("PartDesign::AdditiveLoft", "Loft")
+    loft.Profile = first
+    loft.Sections = [second]
+    doc.recompute()
+    if not loft.isValid():
+        _discard(doc, loft)
+        print("[additive] Error: could not loft between those drawings (they must be closed profiles).")
+        return
+    first.Visibility = False
+    second.Visibility = False
+    _RegisterObject(loft)
+    print(f"[additive] Created loft between '{first.Name}' and '{second.Name}'")
+
+
+def pipe_choose_sketches() -> None:
+    """Sweep a profile chosen by voice along a path chosen by voice (pipe).
+
+    Example::
+
+        pipe_choose_sketches()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[additive] Error: no active document.")
+        return
+    chosen = askTwoProfiles(doc, "Tubo", "Elegí el perfil que se recorre", "Elegí la trayectoria")
+    if chosen is None:
+        print("[additive] Pipe cancelled.")
+        return
+    profile, path = (_ResolveProfile(doc, item) for item in chosen)
+    if profile is None or path is None:
+        print("[additive] Error: one of the drawings has no usable outline.")
+        return
+
+    body = _BodyOf(doc, profile)
+    if path.getParentGeoFeatureGroup() is None:
+        body.addObject(path)
+    elif path.getParentGeoFeatureGroup() is not body:
+        print("[additive] Error: profile and path must belong to the same body.")
+        return
+    pipe = body.newObject("PartDesign::AdditivePipe", "Pipe")
+    pipe.Profile = profile
+    pipe.Spine = (path, sketchEdges(path))
+    doc.recompute()
+    if not pipe.isValid():
+        _discard(doc, pipe)
+        print("[additive] Error: could not make the pipe (the path must be connected and the profile closed).")
+        return
+    profile.Visibility = False
+    path.Visibility = False
+    _RegisterObject(pipe)
+    print(f"[additive] Created pipe of '{profile.Name}' along '{path.Name}'")

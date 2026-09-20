@@ -23,6 +23,7 @@ from _lenient import LenientDict
 appearance = {
     'appearance':     lambda: Gui.runCommand('Std_SetAppearance', 0),
     'facecolors':     lambda: Gui.runCommand('Part_FaceColors', 0),
+    'facecolor':      lambda: Gui.runCommand('Part_FaceColors', 0),
     'randomcolor':    lambda: Gui.runCommand('Std_RandomColor', 0),
     'texturemapping': lambda: Gui.runCommand('Std_TextureMapping', 0),
     'help':           ayuda,

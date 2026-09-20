@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .. import _modify
 from .ayuda import ayuda
 
 
@@ -23,14 +24,20 @@ def wire_to_bspline():
 
 
 modification = {
-    "scale": lambda: runDraftCommand("Draft_Scale"),
-    "shape_2d_view": shape_2d_view,
-    "slope": lambda: runDraftCommand("Draft_Slope"),
-    "split": lambda: runDraftCommand("Draft_Split"),
-    "stretch": lambda: runDraftCommand("Draft_Stretch"),
-    "subelement_highlight": lambda: runDraftCommand("Draft_SubelementHighlight"),
-    "trimex": lambda: runDraftCommand("Draft_Trimex"),
-    "upgrade": lambda: runDraftCommand("Draft_Upgrade"),
-    "wire_to_bspline": wire_to_bspline,
+    "scale": _modify.scale,
+    "shape_2d_view": _modify.shape_2d_view,
+    "slope": _modify.slope,
+    "split": _modify.split_wire,
+    "stretch": _modify.stretch,
+    "subelement_highlight": _modify.highlight_subelements,
+    "trimex": _modify.trim_extend,
+    "upgrade": _modify.upgrade,
+    "wire_to_bspline": _modify.wire_to_bspline,
     "help": ayuda,
+    "interactive_scale": lambda: runDraftCommand("Draft_Scale"),
+    "interactive_slope": lambda: runDraftCommand("Draft_Slope"),
+    "interactive_split": lambda: runDraftCommand("Draft_Split"),
+    "interactive_stretch": lambda: runDraftCommand("Draft_Stretch"),
+    "interactive_trimex": lambda: runDraftCommand("Draft_Trimex"),
+    "interactive_upgrade": lambda: runDraftCommand("Draft_Upgrade"),
 }

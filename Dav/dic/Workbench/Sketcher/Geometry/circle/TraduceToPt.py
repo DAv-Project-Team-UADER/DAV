@@ -46,6 +46,10 @@ TraduceToPt = {
     "criar circulo por tres pontos": circle['create_by_3_points'],
     "criar círculo por três pontos": circle['create_by_3_points'],
     "circulo por 3 pontos": circle['create_by_3_points'],
+    'círculo por parâmetros':           circle['create_by_center_radius'],
+    'círculo por centro e raio':        circle['create_by_center_radius'],
+    'círculo por três pontos paramétrico': circle['create_by_3points'],
+    'três pontos paramétrico':          circle['create_by_3points'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -207,3 +211,8 @@ TraduceToPt.update ({
     'menos zoom':           StandardViews['zoomout'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, CreateDimension)

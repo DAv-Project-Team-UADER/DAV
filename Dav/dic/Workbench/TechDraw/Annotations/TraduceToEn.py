@@ -15,7 +15,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .Annotations import annotations
+from .annotations import annotations
 from .ayuda import ayuda
 
 TraduceToEn = {
@@ -118,3 +118,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)

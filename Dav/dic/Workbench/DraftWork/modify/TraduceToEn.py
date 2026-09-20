@@ -136,3 +136,8 @@ TraduceToEn.update ({
     "info":            StandardViews['help'],
     "options":         StandardViews['help']
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)

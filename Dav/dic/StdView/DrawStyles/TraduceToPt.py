@@ -20,7 +20,7 @@
 # Portuguese translations – StdViews DrawStyles
 # ============================================================
 
-from .drawstyles import drawstyles
+from .DrawStyles import drawstyles
 
 TraduceToPt = {
     # Estilos principais

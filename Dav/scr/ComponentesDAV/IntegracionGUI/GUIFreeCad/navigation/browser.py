@@ -324,7 +324,37 @@ class Browser:
                 self._ExecuteEntry(entry)
                 return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
 
-        return self._SearchUpwardAndExecute(normalized)
+        upward = self._SearchUpwardAndExecute(normalized)
+        if upward.Success or upward.Action != "not_found":
+            return upward
+        # último recurso: comandos globales de la raíz (deshacer, cota, preferencias...)
+        return self._ExecuteGlobalCallable(normalized) or upward
+
+    def _ExecuteGlobalCallable(self, normalized_spoken: str) -> BrowserResult | None:
+        """Run a root-level command from any context, without leaving the current one.
+
+        Las frases de ``Dav/dic/TraduceTo*.py`` entran en la gramática de Vosk en
+        todos los contextos, pero la búsqueda ascendente solo las encontraba al
+        llegar al frame raíz, y al ejecutarlas mandaba al usuario a la raíz.
+        Esto las ejecuta en el lugar: un «deshacer» o una «cota» no debería
+        cambiar dónde está parado.
+
+        Returns:
+            El resultado de la ejecución, o None si la frase no es un comando global.
+        """
+        for spoken, target in self._base_translate.items():
+            if isinstance(target, dict) or not callable(target):
+                continue
+            if DictionaryLoader.NormalizeSpoken(spoken) != normalized_spoken:
+                continue
+            entry = ContextEntry(
+                Spoken=spoken,
+                InternalKey=getattr(target, "__name__", spoken),
+                Target=target,
+            )
+            self._ExecuteEntry(entry)
+            return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
+        return None
 
     def _FindWithFallback(
         self, entries: list[ContextEntry], normalized: str
@@ -635,6 +665,10 @@ class Browser:
             parent_context = self._BuildContextForFrame(parent_frame)
 
             entry, _is_fuzzy = self._FindWithFallback(parent_context, normalized_spoken)
+            # en el frame raíz solo se busca entrar a subcontextos: sus comandos son
+            # globales y los ejecuta _ExecuteGlobalCallable sin mover el contexto
+            if entry is not None and entry.IsCallable() and len(temp_stack) == 1:
+                entry = None
             if entry is not None:
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)

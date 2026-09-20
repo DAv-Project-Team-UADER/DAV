@@ -16,7 +16,7 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from arcslot import arc_slot
+from .arcslot import arc_slot
 
 TraduceToEs = {
     # Ranura con extremos curvos
@@ -167,3 +167,8 @@ TraduceToEs.update ({
     'zoom menos':           StandardViews['zoomout'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, CreateDimension)

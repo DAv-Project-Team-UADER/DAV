@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .. import _modify
 from .ayuda import ayuda
 
 
@@ -16,6 +17,7 @@ def create():
 
 
 facebinder = {
-    "create": create,
+    "create": _modify.facebinder,
     "help": ayuda,
+    "interactive": create,
 }

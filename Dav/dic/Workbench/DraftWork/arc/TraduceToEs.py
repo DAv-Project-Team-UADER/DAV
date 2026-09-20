@@ -159,3 +159,8 @@ TraduceToEs = {
     "información":          StandardViews['help'],
     'opciones':             StandardViews['help'],
 }
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, CreateDimension)

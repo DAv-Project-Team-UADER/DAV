@@ -18,7 +18,7 @@
 
 from .StandardViews import StandardViews
 
-TraduceToPT = {
+TraduceToPt = {
     # bottom
     'baixo':                StandardViews['bottom'],
     'inferior':             StandardViews['bottom'],

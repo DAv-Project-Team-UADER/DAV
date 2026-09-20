@@ -16,21 +16,22 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from .. import _voice
 
 geometric = {
-    'coincident':          lambda: Gui.runCommand('Sketcher_ConstrainCoincident', 0),
+    'coincident':          _voice.make_coincident,
     'coincidentunified':   lambda: Gui.runCommand('Sketcher_ConstrainCoincidentUnified', 0),
     'lock':                lambda: Gui.runCommand('Sketcher_ConstrainLock', 0),
-    'pointonobject':       lambda: Gui.runCommand('Sketcher_ConstrainPointOnObject', 0),
-    'horizontal':          lambda: Gui.runCommand('Sketcher_ConstrainHorizontal', 0),
-    'vertical':            lambda: Gui.runCommand('Sketcher_ConstrainVertical', 0),
+    'pointonobject':       _voice.make_point_on_object,
+    'horizontal':          _voice.make_horizontal,
+    'vertical':            _voice.make_vertical,
     'horver':              lambda: Gui.runCommand('Sketcher_ConstrainHorVer', 0),
-    'parallel':            lambda: Gui.runCommand('Sketcher_ConstrainParallel', 0),
-    'perpendicular':       lambda: Gui.runCommand('Sketcher_ConstrainPerpendicular', 0),
-    'tangent':             lambda: Gui.runCommand('Sketcher_ConstrainTangent', 0),
-    'equal':               lambda: Gui.runCommand('Sketcher_ConstrainEqual', 0),
-    'symmetric':           lambda: Gui.runCommand('Sketcher_ConstrainSymmetric', 0),
-    'block':               lambda: Gui.runCommand('Sketcher_ConstrainBlock', 0),
+    'parallel':            _voice.make_parallel,
+    'perpendicular':       _voice.make_perpendicular,
+    'tangent':             _voice.make_tangent,
+    'equal':               _voice.make_equal,
+    'symmetric':           _voice.make_symmetric,
+    'block':               _voice.make_block,
     'toggledriving':       lambda: Gui.runCommand('Sketcher_ToggleDrivingReference', 0),
     'toggleactive':        lambda: Gui.runCommand('Sketcher_ToggleConstraints', 0),
     'help':                ayuda,

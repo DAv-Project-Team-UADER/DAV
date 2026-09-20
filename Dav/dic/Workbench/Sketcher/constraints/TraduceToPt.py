@@ -215,3 +215,8 @@ TraduceToPt.update ({
     'menos zoom':           StandardViews['zoomout'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, CreateDimension)

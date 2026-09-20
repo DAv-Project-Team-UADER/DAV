@@ -32,6 +32,9 @@ TraduceToEn = {
     "help": point['help'],
     "info": point['help'],
     "options": point['help'],
+    'create point by coordinates': point['create_by_coords'],
+    'point by coordinates':        point['create_by_coords'],
+    'vertex by coordinates':       point['create_by_coords'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -111,3 +114,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)

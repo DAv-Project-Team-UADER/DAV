@@ -88,10 +88,18 @@ class _MockDictionaryLoader:
         self._base_module: dict[str, Any] = {
             "explorer": self._explorer,
         }
+        # Comando global de la raíz (como "deshacer" o "cota" en dic/TraduceTo*.py):
+        # un callable suelto, no un subcontexto.
+        self.global_calls: list[str] = []
+
+        def _global_command() -> None:
+            self.global_calls.append("cota")
+
         self._base_translate_es = {
             "explorador": self._explorer,
             "dibujar":    self._explorer,
             "dibujo":     self._explorer,
+            "cota":       _global_command,
         }
         self._base_translate_en = {
             "explorer": self._explorer,
@@ -376,6 +384,31 @@ class TestBrowserDeveloper3(unittest.TestCase):
         # stack should have been popped back to explorer
         self.assertEqual(len(browser._stack), 2)
         self.assertEqual(browser._stack[-1].InternalName, "explorer")
+
+    def test_global_command_runs_in_place_from_a_deep_context(self) -> None:
+        """Un comando de la raíz (cota, deshacer...) no saca al usuario de su contexto."""
+        loader = _MockDictionaryLoader()
+        from core.language_code import LanguageCode
+        from core.preferences import Preferences
+        from navigation.browser import Browser
+
+        p = Preferences()
+        p.SetLanguage = LanguageCode.Es
+        browser = Browser(prefs=p, _loader=loader)
+        browser.ProcessPhrase("explorador")
+        browser.ProcessPhrase("imprimir")
+        self.assertEqual(len(browser._stack), 3)
+
+        # se oye en cualquier contexto: está en la gramática de Vosk
+        self.assertIn("cota", browser.GetSpokenPhrases())
+
+        res = browser.ProcessPhrase("cota")
+        self.assertTrue(res.Success)
+        self.assertEqual(res.Action, "execute")
+        self.assertEqual(loader.global_calls, ["cota"])
+        # sigue parado donde estaba
+        self.assertEqual(len(browser._stack), 3)
+        self.assertEqual(browser._stack[-1].InternalName, "print")
 
     def test_search_upward_not_found_reverts_context(self) -> None:
         browser = self._make_browser()
