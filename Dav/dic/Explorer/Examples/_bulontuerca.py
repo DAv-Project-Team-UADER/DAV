@@ -17,10 +17,8 @@
 
 """Assembly example: a bolt (simplified DIN 931) and its nut, built in PartDesign and joined in an assembly."""
 
-from FreeCAD import Vector
-
 from ._common import activeDoc, attachAt, fitView, lastOfType, setView
-from ._words import nextItem, no, numbers, send, yes
+from ._words import down, nextItem, no, numbers, send, yes
 
 TITLE = {
     "es": "Bulón-tuerca",
@@ -35,14 +33,12 @@ SHANK_LENGTH = 20
 HEX_RADIUS = 6  # radio de la circunferencia que rodea al hexágono, en cabeza y tuerca
 HEAD_HEIGHT = 4
 
-# La tuerca (como la DIN 934, de 5 mm) se dibuja ya sobre el bulón, cerca de la punta: al
-# insertar las piezas en el ensamblaje sus orígenes coinciden y cada una queda donde se la modeló.
+# La tuerca (como la DIN 934, de 5 mm) se dibuja aparte, con su eje en x = 15: no está sobre el
+# bulón, así que solo encaja si la junta une las caras que se eligen y no los orígenes.
 NUT_HEIGHT = 5
+NUT_X = 15
 NUT_CENTER_Z = 4
 HOLE_HEIGHT = 10
-
-# «insertar vínculo» deja cada pieza donde cae en la vista; acá la tuerca queda a un costado
-NUT_SIDE_OFFSET = 30
 
 
 def _bodies() -> list:
@@ -83,7 +79,7 @@ def _nut() -> None:
     prism.Circumradius = HEX_RADIUS
     prism.Height = NUT_HEIGHT
     body.addObject(prism)
-    attachAt(body, prism, 0, 0, NUT_CENTER_Z - NUT_HEIGHT / 2)
+    attachAt(body, prism, NUT_X, 0, NUT_CENTER_Z - NUT_HEIGHT / 2)
     doc.recompute()
     fitView()
 
@@ -95,7 +91,7 @@ def _nutHole() -> None:
     hole.Radius = SHANK_RADIUS
     hole.Height = HOLE_HEIGHT
     body.addObject(hole)
-    attachAt(body, hole, 0, 0, NUT_CENTER_Z - HOLE_HEIGHT / 2)
+    attachAt(body, hole, NUT_X, 0, NUT_CENTER_Z - HOLE_HEIGHT / 2)
     doc.recompute()
     fitView()
 
@@ -110,17 +106,12 @@ def _createAssembly() -> None:
     fitView()
 
 
-def _insertLink(position: int, offset: float):
+def _insertLink(position: int):
     def action() -> None:
         doc = activeDoc()
         assembly = lastOfType(doc, "Assembly::AssemblyObject")
-        body = _bodies()[position]
-        # lo mismo que hace «insertar vínculo»: un App::Link al cuerpo dentro del ensamblaje
-        link = assembly.newObject("App::Link", body.Label)
-        link.LinkedObject = body
-        link.Label = body.Label
-        link.Placement.Base = Vector(offset, 0, 0)
-        doc.recompute()
+        # la misma función que ejecuta «insertar vínculo»: deja la pieza a la derecha de las ya puestas
+        _assemblyHelpers()._InsertLink(doc, assembly, _bodies()[position])
         fitView()
 
     return action
@@ -144,6 +135,15 @@ def _assemblyHelpers():
     return _parametric
 
 
+def _connectors():
+    """Return the module that lists the faces where a part can be joined."""
+    try:
+        from Workbench.Assembly import _connectors
+    except ImportError:
+        from dic.Workbench.Assembly import _connectors
+    return _connectors
+
+
 def _offered():
     """Parts the voice list offers, in the order it shows them."""
     try:
@@ -151,6 +151,26 @@ def _offered():
     except ImportError:
         from dic.Workbench._prompts import isPart
     return [obj for obj in activeDoc().Objects if isPart(obj)]
+
+
+def _pickBody(language: str, position: int) -> tuple:
+    """Words that pick the body number ``position`` from the list «insertar vínculo» shows."""
+    options = [obj for obj in _offered() if not obj.isDerivedFrom("App::Link")]
+    return nextItem(language, options.index(_bodies()[position])) + send(language)
+
+
+def _connector(link) -> str:
+    """Return the face where ``link`` is joined: its first cylinder, as the voice list shows it."""
+    for name, label in _connectors().listConnectors(link):
+        if label.startswith("Cilindro"):
+            return name
+    raise RuntimeError("La pieza no tiene un cilindro para unir.")
+
+
+def _pickConnector(language: str, link) -> tuple:
+    """Words that pick the face ``_connector`` returns: «abajo» up to it and «enviar»."""
+    names = [name for name, _label in _connectors().listConnectors(link)]
+    return down(language, names.index(_connector(link))) + send(language)
 
 
 def _pick(language: str, *links) -> tuple:
@@ -186,8 +206,9 @@ def _ground() -> None:
 def _joint() -> None:
     parametric = _assemblyHelpers()
     doc = activeDoc()
-    # lo mismo que hace «junta cilíndrica»
-    joint = parametric._CreateJoint("Cylindrical", doc, [_link(0), _link(1)])
+    links = [_link(0), _link(1)]
+    # lo mismo que hace «junta cilíndrica»: cada pieza se une por la cara elegida
+    joint = parametric._CreateJoint("Cylindrical", doc, links, [_connector(link) for link in links])
     if joint is None:
         raise RuntimeError("No se pudo crear la junta: seguí los cuadros en orden.")
     doc.recompute()
@@ -199,8 +220,9 @@ def _solve() -> None:
     assembly = lastOfType(doc, "Assembly::AssemblyObject")
     assembly.solve()
     doc.recompute()
-    # la tuerca tiene que haber vuelto sobre el eje del bulón
-    if _link(1).Placement.Base.Length > 0.01:
+    # el eje de la tuerca (su centro) tiene que haber vuelto al eje del bulón
+    center = _link(1).Shape.BoundBox.Center
+    if abs(center.x) > 0.01 or abs(center.y) > 0.01:
         raise RuntimeError("El ensamblaje no encastró la tuerca en el bulón.")
     fitView()
 
@@ -245,26 +267,26 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "La tuerca es otra pieza: un prisma de 6 lados, radio 6 y 5 de alto, centro en (0, 0, 4), sobre el mismo eje del bulón. Esta vez se responde «sí» a «¿cuerpo nuevo?».",
-                "en": "The nut is another part: a 6-sided prism, radius 6 and 5 high, centred at (0, 0, 4), on the same axis as the bolt. This time answer “yes” to “new body?”.",
-                "pt": "A porca é outra peça: um prisma de 6 lados, raio 6 e 5 de altura, centro em (0, 0, 4), sobre o mesmo eixo do parafuso. Desta vez responda «sim» a «corpo novo?».",
+                "es": "La tuerca es otra pieza: un prisma de 6 lados, radio 6 y 5 de alto, centro en (15, 0, 4), o sea, aparte del bulón. Esta vez se responde «sí» a «¿cuerpo nuevo?».",
+                "en": "The nut is another part: a 6-sided prism, radius 6 and 5 high, centred at (15, 0, 4), that is, away from the bolt. This time answer “yes” to “new body?”.",
+                "pt": "A porca é outra peça: um prisma de 6 lados, raio 6 e 5 de altura, centro em (15, 0, 4), ou seja, longe do parafuso. Desta vez responda «sim» a «corpo novo?».",
             },
             Path={"es": ("prisma",), "en": ("prism",), "pt": ("prisma",)},
-            Values=lambda language: numbers(language, 6, HEX_RADIUS, NUT_HEIGHT, 0, 0, NUT_CENTER_Z) + yes(language),
+            Values=lambda language: numbers(language, 6, HEX_RADIUS, NUT_HEIGHT, NUT_X, 0, NUT_CENTER_Z) + yes(language),
             Action=_nut,
         ),
         ExampleStep(
             Text={
-                "es": "Agujereá la tuerca: un cilindro sustractivo de radio 3 y 10 de alto, centro en (0, 0, 4). Primero «subir» un nivel, porque estás en Sumar. En la lista de cuerpos, «avanzar» una vez para elegir la tuerca.",
-                "en": "Drill the nut: a subtractive cylinder with radius 3 and height 10, centred at (0, 0, 4). First go “up” one level, since you are in Add. In the list of bodies, say “next” once to pick the nut.",
-                "pt": "Fure a porca: um cilindro subtrativo de raio 3 e 10 de altura, centro em (0, 0, 4). Primeiro «subir» um nível, porque você está em Aditivo. Na lista de corpos, «avancar» uma vez para escolher a porca.",
+                "es": "Agujereá la tuerca: un cilindro sustractivo de radio 3 y 10 de alto, centro en (15, 0, 4). Primero «subir» un nivel, porque estás en Sumar. En la lista de cuerpos, «avanzar» una vez para elegir la tuerca.",
+                "en": "Drill the nut: a subtractive cylinder with radius 3 and height 10, centred at (15, 0, 4). First go “up” one level, since you are in Add. In the list of bodies, say “next” once to pick the nut.",
+                "pt": "Fure a porca: um cilindro subtrativo de raio 3 e 10 de altura, centro em (15, 0, 4). Primeiro «subir» um nível, porque você está em Aditivo. Na lista de corpos, «avancar» uma vez para escolher a porca.",
             },
             Path={
                 "es": ("subir", "cortar", "cilindro"),
                 "en": ("up", "cut", "cylinder"),
                 "pt": ("subir", "cortar", "cilindro"),
             },
-            Values=lambda language: numbers(language, SHANK_RADIUS, HOLE_HEIGHT, 0, 0, NUT_CENTER_Z)
+            Values=lambda language: numbers(language, SHANK_RADIUS, HOLE_HEIGHT, NUT_X, 0, NUT_CENTER_Z)
             + nextItem(language, 1)
             + send(language),
             Action=_nutHole,
@@ -284,29 +306,31 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Insertá el bulón en el ensamblaje. FreeCAD abre su cuadro de piezas, que se maneja con el mouse: el ejemplo inserta el vínculo por vos.",
-                "en": "Insert the bolt into the assembly. FreeCAD opens its own parts dialog, which is used with the mouse: the example inserts the link for you.",
-                "pt": "Insira o parafuso no conjunto. O FreeCAD abre sua própria janela de peças, que se usa com o mouse: o exemplo insere o link por você.",
+                "es": "Insertá el bulón en el ensamblaje: en la lista de piezas elegí el primer cuerpo (es el bulón) con «enviar».",
+                "en": "Insert the bolt into the assembly: in the list of parts pick the first body (the bolt) with “send”.",
+                "pt": "Insira o parafuso no conjunto: na lista de peças escolha o primeiro corpo (o parafuso) com «enviar».",
             },
             Path={
                 "es": ("insertar vinculo",),
                 "en": ("insert link",),
                 "pt": ("inserir link",),
             },
-            Action=_insertLink(0, 0),
+            Values=lambda language: _pickBody(language, 0),
+            Action=_insertLink(0),
         ),
         ExampleStep(
             Text={
-                "es": "Insertá la tuerca del mismo modo. Queda a un costado, a 30 mm del bulón.",
-                "en": "Insert the nut the same way. It lands to one side, 30 mm from the bolt.",
-                "pt": "Insira a porca do mesmo modo. Ela fica de lado, a 30 mm do parafuso.",
+                "es": "Insertá la tuerca del mismo modo: «avanzar» una vez para elegir el segundo cuerpo. Se pone a la derecha del bulón, sin pisarlo.",
+                "en": "Insert the nut the same way: say “next” once to pick the second body. It is placed to the right of the bolt, without overlapping it.",
+                "pt": "Insira a porca do mesmo modo: «avancar» uma vez para escolher o segundo corpo. Ela fica à direita do parafuso, sem sobrepor.",
             },
             Path={
                 "es": ("insertar vinculo",),
                 "en": ("insert link",),
                 "pt": ("inserir link",),
             },
-            Action=_insertLink(1, NUT_SIDE_OFFSET),
+            Values=lambda language: _pickBody(language, 1),
+            Action=_insertLink(1),
         ),
         ExampleStep(
             Text={
@@ -324,16 +348,18 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Unilos con una junta cilíndrica: la tuerca gira y desliza sobre el eje del bulón. Elegí primero el vínculo del bulón y después el de la tuerca; al crear la junta, la tuerca salta del costado al eje.",
-                "en": "Join them with a cylindrical joint: the nut turns and slides on the bolt's axis. Pick the bolt's link first and then the nut's; when the joint is made, the nut jumps from the side onto the axis.",
-                "pt": "Una-os com uma junta cilíndrica: a porca gira e desliza sobre o eixo do parafuso. Escolha primeiro o link do parafuso e depois o da porca; ao criar a junta, a porca salta do lado para o eixo.",
+                "es": "Unilos con una junta cilíndrica: la tuerca gira y desliza sobre el eje del bulón. Elegí el vínculo del bulón y el de la tuerca; después, por dónde se une cada uno: en la lista de caras el cilindro es la primera (el vástago, el agujero), así que alcanza con «enviar». Al crear la junta, la tuerca salta al eje del bulón.",
+                "en": "Join them with a cylindrical joint: the nut turns and slides on the bolt's axis. Pick the bolt's link and the nut's; then where each one joins: the cylinder is first in the list of faces (the shank, the hole), so “send” is enough. When the joint is made, the nut jumps onto the bolt's axis.",
+                "pt": "Una-os com uma junta cilíndrica: a porca gira e desliza sobre o eixo do parafuso. Escolha o link do parafuso e o da porca; depois, por onde cada um se une: o cilindro é o primeiro da lista de faces (a haste, o furo), então basta «enviar». Ao criar a junta, a porca salta para o eixo do parafuso.",
             },
             Path={
                 "es": ("junta cilindrica",),
                 "en": ("cylindrical joint",),
                 "pt": ("junta cilindrica",),
             },
-            Values=lambda language: _pick(language, _link(0), _link(1)),
+            Values=lambda language: _pick(language, _link(0), _link(1))
+            + _pickConnector(language, _link(0))
+            + _pickConnector(language, _link(1)),
             Action=_joint,
         ),
         ExampleStep(
