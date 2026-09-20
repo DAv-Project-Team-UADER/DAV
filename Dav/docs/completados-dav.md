@@ -8,6 +8,19 @@ Orden: lo más reciente arriba.
 
 ---
 
+## «Mover» la vista a un punto (2026-09-20)
+
+`Dav/dic/moveview.py`: pide un punto y centra la cámara en él sin cambiar hacia dónde
+mira ni el zoom (se corre la posición de la cámara a lo largo de su eje de visión,
+a la distancia de enfoque; usa pivy). Igual que la cota, pide **X, Y** (dibujo plano,
+o boceto en edición, con su `Placement`) o **X, Y, Z** (modelo 3D) según
+`measure.dimensionMode()`. Está en los 384 `TraduceTo*` de todos los contextos, en
+es/en/pt (`MOVE_VIEW_PHRASES`), agregado con `setdefault`: donde «mover» ya tenía otro
+significado (Explorer/Edit, Draft/modify, Sketcher) gana el local y valen las variantes
+«mover vista», «mover cámara», «centrar en»...
+
+---
+
 ## «Medir» / «cota»: 2D o 3D según el documento (2026-09-20)
 
 `CreateDimension` (`Dav/dic/measure.py`, importado por 36 `TraduceTo*`) pedía siempre

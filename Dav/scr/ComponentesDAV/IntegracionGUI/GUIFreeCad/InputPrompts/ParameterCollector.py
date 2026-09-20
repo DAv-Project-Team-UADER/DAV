@@ -14,7 +14,7 @@ from typing import Any, Callable, Iterable
 
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.SpokenNumberParser import SpokenNumberParser
-from InputPrompts.InputPromptI18n import KindLabel, T
+from InputPrompts.InputPromptI18n import KindLabel, ResolveLanguage, T
 
 
 @dataclass(frozen=True)
@@ -37,10 +37,29 @@ class ParameterCollector:
         DelayMs: int = 30,
         ValidatorInstance: Any | None = None,
     ) -> None:
-        self.Language = Language
+        self._StoredLanguage = Language
         self.Parent = Parent
         self.DelayMs = DelayMs
         self._Validator = ValidatorInstance or self._CreateValidator()
+
+    @property
+    def Language(self) -> str:
+        """Language of the prompt texts: the one configured in DAV options right now.
+
+        El colector se crea una sola vez al arrancar la voz; si guardara el idioma de
+        ese momento, los títulos y mensajes seguirían en el idioma anterior tras
+        cambiarlo en Preferencias (mientras los botones, que lo leen en vivo, ya
+        estarían en el nuevo). Se lee cada vez y el valor con el que se creó queda
+        solo como respaldo.
+        """
+        try:
+            return ResolveLanguage()
+        except Exception:
+            return self._StoredLanguage
+
+    @Language.setter
+    def Language(self, value: str) -> None:
+        self._StoredLanguage = value
 
     def CollectForFunction(
         self,
