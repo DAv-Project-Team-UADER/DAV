@@ -44,6 +44,13 @@ TraduceToEs = {
     "imprimir": page["print"],
     "imprimir todo": page["print"],
 
+    # Exportar PDF
+    "pdf": page["pdf"],
+    "exportar pdf": page["pdf"],
+    "guardar pdf": page["pdf"],
+    "imprimir pdf": page["pdf"],
+    "imprimir a pdf": page["pdf"],
+
     # Exportar DXF
     "dxf": page["dxf"],
     "formato de intercambio de dibujo": page["dxf"],

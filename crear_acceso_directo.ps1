@@ -17,6 +17,11 @@
 # Crea "ejecutar.lnk" junto a este script, apuntando a iniciar_dav.bat.
 # Las rutas se calculan desde la ubicación del script, así que funciona
 # en cualquier clon del repo. Correrlo una vez después de clonar.
+#
+# La primera vez (cuando "ejecutar.lnk" todavía no existe) también deja una
+# copia en el Escritorio llamada "DAV_V1.lnk", con el mismo icono y destino.
+# Las siguientes veces solo regenera "ejecutar.lnk": no pisa ni recrea la
+# copia del Escritorio, por si el usuario la movió o la borró a propósito.
 
 $raiz  = $PSScriptRoot
 $bat   = Join-Path $raiz 'iniciar_dav.bat'
@@ -24,6 +29,8 @@ $icono = Join-Path $raiz 'Dav\scr\ComponentesDAV\Logos\color.ico'
 $lnk   = Join-Path $raiz 'ejecutar.lnk'
 
 if (-not (Test-Path $bat)) { throw "No se encontró $bat" }
+
+$esPrimeraVez = -not (Test-Path $lnk)
 
 $ws = New-Object -ComObject WScript.Shell
 $acceso = $ws.CreateShortcut($lnk)
@@ -34,3 +41,10 @@ $acceso.Description      = 'Inicia DAV'
 $acceso.Save()
 
 Write-Host "Acceso directo creado: $lnk"
+
+if ($esPrimeraVez) {
+    $escritorio = [Environment]::GetFolderPath('Desktop')
+    $copia = Join-Path $escritorio 'DAV_V1.lnk'
+    Copy-Item -LiteralPath $lnk -Destination $copia -Force
+    Write-Host "Copia en el Escritorio: $copia"
+}

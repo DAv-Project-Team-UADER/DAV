@@ -53,6 +53,11 @@ TraduceToEs = {
     'barra de estructura':              explorer['structure'],
     'barra estructura':                 explorer['structure'],
     'barra de herramientas de estructura': explorer['structure'],
+    'ejemplos':                         explorer['examples'],
+    'ejemplo':                          explorer['examples'],
+    'quiero aprender':                  explorer['examples'],
+    'aprender':                         explorer['examples'],
+    'tutoriales':                       explorer['examples'],
     
     # Callables directos
     'refrescar':                        explorer['refresh'],

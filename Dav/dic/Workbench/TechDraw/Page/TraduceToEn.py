@@ -36,6 +36,13 @@ TraduceToEn = {
     "refresh page": page["redraw"],
     "update page": page["redraw"],
 
+    # Export PDF
+    "pdf": page["pdf"],
+    "export pdf": page["pdf"],
+    "save pdf": page["pdf"],
+    "print pdf": page["pdf"],
+    "print to pdf": page["pdf"],
+
     # Print
     "print": page["print"],
     "print page": page["print"],

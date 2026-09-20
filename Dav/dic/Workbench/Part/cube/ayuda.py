@@ -18,6 +18,7 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  cube - Crea una caja solida rectangular parametrica (Part::Box) con dimensiones por defecto 10x10x10.')
+    print('         Primero pide X, Y, Z (float) — coordenadas del esquina inicial. Despues:')
     print('         Requiere: Length (float) — longitud en X. Default: 10 mm.')
     print('                   Width  (float) — anchura en Y. Default: 10 mm.')
     print('                   Height (float) — altura en Z. Default: 10 mm.')

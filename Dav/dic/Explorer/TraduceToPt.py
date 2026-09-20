@@ -58,6 +58,12 @@ TraduceToPt = {
     'barra estrutura':                  explorer['structure'],
     'barra de ferramentas de estrutura': explorer['structure'],
 
+    'exemplos':                         explorer['examples'],
+    'exemplo':                          explorer['examples'],
+    'quero aprender':                   explorer['examples'],
+    'aprender':                         explorer['examples'],
+    'tutoriais':                        explorer['examples'],
+
     # Callables directos
     'atualizar':                        explorer['refresh'],
     'recarregar':                       explorer['refresh'],

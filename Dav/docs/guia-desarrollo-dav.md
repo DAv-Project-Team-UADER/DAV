@@ -23,7 +23,9 @@ código.
 | [Puesta en marcha (setup)](desarrollo/setup.md) | Cómo clonar, instalar dependencias, modelos y correr DAV en FreeCAD |
 | [Convenciones de código](desarrollo/convenciones.md) | Nombres, cabezal obligatorio, docstrings, principios de diseño |
 | [Agregar un comando por voz](desarrollo/agregar-comando.md) | Paso a paso con ejemplo real, desde el diccionario hasta el TraduceTo |
-| [Cómo probar y validar](desarrollo/probando.md) | Pruebas manuales, qué esperar, y enlaces a las guías existentes |
+| [Agregar un submenú](desarrollo/agregar-submenu.md) | Una carpeta nueva: anidado sin aplanar, los tres `TraduceTo*`, íconos por nombre de clave |
+| [Agregar un diálogo de voz](desarrollo/agregar-prompt.md) | Prompts existentes y nuevos, y cómo acotar la gramática de Vosk |
+| [Cómo probar y validar](desarrollo/probando.md) | Pruebas manuales, `freecadcmd` y Qt offscreen sin abrir la GUI, y enlaces a las guías existentes |
 
 ---
 

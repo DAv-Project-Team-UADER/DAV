@@ -41,6 +41,11 @@ TraduceToPt = {
     "recarregar página": page["redraw"],
 
     # Imprimir
+    "pdf": page["pdf"],
+    "exportar pdf": page["pdf"],
+    "salvar pdf": page["pdf"],
+    "imprimir pdf": page["pdf"],
+    "imprimir em pdf": page["pdf"],
     "imprimir": page["print"],
     "imprimir tudo": page["print"],
 

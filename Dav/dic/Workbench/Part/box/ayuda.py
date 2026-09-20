@@ -17,6 +17,7 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  box - Crea una caja rectangular paramétrica (Part::Box) con dimensiones por defecto 10x10x10.')
+    print('         Primero pide X, Y, Z (float) — coordenadas del esquina inicial. Despues:')
     print('         Requiere: Length (float) — longitud en X.')
     print('                   Width  (float) — anchura en Y.')
     print('                   Height (float) — altura en Z.')
