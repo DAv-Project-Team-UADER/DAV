@@ -25,7 +25,7 @@ import Sketcher
 from FreeCAD import Vector
 
 from ._common import activeDoc, fitView, lastOfType
-from ._words import decimal, nextItem, numbers, send
+from ._words import nextItem, numbers, send
 
 TITLE = {
     "es": "Arandela plana M6",
@@ -197,16 +197,16 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Dibujá primero el agujero: un círculo de centro 0, 0 y radio 3,2 (diámetro 6,4). El radio se dicta «tres coma dos».",
+                "es": "Dibujá primero el agujero: un círculo de centro 0, 0 y radio 3,2 (diámetro 6,4). El radio se dicta «tres punto dos» (o «tres coma dos»).",
                 "en": "Draw the hole first: a circle centred at 0, 0 with radius 3.2 (diameter 6.4). Say the radius as “three point two”.",
-                "pt": "Desenhe primeiro o furo: um círculo de centro 0, 0 e raio 3,2 (diâmetro 6,4). O raio se diz «três virgula dois».",
+                "pt": "Desenhe primeiro o furo: um círculo de centro 0, 0 e raio 3,2 (diâmetro 6,4). O raio se diz «três ponto dois».",
             },
             Path={
                 "es": ("geometria", "circulo", "circulo"),
                 "en": ("geometry", "circle", "circle"),
                 "pt": ("geometria", "circulo", "circulo"),
             },
-            Values=lambda language: numbers(language, 0, 0) + decimal(language, 3, 2),
+            Values=lambda language: numbers(language, 0, 0, INNER_RADIUS),
             Action=_circle(INNER_RADIUS),
         ),
         ExampleStep(
@@ -234,7 +234,7 @@ def steps() -> list:
                 "en": ("constraints", "diameter"),
                 "pt": ("restricoes", "diametro"),
             },
-            Values=lambda language: decimal(language, 6, 4),
+            Values=lambda language: numbers(language, 2 * INNER_RADIUS),
             Action=_innerDiameter,
         ),
         ExampleStep(
@@ -275,7 +275,7 @@ def steps() -> list:
                 "en": ("workbench", "design", "add", "extrude by length"),
                 "pt": ("trabalho", "design", "aditivo", "extrudar por medida"),
             },
-            Values=lambda language: decimal(language, 1, 6) + send(language),
+            Values=lambda language: numbers(language, THICKNESS) + send(language),
             Action=_pad,
         ),
         ExampleStep(

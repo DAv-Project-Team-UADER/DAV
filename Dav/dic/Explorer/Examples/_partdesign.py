@@ -22,7 +22,7 @@ import Sketcher
 from FreeCAD import Vector
 
 from ._common import activeDoc, attachAt, fitView, lastOfType, setView
-from ._words import decimal, down, no, numbers, send
+from ._words import down, no, numbers, send
 
 TITLE = {
     "es": "PartDesign: un tornillo paso a paso",
@@ -184,16 +184,16 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Achaflaná los bordes: 0,5 mm. El comando trabaja sobre la pieza seleccionada o, si no hay ninguna, sobre la última operación. Dictás «cero coma cinco».",
+                "es": "Achaflaná los bordes: 0,5 mm. El comando trabaja sobre la pieza seleccionada o, si no hay ninguna, sobre la última operación. Dictás «cero punto cinco» (o «cero coma cinco»).",
                 "en": "Chamfer the edges: 0.5 mm. The command works on the selected part or, if there is none, on the last operation. Say “zero point five”.",
-                "pt": "Chanfre as bordas: 0,5 mm. O comando trabalha sobre a peça selecionada ou, se não houver, sobre a última operação. Diga «zero virgula cinco».",
+                "pt": "Chanfre as bordas: 0,5 mm. O comando trabalha sobre a peça selecionada ou, se não houver, sobre a última operação. Diga «zero ponto cinco».",
             },
             Path={
                 "es": ("subir", "editar", "chaflan por medida"),
                 "en": ("up", "edit", "chamfer by size"),
                 "pt": ("subir", "editar", "chanfro por medida"),
             },
-            Values=lambda language: decimal(language, 0, 5),
+            Values=lambda language: numbers(language, 0.5),
             Action=_chamfer,
         ),
         ExampleStep(

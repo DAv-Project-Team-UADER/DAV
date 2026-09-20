@@ -17,24 +17,39 @@
 
 """Words the user dictates inside the dialogs of a command: numbers, send, down, next."""
 
-# Números que usan los ejemplos, dichos como los reconoce el modelo de Vosk.
-_NUMBERS = {
-    "es": {
-        0: "cero", 1: "uno", 2: "dos", 3: "tres", 4: "cuatro", 5: "cinco", 6: "seis", 8: "ocho",
-        10: "diez", 12: "doce", 16: "dieciséis", 20: "veinte", 22: "veintidós", 24: "veinticuatro",
-        30: "treinta", 40: "cuarenta", 60: "sesenta",
-    },
-    "en": {
-        0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 8: "eight",
-        10: "ten", 12: "twelve", 16: "sixteen", 20: "twenty", 22: "twenty two", 24: "twenty four",
-        30: "thirty", 40: "forty", 60: "sixty",
-    },
-    "pt": {
-        0: "zero", 1: "um", 2: "dois", 3: "três", 4: "quatro", 5: "cinco", 6: "seis", 8: "oito",
-        10: "dez", 12: "doze", 16: "dezesseis", 20: "vinte", 22: "vinte e dois", 24: "vinte e quatro",
-        30: "trinta", 40: "quarenta", 60: "sessenta",
-    },
+from decimal import Decimal
+
+# Los números del 0 al 19 y las decenas, dichos como los reconoce el modelo de Vosk.
+_UNITS = {
+    "es": (
+        "cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve",
+        "diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete",
+        "dieciocho", "diecinueve",
+    ),
+    "en": (
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+        "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+        "eighteen", "nineteen",
+    ),
+    "pt": (
+        "zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove",
+        "dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete",
+        "dezoito", "dezenove",
+    ),
 }
+# 20, 30, ... 90
+_TENS = {
+    "es": ("veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"),
+    "en": ("twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"),
+    "pt": ("vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"),
+}
+# en español del 21 al 29 se dicen en una sola palabra
+_TWENTIES_ES = (
+    "veintiuno", "veintidós", "veintitrés", "veinticuatro", "veinticinco", "veintiséis",
+    "veintisiete", "veintiocho", "veintinueve",
+)
+# lo que une decena y unidad: «treinta y dos», «twenty two», «trinta e dois»
+_JOIN = {"es": ("y",), "en": (), "pt": ("e",)}
 
 _MINUS = {"es": "menos", "en": "minus", "pt": "menos"}
 _SEND = {"es": "enviar", "en": "send", "pt": "enviar"}
@@ -42,7 +57,9 @@ _DOWN = {"es": "abajo", "en": "down", "pt": "abaixo"}
 _NEXT = {"es": "avanzar", "en": "next", "pt": "avancar"}
 _NO = {"es": "no", "en": "no", "pt": "nao"}
 _YES = {"es": "si", "en": "yes", "pt": "sim"}
-_POINT = {"es": "coma", "en": "point", "pt": "virgula"}
+# la palabra del decimal es «punto» en los tres idiomas; en español también se acepta «coma»
+# (el reproductor de ejemplos lo sabe: ver WORD_SYNONYMS en InputPrompts/ExampleStep.py)
+_POINT = {"es": "punto", "en": "point", "pt": "ponto"}
 
 
 def _lang(language: str) -> str:
@@ -74,39 +91,53 @@ def nextItem(language: str, times: int) -> tuple[str, ...]:
     return (_NEXT[_lang(language)],) * times
 
 
-def numbers(language: str, *values: int) -> tuple[str, ...]:
+def _integerWords(lang: str, value: int) -> list[str]:
+    """Say a whole number: the natural word up to 99, digit by digit from 100 on."""
+    units = _UNITS[lang]
+    if value < 20:
+        return [units[value]]
+    if value < 100:
+        tens, unit = divmod(value, 10)
+        if unit == 0:
+            return [_TENS[lang][tens - 2]]
+        if lang == "es" and tens == 2:
+            return [_TWENTIES_ES[unit - 1]]
+        return [_TENS[lang][tens - 2], *_JOIN[lang], units[unit]]
+    # «uno cero cero» es 100: el parser junta los dígitos
+    return [units[int(digit)] for digit in str(value)]
+
+
+def numbers(language: str, *values: float) -> tuple[str, ...]:
     """Dictate each value followed by «enviar», the way each parameter is asked.
+
+    Whole numbers up to 99 are said naturally («treinta y dos»); from 100 on they are
+    spelled digit by digit. A decimal is said with «punto» and its digits one by one.
 
     Args:
         language: ``"es"``, ``"en"`` or ``"pt"``.
-        *values: integers to dictate; a negative one is said with «menos».
+        *values: numbers to dictate, whole or decimal; a negative one is said with «menos».
 
     Returns:
         The words, e.g. ``numbers("es", 0, -5)`` gives
-        ``("cero", "enviar", "menos", "cinco", "enviar")``.
+        ``("cero", "enviar", "menos", "cinco", "enviar")`` and ``numbers("es", 1.11)`` gives
+        ``("uno", "punto", "uno", "uno", "enviar")``.
+
+    Example::
+
+        numbers("en", 12.5)  # ("twelve", "point", "five", "send")
     """
     lang = _lang(language)
     words: list[str] = []
     for value in values:
-        if value < 0:
+        # Decimal(str(...)) evita que 6.4 salga como 6.4000000000000004
+        text = format(Decimal(str(value)).normalize(), "f")
+        if text.startswith("-"):
             words.append(_MINUS[lang])
-        words.append(_NUMBERS[lang][abs(value)])
+            text = text[1:]
+        whole, _, fraction = text.partition(".")
+        words += _integerWords(lang, int(whole))
+        if fraction:
+            words.append(_POINT[lang])
+            words += [_UNITS[lang][int(digit)] for digit in fraction]
         words.append(_SEND[lang])
     return tuple(words)
-
-
-def decimal(language: str, whole: int, fraction: int) -> tuple[str, ...]:
-    """Dictate a one-digit decimal followed by «enviar», e.g. 0.5 as «cero coma cinco enviar».
-
-    Args:
-        language: ``"es"``, ``"en"`` or ``"pt"``.
-        whole: the integer part.
-        fraction: the digit after the decimal point.
-    """
-    lang = _lang(language)
-    return (
-        _NUMBERS[lang][whole],
-        _POINT[lang],
-        _NUMBERS[lang][fraction],
-        _SEND[lang],
-    )
