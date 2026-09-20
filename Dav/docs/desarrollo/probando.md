@@ -42,6 +42,79 @@ print(p.ProcessFinalText("okey").Value)       # confirma → valor del plano
 
 Requiere que `GUIFreeCad` esté en `sys.path` (o configurar la ruta).
 
+### Acciones de FreeCAD sin abrir la interfaz (`freecadcmd`)
+
+Para comprobar que una **acción** (crear un boceto, un sólido, una hoja de TechDraw)
+funciona de verdad no alcanza con parsear el archivo: hay que correrla en FreeCAD.
+`freecadcmd` es FreeCAD **sin ventana**, con su Python y sus módulos (`Part`, `Sketcher`,
+`Draft`, `TechDraw`), y se puede lanzar desde la terminal. Sirve tanto para las acciones
+de los diccionarios como para los prompts que usan Qt (con el modo `offscreen`).
+
+| Sistema | Ejecutable |
+| --- | --- |
+| Windows | `C:\Program Files\FreeCAD 1.1\bin\freecadcmd.exe` |
+| Linux | `freecadcmd` (o el de la carpeta de instalación) |
+
+**Plantilla de un script de prueba** (guardala fuera del repo, por ejemplo en la carpeta
+temporal de la sesión):
+
+```python
+import os, sys, traceback
+os.environ["QT_QPA_PLATFORM"] = "offscreen"          # Qt sin pantalla
+
+DAV = r"C:\ruta\al\repo\Dav"
+sys.path[:0] = [
+    DAV + r"\dic",                                   # para importar Explorer.Examples...
+    DAV + r"\scr\ComponentesDAV\IntegracionGUI\GUIFreeCad",   # para importar InputPrompts
+]
+
+out = open("resultado.txt", "w")                     # ver la nota sobre la salida
+def log(*args):
+    out.write(" ".join(str(a) for a in args) + "\n")
+    out.flush()
+
+try:
+    import FreeCAD as App
+    from PySide6.QtWidgets import QApplication
+    app = QApplication.instance() or QApplication([])
+
+    App.newDocument("Prueba")
+    from Explorer.Examples import _partdesign as ejemplo   # el módulo a probar
+    for paso in ejemplo.steps():
+        paso.Action()                                # corre cada acción en orden
+
+    doc = App.ActiveDocument
+    invalidos = [o.Name for o in doc.Objects if not o.isValid()]
+    log("objetos:", len(doc.Objects), "invalidos:", invalidos)
+except Exception:
+    log(traceback.format_exc())
+```
+
+```powershell
+& "C:\Program Files\FreeCAD 1.1\bin\freecadcmd.exe" prueba.py
+Get-Content resultado.txt
+```
+
+Qué mirar y qué tener en cuenta:
+
+- **Comprobá `isValid()` de cada objeto** después de recalcular. Una operación que falla
+  no lanza excepción: deja el objeto en estado inválido (por ejemplo un agujero que no
+  se pudo crear).
+- **Escribí los resultados en un archivo.** La salida estándar de `freecadcmd` depende de
+  cómo se lo lance y muchas veces no vuelve a la terminal; un archivo es siempre confiable.
+- **Sin interfaz no hay vista 3D.** `Gui.ActiveDocument`, `ViewFit` y los paneles no existen;
+  el código de las acciones debe tolerarlo (ver `fitView()` en `Explorer/Examples/_common.py`).
+  Lo que dependa de la vista se prueba dentro de FreeCAD con la interfaz.
+- **El aviso `2 entries found for module 'dav'`** significa que hay dos copias del módulo
+  instaladas y FreeCAD usa una sola. Al probar dentro de FreeCAD verificá que sea la copia
+  que estás editando.
+- **Probá los tres idiomas** de un prompt cambiando su idioma antes de dictar:
+  `prompt._Language = "en"`.
+- **Simulá la voz** llamando a `prompt.ProcessFinalText("frase")`: devuelve el
+  `PromptResult`, así podés comprobar `Success`, `Value` y `Cancelled` sin micrófono.
+- **Para un comando con parámetros**, `PromptedCommandExecutor.ExecuteEntry(entrada, ["cinco okey"])`
+  recolecta con frases simuladas, una por parámetro.
+
 ---
 
 ## 2. Prueba de diccionarios / navegación
@@ -52,6 +125,19 @@ Requiere que `GUIFreeCad` esté en `sys.path` (o configurar la ruta).
   panel, tras navegar al contexto, la ayuda/describir contexto listará los
   comandos disponibles (implícito en `Browser.DescribeContext`).
 - Probá cada frase en los tres idiomas si agregaste traducciones.
+- **Corré la prueba de la jerarquía real** después de tocar cualquier diccionario. Necesita
+  la carpeta `Dav` en el `PYTHONPATH` (los `TraduceTo*` importan `dic.StdView...`); sin
+  eso fallan dos pruebas por `No module named 'dic'`, aunque el árbol esté bien:
+
+  ```powershell
+  cd Dav\scr\ComponentesDAV\IntegracionGUI\GUIFreeCad
+  $env:PYTHONPATH = "<ruta al repo>\Dav"
+  python -m unittest tests.test_real_dictionaries
+  ```
+
+  Comprueba que `base.py` importa limpio, que ningún submenú está aplanado y que las
+  traducciones no quedaron vacías. Alta prioridad: un solo import roto en una hoja
+  profunda deja al `Browser` sin comandos y el `DictionaryLoader` no lo avisa.
 
 ---
 

@@ -31,6 +31,11 @@ classDiagram
         -_Normalized(Words)$ set
     }
 
+    class ExampleChoiceInputPrompt {
+        +GrammarPhrases(Language) list
+        +ProcessFinalText(Text) PromptResult
+    }
+
     class PlaneSelectionInputPrompt {
         +set UpWords
         +set DownWords
@@ -49,6 +54,7 @@ classDiagram
     ChoiceInputPrompt ..> PlaneSelectionInputPrompt : reutiliza UpWords y DownWords
     ChoiceInputPrompt ..> PlaneGrammarSwitcher : palabras de navegación
     ChoiceInputPrompt ..> SpokenNumberParser : tokeniza
+    ExampleChoiceInputPrompt --|> ChoiceInputPrompt : cambia el vocabulario
 ```
 
 ## Responsabilidades
@@ -85,3 +91,6 @@ de Vosk mientras el diálogo está abierto y la restaura al terminar.
   la forma del vocabulario del modelo, tildes incluidas.
 - **Sin estado global.** Todo lo que sabe viene en `Options`, por lo que sirve para
   cualquier elección corta y no solo para el grabado.
+- **Tiene una subclase.** [`ExampleChoiceInputPrompt`](ExampleChoiceInputPrompt.md)
+  reutiliza `_Step` y `GetSelectedKey`, pero navega con *retroceder* / *avanzar* y
+  elige con *enviar*.

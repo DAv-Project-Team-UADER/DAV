@@ -33,8 +33,17 @@ Cómo se acota la gramática al contexto:
 | [`PlaneSelectionInputPrompt`](PlaneSelectionInputPrompt.md) | Elige el plano o la cara donde dibujar un croquis |
 | [`ChoiceInputPrompt`](ChoiceInputPrompt.md) | Elige una opción entre pocas (p. ej. relieve o perforación) |
 | [`SpellingInputPrompt`](SpellingInputPrompt.md) | Arma un texto letra por letra |
+| [`ExampleChoiceInputPrompt`](ExampleChoiceInputPrompt.md) | Elige un ejemplo guiado con retroceder / avanzar / enviar |
+| [`GuidedExampleInputPrompt`](GuidedExampleInputPrompt.md) | Reproduce un ejemplo cuadro por cuadro (no modal) |
+| [`ExampleStep`](ExampleStep.md) | Un cuadro: texto, palabras a decir y acción |
 
 Uso completo: [`manual-croquis-y-grabado-voz.md`](../manual-croquis-y-grabado-voz.md).
+
+## Diccionario
+
+| Carpeta | Rol |
+| --- | --- |
+| [`Examples`](Examples.md) | Submenú del Explorer: manual de usuario y ejemplos guiados |
 
 ## Interfaz y configuración
 
