@@ -29,7 +29,7 @@ classDiagram
     }
 
     class ExampleModule {
-        <<_sketcher _draft _techdraw _partdesign _dado>>
+        <<_sketcher _draft _techdraw _partdesign _dado _arandela _bulontuerca>>
         +dict TITLE
         +steps() list
     }
@@ -41,7 +41,7 @@ classDiagram
 
     examples ..> _manual : manual
     examples ..> _demos : demos
-    _demos o-- "5" ExampleModule : _EXAMPLES
+    _demos o-- "7" ExampleModule : _EXAMPLES
     _demos ..> ExampleChoiceInputPrompt : elige el ejemplo
     _demos ..> GuidedExampleInputPrompt : lo reproduce
     _demos ..> PromptVoiceRouter : enruta la voz
@@ -65,6 +65,8 @@ classDiagram
 | `_techdraw` | Un círculo en una hoja A4 con rótulo | — | 4 |
 | `_partdesign` | Un tornillo: cilindro, cono, prisma, chaflán y rosca con una hélice | Cota 3D y «tres de» | 9 |
 | `_dado` | Un dado: el 1 con un cilindro, del 2 al 6 con un boceto y un vaciado por cara | Cota 3D, seis vistas y «tres de» | 25 |
+| `_arandela` | Una arandela plana M6: dos círculos en un croquis, extrusión de 1,6 mm y una hoja de TechDraw con vista isométrica, vista del boceto y texto | Restricción de diámetro y cota 2D | 11 |
+| `_bulontuerca` | Un bulón M6 (simplificado de la DIN 931) y su tuerca en PartDesign, y un ensamblaje: vínculos insertados por voz, bulón anclado y junta cilíndrica por las caras elegidas | Ensamblaje y «tres de» | 11 |
 
 Cada módulo expone `TITLE` (por idioma) y `steps()`, que devuelve la lista de
 [`ExampleStep`](ExampleStep.md). Para sumar un ejemplo alcanza con crear el módulo
@@ -72,7 +74,7 @@ y agregarlo a `_EXAMPLES` en `_demos.py`.
 
 Archivos de apoyo: `_common.py` (documento activo, ajustar la vista, vistas estándar, ubicar una
 primitiva) y `_words.py` (los números y palabras que se dictan en los diálogos, en los tres
-idiomas: `numbers`, `send`, `down`, `nextItem`, `no`).
+idiomas: `numbers`, `send`, `down`, `nextItem`, `no`, `yes`). `numbers` dicta cualquier valor, entero o decimal: del 0 al 99 con la palabra natural, de 100 en adelante dígito por dígito, y el decimal con «punto» (en español el reproductor acepta también «coma», ver `WORD_SYNONYMS` en `ExampleStep.py`).
 
 ## Lo que se dice es lo real
 

@@ -24,6 +24,7 @@ import FreeCADGui as Gui
 
 from .._display import showResult
 from .._prompts import askObject, isPart
+from ._connectors import askConnector
 
 # Indice de cada tipo en Assembly.JointObject.JointTypes. Se pasa como segundo
 # argumento a JointObject.Joint(feature, index), que es la forma en que los
@@ -132,16 +133,36 @@ def _ChooseParts(Doc, Count: int):
     return parts
 
 
-def _CreateJoint(JointTypeName: str, Doc, Parts):
+def _ChooseConnectors(Parts):
+    """Let the user pick by voice the face where each of Parts is joined.
+
+    Args:
+        Parts: The parts to connect.
+
+    Returns:
+        One face name per part (``"Face3"``), or None when the user cancelled.
+    """
+    elements = []
+    for part in Parts:
+        element = askConnector(part, "Ensamblaje")
+        if element is None:
+            return None
+        elements.append(element)
+    return elements
+
+
+def _CreateJoint(JointTypeName: str, Doc, Parts, Elements=None):
     """Build a joint feature of the given type between Parts.
 
     Args:
         JointTypeName: Key of ``_JOINT_TYPE_INDEX``.
         Doc: Active FreeCAD document.
         Parts: The two objects to connect.
+        Elements: Face of each part where it is joined (``"Face3"``). When None the
+            user is asked by voice, one dialog per part.
 
     Returns:
-        The created joint feature, or None when it could not be built.
+        The created joint feature, or None when it could not be built or the user cancelled.
     """
     assembly = _ActiveAssembly(Doc)
     if assembly is None:
@@ -154,13 +175,22 @@ def _CreateJoint(JointTypeName: str, Doc, Parts):
         print("[assembly] Error: the Assembly workbench is not available.")
         return None
 
+    # se pregunta antes de crear la junta: si se cancela no queda una junta a medias
+    if Elements is None:
+        Elements = _ChooseConnectors(Parts)
+        if Elements is None:
+            print("[assembly] Cancelled: the place where each part joins is needed.")
+            return None
+
     group = _JointGroup(assembly)
     feature = group.newObject("App::FeaturePython", f"{JointTypeName}Joint")
     JointObject.Joint(feature, _JOINT_TYPE_INDEX[JointTypeName])
 
-    # setJointConnectors espera [objeto, [subelementos]] por cada lado; se usa
-    # el primer vertice de cada pieza como punto de anclaje por defecto.
-    references = [[part, ["Vertex1"]] for part in Parts]
+    # setJointConnectors espera [objeto, [elemento, vertice]] por cada lado y calcula el marco de
+    # la junta con eso. Con una cara se repite el nombre: el marco queda en el centro de la cara
+    # (en el eje, si es un cilindro) y orientado como ella. Con un solo nombre la referencia
+    # se descarta y el marco queda en el origen de la pieza.
+    references = [[part, [element, element]] for part, element in zip(Parts, Elements)]
     try:
         feature.Proxy.setJointConnectors(feature, references)
     except Exception as error:
@@ -168,6 +198,71 @@ def _CreateJoint(JointTypeName: str, Doc, Parts):
         return None
 
     return feature
+
+
+# separación entre las piezas que se van insertando, en mm
+_LINK_GAP = 10
+
+
+def _InsertLink(Doc, Assembly, Part):
+    """Add a link to Part inside Assembly, beside the parts already inserted.
+
+    Args:
+        Doc: Active FreeCAD document.
+        Assembly: The assembly that receives the link.
+        Part: The body or part to insert.
+
+    Returns:
+        The new ``App::Link``.
+    """
+    link = Assembly.newObject("App::Link", Part.Label)
+    link.LinkedObject = Part
+    link.Label = Part.Label
+    Doc.recompute()
+    placed = [obj for obj in Assembly.Group if obj.isDerivedFrom("App::Link") and obj is not link]
+    if placed:
+        # a la derecha de las ya insertadas, para que no se pisen
+        shift = max(obj.Shape.BoundBox.XMax for obj in placed) + _LINK_GAP - link.Shape.BoundBox.XMin
+        link.Placement = App.Placement(App.Vector(shift, 0, 0), App.Rotation())
+        Doc.recompute()
+    return link
+
+
+def insert_link() -> None:
+    """Insert a part into the assembly, choosing it from a voice list.
+
+    Replaces FreeCAD's own "Insert component" dialog, which is used with the mouse. The
+    part is placed beside the ones already inserted so they do not overlap; the joints
+    then bring them together.
+
+    Example::
+
+        insert_link()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+
+    assembly = _ActiveAssembly(doc)
+    if assembly is None:
+        print("[assembly] Error: no assembly found. Say 'crear ensamblaje' first.")
+        return
+
+    part = askObject(
+        doc,
+        "Ensamblaje",
+        "Elegí la pieza a insertar",
+        lambda obj: isPart(obj) and not obj.isDerivedFrom("App::Link"),
+        "[DAV] Error: no hay piezas para insertar. Creá una primero.",
+    )
+    if part is None:
+        print("[assembly] Cancelled: a part is needed to insert.")
+        return
+
+    link = _InsertLink(doc, assembly, part)
+    _RegisterObject(link)
+    print(f"[assembly] Inserted '{part.Label}'")
 
 
 def fixed_joint() -> None:
