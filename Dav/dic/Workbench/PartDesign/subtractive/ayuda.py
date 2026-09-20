@@ -3,6 +3,7 @@ def ayuda():
     print('  pocket               - Sustrae material extrudiendo un sketch hacia el interior (vaciado)')
     print('  groove               - Sustrae material girando un sketch alrededor de un eje (ranura)')
     print('  hole                 - Crea orificios roscados o sin rosca a partir de un sketch')
+    print('  blind_hole           - Agujero ciego (no atraviesa): pide diámetro y profundidad y perfora en cada círculo del boceto')
     print('  subtractivebox       - Sustrae un prisma rectangular del sólido activo')
     print('  subtractivecone      - Sustrae un cono del sólido activo')
     print('  subtractivecylinder  - Sustrae un cilindro del sólido activo')

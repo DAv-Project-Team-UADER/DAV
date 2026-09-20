@@ -59,6 +59,11 @@ TraduceToPt = {
     "novo":                   geometry["new"],
     "novo esboço":            geometry["new"],
     "criar esboço":           geometry["new"],
+    "fechar esboço":          geometry["leave"],
+    "fechar croqui":          geometry["leave"],
+    "sair do croqui":         geometry["leave"],
+    "terminar croqui":        geometry["leave"],
+    "finalizar croqui":       geometry["leave"],
 
     "editar":                 geometry["edit"],
     "editar esboço":          geometry["edit"],
@@ -299,3 +304,8 @@ TraduceToPt.update ({
     'menos zoom':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

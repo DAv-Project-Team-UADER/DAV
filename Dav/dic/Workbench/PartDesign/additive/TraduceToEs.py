@@ -94,6 +94,8 @@ TraduceToEs = {
     "Crear Elipse estirada con": additive["additiveellipsoid"],
     "Crear Elipse estirada a":   additive["additiveellipsoid"],
     "Crear Elipse estirada hasta":additive["additiveellipsoid"],
+    "elipse":            additive["additiveellipsoid"],
+    "Elipsoide":       additive["additiveellipsoid"],
 
     #Prisma aditivo
     "Prisma Aditivo":   additive["additiveprism"],
@@ -110,6 +112,8 @@ TraduceToEs = {
     "Crear Esfera con": additive["additivesphere"],
     "Crear Esfera a":   additive["additivesphere"],
     "Crear Esfera hasta":additive["additivesphere"],
+    "Bola"  :           additive["additivesphere"],
+    "pelota":           additive["additivesphere"],
 
     #Toro aditivo
     "Toro Aditivo":   additive["additivetorus"],
@@ -129,8 +133,12 @@ TraduceToEs = {
     
     # pad_sketch
     "extruir boceto": additive["pad_sketch"],
+    "extruir": additive["pad_sketch"],
+    "dar alturara": additive["pad_sketch"],
+    "dar volumen": additive["pad_sketch"],
+    "dar profundidad": additive["pad_sketch"],
     "extender perfil": additive["pad_sketch"],
-    "engrosar dibujo": additive["pad_sketch"],
+    "engrosar": additive["pad_sketch"],
 
     # loft_profiles
     "mezclar formas": additive["loft_profiles"],
@@ -149,7 +157,9 @@ TraduceToEs = {
     "cubo por medidas": additive["box_by_size"],
     "crear caja por medidas": additive["box_by_size"],
     "caja por dimensiones": additive["box_by_size"],
-
+    "cubo": additive["box_by_size"],
+    "caja": additive["box_by_size"],
+    "cuadrado": additive["box_by_size"],
     # Cilindro por dimensiones dictadas
     "cilindro por medidas": additive["cylinder_by_size"],
     "crear cilindro por medidas": additive["cylinder_by_size"],
@@ -348,3 +358,8 @@ TraduceToEs.update ({
     'zoom menos':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

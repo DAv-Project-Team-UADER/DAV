@@ -162,3 +162,13 @@ TraduceToEs.update ({
     'zoom menos':           StandardViews['zoomout'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, CreateDimension)
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

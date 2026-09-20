@@ -23,6 +23,9 @@ from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
+from Correction.Correction import correction
+from measure import CreateDimension
+from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
 
 TraduceToEn = {
@@ -59,4 +62,41 @@ TraduceToEn = {
     "objects":           selection,
     "preferences": open_preferences,
     "settings":    open_preferences,
+
+    # DAV panel
+    "minimize":   hide_dav_panel,
+    "hide panel": hide_dav_panel,
+    "maximize":   show_dav_panel,
+    "show panel": show_dav_panel,
+
+    # Corrections (global: can be said from any context)
+    "undo":              correction["undo"],
+    "undo change":       correction["undo"],
+    "redo":              correction["redo"],
+    "redo change":       correction["redo"],
+    "delete last":       correction["deletelast"],
+    "remove last":       correction["deletelast"],
+    "delete last object": correction["deletelast"],
+    "delete object":     correction["deleteobject"],
+    "remove object":     correction["deleteobject"],
+    "delete broken":     correction["deletebroken"],
+    "remove broken":     correction["deletebroken"],
+    "clean broken":      correction["deletebroken"],
+    "clean errors":      correction["deletebroken"],
+
+    # Dimension / measure (global: Vosk only hears the root and the current context)
+    "measure":          CreateDimension,
+    "measure distance": CreateDimension,
+    "dimensioning":     CreateDimension,
+    "tape measure":     CreateDimension,
 }
+
+# Vistas estándar (frontal, arriba, zoom...): en todos los contextos, raíz incluida
+from dic.StdView.StandardViews.TraduceToEn import TraduceToEn as _StandardViewsPhrases
+for _phrase, _target in _StandardViewsPhrases.items():
+    TraduceToEn.setdefault(_phrase, _target)
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

@@ -26,6 +26,8 @@ TraduceToEn = {
     'folders':               explorer['file'],
     'sheets':                explorer['file'],
     'documents':             explorer['file'],
+    'project':               explorer['proyecto'],
+    'projects':              explorer['proyecto'],
     'edit':                  explorer['edit'],
     'editing':               explorer['edit'],
     'modify':                explorer['edit'],
@@ -157,3 +159,8 @@ TraduceToEn.update ({
     "info":            StandardViews['help'],
     "options":         StandardViews['help']
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

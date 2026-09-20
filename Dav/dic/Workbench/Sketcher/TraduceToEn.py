@@ -95,6 +95,11 @@ TraduceToEn = {
     "toggle grid": sketcher["grid"],
     "show grid": sketcher["grid"],
 
+    "close sketch": sketcher["leave"],
+    "leave sketch": sketcher["leave"],
+    "exit sketch": sketcher["leave"],
+    "finish sketch": sketcher["leave"],
+
     "cancelediting": sketcher["cancelediting"],
     "cancel editing": sketcher["cancelediting"],
     "stop editing": sketcher["cancelediting"],
@@ -259,3 +264,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

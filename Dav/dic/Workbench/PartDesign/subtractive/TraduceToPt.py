@@ -89,6 +89,9 @@ TraduceToPt = {
 
     "furo por medidas":      subtractive["hole_by_size"],
     "perfurar por medidas":  subtractive["hole_by_size"],
+    "furo cego":             subtractive["blind_hole"],
+    "furo cego por medidas": subtractive["blind_hole"],
+    "buraco cego":           subtractive["blind_hole"],
 
     "ranhura por angulo":    subtractive["groove_by_angle"],
 
@@ -327,3 +330,8 @@ TraduceToPt.update ({
     'menos zoom':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

@@ -23,12 +23,12 @@ from .new_sketch import new_sketch
 from .ayuda import ayuda
 
 TraduceToEn = {
-    "sketch": new_sketch["nuevo sketch"],
-    "new sketch": new_sketch["nuevo sketch"],
-    "create sketch": new_sketch["nuevo sketch"],
-    "make sketch": new_sketch["nuevo sketch"],
-    "draft": new_sketch["nuevo sketch"],
-    "new draft": new_sketch["nuevo sketch"],
+    "sketch": new_sketch["new sketch"],
+    "new sketch": new_sketch["new sketch"],
+    "create sketch": new_sketch["new sketch"],
+    "make sketch": new_sketch["new sketch"],
+    "draft": new_sketch["new sketch"],
+    "new draft": new_sketch["new sketch"],
 
     "help":            new_sketch["help"],
     "info":            new_sketch["help"],
@@ -113,3 +113,13 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

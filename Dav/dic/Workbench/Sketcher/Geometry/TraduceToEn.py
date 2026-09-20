@@ -56,6 +56,10 @@ TraduceToEn = {
     "new":                    geometry["new"],
     "new sketch":             geometry["new"],
     "create sketch":          geometry["new"],
+    "close sketch":           geometry["leave"],
+    "leave sketch":           geometry["leave"],
+    "exit sketch":            geometry["leave"],
+    "finish sketch":          geometry["leave"],
 
     "edit":                   geometry["edit"],
     "edit sketch":            geometry["edit"],
@@ -162,3 +166,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

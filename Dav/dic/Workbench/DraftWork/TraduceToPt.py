@@ -27,6 +27,9 @@ TraduceToPt = {
     'escrever':    draft['annotation'],
     
 
+    'estilos de anotação': draft['annotation_style_editor'],
+    'editor de estilos':   draft['annotation_style_editor'],
+
     'arco':       draft['arc'],
 
     'curva':      draft['curve'],
@@ -307,3 +310,8 @@ TraduceToPt.update ({
     "informação":           StandardViews['help'],
     'opções':               StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

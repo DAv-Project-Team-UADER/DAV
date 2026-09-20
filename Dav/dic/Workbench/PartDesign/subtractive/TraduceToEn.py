@@ -91,6 +91,9 @@ TraduceToEn = {
 
     "hole by size":          subtractive["hole_by_size"],
     "drill by size":         subtractive["hole_by_size"],
+    "blind hole":            subtractive["blind_hole"],
+    "blind hole by size":    subtractive["blind_hole"],
+    "blind drill":           subtractive["blind_hole"],
 
     "groove by angle":       subtractive["groove_by_angle"],
 
@@ -197,3 +200,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

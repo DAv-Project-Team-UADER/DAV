@@ -20,13 +20,17 @@ Reemplaza al diálogo nativo de FreeCAD (``Sketcher_NewSketch`` →
 ``SketchOrientationDialog``), que no se puede controlar por voz. Al decir
 "nuevo boceto" se abre el selector DAV (``PlaneSelectionInputPrompt``) y el
 usuario elige el eje XY/XZ/YZ con "arriba"/"abajo" y confirma con
-"okey"/"cancelar". El boceto se crea sobre el plano elegido.
+"okey"/"cancelar". El boceto se crea sobre el plano elegido. Después de los
+tres planos el selector ofrece las caras planas del sólido actual (si hay
+uno), y el boceto queda apoyado sobre la cara elegida.
 """
 
 from __future__ import annotations
 
 import sys
 from pathlib import Path
+
+from ._faces import attachSketchToFace, listPlanarFaces
 
 
 def _ensure_input_prompts_on_path() -> None:
@@ -66,15 +70,16 @@ _PLANE_ROTATIONS = {
 
 
 def _new_sketch() -> None:
-    """Ask the user (by voice) for the plane and create the sketch on it."""
+    """Ask the user (by voice) for a plane or a face and create the sketch on it."""
     import FreeCAD as App
 
-    result = _ask_plane()
+    faces = listPlanarFaces(App.activeDocument())
+    result = _ask_plane(faces)
     if result is None or result.Cancelled or not result.Value:
         print("[DAV] Nuevo boceto cancelado por el usuario.")
         return
 
-    plane = str(result.Value).upper()
+    choice = str(result.Value)
     doc = App.activeDocument()
     if doc is None:
         doc = App.newDocument("SinTítulo")
@@ -82,10 +87,21 @@ def _new_sketch() -> None:
         return
 
     sketch = doc.addObject("Sketcher::SketchObject", _unique_sketch_name(doc))
-    rotation = _PLANE_ROTATIONS.get(plane, _PLANE_ROTATIONS["XY"])
-    # App.Rotation(q0, q1, q2, q3) = (w, x, y, z), igual que el nativo.
-    sketch.Placement = App.Placement(App.Vector(0, 0, 0), App.Rotation(*rotation))
-    sketch.MapMode = "Deactivated"
+    if choice in faces:
+        option = faces[choice]
+        # si la cara es de un Body, el boceto entra en él para poder usarlo
+        # después con agujero, vaciado, etc.
+        if option["body"] is not None:
+            option["body"].addObject(sketch)
+        attachSketchToFace(sketch, option)
+        where = f"la {option['label'].lower()}"
+    else:
+        plane = choice.upper()
+        rotation = _PLANE_ROTATIONS.get(plane, _PLANE_ROTATIONS["XY"])
+        # App.Rotation(q0, q1, q2, q3) = (w, x, y, z), igual que el nativo.
+        sketch.Placement = App.Placement(App.Vector(0, 0, 0), App.Rotation(*rotation))
+        sketch.MapMode = "Deactivated"
+        where = f"el plano {plane}"
     doc.recompute()
 
     # Entrar al modo de edición del boceto recién creado, como hace el nativo.
@@ -96,11 +112,50 @@ def _new_sketch() -> None:
     except Exception:
         pass
 
-    print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en el plano {plane}.")
+    print(f"[DAV] Nuevo boceto '{sketch.Name}' creado en {where}.")
 
 
-def _ask_plane():
-    """Show the DAV plane selector, route voice to it and acotar la gramática."""
+def _leave_sketch() -> None:
+    """Close the sketch being edited, keeping its drawing.
+
+    Runs FreeCAD's own "Leave Sketch", which also stops a drawing tool that is
+    still active. When the sketch belongs to a PartDesign Body, the voice goes
+    back to PartDesign so the next step (extrude, revolve, drill...) is at hand.
+
+    Example::
+
+        _leave_sketch()
+    """
+    import FreeCADGui as Gui
+
+    gui_doc = getattr(Gui, "ActiveDocument", None)
+    in_edit = gui_doc.getInEdit() if gui_doc is not None else None
+    sketch = getattr(in_edit, "Object", None)
+    if sketch is None or not sketch.isDerivedFrom("Sketcher::SketchObject"):
+        print("[DAV] No hay ningún croquis abierto para cerrar.")
+        return
+
+    Gui.runCommand("Sketcher_LeaveSketch", 0)
+    print(f"[DAV] Croquis '{sketch.Name}' cerrado.")
+
+    body = sketch.getParentGeoFeatureGroup()
+    if body is not None and body.isDerivedFrom("PartDesign::Body"):
+        from ..._display import enterPartDesignContext
+
+        enterPartDesignContext()
+
+
+def _ask_plane(faces: dict | None = None):
+    """Show the DAV plane selector, route voice to it and acotar la gramática.
+
+    Args:
+        faces: Optional planar faces (from ``listPlanarFaces``) offered after
+            the three base planes. The result value is then either a plane key
+            or one of the face keys.
+
+    Returns:
+        The prompt result, whose ``Value`` is the chosen plane or face key.
+    """
     try:
         from InputPrompts.PromptVoiceRouter import PromptVoiceRouter
     except ImportError:
@@ -114,7 +169,14 @@ def _ask_plane():
         from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
 
     PlanePrompt = _import_plane_prompt()
-    prompt = PlanePrompt()
+    if faces:
+        extras = [(key, option["label"]) for key, option in faces.items()]
+        prompt = PlanePrompt(
+            Message="Elegí el plano o la cara del boceto (arriba/abajo)",
+            ExtraOptions=extras,
+        )
+    else:
+        prompt = PlanePrompt()
     # Mientras el selector está abierto, Vosk solo escucha arriba/abajo/okey/
     # cancelar: evita que "abajo" se confunda con "trabajo" u otros falsos
     # positivos del vocabulario abierto.

@@ -100,6 +100,12 @@ TraduceToPt = {
     "alternar grade": sketcher["grid"],
     "mostrar grade": sketcher["grid"],
 
+    "fechar croqui": sketcher["leave"],
+    "fechar esboço": sketcher["leave"],
+    "sair do croqui": sketcher["leave"],
+    "terminar croqui": sketcher["leave"],
+    "finalizar croqui": sketcher["leave"],
+
     "cancelaredit": sketcher["cancelediting"],
    "cancelar edição": sketcher["cancelediting"],
    "parar edição": sketcher["cancelediting"],
@@ -398,3 +404,8 @@ TraduceToPt.update ({
     'menos zoom':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

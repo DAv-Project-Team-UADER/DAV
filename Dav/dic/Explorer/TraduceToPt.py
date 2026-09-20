@@ -27,6 +27,8 @@ TraduceToPt = {
     'folhas':                           explorer['file'],
     'ficheiro':                         explorer['file'],
     'ficheiros':                        explorer['file'],
+    'projeto':                          explorer['proyecto'],
+    'projetos':                         explorer['proyecto'],
     'editar':                           explorer['edit'],
     'edicao':                           explorer['edit'],
     'edição':                           explorer['edit'],
@@ -254,3 +256,8 @@ TraduceToPt.update ({
     "informação":           StandardViews['help'],
     'opções':               StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

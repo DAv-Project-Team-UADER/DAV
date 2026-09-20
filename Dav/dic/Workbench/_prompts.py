@@ -66,6 +66,39 @@ def isSolid(obj) -> bool:
     return shape is not None and bool(shape.Solids)
 
 
+def isShape(obj) -> bool:
+    """True for any drawable top-level object (a figure, sketch, body...).
+
+    Lo que vive dentro de un Body o un Part viaja con su contenedor y no se
+    ofrece por separado.
+    """
+    if _shapeOf(obj) is None:
+        return False
+    try:
+        return obj.getParentGeoFeatureGroup() is None
+    except Exception:
+        return True
+
+
+def isSketch(obj) -> bool:
+    """True for a Sketcher sketch that already has some drawing in it."""
+    return obj.isDerivedFrom("Sketcher::SketchObject") and obj.GeometryCount > 0
+
+
+def isBody(obj) -> bool:
+    """True for a PartDesign body holding a valid solid (something to cut or drill).
+
+    Un cuerpo cuya última operación quedó rota (por ejemplo un agujero que no
+    se pudo crear) no sirve de base: no se ofrece.
+    """
+    if not obj.isDerivedFrom("PartDesign::Body"):
+        return False
+    tip = getattr(obj, "Tip", None)
+    if tip is not None and not tip.isValid():
+        return False
+    return isSolid(obj)
+
+
 def isPart(obj) -> bool:
     """True for an assembly component: part, body, link or solid piece."""
     if obj.TypeId in _ORIGIN_TYPES or obj.isDerivedFrom("Assembly::AssemblyObject"):
@@ -130,6 +163,14 @@ def askSketch(doc, title: str):
     )
 
 
+def askShape(doc, title: str, message: str = "Elegí el objeto"):
+    """Let the user pick any drawable object; None when cancelled or there are none."""
+    return askObject(
+        doc, title, message, isShape,
+        "[DAV] Error: no hay ningún objeto para usar. Creá algo primero.",
+    )
+
+
 def askSolid(doc, title: str, message: str = "Elegí la pieza"):
     """Let the user pick a solid piece; None when cancelled or there are none."""
     return askObject(
@@ -169,3 +210,94 @@ def askPlane():
     if result is None or result.Cancelled or not result.Value:
         return None
     return str(result.Value).upper()
+
+
+def _askWithGrammar(prompt, phrases):
+    """Show prompt with the Vosk grammar narrowed to phrases, then restore it."""
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+    PlaneGrammarSwitcher.ActivateGrammar(phrases)
+    try:
+        return _requestPrompt(prompt)
+    finally:
+        PlaneGrammarSwitcher.RestoreCadGrammar()
+
+
+def askChoice(title: str, message: str, options):
+    """Ask the user to pick one option by voice.
+
+    Args:
+        title: Dialog title.
+        message: What the user has to choose.
+        options: ``(key, label, spokenWords)`` triples; saying one of the
+            spoken words picks the option, or arriba/abajo plus okey.
+
+    Returns:
+        The chosen key, or None when cancelled.
+
+    Example::
+
+        askChoice("Grabar", "Elegí el tipo", [
+            ("emboss", "Relieve", ("relieve",)),
+            ("engrave", "Perforación", ("perforacion", "hundido")),
+        ])
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.ChoiceInputPrompt import ChoiceInputPrompt
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+    prompt = ChoiceInputPrompt(Options=list(options), Title=title, Message=message)
+    phrases = prompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return result.Value
+
+
+def askText(title: str, message: str):
+    """Ask a text spelled letter by letter, with "espacio" between words.
+
+    Args:
+        title: Dialog title.
+        message: What the user has to spell.
+
+    Returns:
+        The text in upper case, or None when cancelled.
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+    from InputPrompts.SpellingInputPrompt import SpellingInputPrompt
+
+    prompt = SpellingInputPrompt(Title=title, Message=message)
+    phrases = SpellingInputPrompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return result.Value
+
+
+def askYesNo(title: str, message: str):
+    """Ask a yes/no question by voice.
+
+    Args:
+        title: Dialog title.
+        message: The question, e.g. "¿Crear un cuerpo nuevo?".
+
+    Returns:
+        True for yes, False for no, or None when cancelled ("cancelar").
+
+    Example::
+
+        if askYesNo("Nueva figura", "¿Crear un cuerpo nuevo?"):
+            ...
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+    from InputPrompts.YesNoInputPrompt import YesNoInputPrompt
+
+    prompt = YesNoInputPrompt(Title=title, Message=message)
+    phrases = prompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
+    if result is None or result.Cancelled or not result.Success:
+        return None
+    return bool(result.Value)

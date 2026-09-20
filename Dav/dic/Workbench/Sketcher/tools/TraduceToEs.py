@@ -32,6 +32,15 @@ TraduceToEs = {
     "borrar geometria": tools['deletegeometry'],
     "limpiar geometria": tools['deletegeometry'],
     "borrar croquis": tools['deletegeometry'],
+    # "cerrar croquis" se parece a "borrar croquis": se registra acá para que
+    # la coincidencia exacta gane y nunca se confunda con borrar todo
+    "cerrar croquis": tools['leave'],
+    "cerrar boceto": tools['leave'],
+    "salir del croquis": tools['leave'],
+    "salir del boceto": tools['leave'],
+    "terminar croquis": tools['leave'],
+    "terminar boceto": tools['leave'],
+    "finalizar croquis": tools['leave'],
     "limpiar croquis": tools['deletegeometry'],
     
     # Fusionar y sinónimos
@@ -222,3 +231,8 @@ TraduceToEs.update ({
     'zoom menos':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

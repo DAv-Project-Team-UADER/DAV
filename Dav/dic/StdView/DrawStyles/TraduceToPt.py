@@ -20,7 +20,7 @@
 # Portuguese translations – StdViews DrawStyles
 # ============================================================
 
-from .drawstyles import drawstyles
+from .DrawStyles import drawstyles
 
 TraduceToPt = {
     # Estilos principais
@@ -222,3 +222,8 @@ TraduceToPt.update ({
     "informação":           StandardViews['help'],
     'opções':               StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPt.setdefault(_phrase, MoveView)

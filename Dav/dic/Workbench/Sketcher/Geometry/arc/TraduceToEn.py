@@ -41,6 +41,9 @@ TraduceToEn = {
     "create arc by center": arc['create_by_center'],
     "arc by angles": arc['create_by_center'],
     "arc by coordinates": arc['create_by_center'],
+    'arc by three points':          arc['create_by_3points'],
+    'create arc by three points':   arc['create_by_3points'],
+    'three point arc by coordinates': arc['create_by_3points'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -120,3 +123,13 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Cota / medir
+from measure import CreateDimension, MEASURE_PHRASES
+for _phrase in MEASURE_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, CreateDimension)
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

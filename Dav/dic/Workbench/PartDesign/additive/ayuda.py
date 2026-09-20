@@ -2,6 +2,7 @@ def ayuda():
     print('Comandos disponibles en additive:')
     print('  pad               - Extruye un sketch para crear un sólido (Pad)')
     print('  revolution        - Crea un sólido de revolución a partir de un sketch')
+    print('  revolve_by_angle  - Igual, pero con el ángulo dictado ("revolucion por angulo"); gira sobre el eje vertical del boceto')
     print('  additivehelix     - Crea un sólido barriendo un perfil en trayectoria helicoidal')
     print('  additiveloft      - Crea un sólido con transición suave entre múltiples perfiles')
     print('  additivepipe      - Crea un sólido barriendo un perfil a lo largo de un camino')

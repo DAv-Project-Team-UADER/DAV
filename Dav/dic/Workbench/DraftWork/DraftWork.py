@@ -15,7 +15,8 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 import FreeCADGui as Gui
-from .annotation_style_editor.annotation_style_editor import annotation
+from .annotation.annotation import annotation
+from .annotation_style_editor.annotation_style_editor import annotation as annotation_style_editor
 from .arc.arc import arc
 from .curve.curve import curve
 from .circle.circle import circle
@@ -38,6 +39,7 @@ from _lenient import LenientDict
 # que la clave 'center' de arc/circle fuera pisada por la de ellipse.
 draft = {}
 draft.update({'annotation':     annotation})
+draft.update({'annotation_style_editor': annotation_style_editor})
 draft.update({'arc':            arc})
 draft.update({'curve':          curve})
 draft.update({'circle':         circle})

@@ -217,5 +217,34 @@ class TestDavDockPanelVisibility(unittest.TestCase):
         mock_notify.assert_called()
 
 
+class TestViewCommandButtons(unittest.TestCase):
+    """Los botones de comandos de vista solo se dibujan dentro del contexto de vistas."""
+
+    def setUp(self) -> None:
+        from integration import dav_dock_panel
+
+        self.module = dav_dock_panel
+
+    def test_in_view_context_detects_stdview_anywhere_in_the_path(self) -> None:
+        self.assertTrue(self.module._in_view_context("Base > stdview"))
+        self.assertTrue(self.module._in_view_context("Base > StdView > standardviews"))
+        self.assertFalse(self.module._in_view_context("Base > workbench > part"))
+        self.assertFalse(self.module._in_view_context("Base"))
+
+    def test_is_view_command_uses_the_file_where_the_callable_lives(self) -> None:
+        # una función definida en un archivo bajo .../StdView/... cuenta como vista
+        source = "def {}():\n    pass\n"
+        view_code = compile(source.format("f"), str(Path("dic") / "StdView" / "StandardViews" / "x.py"), "exec")
+        other_code = compile(source.format("g"), str(Path("dic") / "Workbench" / "Part" / "x.py"), "exec")
+        namespace: dict = {}
+        exec(view_code, namespace)
+        exec(other_code, namespace)
+        self.assertTrue(self.module._is_view_command(namespace["f"]))
+        self.assertFalse(self.module._is_view_command(namespace["g"]))
+        # un submenú (diccionario) o cualquier cosa sin código no es un comando de vista
+        self.assertFalse(self.module._is_view_command({"a": 1}))
+        self.assertFalse(self.module._is_view_command(None))
+
+
 if __name__ == "__main__":
     unittest.main()

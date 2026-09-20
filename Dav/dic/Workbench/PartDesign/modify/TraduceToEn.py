@@ -53,6 +53,14 @@ TraduceToEn = {
     "thickness by value":    modify["thickness_by_value"],
     "hollow solid":          modify["thickness_by_value"],
 
+    # Text engraving / embossing
+    "engrave":               modify["engrave"],
+    "engrave text":          modify["engrave"],
+    "emboss":                modify["engrave"],
+    "emboss text":           modify["engrave"],
+    "silkscreen":            modify["engrave"],
+    "text relief":           modify["engrave"],
+
     # Help
     "help":            modify['help'],
     "info":            modify['help'],
@@ -151,3 +159,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

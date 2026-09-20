@@ -27,6 +27,8 @@ TraduceToEs = {
     'carpeta':                          explorer['file'],
     'carpetas':                         explorer['file'],
     'folios':                           explorer['file'],
+    'proyecto':                         explorer['proyecto'],
+    'proyectos':                        explorer['proyecto'],
     'editar':                           explorer['edit'],
     'edicion':                          explorer['edit'],
     'edición':                          explorer['edit'],
@@ -211,3 +213,8 @@ TraduceToEs.update ({
     "información":          StandardViews['help'],
     'opciones':             StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

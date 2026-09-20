@@ -20,7 +20,7 @@ from .ayuda import ayuda
 
 from .StandardViews import StandardViews
 
-TraducteToEn = {
+TraduceToEn = {
     # Bottom
     'bottom': StandardViews['bottom'],
     'below': StandardViews['bottom'],
@@ -100,3 +100,8 @@ TraducteToEn = {
     "options":         StandardViews['help']
 
 }
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

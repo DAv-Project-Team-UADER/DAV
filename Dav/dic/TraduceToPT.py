@@ -23,6 +23,8 @@ from StdView.StdView import StdView
 from Explorer.Explorer import explorer
 from LineAttributes.LineAttributes import LineAttributes
 from Selection.selection import selection
+from Correction.Correction import correction
+from measure import CreateDimension
 from integration.dav_dock_panel import hide_dav_panel, show_dav_panel
 from integration.launch_preferences import open_preferences
 
@@ -82,6 +84,31 @@ TraduceToPT = {
     "maximizar":  show_dav_panel,
     "aumentar":   show_dav_panel,
     "expandir":   show_dav_panel,
+
+    # Correções (globais: podem ser ditas de qualquer contexto)
+    "desfazer":              correction["undo"],
+    "desfazer alteracao":    correction["undo"],
+    "refazer":               correction["redo"],
+    "refazer alteracao":     correction["redo"],
+    "apagar ultimo":         correction["deletelast"],
+    "apagar último":         correction["deletelast"],
+    "excluir ultimo":        correction["deletelast"],
+    "excluir último":        correction["deletelast"],
+    "apagar objeto":         correction["deleteobject"],
+    "excluir objeto":        correction["deleteobject"],
+    "apagar quebrados":      correction["deletebroken"],
+    "excluir quebrados":     correction["deletebroken"],
+    "limpar quebrados":      correction["deletebroken"],
+    "limpar erros":          correction["deletebroken"],
+
+    # Cota / medir (globais: o Vosk só ouve a raiz e o contexto atual)
+    "medir":           CreateDimension,
+    "medir distância": CreateDimension,
+    "medir distancia": CreateDimension,
+    "medida":          CreateDimension,
+    "cota":            CreateDimension,
+    "cotar":           CreateDimension,
+    "dimensionar":     CreateDimension,
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -247,3 +274,8 @@ TraduceToPT.update ({
     "informação":           StandardViews['help'],
     'opções':               StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['pt']:
+    TraduceToPT.setdefault(_phrase, MoveView)

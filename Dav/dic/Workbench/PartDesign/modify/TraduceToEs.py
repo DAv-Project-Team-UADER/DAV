@@ -58,6 +58,14 @@ TraduceToEs = {
     "espesor por medida":    modify["thickness_by_value"],
     "vaciar solido":         modify["thickness_by_value"],
 
+    # Grabado / serigrafia de texto (relieve o perforacion)
+    "grabar":                modify["engrave"],
+    "grabar texto":          modify["engrave"],
+    "serigrafiar":           modify["engrave"],
+    "serigrafia":            modify["engrave"],
+    "texto en relieve":      modify["engrave"],
+    "poner texto":           modify["engrave"],
+
     # Help
     "ayuda":                modify["help"],
     "información":          modify["help"],
@@ -233,3 +241,8 @@ TraduceToEs.update ({
     'zoom menos':           StandardViews['zoomout'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

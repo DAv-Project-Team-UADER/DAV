@@ -103,18 +103,32 @@ def finishFeature(doc, feature, label: str, *, is3D: bool = True, hide=()) -> bo
     return True
 
 
+def _jumpToContext(path: list, message: str) -> None:
+    """Move the voice context to ``path`` and print ``message`` when it worked."""
+    try:
+        from integration.browser_voice_adapter import get_active_adapter
+
+        adapter = get_active_adapter()
+        browser = getattr(adapter, "_browser", None)
+        if browser is not None and browser.JumpToPath(path):
+            print(message)
+    except Exception as error:
+        print(f"[DAV] No se pudo cambiar el contexto de voz a {'/'.join(path)}: {error}")
+
+
 def enterSketcherContext() -> None:
     """Hand the voice over to the Sketcher tools (lines, constraints, ...).
 
     Mientras se edita el boceto, FreeCAD cambia a las herramientas de croquis;
     el contexto de voz hace lo mismo para que todas queden al alcance.
     """
-    try:
-        from integration.browser_voice_adapter import get_active_adapter
+    _jumpToContext(["workbench", "sketcher"], "[DAV] Herramientas de croquis activadas.")
 
-        adapter = get_active_adapter()
-        browser = getattr(adapter, "_browser", None)
-        if browser is not None and browser.JumpToPath(["workbench", "sketcher"]):
-            print("[DAV] Herramientas de croquis activadas.")
-    except Exception as error:
-        print(f"[DAV] No se pudo pasar al contexto de croquis: {error}")
+
+def enterPartDesignContext() -> None:
+    """Hand the voice back to PartDesign once a sketch of a Body is closed.
+
+    Al cerrar el croquis lo que sigue es extruir, girar, agujerear...: el
+    contexto de voz vuelve a PartDesign para que esos comandos estén a mano.
+    """
+    _jumpToContext(["workbench", "partdesign"], "[DAV] Herramientas de PartDesign activadas.")

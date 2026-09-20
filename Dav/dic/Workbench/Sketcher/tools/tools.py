@@ -16,9 +16,11 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ..new_sketch.new_sketch import _leave_sketch
 
 tools = {
     'help': ayuda,
+    'leave': _leave_sketch,
     'deleteconstraints': lambda: Gui.runCommand('Sketcher_DeleteAllConstraints', 0),
     'deletegeometry': lambda: Gui.runCommand('Sketcher_DeleteAllGeometry', 0),
     'merge': lambda: Gui.runCommand('Sketcher_MergeSketches', 0),

@@ -25,6 +25,9 @@ TraduceToEs = {
     'nota':       draft['annotation'],
     'texto':      draft['annotation'],
 
+    'estilos de anotación': draft['annotation_style_editor'],
+    'editor de estilos':    draft['annotation_style_editor'],
+
     'arco':       draft['arc'],
 
     'curva':      draft['curve'],
@@ -251,3 +254,8 @@ TraduceToEs.update ({
     "información":          StandardViews['help'],
     'opciones':             StandardViews['help'],
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['es']:
+    TraduceToEs.setdefault(_phrase, MoveView)

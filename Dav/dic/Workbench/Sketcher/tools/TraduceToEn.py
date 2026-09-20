@@ -34,6 +34,10 @@ TraduceToEn = {
     "delete geometry": tools['deletegeometry'],
     "clear geometry": tools['deletegeometry'],
     "clear sketch": tools['deletegeometry'],
+    "close sketch": tools['leave'],
+    "leave sketch": tools['leave'],
+    "exit sketch": tools['leave'],
+    "finish sketch": tools['leave'],
     "erase sketch": tools['deletegeometry'],
     
     # Merge & synonyms
@@ -148,3 +152,8 @@ TraduceToEn.update ({
     'full screenmode': StandardViews['fullscreen'],
 
 })
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

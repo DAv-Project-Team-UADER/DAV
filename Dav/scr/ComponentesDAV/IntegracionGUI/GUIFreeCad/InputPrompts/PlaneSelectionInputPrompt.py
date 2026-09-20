@@ -26,6 +26,9 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
     automatically works here.
 
     The accepted value is one of the plane keys ``XY``, ``XZ`` or ``YZ``.
+    When ``ExtraOptions`` is given (for example the planar faces of the solid
+    being edited) those entries come after the three planes and the accepted
+    value can also be one of their keys.
     """
 
     PlaneKeys: tuple[str, ...] = ("XY", "XZ", "YZ")
@@ -69,12 +72,27 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
         Title: str = "DAV Sketch Orientation",
         Message: str = "Elegí el plano del boceto (XY, XZ o YZ)",
         Parent=None,
+        ExtraOptions: list[tuple[str, str]] | None = None,
     ) -> None:
+        """Build the prompt.
+
+        Args:
+            Title: Window title.
+            Message: Instruction shown to the user.
+            Parent: Optional Qt parent widget.
+            ExtraOptions: Additional ``(key, label)`` choices listed after the
+                three planes, e.g. ``[("Face3", "Cara superior")]``. The key is
+                what the prompt returns; the label is what the user sees.
+        """
         super().__init__(Title, Message, Parent)
+        # Los planos van primero, tal como estaban; las opciones extra
+        # (caras) se suman después sin cambiar el orden de los planos.
+        self._Options: list[tuple[str, str]] = [(key, key) for key in self.PlaneKeys]
+        self._Options.extend(ExtraOptions or [])
         self._CurrentIndex = 0
-        self._Plane = self.PlaneKeys[self._CurrentIndex]
+        self._Plane = self._Options[self._CurrentIndex][0]
         self.SetStatus(self._StatusText())
-        self.SetHeardText(self._Plane)
+        self.SetHeardText(self._Label())
 
     def ProcessPartialText(self, Text: str) -> None:
         """Preview recognized text without acting on it."""
@@ -114,17 +132,24 @@ class PlaneSelectionInputPrompt(BaseInputPrompt):
         return SpokenNumberParser.CancellationWords
 
     def GetSelectedPlane(self) -> str:
-        """Return the currently highlighted plane key (XY, XZ or YZ)."""
+        """Return the key of the highlighted option (XY, XZ, YZ or an extra key)."""
         return self._Plane
 
+    def _Label(self) -> str:
+        """Return the text shown for the highlighted option."""
+        return self._Options[self._CurrentIndex][1]
+
     def _Step(self, Direction: int) -> None:
-        total = len(self.PlaneKeys)
+        total = len(self._Options)
         self._CurrentIndex = (self._CurrentIndex + Direction) % total
-        self._Plane = self.PlaneKeys[self._CurrentIndex]
-        self.SetHeardText(self._Plane)
+        self._Plane = self._Options[self._CurrentIndex][0]
+        self.SetHeardText(self._Label())
 
     def _StatusText(self) -> str:
+        # los planos conservan el texto de siempre ("Plano XY"); las caras
+        # ya traen su propia etiqueta ("Cara superior")
+        name = f"Plano {self._Plane}" if self._Plane in self.PlaneKeys else self._Label()
         return (
-            f"Plano {self._Plane} ({self._CurrentIndex + 1}/{len(self.PlaneKeys)})"
+            f"{name} ({self._CurrentIndex + 1}/{len(self._Options)})"
             " — decí arriba o abajo, okey/enviar para confirmar, cancelar para salir."
         )

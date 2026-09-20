@@ -4,6 +4,7 @@
 
 import FreeCADGui as Gui
 from .File.File                         import file
+from .Proyecto.Proyecto                 import proyecto
 from .Edit.Edit                         import edit
 from .Print.Print                       import print_cmds
 from .Windows.Windows                   import windows
@@ -16,6 +17,7 @@ from .ayuda                             import ayuda
 # espera explorer['file'], explorer['edit'], ... como submenús (no aplanados).
 explorer = {}
 explorer.update({'file':        file})
+explorer.update({'proyecto':    proyecto})
 explorer.update({'edit':        edit})
 explorer.update({'print':       print_cmds})
 explorer.update({'windows':     windows})
