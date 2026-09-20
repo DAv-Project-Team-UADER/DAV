@@ -2,6 +2,10 @@
 
 # DAV — Voice-Assisted Design
 
+<p align="center">
+  <img src="Dav/scr/ComponentesDAV/Logos/color.png" alt="Logo de DAV" width="200">
+</p>
+
 **DAV** is an academic project developed as part of a **Territorial Educational Practice (PET)** at the [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). It is focused on integrating voice commands into the [**FreeCAD**](https://www.freecad.org/index.php) modeling software.
 
 The goal of the project is to enable people with motor difficulties in their arms (but without speech disorders) to create and modify 3D models, drawings, and parts through spoken instructions. In doing so, it seeks to reduce exclusive reliance on keyboard and mouse, complementing traditional interaction within the CAD environment and promoting technological accessibility.
