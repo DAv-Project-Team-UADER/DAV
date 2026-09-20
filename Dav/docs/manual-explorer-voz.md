@@ -57,6 +57,8 @@ Estando en `explorador`, se ejecutan directo:
 **archivo** → nuevo · abrir · guardar · guardar como · guardar copia ·
 revertir · combinar · importar · exportar · recientes · cargar imagen
 
+**proyecto** → abrir · guardar · exportar (sin diálogos nativos; ver más abajo)
+
 **editar** → deshacer · rehacer · cortar · copiar · pegar · duplicar ·
 seleccionar todo · eliminar · posición · transformar · alinear · preferencias ·
 propiedades · enviar a python · modo edición
@@ -74,6 +76,26 @@ personalizar · editar parámetros · utilidades de proyecto
 **estructura** → pieza · grupo · enlace
 
 Todos los submenús aceptan además **ayuda** / información / opciones.
+
+## Proyecto: abrir, guardar y exportar por voz
+
+`archivo` usa los diálogos nativos de FreeCAD, que no se manejan por voz.
+`proyecto` hace lo mismo con ventanas de voz (`Dav/dic/Explorer/Proyecto/`):
+
+- **abrir** → recorre las carpetas: *siguiente* / *anterior* mueven la
+  selección, *abrir* entra a la carpeta elegida, *subir* va a la carpeta
+  padre, *okey* elige el archivo, *cancelar* sale. Empieza en la carpeta del
+  documento activo o la última usada.
+- **guardar** → si el documento ya tiene archivo, lo guarda ahí. Si es nuevo
+  pregunta la carpeta (la sugerida u otra, elegida con el mismo navegador, donde
+  *okey* elige la carpeta en la que estás) y el nombre (el sugerido o uno
+  deletreado). Si el archivo existe pide *sobrescribir*.
+- **exportar** → elige el formato (STEP, IGES, STL, OBJ, DXF; con
+  *arriba*/*abajo* y *okey*), luego carpeta y nombre como en guardar. Exporta
+  la selección o, si no hay, todo lo visible.
+
+Los nombres de archivo no se pueden dictar (no están en el vocabulario de
+Vosk): por eso se recorre la lista en lugar de decirlos.
 
 ## Ejemplos completos
 

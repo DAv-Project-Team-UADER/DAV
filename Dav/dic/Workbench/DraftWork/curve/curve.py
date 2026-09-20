@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .._parametric import bezier_by_points, bspline_by_points, cubic_by_points
 from .ayuda import ayuda
 
 
@@ -30,8 +31,11 @@ def cubic():
 
 
 curve = {
-    "bezier": bezier,
-    "bspline": bspline,
-    "cubic": cubic,
+    "bezier": bezier_by_points,
+    "bspline": bspline_by_points,
+    "cubic": cubic_by_points,
+    "interactive_bezier": bezier,
+    "interactive_bspline": bspline,
+    "interactive_cubic": cubic,
     "help": ayuda,
 }

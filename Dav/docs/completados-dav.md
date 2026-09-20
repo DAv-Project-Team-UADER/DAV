@@ -8,6 +8,47 @@ Orden: lo más reciente arriba.
 
 ---
 
+## PartDesign: agujeros y figuras con posición (2026-09-20)
+
+«agujero pasante» fallaba con `No base set, no sketch support either` y
+«agujero ciego» con `draw the hole centres in a sketch first`. Además ninguna
+figura preguntaba dónde iba.
+
+### La causa real
+
+- `hole_by_size` creaba el `Hole` con `doc.addObject` (fuera del Body) y le
+  asignaba el perfil **antes** de meterlo al Body: FreeCAD lo rechaza.
+- Tomaba como perfil «el objeto activo», que tras «cubo» era el propio cubo:
+  convertía las 12 aristas de la caja en un boceto.
+- Usaba `DepthType = 1` creyendo que era «profundidad explícita». En FreeCAD 1.x
+  `0 = Dimension` y `1 = ThroughAll`: el valor dictado se ignoraba. Lo mismo
+  pasaba en `hole_choose_sketch` ("agujero" con boceto elegido).
+
+### Qué cambió (`Dav/dic/Workbench/PartDesign/`)
+
+- **Agujeros sin boceto previo**: `hole_by_size(diametro, x, y, z)` y
+  `blind_hole_by_size(diametro, profundidad, x, y, z)` dibujan solos el boceto
+  (círculo en x, y sobre el plano z) dentro del Body del último sólido. `z` es
+  la altura de la cara desde la que se perfora; corta hacia -Z y, si así no saca
+  material, se invierte. Si tampoco saca material se descarta y se avisa.
+- **Figuras centradas en (x, y, z)**: caja, cilindro, esfera, cono, toro y
+  prisma, aditivos y sustractivos (cono, toro y prisma sustractivos eran
+  comandos nativos sin parámetros). `_placement.py` ata la figura al plano XY
+  del Body con `AttachmentOffset`, corrida media medida donde la primitiva nace
+  con una esquina o la base en el origen.
+- **Con qué cuerpo se trabaja**: agujeros y cortes usan `chooseBody`: solo se
+  ofrecen cuerpos con un sólido válido (`isBody` en `_prompts.py` descarta los
+  que tienen la última operación rota). Con uno solo se usa directo; con varios
+  se pregunta por voz («avanzar» / «okey»). Antes se cortaba siempre sobre el
+  último Body: si su remate era un `Hole` roto, el corte fallaba con
+  `Cannot subtract primitive feature without base feature`.
+- Un corte que no toca el sólido (o no saca material) ya no deja una feature
+  inútil en el modelo: se elimina y se avisa.
+
+Pendiente: elipsoide, cuña, hélice, loft y tubo siguen usando el comando nativo.
+
+---
+
 ## Gramática de Vosk acotada al contexto (2026-08-10)
 
 Era la **§1** de pendientes: el `KaldiRecognizer` se creaba sin `SetGrammar`, así

@@ -66,6 +66,20 @@ def isSolid(obj) -> bool:
     return shape is not None and bool(shape.Solids)
 
 
+def isBody(obj) -> bool:
+    """True for a PartDesign body holding a valid solid (something to cut or drill).
+
+    Un cuerpo cuya última operación quedó rota (por ejemplo un agujero que no
+    se pudo crear) no sirve de base: no se ofrece.
+    """
+    if not obj.isDerivedFrom("PartDesign::Body"):
+        return False
+    tip = getattr(obj, "Tip", None)
+    if tip is not None and not tip.isValid():
+        return False
+    return isSolid(obj)
+
+
 def isPart(obj) -> bool:
     """True for an assembly component: part, body, link or solid piece."""
     if obj.TypeId in _ORIGIN_TYPES or obj.isDerivedFrom("Assembly::AssemblyObject"):

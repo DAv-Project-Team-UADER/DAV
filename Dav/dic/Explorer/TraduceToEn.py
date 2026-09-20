@@ -26,6 +26,8 @@ TraduceToEn = {
     'folders':               explorer['file'],
     'sheets':                explorer['file'],
     'documents':             explorer['file'],
+    'project':               explorer['proyecto'],
+    'projects':              explorer['proyecto'],
     'edit':                  explorer['edit'],
     'editing':               explorer['edit'],
     'modify':                explorer['edit'],

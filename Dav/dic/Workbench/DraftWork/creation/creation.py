@@ -21,6 +21,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .._parametric import point_by_coords, polygon_by_center, rectangle_by_corners
 from .ayuda import ayuda
 
 
@@ -48,7 +49,10 @@ def rectangle():
 creation = {
     "help": ayuda,
     "hatch": lambda: runDraftCommand("Draft_Hatch"),
-    "point": point,
-    "polygon": polygon,
-    "rectangle": rectangle,
+    "point": point_by_coords,
+    "polygon": polygon_by_center,
+    "rectangle": rectangle_by_corners,
+    "interactive_point": point,
+    "interactive_polygon": polygon,
+    "interactive_rectangle": rectangle,
 }

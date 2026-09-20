@@ -16,76 +16,25 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Spanish spoken-word mapping for the Explorer context."""
-
-from .Explorer import explorer
+from .Proyecto import proyecto
 
 TraduceToEs = {
-    # Sub-contextos
-    'archivo':                          explorer['file'],
-    'archivos':                         explorer['file'],
-    'carpeta':                          explorer['file'],
-    'carpetas':                         explorer['file'],
-    'folios':                           explorer['file'],
-    'proyecto':                         explorer['proyecto'],
-    'proyectos':                        explorer['proyecto'],
-    'editar':                           explorer['edit'],
-    'edicion':                          explorer['edit'],
-    'edición':                          explorer['edit'],
-    'modificar':                        explorer['edit'],
-    'alterar':                          explorer['edit'],
-    'imprimir':                         explorer['print'],
-    'generar pdf':                      explorer['print'],
-    'exportar pdf':                     explorer['print'],
-    'impresion':                        explorer['print'],
-    'impresión':                        explorer['print'],
-    'impresora':                        explorer['print'],
-    'pdf':                              explorer['print'],
-    'ventanas':                         explorer['windows'],
-    'ventana':                          explorer['windows'],
-    'expresiones':                      explorer['expressions'],
-    'expresion':                        explorer['expressions'],
-    'expresión':                        explorer['expressions'],
-    'herramientas':                     explorer['tools'],
-    'herramienta':                      explorer['tools'],
-    'utilidades':                       explorer['tools'],
-    'estructura':                       explorer['structure'],
-    'barra de estructura':              explorer['structure'],
-    'barra estructura':                 explorer['structure'],
-    'barra de herramientas de estructura': explorer['structure'],
-    
-    # Callables directos
-    'refrescar':                        explorer['refresh'],
-    'recargar':                         explorer['refresh'],
-    'actualizar':                       explorer['refresh'],
-    'foto':                             explorer['screenshot'],
-    'captura':                          explorer['screenshot'],
-    'sacar foto':                       explorer['screenshot'],
-    'guardar pantalla':                 explorer['screenshot'],
-    'captura de pantalla':              explorer['screenshot'],
-    'documento de texto':               explorer['textdoc'],
-    'documento':                        explorer['textdoc'],
-    'texto':                            explorer['textdoc'],
-    'desvincular':                      explorer['unlink'],
-    'quitar enlace':                    explorer['unlink'],
-    'desenlazar':                       explorer['unlink'],
-    'romper enlace':                    explorer['unlink'],
-    'separar enlace':                   explorer['unlink'],
-    'desasociar':                       explorer['unlink'],
-    'desconectar':                      explorer['unlink'],
-    'congelar':                         explorer['freeze'],
-    'inmovilizar':                      explorer['freeze'],
-    'bloquear':                         explorer['freeze'],
-    'todas las instancias':             explorer['allinstances'],
-    'seleccionar instancias':           explorer['allinstances'],
-    'todas instancias':                 explorer['allinstances'],
-    'conjunto de variables':            explorer['variableset'],
-    'variables':                        explorer['variableset'],
-    'set de variables':                 explorer['variableset'],
+    "abrir": proyecto["open"],
+    "abrir proyecto": proyecto["open"],
+    "abrir archivo": proyecto["open"],
+    "buscar archivo": proyecto["open"],
 
-    'ayuda':                            explorer['help'],
-    'información':                      explorer['help'],
-    'opciones':                         explorer['help'],
+    "guardar": proyecto["save"],
+    "guardar proyecto": proyecto["save"],
+    "guardar archivo": proyecto["save"],
+
+    "exportar": proyecto["export"],
+    "exportar proyecto": proyecto["export"],
+    "exportar archivo": proyecto["export"],
+
+    "ayuda": proyecto["help"],
+    "información": proyecto["help"],
+    "opciones": proyecto["help"],
 }
 
 from dic.StdView.StandardViews.StandardViews import *
@@ -154,10 +103,21 @@ TraduceToEs.update ({
     'vista por defecto':    StandardViews['home'],
 
     # isometric
+    # Vosk suele oír solo "metrica" (medir). Preferir "iso".
+    'iso':                  StandardViews['isometric'],
+    'vista iso':            StandardViews['isometric'],
+    'iso metrica':          StandardViews['isometric'],
+    'iso métrica':          StandardViews['isometric'],
+    'iso isometrica':       StandardViews['isometric'],
+    'iso isométrica':       StandardViews['isometric'],
     'isometrica':           StandardViews['isometric'],
     'isométrica':           StandardViews['isometric'],
     'vista isometrica':     StandardViews['isometric'],
     'vista isométrica':     StandardViews['isometric'],
+    'axonometrica':         StandardViews['isometric'],
+    'axonométrica':         StandardViews['isometric'],
+    'vista axonometrica':   StandardViews['isometric'],
+    'vista axonométrica':   StandardViews['isometric'],
 
     # left
     'izquierda':            StandardViews['left'],

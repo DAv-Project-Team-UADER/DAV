@@ -25,6 +25,7 @@ import FreeCADGui as Gui
 from ..._display import showResult
 from ..._prompts import askNumber, askSketch
 from ...Sketcher.Geometry._sketch import shapeToSketchGeometry
+from .._placement import placeAt
 
 
 def _RegisterObject(Feature) -> None:
@@ -294,8 +295,8 @@ def revolve_choose_sketch() -> None:
     _revolveProfile(doc, profile, angle)
 
 
-def box_by_size(length: float, width: float, height: float) -> None:
-    """Create a box from three dictated dimensions.
+def box_by_size(length: float, width: float, height: float, x: float, y: float, z: float) -> None:
+    """Create a box from three dictated dimensions and the position of its centre.
 
     Skips the sketch entirely: useful when the goal is a plain cube and there
     is no profile to extrude. Say three equal values to get a cube.
@@ -304,10 +305,13 @@ def box_by_size(length: float, width: float, height: float) -> None:
         length: Size along X, in millimetres.
         width: Size along Y, in millimetres.
         height: Size along Z, in millimetres.
+        x: X of the box centre, in millimetres.
+        y: Y of the box centre.
+        z: Z of the box centre.
 
     Example::
 
-        box_by_size(20, 20, 20)
+        box_by_size(20, 20, 20, 0, 0, 10)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -323,22 +327,27 @@ def box_by_size(length: float, width: float, height: float) -> None:
     box.Width = width
     box.Height = height
     body.addObject(box)
+    # la caja nace con una esquina en el origen: se corre media medida para centrarla
+    placeAt(body, box, x - length / 2, y - width / 2, z - height / 2)
 
     doc.recompute()
     _RegisterObject(box)
     print(f"[additive] Created box {length} x {width} x {height}")
 
 
-def cylinder_by_size(radius: float, height: float) -> None:
-    """Create a cylinder from a dictated radius and height.
+def cylinder_by_size(radius: float, height: float, x: float, y: float, z: float) -> None:
+    """Create a cylinder from a dictated radius, height and centre position.
 
     Args:
         radius: Base radius, in millimetres.
         height: Cylinder height, in millimetres.
+        x: X of the cylinder centre, in millimetres.
+        y: Y of the cylinder centre.
+        z: Z of the cylinder centre (halfway up its height).
 
     Example::
 
-        cylinder_by_size(10, 40)
+        cylinder_by_size(10, 40, 0, 0, 20)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -353,6 +362,8 @@ def cylinder_by_size(radius: float, height: float) -> None:
     cylinder.Radius = radius
     cylinder.Height = height
     body.addObject(cylinder)
+    # la base nace en el origen: se baja media altura para centrarlo
+    placeAt(body, cylinder, x, y, z - height / 2)
 
     doc.recompute()
     _RegisterObject(cylinder)
@@ -421,15 +432,18 @@ def loft_profiles(profile_a: object, profile_b: object) -> None:
     )
 
 
-def sphere_by_radius(radius: float) -> None:
-    """Create a sphere from a dictated radius.
+def sphere_by_radius(radius: float, x: float, y: float, z: float) -> None:
+    """Create a sphere from a dictated radius and centre position.
 
     Args:
         radius: Sphere radius, in millimetres.
+        x: X of the sphere centre, in millimetres.
+        y: Y of the sphere centre.
+        z: Z of the sphere centre.
 
     Example::
 
-        sphere_by_radius(15)
+        sphere_by_radius(15, 0, 0, 15)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -443,14 +457,17 @@ def sphere_by_radius(radius: float) -> None:
     sphere = doc.addObject("PartDesign::AdditiveSphere", "Sphere")
     sphere.Radius = radius
     body.addObject(sphere)
+    placeAt(body, sphere, x, y, z)
 
     doc.recompute()
     _RegisterObject(sphere)
     print(f"[additive] Created sphere radius {radius}")
 
 
-def cone_by_size(radius1: float, radius2: float, height: float) -> None:
-    """Create a cone from two dictated radii and a height.
+def cone_by_size(
+    radius1: float, radius2: float, height: float, x: float, y: float, z: float
+) -> None:
+    """Create a cone from two dictated radii, a height and the centre position.
 
     Say a second radius of zero for a sharp tip, or two different radii for a
     truncated cone.
@@ -459,10 +476,13 @@ def cone_by_size(radius1: float, radius2: float, height: float) -> None:
         radius1: Bottom radius, in millimetres.
         radius2: Top radius, in millimetres. Zero gives a sharp tip.
         height: Cone height, in millimetres.
+        x: X of the cone axis, in millimetres.
+        y: Y of the cone axis.
+        z: Z of the cone centre (halfway up its height).
 
     Example::
 
-        cone_by_size(10, 0, 25)
+        cone_by_size(10, 0, 25, 0, 0, 12.5)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -484,22 +504,26 @@ def cone_by_size(radius1: float, radius2: float, height: float) -> None:
     cone.Radius2 = radius2
     cone.Height = height
     body.addObject(cone)
+    placeAt(body, cone, x, y, z - height / 2)
 
     doc.recompute()
     _RegisterObject(cone)
     print(f"[additive] Created cone radii {radius1}/{radius2} height {height}")
 
 
-def torus_by_size(radius1: float, radius2: float) -> None:
-    """Create a torus from a dictated ring radius and tube radius.
+def torus_by_size(radius1: float, radius2: float, x: float, y: float, z: float) -> None:
+    """Create a torus from a dictated ring radius, tube radius and centre position.
 
     Args:
         radius1: Ring radius (centre to tube centre), in millimetres.
         radius2: Tube radius, in millimetres. Must be smaller than radius1.
+        x: X of the torus centre, in millimetres.
+        y: Y of the torus centre.
+        z: Z of the torus centre.
 
     Example::
 
-        torus_by_size(20, 5)
+        torus_by_size(20, 5, 0, 0, 5)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -521,23 +545,29 @@ def torus_by_size(radius1: float, radius2: float) -> None:
     torus.Radius1 = radius1
     torus.Radius2 = radius2
     body.addObject(torus)
+    placeAt(body, torus, x, y, z)
 
     doc.recompute()
     _RegisterObject(torus)
     print(f"[additive] Created torus ring {radius1} tube {radius2}")
 
 
-def prism_by_size(sides: int, circumradius: float, height: float) -> None:
-    """Create a prism from a dictated side count, radius and height.
+def prism_by_size(
+    sides: int, circumradius: float, height: float, x: float, y: float, z: float
+) -> None:
+    """Create a prism from a dictated side count, radius, height and centre position.
 
     Args:
         sides: Number of sides of the base polygon. Must be 3 or more.
         circumradius: Centre-to-vertex radius of the base, in millimetres.
         height: Prism height, in millimetres.
+        x: X of the prism axis, in millimetres.
+        y: Y of the prism axis.
+        z: Z of the prism centre (halfway up its height).
 
     Example::
 
-        prism_by_size(6, 10, 30)
+        prism_by_size(6, 10, 30, 0, 0, 15)
     """
     doc = App.activeDocument()
     if doc is None:
@@ -556,6 +586,7 @@ def prism_by_size(sides: int, circumradius: float, height: float) -> None:
     prism.Circumradius = circumradius
     prism.Height = height
     body.addObject(prism)
+    placeAt(body, prism, x, y, z - height / 2)
 
     doc.recompute()
     _RegisterObject(prism)

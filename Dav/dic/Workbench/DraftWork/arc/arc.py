@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .._parametric import arc_by_3_points, arc_by_center
 from .ayuda import ayuda
 
 
@@ -23,7 +24,9 @@ def points():
 
 
 arc = {
-    "center": center,
-    "points": points,
+    "center": arc_by_center,
+    "points": arc_by_3_points,
+    "interactive": center,
+    "interactive_points": points,
     "help": ayuda,
 }

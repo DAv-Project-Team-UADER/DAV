@@ -27,6 +27,9 @@ TraduceToPt = {
     'escrever':    draft['annotation'],
     
 
+    'estilos de anotação': draft['annotation_style_editor'],
+    'editor de estilos':   draft['annotation_style_editor'],
+
     'arco':       draft['arc'],
 
     'curva':      draft['curve'],

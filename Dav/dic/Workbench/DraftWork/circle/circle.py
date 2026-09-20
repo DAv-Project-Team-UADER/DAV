@@ -5,6 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
+from .._parametric import circle_by_center
 from .ayuda import ayuda
 
 def center():
@@ -15,6 +16,7 @@ def center():
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
 
 circle = {
-    "center": center,
+    "center": circle_by_center,
+    "interactive": center,
     "help": ayuda,
 }
