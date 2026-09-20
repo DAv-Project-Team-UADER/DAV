@@ -23,6 +23,7 @@ import FreeCAD as App
 from FreeCAD import Vector
 
 from ._common import activeDoc, fitView, lastOfType
+from ._words import numbers
 
 TITLE = {
     "es": "TechDraw: un círculo con su rótulo",
@@ -44,7 +45,7 @@ _TITLE_BLOCK = {
 def _circle() -> None:
     doc = activeDoc()
     circle = doc.addObject("Part::Circle", "Circle")
-    circle.Radius = 25
+    circle.Radius = 20
     doc.recompute()
     fitView()
 
@@ -100,29 +101,42 @@ def steps() -> list:
     return [
         ExampleStep(
             Text={
-                "es": "Creá la pieza a dibujar: un círculo de 25 mm de radio.",
-                "en": "Create the part to draw: a circle with a 25 mm radius.",
-                "pt": "Crie a peça a desenhar: um círculo de 25 mm de raio.",
+                "es": "Creá la pieza a dibujar: un círculo en el origen (0, 0, 0) de radio 20.",
+                "en": "Create the part to draw: a circle at the origin (0, 0, 0) with radius 20.",
+                "pt": "Crie a peça a desenhar: um círculo na origem (0, 0, 0) com raio 20.",
             },
-            Say={"es": ("círculo",), "en": ("circle",), "pt": ("círculo",)},
+            Path={
+                "es": ("banco", "pieza", "circulo"),
+                "en": ("workbench", "part", "circle"),
+                "pt": ("trabalho", "peca", "circulo"),
+            },
+            Values=lambda language: numbers(language, 0, 0, 0, 20),
             Action=_circle,
         ),
         ExampleStep(
             Text={
-                "es": "Creá una hoja técnica A4 con rótulo.",
-                "en": "Create an A4 technical sheet with a title block.",
-                "pt": "Crie uma folha técnica A4 com carimbo.",
+                "es": "Creá una página técnica nueva.",
+                "en": "Create a new technical page.",
+                "pt": "Crie uma página técnica nova.",
             },
-            Say={"es": ("nueva página",), "en": ("new page",), "pt": ("nova página",)},
+            Path={
+                "es": ("dibujo tecnico", "pagina", "pagina"),
+                "en": ("drawing", "page", "new page"),
+                "pt": ("tecnico", "pagina", "pagina"),
+            },
             Action=_page,
         ),
         ExampleStep(
             Text={
-                "es": "Poné una vista del círculo sobre la hoja.",
-                "en": "Place a view of the circle on the sheet.",
-                "pt": "Coloque uma vista do círculo na folha.",
+                "es": "Poné una vista del círculo en la página (con el círculo seleccionado).",
+                "en": "Place a view of the circle on the page (with the circle selected).",
+                "pt": "Coloque uma vista do círculo na página (com o círculo selecionado).",
             },
-            Say={"es": ("vista",), "en": ("view",), "pt": ("vista",)},
+            Path={
+                "es": ("vistas", "vista"),
+                "en": ("views", "view"),
+                "pt": ("vistas", "vista"),
+            },
             Action=_view,
         ),
         ExampleStep(
@@ -131,7 +145,11 @@ def steps() -> list:
                 "en": "Fill in the title block: title, subtitle, author and drawing number.",
                 "pt": "Preencha o carimbo: título, subtítulo, autor e número do desenho.",
             },
-            Say={"es": ("rótulo",), "en": ("title block",), "pt": ("carimbo",)},
+            Path={
+                "es": ("elementos", "campos"),
+                "en": ("features", "fields"),
+                "pt": ("recursos", "campos"),
+            },
             Action=_titleBlock,
         ),
     ]

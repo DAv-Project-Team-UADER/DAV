@@ -31,6 +31,7 @@ classDiagram
         -_Consume(Text) bool
         -_RunPending() void
         -_View(Index) void
+        -_Chips(Words, IsDone) list
         -_Render() void
         -_ApplyGrammar() void
     }
@@ -66,7 +67,7 @@ classDiagram
 
 | Método | Qué hace |
 | --- | --- |
-| `ProcessFinalText(Text)` | Cancelar cierra; en el cuadro pendiente compara las palabras o salta; *retroceder*/*avanzar* repasan cuadros; al terminar, *enviar* cierra |
+| `ProcessFinalText(Text)` | Primero compara las palabras del cuadro pendiente; si no coinciden, cancelar cierra, *saltar* ejecuta y *retroceder*/*avanzar* repasan cuadros; al terminar, *enviar* cierra |
 | `_Consume(Text)` | Busca en la frase las palabras pendientes **en orden**; guarda el avance entre frases; al completarlas llama a `_RunPending` |
 | `_RunPending()` | Ejecuta `Action`; si falla, el cuadro no avanza y se muestra el error |
 | `SkipStep()` | Ejecuta el cuadro sin decir sus palabras (también es el botón de la ventana) |
@@ -94,7 +95,11 @@ stateDiagram-v2
 ## Notas de diseño
 
 - **Las palabras se acumulan entre frases** dentro de un mismo cuadro, pero una
-  palabra fuera de orden no cuenta.
+  palabra fuera de orden no cuenta. Se pueden decir todas juntas o de a una, como en el uso real.
+- **Las palabras del cuadro van antes que cancelar.** Un cuadro puede pedir «no» (la respuesta a
+  «¿cuerpo nuevo?»), que en cualquier otro momento cancela.
+- **Las repeticiones se agrupan al mostrarse**: `abajo abajo abajo` se ve como «abajo ×3», con
+  el avance («2/3») mientras se dicen.
 - **La gramática se acota por cuadro:** Vosk solo escucha las palabras del cuadro
   actual y la navegación, lo que mejora el reconocimiento.
 - **No modal:** por eso `startExample()` guarda la referencia del reproductor y

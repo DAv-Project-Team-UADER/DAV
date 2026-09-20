@@ -20,7 +20,8 @@ from .._help_gui import show_help_dialog
 def ayuda():
     content = """Comandos disponibles en Ejemplos:
   manual    - Abre el manual de usuario (en portugués abre el de inglés)
-  ejemplos  - Elegí un ejemplo (Sketcher, Draft, TechDraw o PartDesign)
-              con retroceder, avanzar y enviar. Cada cuadro te dice qué
-              decir; al decirlo, la acción se ejecuta en FreeCAD."""
+  ejemplos  - Elegí un ejemplo (Croquis, Draft, TechDraw, PartDesign o Dado)
+              con retroceder, avanzar y enviar. Cada cuadro te dice qué decir,
+              igual que lo dirías para dibujarlo: el camino por los menús y los
+              valores. Al decirlo todo, la acción se ejecuta en FreeCAD."""
     show_help_dialog("Ejemplos", content)

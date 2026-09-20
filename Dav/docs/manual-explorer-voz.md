@@ -105,15 +105,36 @@ Dentro de **ejemplos** (la carpeta no tiene ícono) hay dos opciones:
 | Opción | Palabras | Qué hace |
 | --- | --- | --- |
 | Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés y también en portugués |
-| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con cuatro ejemplos guiados |
+| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con cinco ejemplos guiados |
 
-Ejemplos guiados: **Sketcher** (rectángulo con restricciones), **Draft** (dibujo 2D),
-**TechDraw** (un círculo con su rótulo) y **PartDesign** (un tornillo paso a paso).
+Ejemplos guiados:
+
+| Ejemplo | Qué se hace | Medidas |
+| --- | --- | --- |
+| **Croquis** | Un círculo con restricción de radio | Cota en 2D |
+| **Draft** | Rectángulo, círculo y polígono | Cota en 2D |
+| **TechDraw** | Un círculo en una hoja con su rótulo | — |
+| **PartDesign** | Un tornillo: vástago, punta, cabeza, chaflán y rosca | Cota en 3D y vista «tres de» |
+| **Dado** | Un dado de 20 mm: la cara del 1 con un cilindro y las otras cinco con un boceto y un vaciado cada una | Cota en 3D, las seis vistas y «tres de» |
 
 El selector se maneja con **retroceder**, **avanzar** y **enviar**. Ya elegido el
 ejemplo, aparece una ventana (no bloquea FreeCAD, así ves cómo se arma la pieza)
-que muestra un **cuadro** por vez con las palabras a decir. Cuando las decís todas,
-en orden, la acción se ejecuta y pasa al cuadro siguiente.
+que muestra un **cuadro** por vez con **lo que dirías para hacerlo en DAV**: el camino
+por los menús y, después, los valores que se dictan en los diálogos. Cuando lo decís
+todo, en orden, la acción se ejecuta y pasa al cuadro siguiente.
+
+Por ejemplo, para dibujar un círculo de radio 12 en un croquis:
+
+```
+banco → croquis → nuevo → enviar          (elige el plano XY)
+geometría → círculo → círculo             (entra a Geometría y a Círculo, y lo crea)
+cero → enviar → cero → enviar → doce → enviar     (centro X, centro Y y radio)
+```
+
+Cada palabra o frase del camino es un comando; cada valor se confirma con **enviar**.
+Lo que se dicta depende del documento: por ejemplo, en el Dado, cuántas veces decir
+**abajo** para llegar a una cara de la lista sale de las caras que tiene el sólido en ese
+momento (la ventana agrupa las repeticiones: «abajo ×5»).
 
 - **retroceder / avanzar**: repasar cuadros ya hechos.
 - **saltar**: ejecuta el cuadro sin decir sus palabras (útil si el micrófono no lo reconoce).
@@ -121,6 +142,10 @@ en orden, la acción se ejecuta y pasa al cuadro siguiente.
 
 Cada ejemplo son las funciones `steps()` de `Dav/dic/Explorer/Examples/_*.py`;
 para agregar uno, crear un módulo con `TITLE` y `steps()` y sumarlo a `_EXAMPLES` en `_demos.py`.
+
+Las palabras de cada cuadro se comprueban contra el árbol real, en los tres idiomas, con
+`tests/verify_examples_paths.py` (ver [`probando.md`](desarrollo/probando.md)): si el
+diccionario cambia y un ejemplo deja de coincidir, esa prueba lo marca.
 
 ## Ejemplos completos
 

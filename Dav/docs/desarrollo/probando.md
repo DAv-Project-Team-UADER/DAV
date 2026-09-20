@@ -125,6 +125,20 @@ Qué mirar y qué tener en cuenta:
   panel, tras navegar al contexto, la ayuda/describir contexto listará los
   comandos disponibles (implícito en `Browser.DescribeContext`).
 - Probá cada frase en los tres idiomas si agregaste traducciones.
+- **Corré la verificación de los ejemplos guiados** si tocás los ejemplos o las palabras del
+  árbol que usan. Reproduce, en es, en y pt, cada frase de cada cuadro por un `Browser` real,
+  ejecuta las acciones y avisa qué frase no se resuelve o a qué comando llega. Necesita
+  FreeCAD, así que se lanza con `freecadcmd`:
+
+  ```powershell
+  $tests = "Dav\scr\ComponentesDAV\IntegracionGUI\GUIFreeCad\tests"
+  & "C:\Program Files\FreeCAD 1.1\bin\freecadcmd.exe" "$tests\verify_examples_paths.py"
+  Get-Content "$tests\verify_examples_paths.txt"
+  ```
+
+  Que una frase «se resuelva» no alcanza: mirá también a qué comando llega cada cuadro (`->`
+  en el informe). Así se encontró, por ejemplo, que «cortar» dicho desde *Sumar* llegaba a
+  «cotar» por coincidencia aproximada, y que desde *Círculo* «crear» salta a Workbench.
 - **Corré la prueba de la jerarquía real** después de tocar cualquier diccionario. Necesita
   la carpeta `Dav` en el `PYTHONPATH` (los `TraduceTo*` importan `dic.StdView...`); sin
   eso fallan dos pruebas por `No module named 'dic'`, aunque el árbol esté bien:
