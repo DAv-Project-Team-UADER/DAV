@@ -39,6 +39,7 @@ Desde Base, decí: **«explorador»**
 | Expresiones | **expresiones**, expresión |
 | Herramientas | **herramientas**, utilidades |
 | Estructura | **estructura**, barra de estructura |
+| Ejemplos | **ejemplos**, quiero aprender, aprender, tutoriales |
 
 ## Comandos directos (sin entrar a ningún submenú)
 
@@ -96,6 +97,30 @@ Todos los submenús aceptan además **ayuda** / información / opciones.
 
 Los nombres de archivo no se pueden dictar (no están en el vocabulario de
 Vosk): por eso se recorre la lista en lugar de decirlos.
+
+## Ejemplos: aprender haciendo
+
+Dentro de **ejemplos** (la carpeta no tiene ícono) hay dos opciones:
+
+| Opción | Palabras | Qué hace |
+| --- | --- | --- |
+| Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés y también en portugués |
+| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con cuatro ejemplos guiados |
+
+Ejemplos guiados: **Sketcher** (rectángulo con restricciones), **Draft** (dibujo 2D),
+**TechDraw** (un círculo con su rótulo) y **PartDesign** (un tornillo paso a paso).
+
+El selector se maneja con **retroceder**, **avanzar** y **enviar**. Ya elegido el
+ejemplo, aparece una ventana (no bloquea FreeCAD, así ves cómo se arma la pieza)
+que muestra un **cuadro** por vez con las palabras a decir. Cuando las decís todas,
+en orden, la acción se ejecuta y pasa al cuadro siguiente.
+
+- **retroceder / avanzar**: repasar cuadros ya hechos.
+- **saltar**: ejecuta el cuadro sin decir sus palabras (útil si el micrófono no lo reconoce).
+- **cancelar**: cierra el ejemplo. Al terminar, **enviar** lo cierra.
+
+Cada ejemplo son las funciones `steps()` de `Dav/dic/Explorer/Examples/_*.py`;
+para agregar uno, crear un módulo con `TITLE` y `steps()` y sumarlo a `_EXAMPLES` en `_demos.py`.
 
 ## Ejemplos completos
 
