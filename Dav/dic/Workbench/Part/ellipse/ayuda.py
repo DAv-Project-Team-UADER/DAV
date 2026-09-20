@@ -18,7 +18,8 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  ellipse - Crea un arco eliptico o elipse completa como arista (edge) 2D.')
-    print('           Requiere: MajorRadius (float) — semieje mayor. Default: 4 mm.')
+    print('           Primero pide X, Y, Z (float) — coordenadas del centro. Despues:')
+    print('         Requiere: MajorRadius (float) — semieje mayor. Default: 4 mm.')
     print('                     MinorRadius (float) — semieje menor. Default: 2 mm.')
     print('                     Angle1      (float) — angulo de inicio. Default: 0 grados.')
     print('                     Angle2      (float) — angulo de fin.   Default: 360 grados.')

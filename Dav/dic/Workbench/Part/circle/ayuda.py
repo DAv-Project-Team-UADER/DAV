@@ -17,7 +17,8 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  circle - Crea un circulo completo o arco circular como arista (edge), no como solido.')
-    print('            Requiere: Radius (float) — radio del circulo. Default: 2 mm.')
+    print('            Primero pide X, Y, Z (float) — coordenadas del centro. Despues:')
+    print('         Requiere: Radius (float) — radio del circulo. Default: 2 mm.')
     print('                      Angle1 (float) — angulo de inicio del arco. Default: 0 grados.')
     print('                      Angle2 (float) — angulo de fin del arco. Default: 360 grados.')
     print('            Nota: Con Angle1=0 y Angle2=360 se obtiene un circulo completo.')
