@@ -1,7 +1,7 @@
-import FreeCADGui as Gui
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 
 annotation = {
-    'editor': lambda: Gui.runCommand('Draft_AnnotationStyleEditor', 0),
+    'editor': lambda: runDraftCommand("Draft_AnnotationStyleEditor"),
     'help': ayuda,
 }

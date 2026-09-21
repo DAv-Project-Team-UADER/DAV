@@ -2,6 +2,10 @@
 
 # DAV — Desenho Assistido pela Voz
 
+<p align="center">
+  <img src="Dav/scr/ComponentesDAV/Logos/color.png" alt="Logo de DAV" width="200">
+</p>
+
 **DAV** é um projeto acadêmico desenvolvido no contexto de uma **Prática Educativa Territorial (PET)** da [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). O projeto é voltado para integração de comandos de voz no software de modelagem [**FreeCAD**](https://www.freecad.org/index.php).
 
 O objetivo do projeto é permitir que pessoas com dificuldades motoras nos braços, mas sem distúrbios de fala, possam criar e modificar modelos, desenhos e peças 3D usando comandos de voz. Dessa forma, busca-se reduzir a dependência exclusiva do teclado e do mouse, complementando a interação tradicional dentro do ambiente CAD e tornando a tecnologia mais acessível pra galera.
@@ -30,6 +34,12 @@ O DAV está atualmente em uma fase inicial de **MVP** (*Minimum Viable Product*)
 - **Interface Gráfica:** PySide6
 - **Controle de Versão:** Git
 
+## Requisitos mínimos do sistema
+
+- **Sistema operacional:** Windows 10 (64-bit) ou superior; ou qualquer distribuição Linux de 64 bits (por exemplo: Ubuntu 20.04)
+- **Processador:** CPU x86 de 64 bits (Intel Core ou AMD Athlon/Ryzen).
+- **Memória RAM:** 8 GB ou mais
+- **Armazenamento:** 2,5 GB de espaço livre em disco.
 
 ## Licença
 

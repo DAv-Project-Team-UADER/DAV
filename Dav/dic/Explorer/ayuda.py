@@ -19,12 +19,14 @@ from ._help_gui import show_help_dialog
 def ayuda():
     content = """Submenús disponibles:
   archivo        - Gestión de archivos (nuevo, abrir, guardar, importar, exportar)
+  proyecto       - Abrir, guardar y exportar por voz, sin diálogos nativos
   editar         - Operaciones de edición (deshacer, rehacer, cortar, copiar, pegar)
   imprimir       - Impresión y exportación a PDF
   ventanas       - Gestión de ventanas (cerrar, cerrar todo, salir)
   expresiones    - Copiar y pegar expresiones y fórmulas
   herramientas   - Herramientas auxiliares (medir, personalizar, parámetros)
   estructura     - Creación de piezas, grupos y enlaces
+  ejemplos       - Manual de usuario y ejemplos guiados paso a paso
 
 Comandos directos:
   refrescar      - Recarga la vista y el árbol

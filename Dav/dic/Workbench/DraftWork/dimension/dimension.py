@@ -1,15 +1,15 @@
 import FreeCAD as App
-import FreeCADGui as Gui
 
 try:
     from createobjects import CreateObjects
 except ImportError:
     from selection.createobjects import CreateObjects
+from ..draftcommand import runDraftCommand
 from .ayuda import ayuda
 
 
 def linear():
-    Gui.runCommand("Draft_Dimension", 0)
+    runDraftCommand("Draft_Dimension")
     active_doc = App.ActiveDocument
     if active_doc and active_doc.ActiveObject:
         CreateObjects(ObjectName=active_doc.ActiveObject.Name, Is3D=False).Execute()
@@ -17,6 +17,6 @@ def linear():
 
 dimension = {
     "linear": linear,
-    "flip": lambda: Gui.runCommand("Draft_FlipDimension", 0),
+    "flip": lambda: runDraftCommand("Draft_FlipDimension"),
     "help": ayuda,
 }

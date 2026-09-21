@@ -28,7 +28,7 @@ from .Polygon.polygon import polygon
 from .polyline.polyline import polyline
 from .rectangle.rectangle import rectangle
 from .ayuda import ayuda
-from ..new_sketch.new_sketch import _new_sketch
+from ..new_sketch.new_sketch import _leave_sketch, _new_sketch
 
 
 def edit_sketch_by_voice(sketch: object):
@@ -71,6 +71,7 @@ geometry = {
     'rectangle': rectangle,
 
     'new': _new_sketch,
+    'leave': _leave_sketch,
     'edit': edit_sketch_by_voice,
     'attach': attach_sketch_by_voice,
     'grid': lambda: Gui.runCommand('Sketcher_Grid', 0),

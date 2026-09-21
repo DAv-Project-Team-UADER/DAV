@@ -1,38 +1,38 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 
 import FreeCAD as App
+from ..._display import finishFeature
 from .ayuda import ayuda
 
 
-def _create_box(length=10, width=10, height=10):
-    doc = App.activeDocument()
+def _create_box(x: float, y: float, z: float, length: float, width: float, height: float) -> None:
+    """Create a Part box from its starting corner and three dictated dimensions.
+
+    Args:
+        x: X of the starting point, in millimetres.
+        y: Y of the starting point, in millimetres.
+        z: Z of the starting point, in millimetres.
+        length: Size along X, in millimetres.
+        width: Size along Y, in millimetres.
+        height: Size along Z, in millimetres.
+
+    Example::
+
+        _create_box(0, 0, 0, 20, 10, 5)
+    """
+    if length <= 0 or width <= 0 or height <= 0:
+        print("[part] Error: every dimension must be greater than zero.")
+        return
+    doc = App.activeDocument() or App.newDocument()
     box = doc.addObject("Part::Box", "Box")
     box.Length = length
-    box.Width  = width
+    box.Width = width
     box.Height = height
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(box.Name, Is3D=True).Execute()
+    box.Placement = App.Placement(App.Vector(x, y, z), App.Rotation())
+    finishFeature(doc, box, "box")
 
 
 box = {
-    'box': lambda: _create_box(),
+    'box': _create_box,
     'help': ayuda,
-}
+}

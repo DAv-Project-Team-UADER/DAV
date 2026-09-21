@@ -24,6 +24,8 @@ import math
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def create_by_center(
     x: float,
@@ -74,6 +76,8 @@ def create_by_center(
         # Fallback al overload escalar por si la build solo expone ese
         shape = Part.Ellipse(center, major, minor).toShape()
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
@@ -172,6 +176,8 @@ def create_by_3_points(
     except Exception:
         shape = Part.Ellipse(center, maj, mn).toShape()
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
@@ -229,6 +235,8 @@ def create_elliptic_arc(
     except Exception:
         ell = Part.Ellipse(center, major, minor)
     shape = Part.ArcOfEllipse(ell, a1, a2).toShape()
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
@@ -281,6 +289,8 @@ def create_hyperbolic_arc(
     hyp = Part.Hyperbola(maj_pt, min_pt, center)
     shape = Part.ArcOfHyperbola(hyp, a1, a2).toShape()
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "ArcHyperbola"
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
@@ -325,6 +335,8 @@ def create_parabolic_arc(
     parab = Part.Parabola(focus, vertex, App.Vector(0, 0, 1))
     shape = Part.ArcOfParabola(parab, a1, a2).toShape()
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "ArcParabola"
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape

@@ -171,15 +171,16 @@ Desde `croquis` → `geometria`:
 | `banco de trabajo` | |
 | `ensamblaje` | entra a Assembly |
 | `crear ensamblaje` | crea el ensamblaje |
-| `insertar pieza` | inserta una pieza (repetir para tener dos) |
+| `insertar vinculo` | abre una lista con los cuerpos: `avanzar` para cambiar, `enviar` para elegir. El vínculo queda a la derecha de los ya insertados (repetir para tener dos) |
+| `insertar pieza` | inserta una pieza nueva y vacía |
 
-Con **una pieza** seleccionada:
+Con **una pieza** (se elige en una lista: `avanzar` y `enviar`):
 
 | Decí | Esperado |
 |---|---|
 | `anclar pieza` | `[assembly] Grounded '...'` |
 
-Con **dos piezas** seleccionadas:
+Con **dos piezas** (se eligen en dos listas seguidas) y después **por dónde se une cada una**: una lista de caras que se recorre con `abajo` y se elige con `enviar` (primero los cilindros, por su eje, y después las caras planas de mayor a menor):
 
 | Decí | Luego | Esperado |
 |---|---|---|
@@ -189,7 +190,7 @@ Con **dos piezas** seleccionadas:
 | `bisagra` | — | `Hinged '...' to '...'` |
 | `junta deslizante` | — | `Slider between '...' and '...'` |
 
-**Juntas sin medidas** (dos piezas seleccionadas):
+**Juntas sin medidas** (dos piezas y por dónde se une cada una):
 
 | Decí | Qué hace |
 |---|---|
@@ -198,7 +199,7 @@ Con **dos piezas** seleccionadas:
 | `junta paralela` | mantiene las piezas paralelas |
 | `junta perpendicular` | mantiene las piezas en ángulo recto |
 
-**Juntas de transmisión** (dos piezas seleccionadas, piden radios):
+**Juntas de transmisión** (dos piezas y por dónde se une cada una; piden radios):
 
 | Decí | Luego | Qué hace |
 |---|---|---|
@@ -209,7 +210,7 @@ Con **dos piezas** seleccionadas:
 
 Para verificar que el solver corre: `resolver ensamblaje`.
 
-> Seleccionar las piezas todavía necesita mouse; las juntas en sí ya no.
+> Las piezas y el lugar por donde se une cada una se eligen por voz. Solo se ofrecen cilindros y caras planas: no se pueden elegir bordes ni vértices sueltos.
 
 ---
 

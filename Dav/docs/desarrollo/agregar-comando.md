@@ -117,4 +117,6 @@ prompt navegable por voz.
 
 ---
 
-Siguiente: [Cómo probar y validar](probando.md)
+¿Necesitás una carpeta nueva? Ver [Agregar un submenú](agregar-submenu.md). ¿Un diálogo de voz? Ver [Agregar un diálogo de voz](agregar-prompt.md).
+
+Siguiente: [Agregar un submenú](agregar-submenu.md)

@@ -1,6 +1,10 @@
 [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1fa-1f1f8.png" width="18" style="vertical-align: middle;"> English](README.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e6-1f1f7.png" width="18" style="vertical-align: middle;"> Español](README.es.md) | [<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e7-1f1f7.png" width="18" style="vertical-align: middle;"> Português](README.pt.md)
 # DAV — Diseño Asistido por Voz
 
+<p align="center">
+  <img src="Dav/scr/ComponentesDAV/Logos/color.png" alt="Logo de DAV" width="200">
+</p>
+
 **DAV** es un proyecto académico desarrollado en el marco de una **Práctica Educativa Territorial (PET)** de la [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). Está orientado a la integración de comandos de voz en el software de modelado [**FreeCAD**](https://www.freecad.org/index.php).
 
 El objetivo del proyecto es permitir que personas con dificultades motrices en brazos pero sin dificultades en el habla puedan crear y modificar modelos, dibujos y piezas 3D mediante comandos de voz. De esta manera, se busca reducir la dependencia exclusiva del teclado y el mouse, complementando la interacción tradicional dentro del entorno CAD y fomentando la accesibilidad tecnológica.
@@ -29,9 +33,17 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 - **Interfaz Gráfica:** PySide6
 - **Control de Versiones:** Git
 
+## Requerimientos mínimos del sistema 
+
+- **Sistema operativo:** Windows 10 (64-bit) o superior; o cualquier distribución linux de 64 bits (por ejemplo: Ubuntu 20.04)
+- **Procesador**: CPU x86 de 64 bits (Intel Core o AMD Athlon/Ryzen).
+- **Memoria RAM**: 8 GB mínimo 
+- **Almacenamiento:** 2.5 GB de espacio libre en disco.
+
 ## Manual de Usuario
 
-- [Manual de Usuario (PDF)](manual_PDF/Manual_Usuario.pdf)
+- [Manual de Usuario (PDF)](Manual_Usuario.pdf)
+- [VideoTutoriales (Youtube)](https://www.youtube.com/watch?v=DwHS8yIz_Mw&list=PLNZ1JD1zPONA&pp=sAgC)
 
 ## Licencia
 

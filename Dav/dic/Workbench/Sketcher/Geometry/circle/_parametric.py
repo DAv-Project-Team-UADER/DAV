@@ -22,6 +22,8 @@ from __future__ import annotations
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def create_by_center(
     x: float,
@@ -57,6 +59,8 @@ def create_by_center(
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "Circle"
     shape = Part.makeCircle(radius, App.Vector(x, y, 0))
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
@@ -131,6 +135,8 @@ def create_by_3_points(
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "Circle3P"
     shape = Part.makeCircle(radius, App.Vector(ux, uy, 0))
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape

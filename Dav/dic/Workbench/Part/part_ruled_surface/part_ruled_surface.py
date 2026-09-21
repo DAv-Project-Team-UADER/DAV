@@ -1,36 +1,35 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askObject, isProfile
 from .ayuda import ayuda
 
+_EMPTY = "[DAV] Error: no hay curvas para unir. Dibujá dos perfiles."
 
-def _ruled_surface():
-    """Create a ruled surface between the two selected edges or wires."""
-    sel = Gui.Selection.getSelection()
-    if len(sel) < 2:
+
+def _ruled_surface() -> None:
+    """Create a ruled surface between two drawings chosen by voice."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::RuledSurface", "RuledSurface")
-    f.Curve1 = (sel[0], ["Edge1"])
-    f.Curve2 = (sel[1], ["Edge1"])
-    for obj in sel:
-        obj.Visibility = False
-    doc.recompute()
+    first = askObject(doc, "Superficie reglada", "Elegí la primera curva", isProfile, _EMPTY)
+    if first is None:
+        print("[part] Ruled surface cancelled.")
+        return
+    second = askObject(
+        doc, "Superficie reglada", "Elegí la segunda curva",
+        lambda o: isProfile(o) and o is not first, _EMPTY,
+    )
+    if second is None:
+        print("[part] Ruled surface cancelled.")
+        return
+
+    surface = doc.addObject("Part::RuledSurface", "RuledSurface")
+    surface.Curve1 = (first, ["Edge1"])
+    surface.Curve2 = (second, ["Edge1"])
+    finishFeature(doc, surface, "ruled surface", is3D=False, hide=(first, second))
 
 
 part_ruled_surface = {

@@ -28,6 +28,26 @@ _observer = None
 _selection_observer = None
 
 
+def _is_view_command(target) -> bool:
+    """True when ``target`` is a command defined in the StdView dictionaries.
+
+    Los comandos de vista (frontal, acercar, zoom caja...) se propagan a casi
+    todos los contextos para poder decirlos desde cualquier lado, pero sus
+    botones solo tienen sentido dentro del contexto de vistas. Se reconocen
+    por el archivo donde está definido el callable, así no importa por qué
+    ruta de importación llegó al diccionario.
+    """
+    code = getattr(target, "__code__", None)
+    if code is None:
+        return False
+    return "StdView" in Path(code.co_filename).parts
+
+
+def _in_view_context(context_path: str) -> bool:
+    """True when the Browser is inside the standard-views context (``stdview``)."""
+    return any(name.strip().lower() == "stdview" for name in context_path.split(">"))
+
+
 def _notify_panel_failure(message: str) -> None:
     """Inform the failure through the project's logging/messaging channel."""
     try:
@@ -227,7 +247,12 @@ class BrowserPanelSource:
         from ContextView import ContextEntryView, ContextView
 
         submenus, commands, seen = [], [], []
+        in_view_context = _in_view_context(self._browser.ContextPath)
         for entry in self._browser.Context:
+            # fuera del contexto de vistas no se dibujan sus botones (el
+            # comando sigue disponible por voz), para no cargar el panel
+            if not in_view_context and not entry.IsSubContext() and _is_view_command(entry.Target):
+                continue
             if any(self._browser.IsSameTarget(entry.Target, t) for t in seen):
                 continue
             seen.append(entry.Target)
@@ -399,6 +424,15 @@ def _install_selection_observer(source) -> None:
     _selection_observer = observer
 
 
+def _install_estilo() -> None:
+    """Instala el estilo visual DAV; un fallo aca no debe tumbar el panel."""
+    try:
+        from integration.EstiloDav import instalarEstiloDav
+        instalarEstiloDav()
+    except Exception as exc:  # noqa: BLE001
+        print(f"[DAV] Estilo visual no disponible: {exc}")
+
+
 def install_dock_panel(browser, adapter):
     """Create the DAV dock inside FreeCAD and wire it to the Browser.
 
@@ -438,6 +472,7 @@ def install_dock_panel(browser, adapter):
         source.PublishTree()
         _install_tree_observer(source)
         _install_selection_observer(source)
+        _install_estilo()
         source.PublishSelection()
         existing.show()
         existing.raise_()
@@ -474,6 +509,7 @@ def install_dock_panel(browser, adapter):
     _wire_dock_toggle(dock, panel)
     _install_tree_observer(source)
     _install_selection_observer(source)
+    _install_estilo()
     source.PublishSelection()
     dock.show()
     dock.raise_()

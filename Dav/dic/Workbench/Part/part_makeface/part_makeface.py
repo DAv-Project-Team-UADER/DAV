@@ -1,42 +1,41 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
+
+import FreeCAD as App
 import Part
+from ..._display import finishFeature
+from ..._prompts import askSketch
 import FreeCADGui as Gui
 from .ayuda import ayuda
 
 
-def _makeface():
-    """Create a planar face from the selected closed wire."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _makeface() -> None:
+    """Create a planar face from a closed drawing chosen by voice."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    if not doc:
+    source = askSketch(doc, "Crear cara")
+    if source is None:
+        print("[part] Face cancelled.")
         return
-    obj_sel = sel[0]
-    if not hasattr(obj_sel, "Shape") or not obj_sel.Shape.Wires:
+    # Un circulo suelto es una arista cerrada, no un wire: se arma el wire.
+    try:
+        wires = source.Shape.Wires or [
+            Part.Wire(group) for group in Part.sortEdges(source.Shape.Edges)
+        ]
+    except Exception:
+        wires = []
+    if not wires:
+        print(f"[part] Error: '{source.Name}' has no closed outline.")
         return
-    face = Part.makeFilledFace(obj_sel.Shape.Wires)
+    try:
+        face = Part.makeFilledFace(wires)
+    except Exception as error:
+        print(f"[part] Error: could not build a face ({error}).")
+        return
     obj = doc.addObject("Part::Feature", "Face")
     obj.Shape = face
-    if hasattr(obj_sel, "Visibility"):
-        obj_sel.Visibility = False
-    doc.recompute()
+    finishFeature(doc, obj, "face", is3D=False, hide=(source,))
 
 
 part_makeface = {

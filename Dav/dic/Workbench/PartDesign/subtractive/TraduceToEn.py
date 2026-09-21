@@ -47,6 +47,7 @@ TraduceToEn = {
     # Subtractive Cylinder
     "subtractivecylinder": subtractive["subtractivecylinder"],
     "cutcylinder": subtractive["subtractivecylinder"],
+    "cylinder": subtractive["subtractivecylinder"],
 
     # Subtractive Ellipsoid
     "subtractiveellipsoid": subtractive["subtractiveellipsoid"],
@@ -55,6 +56,7 @@ TraduceToEn = {
     # Subtractive Helix
     "subtractivehelix": subtractive["subtractivehelix"],
     "cuthelix": subtractive["subtractivehelix"],
+    "helix": subtractive["subtractivehelix"],
 
     # Subtractive Loft
     "subtractiveloft": subtractive["subtractiveloft"],
@@ -88,9 +90,13 @@ TraduceToEn = {
     # Cuts by dictated measure (no dialog)
     "pocket by length":      subtractive["pocket_by_length"],
     "hollow by length":      subtractive["pocket_by_length"],
+    "hollow":                subtractive["pocket_by_length"],
 
     "hole by size":          subtractive["hole_by_size"],
     "drill by size":         subtractive["hole_by_size"],
+    "blind hole":            subtractive["blind_hole"],
+    "blind hole by size":    subtractive["blind_hole"],
+    "blind drill":           subtractive["blind_hole"],
 
     "groove by angle":       subtractive["groove_by_angle"],
 
@@ -119,3 +125,86 @@ TraduceToEn = {
     "tape": CreateDimension,
     "ruler": CreateDimension,
 }
+
+from dic.StdView.StandardViews.StandardViews import *
+
+TraduceToEn.update ({
+    # Bottom
+    'bottom': StandardViews['bottom'],
+    'below': StandardViews['bottom'],
+    'down': StandardViews['bottom'],
+    'lower': StandardViews['bottom'],
+
+    # Top
+    'top': StandardViews['top'],
+    'above': StandardViews['top'],
+    'upper': StandardViews['top'],
+
+    # Front
+    'front': StandardViews['front'],
+    'forward': StandardViews['front'],
+
+    # Rear
+    'rear': StandardViews['rear'],
+    'back': StandardViews['rear'],
+    'behind': StandardViews['rear'],
+
+    # Left
+    'left': StandardViews['left'],
+
+    # Right
+    'right': StandardViews['right'],
+
+    # Isometric
+    'isometric': StandardViews['isometric'],
+    'iso': StandardViews['isometric'],
+
+    # Dimetric
+    'dimetric': StandardViews['dimetric'],
+
+    # Trimetric
+    'trimetric': StandardViews['trimetric'],
+
+    # Fit All
+    'fit all': StandardViews['fitall'],
+    'fit': StandardViews['fitall'],
+    'fitview': StandardViews['fitall'],
+    'zoomfit': StandardViews['fitall'],
+
+    # Fit Selection
+    'fit selection': StandardViews['fitselection'],
+    'fit selected': StandardViews['fitselection'],
+    'zoom selection': StandardViews['fitselection'],
+
+    # Zoom in
+    'zoom in': StandardViews['zoomin'],
+    'zoom in view': StandardViews['zoomin'],
+
+    # Zoom out
+    'zoom out': StandardViews['zoomout'],
+    'zoom out view': StandardViews['zoomout'],
+
+    # Box Zoom
+    'box zoom': StandardViews['boxzoom'],
+    'window zoom': StandardViews['boxzoom'],
+    'zoom window': StandardViews['boxzoom'],
+
+    # New View
+    'new view': StandardViews['newview'],
+    'create view': StandardViews['newview'],
+
+    # Home
+    'home': StandardViews['home'],
+    'default view': StandardViews['home'],
+    'reset view': StandardViews['home'],
+
+    # Fullscreen
+    'full screen': StandardViews['fullscreen'],
+    'full screenmode': StandardViews['fullscreen'],
+
+})
+
+# Mover la vista (centra la cámara en un punto)
+from moveview import MoveView, MOVE_VIEW_PHRASES
+for _phrase in MOVE_VIEW_PHRASES['en']:
+    TraduceToEn.setdefault(_phrase, MoveView)

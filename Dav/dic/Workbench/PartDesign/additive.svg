@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Additive - extrusion positiva -->
+  <rect x="12" y="20" width="30" height="30" rx="3" fill="#f5c211" stroke="#2e3436" stroke-width="2.5"/>
+  <rect x="12" y="20" width="30" height="8" fill="#ffdc6e" stroke="#2e3436" stroke-width="2"/>
+  <rect x="22" y="10" width="20" height="20" rx="2" fill="#8ff0a4" stroke="#2e3436" stroke-width="2.2"/>
+  <circle cx="48" cy="16" r="12" fill="#26a269" stroke="#2e3436" stroke-width="2.5"/>
+  <path d="M48 10 V22 M42 16 H54" stroke="white" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -124,7 +124,9 @@ class DavPanel(QWidget):
             self._ShowEmptyHint()
             return
 
-        buttons = [self._MakeEntryButton(e) for e in self._context.Entries()]
+        # Las entradas sin .svg no generan boton (siguen andando por voz).
+        buttons = [b for b in map(self._MakeEntryButton, self._context.Entries())
+                   if b is not None]
         self._toolButtons.extend(buttons)
         if not self._context.IsRoot():
             buttons.append(self._MakeBackButton())
@@ -464,23 +466,23 @@ class DavPanel(QWidget):
         hint.setAlignment(Qt.AlignCenter)
         self._toolAreaLayout.addWidget(hint)
 
-    def _MakeEntryButton(self, Entry) -> QPushButton:
+    def _MakeEntryButton(self, Entry) -> QPushButton | None:
+        icon = self._locator.Find(Entry.InternalKey)
+        if not icon:
+            return None
+
         button = QPushButton()
         button.setFixedSize(self.BUTTON_SIZE, self.BUTTON_SIZE)
         button.setToolTip(Entry.Spoken)
         button.setStyleSheet(self._ButtonQss())
 
-        icon = self._locator.Find(Entry.InternalKey)
-        if icon:
-            # setIcon en vez de un QSvgWidget embebido: Qt escala el SVG a un
-            # cuadrado exacto respetando su relacion de aspecto, con lo cual
-            # todos los botones quedan con el mismo tamaño visual. Con el
-            # widget embebido cada SVG se dibujaba segun su propio viewBox y
-            # unos se veian mas grandes que otros.
-            button.setIcon(QIcon(icon))
-            button.setIconSize(QSize(self.ICON_SIZE, self.ICON_SIZE))
-        else:
-            button.setText(Entry.Spoken[:2].capitalize())
+        # setIcon en vez de un QSvgWidget embebido: Qt escala el SVG a un
+        # cuadrado exacto respetando su relacion de aspecto, con lo cual
+        # todos los botones quedan con el mismo tamaño visual. Con el
+        # widget embebido cada SVG se dibujaba segun su propio viewBox y
+        # unos se veian mas grandes que otros.
+        button.setIcon(QIcon(icon))
+        button.setIconSize(QSize(self.ICON_SIZE, self.ICON_SIZE))
 
         spoken = Entry.Spoken
         button.clicked.connect(lambda _checked=False, s=spoken: self._OnEntryClicked(s))

@@ -10,10 +10,14 @@ from typing import Any
 
 try:
     from PySide6.QtCore import Qt, Signal
-    from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout
+    from PySide6.QtWidgets import (
+        QApplication, QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout,
+    )
 except ImportError:
     from PySide2.QtCore import Qt, Signal  # type: ignore[assignment]
-    from PySide2.QtWidgets import QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout  # type: ignore[assignment]
+    from PySide2.QtWidgets import (  # type: ignore[assignment]
+        QApplication, QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout,
+    )
 
 from InputPrompts.PromptResult import PromptResult
 from InputPrompts.InputPromptI18n import ResolveLanguage, T
@@ -23,6 +27,36 @@ def _AlignCenter():
     if hasattr(Qt, "AlignmentFlag"):
         return Qt.AlignmentFlag.AlignCenter
     return Qt.AlignCenter
+
+
+# Colores por tema: (fondo, texto, fondo del texto escuchado, borde, fondo botón, hover botón)
+_LIGHT_THEME = ("#ffffff", "#000000", "#f3f3f3", "#d8d8d8", "#f0f0f0", "#e2e2e2")
+_DARK_THEME = ("#2b2b2b", "#E03C1B", "#3a3a3a", "#555555", "#444444", "#555555")
+
+
+def _IsDarkTheme() -> bool:
+    """Return True when FreeCAD is running with a dark theme.
+
+    FreeCAD aplica su tema oscuro con una hoja de estilos (.qss), por lo que la
+    paleta de Qt sigue siendo clara: se consulta primero la preferencia del
+    tema y solo si no dice nada se mira la paleta.
+    """
+    try:
+        import FreeCAD as App
+
+        grupo = App.ParamGet("User parameter:BaseApp/Preferences/MainWindow")
+        for clave in ("Theme", "StyleSheet"):
+            valor = str(grupo.GetString(clave, "")).lower()
+            if "dark" in valor or "oscuro" in valor:
+                return True
+            if valor:
+                return False
+    except Exception:
+        pass
+    app = QApplication.instance()
+    if app is None:
+        return False
+    return app.palette().window().color().lightness() < 128
 
 
 class BaseInputPrompt(QDialog):
@@ -50,6 +84,21 @@ class BaseInputPrompt(QDialog):
     def _BuildUi(self) -> None:
         self.setModal(True)
         self.setMinimumWidth(420)
+        # Colores segun el tema: texto negro sobre claro, rojo sobre oscuro.
+        bg, fg, heard_bg, border, button_bg, button_hover = (
+            _DARK_THEME if _IsDarkTheme() else _LIGHT_THEME
+        )
+        self._TextColor = fg
+        self._HeardStyle = (
+            f"background: {heard_bg}; color: {fg}; border: 1px solid {border}; padding: 8px;"
+        )
+        self.setStyleSheet(
+            f"QDialog {{ background: {bg}; }}"
+            f"QLabel {{ color: {fg}; background: transparent; }}"
+            f"QPushButton {{ color: {fg}; background: {button_bg};"
+            f" border: 1px solid {border}; padding: 4px 14px; }}"
+            f"QPushButton:hover {{ background: {button_hover}; }}"
+        )
 
         layout = QVBoxLayout(self)
         layout.setSpacing(12)
@@ -61,15 +110,13 @@ class BaseInputPrompt(QDialog):
 
         self._StatusLabel = QLabel(self)
         self._StatusLabel.setAlignment(_AlignCenter())
-        self._StatusLabel.setStyleSheet("color: #555555; font-size: 9pt;")
+        self._StatusLabel.setStyleSheet(f"color: {self._TextColor}; font-size: 9pt;")
         layout.addWidget(self._StatusLabel)
 
         self._HeardLabel = QLabel(self)
         self._HeardLabel.setWordWrap(True)
         self._HeardLabel.setAlignment(_AlignCenter())
-        self._HeardLabel.setStyleSheet(
-            "background: #f3f3f3; border: 1px solid #d8d8d8; padding: 8px;"
-        )
+        self._HeardLabel.setStyleSheet(self._HeardStyle)
         layout.addWidget(self._HeardLabel)
 
         button_row = QHBoxLayout()

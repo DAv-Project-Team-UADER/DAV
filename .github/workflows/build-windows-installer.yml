@@ -1,0 +1,43 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches: [DavCore]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build installer
+        shell: pwsh
+        run: .\Dav\scr\ComponentesDAV\scripts\build_iexpress_installer.ps1
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DAV_Installer_1.0.exe-Windows
+          path: build/iexpress/DAV_Installer_1.0.exe
+
+      - name: Publish to Release
+        if: github.ref == 'refs/heads/DavCore'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $exe = "build\iexpress\DAV_Installer_1.0.exe"
+          $release = "v1.0.0"
+
+          $assets = gh release view $release --repo $env:GITHUB_REPOSITORY --json assets --jq '.assets[].name' 2>$null
+          if ($assets -match "DAV_Installer_1.0.exe-Windows") {
+            gh release delete-asset $release "DAV_Installer_1.0.exe-Windows" --repo $env:GITHUB_REPOSITORY --yes
+          }
+
+          $uploadPath = Join-Path $env:RUNNER_TEMP "DAV_Installer_1.0.exe-Windows"
+          Copy-Item $exe $uploadPath -Force
+          gh release upload $release $uploadPath --repo $env:GITHUB_REPOSITORY --clobber

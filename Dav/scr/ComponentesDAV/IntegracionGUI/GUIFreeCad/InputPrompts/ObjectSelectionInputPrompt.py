@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from InputPrompts.BaseInputPrompt import BaseInputPrompt
 from InputPrompts.PromptResult import PromptResult
@@ -29,6 +29,7 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         "next",
         "other",
         "advance",
+        "avancar",
         "seguinte",
         "outro",
         "outra",
@@ -53,6 +54,7 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         Message: str | None = None,
         Parent=None,
         ReturnObject: bool = False,
+        ObjectFilter: Callable[[Any], bool] | None = None,
     ) -> None:
         language = ResolveLanguage()
         super().__init__(
@@ -61,6 +63,8 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             Parent,
         )
         self._ReturnObject = ReturnObject
+        # Si se pasa, solo se ofrecen los objetos para los que devuelve True.
+        self._ObjectFilter = ObjectFilter
         self._Selector: Any | None = None
         self._ObjectNames: list[str] = []
         self._CurrentIndex = -1
@@ -79,7 +83,11 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
             self.Fail(T(self._Language, "object_no_doc"))
             return
 
-        self._ObjectNames = [obj.Name for obj in getattr(document, "Objects", [])]
+        self._ObjectNames = [
+            obj.Name
+            for obj in getattr(document, "Objects", [])
+            if self._ObjectFilter is None or self._ObjectFilter(obj)
+        ]
         if not self._ObjectNames:
             self.Fail(T(self._Language, "object_no_objects"))
             return

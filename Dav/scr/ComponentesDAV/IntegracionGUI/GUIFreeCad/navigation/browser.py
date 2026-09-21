@@ -298,11 +298,11 @@ class Browser:
             if entry is not None:
                 if entry.IsSubContext():
                     if self._DescendToSubContext(entry):
-                        return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
-                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                        return BrowserResult(True, "descend", f"Context set to {self._ActionLabel(entry)}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)
-                    return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
+                    return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
 
         # Requirement 2 (Developer 2): direct jump for BaseContext commands
         base_hit = self._ResolveBaseJump(normalized)
@@ -311,20 +311,50 @@ class Browser:
             return BrowserResult(
                 True,
                 "base_jump",
-                f"Context set to {base_hit.InternalKey}",
+                f"Context set to {self._ActionLabel(base_hit)}",
             )
 
         entry, _is_fuzzy = self._FindWithFallback(self.Context, normalized)
         if entry is not None:
             if entry.IsSubContext():
                 if self._DescendToSubContext(entry):
-                    return BrowserResult(True, "descend", f"Context set to {entry.InternalKey}")
-                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                    return BrowserResult(True, "descend", f"Context set to {self._ActionLabel(entry)}")
+                return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
             if entry.IsCallable():
                 self._ExecuteEntry(entry)
-                return BrowserResult(True, "execute", f"Executed {entry.InternalKey}")
+                return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
 
-        return self._SearchUpwardAndExecute(normalized)
+        upward = self._SearchUpwardAndExecute(normalized)
+        if upward.Success or upward.Action != "not_found":
+            return upward
+        # último recurso: comandos globales de la raíz (deshacer, cota, preferencias...)
+        return self._ExecuteGlobalCallable(normalized) or upward
+
+    def _ExecuteGlobalCallable(self, normalized_spoken: str) -> BrowserResult | None:
+        """Run a root-level command from any context, without leaving the current one.
+
+        Las frases de ``Dav/dic/TraduceTo*.py`` entran en la gramática de Vosk en
+        todos los contextos, pero la búsqueda ascendente solo las encontraba al
+        llegar al frame raíz, y al ejecutarlas mandaba al usuario a la raíz.
+        Esto las ejecuta en el lugar: un «deshacer» o una «cota» no debería
+        cambiar dónde está parado.
+
+        Returns:
+            El resultado de la ejecución, o None si la frase no es un comando global.
+        """
+        for spoken, target in self._base_translate.items():
+            if isinstance(target, dict) or not callable(target):
+                continue
+            if DictionaryLoader.NormalizeSpoken(spoken) != normalized_spoken:
+                continue
+            entry = ContextEntry(
+                Spoken=spoken,
+                InternalKey=getattr(target, "__name__", spoken),
+                Target=target,
+            )
+            self._ExecuteEntry(entry)
+            return BrowserResult(True, "execute", f"Executed {self._ActionLabel(entry)}")
+        return None
 
     def _FindWithFallback(
         self, entries: list[ContextEntry], normalized: str
@@ -476,13 +506,65 @@ class Browser:
     #: llamando al privado, como venia haciendo BrowserVoiceAdapter.
     IsSameTarget = _SameTarget
 
+    #: Etiquetas en español para el log cuando InternalKey es la clave canónica
+    #: en inglés de StandardViews (p. ej. iso → isometric → «isometrica»).
+    _STANDARD_VIEW_LABEL_ES: dict[str, str] = {
+        "bottom": "abajo",
+        "boxzoom": "zoom caja",
+        "newview": "nueva vista",
+        "dimetric": "dimetrica",
+        "fitall": "ajustar todo",
+        "fitselection": "ajustar seleccion",
+        "front": "frontal",
+        "fullscreen": "pantalla completa",
+        "home": "inicio",
+        "isometric": "isometrica",
+        "left": "izquierda",
+        "rear": "trasera",
+        "right": "derecha",
+        "top": "arriba",
+        "trimetric": "trimetrica",
+        "zoomin": "acercar",
+        "zoomout": "alejar",
+    }
+
+    def _ActionLabel(self, entry: ContextEntry) -> str:
+        """Human-readable action name for history / BrowserResult messages."""
+        return self._STANDARD_VIEW_LABEL_ES.get(entry.InternalKey, entry.InternalKey)
+
     def _InferInternalKey(
         self, spoken: str, target: Any, module_dict: dict[str, Any]
     ) -> str:
         for key, value in module_dict.items():
             if value is target:
                 return key
+        # Comandos de StandardViews propagados a otros contextos (Lista 3/4):
+        # el TraduceTo apunta al callable de StandardViews, pero ModuleDict es
+        # el del submenú actual (camera, features, ...). Sin este fallback,
+        # InternalKey queda en el sinónimo hablado ("iso") en vez de la clave
+        # canónica ("isometric") — y el log/ícono muestran mal la acción.
+        views = self._LoadStandardViewsDict()
+        if views:
+            for key, value in views.items():
+                if value is target:
+                    return key
         return spoken
+
+    @staticmethod
+    def _LoadStandardViewsDict() -> dict[str, Any] | None:
+        """Load StandardViews using the same import paths as TraduceTo updates."""
+        for module_name in (
+            "dic.StdView.StandardViews.StandardViews",
+            "StdView.StandardViews.StandardViews",
+        ):
+            try:
+                mod = __import__(module_name, fromlist=["StandardViews"])
+                table = getattr(mod, "StandardViews", None)
+                if isinstance(table, dict):
+                    return table
+            except Exception:
+                continue
+        return None
 
     def _ResolveBaseJump(self, normalized_spoken: str) -> ContextEntry | None:
         """Return a BaseContext entry if the spoken word maps to a base command."""
@@ -505,6 +587,33 @@ class Browser:
                 if entry.IsSubContext():
                     return entry
         return None
+
+    def JumpToPath(self, keys: list[str]) -> bool:
+        """Move the context to a nested sub-context, e.g. ``["workbench", "sketcher"]``.
+
+        Lets a command hand the voice over to another context (for example
+        after creating a sketch) without the user having to navigate there.
+
+        Args:
+            keys: Internal keys of the sub-contexts to descend, from the base.
+
+        Returns:
+            True when every level was found; False leaves the context as it was.
+        """
+        previous = list(self._stack)
+        self._stack = [self._stack[0]]
+        self.Context = self._BuildContextForFrame(self._stack[-1])
+        for key in keys:
+            entry = next(
+                (e for e in self.Context if e.IsSubContext() and e.InternalKey == key),
+                None,
+            )
+            if entry is None or not self._DescendToSubContext(entry):
+                self._stack = previous
+                self.Context = self._BuildContextForFrame(self._stack[-1])
+                self._NotifyContextChanged()
+                return False
+        return True
 
     def _ApplyBaseJump(self, entry: ContextEntry) -> None:
         """Jump directly to a BaseContext entry."""
@@ -556,6 +665,10 @@ class Browser:
             parent_context = self._BuildContextForFrame(parent_frame)
 
             entry, _is_fuzzy = self._FindWithFallback(parent_context, normalized_spoken)
+            # en el frame raíz solo se busca entrar a subcontextos: sus comandos son
+            # globales y los ejecuta _ExecuteGlobalCallable sin mover el contexto
+            if entry is not None and entry.IsCallable() and len(temp_stack) == 1:
+                entry = None
             if entry is not None:
                 if entry.IsCallable():
                     self._ExecuteEntry(entry)
@@ -563,15 +676,15 @@ class Browser:
                     self.Context = parent_context
                     self.OriginalContext = parent_context
                     self._NotifyContextChanged()
-                    return BrowserResult(True, "execute", f"Ascending: executed {entry.InternalKey}")
+                    return BrowserResult(True, "execute", f"Ascending: executed {self._ActionLabel(entry)}")
                 elif entry.IsSubContext():
                     self._stack = temp_stack
                     self.Context = parent_context
                     descended = self._DescendToSubContext(entry)
                     self.OriginalContext = self.Context
                     if descended:
-                        return BrowserResult(True, "descend", f"Ascending: descended into {entry.InternalKey}")
-                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {entry.InternalKey}")
+                        return BrowserResult(True, "descend", f"Ascending: descended into {self._ActionLabel(entry)}")
+                    return BrowserResult(False, "descend_failed", f"No se pudo entrar a {self._ActionLabel(entry)}")
         
         self.Context = self.OriginalContext
         return BrowserResult(False, "not_found", "Command not found in upward search")

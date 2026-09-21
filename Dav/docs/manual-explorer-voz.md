@@ -39,6 +39,7 @@ Desde Base, decí: **«explorador»**
 | Expresiones | **expresiones**, expresión |
 | Herramientas | **herramientas**, utilidades |
 | Estructura | **estructura**, barra de estructura |
+| Ejemplos | **ejemplos**, quiero aprender, aprender, tutoriales |
 
 ## Comandos directos (sin entrar a ningún submenú)
 
@@ -57,6 +58,8 @@ Estando en `explorador`, se ejecutan directo:
 **archivo** → nuevo · abrir · guardar · guardar como · guardar copia ·
 revertir · combinar · importar · exportar · recientes · cargar imagen
 
+**proyecto** → abrir · guardar · exportar (sin diálogos nativos; ver más abajo)
+
 **editar** → deshacer · rehacer · cortar · copiar · pegar · duplicar ·
 seleccionar todo · eliminar · posición · transformar · alinear · preferencias ·
 propiedades · enviar a python · modo edición
@@ -74,6 +77,79 @@ personalizar · editar parámetros · utilidades de proyecto
 **estructura** → pieza · grupo · enlace
 
 Todos los submenús aceptan además **ayuda** / información / opciones.
+
+## Proyecto: abrir, guardar y exportar por voz
+
+`archivo` usa los diálogos nativos de FreeCAD, que no se manejan por voz.
+`proyecto` hace lo mismo con ventanas de voz (`Dav/dic/Explorer/Proyecto/`):
+
+- **abrir** → recorre las carpetas: *siguiente* / *anterior* mueven la
+  selección, *abrir* entra a la carpeta elegida, *subir* va a la carpeta
+  padre, *okey* elige el archivo, *cancelar* sale. Empieza en la carpeta del
+  documento activo o la última usada.
+- **guardar** → si el documento ya tiene archivo, lo guarda ahí. Si es nuevo
+  pregunta la carpeta (la sugerida u otra, elegida con el mismo navegador, donde
+  *okey* elige la carpeta en la que estás) y el nombre (el sugerido o uno
+  deletreado). Si el archivo existe pide *sobrescribir*.
+- **exportar** → elige el formato (STEP, IGES, STL, OBJ, DXF; con
+  *arriba*/*abajo* y *okey*), luego carpeta y nombre como en guardar. Exporta
+  la selección o, si no hay, todo lo visible.
+
+Los nombres de archivo no se pueden dictar (no están en el vocabulario de
+Vosk): por eso se recorre la lista en lugar de decirlos.
+
+## Ejemplos: aprender haciendo
+
+Dentro de **ejemplos** (la carpeta no tiene ícono) hay dos opciones:
+
+| Opción | Palabras | Qué hace |
+| --- | --- | --- |
+| Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés y también en portugués |
+| Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con siete ejemplos guiados |
+
+Ejemplos guiados:
+
+| Ejemplo | Qué se hace | Medidas |
+| --- | --- | --- |
+| **Croquis** | Un círculo con restricción de radio | Cota en 2D |
+| **Draft** | Rectángulo, círculo y polígono | Cota en 2D |
+| **TechDraw** | Un círculo en una hoja con su rótulo | — |
+| **PartDesign** | Un tornillo: vástago, punta, cabeza, chaflán y rosca | Cota en 3D y vista «tres de» |
+| **Dado** | Un dado de 20 mm: la cara del 1 con un cilindro y las otras cinco con un boceto y un vaciado cada una | Cota en 3D, las seis vistas y «tres de» |
+| **Arandela plana M6** | Un croquis con el agujero (Ø 6,4) y el borde (Ø 12), extruido 1,6 mm en PartDesign y puesto en una hoja de TechDraw con vista isométrica, vista del boceto y el texto «M6 arandela» | Restricción de diámetro y cota en 2D |
+| **Bulón-tuerca** | Un bulón M6 de cabeza hexagonal (simplificado de la DIN 931) y su tuerca, hechos en PartDesign, insertados por voz en un ensamblaje, con el bulón anclado y una junta cilíndrica que lleva la tuerca al eje por las caras que se eligen | Ensamblaje con junta cilíndrica y vista «tres de» |
+
+Los decimales se dictan con «punto» en los tres idiomas: «uno punto uno uno» es 1,11. En español «coma» vale igual («uno coma uno uno»). Los números de 0 a 99 se dicen naturales («treinta y dos»); de 100 en adelante, dígito por dígito («uno cero cero»).
+
+El selector se maneja con **retroceder**, **avanzar** y **enviar**. Ya elegido el
+ejemplo, aparece una ventana (no bloquea FreeCAD, así ves cómo se arma la pieza)
+que muestra un **cuadro** por vez con **lo que dirías para hacerlo en DAV**: el camino
+por los menús y, después, los valores que se dictan en los diálogos. Cuando lo decís
+todo, en orden, la acción se ejecuta y pasa al cuadro siguiente.
+
+Por ejemplo, para dibujar un círculo de radio 12 en un croquis:
+
+```
+banco → croquis → nuevo → enviar          (elige el plano XY)
+geometría → círculo → círculo             (entra a Geometría y a Círculo, y lo crea)
+cero → enviar → cero → enviar → doce → enviar     (centro X, centro Y y radio)
+```
+
+Cada palabra o frase del camino es un comando; cada valor se confirma con **enviar**.
+Lo que se dicta depende del documento: por ejemplo, en el Dado, cuántas veces decir
+**abajo** para llegar a una cara de la lista sale de las caras que tiene el sólido en ese
+momento (la ventana agrupa las repeticiones: «abajo ×5»).
+
+- **retroceder / avanzar**: repasar cuadros ya hechos.
+- **saltar**: ejecuta el cuadro sin decir sus palabras (útil si el micrófono no lo reconoce).
+- **cancelar**: cierra el ejemplo. Al terminar, **enviar** lo cierra.
+
+Cada ejemplo son las funciones `steps()` de `Dav/dic/Explorer/Examples/_*.py`;
+para agregar uno, crear un módulo con `TITLE` y `steps()` y sumarlo a `_EXAMPLES` en `_demos.py`.
+
+Las palabras de cada cuadro se comprueban contra el árbol real, en los tres idiomas, con
+`tests/verify_examples_paths.py` (ver [`probando.md`](desarrollo/probando.md)): si el
+diccionario cambia y un ejemplo deja de coincidir, esa prueba lo marca.
 
 ## Ejemplos completos
 

@@ -1,39 +1,39 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 
 import FreeCAD as App
+from ..._display import finishFeature
 from .ayuda import ayuda
 
 
-def _create_ellipse(major_radius=4, minor_radius=2, angle1=0, angle2=360):
-    doc = App.activeDocument()
+def _create_ellipse(x: float, y: float, z: float, major_radius: float, minor_radius: float) -> None:
+    """Create a Part ellipse from its centre and a dictated major and minor radius.
+
+    Args:
+        x: X of the centre, in millimetres.
+        y: Y of the centre, in millimetres.
+        z: Z of the centre, in millimetres.
+        major_radius: Larger radius, in millimetres.
+        minor_radius: Smaller radius, in millimetres. Must not exceed the major one.
+
+    Example::
+
+        _create_ellipse(0, 0, 0, 10, 5)
+    """
+    if major_radius <= 0 or minor_radius <= 0:
+        print("[part] Error: both radii must be greater than zero.")
+        return
+    if minor_radius > major_radius:
+        print("[part] Error: the minor radius cannot exceed the major radius.")
+        return
+    doc = App.activeDocument() or App.newDocument()
     ellipse = doc.addObject("Part::Ellipse", "Ellipse")
     ellipse.MajorRadius = major_radius
     ellipse.MinorRadius = minor_radius
-    ellipse.Angle1      = angle1
-    ellipse.Angle2      = angle2
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(ellipse.Name, Is3D=False).Execute()
+    ellipse.Placement = App.Placement(App.Vector(x, y, z), App.Rotation())
+    finishFeature(doc, ellipse, "ellipse", is3D=False)
 
 
 ellipse = {
-    'ellipse': lambda: _create_ellipse(),
-    'help':   ayuda,
-}
+    'ellipse': _create_ellipse,
+    'help':    ayuda,
+}

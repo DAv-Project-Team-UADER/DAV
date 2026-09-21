@@ -18,6 +18,7 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  cylinder / primitive cylinder - Crea un cilindro solido parametrico.')
+    print('         Primero pide X, Y, Z (float) — coordenadas del centro de la base. Despues:')
     print('         Requiere: Radius (float) — radio de la base. Default: 2 mm.')
     print('                   Height (float) — altura en Z.      Default: 10 mm.')
     print('                   Angle  (float) — arco del circulo base. Default: 360 grados.')

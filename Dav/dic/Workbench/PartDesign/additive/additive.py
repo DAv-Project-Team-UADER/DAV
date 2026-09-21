@@ -17,17 +17,25 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from ..._display import showResult
 from ._parametric import (
     box_by_size,
     cone_by_size,
     cylinder_by_size,
+    ellipsoid_by_size,
+    helix_by_size,
+    loft_choose_sketches,
     loft_profiles,
+    pipe_choose_sketches,
     pad_by_length,
+    pad_choose_sketch,
+    revolve_choose_sketch,
     pad_sketch,
     prism_by_size,
     revolve_by_angle,
     sphere_by_radius,
     torus_by_size,
+    wedge_by_size,
 )
 
 
@@ -39,6 +47,7 @@ def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = Tr
     obj = doc.addObject(type_id, default_name)
     body.addObject(obj)
     doc.recompute()
+    showResult(obj)
     try:
         from createobjects import CreateObjects
     except ImportError:
@@ -99,27 +108,29 @@ def additive_wedge() -> None:
 
 
 def pad() -> None:
-    _execute_gui_command_with_objects('PartDesign_Pad', is_3d=True)
+    # Reemplaza al dialogo nativo de Pad: se elige el boceto y la altura por voz.
+    pad_choose_sketch()
 
 
 def revolution() -> None:
-    _execute_gui_command_with_objects('PartDesign_Revolution', is_3d=True)
+    # Reemplaza al dialogo nativo: se elige el boceto y el angulo por voz.
+    revolve_choose_sketch()
 
 
 additive = {
     'pad':               pad,
     'revolution':        revolution,
-    'additivehelix':     lambda: Gui.runCommand('PartDesign_AdditiveHelix', 0),
-    'additiveloft':      lambda: Gui.runCommand('PartDesign_AdditiveLoft', 0),
-    'additivepipe':      lambda: Gui.runCommand('PartDesign_AdditivePipe', 0),
-    'additivebox':       additive_box,
-    'additivecone':      additive_cone,
-    'additivecylinder':  additive_cylinder,
-    'additiveellipsoid': additive_ellipsoid,
-    'additiveprism':     additive_prism,
-    'additivesphere':    additive_sphere,
-    'additivetorus':     additive_torus,
-    'additivewedge':     additive_wedge,
+    'additivehelix':     helix_by_size,
+    'additiveloft':      loft_choose_sketches,
+    'additivepipe':      pipe_choose_sketches,
+    'additivebox':       box_by_size,
+    'additivecone':      cone_by_size,
+    'additivecylinder':  cylinder_by_size,
+    'additiveellipsoid': ellipsoid_by_size,
+    'additiveprism':     prism_by_size,
+    'additivesphere':    sphere_by_radius,
+    'additivetorus':     torus_by_size,
+    'additivewedge':     wedge_by_size,
     'pad_sketch':        pad_sketch,
     'pad_by_length':     pad_by_length,
     'box_by_size':       box_by_size,
@@ -130,5 +141,10 @@ additive = {
     'torus_by_size':     torus_by_size,
     'prism_by_size':     prism_by_size,
     'loft_profiles':     loft_profiles,
+    'ellipsoid_by_size': ellipsoid_by_size,
+    'wedge_by_size':     wedge_by_size,
+    'helix_by_size':     helix_by_size,
+    'loft_choose_sketches': loft_choose_sketches,
+    'pipe_choose_sketches': pipe_choose_sketches,
     'help':              ayuda,
 }

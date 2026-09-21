@@ -1,38 +1,34 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
+
 
 import FreeCAD as App
+from ..._display import finishFeature
 from .ayuda import ayuda
 
 
-def _create_circle(radius=2, angle1=0, angle2=360):
-    doc = App.activeDocument()
+def _create_circle(x: float, y: float, z: float, radius: float) -> None:
+    """Create a Part circle from its centre and a dictated radius.
+
+    Args:
+        x: X of the centre, in millimetres.
+        y: Y of the centre, in millimetres.
+        z: Z of the centre, in millimetres.
+        radius: Circle radius, in millimetres.
+
+    Example::
+
+        _create_circle(0, 0, 0, 8)
+    """
+    if radius <= 0:
+        print("[part] Error: the radius must be greater than zero.")
+        return
+    doc = App.activeDocument() or App.newDocument()
     circle = doc.addObject("Part::Circle", "Circle")
     circle.Radius = radius
-    circle.Angle1 = angle1
-    circle.Angle2 = angle2
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        from selection.createobjects import CreateObjects
-    CreateObjects(circle.Name, Is3D=False).Execute()
+    circle.Placement = App.Placement(App.Vector(x, y, z), App.Rotation())
+    finishFeature(doc, circle, "circle", is3D=False)
 
 
 circle = {
-    'circle': lambda: _create_circle(),
-    'help':    ayuda,
-}
+    'circle': _create_circle,
+    'help':   ayuda,
+}

@@ -5,6 +5,7 @@ def ayuda():
     print('  draft     - Inclina caras de un sólido para facilitar el desmoldeo')
     print('  thickness - Vacía un sólido dejando paredes de grosor uniforme')
     print('  boolean   - Realiza operaciones booleanas (unión, resta, intersección) entre Bodies')
+    print('  engrave   - Graba texto en relieve o perforado: elige cara o plano, relieve/perforación, deletrea el texto y dicta altura y profundidad')
     print('\nPrecondiciones:')
     print('  - Todos los comandos requieren que exista un Body activo.')
     print('  - fillet y chamfer requieren seleccionar aristas (edges) previamente.')

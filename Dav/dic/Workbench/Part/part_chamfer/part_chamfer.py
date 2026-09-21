@@ -1,42 +1,33 @@
-# Copyright (C) 2026 El Equipo del Proyecto DAV
-# Universidad Autónoma de Entre Ríos (UADER)
-# Bajo la dirección de Guillermo Gerard y Gallo Fabricio David
-#
-# Este programa es software libre: usted puede redistribuirlo y/o modificarlo
-# bajo los términos de la Licencia Pública General GNU tal como fue publicada
-# por la Fundación para el Software Libre, en la versión 3 de la Licencia.
-#
-# Este programa se distribuye con la esperanza de que sea útil,
-# pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-# MERCANTIBILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulte la
-# Licencia Pública General GNU para más detalles.
-#
-# Deberías haber recibido una copia de la Licencia Pública General GNU
-# junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCAD
-import FreeCADGui as Gui
+
+import FreeCAD as App
+from ..._display import finishFeature
+from ..._prompts import askNumber, askSolid
 from .ayuda import ayuda
 
 
-def _chamfer():
-    """Apply chamfer to the selected Part object with default size 1.0 mm."""
-    sel = Gui.Selection.getSelection()
-    if not sel:
+def _chamfer() -> None:
+    """Chamfer every edge of a piece chosen by voice with a dictated size."""
+    doc = App.activeDocument()
+    if doc is None:
+        print("[part] Error: no active document.")
         return
-    doc = FreeCAD.activeDocument()
-    f = doc.addObject("Part::Chamfer", "Chamfer")
-    f.Base = sel[0]
-    sel[0].Visibility = False
-    doc.recompute()
-    try:
-        from createobjects import CreateObjects
-    except ImportError:
-        try:
-            from selection.createobjects import CreateObjects
-        except ImportError:
-            from Dav.scr.selection.createobjects import CreateObjects
-    CreateObjects(f.Name, Is3D=True).Execute()
+    piece = askSolid(doc, "Chaflán")
+    if piece is None:
+        print("[part] Chamfer cancelled.")
+        return
+    size = askNumber("Chaflán", "Decí el tamaño del chaflán en mm")
+    if size is None:
+        print("[part] Chamfer cancelled.")
+        return
+    if size <= 0:
+        print(f"[part] Error: the size must be greater than zero (got {size}).")
+        return
+
+    chamfer = doc.addObject("Part::Chamfer", "Chamfer")
+    chamfer.Base = piece
+    chamfer.Edges = [(i + 1, size, size) for i in range(len(piece.Shape.Edges))]
+    finishFeature(doc, chamfer, "chamfer", hide=(piece,))
 
 
 part_chamfer = {

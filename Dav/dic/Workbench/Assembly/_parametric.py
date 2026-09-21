@@ -22,6 +22,10 @@ from __future__ import annotations
 import FreeCAD as App
 import FreeCADGui as Gui
 
+from .._display import showResult
+from .._prompts import askObject, isPart
+from ._connectors import askConnector
+
 # Indice de cada tipo en Assembly.JointObject.JointTypes. Se pasa como segundo
 # argumento a JointObject.Joint(feature, index), que es la forma en que los
 # propios tests de FreeCAD crean juntas sin abrir el dialogo.
@@ -43,7 +47,8 @@ _JOINT_TYPE_INDEX = {
 
 
 def _RegisterObject(Feature) -> None:
-    """Register a created feature in the DAV navigable object tree."""
+    """Show a created feature and register it in the DAV navigable object tree."""
+    showResult(Feature)
     try:
         from createobjects import CreateObjects
     except ImportError:
@@ -98,27 +103,66 @@ def _JointGroup(Assembly):
     return Assembly.newObject("Assembly::JointGroup", "Joints")
 
 
-def _SelectedParts(Count: int):
-    """Return the first Count selected objects, or None when there are fewer."""
-    try:
-        selection = Gui.Selection.getSelection()
-    except Exception:
-        selection = []
-    if len(selection) < Count:
-        return None
-    return selection[:Count]
+def _ChooseParts(Doc, Count: int):
+    """Let the user pick Count assembly parts by voice ("avanzar"/"okey").
+
+    Reemplaza a la seleccion con el mouse: cada pieza se elige en un dialogo
+    propio, sin repetir una ya elegida.
+
+    Args:
+        Doc: Active FreeCAD document.
+        Count: How many parts to choose (1 or 2).
+
+    Returns:
+        The chosen parts, or None when the user cancelled or there are none.
+    """
+    ordinals = ("primera", "segunda")
+    parts = []
+    for index in range(Count):
+        message = "Elegí la pieza" if Count == 1 else f"Elegí la {ordinals[index]} pieza"
+        chosen = askObject(
+            Doc,
+            "Ensamblaje",
+            message,
+            lambda obj: isPart(obj) and obj not in parts,
+            "[DAV] Error: no hay piezas para ensamblar. Creá o insertá piezas primero.",
+        )
+        if chosen is None:
+            return None
+        parts.append(chosen)
+    return parts
 
 
-def _CreateJoint(JointTypeName: str, Doc, Parts):
+def _ChooseConnectors(Parts):
+    """Let the user pick by voice the face where each of Parts is joined.
+
+    Args:
+        Parts: The parts to connect.
+
+    Returns:
+        One face name per part (``"Face3"``), or None when the user cancelled.
+    """
+    elements = []
+    for part in Parts:
+        element = askConnector(part, "Ensamblaje")
+        if element is None:
+            return None
+        elements.append(element)
+    return elements
+
+
+def _CreateJoint(JointTypeName: str, Doc, Parts, Elements=None):
     """Build a joint feature of the given type between Parts.
 
     Args:
         JointTypeName: Key of ``_JOINT_TYPE_INDEX``.
         Doc: Active FreeCAD document.
         Parts: The two objects to connect.
+        Elements: Face of each part where it is joined (``"Face3"``). When None the
+            user is asked by voice, one dialog per part.
 
     Returns:
-        The created joint feature, or None when it could not be built.
+        The created joint feature, or None when it could not be built or the user cancelled.
     """
     assembly = _ActiveAssembly(Doc)
     if assembly is None:
@@ -131,13 +175,22 @@ def _CreateJoint(JointTypeName: str, Doc, Parts):
         print("[assembly] Error: the Assembly workbench is not available.")
         return None
 
+    # se pregunta antes de crear la junta: si se cancela no queda una junta a medias
+    if Elements is None:
+        Elements = _ChooseConnectors(Parts)
+        if Elements is None:
+            print("[assembly] Cancelled: the place where each part joins is needed.")
+            return None
+
     group = _JointGroup(assembly)
     feature = group.newObject("App::FeaturePython", f"{JointTypeName}Joint")
     JointObject.Joint(feature, _JOINT_TYPE_INDEX[JointTypeName])
 
-    # setJointConnectors espera [objeto, [subelementos]] por cada lado; se usa
-    # el primer vertice de cada pieza como punto de anclaje por defecto.
-    references = [[part, ["Vertex1"]] for part in Parts]
+    # setJointConnectors espera [objeto, [elemento, vertice]] por cada lado y calcula el marco de
+    # la junta con eso. Con una cara se repite el nombre: el marco queda en el centro de la cara
+    # (en el eje, si es un cilindro) y orientado como ella. Con un solo nombre la referencia
+    # se descarta y el marco queda en el origen de la pieza.
+    references = [[part, [element, element]] for part, element in zip(Parts, Elements)]
     try:
         feature.Proxy.setJointConnectors(feature, references)
     except Exception as error:
@@ -147,10 +200,75 @@ def _CreateJoint(JointTypeName: str, Doc, Parts):
     return feature
 
 
-def fixed_joint() -> None:
-    """Lock the two selected parts together with a fixed joint.
+# separación entre las piezas que se van insertando, en mm
+_LINK_GAP = 10
 
-    Select two parts first, then say the command. No dialog is opened.
+
+def _InsertLink(Doc, Assembly, Part):
+    """Add a link to Part inside Assembly, beside the parts already inserted.
+
+    Args:
+        Doc: Active FreeCAD document.
+        Assembly: The assembly that receives the link.
+        Part: The body or part to insert.
+
+    Returns:
+        The new ``App::Link``.
+    """
+    link = Assembly.newObject("App::Link", Part.Label)
+    link.LinkedObject = Part
+    link.Label = Part.Label
+    Doc.recompute()
+    placed = [obj for obj in Assembly.Group if obj.isDerivedFrom("App::Link") and obj is not link]
+    if placed:
+        # a la derecha de las ya insertadas, para que no se pisen
+        shift = max(obj.Shape.BoundBox.XMax for obj in placed) + _LINK_GAP - link.Shape.BoundBox.XMin
+        link.Placement = App.Placement(App.Vector(shift, 0, 0), App.Rotation())
+        Doc.recompute()
+    return link
+
+
+def insert_link() -> None:
+    """Insert a part into the assembly, choosing it from a voice list.
+
+    Replaces FreeCAD's own "Insert component" dialog, which is used with the mouse. The
+    part is placed beside the ones already inserted so they do not overlap; the joints
+    then bring them together.
+
+    Example::
+
+        insert_link()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+
+    assembly = _ActiveAssembly(doc)
+    if assembly is None:
+        print("[assembly] Error: no assembly found. Say 'crear ensamblaje' first.")
+        return
+
+    part = askObject(
+        doc,
+        "Ensamblaje",
+        "Elegí la pieza a insertar",
+        lambda obj: isPart(obj) and not obj.isDerivedFrom("App::Link"),
+        "[DAV] Error: no hay piezas para insertar. Creá una primero.",
+    )
+    if part is None:
+        print("[assembly] Cancelled: a part is needed to insert.")
+        return
+
+    link = _InsertLink(doc, assembly, part)
+    _RegisterObject(link)
+    print(f"[assembly] Inserted '{part.Label}'")
+
+
+def fixed_joint() -> None:
+    """Lock the two chosen parts together with a fixed joint.
+
+    Pick the two parts by voice ("avanzar"/"okey"); no FreeCAD dialog is opened.
 
     Example::
 
@@ -161,9 +279,9 @@ def fixed_joint() -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint("Fixed", doc, parts)
@@ -176,7 +294,7 @@ def fixed_joint() -> None:
 
 
 def revolute_joint() -> None:
-    """Hinge the two selected parts with a revolute joint.
+    """Hinge the two chosen parts with a revolute joint.
 
     Example::
 
@@ -187,9 +305,9 @@ def revolute_joint() -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint("Revolute", doc, parts)
@@ -202,7 +320,7 @@ def revolute_joint() -> None:
 
 
 def slider_joint() -> None:
-    """Let the two selected parts slide along one axis.
+    """Let the two chosen parts slide along one axis.
 
     Example::
 
@@ -213,9 +331,9 @@ def slider_joint() -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint("Slider", doc, parts)
@@ -228,7 +346,7 @@ def slider_joint() -> None:
 
 
 def distance_joint(distance: float) -> None:
-    """Hold the two selected parts a dictated distance apart.
+    """Hold the two chosen parts a dictated distance apart.
 
     This is the assembly counterpart of the parametric geometry commands: the
     gap comes from the voice prompt, so no dialog is opened.
@@ -245,9 +363,9 @@ def distance_joint(distance: float) -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint("Distance", doc, parts)
@@ -263,7 +381,7 @@ def distance_joint(distance: float) -> None:
 
 
 def angle_joint(angle: float) -> None:
-    """Hold the two selected parts at a dictated angle.
+    """Hold the two chosen parts at a dictated angle.
 
     Args:
         angle: Angle between the parts, in degrees. Must be between 0 and 360.
@@ -280,9 +398,9 @@ def angle_joint(angle: float) -> None:
         print(f"[assembly] Error: angle must be between 0 and 360 (got {angle}).")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint("Angle", doc, parts)
@@ -298,7 +416,7 @@ def angle_joint(angle: float) -> None:
 
 
 def ground_part() -> None:
-    """Ground the selected part so the solver keeps it fixed in place.
+    """Ground the chosen part so the solver keeps it fixed in place.
 
     An assembly needs at least one grounded part; without it the solver has
     nothing to anchor the others to.
@@ -312,9 +430,9 @@ def ground_part() -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(1)
+    parts = _ChooseParts(doc, 1)
     if parts is None:
-        print("[assembly] Error: select the part to ground first.")
+        print("[assembly] Cancelled: a part is needed to ground.")
         return
 
     assembly = _ActiveAssembly(doc)
@@ -338,7 +456,7 @@ def ground_part() -> None:
 
 
 def _SimpleJoint(JointTypeName: str, Verb: str) -> None:
-    """Create a joint that needs no dictated value between two selected parts.
+    """Create a joint that needs no dictated value between two chosen parts.
 
     Args:
         JointTypeName: Key of ``_JOINT_TYPE_INDEX``.
@@ -349,9 +467,9 @@ def _SimpleJoint(JointTypeName: str, Verb: str) -> None:
         print("[assembly] Error: no active document.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint(JointTypeName, doc, parts)
@@ -364,7 +482,7 @@ def _SimpleJoint(JointTypeName: str, Verb: str) -> None:
 
 
 def ball_joint() -> None:
-    """Join the two selected parts with a ball joint, free to rotate any way.
+    """Join the two chosen parts with a ball joint, free to rotate any way.
 
     Example::
 
@@ -374,7 +492,7 @@ def ball_joint() -> None:
 
 
 def cylindrical_joint() -> None:
-    """Join the two selected parts so one both slides and turns on an axis.
+    """Join the two chosen parts so one both slides and turns on an axis.
 
     Example::
 
@@ -384,7 +502,7 @@ def cylindrical_joint() -> None:
 
 
 def parallel_joint() -> None:
-    """Keep the two selected parts parallel to each other.
+    """Keep the two chosen parts parallel to each other.
 
     Example::
 
@@ -394,7 +512,7 @@ def parallel_joint() -> None:
 
 
 def perpendicular_joint() -> None:
-    """Keep the two selected parts perpendicular to each other.
+    """Keep the two chosen parts perpendicular to each other.
 
     Example::
 
@@ -425,9 +543,9 @@ def _RatioJoint(JointTypeName: str, Verb: str, Radius1: float, Radius2: float | 
         print("[assembly] Error: radii must be greater than zero.")
         return
 
-    parts = _SelectedParts(2)
+    parts = _ChooseParts(doc, 2)
     if parts is None:
-        print("[assembly] Error: select two parts to join first.")
+        print("[assembly] Cancelled: two parts are needed to make the joint.")
         return
 
     joint = _CreateJoint(JointTypeName, doc, parts)
@@ -445,7 +563,7 @@ def _RatioJoint(JointTypeName: str, Verb: str, Radius1: float, Radius2: float | 
 
 
 def gears_joint(radius1: float, radius2: float) -> None:
-    """Mesh the two selected parts as gears with dictated radii.
+    """Mesh the two chosen parts as gears with dictated radii.
 
     The ratio between the radii sets how fast one gear turns relative to the
     other.
@@ -462,7 +580,7 @@ def gears_joint(radius1: float, radius2: float) -> None:
 
 
 def belt_joint(radius1: float, radius2: float) -> None:
-    """Link the two selected parts with a belt between dictated pulley radii.
+    """Link the two chosen parts with a belt between dictated pulley radii.
 
     Args:
         radius1: Radius of the first pulley, in millimetres.
@@ -476,7 +594,7 @@ def belt_joint(radius1: float, radius2: float) -> None:
 
 
 def screw_joint(pitch: float) -> None:
-    """Join the two selected parts as a screw with a dictated pitch radius.
+    """Join the two chosen parts as a screw with a dictated pitch radius.
 
     Args:
         pitch: Pitch radius, in millimetres.
@@ -489,7 +607,7 @@ def screw_joint(pitch: float) -> None:
 
 
 def rack_pinion_joint(pitch_radius: float) -> None:
-    """Join the two selected parts as rack and pinion with a dictated radius.
+    """Join the two chosen parts as rack and pinion with a dictated radius.
 
     Args:
         pitch_radius: Pitch radius of the pinion, in millimetres.

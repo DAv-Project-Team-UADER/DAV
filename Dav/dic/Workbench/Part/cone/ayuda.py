@@ -17,6 +17,7 @@
 def ayuda():
     print('Comandos disponibles en este nivel:')
     print('  cone / primitive cone - Crea un cono solido parametrico.')
+    print('         Primero pide X, Y, Z (float) — coordenadas del centro de la base. Despues:')
     print('         Requiere: Radius1 (float) — radio de la base inferior. Default: 2 mm.')
     print('                   Radius2 (float) — radio de la base superior. Default: 4 mm.')
     print('                                     Poner 0 para cono puro.')

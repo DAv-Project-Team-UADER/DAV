@@ -4,24 +4,28 @@
 
 import FreeCADGui as Gui
 from .File.File                         import file
+from .Proyecto.Proyecto                 import proyecto
 from .Edit.Edit                         import edit
 from .Print.Print                       import print_cmds
 from .Windows.Windows                   import windows
 from .Expressions.Expressions           import expressions
 from .Tools.Tools                       import tools
 from .StructureToolbar.StructureToolbar import structure
+from .Examples.Examples                 import examples
 from .ayuda                             import ayuda
 
 # Subcontextos anidados: el Browser navega por niveles y explorer/TraduceTo*.py
 # espera explorer['file'], explorer['edit'], ... como submenús (no aplanados).
 explorer = {}
 explorer.update({'file':        file})
+explorer.update({'proyecto':    proyecto})
 explorer.update({'edit':        edit})
 explorer.update({'print':       print_cmds})
 explorer.update({'windows':     windows})
 explorer.update({'expressions': expressions})
 explorer.update({'tools':       tools})
 explorer.update({'structure':   structure})
+explorer.update({'examples':    examples})
 # Callables directos al ras (sin subcontexto)
 explorer.update({
     'refresh':      lambda: Gui.runCommand('Std_Refresh', 0),

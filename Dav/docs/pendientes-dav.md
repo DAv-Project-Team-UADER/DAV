@@ -39,8 +39,15 @@ Corregido en esta sesión en: `workbench.py`, `StdView.py`, `sketcher.py`, `part
 
 ## 5. Diccionarios de traducción todavía vacíos
 
-- `Dav/dic/Workbench/TechDraw/TraduceToEs.py` — stub sin dict `TraduceToEs`. Se entra al workbench por voz pero adentro no hay ningún comando en español.
-- `Dav/dic/Workbench/Sketcher/Geometry/TraduceToEn.py` y `TraduceToPt.py` — vacíos. El español (`TraduceToEs.py`) ya está completo con las figuras (línea, círculo, rectángulo, polígono, arco, elipse, bspline…).
+**Revisado el 2026-09-20** con un recorrido de todo `Dav/dic/` (cargando cada `TraduceToEs/En/Pt.py` con FreeCAD simulado y comparando a qué apunta cada idioma): **TechDraw ya no está vacío** (31 comandos en es y pt, 30 en en) y `Sketcher/Geometry` en en/pt tampoco. Los huecos reales eran otros, y ya se corrigieron:
+
+- `StdView/StandardViews/TraduceToEn.py` definía `TraducteToEn` (typo) y `TraduceToPt.py` definía `TraduceToPT`: el `DictionaryLoader` busca una variable con **el mismo nombre que el archivo**, así que las vistas estándar no cargaban en inglés ni portugués.
+- Imports con la mayúscula equivocada, que en Windows fallan en silencio: `StdView/Overlay/TraduceToEn.py` (`.overlay`), `StdView/DrawStyles/TraduceToPt.py` (`.drawstyles`), `TechDraw/Annotations/TraduceToEn.py` (`.Annotations`) y `Sketcher/arcslot/TraduceTo*.py` (`from arcslot import`, sin el punto).
+- `DraftWork/curve/TraduceToEs.py` hacía `TraduceToEs.update = {...}` (asignación) en vez de `.update({...})`.
+- Claves que no existían en el diccionario, convertidas en no-op por `LenientDict`: `new_sketch["nuevo sketch"]` (inglés de «boceto») y `appearance['facecolor']` («color de superficie», en los tres idiomas).
+- Faltaban en en/pt: arco por tres puntos, círculo por parámetros, punto por coordenadas, y minimizar/maximizar el panel en inglés.
+
+**Todavía abierto:** un script que haga este recorrido debería vivir en `tests/` y correr en CI: hoy solo existió como comprobación manual.
 
 Mientras tanto `LenientDict` devuelve un no-op y loguea `Comando 'X' aún no implementado`, así que no rompe el contexto, pero el comando no hace nada.
 
@@ -75,9 +82,9 @@ Estado del árbol `Dav/dic/` tras la sesión de auditoría. "Navegable" = el `Br
 | PartDesign | Sí | Sí | — |
 | Part | Sí | Sí | — |
 | Assembly | Sí | Sí | — |
-| TechDraw | Sí | **No** | `TraduceToEs/En/Pt.py` vacíos (ver §5) |
+| TechDraw | Sí | Sí | — (revisado 2026-09-20, ver §5) |
 
-Ninguna carpeta de comandos quedó sin archivo `TraduceToEs.py`. Los únicos vacíos son los de §5 (TechDraw en los 3 idiomas, `Sketcher/Geometry` en en/pt, `Sketcher/arcslot` en los 3).
+Ninguna carpeta de comandos quedó sin archivo `TraduceToEs.py`. Los huecos de §5 se corrigieron el 2026-09-20.
 
 **Requisitos de la GUI** (los tres del enunciado):
 

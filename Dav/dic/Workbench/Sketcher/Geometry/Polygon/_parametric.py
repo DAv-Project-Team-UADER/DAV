@@ -24,6 +24,8 @@ import math
 import FreeCAD as App
 import Part
 
+from .._sketch import addToEditedSketch
+
 
 def create_regular(
     sides: int,
@@ -70,6 +72,8 @@ def create_regular(
     safe_name = "".join(ch for ch in label if ch.isalnum()) or "Polygon"
     shape = Part.makePolygon(vertices + [vertices[0]])
 
+    if addToEditedSketch(doc, shape):
+        return
     feature = doc.addObject("Part::Feature", safe_name)
     feature.Label = label
     feature.Shape = shape
