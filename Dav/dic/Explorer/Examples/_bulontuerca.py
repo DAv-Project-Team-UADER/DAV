@@ -311,7 +311,7 @@ def steps() -> list:
                 "pt": "Insira o parafuso no conjunto: na lista de peças escolha o primeiro corpo (o parafuso) com «enviar».",
             },
             Path={
-                "es": ("insertar vinculo",),
+                "es": ("insertar vínculo",),
                 "en": ("insert link",),
                 "pt": ("inserir link",),
             },
@@ -325,7 +325,7 @@ def steps() -> list:
                 "pt": "Insira a porca do mesmo modo: «avancar» uma vez para escolher o segundo corpo. Ela fica à direita do parafuso, sem sobrepor.",
             },
             Path={
-                "es": ("insertar vinculo",),
+                "es": ("insertar vínculo",),
                 "en": ("insert link",),
                 "pt": ("inserir link",),
             },
@@ -381,7 +381,7 @@ def steps() -> list:
                 "en": "See the finished set: say “isometric”. Then say “send” to close the example.",
                 "pt": "Veja o conjunto pronto: diga «isometrica». Depois diga «enviar» para fechar o exemplo.",
             },
-            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isometrica",)},
+            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isométrica",)},
             Action=_isometric,
         ),
     ]

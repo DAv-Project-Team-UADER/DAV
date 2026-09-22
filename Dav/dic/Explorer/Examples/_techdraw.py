@@ -106,9 +106,9 @@ def steps() -> list:
                 "pt": "Crie a peça a desenhar: um círculo na origem (0, 0, 0) com raio 20.",
             },
             Path={
-                "es": ("banco", "pieza", "circulo"),
+                "es": ("banco", "pieza", "círculo"),
                 "en": ("workbench", "part", "circle"),
-                "pt": ("trabalho", "peca", "circulo"),
+                "pt": ("trabalho", "peça", "círculo"),
             },
             Values=lambda language: numbers(language, 0, 0, 0, 20),
             Action=_circle,
@@ -120,9 +120,9 @@ def steps() -> list:
                 "pt": "Crie uma página técnica nova.",
             },
             Path={
-                "es": ("dibujo tecnico", "pagina", "pagina"),
+                "es": ("dibujo técnico", "página", "página"),
                 "en": ("drawing", "page", "new page"),
-                "pt": ("tecnico", "pagina", "pagina"),
+                "pt": ("técnico", "página", "página"),
             },
             Action=_page,
         ),

@@ -28,6 +28,21 @@ _LABELS = {
 }
 
 
+def _PlayerWindowFlags():
+    """Return the flags of a real window: the player can be minimised and maximised.
+
+    A plain ``QDialog`` has no minimise or maximise button, so while an example was
+    running its window could only be moved or closed.
+    """
+    flags = Qt.WindowType if hasattr(Qt, "WindowType") else Qt
+    return (
+        flags.Window
+        | flags.WindowMinimizeButtonHint
+        | flags.WindowMaximizeButtonHint
+        | flags.WindowCloseButtonHint
+    )
+
+
 def _Canonical(Word: str) -> str:
     return WORD_SYNONYMS.get(Word, Word)
 
@@ -50,10 +65,14 @@ class GuidedExampleInputPrompt(BaseInputPrompt):
         self._Labels = _LABELS.get(self._Language, _LABELS["es"])
 
         self.setModal(False)
+        self.setWindowFlags(_PlayerWindowFlags())
+        self.setSizeGripEnabled(True)
         self._ChipsLabel = QLabel(self)
         self._ChipsLabel.setWordWrap(True)
         self._ChipsLabel.setTextFormat(Qt.TextFormat.RichText)
         self.layout().insertWidget(1, self._ChipsLabel)
+        # al maximizar, el sobrante va aquí: el texto queda arriba y los botones abajo
+        self.layout().insertStretch(4)
 
         # Aceptar pasa a ser «Saltar cuadro» y Cancelar pasa a ser «Cerrar»
         self._OkButton.clicked.disconnect()
@@ -67,7 +86,13 @@ class GuidedExampleInputPrompt(BaseInputPrompt):
     # ------------------------------------------------------------------ voz
 
     def GrammarPhrases(self, Language: str) -> list[str]:
-        """Return navigation, cancel and the words of the current frame."""
+        """Return navigation, cancel and the words of the current frame.
+
+        Each word goes in with and without its accents. Vosk can only return words
+        that exist in the model's lexicon, and the lexicon is accented ("geometría",
+        not "geometria"): sending both spellings leaves the one the model knows and
+        drops the other, so the frame can be dictated whichever way it is written.
+        """
         table = NAVIGATION_WORDS.get(Language, NAVIGATION_WORDS["es"])
         phrases = [*table["previous"], *table["next"], *table["select"], *table["skip"]]
         cancel = SpokenNumberParser.CancellationWords
@@ -78,7 +103,10 @@ class GuidedExampleInputPrompt(BaseInputPrompt):
         )
         if self._Viewing < len(self._Steps):
             for phrase in self._Steps[self._Viewing].GetSay(Language):
-                phrases.extend(word for word in phrase.split() if word not in phrases)
+                for word in phrase.split():
+                    for spelling in (word, SpokenNumberParser.NormalizeText(word)):
+                        if spelling and spelling not in phrases:
+                            phrases.append(spelling)
         return phrases
 
     def ProcessFinalText(self, Text: str) -> PromptResult:

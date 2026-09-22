@@ -222,7 +222,7 @@ def steps() -> list:
                 Path={
                     "es": ("base", "nuevo boceto"),
                     "en": ("base", "new sketch"),
-                    "pt": ("base", "esboco novo"),
+                    "pt": ("base", "esboço novo"),
                 },
                 Values=_downToFace(name),
                 Action=_sketchOnFace(name),
@@ -234,9 +234,9 @@ def steps() -> list:
                     "pt": f"Desenhe o primeiro furo do {number}: círculo de centro (5, 5) e raio 2, medido do centro da face. Os outros furos são desenhados sozinhos.",
                 },
                 Path={
-                    "es": ("geometria", "circulo", "circulo"),
+                    "es": ("geometría", "círculo", "círculo"),
                     "en": ("geometry", "circle", "circle"),
-                    "pt": ("geometria", "circulo", "circulo"),
+                    "pt": ("geometria", "círculo", "círculo"),
                 },
                 Values=values(5, 5, PIP_RADIUS),
                 Action=_pips(number),
@@ -250,7 +250,7 @@ def steps() -> list:
                 Path={
                     "es": ("cerrar croquis", "banco", "diseño", "cortar", "vaciar"),
                     "en": ("close sketch", "workbench", "design", "cut", "hollow"),
-                    "pt": ("fechar esboco", "trabalho", "projeto", "cortar", "esvaziar"),
+                    "pt": ("fechar esboço", "trabalho", "projeto", "cortar", "esvaziar"),
                 },
                 Values=_pocketValues,
                 Action=_pocket,
@@ -299,7 +299,7 @@ def steps() -> list:
                 "en": "And to finish, the whole die in the isometric view.",
                 "pt": "E para terminar, o dado completo na vista isométrica.",
             },
-            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isometrica",)},
+            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isométrica",)},
             Action=_showView("isometric"),
         )
     )

@@ -15,16 +15,19 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""DAV visual style for the 3D view: white background and a clean look for solids.
+"""DAV visual style for the 3D view: white background, graph-paper grid and a clean look for solids.
 
-Three entry points, all safe to call outside FreeCAD (they do nothing there):
+Entry points, all safe to call outside FreeCAD (they do nothing there):
 
 - :func:`aplicarFondoBlanco` paints the 3D view background white.
+- :func:`aplicarRejilla` gives Draft and Sketcher the same 2 mm grid.
+- :func:`aplicarVistaDav` applies the three view-wide settings: background, grid and line width.
 - :func:`aplicarEstiloDav` gives one object the DAV look (light-gray solid, dark edges).
-- :func:`instalarEstiloDav` keeps that look on every solid created from then on.
+- :func:`instalarEstiloDav` applies the view settings and keeps the look on every new solid.
 
-The voice command ``AplicarEstilo`` (``Operations/EspecialOperations.py``) uses the first
-two; the dock panel calls the third one when it is mounted.
+The voice command ``AplicarEstilo`` (``Operations/EspecialOperations.py``) uses
+:func:`aplicarVistaDav` and :func:`aplicarEstiloDav`; the dock panel calls
+:func:`instalarEstiloDav` when it is mounted.
 """
 
 from __future__ import annotations
@@ -40,19 +43,25 @@ except ImportError:  # fuera de FreeCAD (pruebas, documentación)
 FONDO = (1.0, 1.0, 1.0)
 SOLIDO = (0.80, 0.82, 0.85)
 ARISTA = (0.15, 0.15, 0.15)
-ANCHO_LINEA = 1.5
+ANCHO_LINEA = 2.0
+
+# Papel cuadriculado de Draft y Sketcher: 2 x 2 mm en #D4C7C5 sobre el fondo blanco.
+REJILLA = (0xD4 / 255, 0xC7 / 255, 0xC5 / 255)
+PASO_REJILLA = "2 mm"
 
 _VIEW_PARAMS = "User parameter:BaseApp/Preferences/View"
+_DRAFT_PARAMS = "User parameter:BaseApp/Preferences/Mod/Draft"
+_SKETCHER_PARAMS = "User parameter:BaseApp/Preferences/Mod/Sketcher/General"
 # Los objetos de origen no son piezas: no se les cambia el aspecto.
 _IGNORADOS = ("App::Origin", "App::Line", "App::Plane")
 
 _observer = None
 
 
-def _empaquetar(color: tuple[float, float, float]) -> int:
+def _empaquetar(color: tuple[float, float, float], alfa: int = 255) -> int:
     """Pack an (r, g, b) colour into the unsigned RGBA integer FreeCAD stores in its parameters."""
     r, g, b = (round(canal * 255) for canal in color)
-    return (r << 24) | (g << 16) | (b << 8)
+    return (r << 24) | (g << 16) | (b << 8) | alfa
 
 
 def aplicarFondoBlanco() -> None:
@@ -73,6 +82,51 @@ def aplicarFondoBlanco() -> None:
         vista.setBackgroundColor(*FONDO)
     except Exception:  # noqa: BLE001 - sin vista activa o versión sin ese método
         pass
+
+
+def aplicarRejilla() -> None:
+    """Give Draft and Sketcher the same 2 x 2 mm grid, in ``REJILLA`` and always visible."""
+    if FreeCAD is None:
+        return
+    color = _empaquetar(REJILLA)
+
+    draft = FreeCAD.ParamGet(_DRAFT_PARAMS)
+    draft.SetBool("grid", True)
+    draft.SetBool("alwaysShowGrid", True)
+    draft.SetString("gridSpacing", PASO_REJILLA)
+    draft.SetUnsigned("gridColor", color)
+    # en Draft el parámetro es opacidad, no transparencia: 100 deja el color tal cual
+    draft.SetInt("gridTransparency", 100)
+    # sin borde, sin figura humana y sin ejes de colores: la cuadrícula queda pareja
+    draft.SetBool("gridBorder", False)
+    draft.SetBool("gridShowHuman", False)
+    draft.SetBool("coloredGridAxes", False)
+
+    sketcher = FreeCAD.ParamGet(_SKETCHER_PARAMS)
+    sketcher.SetBool("ShowGrid", True)
+    # con el paso automático la cuadrícula crece con el zoom y deja de medir 2 mm
+    sketcher.SetBool("GridAuto", False)
+    # el Sketcher guarda el paso como cantidad, en un subgrupo del mismo nombre
+    sketcher.GetGroup("GridSize").SetString("GridSize", PASO_REJILLA)
+    # una sola familia de líneas: todos los cuadros iguales, sin líneas maestras
+    sketcher.SetInt("GridNumberSubdivision", 1)
+    sketcher.SetUnsigned("GridLineColor", color)
+    sketcher.SetUnsigned("GridDivLineColor", color)
+    # 0xffff es la línea llena; el Sketcher trae las finas punteadas
+    sketcher.SetInt("GridLinePattern", 0xFFFF)
+    sketcher.SetInt("GridDivLinePattern", 0xFFFF)
+    sketcher.SetInt("GridTransparency", 0)
+
+
+def aplicarVistaDav() -> None:
+    """Apply the DAV settings that belong to the view, not to one object."""
+    if FreeCAD is None:
+        return
+    aplicarFondoBlanco()
+    aplicarRejilla()
+    # los objetos planos de Draft no pasan por aplicarEstiloDav (no tienen caras):
+    # el ancho les llega por la preferencia global.
+    FreeCAD.ParamGet(_VIEW_PARAMS).SetInt("DefaultShapeLineWidth", round(ANCHO_LINEA))
 
 
 def aplicarEstiloDav(obj) -> bool:
@@ -124,9 +178,13 @@ class _EstiloObserver:
 
 
 def instalarEstiloDav() -> None:
-    """Style every solid created from now on. Calling it again does nothing."""
+    """Apply the view settings and style every solid created from now on.
+
+    Calling it again does nothing.
+    """
     global _observer
     if FreeCAD is None or _observer is not None:
         return
+    aplicarVistaDav()
     _observer = _EstiloObserver()
     FreeCAD.addDocumentObserver(_observer)

@@ -151,7 +151,7 @@ TraduceToEs = {
     "extruir por altura": additive["pad_by_length"],
     "extruir altura": additive["pad_by_length"],
     "dar altura": additive["pad_by_length"],
-
+    "extruir": additive["pad_by_length"],
     # Caja por dimensiones dictadas
     "caja por medidas": additive["box_by_size"],
     "cubo por medidas": additive["box_by_size"],

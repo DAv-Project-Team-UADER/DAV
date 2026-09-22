@@ -97,9 +97,9 @@ def steps() -> list:
                 "pt": "Desenhe um círculo: centro em 0, 0 e raio 12. Cada valor se confirma com «enviar».",
             },
             Path={
-                "es": ("geometria", "circulo", "circulo"),
+                "es": ("geometría", "círculo", "círculo"),
                 "en": ("geometry", "circle", "circle"),
-                "pt": ("geometria", "circulo", "circulo"),
+                "pt": ("geometria", "círculo", "círculo"),
             },
             Values=values(0, 0, RADIUS),
             Action=_circle,
@@ -113,7 +113,7 @@ def steps() -> list:
             Path={
                 "es": ("restricciones", "radio"),
                 "en": ("constraints", "radius"),
-                "pt": ("restricoes", "raio"),
+                "pt": ("restrições", "raio"),
             },
             Values=values(RADIUS),
             Action=_radius,
