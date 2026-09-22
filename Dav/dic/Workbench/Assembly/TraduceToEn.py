@@ -65,6 +65,7 @@ TraduceToEn = {
     # Remaining voice joints
     "ball joint":            assembly["ball_joint"],
     "cylindrical joint":     assembly["cylindrical_joint"],
+    "cylinder joint":        assembly["cylindrical_joint"],
     "parallel joint":        assembly["parallel_joint"],
     "keep parallel":         assembly["parallel_joint"],
     "perpendicular joint":   assembly["perpendicular_joint"],

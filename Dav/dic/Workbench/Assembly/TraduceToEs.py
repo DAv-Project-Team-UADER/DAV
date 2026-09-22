@@ -125,6 +125,9 @@ TraduceToEs = {
     "rotula":                assembly["ball_joint"],
 
     "junta cilindrica":      assembly["cylindrical_joint"],
+    # «cilindrica» (femenino) no siempre está en el vocabulario de Vosk; «cilindro» sí
+    "junta de cilindro":     assembly["cylindrical_joint"],
+    "junta cilindro":        assembly["cylindrical_joint"],
 
     "junta paralela":        assembly["parallel_joint"],
     "mantener paralelo":     assembly["parallel_joint"],

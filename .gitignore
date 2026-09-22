@@ -1,24 +1,24 @@
 # =============================================================
 # Build outputs
 # =============================================================
-build/
-Build/
-BUILD/
-out/
-dist/
-_build/
+# Solo en la raíz: sin "/" ignoraría también carpetas de código versionadas
+# (p. ej. FREECAD/src/Build) y cualquier carpeta futura llamada out/ o dist/.
+/build/
+/Build/
+/BUILD/
+/out/
+/dist/
+/_build/
 cmake-build-*/
 *.o
 *.obj
-*.a
-*.lib
-*.so
-*.so.*
-*.dylib
-*.dll
-*.exe
-*.pyd
 *.pyo
+# Salida del instalador de Windows (Installer/DAV_Setup.iss)
+/Installer/Output/
+/Installer/*.exe
+# No se ignoran *.dll/*.so/*.exe/*.lib/*.pyd de forma global: FREECAD versiona
+# algunos (FCStdThumbnail.dll) y una regla global los oculta sin avisar.
+# Un binario suelto en el árbol de trabajo debe verse en git status.
 
 # =============================================================
 # CMake
@@ -86,7 +86,7 @@ CLAUDE.md
 # Estos binarios pesados no deben estar en git; usar Git LFS
 # o almacenamiento externo.
 # =============================================================
-models/
+/Dav/models/
 MODELO/*.zip
 MODELO/*.tar.gz
 MODELO/*.gz
@@ -118,13 +118,9 @@ InterfazDAV/run_interfaz.bat
 *.FCBak
 *.FCStd1
 *.lock
+!pixi.lock
 FREECAD/src/3rdParty/
 FREECAD/ChangeLog.txt
-
-# =============================================================
-# Compiled Qt / translations
-# =============================================================
-*.qm
 
 # =============================================================
 # Packaging
@@ -146,11 +142,7 @@ coverage/
 .coverage
 htmlcov/
 MODELO/vosk-model-small-es-0.42/
-__pycache__/
-*.pyc
 vosk-model*/
-vosk-model-es-0.42/
-vosk-model-small-es-0.42/
 
 # Material de referencia del profe — no es código implementado por el equipo
 luigiIntegracionV1/archivo_tarea_grupo/
@@ -172,19 +164,7 @@ Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/voice_history.log
 
 
 .gemini/
-ComponentesDAV/
 *.pptx
-
-# Los scripts reales del proyecto viven en Dav/scr/ComponentesDAV/scripts.
-# La regla "ComponentesDAV/" (a cualquier profundidad) es para la copia
-# histórica a nivel raíz. Para que los scripts propios se versionen sin
-# git add -f, re-incluimos la rama Dav/scr/ComponentesDAV/ pero dejamos
-# visible únicamente su subcarpeta scripts/ (el resto — runtime, .venv,
-# config — sigue ignorado).
-!Dav/scr/ComponentesDAV/
-Dav/scr/ComponentesDAV/*
-!Dav/scr/ComponentesDAV/scripts/
-!Dav/scr/ComponentesDAV/scripts/**
 
 # Acceso directo generado por crear_acceso_directo.ps1 (rutas propias de cada equipo)
 ejecutar.lnk
@@ -192,4 +172,4 @@ Dav/docs/guion-videotutorial.pdf
 
 
 # Salidas de prueba
-*.out
+/*.out

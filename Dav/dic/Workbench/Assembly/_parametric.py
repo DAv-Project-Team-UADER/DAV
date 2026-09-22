@@ -49,6 +49,9 @@ _JOINT_TYPE_INDEX = {
 def _RegisterObject(Feature) -> None:
     """Show a created feature and register it in the DAV navigable object tree."""
     showResult(Feature)
+    # las juntas no tienen geometria: no hay caras ni aristas que extraer
+    if not hasattr(Feature, "Shape"):
+        return
     try:
         from createobjects import CreateObjects
     except ImportError:

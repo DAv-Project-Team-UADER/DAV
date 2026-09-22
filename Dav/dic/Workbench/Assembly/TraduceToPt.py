@@ -84,6 +84,8 @@ TraduceToPt = {
     "junta esferica":        assembly["ball_joint"],
     "rotula":                assembly["ball_joint"],
     "junta cilindrica":      assembly["cylindrical_joint"],
+    "junta de cilindro":     assembly["cylindrical_joint"],
+    "junta cilindro":        assembly["cylindrical_joint"],
     "junta paralela":        assembly["parallel_joint"],
     "junta perpendicular":   assembly["perpendicular_joint"],
 

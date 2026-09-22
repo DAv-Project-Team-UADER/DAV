@@ -195,7 +195,7 @@ Con **dos piezas** (se eligen en dos listas seguidas) y después **por dónde se
 | Decí | Qué hace |
 |---|---|
 | `rotula` | libre en cualquier rotación |
-| `junta cilindrica` | gira y desliza sobre un eje |
+| `junta de cilindro` (o `junta cilindrica`) | gira y desliza sobre un eje |
 | `junta paralela` | mantiene las piezas paralelas |
 | `junta perpendicular` | mantiene las piezas en ángulo recto |
 

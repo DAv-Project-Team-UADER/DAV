@@ -353,9 +353,9 @@ def steps() -> list:
                 "pt": "Una-os com uma junta cilíndrica: a porca gira e desliza sobre o eixo do parafuso. Escolha o link do parafuso e o da porca; depois, por onde cada um se une: o cilindro é o primeiro da lista de faces (a haste, o furo), então basta «enviar». Ao criar a junta, a porca salta para o eixo do parafuso.",
             },
             Path={
-                "es": ("junta cilindrica",),
-                "en": ("cylindrical joint",),
-                "pt": ("junta cilindrica",),
+                "es": ("junta de cilindro",),
+                "en": ("cylinder joint",),
+                "pt": ("junta de cilindro",),
             },
             Values=lambda language: _pick(language, _link(0), _link(1))
             + _pickConnector(language, _link(0))
