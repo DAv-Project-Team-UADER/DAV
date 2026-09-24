@@ -20,7 +20,7 @@
 from FreeCAD import Placement, Rotation, Vector
 
 from ._common import activeDoc, fitView
-from ._words import numbers
+from ._words import nextItem, numbers, send
 
 TITLE = {
     "es": "Draft: una casa con figuras 2D",
@@ -34,7 +34,7 @@ _ROOF = (0, 25, 44, 25, 22, 50)
 _DOOR = (17, 0, 27, 14)
 _WINDOW_LEFT = (10, 14, 8, 8)  # centro y tamaño: (6,10)-(14,18)
 _WINDOW_RIGHT = (34, 14, 8, 8)  # (30,10)-(38,18)
-_CHIMNEY = (31, 33, 37, 48)
+_CHIMNEY = (31, 30, 37, 48)  # arranca dentro del techo: el corte lo deja detrás
 _CHIMNEY_CAP = (29, 48, 39, 48, 34, 54)
 _ROOF_WINDOW = (22, 34, 5)
 _KNOB = (25, 7, 1)
@@ -46,27 +46,73 @@ _PANES = (
 )
 
 
-def _rectangle(x1, y1, x2, y2) -> None:
+# lo que el corte necesita encontrar: la chimenea (base) y el techo (herramienta)
+_made = {}
+
+
+def _rectangle(x1, y1, x2, y2):
     import Draft
 
     doc = activeDoc()
-    Draft.make_rectangle(
+    obj = Draft.make_rectangle(
         abs(x2 - x1), abs(y2 - y1), placement=Placement(Vector(min(x1, x2), min(y1, y2), 0), Rotation())
     )
     doc.recompute()
     fitView()
+    return obj
 
 
 def _rectangleByCenter(x, y, width, height) -> None:
     _rectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2)
 
 
-def _triangle(x1, y1, x2, y2, x3, y3) -> None:
+def _triangle(x1, y1, x2, y2, x3, y3):
     import Draft
 
     doc = activeDoc()
-    Draft.make_wire([Vector(x1, y1, 0), Vector(x2, y2, 0), Vector(x3, y3, 0)], closed=True)
+    obj = Draft.make_wire([Vector(x1, y1, 0), Vector(x2, y2, 0), Vector(x3, y3, 0)], closed=True)
     doc.recompute()
+    fitView()
+    return obj
+
+
+def _roof() -> None:
+    _made["roof"] = _triangle(*_ROOF)
+
+
+def _chimney() -> None:
+    _made["chimney"] = _rectangle(*_CHIMNEY)
+
+
+def _offered() -> list:
+    """Objects the voice list offers, in the order it shows them."""
+    try:
+        from Workbench._prompts import isShape
+    except ImportError:
+        from dic.Workbench._prompts import isShape
+    return [obj for obj in activeDoc().Objects if isShape(obj)]
+
+
+def _pickCut(language: str) -> tuple:
+    """Words that pick the chimney and then the roof from the list: «avanzar» up to each and «enviar»."""
+    offered = _offered()
+    words = ()
+    for key in ("chimney", "roof"):
+        words += nextItem(language, offered.index(_made[key])) + send(language)
+    return words
+
+
+def _cut() -> None:
+    # la misma operación que ejecuta el comando «cortar»: la chimenea pierde lo que ocupa el techo
+    import Draft
+
+    doc = activeDoc()
+    Draft.cut(_made["chimney"], _made["roof"])
+    doc.recompute()
+    try:
+        _made["roof"].ViewObject.Visibility = True  # Draft oculta las dos piezas
+    except Exception:
+        pass
     fitView()
 
 
@@ -121,7 +167,7 @@ def steps() -> list:
             },
             {"es": ("triángulo",), "en": ("triangle",), "pt": ("triângulo",)},
             _ROOF,
-            lambda: _triangle(*_ROOF),
+            _roof,
         ),
         frame(
             {
@@ -163,13 +209,13 @@ def steps() -> list:
         ),
         frame(
             {
-                "es": "La chimenea: un rectángulo por esquinas, de (31, 33) a (37, 48).",
-                "en": "The chimney: a rectangle by corners, from (31, 33) to (37, 48).",
-                "pt": "A chaminé: um retângulo por cantos, de (31, 33) a (37, 48).",
+                "es": "La chimenea: un rectángulo por esquinas, de (31, 30) a (37, 48). Arranca dentro del techo a propósito: después lo cortamos.",
+                "en": "The chimney: a rectangle by corners, from (31, 30) to (37, 48). It starts inside the roof on purpose: we cut it afterwards.",
+                "pt": "A chaminé: um retângulo por cantos, de (31, 30) a (37, 48). Ela começa dentro do telhado de propósito: depois a cortamos.",
             },
             {"es": ("rectángulo",), "en": ("rectangle",), "pt": ("retângulo",)},
             _CHIMNEY,
-            lambda: _rectangle(*_CHIMNEY),
+            _chimney,
         ),
         frame(
             {
@@ -180,6 +226,20 @@ def steps() -> list:
             {"es": ("triángulo",), "en": ("triangle",), "pt": ("triângulo",)},
             _CHIMNEY_CAP,
             lambda: _triangle(*_CHIMNEY_CAP),
+        ),
+        ExampleStep(
+            Text={
+                "es": "La chimenea está detrás del techo: hay que cortarla. Entrá a «modificar» y decí «cortar». Primero elegís el objeto a cortar (la chimenea) y después el que corta (el techo): «avanzar» hasta cada uno y «enviar».",
+                "en": "The chimney is behind the roof, so it has to be cut. Enter “modify” and say “cut”. First pick the object to cut (the chimney), then the one that cuts (the roof): “next” up to each one and “send”.",
+                "pt": "A chaminé está atrás do telhado, então é preciso cortá-la. Entre em «modificar» e diga «cortar». Primeiro escolha o objeto a cortar (a chaminé) e depois o que corta (o telhado): «próximo» até cada um e «enviar».",
+            },
+            Path={
+                "es": ("modificar", "cortar"),
+                "en": ("modify", "cut"),
+                "pt": ("modificar", "cortar"),
+            },
+            Values=_pickCut,
+            Action=_cut,
         ),
         frame(
             {

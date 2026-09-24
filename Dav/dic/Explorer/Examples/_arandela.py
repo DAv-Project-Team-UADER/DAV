@@ -284,7 +284,7 @@ def steps() -> list:
             Text={
                 "es": "Ahora la hoja técnica: una página desde plantilla. En la lista elegí el tercer elemento («avanzar» dos veces) y «enviar»: es la plantilla con rótulo.",
                 "en": "Now the technical sheet: a page from a template. In the list pick the third item (“next” twice) and “send”: it is the template with a title block.",
-                "pt": "Agora a folha técnica: uma página a partir de um modelo. Na lista escolha o terceiro item («avancar» duas vezes) e «enviar»: é o modelo com carimbo.",
+                "pt": "Agora a folha técnica: uma página a partir de um modelo. Na lista escolha o terceiro item («próximo» duas vezes) e «enviar»: é o modelo com carimbo.",
             },
             Path={
                 "es": ("banco", "dibujo técnico", "página", "plantilla"),

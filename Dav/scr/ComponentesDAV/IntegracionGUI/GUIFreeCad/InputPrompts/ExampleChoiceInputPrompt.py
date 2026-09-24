@@ -27,6 +27,12 @@ class ExampleChoiceInputPrompt(ChoiceInputPrompt):
     grammar stays small. The accepted value is the key of the example.
     """
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        # el botón Aceptar entrega el texto visible (el título); el valor es la clave del ejemplo
+        self._OkButton.clicked.disconnect()
+        self._OkButton.clicked.connect(lambda: self.AcceptValue(self.GetSelectedKey()))
+
     def GrammarPhrases(self, Language: str) -> list[str]:
         """Return previous, next, select and the cancel words of ``Language``."""
         table = NAVIGATION_WORDS.get(Language, NAVIGATION_WORDS["es"])

@@ -245,7 +245,7 @@ def steps() -> list:
                 Text={
                     "es": f"Cerrá el croquis y vaciá {PIP_DEPTH} mm: los huecos del {number} se restan del dado. Al cerrar volvés a «banco» y «diseño», porque el cierre te deja en Croquis. La lista de dibujos se recorre con «avanzar» hasta el último.",
                     "en": f"Close the sketch and hollow {PIP_DEPTH} mm: the pips of the {number} are subtracted from the die. Move through the drawings with “next” up to the last one.",
-                    "pt": f"Feche o esboço e esvazie {PIP_DEPTH} mm: os furos do {number} são subtraídos do dado. A lista de desenhos se percorre com «avancar» até o último.",
+                    "pt": f"Feche o esboço e esvazie {PIP_DEPTH} mm: os furos do {number} são subtraídos do dado. A lista de desenhos se percorre com «próximo» até o último.",
                 },
                 Path={
                     "es": ("cerrar croquis", "banco", "diseño", "cortar", "vaciar"),

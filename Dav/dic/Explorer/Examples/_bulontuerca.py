@@ -279,7 +279,7 @@ def steps() -> list:
             Text={
                 "es": "Agujereá la tuerca: un cilindro sustractivo de radio 3 y 10 de alto, centro en (15, 0, 4). Primero «subir» un nivel, porque estás en Sumar. En la lista de cuerpos, «avanzar» una vez para elegir la tuerca.",
                 "en": "Drill the nut: a subtractive cylinder with radius 3 and height 10, centred at (15, 0, 4). First go “up” one level, since you are in Add. In the list of bodies, say “next” once to pick the nut.",
-                "pt": "Fure a porca: um cilindro subtrativo de raio 3 e 10 de altura, centro em (15, 0, 4). Primeiro «subir» um nível, porque você está em Aditivo. Na lista de corpos, «avancar» uma vez para escolher a porca.",
+                "pt": "Fure a porca: um cilindro subtrativo de raio 3 e 10 de altura, centro em (15, 0, 4). Primeiro «subir» um nível, porque você está em Aditivo. Na lista de corpos, «próximo» uma vez para escolher a porca.",
             },
             Path={
                 "es": ("subir", "cortar", "cilindro"),
@@ -322,7 +322,7 @@ def steps() -> list:
             Text={
                 "es": "Insertá la tuerca del mismo modo: «avanzar» una vez para elegir el segundo cuerpo. Se pone a la derecha del bulón, sin pisarlo.",
                 "en": "Insert the nut the same way: say “next” once to pick the second body. It is placed to the right of the bolt, without overlapping it.",
-                "pt": "Insira a porca do mesmo modo: «avancar» uma vez para escolher o segundo corpo. Ela fica à direita do parafuso, sem sobrepor.",
+                "pt": "Insira a porca do mesmo modo: «próximo» uma vez para escolher o segundo corpo. Ela fica à direita do parafuso, sem sobrepor.",
             },
             Path={
                 "es": ("insertar vínculo",),
@@ -336,7 +336,7 @@ def steps() -> list:
             Text={
                 "es": "Anclá el bulón: el solver lo deja quieto y mueve la tuerca. La lista muestra primero los cuerpos y después los vínculos: «avanzar» hasta el vínculo del bulón y «enviar».",
                 "en": "Ground the bolt: the solver keeps it still and moves the nut. The list shows the bodies first and then the links: say “next” up to the bolt's link and “send”.",
-                "pt": "Ancore o parafuso: o solver o deixa parado e move a porca. A lista mostra primeiro os corpos e depois os links: «avancar» até o link do parafuso e «enviar».",
+                "pt": "Ancore o parafuso: o solver o deixa parado e move a porca. A lista mostra primeiro os corpos e depois os links: «próximo» até o link do parafuso e «enviar».",
             },
             Path={
                 "es": ("anclar pieza",),

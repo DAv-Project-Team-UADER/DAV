@@ -34,6 +34,11 @@ TraduceToEs = {
     "redondear": modify["fillet"],
     "filete": modify["fillet"],
 
+    "cortar": modify["cut"],
+    "corte": modify["cut"],
+    "restar": modify["cut"],
+    "sustraer": modify["cut"],
+
     "unir": modify["join"],
     "combinar": modify["join"],
 

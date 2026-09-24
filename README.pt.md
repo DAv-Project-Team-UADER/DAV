@@ -44,7 +44,6 @@ O DAV está atualmente em uma fase inicial de **MVP** (*Minimum Viable Product*)
 ## Manual do Usuário
 
 - [Manual do Usuário (PDF)](Manual_do_Usuario.pdf)
-- [Videotutoriais (YouTube)](https://www.youtube.com/watch?v=DwHS8yIz_Mw&list=PLNZ1JD1zPONA&pp=sAgC)
 
 ## Licença
 

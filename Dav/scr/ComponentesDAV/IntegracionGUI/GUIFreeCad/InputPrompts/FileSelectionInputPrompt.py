@@ -30,7 +30,7 @@ _WORDS: dict[str, dict[str, tuple[str, ...]]] = {
         "choose": ("choose", "select"),
     },
     "pt": {
-        "next": ("seguinte", "próximo", "avançar", "abaixo"),
+        "next": ("seguinte", "próximo", "abaixo"),
         "previous": ("anterior", "voltar", "cima"),
         "parent": ("subir", "pai"),
         "enter": ("abrir", "dentro"),

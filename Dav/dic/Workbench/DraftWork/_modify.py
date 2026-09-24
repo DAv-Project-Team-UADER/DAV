@@ -308,6 +308,42 @@ def fillet(radius: float) -> None:
     _finish(doc, result, "redondeo")
 
 
+def cut() -> None:
+    """Cut one object with another, both chosen by voice.
+
+    The first object keeps what lies outside the second one; the second stays
+    visible, so it can be used as the "front" piece (a chimney behind a roof).
+
+    Example::
+
+        cut()
+    """
+    doc = _activeDoc()
+    if doc is None:
+        return
+    base = _pick(doc, "Cortar", "Elegí el objeto a cortar")
+    if base is None:
+        return
+    tool = _pick(doc, "Cortar", "Elegí el objeto que corta")
+    if tool is None:
+        return
+    if base is tool:
+        print("[DAV] Error: hay que elegir dos objetos distintos.")
+        return
+    import Draft
+
+    result = Draft.cut(base, tool)
+    if result is None:
+        print("[DAV] Error: no se pudo cortar.")
+        return
+    _finish(doc, result, "corte")
+    # Draft oculta las dos piezas: la que corta tiene que seguir a la vista
+    try:
+        tool.ViewObject.Visibility = True
+    except Exception:
+        pass
+
+
 def join() -> None:
     """Join two wires chosen by voice into one."""
     doc = _activeDoc()
