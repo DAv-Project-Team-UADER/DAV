@@ -19,23 +19,67 @@
 from .creation import creation
 
 TraduceToEs = {
-    "sombreado":           creation["hatch"],
-    "rellenar":            creation["hatch"],
-    "patron de relleno":   creation["hatch"],
-    
-    "punto":               creation["point"],
-    "marcar punto":        creation["point"],
-    
-    "poligono":            creation["polygon"],
-    "dibujar poligono":    creation["polygon"],
-    
-    "rectangulo":          creation["rectangle"],
-    "dibujar rectangulo":  creation["rectangle"],
-    "cuadrilatero":        creation["rectangle"],
-    
-    "ayuda":                creation["help"],
-    "información":          creation["help"],
-    "opciones":             creation["help"]
+    # Sombreado
+    "sombreado": creation["hatch"],
+    "rellenar": creation["hatch"],
+    "patron de relleno": creation["hatch"],
+    "patrón de relleno": creation["hatch"],
+
+    # Punto
+    "punto": creation["point"],
+    "marcar punto": creation["point"],
+
+    # Polígono
+    "poligono": creation["polygon"],
+    "polígono": creation["polygon"],
+    "dibujar poligono": creation["polygon"],
+    "dibujar polígono": creation["polygon"],
+
+    # Rectángulo por esquinas (ventana de 4 valores)
+    "rectangulo": creation["rectangle"],
+    "rectángulo": creation["rectangle"],
+    "dibujar rectangulo": creation["rectangle"],
+    "dibujar rectángulo": creation["rectangle"],
+    "cuadrilatero": creation["rectangle"],
+    "cuadrilátero": creation["rectangle"],
+    "rectangulo por esquinas": creation["rectangle"],
+    "rectángulo por esquinas": creation["rectangle"],
+    "crear rectangulo por esquinas": creation["rectangle"],
+    "crear rectángulo por esquinas": creation["rectangle"],
+    "rectangulo por puntos": creation["rectangle"],
+    "rectángulo por puntos": creation["rectangle"],
+    "rectangulo por coordenadas": creation["rectangle"],
+    "rectángulo por coordenadas": creation["rectangle"],
+
+    # Rectángulo por centro (ventana de centro y tamaño)
+    "rectangulo por centro": creation["rectangle_center"],
+    "rectángulo por centro": creation["rectangle_center"],
+    "rectangulo centrado": creation["rectangle_center"],
+    "rectángulo centrado": creation["rectangle_center"],
+    "crear rectangulo centrado": creation["rectangle_center"],
+    "crear rectángulo centrado": creation["rectangle_center"],
+
+    # Triángulo por vértices (ventana de 6 valores)
+    "triangulo": creation["triangle"],
+    "triángulo": creation["triangle"],
+    "dibujar triangulo": creation["triangle"],
+    "dibujar triángulo": creation["triangle"],
+    "crear triangulo": creation["triangle"],
+    "crear triángulo": creation["triangle"],
+    "triangulo por vertices": creation["triangle"],
+    "triángulo por vértices": creation["triangle"],
+    "crear triangulo por vertices": creation["triangle"],
+    "crear triángulo por vértices": creation["triangle"],
+    "triangulo por puntos": creation["triangle"],
+    "triángulo por puntos": creation["triangle"],
+    "triangulo por coordenadas": creation["triangle"],
+    "triángulo por coordenadas": creation["triangle"],
+
+    # Ayuda
+    "ayuda": creation["help"],
+    "informacion": creation["help"],
+    "información": creation["help"],
+    "opciones": creation["help"],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

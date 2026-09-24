@@ -227,6 +227,76 @@ def rectangle_by_corners(x1: float, y1: float, x2: float, y2: float) -> None:
     _finish(doc, obj, "rectángulo")
 
 
+def rectangle_by_center(x: float, y: float, width: float, height: float) -> None:
+    """Create a Draft rectangle from its center and size.
+
+    Args:
+        x: Center X coordinate, in millimetres.
+        y: Center Y coordinate.
+        width: Total width (along X).
+        height: Total height (along Y).
+
+    Example::
+
+        rectangle_by_center(20, 10, 40, 20)
+    """
+    half_w, half_h = abs(width) / 2, abs(height) / 2
+    rectangle_by_corners(x - half_w, y - half_h, x + half_w, y + half_h)
+
+
+def triangle_by_vertices(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float) -> None:
+    """Create a closed Draft triangle from three dictated vertices.
+
+    Args:
+        x1: X of the first vertex, in millimetres.
+        y1: Y of the first vertex.
+        x2: X of the second vertex.
+        y2: Y of the second vertex.
+        x3: X of the third vertex.
+        y3: Y of the third vertex.
+
+    Example::
+
+        triangle_by_vertices(0, 20, 40, 20, 20, 40)
+    """
+    doc = _activeDoc()
+    if doc is None:
+        return
+    # vertices alineados dan un triangulo degenerado (area cero)
+    if (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) == 0:
+        print("[DAV] Error: los tres vértices no pueden estar alineados.")
+        return
+    import Draft
+
+    obj = Draft.make_wire([_vec(x1, y1), _vec(x2, y2), _vec(x3, y3)], closed=True)
+    _finish(doc, obj, "triángulo")
+
+
+def line_by_points(x1: float, y1: float, x2: float, y2: float) -> None:
+    """Create a Draft line segment between two points.
+
+    Args:
+        x1: X of the start point, in millimetres.
+        y1: Y of the start point.
+        x2: X of the end point.
+        y2: Y of the end point.
+
+    Example::
+
+        line_by_points(0, 0, 40, 20)
+    """
+    doc = _activeDoc()
+    if doc is None:
+        return
+    if x1 == x2 and y1 == y2:
+        print("[DAV] Error: los dos puntos de la línea deben ser distintos.")
+        return
+    import Draft
+
+    obj = Draft.make_wire([_vec(x1, y1), _vec(x2, y2)], closed=False)
+    _finish(doc, obj, "línea")
+
+
 def polygon_by_center(x: float, y: float, sides: int, radius: float) -> None:
     """Create a regular Draft polygon inscribed in a circle.
 

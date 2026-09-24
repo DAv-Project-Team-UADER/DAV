@@ -21,30 +21,51 @@
 from .creation import creation
 
 TraduceToEn = {
-    # Draft Hatch
-    "hatch":           creation['hatch'],
-    "fill pattern":    creation['hatch'],
-    "hatch pattern":   creation['hatch'],
-    "pattern":         creation['hatch'],
+    # Hatch
+    "hatch": creation["hatch"],
+    "fill pattern": creation["hatch"],
+    "hatch pattern": creation["hatch"],
+    "pattern": creation["hatch"],
 
-    # Draft Point
-    "point":           creation['point'],
-    "create point":    creation['point'],
-    "dot":             creation['point'],
+    # Point
+    "point": creation["point"],
+    "create point": creation["point"],
+    "dot": creation["point"],
 
-    # Draft Polygon
-    "polygon":         creation['polygon'],
-    "regular polygon": creation['polygon'],
-    "create polygon":  creation['polygon'],
+    # Polygon
+    "polygon": creation["polygon"],
+    "regular polygon": creation["polygon"],
+    "create polygon": creation["polygon"],
 
-    # Draft Rectangle
-    "rectangle":       creation['rectangle'],
-    "create rectangle":creation['rectangle'],
-    "box":             creation['rectangle'],
+    # Rectangle by corners (4-value dialog)
+    "rectangle": creation["rectangle"],
+    "create rectangle": creation["rectangle"],
+    "draw rectangle": creation["rectangle"],
+    "box": creation["rectangle"],
+    "rectangle by corners": creation["rectangle"],
+    "create rectangle by corners": creation["rectangle"],
+    "rectangle by points": creation["rectangle"],
+    "rectangle by coordinates": creation["rectangle"],
 
-    "help":            creation['help'],
-    "info":            creation['help'],
-    "options":         creation['help']
+    # Rectangle by center (center and size dialog)
+    "rectangle by center": creation["rectangle_center"],
+    "centered rectangle": creation["rectangle_center"],
+    "center rectangle": creation["rectangle_center"],
+    "create centered rectangle": creation["rectangle_center"],
+
+    # Triangle by vertices (6-value dialog)
+    "triangle": creation["triangle"],
+    "create triangle": creation["triangle"],
+    "draw triangle": creation["triangle"],
+    "triangle by vertices": creation["triangle"],
+    "create triangle by vertices": creation["triangle"],
+    "triangle by points": creation["triangle"],
+    "triangle by coordinates": creation["triangle"],
+
+    # Help
+    "help": creation["help"],
+    "info": creation["help"],
+    "options": creation["help"],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

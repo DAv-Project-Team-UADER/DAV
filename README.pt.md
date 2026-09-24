@@ -41,6 +41,11 @@ O DAV está atualmente em uma fase inicial de **MVP** (*Minimum Viable Product*)
 - **Memória RAM:** 8 GB ou mais
 - **Armazenamento:** 2,5 GB de espaço livre em disco.
 
+## Manual do Usuário
+
+- [Manual do Usuário (PDF)](Manual_do_Usuario.pdf)
+- [Videotutoriais (YouTube)](https://www.youtube.com/watch?v=DwHS8yIz_Mw&list=PLNZ1JD1zPONA&pp=sAgC)
+
 ## Licença
 
 Este projeto é distribuído sob a licença **GNU GPL v3**.

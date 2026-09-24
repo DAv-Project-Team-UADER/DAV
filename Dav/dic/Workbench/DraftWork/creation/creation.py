@@ -21,7 +21,13 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
-from .._parametric import point_by_coords, polygon_by_center, rectangle_by_corners
+from .._parametric import (
+    point_by_coords,
+    polygon_by_center,
+    rectangle_by_center,
+    rectangle_by_corners,
+    triangle_by_vertices,
+)
 from .ayuda import ayuda
 
 
@@ -52,6 +58,8 @@ creation = {
     "point": point_by_coords,
     "polygon": polygon_by_center,
     "rectangle": rectangle_by_corners,
+    "rectangle_center": rectangle_by_center,
+    "triangle": triangle_by_vertices,
     "interactive_point": point,
     "interactive_polygon": polygon,
     "interactive_rectangle": rectangle,
