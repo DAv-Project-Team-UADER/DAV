@@ -32,6 +32,9 @@ TraduceToPt = {
     "retângulo":              geometry["rectangle"],
     "retangulo":              geometry["rectangle"],
 
+    "triangulo":              geometry["triangle"],
+    "triângulo":              geometry["triangle"],
+
     "círculo":                geometry["circle"],
     "circulo":                geometry["circle"],
 

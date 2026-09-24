@@ -21,25 +21,26 @@ from .rectangle import rectangle
 from .ayuda import ayuda
 
 TraduceToEn = {
-    
-    # Standard rectangle creation & synonyms
+    # Creación estándar (ventana de esquinas)
     "create": rectangle['create'],
     "create rectangle": rectangle['create'],
     "draw rectangle": rectangle['create'],
     "rectangle": rectangle['create'],
     "box": rectangle['create'],
-    
-    # Centered rectangle creation & synonyms
+
+    # Creación centrada (ventana de centro y tamaño)
     "center": rectangle['center'],
     "center rectangle": rectangle['center'],
     "centered rectangle": rectangle['center'],
     "create centered rectangle": rectangle['center'],
+    "rectangle by center": rectangle['center'],
 
+    # Ayuda
     "help": rectangle['help'],
     "info": rectangle['help'],
     "options": rectangle['help'],
 
-    # Rectangle by dictated coordinates
+    # Por coordenadas dictadas
     "rectangle by corners": rectangle['create_by_corners'],
     "create rectangle by corners": rectangle['create_by_corners'],
     "rectangle by points": rectangle['create_by_corners'],

@@ -66,12 +66,6 @@ TraduceToPt = {
   "ferramentas": sketcher["tools"],
   "ferramenta": sketcher["tools"],
 
-  "triangulo": sketcher["triangle"],
-  "triângulo": sketcher["triangle"],
-  "criar triangulo": sketcher["triangle"],
-  "criar triângulo": sketcher["triangle"],
-  "desenhar triangulo": sketcher["triangle"],
-  "desenhar triângulo": sketcher["triangle"],
 
   "validar": sketcher["validate"],
   "validar esboco": sketcher["validate"],

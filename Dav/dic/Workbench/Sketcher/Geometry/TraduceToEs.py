@@ -34,6 +34,9 @@ TraduceToEs = {
     "rectangulo":         geometry["rectangle"],
     "rectángulo":         geometry["rectangle"],
 
+    "triangulo":          geometry["triangle"],
+    "triángulo":          geometry["triangle"],
+
     "circulo":            geometry["circle"],
     "círculo":            geometry["circle"],
 

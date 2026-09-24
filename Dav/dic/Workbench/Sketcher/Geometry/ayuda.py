@@ -20,6 +20,7 @@ def ayuda():
     print('  line        - Subconjunto para la creación de líneas rectas.')
     print('  polyline    - Subconjunto para la creación de polilíneas (líneas compuestas).')
     print('  rectangle   - Subconjunto para la creación de rectángulos.')
+    print('  triangle    - Subconjunto para la creación de triángulos por vértices.')
     print('  circle      - Subconjunto para la creación de círculos.')
     print('  arc         - Subconjunto para la creación de arcos circulares.')
     print('  arc_slot    - Subconjunto para la creación de ranuras curvas.')

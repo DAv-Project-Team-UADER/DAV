@@ -80,3 +80,29 @@ def create_by_corners(
     print(
         f"[geometry.rectangle] Created '{label}' from ({left},{bottom}) to ({right},{top})"
     )
+
+
+def create_by_center(
+    x: float,
+    y: float,
+    width: float,
+    height: float,
+    label: str = "Rectangle",
+) -> None:
+    """Create a closed rectangle from its dictated center and size.
+
+    Args:
+        x: Center X coordinate, in millimetres.
+        y: Center Y coordinate, in millimetres.
+        width: Total width (along X), in millimetres.
+        height: Total height (along Y), in millimetres.
+        label: Visible label for the created object.
+
+    Example::
+
+        create_by_center(20, 10, 40, 20)
+    """
+    half_w, half_h = abs(width) / 2, abs(height) / 2
+    create_by_corners(
+        x1=x - half_w, y1=y - half_h, x2=x + half_w, y2=y + half_h, label=label
+    )
