@@ -113,7 +113,19 @@ class GuidedExampleInputPrompt(BaseInputPrompt):
         words = self._PendingWords
         before = self._Matched
         for token in SpokenNumberParser.Tokenize(Text):
-            if self._Matched < len(words) and _Canonical(token) == words[self._Matched]:
+            if self._Matched >= len(words):
+                break
+            token = _Canonical(token)
+            # el conector de «vinte e dois» es una palabra de una letra: el reconocimiento suele
+            # comérsela, así que si falta se da por dicho al oír la palabra que le sigue
+            if (
+                token != words[self._Matched]
+                and words[self._Matched] in SpokenNumberParser.ConnectorWords
+                and self._Matched + 1 < len(words)
+                and token == words[self._Matched + 1]
+            ):
+                self._Matched += 1
+            if token == words[self._Matched]:
                 self._Matched += 1
         if self._Matched == before:
             return False
