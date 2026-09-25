@@ -398,7 +398,7 @@ def _LoadNavWordsFromDictionaries() -> None:
         actions = importlib.import_module(f"{package}.NavCommands.NavActions").NavActions
         send, cancel = actions.get("send"), actions.get("cancel")
 
-        for lang in ("TraduceToEs", "TraduceToEn", "TraduceToPT"):
+        for lang in ("TraduceToEs", "TraduceToEn", "TraduceToPt"):
             module = importlib.import_module(f"{package}.NavCommands.{lang}")
             mapping = getattr(module, lang, {})
             for spoken, target in mapping.items():

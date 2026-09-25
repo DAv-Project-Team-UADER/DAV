@@ -41,7 +41,7 @@ class SpellingInputPrompt(BaseInputPrompt):
             "a": "A", "bê": "B", "cê": "C", "dê": "D", "e": "E", "gê": "G", "agá": "H",
             "i": "I", "jota": "J", "cá": "K", "éle": "L", "ême": "M", "o": "O",
             "pê": "P", "quê": "Q", "érre": "R", "ésse": "S", "tê": "T", "u": "U",
-            "xis": "X", "ípsilon": "Y", "zê": "Z", "fê": "F", "n": "N",
+            "vê": "V", "xis": "X", "ípsilon": "Y", "zê": "Z", "fê": "F", "n": "N",
         },
     }
     # letras de dos palabras: (primera, segunda) -> letra

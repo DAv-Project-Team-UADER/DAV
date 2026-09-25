@@ -87,6 +87,12 @@ TraduceToEs = {
     "seleccion de objetos": selection,
     "selección de objetos": selection,
     "objetos":              selection,
+    # Sinonimos sin parecido (difflib >= 0.82) con ninguna palabra de los
+    # submenus: "seleccion"/"objetos" se confunden con "seccion"/"objeto"/
+    # "deseleccionar" al hablar dentro de Part, TechDraw, Tree y PartDesign.
+    "agarrar":              selection,
+    "elegir":               selection,
+    "lista de objetos":     selection,
     "preferencias":  open_preferences,
     "configuracion": open_preferences,
     "ajustes":       open_preferences,

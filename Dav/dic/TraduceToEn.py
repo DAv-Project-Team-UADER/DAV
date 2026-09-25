@@ -60,6 +60,10 @@ TraduceToEn = {
     "object selection":  selection,
     "selected objects":  selection,
     "objects":           selection,
+    # Sinonimos sin parecido (difflib >= 0.82) con palabras de los submenus.
+    "grab":              selection,
+    "pick":              selection,
+    "object list":       selection,
     "preferences": open_preferences,
     "settings":    open_preferences,
 

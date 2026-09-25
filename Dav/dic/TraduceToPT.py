@@ -72,6 +72,10 @@ TraduceToPT = {
     "selecionar":         selection,
     "selecao de objetos": selection,
     "objetos":            selection,
+    # Sinonimos sin parecido (difflib >= 0.82) con palabras de los submenus.
+    "agarrar":            selection,
+    "pegar":              selection,
+    "lista de objetos":   selection,
     "preferencias":  open_preferences,
     "configuracoes": open_preferences,
     "ajustes":       open_preferences,
