@@ -64,6 +64,30 @@ class SpellingInputPrompt(BaseInputPrompt):
         "en": {"dash": "-", "dot": ".", "underscore": "_"},
         "pt": {"hífen": "-", "ponto": ".", "sublinhado": "_"},
     }
+    # "<letra> de <palabra clave>" ("be de boca", "cu de queso"): la palabra clave
+    # decide la letra aunque Vosk confunda el nombre ("u"/"cu", "de"/"ge"...).
+    # Solo espanol; todas estan en el vocabulario del modelo small-es (ni "eñe"
+    # ni "ñandú" ni "xilófono" lo estan, por eso "ñu" y "xerox").
+    AnchorConnector: str = "de"
+    AnchorWords: dict[str, dict[str, str]] = {
+        "es": {
+            "avión": "A", "boca": "B", "casa": "C", "dedo": "D", "elefante": "E",
+            "fuego": "F", "gato": "G", "hilo": "H", "isla": "I", "jirafa": "J",
+            "kilo": "K", "luna": "L", "mano": "M", "nariz": "N", "ñu": "Ñ",
+            "oso": "O", "pato": "P", "queso": "Q", "kiosko": "Q", "kiosco": "Q",
+            "quiosco": "Q", "rata": "R", "sol": "S", "taza": "T", "uva": "U",
+            "vaca": "V", "whisky": "W", "xerox": "X", "taxi": "X", "yate": "Y",
+            "zapato": "Z",
+        },
+    }
+    # como se dice cada letra delante de su palabra clave, para la gramatica
+    AnchorLetterSpeech: dict[str, str] = {
+        "A": "a", "B": "be", "C": "ce", "D": "de", "E": "e", "F": "efe", "G": "ge",
+        "H": "hache", "I": "i", "J": "jota", "K": "ka", "L": "ele", "M": "eme",
+        "N": "ene", "Ñ": "ñ", "O": "o", "P": "pe", "Q": "cu", "R": "erre", "S": "ese",
+        "T": "te", "U": "u", "V": "uve", "W": "doble uve", "X": "equis", "Y": "i griega",
+        "Z": "zeta",
+    }
     SpaceWords: dict[str, str] = {"es": "espacio", "en": "space", "pt": "espaço"}
     DeleteWords: dict[str, str] = {"es": "borrar", "en": "delete", "pt": "apagar"}
 
@@ -84,6 +108,12 @@ class SpellingInputPrompt(BaseInputPrompt):
         (_Prep(first), _Prep(second)): letter for (first, second), letter in PairNames.items()
     }
     _PairFirst: set[str] = {first for first, _second in _PairLookup}
+    _AnchorLookup: dict[str, str] = {
+        _Prep(word): letter
+        for words in AnchorWords.values()
+        for word, letter in words.items()
+    }
+    _AnchorConnector: str = _Prep(AnchorConnector)
 
     def __init__(self, Title: str = "DAV", Message: str = "", Parent=None) -> None:
         super().__init__(Title, Message, Parent)
@@ -97,7 +127,16 @@ class SpellingInputPrompt(BaseInputPrompt):
         phrases = list(cls.LetterNames[language])
         phrases.extend(cls.PairWords[language])
         phrases.extend(cls.SymbolNames[language])
-        phrases.extend(word for word, value in SpokenNumberParser.DigitWords.items() if len(value) == 1)
+        phrases.extend(
+            f"{cls.AnchorLetterSpeech[letter]} {cls.AnchorConnector} {word}"
+            for word, letter in cls.AnchorWords.get(language, {}).items()
+        )
+        # "un" suena casi igual que la letra "u" y Vosk la cambiaba por el digito 1
+        phrases.extend(
+            word
+            for word, value in SpokenNumberParser.DigitWords.items()
+            if len(value) == 1 and word != "un"
+        )
         phrases.extend([cls.SpaceWords[language], cls.DeleteWords[language]])
         # confirmar y cancelar, sin arriba/abajo (los dos primeros de la lista)
         phrases.extend(PlaneGrammarSwitcher.PlanePhrases(language)[2:])
@@ -122,6 +161,12 @@ class SpellingInputPrompt(BaseInputPrompt):
         while index < len(tokens):
             token = tokens[index]
             following = tokens[index + 1] if index + 1 < len(tokens) else ""
+            anchored = self._MatchAnchor(tokens, index)
+            if anchored is not None:
+                letter, used = anchored
+                self._Append(letter)
+                index += used
+                continue
             if token in self._PairFirst and (token, following) in self._PairLookup:
                 self._Append(self._PairLookup[(token, following)])
                 index += 2
@@ -146,6 +191,29 @@ class SpellingInputPrompt(BaseInputPrompt):
                 self._Append(token.upper())
         self._Refresh()
         return self.GetResult()
+
+    @classmethod
+    def _MatchAnchor(cls, Tokens: list[str], Index: int) -> tuple[str, int] | None:
+        """Match "<letra> de <palabra clave>" starting at ``Index``.
+
+        La palabra clave manda: si Vosk oyo mal el nombre de la letra o lo
+        perdio, igual se escribe la letra de la palabra clave.
+
+        Returns:
+            La letra y la cantidad de palabras que consumio, o None.
+        """
+        connector, lookup = cls._AnchorConnector, cls._AnchorLookup
+        at = lambda offset: Tokens[Index + offset] if Index + offset < len(Tokens) else ""  # noqa: E731
+        # nombre de dos palabras: "doble uve de whisky"
+        if (at(0), at(1)) in cls._PairLookup and at(2) == connector and at(3) in lookup:
+            return lookup[at(3)], 4
+        # una palabra de nombre: "be de boca" (incluye "de de dedo")
+        if at(1) == connector and at(2) in lookup:
+            return lookup[at(2)], 3
+        # el nombre se perdio: "de boca"
+        if at(0) == connector and at(1) in lookup:
+            return lookup[at(1)], 2
+        return None
 
     def _Append(self, Char: str) -> None:
         if len(self._Text) < self.MaxLength:
