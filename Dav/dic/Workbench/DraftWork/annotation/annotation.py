@@ -5,7 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
-from .._parametric import text_at
+from ..._text import voiceShapeString
 from .ayuda import ayuda
 
 
@@ -31,7 +31,7 @@ def label():
 
 
 annotation = {
-    "text": text_at,
+    "text": voiceShapeString,
     "interactive_text": text,
     "shapestring": shapestring,
     "label": label,

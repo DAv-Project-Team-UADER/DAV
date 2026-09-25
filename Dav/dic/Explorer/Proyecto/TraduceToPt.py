@@ -19,6 +19,13 @@
 from .Proyecto import proyecto
 
 TraduceToPt = {
+    "novo": proyecto["new"],
+    "novo projeto": proyecto["new"],
+    "novo arquivo": proyecto["new"],
+    "criar": proyecto["new"],
+    "criar projeto": proyecto["new"],
+    "criar arquivo": proyecto["new"],
+
     "abrir": proyecto["open"],
     "abrir projeto": proyecto["open"],
     "abrir arquivo": proyecto["open"],

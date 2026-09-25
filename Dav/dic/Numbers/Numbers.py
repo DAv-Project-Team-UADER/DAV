@@ -114,10 +114,10 @@ Numbers = {
 }
 
 
-# Idioma -> modulo de traduccion, en Numbers/ y en NavCommands/ (este ultimo
-# usa el sufijo "PT" en mayusculas, a diferencia de Numbers que usa "Pt").
+# Idioma -> modulo de traduccion, en Numbers/ y en NavCommands/ (ambos usan
+# el sufijo "Pt"; el archivo y el diccionario que define se llaman igual).
 _NUMBER_MODULE_BY_LANGUAGE = {"es": "TraduceToEs", "en": "TraduceToEn", "pt": "TraduceToPt"}
-_NAV_MODULE_BY_LANGUAGE = {"es": "TraduceToEs", "en": "TraduceToEn", "pt": "TraduceToPT"}
+_NAV_MODULE_BY_LANGUAGE = {"es": "TraduceToEs", "en": "TraduceToEn", "pt": "TraduceToPt"}
 
 # Respaldo minimo por idioma si NavCommands no esta disponible, para que un
 # diccionario roto no deje los prompts numericos sin poder confirmar/cancelar.

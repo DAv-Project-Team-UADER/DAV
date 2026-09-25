@@ -23,12 +23,12 @@ from .ayuda import ayuda
 TraduceToPt = {
     
     # Texto / Forma de texto e sinônimos
-    "criar": text['create'],
-    "texto": text['create'],
-    "forma de texto": text['create'],
-    "criar texto": text['create'],
-    "adicionar texto": text['create'],
-    "desenhar texto": text['create'],
+    "criar": text['shapestring'],
+    "texto": text['shapestring'],
+    "forma de texto": text['shapestring'],
+    "criar texto": text['shapestring'],
+    "adicionar texto": text['shapestring'],
+    "desenhar texto": text['shapestring'],
 
     "ajuda": text['help'],
     "informação": text['help'],

@@ -19,6 +19,13 @@
 from .Proyecto import proyecto
 
 TraduceToEn = {
+    "new": proyecto["new"],
+    "new project": proyecto["new"],
+    "new file": proyecto["new"],
+    "create": proyecto["new"],
+    "create project": proyecto["new"],
+    "create file": proyecto["new"],
+
     "open": proyecto["open"],
     "open project": proyecto["open"],
     "open file": proyecto["open"],
@@ -62,9 +69,17 @@ TraduceToEn.update ({
 
     # Left
     'left': StandardViews['left'],
+    'left view': StandardViews['left'],
+    'left side': StandardViews['left'],
+    'from the left': StandardViews['left'],
+    'view from the left': StandardViews['left'],
 
     # Right
     'right': StandardViews['right'],
+    'right view': StandardViews['right'],
+    'right side': StandardViews['right'],
+    'from the right': StandardViews['right'],
+    'view from the right': StandardViews['right'],
 
     # Isometric
     'isometric': StandardViews['isometric'],
@@ -72,9 +87,15 @@ TraduceToEn.update ({
 
     # Dimetric
     'dimetric': StandardViews['dimetric'],
+    'dimetric view': StandardViews['dimetric'],
+    'dimetric projection': StandardViews['dimetric'],
+    'dimetric perspective': StandardViews['dimetric'],
 
     # Trimetric
     'trimetric': StandardViews['trimetric'],
+    'trimetric view': StandardViews['trimetric'],
+    'trimetric projection': StandardViews['trimetric'],
+    'trimetric perspective': StandardViews['trimetric'],
 
     # Fit All
     'fit all': StandardViews['fitall'],

@@ -15,11 +15,12 @@
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
 from .ayuda import ayuda
-from ._project import exportProject, openProject, saveProject
+from ._project import exportProject, newProject, openProject, saveProject
 
 # Las claves coinciden con los SVG de esta carpeta (open, save, export): el
 # panel busca el icono por el nombre de la clave.
 proyecto = {
+    'new':    newProject,
     'open':   openProject,
     'save':   saveProject,
     'export': exportProject,

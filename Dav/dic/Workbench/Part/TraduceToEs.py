@@ -162,6 +162,7 @@ TraduceToEs = {
     "intersección": part_section["section"],
     "curva de seccion": part_section["section"],
     "curva de sección": part_section["section"],
+    "corte": part_section["section"],
 
     "barrido": part_sweep["sweep"],
     "barrer perfil": part_sweep["sweep"],

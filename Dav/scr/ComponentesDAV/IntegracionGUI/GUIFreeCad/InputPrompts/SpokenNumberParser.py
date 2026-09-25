@@ -146,6 +146,10 @@ class SpokenNumberParser:
     # rango ("twenty two"), por eso no aparece aca.
     ConnectorWords: set[str] = {"y", "e"}
 
+    # "diez y seis" / "dez e seis" -> 16. Solo se suman con conector explicito: sin el,
+    # "diez seis" sigue siendo 10 y 6 dictados por separado.
+    TenWords: set[str] = {"diez", "dez"}
+
     # Unidades 1-9 con valor entero, derivadas de DigitWords para no repetir
     # la lista: se usan solo para sumarlas a una decena en _MergeTensAndUnits.
     UnitWords: dict[str, int] = {
@@ -327,6 +331,15 @@ class SpokenNumberParser:
                     merged.append(str(cls.TensWords[token] + cls.UnitWords[Tokens[lookahead]]))
                     index = lookahead + 1
                     continue
+            elif (
+                token in cls.TenWords
+                and index + 2 < total
+                and Tokens[index + 1] in cls.ConnectorWords
+                and Tokens[index + 2] in cls.UnitWords
+            ):
+                merged.append(str(10 + cls.UnitWords[Tokens[index + 2]]))
+                index += 3
+                continue
             merged.append(token)
             index += 1
         return merged
@@ -385,7 +398,7 @@ def _LoadNavWordsFromDictionaries() -> None:
         actions = importlib.import_module(f"{package}.NavCommands.NavActions").NavActions
         send, cancel = actions.get("send"), actions.get("cancel")
 
-        for lang in ("TraduceToEs", "TraduceToEn", "TraduceToPT"):
+        for lang in ("TraduceToEs", "TraduceToEn", "TraduceToPt"):
             module = importlib.import_module(f"{package}.NavCommands.{lang}")
             mapping = getattr(module, lang, {})
             for spoken, target in mapping.items():

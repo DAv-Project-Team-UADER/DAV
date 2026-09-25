@@ -45,6 +45,8 @@ TraduceToPt = {
     "secao complexa": views["complexsection"],
     "seção": views["complexsection"],
     "secao": views["complexsection"],
+    "vista de seção": views["complexsection"],
+    "vista de secao": views["complexsection"],
 
     # Vista Draft
     "vista draft": views["draft"],

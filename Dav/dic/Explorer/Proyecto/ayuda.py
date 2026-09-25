@@ -18,6 +18,7 @@ from .._help_gui import show_help_dialog
 
 def ayuda():
     content = """Comandos disponibles en Proyecto (sin diálogos nativos):
+  nuevo     - Crea un documento nuevo, vacío
   abrir     - Recorre las carpetas por voz y abre el archivo elegido
               (siguiente / anterior, abrir carpeta, subir, okey, cancelar)
   guardar   - Guarda el documento; si es nuevo pide carpeta y nombre

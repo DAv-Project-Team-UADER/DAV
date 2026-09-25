@@ -168,6 +168,7 @@ TraduceToPt = {
     "interseção": part_section["section"],
     "curva de secao": part_section["section"],
     "curva de seção": part_section["section"],
+    "corte": part_section["section"],
 
     "varredura": part_sweep["sweep"],
     "varrer perfil": part_sweep["sweep"],
