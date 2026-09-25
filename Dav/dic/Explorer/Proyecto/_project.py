@@ -47,6 +47,11 @@ EXPORT_FORMATS = (
 _ORIGIN_TYPES = ("App::Origin", "App::Line", "App::Plane", "App::Point")
 
 
+def newProject() -> None:
+    """Create an empty document (copy of ``Explorer/File`` "new")."""
+    App.newDocument()
+
+
 def _importPrompts() -> None:
     """Make ``InputPrompts`` importable, wherever the dictionary was loaded from."""
     try:

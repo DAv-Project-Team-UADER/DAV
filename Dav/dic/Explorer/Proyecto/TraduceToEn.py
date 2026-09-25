@@ -19,6 +19,13 @@
 from .Proyecto import proyecto
 
 TraduceToEn = {
+    "new": proyecto["new"],
+    "new project": proyecto["new"],
+    "new file": proyecto["new"],
+    "create": proyecto["new"],
+    "create project": proyecto["new"],
+    "create file": proyecto["new"],
+
     "open": proyecto["open"],
     "open project": proyecto["open"],
     "open file": proyecto["open"],
