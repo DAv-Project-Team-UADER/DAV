@@ -29,7 +29,7 @@ class SpellingInputPrompt(BaseInputPrompt):
             "hache": "H", "i": "I", "jota": "J", "ka": "K", "ele": "L", "eme": "M",
             "ene": "N", "eñe": "Ñ", "ñ": "Ñ", "o": "O", "pe": "P", "cu": "Q",
             "erre": "R", "ese": "S", "te": "T", "u": "U", "uve": "V", "equis": "X",
-            "zeta": "Z", "ve": "V", "ye": "Y", "ere": "R", "ache": "H",
+            "zeta": "Z", "ve": "V", "ye": "Y", "ere": "R", "ache": "H", "pug": "U", "tú": "U",
         },
         "en": {
             "a": "A", "bee": "B", "cee": "C", "dee": "D", "e": "E", "eff": "F", "gee": "G",
@@ -38,7 +38,7 @@ class SpellingInputPrompt(BaseInputPrompt):
             "tee": "T", "u": "U", "vee": "V", "ex": "X", "why": "Y", "zee": "Z",
             # homofonos que Vosk devuelve en lugar del nombre de la letra
             "see": "C", "sea": "C", "tea": "T", "you": "U", "are": "R", "eye": "I",
-            "oh": "O", "pea": "P", "queue": "Q", "zed": "Z",
+            "oh": "O", "pea": "P", "queue": "Q", "zed": "Z", "pug": "U",
         },
         "pt": {
             "a": "A", "bê": "B", "cê": "C", "dê": "D", "e": "E", "gê": "G", "agá": "H",
