@@ -46,6 +46,8 @@ TraduceToEs = {
     "seccion compleja": views["complexsection"],
     "sección": views["complexsection"],
     "seccion": views["complexsection"],
+    "vista de sección": views["complexsection"],
+    "vista de seccion": views["complexsection"],
 
     # Vista Draft
     "vista draft": views["draft"],

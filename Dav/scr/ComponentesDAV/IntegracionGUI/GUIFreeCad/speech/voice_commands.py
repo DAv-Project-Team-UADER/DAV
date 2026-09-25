@@ -52,6 +52,7 @@ COMMAND_MAP: dict[str, list[str]] = {
     ],
     "theme_dark": [
         "dark theme", "tema oscuro", "oscuro", "dark", "negro", "tema negro",
+        "tema escuro", "escuro", "preto", "tema preto",
     ],
     "startup_on": [
         "startup on", "arranque activado", "inicialização ativada", "activado", "ativado",
