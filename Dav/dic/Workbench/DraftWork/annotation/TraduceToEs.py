@@ -41,7 +41,7 @@ TraduceToEs = {
 
 from dic.StdView.StandardViews.StandardViews import *
 
-TraduceToEs = {
+TraduceToEs.update ({
     # bottom
     'abajo':                StandardViews['bottom'],
     'inferior':             StandardViews['bottom'],
@@ -163,7 +163,7 @@ TraduceToEs = {
     'ayuda':                StandardViews['help'],
     "información":          StandardViews['help'],
     'opciones':             StandardViews['help'],
-}
+})
 
 # Cota / medir
 from measure import CreateDimension, MEASURE_PHRASES

@@ -23,11 +23,11 @@ from .ayuda import ayuda
 TraduceToEn = {
     
     # Text/ShapeString creation & synonyms
-    "create": text['create'],
-    "create text": text['create'],
-    "shape string": text['create'],
-    "add text": text['create'],
-    "text": text['create'],
+    "create": text['shapestring'],
+    "create text": text['shapestring'],
+    "shape string": text['shapestring'],
+    "add text": text['shapestring'],
+    "text": text['shapestring'],
 
     "help": text['help'],
     "info": text['help'],

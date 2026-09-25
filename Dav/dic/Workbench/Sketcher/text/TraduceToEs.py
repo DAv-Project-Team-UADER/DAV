@@ -23,12 +23,12 @@ from .ayuda import ayuda
 TraduceToEs = {
     
     # Texto / Forma de texto y sinónimos
-    "crear": text['create'],
-    "texto": text['create'],
-    "forma de texto": text['create'],
-    "crear texto": text['create'],
-    "agregar texto": text['create'],
-    "dibujar texto": text['create'],
+    "crear": text['shapestring'],
+    "texto": text['shapestring'],
+    "forma de texto": text['shapestring'],
+    "crear texto": text['shapestring'],
+    "agregar texto": text['shapestring'],
+    "dibujar texto": text['shapestring'],
 
     "ayuda": text['help'],
     "información": text['help'],
