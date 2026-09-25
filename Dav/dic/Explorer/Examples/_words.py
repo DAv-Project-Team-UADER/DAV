@@ -54,7 +54,7 @@ _JOIN = {"es": ("y",), "en": (), "pt": ("e",)}
 _MINUS = {"es": "menos", "en": "minus", "pt": "menos"}
 _SEND = {"es": "enviar", "en": "send", "pt": "enviar"}
 _DOWN = {"es": "abajo", "en": "down", "pt": "abaixo"}
-_NEXT = {"es": "avanzar", "en": "next", "pt": "avancar"}
+_NEXT = {"es": "avanzar", "en": "next", "pt": "próximo"}
 _NO = {"es": "no", "en": "no", "pt": "nao"}
 _YES = {"es": "si", "en": "yes", "pt": "sim"}
 # la palabra del decimal es «punto» en los tres idiomas; en español también se acepta «coma»

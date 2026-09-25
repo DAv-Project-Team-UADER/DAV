@@ -52,7 +52,7 @@ classDiagram
 
 | Rol | es | en | pt |
 | --- | --- | --- | --- |
-| Siguiente | siguiente, avanzar, abajo, próximo, otro | next, forward, down, advance | seguinte, próximo, avançar, abaixo |
+| Siguiente | siguiente, avanzar, abajo, próximo, otro | next, forward, down, advance | seguinte, próximo, abaixo |
 | Anterior | anterior, atrás, retroceder, arriba, previo | previous, back, up | anterior, voltar, cima |
 | Subir | subir, padre | parent, out | subir, pai |
 | Entrar | abrir, adentro | open, inside | abrir, dentro |

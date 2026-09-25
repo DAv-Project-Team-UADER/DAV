@@ -28,7 +28,6 @@ from .Geometry.geometry import geometry
 from .arcslot.arcslot import arc_slot as arcslot
 from .point.point import point
 from .square.square import square
-from .triangle.triangle import triangle
 from .oblong.oblong import oblong
 from .Root.root import root
 from .text.text import text
@@ -67,7 +66,6 @@ sketcher.update({'slot':        slot})
 sketcher.update({'square':      square})
 sketcher.update({'text':        text})
 sketcher.update({'tools':       sketcher_tools})
-sketcher.update({'triangle':    triangle})
 sketcher.update({'validate':    validate})
 sketcher.update({'view':        view})
 sketcher.update({

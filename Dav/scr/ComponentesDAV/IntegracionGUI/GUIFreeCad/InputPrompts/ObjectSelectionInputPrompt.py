@@ -29,7 +29,6 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         "next",
         "other",
         "advance",
-        "avancar",
         "seguinte",
         "outro",
         "outra",

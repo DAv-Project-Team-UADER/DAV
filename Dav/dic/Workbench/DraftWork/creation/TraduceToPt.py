@@ -19,24 +19,70 @@
 from .creation import creation
 
 TraduceToPt = {
-    "hachura":                 creation["hatch"],
-    "preencher":               creation["hatch"],
+    # Hachura
+    "hachura": creation["hatch"],
+    "preencher": creation["hatch"],
     "padrao de preenchimento": creation["hatch"],
-    
-    "ponto":                   creation["point"],
-    "marcar ponto":            creation["point"],
-    
-    "poligono":                creation["polygon"],
-    "desenhar poligono":       creation["polygon"],
-    
-    "retangulo":               creation["rectangle"],
-    "desenhar retangulo":      creation["rectangle"],
-    "desenhar quadrilatero":    creation["rectangle"],
-    "quadrilatero":            creation["rectangle"],
-    
-    "ajuda":             creation["help"],
-    "informação":       creation["help"],
-    "opções":            creation["help"]
+    "padrão de preenchimento": creation["hatch"],
+
+    # Ponto
+    "ponto": creation["point"],
+    "marcar ponto": creation["point"],
+
+    # Polígono
+    "poligono": creation["polygon"],
+    "polígono": creation["polygon"],
+    "desenhar poligono": creation["polygon"],
+    "desenhar polígono": creation["polygon"],
+
+    # Retângulo por cantos (janela de 4 valores)
+    "retangulo": creation["rectangle"],
+    "retângulo": creation["rectangle"],
+    "desenhar retangulo": creation["rectangle"],
+    "desenhar retângulo": creation["rectangle"],
+    "quadrilatero": creation["rectangle"],
+    "quadrilátero": creation["rectangle"],
+    "desenhar quadrilatero": creation["rectangle"],
+    "desenhar quadrilátero": creation["rectangle"],
+    "retangulo por cantos": creation["rectangle"],
+    "retângulo por cantos": creation["rectangle"],
+    "criar retangulo por cantos": creation["rectangle"],
+    "criar retângulo por cantos": creation["rectangle"],
+    "retangulo por pontos": creation["rectangle"],
+    "retângulo por pontos": creation["rectangle"],
+    "retangulo por coordenadas": creation["rectangle"],
+    "retângulo por coordenadas": creation["rectangle"],
+
+    # Retângulo por centro (janela de centro e tamanho)
+    "retangulo por centro": creation["rectangle_center"],
+    "retângulo por centro": creation["rectangle_center"],
+    "retangulo centrado": creation["rectangle_center"],
+    "retângulo centrado": creation["rectangle_center"],
+    "criar retangulo centrado": creation["rectangle_center"],
+    "criar retângulo centrado": creation["rectangle_center"],
+
+    # Triângulo por vértices (janela de 6 valores)
+    "triangulo": creation["triangle"],
+    "triângulo": creation["triangle"],
+    "desenhar triangulo": creation["triangle"],
+    "desenhar triângulo": creation["triangle"],
+    "criar triangulo": creation["triangle"],
+    "criar triângulo": creation["triangle"],
+    "triangulo por vertices": creation["triangle"],
+    "triângulo por vértices": creation["triangle"],
+    "criar triangulo por vertices": creation["triangle"],
+    "criar triângulo por vértices": creation["triangle"],
+    "triangulo por pontos": creation["triangle"],
+    "triângulo por pontos": creation["triangle"],
+    "triangulo por coordenadas": creation["triangle"],
+    "triângulo por coordenadas": creation["triangle"],
+
+    # Ajuda
+    "ajuda": creation["help"],
+    "informacao": creation["help"],
+    "informação": creation["help"],
+    "opcoes": creation["help"],
+    "opções": creation["help"],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

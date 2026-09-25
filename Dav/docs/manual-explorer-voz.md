@@ -104,7 +104,7 @@ Dentro de **ejemplos** (la carpeta no tiene ícono) hay dos opciones:
 
 | Opción | Palabras | Qué hace |
 | --- | --- | --- |
-| Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés y también en portugués |
+| Manual de usuario | **manual**, referencia | Abre el PDF en tu idioma: `Manual_Usuario.pdf` en español; `User_Manual.pdf` en inglés; `Manual_do_Usuario.pdf` en portugués |
 | Ejemplos | **ejemplos**, demostraciones, tutorial | Abre un selector con siete ejemplos guiados |
 
 Ejemplos guiados:

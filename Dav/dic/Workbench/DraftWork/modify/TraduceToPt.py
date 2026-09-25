@@ -35,6 +35,10 @@ TraduceToPt = {
     "borda arredondada": modify["fillet"],
     "borda": modify["fillet"],
 
+    "cortar": modify["cut"],
+    "corte": modify["cut"],
+    "subtrair": modify["cut"],
+
     "unir": modify["join"],
     "combinar": modify["join"],
     "juntar": modify["join"],

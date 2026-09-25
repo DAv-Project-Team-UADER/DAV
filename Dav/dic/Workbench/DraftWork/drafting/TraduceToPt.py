@@ -19,6 +19,12 @@
 from .drafting import drafting
 
 TraduceToPt = {
+    # Línea recta por dos puntos (ventana de 4 valores)
+    "linha": drafting["line"],
+    "linha por pontos": drafting["line"],
+    "criar linha": drafting["line"],
+    "segmento": drafting["line"],
+
     # Polilinhas (Wire)
     "polilinha":          drafting["wire"],
     "desenhar polilinha": drafting["wire"],

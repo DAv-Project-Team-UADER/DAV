@@ -28,7 +28,6 @@ def ayuda():
     print('  polyline      - Subconjunto para la creación de líneas compuestas (polilíneas).')
     print('  rectangle     - Subconjunto para la creación de rectángulos (esquinas opuestas, centrado).')
     print('  square        - Subconjunto para la creación de cuadrados regulares.')
-    print('  triangle      - Subconjunto para la creación de triángulos equiláteros.')
     print('  circle        - Subconjunto para la creación de círculos.')
     print('  arc           - Subconjunto para la creación de arcos circulares.')
     print('  ellipse       - Subconjunto para la creación de elipses, parábolas e hipérbolas.')

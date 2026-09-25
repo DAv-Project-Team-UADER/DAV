@@ -205,7 +205,7 @@ def steps() -> list:
             Path={
                 "es": ("base", "nuevo boceto"),
                 "en": ("base", "new sketch"),
-                "pt": ("base", "esboco novo"),
+                "pt": ("base", "esboço novo"),
             },
             Values=lambda language: down(language, 1) + send(language),
             Action=_threadSketch,
@@ -217,9 +217,9 @@ def steps() -> list:
                 "pt": "Desenhe o sulco: um retângulo de (4, 2) a (6, 3). Entra 1 mm na haste, que tem raio 5.",
             },
             Path={
-                "es": ("geometria", "rectangulo", "rectangulo por esquinas"),
+                "es": ("geometría", "rectángulo", "rectangulo por esquinas"),
                 "en": ("geometry", "rectangle", "rectangle by corners"),
-                "pt": ("geometria", "retangulo", "retangulo por cantos"),
+                "pt": ("geometria", "retângulo", "retangulo por cantos"),
             },
             Values=lambda language: numbers(language, 4, 2, 6, 3),
             Action=_threadProfile,
@@ -231,9 +231,9 @@ def steps() -> list:
                 "pt": "Feche o esboço e corte a rosca com uma hélice: passo 3 e altura 12. Depois escolha o desenho da lista (é o único: «enviar»).",
             },
             Path={
-                "es": ("cerrar croquis", "banco", "diseño", "cortar", "helice"),
+                "es": ("cerrar croquis", "banco", "diseño", "cortar", "hélice"),
                 "en": ("close sketch", "workbench", "design", "cut", "helix"),
-                "pt": ("fechar esboco", "trabalho", "projeto", "cortar", "helice"),
+                "pt": ("fechar esboço", "trabalho", "projeto", "cortar", "helice"),
             },
             Values=lambda language: numbers(language, 3, 12) + send(language),
             Action=_thread,
@@ -254,7 +254,7 @@ def steps() -> list:
                 "en": "See the finished screw in the isometric view.",
                 "pt": "Veja o parafuso pronto na vista isométrica.",
             },
-            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isometrica",)},
+            Path={"es": ("tres de",), "en": ("isometric",), "pt": ("isométrica",)},
             Action=_isometric,
         ),
     ]

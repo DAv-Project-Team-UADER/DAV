@@ -27,6 +27,7 @@ from .line.line import line
 from .Polygon.polygon import polygon
 from .polyline.polyline import polyline
 from .rectangle.rectangle import rectangle
+from .triangle.triangle import triangle
 from .ayuda import ayuda
 from ..new_sketch.new_sketch import _leave_sketch, _new_sketch
 
@@ -69,6 +70,7 @@ geometry = {
     'polygon': polygon,
     'polyline': polyline,
     'rectangle': rectangle,
+    'triangle': triangle,
 
     'new': _new_sketch,
     'leave': _leave_sketch,

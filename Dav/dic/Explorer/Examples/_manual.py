@@ -22,11 +22,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-# El manual solo existe en español e inglés: el portugués abre el inglés.
+# Un manual por idioma de DAV.
 _MANUALS = {
     "es": "Manual_Usuario.pdf",
     "en": "User_Manual.pdf",
-    "pt": "User_Manual.pdf",
+    "pt": "Manual_do_Usuario.pdf",
 }
 
 
@@ -61,8 +61,8 @@ def manualPath(language: str | None = None) -> Path | None:
 def openManual() -> None:
     """Open the user manual in the system PDF viewer.
 
-    Spanish opens ``Manual_Usuario.pdf``; English and Portuguese open
-    ``User_Manual.pdf``.
+    Spanish opens ``Manual_Usuario.pdf``, English ``User_Manual.pdf`` and
+    Portuguese ``Manual_do_Usuario.pdf``.
     """
     language = _language()
     path = manualPath(language)

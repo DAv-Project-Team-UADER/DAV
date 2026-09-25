@@ -35,6 +35,10 @@ TraduceToEn = {
     "fillet": modify["fillet"],
     "round": modify["fillet"],
 
+    "cut": modify["cut"],
+    "subtract": modify["cut"],
+    "cut out": modify["cut"],
+
     "join": modify["join"],
     "combine": modify["join"],
 

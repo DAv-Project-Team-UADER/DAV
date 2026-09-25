@@ -26,7 +26,7 @@ NAVIGATION_WORDS: dict[str, dict[str, tuple[str, ...]]] = {
     },
     "pt": {
         "previous": ("voltar",),
-        "next": ("avancar",),
+        "next": ("próximo",),
         "select": ("enviar",),
         "skip": ("pular",),
     },
