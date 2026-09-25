@@ -41,8 +41,7 @@ TraduceToPt= {
     'assistente de eixo para corpo': manage['wizardshaft'],
 
     "ajuda":             manage["help"],
-    "informação":       manage["help"],
-    "opções":            manage["help"]
+    "informação":       manage["help"]
 
 }
 

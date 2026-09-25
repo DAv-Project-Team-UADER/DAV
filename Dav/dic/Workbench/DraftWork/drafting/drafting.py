@@ -5,7 +5,7 @@ try:
 except ImportError:
     from selection.createobjects import CreateObjects
 from ..draftcommand import runDraftCommand
-from .._parametric import wire_by_points
+from .._parametric import line_by_points, wire_by_points
 from .ayuda import ayuda
 
 
@@ -25,6 +25,7 @@ def create_wire_objects():
 
 drafting = {
     "wire": wire_by_points,
+    "line": line_by_points,
     "interactive": wire,
     "createobjects": create_wire_objects,
     "createobjects2d": create_wire_objects,

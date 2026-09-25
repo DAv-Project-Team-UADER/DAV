@@ -37,6 +37,7 @@ modify = {
     "edit": _modify.edit_point,
     "fillet": _modify.fillet,
     "join": _modify.join,
+    "cut": _modify.cut,
     "move": _modify.move,
     "offset": _modify.offset,
     "rotate": _modify.rotate,

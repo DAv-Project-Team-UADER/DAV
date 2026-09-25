@@ -21,6 +21,12 @@
 from .drafting import drafting
 
 TraduceToEn = {
+    # Línea recta por dos puntos (ventana de 4 valores)
+    "line": drafting["line"],
+    "line by points": drafting["line"],
+    "draw line": drafting["line"],
+    "segment": drafting["line"],
+
     "wire":            drafting['wire'],
     "polyline":        drafting['wire'],
     "continuous line": drafting['wire'],

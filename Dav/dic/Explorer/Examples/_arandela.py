@@ -93,7 +93,7 @@ def _pad() -> None:
         from dic.Workbench.PartDesign.additive._parametric import _PadProfile
 
     doc = activeDoc()
-    # la misma función que usa «extruir por medida»; si el perfil no sirve solo avisa por consola
+    # la misma función que usa «dar altura»; si el perfil no sirve solo avisa por consola
     _PadProfile(doc, lastOfType(doc, "Sketcher::SketchObject"), THICKNESS)
     lastOfType(doc, "PartDesign::Pad")
     fitView()
@@ -202,9 +202,9 @@ def steps() -> list:
                 "pt": "Desenhe primeiro o furo: um círculo de centro 0, 0 e raio 3,2 (diâmetro 6,4). O raio se diz «três ponto dois».",
             },
             Path={
-                "es": ("geometria", "circulo", "circulo"),
+                "es": ("geometría", "círculo", "círculo"),
                 "en": ("geometry", "circle", "circle"),
-                "pt": ("geometria", "circulo", "circulo"),
+                "pt": ("geometria", "círculo", "círculo"),
             },
             Values=lambda language: numbers(language, 0, 0, INNER_RADIUS),
             Action=_circle(INNER_RADIUS),
@@ -216,9 +216,9 @@ def steps() -> list:
                 "pt": "Agora a borda externa: outro círculo com o mesmo centro e raio 6 (diâmetro 12).",
             },
             Path={
-                "es": ("geometria", "circulo", "circulo"),
+                "es": ("geometría", "círculo", "círculo"),
                 "en": ("geometry", "circle", "circle"),
-                "pt": ("geometria", "circulo", "circulo"),
+                "pt": ("geometria", "círculo", "círculo"),
             },
             Values=values(0, 0, OUTER_RADIUS),
             Action=_circle(OUTER_RADIUS),
@@ -230,9 +230,9 @@ def steps() -> list:
                 "pt": "Mostre a medida interna com uma restrição de diâmetro: 6,4 mm. Age sobre o primeiro círculo, o furo.",
             },
             Path={
-                "es": ("restricciones", "diametro"),
+                "es": ("restricciones", "diámetro"),
                 "en": ("constraints", "diameter"),
-                "pt": ("restricoes", "diametro"),
+                "pt": ("restrições", "diâmetro"),
             },
             Values=lambda language: numbers(language, 2 * INNER_RADIUS),
             Action=_innerDiameter,
@@ -266,14 +266,16 @@ def steps() -> list:
         ),
         ExampleStep(
             Text={
-                "es": "Extruí el croquis con PartDesign: 1,6 mm de espesor. Después elegís el dibujo de la lista (es el único: «enviar»).",
-                "en": "Extrude the sketch with PartDesign: 1.6 mm thick. Then pick the drawing from the list (it is the only one: “send”).",
-                "pt": "Extrude o croqui com PartDesign: 1,6 mm de espessura. Depois escolha o desenho da lista (é o único: «enviar»).",
+                "es": "Dale volumen al croquis con PartDesign: 1,6 mm de espesor. «dar altura» es el mismo comando que «extruir por medida», con palabras que el dictado reconoce mejor. Después elegís el dibujo de la lista (es el único: «enviar»).",
+                "en": "Give the sketch its thickness with PartDesign: 1.6 mm. “give height” is the same command as “extrude by length”, in words the dictation recognises better. Then pick the drawing from the list (it is the only one: “send”).",
+                "pt": "Dê volume ao croqui com PartDesign: 1,6 mm de espessura. «dar altura» é o mesmo comando que «extrudar por medida», com palavras que o ditado reconhece melhor. Depois escolha o desenho da lista (é o único: «enviar»).",
             },
+            # «extruir» / «extrude» no están en el vocabulario de los modelos de voz chicos:
+            # se dicta el sinónimo, que apunta al mismo comando (additive["pad_by_length"]).
             Path={
-                "es": ("banco", "diseño", "sumar", "extruir por medida"),
-                "en": ("workbench", "design", "add", "extrude by length"),
-                "pt": ("trabalho", "projeto", "aditivo", "extrudar por medida"),
+                "es": ("banco", "diseño", "sumar", "dar altura"),
+                "en": ("workbench", "design", "add", "give height"),
+                "pt": ("trabalho", "projeto", "aditivo", "dar altura"),
             },
             Values=lambda language: numbers(language, THICKNESS) + send(language),
             Action=_pad,
@@ -282,12 +284,12 @@ def steps() -> list:
             Text={
                 "es": "Ahora la hoja técnica: una página desde plantilla. En la lista elegí el tercer elemento («avanzar» dos veces) y «enviar»: es la plantilla con rótulo.",
                 "en": "Now the technical sheet: a page from a template. In the list pick the third item (“next” twice) and “send”: it is the template with a title block.",
-                "pt": "Agora a folha técnica: uma página a partir de um modelo. Na lista escolha o terceiro item («avancar» duas vezes) e «enviar»: é o modelo com carimbo.",
+                "pt": "Agora a folha técnica: uma página a partir de um modelo. Na lista escolha o terceiro item («próximo» duas vezes) e «enviar»: é o modelo com carimbo.",
             },
             Path={
-                "es": ("banco", "dibujo tecnico", "pagina", "plantilla"),
+                "es": ("banco", "dibujo técnico", "página", "plantilla"),
                 "en": ("workbench", "drawing", "page", "template page"),
-                "pt": ("trabalho", "tecnico", "pagina", "modelo"),
+                "pt": ("trabalho", "técnico", "página", "modelo"),
             },
             Values=lambda language: nextItem(language, 2) + send(language),
             Action=_page,
@@ -323,7 +325,7 @@ def steps() -> list:
             Path={
                 "es": ("anotaciones", "texto"),
                 "en": ("annotations", "text"),
-                "pt": ("anotacoes", "texto"),
+                "pt": ("anotações", "texto"),
             },
             Action=_text,
         ),

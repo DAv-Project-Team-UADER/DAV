@@ -65,9 +65,6 @@ TraduceToEn = {
     "tools": sketcher["tools"],
     "tool": sketcher["tools"],
     
-    "triangle": sketcher["triangle"],
-    "create triangle": sketcher["triangle"],
-    "draw triangle": sketcher["triangle"],
     
     "validate": sketcher["validate"],
     "validate sketch": sketcher["validate"],

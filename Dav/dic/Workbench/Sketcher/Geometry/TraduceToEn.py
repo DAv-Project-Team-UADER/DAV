@@ -32,6 +32,8 @@ TraduceToEn = {
     "rectangle":              geometry["rectangle"],
     "box":                    geometry["rectangle"],
 
+    "triangle":               geometry["triangle"],
+
     "circle":                 geometry["circle"],
 
     "arc":                    geometry["arc"],

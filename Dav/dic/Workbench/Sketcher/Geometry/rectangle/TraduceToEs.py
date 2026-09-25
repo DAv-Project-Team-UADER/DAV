@@ -21,29 +21,42 @@ from .rectangle import rectangle
 from .ayuda import ayuda
 
 TraduceToEs = {
-    
-    # Creación de rectángulo estándar y sinónimos
+    # Creación estándar (ventana de esquinas)
     "crear": rectangle['create'],
     "rectangulo": rectangle['create'],
+    "rectángulo": rectangle['create'],
     "crear rectangulo": rectangle['create'],
+    "crear rectángulo": rectangle['create'],
     "dibujar rectangulo": rectangle['create'],
-    
-    # Creación de rectángulo centrado y sinónimos
+    "dibujar rectángulo": rectangle['create'],
+
+    # Creación centrada (ventana de centro y tamaño)
     "center": rectangle['center'],
     "centro": rectangle['center'],
     "rectangulo centrado": rectangle['center'],
+    "rectángulo centrado": rectangle['center'],
     "crear rectangulo centrado": rectangle['center'],
+    "crear rectángulo centrado": rectangle['center'],
     "dibujar rectangulo centrado": rectangle['center'],
+    "dibujar rectángulo centrado": rectangle['center'],
+    "rectangulo por centro": rectangle['center'],
+    "rectángulo por centro": rectangle['center'],
 
+    # Ayuda
     "ayuda": rectangle['help'],
     "informacion": rectangle['help'],
+    "información": rectangle['help'],
     "opciones": rectangle['help'],
 
-    # Rectángulo por coordenadas dictadas
+    # Por coordenadas dictadas
     "rectangulo por esquinas": rectangle['create_by_corners'],
+    "rectángulo por esquinas": rectangle['create_by_corners'],
     "crear rectangulo por esquinas": rectangle['create_by_corners'],
+    "crear rectángulo por esquinas": rectangle['create_by_corners'],
     "rectangulo por puntos": rectangle['create_by_corners'],
+    "rectángulo por puntos": rectangle['create_by_corners'],
     "rectangulo por coordenadas": rectangle['create_by_corners'],
+    "rectángulo por coordenadas": rectangle['create_by_corners'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

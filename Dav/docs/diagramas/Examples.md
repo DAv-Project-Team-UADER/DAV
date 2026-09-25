@@ -52,7 +52,7 @@ classDiagram
 
 | Clave | Palabras (es) | Qué hace |
 | --- | --- | --- |
-| `manual` | manual, referencia, guía | `openManual()`: abre `Manual_Usuario.pdf` (español) o `User_Manual.pdf` (inglés y portugués) |
+| `manual` | manual, referencia, guía | `openManual()`: abre `Manual_Usuario.pdf` (español), `User_Manual.pdf` (inglés) o `Manual_do_Usuario.pdf` (portugués) |
 | `demos` | ejemplos, demostraciones, tutorial | `startExample()`: selector de ejemplos y reproductor |
 | `help` | ayuda | Ventana de ayuda del submenú |
 

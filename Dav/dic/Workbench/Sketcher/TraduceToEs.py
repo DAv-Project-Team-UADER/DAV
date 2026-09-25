@@ -63,12 +63,6 @@ TraduceToEs = {
   "herramientas": sketcher["tools"],
   "herramienta": sketcher["tools"],
 
-  "triangulo": sketcher["triangle"],
-  "triángulo": sketcher["triangle"],
-  "crear triangulo": sketcher["triangle"],
-  "crear triángulo": sketcher["triangle"],
-  "dibujar triangulo": sketcher["triangle"],
-  "dibujar triángulo": sketcher["triangle"],
 
   "validar": sketcher["validate"],
   "validar croquis": sketcher["validate"],

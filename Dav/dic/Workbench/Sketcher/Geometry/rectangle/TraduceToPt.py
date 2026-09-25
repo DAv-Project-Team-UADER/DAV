@@ -21,29 +21,43 @@ from .rectangle import rectangle
 from .ayuda import ayuda
 
 TraduceToPt = {
-    
-    # Criação de retângulo padrão e sinônimos
+    # Creación estándar (ventana de esquinas)
     "criar": rectangle['create'],
     "retangulo": rectangle['create'],
+    "retângulo": rectangle['create'],
     "criar retangulo": rectangle['create'],
+    "criar retângulo": rectangle['create'],
     "desenhar retangulo": rectangle['create'],
-    
-    # Criação de retângulo centrado e sinônimos
+    "desenhar retângulo": rectangle['create'],
+
+    # Creación centrada (ventana de centro y tamaño)
     "center": rectangle['center'],
     "centro": rectangle['center'],
     "retangulo centrado": rectangle['center'],
+    "retângulo centrado": rectangle['center'],
     "criar retangulo centrado": rectangle['center'],
+    "criar retângulo centrado": rectangle['center'],
     "desenhar retangulo centrado": rectangle['center'],
+    "desenhar retângulo centrado": rectangle['center'],
+    "retangulo por centro": rectangle['center'],
+    "retângulo por centro": rectangle['center'],
 
+    # Ayuda
     "ajuda": rectangle['help'],
+    "informacao": rectangle['help'],
     "informação": rectangle['help'],
+    "opcoes": rectangle['help'],
     "opções": rectangle['help'],
 
-    # Retângulo por coordenadas ditadas
+    # Por coordenadas dictadas
     "retangulo por cantos": rectangle['create_by_corners'],
+    "retângulo por cantos": rectangle['create_by_corners'],
     "criar retangulo por cantos": rectangle['create_by_corners'],
+    "criar retângulo por cantos": rectangle['create_by_corners'],
     "retangulo por pontos": rectangle['create_by_corners'],
+    "retângulo por pontos": rectangle['create_by_corners'],
     "retangulo por coordenadas": rectangle['create_by_corners'],
+    "retângulo por coordenadas": rectangle['create_by_corners'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

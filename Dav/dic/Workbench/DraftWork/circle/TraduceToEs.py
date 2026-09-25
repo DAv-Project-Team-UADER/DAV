@@ -21,7 +21,9 @@ from .circle import circle
 TraduceToEs = {
     "centro":           circle["center"],
     "circulo":          circle["center"],
+    "círculo":          circle["center"],
     "dibujar circulo":  circle["center"],
+    "dibujar círculo":  circle["center"],
     "circunferencia":   circle["center"],
     
     "ayuda":                circle["help"],

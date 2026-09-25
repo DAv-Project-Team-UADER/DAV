@@ -21,16 +21,31 @@ from .triangle import triangle
 from .ayuda import ayuda
 
 TraduceToPt = {
-    
-    # Triângulo e sinônimos
+    # Creación (ventana de vértices)
     "criar": triangle['create'],
     "triangulo": triangle['create'],
+    "triângulo": triangle['create'],
     "criar triangulo": triangle['create'],
+    "criar triângulo": triangle['create'],
     "desenhar triangulo": triangle['create'],
+    "desenhar triângulo": triangle['create'],
 
+    # Ayuda
     "ajuda": triangle['help'],
+    "informacao": triangle['help'],
     "informação": triangle['help'],
-    "opções": triangle['help']
+    "opcoes": triangle['help'],
+    "opções": triangle['help'],
+
+    # Por vértices dictados
+    "triangulo por vertices": triangle['create_by_vertices'],
+    "triângulo por vértices": triangle['create_by_vertices'],
+    "criar triangulo por vertices": triangle['create_by_vertices'],
+    "criar triângulo por vértices": triangle['create_by_vertices'],
+    "triangulo por pontos": triangle['create_by_vertices'],
+    "triângulo por pontos": triangle['create_by_vertices'],
+    "triangulo por coordenadas": triangle['create_by_vertices'],
+    "triângulo por coordenadas": triangle['create_by_vertices'],
 }
 
 from dic.StdView.StandardViews.StandardViews import *

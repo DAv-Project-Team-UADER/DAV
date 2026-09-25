@@ -54,15 +54,15 @@ def _get_tree_view() -> QTreeView | None:
 
 
 def AplicarEstilo(a, b):
-    """Aplicar el estilo visual DAV a la selección actual y fondo blanco.
+    """Aplicar el estilo visual DAV a la selección actual, con fondo blanco y cuadrícula.
 
     La lógica vive en ``integration/EstiloDav.py``; aquí solo se expone
     con la firma (a, b) del backend de voz.
     """
     try:
-        from integration.EstiloDav import aplicarEstiloDav, aplicarFondoBlanco
+        from integration.EstiloDav import aplicarEstiloDav, aplicarVistaDav
 
-        aplicarFondoBlanco()
+        aplicarVistaDav()
         for obj in FreeCADGui.Selection.getSelection():
             aplicarEstiloDav(obj)
     except Exception as e:

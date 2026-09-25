@@ -256,7 +256,6 @@ Workbench/Sketcher/
 ├── square/square.py
 ├── text/text.py
 ├── tools/tools.py
-├── triangle/triangle.py
 ├── validate/validate.py
 └── view/view.py
 ```
@@ -305,9 +304,9 @@ Workbench/Sketcher/
 | `Sketcher_CreateLine` | `Gui.runCommand('Sketcher_CreateLine', 0)` | `line/line.py` | `'line'` |
 | `Sketcher_CreatePoint` | `Gui.runCommand('Sketcher_CreatePoint', 0)` | `point/point.py` | `'point'` |
 | `Sketcher_CreatePolyline` | `Gui.runCommand('Sketcher_CreatePolyline', 0)` | `polyline/polyline.py` | `'polyline'` |
-| `Sketcher_CreateRectangle` / `Sketcher_CreateRectangle_Center` | ambos cubiertos | `rectangle/rectangle.py` | `'center'`, `'corner'` |
+| `Sketcher_CreateRectangle` / `Sketcher_CreateRectangle_Center` | ventanas por esquinas y por centro; modo mouse en `'interactive'` | `rectangle/rectangle.py` | `'create'`, `'center'` |
 | `Sketcher_CreateSquare` | `Gui.runCommand('Sketcher_CreateSquare', 0)` | `square/square.py` | `'square'` |
-| `Sketcher_CreateTriangle` | `Gui.runCommand('Sketcher_CreateTriangle', 0)` | `triangle/triangle.py` | `'triangle'` |
+| `Sketcher_CreateTriangle` | ventana de 3 vértices (`create_by_vertices`); modo mouse en `'interactive'` | `Geometry/triangle/triangle.py` | `'create'`, `'create_by_vertices'` |
 | `Sketcher_CreateCircle` / `Sketcher_Create3PointCircle` | ambos cubiertos | `circle/circle.py` | `'center'`, `'points'` |
 | `Sketcher_CreateArc` / `Sketcher_Create3PointArc` | ambos cubiertos | `arc/arc.py` | `'center'`, `'points'` |
 | `Sketcher_CreateArcSlot` | `Gui.runCommand('Sketcher_CreateArcSlot', 0)` | `arcslot/arcslot.py` | `'arcends'`, `'flatends'` |
