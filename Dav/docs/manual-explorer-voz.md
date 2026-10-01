@@ -58,7 +58,7 @@ Estando en `explorador`, se ejecutan directo:
 **archivo** → nuevo · abrir · guardar · guardar como · guardar copia ·
 revertir · combinar · importar · exportar · recientes · cargar imagen
 
-**proyecto** → abrir · guardar · exportar (sin diálogos nativos; ver más abajo)
+**proyecto** → nuevo · abrir · guardar · exportar · impresión 3D (sin diálogos nativos; ver más abajo)
 
 **editar** → deshacer · rehacer · cortar · copiar · pegar · duplicar ·
 seleccionar todo · eliminar · posición · transformar · alinear · preferencias ·
@@ -95,6 +95,13 @@ Todos los submenús aceptan además **ayuda** / información / opciones.
   *arriba*/*abajo* y *okey*), luego carpeta y nombre como en guardar. Exporta
   la selección o, si no hay, todo lo visible.
 
+- **nuevo** → crea un proyecto vacío (equivale a «nuevo» de `archivo`).
+- **impresión 3D** (también «impresión tres de», «preparar impresión») → como
+  *exportar*, pero con los formatos que leen los programas de impresión 3D (3MF, STL,
+  OBJ) y solo con piezas **sólidas**: un croquis o una hoja de TechDraw no se
+  imprimen. Si el nombre no se acepta tal cual se deletrea. Al terminar informa las
+  medidas de lo exportado.
+
 Los nombres de archivo no se pueden dictar (no están en el vocabulario de
 Vosk): por eso se recorre la lista en lugar de decirlos.
 
@@ -113,6 +120,8 @@ Ejemplos guiados:
 | --- | --- | --- |
 | **Croquis** | Un círculo con restricción de radio | Cota en 2D |
 | **Draft** | Rectángulo, círculo y polígono | Cota en 2D |
+| **Casa** | Una casa solo con figuras 2D de medidas dictadas (cuerpo, techo, puerta, ventanas, chimenea); se aprende a recortar una figura con otra | Líneas por puntos y «modificar → cortar» |
+| **Rótulo** | Un rótulo simple con texto en Draft | — |
 | **TechDraw** | Un círculo en una hoja con su rótulo | — |
 | **PartDesign** | Un tornillo: vástago, punta, cabeza, chaflán y rosca | Cota en 3D y vista «tres de» |
 | **Dado** | Un dado de 20 mm: la cara del 1 con un cilindro y las otras cinco con un boceto y un vaciado cada una | Cota en 3D, las seis vistas y «tres de» |
@@ -151,6 +160,24 @@ para agregar uno, crear un módulo con `TITLE` y `steps()` y sumarlo a `_EXAMPLE
 Las palabras de cada cuadro se comprueban contra el árbol real, en los tres idiomas, con
 `tests/verify_examples_paths.py` (ver [`probando.md`](desarrollo/probando.md)): si el
 diccionario cambia y un ejemplo deja de coincidir, esa prueba lo marca.
+
+## Correcciones por voz (desde cualquier contexto)
+
+Viven en el diccionario raíz (`Dav/dic/Correction/`), así que se dicen sin entrar a
+ningún submenú:
+
+| Para | Decí |
+| --- | --- |
+| Deshacer | **deshacer**, deshacer cambio, deshacer último |
+| Rehacer | **rehacer**, rehacer cambio |
+| Borrar el último objeto creado | **borrar último**, eliminar último, quitar último |
+| Borrar un objeto elegido | **borrar objeto**, eliminar objeto, quitar objeto |
+| Limpiar objetos con error | **borrar rotos**, limpiar rotos, limpiar errores |
+
+Borrar siempre **pide confirmación por voz** y no se puede deshacer desde acá. También
+se dicen desde cualquier lado: **medir** / cota / acotar (crea una cota), las vistas
+estándar con el zoom (**frontal**, **arriba**, **acercar**, **ajustar todo**…),
+**mover vista**, **minimizar** / **maximizar** (el panel de DAV) y **preferencias**.
 
 ## Ejemplos completos
 
@@ -199,3 +226,10 @@ Todas las palabras de este manual salen de los diccionarios reales:
 
 Si se agregan sinónimos ahí, este manual queda desactualizado: conviene
 regenerarlo desde esos archivos.
+
+El **manual de usuario en PDF** (`Manual_Usuario.pdf`, `User_Manual.pdf` y
+`Manual_do_Usuario.pdf`, en la raíz del repositorio) sí se regenera solo: lee los
+diccionarios reales (grupos, comandos, frases en cada idioma e íconos) con
+`python Dav/docs/manual/build_manual.py`. Para sumar una función basta escribir su
+descripción en `Dav/docs/manual/desc_*.py` y volver a generarlo; el script avisa qué
+comandos todavía no tienen descripción.

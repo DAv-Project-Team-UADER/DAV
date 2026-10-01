@@ -187,6 +187,31 @@ escaneado, una captura).
      líneas por voz.
 
 ==============================================================================
+5b. RESTRICCIONES DEL CROQUIS QUE ANTES NECESITABAN MOUSE   [AÚN SIN COMMITEAR]
+==============================================================================
+Preparación: un croquis con 3 elementos: una línea casi horizontal, una casi
+vertical y un círculo (el boceto se elige de una lista; los elementos por número,
+desde 1, en el orden en que se dibujaron).
+Ruta: banco de trabajo -> croquis -> restricciones -> geometricas
+
+  [ ] "horizontal vertical"  -> boceto, número de la línea. Esperado: queda
+      horizontal si es más ancha que alta, vertical si no. En un círculo debe decir
+      que es solo para líneas.
+  [ ] "bloquear"  (o "fijar posicion") -> boceto, elemento y punto ("inicio",
+      "final" o "centro"). Esperado: el punto queda fijo donde estaba. En un círculo
+      no pregunta el punto (usa el centro).
+  [ ] "coincidente unificado" -> igual que "coincidente": dos elementos y sus puntos.
+  [ ] "modo referencia"  (o "alternar conductora") -> primero crear una cota
+      (ruta: restricciones -> radio, etc.). Dice el número de la restricción en
+      pantalla; esperado: pasa a "de referencia"; repetirlo la vuelve "conductora".
+  [ ] "activar restriccion"  (o "alternar activa") -> número de cualquier
+      restricción. Esperado: se desactiva; repetido, se reactiva.
+  Errores a provocar: un número que no existe; en "modo referencia" elegir una
+  restricción que no es cota (debe rechazarla).
+Idea de prueba: dibujar un rectángulo suelto por voz, hacer "horizontal vertical"
+en cada lado, fijar una esquina con "bloquear" y acotar con "radio"/"dimensión".
+
+==============================================================================
 6. LO QUE MÁS PROBABLEMENTE FALLE (mira esto primero)
 ==============================================================================
   1. "buscar por deletreo" dentro de una lista: que la voz vuelva a la lista al

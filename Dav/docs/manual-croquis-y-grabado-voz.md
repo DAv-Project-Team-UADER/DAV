@@ -231,8 +231,8 @@ línea sobre el eje).
 
 - `transformar` te deja **elegir el croquis por voz** (`avanzar` / `okey`) y
   pregunta el ángulo. **Es la que conviene usar.**
-- `revolucion por angulo` toma el croquis **seleccionado o activo**: hay que
-  seleccionarlo antes (clic en el árbol).
+- `revolucion por angulo` también te deja **elegir el croquis por voz** (`avanzar` / `okey`) y
+  pide el ángulo, igual que `transformar`: ya no hace falta seleccionarlo con el mouse.
 - Si el perfil cruza el eje, avisa con un error y no deja objetos rotos.
 
 Código: `_revolveProfile` en

@@ -55,6 +55,30 @@ Otras hojas del módulo: `current` (objeto actual) y `count` (cuántos hay).
 
 ---
 
+## Ruta C — Borrar, buscar, pintar y dar material
+
+Además de recorrer la selección, el módulo borra, busca por nombre y cambia el
+aspecto de lo seleccionado, sin diálogos nativos (todo se elige por voz):
+
+| Para | Decir | Qué hace |
+|---|---|---|
+| Borrar el objeto elegido | **"borrar"** · "borrar objeto" · "eliminar" · "suprimir" | Primero **"siguiente"/"anterior"** hasta el objeto y luego **"borrar"** |
+| Buscar un objeto por su nombre | **"buscar por deletreo"** · "deletrear" · "buscar objeto" | Se deletrea el nombre y se selecciona el más parecido |
+| Pintar | **"pintar objeto"** · "colorear objeto" · "cambiar color" · "poner color" | Lista corta de colores (rojo, naranja, amarillo, verde, celeste, azul, violeta, rosa, marrón, negro, blanco, gris) |
+| Dar material | **"material de objeto"** · "poner material" · "elegir material" | Materiales de la biblioteca de FreeCAD (aluminio, acero, inoxidable, hierro, cobre, latón, bronce, titanio, oro, plata, PLA, ABS, plástico, acrílico, vidrio, madera); solo se ofrecen los que la instalación tenga |
+
+- El color y el material se aplican a lo que esté **seleccionado**; si no hay nada,
+  se elige antes con **"siguiente"** o **"buscar por deletreo"**.
+- En el cuadro de colores y de materiales, **"arriba"** y **"abajo"** mueven la
+  selección, **"okey"** la confirma y **"cancelar"** sale sin cambiar nada.
+- **"borrar"** quita el objeto sin pedir confirmación aparte; para borrar con
+  confirmación por voz usar los comandos globales de corrección
+  ("borrar objeto", "borrar último", "borrar rotos"; ver el manual PDF).
+
+Código: `Dav/dic/Selection/selection.py` y `_aspecto.py`.
+
+---
+
 ## Navegación general
 
 Definidos en `Dav/dic/NavCommands/TraduceToEs.py`, sirven en cualquier nivel:
@@ -115,4 +139,5 @@ entrada. Se agregó el import y seis frases.
 > `draft['modify']`, así que `modification` quedó como `'modificaciones'`.
 > Una clave repetida no da error — la última gana, en silencio.
 
-Falta replicar ambos arreglos en `TraduceToEn.py` y `TraduceToPT.py`.
+Ambos arreglos ya están replicados en `TraduceToEn.py` y `TraduceToPT.py` (raíz y
+`Workbench/DraftWork/`).
