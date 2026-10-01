@@ -240,6 +240,8 @@ def _InsertLink(Doc, Assembly, Part):
     link = Assembly.newObject("App::Link", Part.Label)
     link.LinkedObject = Part
     link.Label = Part.Label
+    # el original sigue en el documento pero oculto: el ensamblaje lo muestra a través del vínculo
+    Part.Visibility = False
     Doc.recompute()
     boxes = [_BoundBox(obj) for obj in Assembly.Group if obj.isDerivedFrom("App::Link") and obj is not link]
     boxes = [box for box in boxes if box is not None]

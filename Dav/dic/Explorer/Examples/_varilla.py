@@ -161,6 +161,7 @@ def _insertLink(position: int):
     def action() -> None:
         doc = activeDoc()
         assembly = lastOfType(doc, "Assembly::AssemblyObject")
+        # _InsertLink oculta el cuerpo original: se ven solo los vínculos del ensamblaje
         _assemblyHelpers()._InsertLink(doc, assembly, _bodies()[position])
         fitView()
 
