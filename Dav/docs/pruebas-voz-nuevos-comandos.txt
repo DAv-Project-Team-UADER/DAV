@@ -20,6 +20,8 @@ Commits que cubre esta lista
   2955b5af  Exportar para impresión 3D
   b68d5712  Color y material por voz
   (sin commitear)  Importar imagen en Draft y en Croquis
+  (sin commitear)  Ensamblaje por voz: uniones, fijar, nueva pieza, lista de materiales, vista
+                   explosionada; generar ejes; revolución por ángulo
 
 ------------------------------------------------------------------------------
 PREPARACIÓN (una sola vez, sirve para casi todas las pruebas)
@@ -212,6 +214,74 @@ Idea de prueba: dibujar un rectángulo suelto por voz, hacer "horizontal vertica
 en cada lado, fijar una esquina con "bloquear" y acotar con "radio"/"dimensión".
 
 ==============================================================================
+5c. ENSAMBLAJE Y EJES POR VOZ   [AÚN SIN COMMITEAR]
+==============================================================================
+Antes eran comandos nativos de FreeCAD que piden mouse. Ahora todo se dice. Se
+verificaron con respuestas simuladas en FreeCAD 1.1 sin interfaz (las 13 uniones, la
+pieza nueva, la lista de materiales, fijar y la estructura de la vista explosionada);
+falta probarlos con la voz y con la ventana real.
+Preparación: dos cuerpos con un cilindro cada uno (ver PREPARACIÓN) y un ensamblaje:
+  banco de trabajo -> ensamblaje -> "nuevo ensamblaje"; luego "insertar vinculo" dos
+  veces (avanzar / okey para elegir cada cuerpo).
+
+5c.1 Uniones desde el nivel Assembly  (ruta: banco de trabajo -> ensamblaje)
+  Cada una pide las dos piezas (avanzar / okey) y la cara de cada una.
+  [ ] "ensamble fijo"            [ ] "bisagra"               [ ] "junta deslizante"
+  [ ] "junta cilindrica"         [ ] "junta esferica"        [ ] "junta paralela"
+  [ ] "junta perpendicular"
+  [ ] "junta por distancia"  -> además pide la distancia (mm)
+  [ ] "junta por angulo"     -> además pide el ángulo (grados)
+  [ ] "junta de engranajes"  -> pide dos radios (mm)
+  [ ] "junta de correa"      -> pide dos radios (mm)
+  [ ] "junta de tornillo"    -> pide el radio de paso (mm)
+  [ ] "junta de cremallera"  -> pide el radio de paso (mm)
+  Esperado: aparece la junta en el árbol (carpeta Joints) y "resolver" mueve las piezas.
+
+5c.2 Las mismas uniones por la carpeta «junta»  (ruta: ensamblaje -> junta -> ...)
+  Antes entraban al comando nativo (clics sobre las caras); ahora hacen lo mismo que
+  5c.1. Probar al menos tres, por ejemplo:
+  [ ] "junta" -> "esferica"      [ ] "junta" -> "distancia"     [ ] "junta" -> "tornillo"
+  Esperado: NO aparece ningún panel de tareas de FreeCAD; pide las piezas por voz.
+
+5c.3 Fijar pieza  ("fijar pieza", "fijar", "anclar")
+  [ ] Dice qué pieza fijar (avanzar / okey). Esperado: aparece "GroundedJoint" en
+      Joints. Antes alternaba lo seleccionado con el mouse.
+
+5c.4 Pieza nueva  ("nueva pieza", "crear pieza")
+  [ ] Esperado: se crea una pieza vacía ("Pieza", "Pieza002"…) con su Body y un
+      croquis con un círculo, queda insertada en el ensamblaje y su Body queda
+      activo. NO pide guardar el documento ni otro archivo (a diferencia del
+      comando nativo). Repetirlo: el nombre no se pisa.
+
+5c.5 Lista de materiales  ("lista de materiales", "tabla de materiales")
+  [ ] Esperado: se crea "Bill of Materials" con las columnas índice, nombre,
+      descripción, archivo y cantidad; se abre la hoja. Sin panel de columnas.
+      Mirar que la cantidad cuente bien las piezas repetidas.
+
+5c.6 Vista explosionada  ("vista explosionada", "explosionar")
+  [ ] Pide la separación en mm ("treinta enter"). Esperado: aparece "Exploded View"
+      con un movimiento radial. LO MÁS DUDOSO: que la vista se vea explosionada
+      (se muestra con doble clic en "Exploded View" del árbol, o desde su menú) y que
+      "mas distancia" separe más. Solo se verificó la estructura de los objetos.
+  [ ] Con el ensamblaje vacío debe decir que no hay piezas.
+
+5c.7 Generador de ejes  (ruta: diseño de pieza -> administrar -> "generar ejes")
+  [ ] Pide la cantidad de tramos (1 a 12) y, por tramo, el largo y el diámetro.
+      Prueba: 3 tramos: 40 x 20, 30 x 30, 20 x 16. Esperado: un Body "Eje" de 90 mm
+      de largo sobre el eje Z, con un solo sólido válido (volumen 37 793 mm3).
+  [ ] Cancelar a la mitad no debe dejar nada creado.
+  Ojo: ya no calcula fuerzas ni tensiones como el asistente nativo; solo arma la geometría.
+
+5c.8 Revolución por ángulo  ("revolucion por angulo", "girar perfil")
+  [ ] Elige el croquis de una lista (avanzar / okey) y pide el ángulo; ya no hace falta
+      seleccionarlo antes con el mouse. Probar 360 y 180, y un perfil que cruce el eje
+      (debe avisar con un error y no dejar objetos rotos).
+
+Todavía NO son por voz (siguen abriendo el panel o diálogo de FreeCAD):
+  - "simulacion" (panel de movimientos y línea de tiempo)
+  - "preferencias" del banco Assembly (diálogo de configuración)
+
+==============================================================================
 6. LO QUE MÁS PROBABLEMENTE FALLE (mira esto primero)
 ==============================================================================
   1. "buscar por deletreo" dentro de una lista: que la voz vuelva a la lista al
@@ -221,6 +291,10 @@ en cada lado, fijar una esquina con "bloquear" y acotar con "radio"/"dimensión"
   4. Que el reconocedor distinga frases parecidas: "escala de vista" /
      "posicion de vista" / "direccion de vista". Si confunde, anotar qué oyó.
   5. Imagen: la proporción cuando el PNG se lee con PySide dentro de FreeCAD.
+  6. Vista explosionada (5c.6): que se vea explosionada con la ventana real.
+  7. Uniones: que "junta esferica" dicho de corrido y "junta" -> "esferica" hagan lo
+     mismo; si el reconocedor confunde "junta" con otra palabra, anotar qué oyó.
+  8. Pieza nueva (5c.4): que el Body activo permita modelar enseguida sin pasos extra.
 
 Si algo falla, pasame: qué dijiste, qué oyó DAV (el texto que muestra el cuadro)
 y el mensaje que sale en la consola de FreeCAD (los que empiezan con [DAV]).

@@ -78,6 +78,16 @@ def esc(texto: str) -> str:
     return html.escape(texto, quote=False)
 
 
+# Enlaces de los agradecimientos (los mismos que figuran en los README).
+ENLACES = {
+    "Universidad Autónoma de Entre Ríos (UADER)": "https://uader.edu.ar/",
+    "Universidade Autônoma de Entre Ríos (UADER)": "https://uader.edu.ar/",
+    "Autonomous University of Entre Ríos (UADER)": "https://uader.edu.ar/",
+    "Naitria Peralta Montoya": "https://www.instagram.com/naitria?stkn=OWkwZnZuOXN6Y2h4",
+    "Bruno Contigiani": "https://www.instagram.com/brunocontigiani_?stkn=OG1odzAybWI5OTVw",
+}
+
+
 # ------------------------------------------------------------------ íconos
 class Iconos:
     """Convierte los SVG en PNG (una vez) para que el HTML los pueda incrustar."""
@@ -483,6 +493,11 @@ def pie_y_marcadores(destino: Path, idioma: str, toc: list, paginas: dict, recta
         texto = f"{n + 1} / {total}"
         ancho = pymupdf.get_text_length(texto, fontname="helv", fontsize=8)
         pagina.insert_text((pagina.rect.width - 42 - ancho, pagina.rect.height - 28), texto, fontsize=8, fontname="helv", color=(0.39, 0.45, 0.55))
+    for pagina in doc:  # enlaces de los agradecimientos (Story no conserva los <a>)
+        for nombre, url in ENLACES.items():
+            for r in pagina.search_for(nombre):
+                pagina.insert_link({"kind": pymupdf.LINK_URI, "from": r, "uri": url})
+                pagina.draw_line((r.x0, r.y1 - 1), (r.x1, r.y1 - 1), color=(0.118, 0.227, 0.541), width=0.5)
     marcadores = [[nivel, texto, paginas[id_]] for nivel, id_, texto in toc if id_ in paginas]
     if marcadores:
         marcadores[0][0] = 1

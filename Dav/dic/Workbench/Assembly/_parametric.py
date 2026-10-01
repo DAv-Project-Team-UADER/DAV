@@ -207,6 +207,25 @@ def _CreateJoint(JointTypeName: str, Doc, Parts, Elements=None):
 _LINK_GAP = 10
 
 
+def _BoundBox(obj):
+    """Bounding box of an assembly link, or None when it has no solid yet (a new empty part)."""
+    box = App.BoundBox()
+    shapes = []
+    shape = getattr(obj, "Shape", None)
+    if shape is not None:
+        shapes.append(shape)
+    else:
+        linked = obj.getLinkedObject(True) if hasattr(obj, "getLinkedObject") else obj
+        for member in [linked, *getattr(linked, "Group", [])]:
+            member_shape = getattr(member, "Shape", None)
+            if member_shape is not None:
+                shapes.append(member_shape)
+    for shape in shapes:
+        if not shape.isNull() and shape.BoundBox.isValid():
+            box.add(shape.BoundBox)
+    return box if box.isValid() else None
+
+
 def _InsertLink(Doc, Assembly, Part):
     """Add a link to Part inside Assembly, beside the parts already inserted.
 
@@ -222,10 +241,12 @@ def _InsertLink(Doc, Assembly, Part):
     link.LinkedObject = Part
     link.Label = Part.Label
     Doc.recompute()
-    placed = [obj for obj in Assembly.Group if obj.isDerivedFrom("App::Link") and obj is not link]
-    if placed:
+    boxes = [_BoundBox(obj) for obj in Assembly.Group if obj.isDerivedFrom("App::Link") and obj is not link]
+    boxes = [box for box in boxes if box is not None]
+    own = _BoundBox(link)
+    if boxes and own is not None:
         # a la derecha de las ya insertadas, para que no se pisen
-        shift = max(obj.Shape.BoundBox.XMax for obj in placed) + _LINK_GAP - link.Shape.BoundBox.XMin
+        shift = max(box.XMax for box in boxes) + _LINK_GAP - own.XMin
         link.Placement = App.Placement(App.Vector(shift, 0, 0), App.Rotation())
         Doc.recompute()
     return link
@@ -620,3 +641,165 @@ def rack_pinion_joint(pitch_radius: float) -> None:
         rack_pinion_joint(10)
     """
     _RatioJoint("RackPinion", "Rack-and-pinioned", pitch_radius, None)
+
+
+def _createPart(doc, name: str):
+    """Create an empty ``App::Part`` holding a Body with a base sketch (a 5 mm circle).
+
+    Same structure FreeCAD's own "New part" builds, minus its dialog.
+
+    Returns:
+        ``(part, body)``.
+    """
+    import Part
+
+    part = doc.addObject("App::Part", name)
+    body = part.newObject("PartDesign::Body", "Body")
+    sketch = body.newObject("Sketcher::SketchObject", "Sketch")
+    sketch.MapMode = "FlatFace"
+    support = "AttachmentSupport" if hasattr(sketch, "AttachmentSupport") else "Support"
+    plane = next((f for f in body.Origin.OriginFeatures if f.Role == "XY_Plane"), body.Origin.OriginFeatures[3])
+    setattr(sketch, support, [(plane, "")])
+    sketch.addGeometry(Part.Circle(App.Vector(0, 0), App.Vector(0, 0, 1), 5), False)
+    doc.recompute()
+    return part, body
+
+
+def new_part() -> None:
+    """Create a new part inside the assembly, without FreeCAD's dialog.
+
+    Crea una pieza vacía (Part con su Body y un croquis base), la inserta como vínculo en
+    el ensamblaje y deja su Body activo para poder modelarla enseguida. La pieza queda en
+    el mismo documento (no pide guardar otro archivo) y con nombre automático: «Pieza»,
+    «Pieza001»…
+
+    Example::
+
+        new_part()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+    assembly = _ActiveAssembly(doc)
+    if assembly is None:
+        print("[assembly] Error: no assembly found. Say 'crear ensamblaje' first.")
+        return
+
+    name, number = "Pieza", 0
+    while doc.getObject(name) is not None:
+        number += 1
+        name = f"Pieza{number:03d}"
+    part, body = _createPart(doc, name)
+    link = _InsertLink(doc, assembly, part)
+    try:
+        Gui.activeView().setActiveObject("pdbody", body)
+    except Exception:
+        pass
+    _RegisterObject(link)
+    print(f"[assembly] New part '{part.Label}' inserted")
+
+
+_BOM_COLUMNS = ["Index", "Name", "Description", "File Name", "Quantity"]
+
+
+def bom() -> None:
+    """Create the assembly's bill of materials with the usual columns, without a dialog.
+
+    Columnas: índice, nombre, descripción, nombre de archivo y cantidad, con el detalle de
+    piezas y subensamblajes activado.
+
+    Example::
+
+        bom()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+    assembly = _ActiveAssembly(doc)
+    if assembly is None:
+        print("[assembly] Error: no assembly found. Say 'crear ensamblaje' first.")
+        return
+
+    group = next((o for o in assembly.Group if o.TypeId == "Assembly::BomGroup"), None)
+    if group is None:
+        group = assembly.newObject("Assembly::BomGroup", "Bills of Materials")
+    table = group.newObject("Assembly::BomObject", "Bill of Materials")
+    table.columnsNames = list(_BOM_COLUMNS)
+    table.onlyParts = False
+    table.detailParts = True
+    table.detailSubAssemblies = True
+    table.recompute()
+    doc.recompute()
+    try:
+        table.ViewObject.showSheetMdi()
+    except Exception:
+        pass
+    _RegisterObject(table)
+    print(f"[assembly] Bill of materials created for '{assembly.Label}'")
+
+
+def exploded_view(distance: float | None = None) -> None:
+    """Create a radial exploded view of the assembly, asking the spacing by voice.
+
+    Crea la vista explosionada con un solo movimiento radial que aleja todas las piezas del
+    centro del ensamblaje. FreeCAD la arma con un panel de arrastre con el mouse; acá basta
+    con decir cuánto separar (en mm, aproximado: las piezas más lejanas se separan más).
+
+    Args:
+        distance: Spacing in millimetres. When None it is asked by voice.
+
+    Example::
+
+        exploded_view(30)
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+    assembly = _ActiveAssembly(doc)
+    if assembly is None:
+        print("[assembly] Error: no assembly found. Say 'crear ensamblaje' first.")
+        return
+    links = [o for o in assembly.Group if o.isDerivedFrom("App::Link")]
+    if not links:
+        print("[assembly] Error: the assembly has no parts to explode. Insert some first.")
+        return
+
+    if distance is None:
+        from .._prompts import askNumber
+
+        distance = askNumber("Vista explosionada", "Decí cuánto separar las piezas, en milímetros (por ejemplo 30)")
+        if distance is None:
+            print("[assembly] Exploded view cancelled.")
+            return
+    if distance <= 0:
+        print(f"[assembly] Error: the spacing must be greater than zero (got {distance}).")
+        return
+
+    try:
+        import CommandCreateView
+        import UtilsAssembly
+    except ImportError:
+        print("[assembly] Error: the Assembly workbench is not available.")
+        return
+
+    group = UtilsAssembly.getViewGroup(assembly)
+    view = group.newObject("App::FeaturePython", "Exploded View")
+    CommandCreateView.ExplodedView(view)
+    step = assembly.newObject("App::FeaturePython", "Move")
+    CommandCreateView.ExplodedViewStep(step, 1)  # 1 = «Radial»
+    try:
+        CommandCreateView.ViewProviderExplodedView(view.ViewObject)
+        CommandCreateView.ViewProviderExplodedViewStep(step.ViewObject)
+    except Exception:
+        pass  # sin interfaz no hay vista
+    step.MovementTransform = App.Placement(App.Vector(distance, 0, 0), App.Rotation())
+    step.References = [assembly, [f"{link.Name}." for link in links]]
+    moves = view.Group
+    moves.append(step)
+    view.Group = moves
+    doc.recompute()
+    _RegisterObject(view)
+    print(f"[assembly] Exploded view of {len(links)} part/s, spacing {distance:g}")

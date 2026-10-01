@@ -14,22 +14,39 @@
 # Deberías haber recibido una copia de la Licencia Pública General GNU
 # junto con este programa. Si no es así, consulte <http://www.gnu.org/licenses/>.
 
-import FreeCADGui as Gui
 from .ayuda import ayuda
+from .._parametric import (
+    angle_joint,
+    ball_joint,
+    belt_joint,
+    cylindrical_joint,
+    distance_joint,
+    fixed_joint,
+    gears_joint,
+    parallel_joint,
+    perpendicular_joint,
+    rack_pinion_joint,
+    revolute_joint,
+    screw_joint,
+    slider_joint,
+)
 
+# Las mismas uniones por voz que el nivel Assembly: las piezas y la cara de cada una se eligen
+# con avanzar/okey y los valores (distancia, ángulo, radios) se dictan. Antes esta carpeta
+# llamaba a los comandos nativos de FreeCAD, que piden clics sobre las caras.
 joint = {
-    'angle':         lambda: Gui.runCommand('Assembly_CreateJointAngle', 0),
-    'ball':          lambda: Gui.runCommand('Assembly_CreateJointBall', 0),
-    'parallel':      lambda: Gui.runCommand('Assembly_CreateJointParallel', 0),
-    'perpendicular': lambda: Gui.runCommand('Assembly_CreateJointPerpendicular', 0),
-    'belt':          lambda: Gui.runCommand('Assembly_CreateJointBelt', 0),
-    'gears':         lambda: Gui.runCommand('Assembly_CreateJointGears', 0),
-    'rackpinion':    lambda: Gui.runCommand('Assembly_CreateJointRackPinion', 0),
-    'screw':        lambda: Gui.runCommand('Assembly_CreateJointScrew', 0),
-    'cylindrical':  lambda: Gui.runCommand('Assembly_CreateJointCylindrical', 0),
-    'distance':     lambda: Gui.runCommand('Assembly_CreateJointDistance', 0),
-    'fixed':        lambda: Gui.runCommand('Assembly_CreateJointFixed', 0),
-    'revolute':     lambda: Gui.runCommand('Assembly_CreateJointRevolute', 0),
-    'slider':       lambda: Gui.runCommand('Assembly_CreateJointSlider', 0),
+    'angle':         angle_joint,
+    'ball':          ball_joint,
+    'parallel':      parallel_joint,
+    'perpendicular': perpendicular_joint,
+    'belt':          belt_joint,
+    'gears':         gears_joint,
+    'rackpinion':    rack_pinion_joint,
+    'screw':         screw_joint,
+    'cylindrical':   cylindrical_joint,
+    'distance':      distance_joint,
+    'fixed':         fixed_joint,
+    'revolute':      revolute_joint,
+    'slider':        slider_joint,
     'help':         ayuda,
 }

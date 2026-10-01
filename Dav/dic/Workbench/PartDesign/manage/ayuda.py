@@ -4,7 +4,7 @@ def ayuda():
     print('  movefeatureintree - Reordena objetos dentro del árbol de un Body')
     print('  movetip           - Define una operación como la Punta (Tip) del Body')
     print('  preferences       - Abre las preferencias de FreeCAD / PartDesign')
-    print('  wizardshaft       - Asistente para crear ejes con análisis de fuerzas')
+    print('  wizardshaft       - Crea un eje escalonado por voz: se dicta la cantidad de tramos y, de cada uno, largo y diámetro')
     print('\nPrecondiciones:')
     print('  - movefeature y movefeatureintree requieren tener seleccionada una característica (feature) del árbol.')
     print('  - movetip requiere tener seleccionada una característica del Body activo para definirla como Tip.')

@@ -101,7 +101,7 @@ D = {
     "workbench/partdesign/manage/movefeatureintree": ("Reordena operaciones dentro del árbol de un cuerpo.", "Reorders features within a body's tree.", "Reordena operações dentro da árvore de um corpo.", "body"),
     "workbench/partdesign/manage/movetip": ("Define una operación como la punta (Tip) del cuerpo.", "Sets a feature as the body's Tip.", "Define uma operação como a ponta (Tip) do corpo.", "body"),
     "workbench/partdesign/manage/preferences": ("Abre las preferencias de PartDesign.", "Opens the PartDesign preferences.", "Abre as preferências do PartDesign.", "none"),
-    "workbench/partdesign/manage/wizardshaft": ("Asistente para crear ejes con análisis de fuerzas.", "Wizard to create shafts with force analysis.", "Assistente para criar eixos com análise de forças.", "none"),
+    "workbench/partdesign/manage/wizardshaft": ("Crea un eje escalonado por voz: se dicta la cantidad de tramos y, de cada uno, el largo y el diámetro (eje en Z).", "Creates a stepped shaft by voice: you dictate the number of sections and each one's length and diameter (axis along Z).", "Cria um eixo escalonado por voz: dita-se o número de trechos e, de cada um, o comprimento e o diâmetro (eixo em Z).", "none"),
 
     # --------------------------------------------------------------- Sketcher
     "workbench/sketcher": ("Croquis 2D con geometría, restricciones y herramientas de edición.",
