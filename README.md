@@ -57,11 +57,11 @@ It also makes use of third-party technologies and libraries under various open-s
 
 ## Acknowledgements
 
-We would like to extend our special thanks to the [**Faculty of Science and Technology, Concepción del Uruguay campus, of the Autonomous University of Entre Ríos (UADER)**](https://fcytcdelu.uader.edu.ar/), for providing us with the space and resources necessary to carry out this project.
+We would like to extend our special thanks to the [**Faculty of Science and Technology, Concepción del Uruguay campus, of the Universidad Autónoma de Entre Ríos (UADER)**](https://fcytcdelu.uader.edu.ar/), for providing us with the space and resources necessary to carry out this project.
 
 - To the teachers in charge of the project, Eduardo Velazquez and Guillermo Gerard.
 - To Jesús Valenzuela and Bernabe Arias, for their collaboration, support, and guidance throughout the process.
-- To the communicators Naitria Peralta Montoya and Bruno Contigiani, for their collaboration and contributions to the development and dissemination of the project.
+- To the communicators [Naitria Peralta Montoya](https://www.instagram.com/naitria?stkn=OWkwZnZuOXN6Y2h4) and [Bruno Contigiani](https://www.instagram.com/brunocontigiani_?stkn=OG1odzAybWI5OTVw), for their collaboration and contributions to the development and dissemination of the project.
 - To [**INTECLAB**](http://fcytcdelu.uader.edu.ar/investigacionlaboratoriointeclab), for their reviews and guidance.
 
 To everyone who, in one way or another, contributed to making this project possible, thank you very much.

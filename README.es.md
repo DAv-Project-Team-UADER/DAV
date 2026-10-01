@@ -61,7 +61,7 @@ Queremos agradecer especialmente a la [**Facultad de Ciencia y Tecnología, sede
 
 - A los docentes a cargo del proyecto, Eduardo Velazquez y Guillermo Gerard.
 - A Jesús Valenzuela y Bernabe Arias, por su colaboración, acompañamiento y orientación durante el proceso.
-- A los comunicadores Naitria Peralta Montoya y Bruno Contigiani, por su colaboración y aportes en el desarrollo y la difusión del proyecto.
+- A los comunicadores [Naitria Peralta Montoya](https://www.instagram.com/naitria?stkn=OWkwZnZuOXN6Y2h4) y [Bruno Contigiani](https://www.instagram.com/brunocontigiani_?stkn=OG1odzAybWI5OTVw), por su colaboración y aportes en el desarrollo y la difusión del proyecto.
 - Al [**INTECLAB**](http://fcytcdelu.uader.edu.ar/investigacionlaboratoriointeclab), por sus revisiones y orientación.
 
 A todas las personas que, de una u otra manera, contribuyeron a que este proyecto fuera posible, muchas gracias.
