@@ -48,12 +48,13 @@ DAV is currently in an early **MVP** (*Minimum Viable Product*) stage. It focuse
 ## Documentation
 
 - [User Manual (PDF)](User_Manual.pdf)
+- [Development documentation](Dav/docs/en/README.md)
 
 ## License
 
 This project is distributed under the [**GNU GPL v3**](https://www.gnu.org/licenses/gpl-3.0.html) license.
 
-It also makes use of third-party technologies and libraries under various open-source licenses, including components associated with [**FreeCAD**](https://www.freecad.org/index.php), Qt/PySide, and Vosk.
+It also makes use of third-party technologies and libraries under various open-source licenses, including components associated with [**FreeCAD**](https://www.freecad.org/index.php), [Qt](https://www.qt.io/)/[PySide](https://doc.qt.io/qtforpython-6/), and [Vosk](https://alphacephei.com/vosk/).
 
 ## Acknowledgements
 
