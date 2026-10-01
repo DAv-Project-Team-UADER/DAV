@@ -99,6 +99,26 @@ TraduceToEs = {
     "deletreo": selection["spell"],
     "buscar": selection["spell"],
 
+    # color — pintar lo seleccionado (o el objeto elegido) con un color de la lista
+    "pintar objeto": selection["color"],
+    "pintar pieza": selection["color"],
+    "colorear objeto": selection["color"],
+    "colorear pieza": selection["color"],
+    "cambiar color": selection["color"],
+    "color de objeto": selection["color"],
+    "color de pieza": selection["color"],
+    "poner color": selection["color"],
+    "elegir color": selection["color"],
+
+    # material — material de la biblioteca de FreeCAD (aluminio, acero, PLA...)
+    "material de objeto": selection["material"],
+    "material de pieza": selection["material"],
+    "material del objeto": selection["material"],
+    "material de la pieza": selection["material"],
+    "poner material": selection["material"],
+    "elegir material": selection["material"],
+    "usar material": selection["material"],
+
     "ayuda": ayuda,
     "help": ayuda,
 }

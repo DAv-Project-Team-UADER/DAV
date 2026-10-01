@@ -22,6 +22,7 @@ from pathlib import Path
 import FreeCAD as App
 
 from .ayuda import ayuda
+from ._aspecto import paintObject, setMaterial
 
 
 def _load_object_selection():
@@ -112,5 +113,7 @@ selection = {
     'count': ObjectCount,
     'delete': DeleteSelected,
     'spell': SpellSearch,
+    'color': paintObject,
+    'material': setMaterial,
     'help': ayuda,
 }

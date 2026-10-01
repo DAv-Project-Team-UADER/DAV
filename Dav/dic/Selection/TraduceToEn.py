@@ -90,6 +90,22 @@ TraduceToEn = {
     "spell": selection["spell"],
     "search": selection["spell"],
 
+    # color — paint the selection (or the chosen object) with a colour from the list
+    "paint object": selection["color"],
+    "paint part": selection["color"],
+    "color object": selection["color"],
+    "change color": selection["color"],
+    "set color": selection["color"],
+    "choose color": selection["color"],
+    "object color": selection["color"],
+
+    # material — material from the FreeCAD library (aluminum, steel, PLA...)
+    "object material": selection["material"],
+    "part material": selection["material"],
+    "pick material": selection["material"],
+    "choose material": selection["material"],
+    "define material": selection["material"],
+
     "help": ayuda,
 }
 

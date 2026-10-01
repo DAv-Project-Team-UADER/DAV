@@ -94,6 +94,22 @@ TraduceToPt = {
     "procurar": selection["spell"],
     "buscar": selection["spell"],
 
+    # cor — pintar a seleção (ou o objeto escolhido) com uma cor da lista
+    "pintar objeto": selection["color"],
+    "pintar peça": selection["color"],
+    "pintar peca": selection["color"],
+    "colorir objeto": selection["color"],
+    "mudar cor": selection["color"],
+    "escolher cor": selection["color"],
+    "definir cor": selection["color"],
+
+    # material — material da biblioteca do FreeCAD (alumínio, aço, PLA...)
+    "material do objeto": selection["material"],
+    "material da peça": selection["material"],
+    "material da peca": selection["material"],
+    "escolher material": selection["material"],
+    "trocar material": selection["material"],
+
     "ajuda": ayuda,
     "help": ayuda,
 }

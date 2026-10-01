@@ -116,6 +116,7 @@ def _prompts():
 
 
 def _language() -> str:
+    _prompts()._ensure_input_prompts_on_path()
     from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
 
     return PlaneGrammarSwitcher.CurrentLanguage()

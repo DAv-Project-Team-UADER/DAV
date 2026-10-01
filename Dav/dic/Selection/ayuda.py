@@ -7,4 +7,6 @@ def ayuda():
     print(" current     - Show the name of the current object")
     print(" count       - Show the number of objects in the list")
     print(" delete      - Delete the currently selected object (use next/previous then delete/borrar)")
+    print(" color       - Paint the selected objects with a colour picked by voice ('cambiar color')")
+    print(" material    - Give the selected objects a library material picked by voice ('poner material')")
     print(" spell       - Spell an object's name ('buscar por deletreo') and select the closest match")
