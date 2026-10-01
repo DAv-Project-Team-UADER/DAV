@@ -39,6 +39,15 @@ TraduceToPt = {
     "exportar projeto": proyecto["export"],
     "exportar arquivo": proyecto["export"],
 
+    # impressão 3D: só peças sólidas, formatos de fatiador (3MF, STL, OBJ)
+    "impressão 3d": proyecto["print3d"],
+    "impressao 3d": proyecto["print3d"],
+    "impressão três d": proyecto["print3d"],
+    "exportar para impressão": proyecto["print3d"],
+    "exportar para impressao": proyecto["print3d"],
+    "preparar impressão": proyecto["print3d"],
+    "preparar impressao": proyecto["print3d"],
+
     "ajuda": proyecto["help"],
     "informação": proyecto["help"],
     "opções": proyecto["help"],

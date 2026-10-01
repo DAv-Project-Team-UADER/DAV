@@ -39,6 +39,13 @@ TraduceToEn = {
     "export project": proyecto["export"],
     "export file": proyecto["export"],
 
+    # 3D printing: solid parts only, slicer formats (3MF, STL, OBJ)
+    "3d print": proyecto["print3d"],
+    "3d printing": proyecto["print3d"],
+    "three d print": proyecto["print3d"],
+    "export for printing": proyecto["print3d"],
+    "prepare print": proyecto["print3d"],
+
     "help": proyecto["help"],
     "info": proyecto["help"],
     "options": proyecto["help"],
