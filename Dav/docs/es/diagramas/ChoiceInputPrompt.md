@@ -78,7 +78,7 @@ askChoice("Grabar texto", "¿Relieve o perforación?", [
 ```
 
 Se crea desde `askChoice` en
-[`_prompts.py`](../../dic/Workbench/_prompts.py), que además acota la gramática
+[`_prompts.py`](../../../dic/Workbench/_prompts.py), que además acota la gramática
 de Vosk mientras el diálogo está abierto y la restaura al terminar.
 
 ## Notas de diseño

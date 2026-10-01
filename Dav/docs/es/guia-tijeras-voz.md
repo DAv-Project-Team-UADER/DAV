@@ -4,9 +4,9 @@ Cómo dibujar por voz en DAV un ensamblaje de tijera (2 hojas, 2 mangos y 1 pern
 ponerlo en un plano técnico con rótulo ANSI, con una vista lateral (tijera abierta al 50 %,
 con eje de simetría) y una vista isométrica (tijera cerrada).
 
-![Plano terminado](ejemplo-tijeras/tijeras_dav.png)
+![Plano terminado](../ejemplo-tijeras/tijeras_dav.png)
 
-Archivos para comparar con tu resultado, en [ejemplo-tijeras/](ejemplo-tijeras/):
+Archivos para comparar con tu resultado, en [ejemplo-tijeras/](../ejemplo-tijeras/):
 
 | Archivo | Qué es |
 |---|---|

@@ -73,7 +73,7 @@ Uso completo: [`manual-croquis-y-grabado-voz.md`](../manual-croquis-y-grabado-vo
 | --- | --- |
 | [`Examples`](Examples.md) | Submenú del Explorer: manual de usuario y ejemplos guiados |
 
-Cómo está organizado el árbol completo: [`Dav/dic/CONTEXT.md`](../../dic/CONTEXT.md).
+Cómo está organizado el árbol completo: [`Dav/dic/CONTEXT.md`](../../../dic/CONTEXT.md).
 
 ## Interfaz y configuración
 

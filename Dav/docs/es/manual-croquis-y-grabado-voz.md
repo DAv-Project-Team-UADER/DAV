@@ -61,9 +61,9 @@ Se navega con **arriba** / **abajo** y se confirma con **okey** (o **cancelar**)
 - Sale igual desde los tres bancos: PartDesign tiene su versión propia; el de
   Part y el de Geometry de Sketcher comparten la del Sketcher.
 
-Código: [`_faces.py`](../dic/Workbench/Sketcher/new_sketch/_faces.py),
-[`new_sketch.py` del Sketcher](../dic/Workbench/Sketcher/new_sketch/new_sketch.py) y
-[`new_sketch.py` de PartDesign](../dic/Workbench/PartDesign/base/new_sketch.py).
+Código: [`_faces.py`](../../dic/Workbench/Sketcher/new_sketch/_faces.py),
+[`new_sketch.py` del Sketcher](../../dic/Workbench/Sketcher/new_sketch/new_sketch.py) y
+[`new_sketch.py` de PartDesign](../../dic/Workbench/PartDesign/base/new_sketch.py).
 
 ---
 
@@ -85,7 +85,7 @@ diseño de pieza → restar → agujero ciego → (diámetro) → (profundidad)
 Se usa el mismo patrón del dado: círculos en cada cara y `agujero ciego`.
 
 Código: `blind_hole_by_size` en
-[`subtractive/_parametric.py`](../dic/Workbench/PartDesign/subtractive/_parametric.py).
+[`subtractive/_parametric.py`](../../dic/Workbench/PartDesign/subtractive/_parametric.py).
 
 > **`agujero por medidas` sigue roto.** Ver [Pendientes](#pendientes-y-hallazgos).
 
@@ -163,11 +163,11 @@ extremo, y el texto se dibuja plano sobre ese punto.
 Las opciones `XY` / `XZ` / `YZ` aparecen igual, pero en una pieza centrada pasan
 por **adentro** y no sirven para grabar.
 
-Código: [`engrave.py`](../dic/Workbench/PartDesign/modify/engrave.py),
-[`SpellingInputPrompt.py`](../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/InputPrompts/SpellingInputPrompt.py),
-[`ChoiceInputPrompt.py`](../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/InputPrompts/ChoiceInputPrompt.py)
+Código: [`engrave.py`](../../dic/Workbench/PartDesign/modify/engrave.py),
+[`SpellingInputPrompt.py`](../../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/InputPrompts/SpellingInputPrompt.py),
+[`ChoiceInputPrompt.py`](../../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/InputPrompts/ChoiceInputPrompt.py)
 y los ayudantes `askChoice` / `askText` en
-[`_prompts.py`](../dic/Workbench/_prompts.py). El ícono es `engrave.svg`, en la
+[`_prompts.py`](../../dic/Workbench/_prompts.py). El ícono es `engrave.svg`, en la
 misma carpeta que `engrave.py`.
 
 ```mermaid
@@ -236,7 +236,7 @@ línea sobre el eje).
 - Si el perfil cruza el eje, avisa con un error y no deja objetos rotos.
 
 Código: `_revolveProfile` en
-[`additive/_parametric.py`](../dic/Workbench/PartDesign/additive/_parametric.py).
+[`additive/_parametric.py`](../../dic/Workbench/PartDesign/additive/_parametric.py).
 
 ### Cerrar croquis
 
@@ -256,8 +256,8 @@ salir del croquis por voz.
   contextos, esa confusión ya no ocurre: se probó en los 29 contextos del Sketcher.
 
 Código: `_leave_sketch` en
-[`new_sketch.py` del Sketcher](../dic/Workbench/Sketcher/new_sketch/new_sketch.py)
-y `enterPartDesignContext` en [`_display.py`](../dic/Workbench/_display.py).
+[`new_sketch.py` del Sketcher](../../dic/Workbench/Sketcher/new_sketch/new_sketch.py)
+y `enterPartDesignContext` en [`_display.py`](../../dic/Workbench/_display.py).
 
 ---
 
@@ -275,7 +275,7 @@ listado de texto del historial también los sigue mostrando.
 | stdview y sus submenús | todos |
 
 Código: `_is_view_command` y `_in_view_context` en
-[`dav_dock_panel.py`](../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/integration/dav_dock_panel.py),
+[`dav_dock_panel.py`](../../scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/integration/dav_dock_panel.py),
 con tests en `tests/test_dav_dock_panel.py`.
 
 ---

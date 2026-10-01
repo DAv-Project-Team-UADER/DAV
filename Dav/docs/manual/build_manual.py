@@ -22,6 +22,9 @@ from pathlib import Path
 
 import pymupdf
 
+# Qt real, importado antes de que arbol.py simule PySide6 (se usa para rasterizar los íconos).
+from PySide6 import QtCore, QtGui, QtSvg  # noqa: F401
+
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
@@ -103,14 +106,32 @@ class Iconos:
             return self.hechos[svg]
         destino = f"i{len(self.hechos)}.png"
         try:
-            pagina = pymupdf.open(svg)[0]
-            escala = 64 / max(pagina.rect.width, pagina.rect.height)
-            pagina.get_pixmap(matrix=pymupdf.Matrix(escala, escala), alpha=True).save(str(self.carpeta / destino))
+            self._con_qt(svg, self.carpeta / destino)
         except Exception as error:
             print(f"  [icono] {svg}: {error}", file=sys.stderr)
             destino = None
         self.hechos[svg] = destino
         return destino
+
+    @staticmethod
+    def _con_qt(svg, destino: Path) -> None:
+        """Rasteriza con QtSvg (el mismo motor que FreeCAD): MuPDF pierde los degradados y deja el ícono negro."""
+        from PySide6.QtCore import Qt
+        from PySide6.QtGui import QGuiApplication, QImage, QPainter
+        from PySide6.QtSvg import QSvgRenderer
+
+        QGuiApplication.instance() or QGuiApplication([])
+        render = QSvgRenderer(str(svg))
+        if not render.isValid():
+            raise ValueError("SVG no válido")
+        tam = render.defaultSize()
+        escala = 64 / max(tam.width(), tam.height(), 1)
+        imagen = QImage(max(1, round(tam.width() * escala)), max(1, round(tam.height() * escala)), QImage.Format_ARGB32)
+        imagen.fill(Qt.white)
+        pintor = QPainter(imagen)
+        render.render(pintor)
+        pintor.end()
+        imagen.save(str(destino))
 
     def img(self, svg, px: int = 22) -> str:
         nombre = self.archivo(svg)
