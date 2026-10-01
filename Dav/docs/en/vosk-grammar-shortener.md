@@ -4,8 +4,7 @@ How DAV limits what the recognizer can hear to the valid commands of the
 active navigation context, instead of letting it compete against the model's
 entire vocabulary.
 
-Solved in PR #178 (integrates #176 by SoPerez1). The analysis that motivated it
-is in [`pendientes-dav.md`](pendientes-dav.md) §10.
+Solved in PR #178 (integrates #176 by SoPerez1).
 
 ---
 

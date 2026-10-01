@@ -174,14 +174,14 @@ preferencias y mostrar u ocultar el panel.
 
 | Regla | Por qué |
 | --- | --- |
-| **Los submenús van anidados bajo su propia clave, nunca aplanados.** `explorer.update({'file': file})`, jamás `explorer.update(file)` | Aplanar pisa en silencio las claves repetidas (`help`, `create`…) y saca a la carpeta del árbol navegable, con lo que su `TraduceTo*` no se lee nunca. Lo verifica `tests/test_real_dictionaries.py`. Ver `pendientes-dav.md` §4 |
+| **Los submenús van anidados bajo su propia clave, nunca aplanados.** `explorer.update({'file': file})`, jamás `explorer.update(file)` | Aplanar pisa en silencio las claves repetidas (`help`, `create`…) y saca a la carpeta del árbol navegable, con lo que su `TraduceTo*` no se lee nunca. Lo verifica `tests/test_real_dictionaries.py`. |
 | **Las claves internas son una palabra en inglés** y no repiten el contexto del padre | Dentro de `arc/` se dice `center`, no `arc_from_center` |
 | **Las frases habladas, en cada idioma, van solo en `TraduceTo*`** | El maestro no conoce idiomas |
 | **`TraduceTo*` enlaza por objeto** (`print_cmds['print']`), no duplica funciones | Un solo lugar donde cambiar lo que hace un comando |
 | **`ayuda.py` en cada carpeta**, enlazado como `'help'` | Mantiene la ayuda del nivel al día |
 | **Un ícono por clave, con su mismo nombre** (`print.svg`) | El panel lo busca por el nombre de la clave. Dos SVG con el mismo nombre en carpetas distintas comparten ícono |
-| **Los imports de `dic/` tienen que estar limpios** | Un solo import roto en una hoja profunda puede dejar al `Browser` sin comandos, y no avisa. Ver `pendientes-dav.md` §6 |
-| **Un solo punto de comparación de frases** | Se normaliza con `DictionaryLoader.NormalizeSpoken` (sin tildes, minúsculas). Ver `pendientes-dav.md` §7 |
+| **Los imports de `dic/` tienen que estar limpios** | Un solo import roto en una hoja profunda puede dejar al `Browser` sin comandos, y no avisa. |
+| **Un solo punto de comparación de frases** | Se normaliza con `DictionaryLoader.NormalizeSpoken` (sin tildes, minúsculas). |
 | **Cabezal de licencia en cada archivo nuevo** | Ver `CLAUDE.md` |
 
 ---
@@ -243,7 +243,6 @@ Cada submenú tiene su propia carpeta con el mismo esquema, y así hasta las hoj
 | Crear o reutilizar un diálogo de voz | [`agregar-prompt.md`](../docs/es/desarrollo/agregar-prompt.md) |
 | Probar sin abrir la interfaz | [`probando.md`](../docs/es/desarrollo/probando.md) |
 | Ver las clases del motor | [`diagramas/`](../docs/es/diagramas/README.md) |
-| Saber qué sigue abierto antes de tocar el árbol | [`pendientes-dav.md`](../docs/es/pendientes-dav.md) |
 | Saber qué ya se resolvió y por qué | [`completados-dav.md`](../docs/es/completados-dav.md) |
 
 Los `AVANCES_*.md` de esta carpeta son el **registro histórico** de la auditoría de

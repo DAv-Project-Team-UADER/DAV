@@ -82,7 +82,6 @@ explorer.update(file)             # INCORRETO — achata as folhas do filho
 Achatar quebra duas coisas em silêncio: colide chaves repetidas entre folhas
 (`create`, `help`, `center`) ficando só com a última, e deixa a pasta
 fora da árvore navegável, de modo que seu `TraduceTo*.py` nunca é carregado.
-Detalhe completo em `pendientes-dav.md` §4.
 
 ## Git / commits
 

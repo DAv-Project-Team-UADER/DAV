@@ -1,6 +1,6 @@
 # Completados — DAV
 
-Contraparte de [`pendientes-dav.md`](pendientes-dav.md): lo que **ya está
+Lo que **ya está
 resuelto**, con qué era el problema y cómo se cerró. Sirve para no re-diagnosticar
 lo mismo dos veces y para ver el avance real sin leer el historial de git.
 
@@ -87,7 +87,7 @@ aviso. Las sustractivas y los agujeros abren siempre el menú de cuerpos válido
 - **Corregir por voz** (`Correction/`, enganchado en `dic/TraduceTo*.py`, se dice desde
   cualquier contexto): «deshacer», «rehacer», «borrar último», «borrar objeto» y
   «borrar rotos». Borrar pide confirmación y no borra lo que otros objetos usan.
-- **Idiomas**: ver `pendientes-dav.md` §5. TechDraw ya estaba cargado; los fallos
+- **Idiomas**: TechDraw ya estaba cargado; los fallos
   reales eran typos y mayúsculas en imports.
 
 Pendiente: rotar, escalar y desfasar elementos del boceto, y las restricciones
@@ -309,7 +309,7 @@ Corregido moviendo las publicaciones dentro de `run_on_main_thread`, y con
 ## Análisis del modelo de voz (2026-08-09)
 
 **Hallazgo contrafáctico:** un modelo Vosk más grande **no** mejora el
-reconocimiento de comandos. Detalle completo en `pendientes-dav.md` §10.
+reconocimiento de comandos.
 
 - El modelo chico ya carga 100.001 palabras y DAV usa 745 (0,75 %). La mediana
   por contexto es de 12 frases: un factor de ~8.000×.
@@ -330,7 +330,7 @@ reconocimiento de comandos. Detalle completo en `pendientes-dav.md` §10.
 contra el modelo aparecieron 89 palabras que el reconocedor no puede emitir, pero
 no todas eran el mismo problema: sólo una categoría era limitación del modelo, el
 resto era deuda del diccionario (claves internas que quedaron como frase hablada,
-anglicismos sin sinónimo, typos). Detalle en `pendientes-dav.md` §11.
+anglicismos sin sinónimo, typos).
 
 ---
 
@@ -338,8 +338,7 @@ anglicismos sin sinónimo, typos). Detalle en `pendientes-dav.md` §11.
 
 - **Subcontextos anidados, nunca aplanados** — `explorer.update({'file': file})`
   y no `explorer.update(file)`. Aplanar colisionaba claves repetidas entre hojas
-  y dejaba la carpeta fuera del árbol navegable. Convención en
-  `pendientes-dav.md` §4.
+  y dejaba la carpeta fuera del árbol navegable.
 - **`NavCommands/`** — las palabras de navegación (subir, contexto) viven en el
   diccionario como cualquier otro comando, no hardcodeadas en `browser.py`.
 - **Imports rotos** que tumbaban la carga de Base y Sketcher.

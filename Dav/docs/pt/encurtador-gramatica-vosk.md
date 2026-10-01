@@ -4,8 +4,7 @@ Como o DAV limita o que o reconhecedor pode ouvir aos comandos válidos do
 contexto de navegação ativo, em vez de deixá-lo competir contra o vocabulário
 inteiro do modelo.
 
-Resolvido no PR #178 (integra o #176 de SoPerez1). A análise que o motivou
-está em [`pendientes-dav.md`](pendientes-dav.md) §10.
+Resolvido no PR #178 (integra o #176 de SoPerez1).
 
 ---
 

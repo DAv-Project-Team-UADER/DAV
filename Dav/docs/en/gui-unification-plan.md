@@ -1,4 +1,4 @@
-# Plan: unify the two GUIs (resolve §2 of pendientes-dav.md)
+# Plan: unify the two GUIs
 
 **Status:** stages 1 to 4 implemented; stage 5 remains.
 **Date:** 2026-08-09
@@ -325,5 +325,3 @@ Camila are deleted (`main.py`, `run_interfaz.bat`, `VoiceWorker.py`,
 - **Stage 5:** does `ui/main_window.py` stay as a desktop configurator
   (recommended) or is it absorbed into the panel?
 
-> Related: §2, §2.b and §2.e of `pendientes-dav.md` (the pending items this plan
-> closes) and §9 (the map of the three voice engines).

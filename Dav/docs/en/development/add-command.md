@@ -109,8 +109,7 @@ prompt navigable by voice.
 ## Rules to avoid breaking anything
 
 - **Nested subcontexts**: `explorer.update({'file': file})`, never
-  `explorer.update(file)`. See [conventions](conventions.md) and
-  `pendientes-dav.md` §4.
+  `explorer.update(file)`. See [conventions](conventions.md).
 - The `TraduceTo*.py` files must import the master dict and link
   **by object/key**, not duplicate callables.
 - Keep the **mandatory header** in every new file.

@@ -65,7 +65,7 @@ explorer.update(examples)                 # INCORRECTO: aplana las hojas en el p
 Aplanar rompe dos cosas **sin avisar**: las claves repetidas entre hojas (`help`,
 `create`…) se pisan y solo sobrevive la última, y la carpeta deja de ser un nodo
 navegable, con lo que su `TraduceTo*.py` no se carga nunca. Hay una prueba que lo
-controla (`test_no_flattened_updates_in_dic`); detalle en `pendientes-dav.md` §4.
+controla (`test_no_flattened_updates_in_dic`)
 
 ### 3. Escribí los tres `TraduceTo*`
 

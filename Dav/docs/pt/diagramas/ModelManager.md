@@ -79,4 +79,4 @@ flowchart TD
   progresso com um `progress_callback(baixado, total)`.
 - **O tamanho** vem de `settings.model_size` (preferência do usuário).
 - **A pasta de modelos** vem de `core/settings.py` e respeita `DAV_MODELS_DIR`.
-- Um modelo grande **não melhora** o reconhecimento de comandos: veja `pendientes-dav.md` §10.
+- Um modelo grande **não melhora** o reconhecimento de comandos:

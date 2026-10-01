@@ -34,7 +34,7 @@ Only `cad_session.py` reached it, so it is retired along with it.
 
 ## Why they were retired (2026-08-10)
 
-See `Dav/docs/es/pendientes-dav.md` §9. Summary: three voice engines ended up
+Summary: three voice engines ended up
 existing in parallel because of simultaneous development, not by design. One remains.
 
 ## Note for whoever moves it again

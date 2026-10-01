@@ -81,7 +81,6 @@ explorer.update(file)             # INCORRECTO — aplana las hojas del hijo
 Aplanar rompe dos cosas en silencio: colisiona claves repetidas entre hojas
 (`create`, `help`, `center`) quedándose solo con la última, y deja la carpeta
 fuera del árbol navegable, con lo cual su `TraduceTo*.py` no se carga nunca.
-Detalle completo en `pendientes-dav.md` §4.
 
 ## Git / commits
 

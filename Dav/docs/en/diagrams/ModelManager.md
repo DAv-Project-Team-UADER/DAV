@@ -80,4 +80,4 @@ flowchart TD
   progress through a `progress_callback(downloaded, total)`.
 - **The size** comes from `settings.model_size` (user preference).
 - **The models folder** comes from `core/settings.py` and honors `DAV_MODELS_DIR`.
-- A large model does **not** improve command recognition: see `pendientes-dav.md` §10.
+- A large model does **not** improve command recognition:

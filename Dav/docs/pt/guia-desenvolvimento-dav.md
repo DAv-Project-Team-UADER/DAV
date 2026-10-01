@@ -40,7 +40,7 @@ o código.
   `TraduceToPT.py` de cada pasta; o dicionário mestre de cada pasta
   vincula as chaves internas a callables do FreeCAD.
 - Regra de ouro: **os subcontextos vão aninhados sob sua própria chave**, nunca
-  achatados com `.update(sub_dict)`. Veja [pendientes-dav.md](pendientes-dav.md) §4.
+  achatados com `.update(sub_dict)`.
 
 ---
 
@@ -49,8 +49,6 @@ o código.
 - **[CLAUDE.md](../../CLAUDE.md)** — documentação geral do projeto:
   arquitetura, GitFlow, modelo de voz, licenças. É a fonte da maioria
   das convenções citadas aqui.
-- **[pendientes-dav.md](pendientes-dav.md)** — o que continua em aberto. **Ler
-  antes de mexer em dicionários ou navegação.**
 - **[concluidos-dav.md](concluidos-dav.md)** — problemas já resolvidos e sua
   causa real. Consultar antes de rediagnosticar algo conhecido.
 - `README.md` / `README.es.md` / `README.pt.md` — apresentação do projeto.

@@ -65,4 +65,4 @@ los mismos callables).
 - `_ImportFreshModule` fuerza la recarga para que un cambio en un diccionario se
   vea sin reiniciar FreeCAD.
 - La normalización de acentos vive acá (`NormalizeSpoken`) y debe ser la misma
-  que usa `ContextEntry`. Ver `pendientes-dav.md` §7.
+  que usa `ContextEntry`.

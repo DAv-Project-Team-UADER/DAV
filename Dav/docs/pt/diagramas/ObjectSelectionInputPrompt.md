@@ -69,4 +69,3 @@ classDiagram
   o usa com filtros como `isProfile` ou `isSolid` para oferecer só esboços ou só peças.
 - **Importa `ObjectSelection` com vários caminhos de reserva**, porque `scr/selection/`
   pode não estar em `sys.path` quando roda dentro do FreeCAD.
-- Detalhes da integração de `selection/` ao programa: `pendientes-dav.md` §12.

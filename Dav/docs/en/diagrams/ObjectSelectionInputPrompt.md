@@ -68,4 +68,3 @@ classDiagram
   uses it with filters such as `isProfile` or `isSolid` to offer only sketches or only parts.
 - **It imports `ObjectSelection` with several path fallbacks**, because `scr/selection/`
   may not be on `sys.path` when running inside FreeCAD.
-- Details on how `selection/` is integrated into the program: `pendientes-dav.md` §12.

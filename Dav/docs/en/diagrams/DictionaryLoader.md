@@ -65,4 +65,4 @@ the same callables).
 - `_ImportFreshModule` forces a reload so that a change in a dictionary is
   seen without restarting FreeCAD.
 - Accent normalization lives here (`NormalizeSpoken`) and must be the same one
-  used by `ContextEntry`. See `pendientes-dav.md` §7.
+  used by `ContextEntry`.

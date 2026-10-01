@@ -1,4 +1,4 @@
-# Plano: unificar as duas GUIs (resolver §2 de pendientes-dav.md)
+# Plano: unificar as duas GUIs
 
 **Estado:** etapas 1 a 4 implementadas; falta a 5.
 **Data:** 2026-08-09
@@ -316,5 +316,3 @@ Até a 3 tudo é aditivo ou interno, e `MainWindow.py` continua funcionando.
 - **Etapa 5:** `ui/main_window.py` fica como configurador de desktop
   (recomendado) ou é absorvido pelo painel?
 
-> Relacionado: §2, §2.b e §2.e de `pendientes-dav.md` (os pendentes que este
-> plano fecha) e §9 (o mapa dos três motores de voz).

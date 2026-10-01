@@ -124,8 +124,7 @@ CreateObjects(ObjectName=doc.ActiveObject.Name, Is3D=False).Execute()
 ## Traducciones que se agregaron para esto
 
 Las funciones ya existían; faltaban las frases de entrada, sin las cuales el
-submenú es inalcanzable por voz aunque el diccionario funcione (el caso que
-describe `pendientes-dav.md` §4).
+submenú es inalcanzable por voz aunque el diccionario funcione.
 
 **`Dav/dic/TraduceToEs.py`** — `base.py` registraba `"selection": selection`
 pero la traducción raíz no lo mencionaba: el módulo entero no tenía puerta de

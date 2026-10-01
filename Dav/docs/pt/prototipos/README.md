@@ -34,7 +34,7 @@ Só era alcançada por `cad_session.py`, então é aposentada junto com ele.
 
 ## Por que foram aposentados (2026-08-10)
 
-Veja `Dav/docs/es/pendientes-dav.md` §9. Resumo: chegaram a existir três motores de
+Resumo: chegaram a existir três motores de
 voz em paralelo por desenvolvimento simultâneo, não por design. Ficou um.
 
 ## Nota para quem o mover de novo

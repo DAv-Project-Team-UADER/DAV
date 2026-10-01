@@ -79,5 +79,3 @@ Valid kinds: `point`, `line`, `surface`, `edge`. Any other kind raises `ValueErr
   several extractions or for testing.
 - **Errors via console, not exceptions:** with no document, a nonexistent object or an object without
   `Shape`, it prints the reason and `Execute()` does nothing.
-- Status of the integration of `selection/` into the program and what is still to be decided:
-  `pendientes-dav.md` §12.

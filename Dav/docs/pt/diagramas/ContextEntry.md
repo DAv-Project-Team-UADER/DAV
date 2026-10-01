@@ -42,7 +42,7 @@ O `Target` decide o que a entrada é:
 Essa distinção é o que torna a árvore navegável, e é também a razão da
 regra dos subcontextos aninhados: se um submenu é mesclado com `.update()` em
 vez de ficar sob sua própria chave, suas folhas ficam soltas no nível pai e a
-pasta desaparece da árvore. Ver `pendientes-dav.md` §4.
+pasta desaparece da árvore.
 
 ## Notas de design
 

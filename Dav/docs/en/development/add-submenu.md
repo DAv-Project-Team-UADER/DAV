@@ -65,7 +65,7 @@ explorer.update(examples)                 # WRONG: flattens the leaves into the 
 Flattening breaks two things **silently**: keys repeated between leaves (`help`,
 `create`…) overwrite each other and only the last one survives, and the folder
 stops being a navigable node, so its `TraduceTo*.py` is never loaded. A test
-checks this (`test_no_flattened_updates_in_dic`); details in `pendientes-dav.md` §4.
+checks this (`test_no_flattened_updates_in_dic`)
 
 ### 3. Write the three `TraduceTo*` files
 

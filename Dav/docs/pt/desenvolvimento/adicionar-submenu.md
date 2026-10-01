@@ -65,7 +65,7 @@ explorer.update(examples)                 # INCORRETO: achata as folhas no pai
 Achatar quebra duas coisas **sem avisar**: as chaves repetidas entre folhas (`help`,
 `create`…) se sobrescrevem e só sobrevive a última, e a pasta deixa de ser um nó
 navegável, de modo que seu `TraduceTo*.py` nunca é carregado. Há um teste que
-controla isso (`test_no_flattened_updates_in_dic`); detalhes em `pendientes-dav.md` §4.
+controla isso (`test_no_flattened_updates_in_dic`).
 
 ### 3. Escreva os três `TraduceTo*`
 

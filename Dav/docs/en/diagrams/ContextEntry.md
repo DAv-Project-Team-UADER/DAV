@@ -41,7 +41,7 @@ The `Target` decides what the entry is:
 That distinction is what makes the tree navigable, and it is also the reason for the
 nested-subcontext rule: if a submenu is merged with `.update()` instead of
 going under its own key, its leaves end up loose in the parent level and the folder
-disappears from the tree. See `pendientes-dav.md` §4.
+disappears from the tree.
 
 ## Design notes
 

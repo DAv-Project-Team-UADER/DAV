@@ -82,7 +82,6 @@ explorer.update(file)             # WRONG — flattens the child's leaves
 Flattening silently breaks two things: it collides keys repeated between leaves
 (`create`, `help`, `center`), keeping only the last one, and it leaves the folder
 out of the navigable tree, so its `TraduceTo*.py` is never loaded.
-Full details in `pendientes-dav.md` §4.
 
 ## Git / commits
 

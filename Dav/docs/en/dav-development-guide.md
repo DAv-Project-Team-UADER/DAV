@@ -40,7 +40,7 @@ code.
   `TraduceToPT.py` of each folder; each folder's master dictionary
   links the internal keys with FreeCAD callables.
 - Golden rule: **subcontexts go nested under their own key**, never
-  flattened with `.update(sub_dict)`. See [pendientes-dav.md](pendientes-dav.md) §4.
+  flattened with `.update(sub_dict)`.
 
 ---
 
@@ -49,8 +49,6 @@ code.
 - **[CLAUDE.md](../../CLAUDE.md)** — general project documentation:
   architecture, GitFlow, voice model, licenses. It is the source of most
   of the conventions cited here.
-- **[pendientes-dav.md](pendientes-dav.md)** — what is still open. **Read
-  before touching dictionaries or navigation.**
 - **[dav-completed.md](dav-completed.md)** — problems already solved and their
   real cause. Check before re-diagnosing something known.
 - `README.md` / `README.es.md` / `README.pt.md` — project overview.

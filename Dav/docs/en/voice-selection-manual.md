@@ -127,8 +127,7 @@ CreateObjects(ObjectName=doc.ActiveObject.Name, Is3D=False).Execute()
 ## Translations added for this
 
 The functions already existed; the entry phrases were missing, and without them
-the submenu is unreachable by voice even though the dictionary works (the case
-described in `pendientes-dav.md` §4).
+the submenu is unreachable by voice even though the dictionary works.
 
 **`Dav/dic/TraduceToEs.py`** — `base.py` registered `"selection": selection`
 but the root translation did not mention it: the whole module had no entry door.

@@ -79,5 +79,3 @@ Tipos válidos: `point`, `line`, `surface`, `edge`. Outro tipo lança `ValueErro
   várias extrações ou para testes.
 - **Erros pelo console, não exceções:** sem documento, objeto inexistente ou objeto sem
   `Shape`, imprime o motivo e `Execute()` não faz nada.
-- Estado da integração de `selection/` ao programa e o que falta decidir:
-  `pendientes-dav.md` §12.

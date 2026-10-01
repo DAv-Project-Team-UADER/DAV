@@ -1,6 +1,6 @@
 # Completed — DAV
 
-Counterpart of [`pendientes-dav.md`](pendientes-dav.md): what is **already
+What is **already
 resolved**, what the problem was and how it was closed. It serves to avoid
 re-diagnosing the same thing twice and to see real progress without reading the
 git history.
@@ -92,7 +92,7 @@ valid bodies (`chooseBody`; `isBody` discards those with a broken operation).
   from any context): "deshacer" (undo), "rehacer" (redo), "borrar último" (delete
   last), "borrar objeto" (delete object) and "borrar rotos" (delete broken ones).
   Deleting asks for confirmation and does not delete what other objects use.
-- **Languages**: see `pendientes-dav.md` §5. TechDraw was already loaded; the
+- **Languages**: TechDraw was already loaded; the
   real failures were typos and capitalization in imports.
 
 Pending: rotating, scaling and offsetting sketch elements, and the `lock`,
@@ -319,7 +319,7 @@ anyway.
 ## Voice model analysis (2026-08-09)
 
 **Counterfactual finding:** a larger Vosk model does **not** improve command
-recognition. Full detail in `pendientes-dav.md` §10.
+recognition.
 
 - The small model already loads 100,001 words and DAV uses 745 (0.75%). The
   median per context is 12 phrases: a factor of ~8,000×.
@@ -340,7 +340,7 @@ recognition. Full detail in `pendientes-dav.md` §10.
 against the model, 89 words appeared that the recognizer cannot emit, but they
 were not all the same problem: only one category was a model limitation, the rest
 was dictionary debt (internal keys that remained as spoken phrases, anglicisms
-without a synonym, typos). Detail in `pendientes-dav.md` §11.
+without a synonym, typos).
 
 ---
 
@@ -348,8 +348,7 @@ without a synonym, typos). Detail in `pendientes-dav.md` §11.
 
 - **Nested subcontexts, never flattened** — `explorer.update({'file': file})`
   and not `explorer.update(file)`. Flattening collided repeated keys between
-  leaves and left the folder out of the navigable tree. Convention in
-  `pendientes-dav.md` §4.
+  leaves and left the folder out of the navigable tree.
 - **`NavCommands/`** — the navigation words (subir, contexto) live in the
   dictionary like any other command, not hardcoded in `browser.py`.
 - **Broken imports** that brought down the loading of Base and Sketcher.

@@ -42,7 +42,7 @@ El `Target` decide qué es la entrada:
 Esa distinción es la que hace navegable el árbol, y es también la razón de la
 regla de los subcontextos anidados: si un submenú se fusiona con `.update()` en
 vez de ir bajo su propia clave, sus hojas quedan sueltas en el nivel padre y la
-carpeta desaparece del árbol. Ver `pendientes-dav.md` §4.
+carpeta desaparece del árbol.
 
 ## Notas de diseño
 

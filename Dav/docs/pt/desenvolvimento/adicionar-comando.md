@@ -108,8 +108,7 @@ prompt navegável por voz.
 ## Regras para não quebrar nada
 
 - **Subcontextos aninhados**: `explorer.update({'file': file})`, nunca
-  `explorer.update(file)`. Veja [convenções](convencoes.md) e
-  `pendientes-dav.md` §4.
+  `explorer.update(file)`. Veja [convenções](convencoes.md).
 - Os `TraduceTo*.py` devem importar o dict mestre e vincular
   **por objeto/chave**, sem duplicar callables.
 - Mantenha o **cabeçalho obrigatório** em cada arquivo novo.
