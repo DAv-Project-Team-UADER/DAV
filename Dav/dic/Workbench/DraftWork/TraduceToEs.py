@@ -20,6 +20,13 @@ from .ayuda import ayuda
 from measure import CreateDimension
 
 TraduceToEs = {
+    # imagen (PNG, JPG, BMP) como referencia, elegida por voz
+    'importar imagen':     draft['image'],
+    'imagen de referencia': draft['image'],
+    'imagen de fondo':     draft['image'],
+    'traer imagen':        draft['image'],
+    'poner imagen':        draft['image'],
+
     'anotacion':  draft['annotation'],
     'anotación':  draft['annotation'],
     'nota':       draft['annotation'],

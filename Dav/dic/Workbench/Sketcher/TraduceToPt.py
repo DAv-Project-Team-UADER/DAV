@@ -26,6 +26,14 @@ from .sketcher import sketcher
 from measure import CreateDimension
 
 TraduceToPt = {
+  # imagem (PNG, JPG, BMP) atrás do croqui para decalcar, escolhida por voz
+  "importar imagem": sketcher["image"],
+  "imagem de referência": sketcher["image"],
+  "imagem de referencia": sketcher["image"],
+  "imagem de fundo": sketcher["image"],
+  "trazer imagem": sketcher["image"],
+  "colocar imagem": sketcher["image"],
+
   
   # Carpetas de Sketcher  
   "geometria": sketcher["geometry"],

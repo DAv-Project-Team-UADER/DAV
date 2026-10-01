@@ -1,0 +1,201 @@
+PRUEBAS POR VOZ DE LOS COMANDOS NUEVOS (DAV)
+==============================================
+
+Qué es esto: lista de lo que hay que probar con tu propia voz. Todo lo de abajo se
+verificó con respuestas de voz simuladas (en FreeCAD 1.1 sin interfaz), pero el
+reconocimiento de voz y los cuadros reales NO se probaron.
+
+Cómo usar la lista: dilo, mira qué pasa y marca [x] si anduvo. Si el reconocedor
+oye otra cosa, anota qué oyó: sirve para agregar sinónimos.
+
+Antes de empezar
+  - FreeCAD con el panel DAV, idioma español, documento nuevo.
+  - Si te perdés: "contexto". Para subir un nivel: "subir". Para abortar: "cancelar".
+  - Números: "ochenta enter". Decimales: "uno coma cinco". Las centenas se dicen dígito
+    por dígito ("uno cero cinco" = 105).
+  - Ruta de cada comando = lo que hay que decir desde el menú principal.
+
+Commits que cubre esta lista
+  b7b543aa  Ejemplo de la tijera y herramientas de TechDraw por voz
+  2955b5af  Exportar para impresión 3D
+  b68d5712  Color y material por voz
+  (sin commitear)  Importar imagen en Draft y en Croquis
+
+------------------------------------------------------------------------------
+PREPARACIÓN (una sola vez, sirve para casi todas las pruebas)
+------------------------------------------------------------------------------
+Crea un documento con 3 objetos de nombres distintos para poder buscarlos:
+  1. banco de trabajo -> diseño de pieza -> aditivo -> cilindro por medidas
+     "diez enter" "veinte enter" "cero enter" "cero enter" "cero enter" "si"
+     (cuerpo "Body")
+  2. Repetí con otras medidas: "cinco" "ocho" "cuarenta" "cero" "cero" "si"
+     (cuerpo "Body001")
+  3. Una tercera pieza: "veinte" "cuatro" "cero" "cuarenta" "cero" "si" (Body002)
+Tip: ponerles nombres distintos (por ejemplo Eje, Tapa, Base) hace más clara la
+prueba del deletreo. Se cambia el Label en el árbol.
+
+==============================================================================
+1. BUSCAR POR DELETREO
+==============================================================================
+Idea de prueba: en una lista de objetos, llegar a uno específico sin decir
+"avanzar" muchas veces.
+
+1.1  Dentro de una lista de objetos
+     Decí: banco de trabajo -> diseño de pieza -> cortar -> cortar cilindro por medidas
+           (cinco valores) -> aparece la lista de cuerpos.
+     Decí:  "buscar por deletreo"
+     Deletreá el nombre del objeto de la lista, por ejemplo TAPA:
+           "te" "a" "pe" "a"   y luego "okey"
+     Esperado: el cuadro salta al objeto más parecido, se ve resaltado en 3D y el
+     estado nombra hasta 2 alternativas. "okey" lo elige.
+     Variantes a probar:
+       [ ] "deletrear"  o  "buscar"  (solas, sin "por deletreo")
+       [ ] deletrear solo el comienzo ("ta")
+       [ ] equivocarte a propósito de letra vecina (be por de) y ver si igual lo encuentra
+       [ ] decir "borrar" durante el deletreo y corregir
+       [ ] "cancelar" dentro del deletreo: la lista debe seguir abierta
+       [ ] letras con palabra ancla: "te de taza", "pe de pato"
+     Qué mirar: que después de cerrar el deletreo la lista siga respondiendo a
+     "avanzar" y "okey" (la voz tiene que volver al cuadro de la lista).
+
+1.2  Fuera de una lista
+     Decí (en cualquier contexto): "buscar por deletreo"
+     Deletreá un nombre. Esperado: pregunta "¿Es ...?"
+       [ ] "si"  -> queda seleccionado y centrado en pantalla
+       [ ] "no"  -> ofrece el siguiente más parecido (hasta 3)
+       [ ] "cancelar" -> termina sin elegir
+
+------------------------------------------------------------------------------
+Idea para 1: crear 10+ objetos con nombres parecidos (Hoja A, Hoja B, Mango A,
+Mango B, Perno...) y comprobar que deletrear "HOJA B" elige la B y no la A.
+
+==============================================================================
+2. TECHDRAW POR VOZ (plano de la tijera, fase 4 de la guía)
+==============================================================================
+Requisito: un documento con un objeto sólido (la caja o la tijera de la guía) y
+una página: banco de trabajo -> dibujo tecnico -> pagina -> plantilla ->
+(abrir ASME, siguiente x5, okey).
+
+2.1  Crear una vista
+     Decí: subir -> vistas -> "vista de objeto"
+     Esperado, en este orden:
+       [ ] lista de objetos: "buscar por deletreo" o "avanzar" + "okey"
+       [ ] dirección: "isometrica" (otras: frontal, superior, derecha,
+           izquierda, trasera, inferior; o arriba/abajo + okey)
+       [ ] escala: "uno coma veinticinco enter"
+       [ ] X: "uno cero cinco enter"      Y: "uno seis cero enter"
+     Esperado: aparece la vista en la página en esa posición y escala.
+     Variantes: otras direcciones; escala "cero coma cinco".
+
+2.2  Cambiar una vista ya creada (cada una pregunta qué vista si hay varias)
+       [ ] "direccion de vista"  -> elegir "frontal"
+       [ ] "escala de vista"     -> "dos enter"
+       [ ] "posicion de vista"   -> X "cinco cero", Y "cinco cero"
+       [ ] "proyeccion de pagina" -> "tercer angulo" y luego "primer angulo"
+     Sinónimos a probar: "cambiar direccion", "cambiar escala", "colocar vista",
+     "tipo de proyeccion".
+
+2.3  Eje de simetría   (necesita la página abierta en pantalla)
+     Decí: subir -> lineas -> "eje de simetria"
+       [ ] elegir vista, "horizontal", "origen"  (o "centro")
+     Esperado: una línea de centro que cruza la vista. Si FreeCAD dice que no creó
+     el eje, abrir la página con doble clic y repetir. Este es el comando más
+     arriesgado: se usa la API gráfica de TechDraw.
+       [ ] probar también "vertical" y "centro"
+
+2.4  Cotas totales
+     Decí: subir -> cotas -> extension -> "cotas totales"
+       [ ] elegir vista. Esperado: dos cotas (largo y alto) fuera de la figura.
+     Sinónimos: "cota total", "medidas totales", "largo y alto".
+
+Idea para 2: reproducir el plano de la guía (docs/guia-tijeras-voz.md, pasos 42-47)
+y compararlo con docs/ejemplo-tijeras/tijeras_dav.png.
+
+==============================================================================
+3. EXPORTAR PARA IMPRESIÓN 3D
+==============================================================================
+Decí: archivo -> proyecto -> "impresion 3d"   (o "preparar impresion",
+      "exportar para impresion", "impresion tres de")
+Esperado:
+  [ ] sin selección: exporta todo lo visible que sea sólido; avisa si omite
+      objetos que no son sólidos (un croquis, por ejemplo)
+  [ ] formato: "3mf" / "stl" / "obj" (o arriba/abajo + okey)
+  [ ] carpeta: "aqui" (la misma) u "otra" (navegador)
+  [ ] nombre: "sugerido", o "deletrear" y deletrear (ej. "pe i e ce a" para PIEZA)
+  [ ] si el archivo ya existe: pide "sobrescribir"
+  [ ] al final imprime el tamaño en mm (x por y por z)
+Idea de prueba: exportar en STL, abrir el archivo en el laminador (Cura, Prusa,
+Bambu) y comprobar que el tamaño coincide con el que dijo DAV.
+Probar también: seleccionar solo una pieza (con "buscar por deletreo" o a mano)
+y exportar esa sola.
+
+==============================================================================
+4. COLOR Y MATERIAL POR VOZ
+==============================================================================
+Funcionan en cualquier banco de trabajo. Se aplican a lo seleccionado; si no hay
+nada seleccionado, abren la lista de objetos (avanzar / buscar por deletreo).
+
+4.1  Color
+     Decí: "cambiar color"  (sinónimos: "pintar objeto", "pintar pieza",
+           "colorear objeto", "elegir color", "color de objeto")
+       [ ] "rojo"  -> el objeto se ve rojo
+       [ ] elegir con arriba/abajo + okey
+       [ ] con dos objetos seleccionados a la vez
+       [ ] sobre un cuerpo de Diseño de pieza (se pinta también su última operación)
+     Colores: rojo, naranja, amarillo, verde, celeste, azul, violeta, rosa,
+     marron, negro, blanco, gris.
+     OJO: el color solo se verificó sin interfaz (no hay vista); esta es la primera
+     prueba real.
+
+4.2  Material
+     Decí: "poner material"  (sinónimos: "elegir material", "material de pieza",
+           "material del objeto", "usar material")
+       [ ] "aluminio", "acero", "inoxidable", "cobre", "laton", "pla", "madera"...
+       [ ] el objeto cambia de aspecto
+       [ ] comprobar en el árbol: propiedad ShapeMaterial del objeto
+     NO confundir: "cambiar material", "asignar material" y "material" abren el
+     diálogo nativo de FreeCAD, que no se maneja por voz (siguen igual).
+
+Idea para 4: pintar cada pieza de la tijera de un color distinto y ponerle
+material (hojas acero, mangos plástico, perno acero inoxidable) y mirar el
+ensamblaje.
+
+==============================================================================
+5. IMPORTAR IMAGEN (Draft y Croquis)   [AÚN SIN COMMITEAR]
+==============================================================================
+Preparación: tener un PNG o JPG en una carpeta (una foto de un objeto, un plano
+escaneado, una captura).
+
+5.1  Draft
+     Decí: banco de trabajo -> draft -> "importar imagen"
+     (sinónimos: "imagen de referencia", "imagen de fondo", "traer imagen")
+       [ ] plano: "XY" (o arriba/abajo + okey)
+       [ ] navegador: elegir el archivo (solo muestra .png .jpg .jpeg .bmp)
+       [ ] ancho: "ochenta enter"
+       [ ] "¿centrada en el origen?": "si"  y luego repetir con "no" + X/Y
+     Esperado: un plano con la imagen, proporción correcta, en el plano elegido.
+     Probar los tres planos: XY, XZ, YZ.
+
+5.2  Croquis
+     Decí: banco de trabajo -> croquis -> (nuevo croquis y quedarte editándolo) ->
+           "importar imagen"
+       [ ] elige el archivo y el ancho: la imagen queda detrás del croquis
+       [ ] dibujar una línea encima: debe verse (la imagen no tapa)
+       [ ] sin croquis en edición: debe mostrar la lista de croquis
+           ("avanzar"/"buscar por deletreo")
+     Idea de prueba: importar la foto de una pieza y calcar su contorno con
+     líneas por voz.
+
+==============================================================================
+6. LO QUE MÁS PROBABLEMENTE FALLE (mira esto primero)
+==============================================================================
+  1. "buscar por deletreo" dentro de una lista: que la voz vuelva a la lista al
+     terminar. Si queda "muda", es la transición entre cuadros.
+  2. Eje de simetría y cotas: requieren la página dibujada en pantalla.
+  3. Color: primera prueba con la vista real (DiffuseColor por cara).
+  4. Que el reconocedor distinga frases parecidas: "escala de vista" /
+     "posicion de vista" / "direccion de vista". Si confunde, anotar qué oyó.
+  5. Imagen: la proporción cuando el PNG se lee con PySide dentro de FreeCAD.
+
+Si algo falla, pasame: qué dijiste, qué oyó DAV (el texto que muestra el cuadro)
+y el mensaje que sale en la consola de FreeCAD (los que empiezan con [DAV]).

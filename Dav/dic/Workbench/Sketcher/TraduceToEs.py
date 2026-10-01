@@ -25,6 +25,13 @@ from .sketcher import sketcher
 from measure import CreateDimension
 
 TraduceToEs = {
+  # imagen (PNG, JPG, BMP) detrás del croquis para calcar, elegida por voz
+  "importar imagen": sketcher["image"],
+  "imagen de referencia": sketcher["image"],
+  "imagen de fondo": sketcher["image"],
+  "traer imagen": sketcher["image"],
+  "poner imagen": sketcher["image"],
+
   "geometria": sketcher["geometry"],
   "geometría": sketcher["geometry"],
 
