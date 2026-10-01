@@ -1,0 +1,322 @@
+TESTES POR VOZ DOS COMANDOS NOVOS (DAV)
+==============================================
+
+O que é isto: lista do que é preciso testar com a sua própria voz. Tudo o que está abaixo foi
+verificado com respostas de voz simuladas (no FreeCAD 1.1 sem interface), mas o
+reconhecimento de voz e as caixas reais NÃO foram testados.
+
+Como usar a lista: diga, veja o que acontece e marque [x] se funcionou. Se o reconhecedor
+ouvir outra coisa, anote o que ouviu: serve para adicionar sinônimos.
+
+Antes de começar
+  - FreeCAD com o painel DAV, idioma espanhol, documento novo.
+  - Se você se perder: "contexto". Para subir um nível: "subir". Para abortar: "cancelar".
+  - Números: "ochenta enter" (oitenta). Decimais: "uno coma cinco" (um vírgula cinco). As centenas
+    dizem-se dígito por dígito ("uno cero cinco" = 105).
+  - Rota de cada comando = o que é preciso dizer a partir do menu principal.
+
+Commits que esta lista cobre
+  b7b543aa  Exemplo da tesoura e ferramentas do TechDraw por voz
+  2955b5af  Exportar para impressão 3D
+  b68d5712  Cor e material por voz
+  (sem commit)  Importar imagem no Draft e no Esboço
+  (sem commit)  Montagem por voz: juntas, fixar, nova peça, lista de materiais, vista
+                explodida; gerar eixos; revolução por ângulo
+
+------------------------------------------------------------------------------
+PREPARAÇÃO (uma única vez, serve para quase todos os testes)
+------------------------------------------------------------------------------
+Crie um documento com 3 objetos de nomes diferentes para poder buscá-los:
+  1. banco de trabajo -> diseño de pieza -> aditivo -> cilindro por medidas
+     "diez enter" "veinte enter" "cero enter" "cero enter" "cero enter" "si"
+     (corpo "Body")
+  2. Repita com outras medidas: "cinco" "ocho" "cuarenta" "cero" "cero" "si"
+     (corpo "Body001")
+  3. Uma terceira peça: "veinte" "cuatro" "cero" "cuarenta" "cero" "si" (Body002)
+Dica: dar-lhes nomes diferentes (por exemplo Eje, Tapa, Base) deixa mais clara o
+teste da soletração. Muda-se o Label na árvore.
+
+==============================================================================
+1. BUSCAR POR SOLETRAÇÃO ("buscar por deletreo")
+==============================================================================
+Ideia de teste: em uma lista de objetos, chegar a um específico sem dizer
+"avanzar" muitas vezes.
+
+1.1  Dentro de uma lista de objetos
+     Diga: banco de trabajo -> diseño de pieza -> cortar -> cortar cilindro por medidas
+           (cinco valores) -> aparece a lista de corpos.
+     Diga:  "buscar por deletreo"
+     Soletre o nome do objeto da lista, por exemplo TAPA:
+           "te" "a" "pe" "a"   e depois "okey"
+     Esperado: o quadro salta para o objeto mais parecido, aparece destacado em 3D e o
+     estado nomeia até 2 alternativas. "okey" o escolhe.
+     Variantes a testar:
+       [ ] "deletrear"  ou  "buscar"  (sozinhas, sem "por deletreo")
+       [ ] soletrar só o começo ("ta")
+       [ ] errar de propósito uma letra vizinha (be por de) e ver se mesmo assim o encontra
+       [ ] dizer "borrar" durante a soletração e corrigir
+       [ ] "cancelar" dentro da soletração: a lista deve continuar aberta
+       [ ] letras com palavra âncora: "te de taza", "pe de pato"
+     O que olhar: que, depois de fechar a soletração, a lista continue respondendo a
+     "avanzar" e "okey" (a voz tem que voltar ao quadro da lista).
+
+1.2  Fora de uma lista
+     Diga (em qualquer contexto): "buscar por deletreo"
+     Soletre um nome. Esperado: pergunta "¿Es ...?" (É ...?)
+       [ ] "si"  -> fica selecionado e centralizado na tela
+       [ ] "no"  -> oferece o próximo mais parecido (até 3)
+       [ ] "cancelar" -> termina sem escolher
+
+------------------------------------------------------------------------------
+Ideia para 1: criar 10+ objetos com nomes parecidos (Hoja A, Hoja B, Mango A,
+Mango B, Perno...) e verificar que soletrar "HOJA B" escolhe a B e não a A.
+
+==============================================================================
+2. TECHDRAW POR VOZ (desenho da tesoura, fase 4 do guia)
+==============================================================================
+Requisito: um documento com um objeto sólido (a caixa ou a tesoura do guia) e
+uma página: banco de trabajo -> dibujo tecnico -> pagina -> plantilla ->
+(abrir ASME, siguiente x5, okey).
+
+2.1  Criar uma vista
+     Diga: subir -> vistas -> "vista de objeto"
+     Esperado, nesta ordem:
+       [ ] lista de objetos: "buscar por deletreo" ou "avanzar" + "okey"
+       [ ] direção: "isometrica" (outras: frontal, superior, derecha,
+           izquierda, trasera, inferior; ou arriba/abajo + okey)
+       [ ] escala: "uno coma veinticinco enter"
+       [ ] X: "uno cero cinco enter"      Y: "uno seis cero enter"
+     Esperado: aparece a vista na página nessa posição e escala.
+     Variantes: outras direções; escala "cero coma cinco".
+
+2.2  Alterar uma vista já criada (cada uma pergunta qual vista se houver várias)
+       [ ] "direccion de vista"  -> escolher "frontal"
+       [ ] "escala de vista"     -> "dos enter"
+       [ ] "posicion de vista"   -> X "cinco cero", Y "cinco cero"
+       [ ] "proyeccion de pagina" -> "tercer angulo" e depois "primer angulo"
+     Sinônimos a testar: "cambiar direccion", "cambiar escala", "colocar vista",
+     "tipo de proyeccion".
+
+2.3  Eixo de simetria   (precisa da página aberta na tela)
+     Diga: subir -> lineas -> "eje de simetria"
+       [ ] escolher vista, "horizontal", "origen"  (ou "centro")
+     Esperado: uma linha de centro que cruza a vista. Se o FreeCAD disser que não criou
+     o eixo, abrir a página com duplo clique e repetir. Este é o comando mais
+     arriscado: usa-se a API gráfica do TechDraw.
+       [ ] testar também "vertical" e "centro"
+
+2.4  Cotas totais
+     Diga: subir -> cotas -> extension -> "cotas totales"
+       [ ] escolher vista. Esperado: duas cotas (comprimento e altura) fora da figura.
+     Sinônimos: "cota total", "medidas totales", "largo y alto".
+
+Ideia para 2: reproduzir o desenho do guia (docs/es/guia-tesoura-voz.md, passos 42-47)
+e compará-lo com docs/ejemplo-tijeras/tijeras_dav.png.
+
+==============================================================================
+3. EXPORTAR PARA IMPRESSÃO 3D
+==============================================================================
+Diga: archivo -> proyecto -> "impresion 3d"   (ou "preparar impresion",
+      "exportar para impresion", "impresion tres de")
+Esperado:
+  [ ] sem seleção: exporta tudo o que estiver visível e for sólido; avisa se omite
+      objetos que não são sólidos (um esboço, por exemplo)
+  [ ] formato: "3mf" / "stl" / "obj" (ou arriba/abajo + okey)
+  [ ] pasta: "aqui" (a mesma) ou "otra" (navegador)
+  [ ] nome: "sugerido", ou "deletrear" e soletrar (ex. "pe i e ce a" para PIEZA)
+  [ ] se o arquivo já existe: pede "sobrescribir"
+  [ ] no final imprime o tamanho em mm (x por y por z)
+Ideia de teste: exportar em STL, abrir o arquivo no fatiador (Cura, Prusa,
+Bambu) e verificar que o tamanho coincide com o que o DAV disse.
+Testar também: selecionar só uma peça (com "buscar por deletreo" ou à mão)
+e exportar só essa.
+
+==============================================================================
+4. COR E MATERIAL POR VOZ
+==============================================================================
+Funcionam em qualquer bancada de trabalho. Aplicam-se ao que estiver selecionado; se não houver
+nada selecionado, abrem a lista de objetos (avanzar / buscar por deletreo).
+
+4.1  Cor
+     Diga: "cambiar color"  (sinônimos: "pintar objeto", "pintar pieza",
+           "colorear objeto", "elegir color", "color de objeto")
+       [ ] "rojo" (vermelho)  -> o objeto fica vermelho
+       [ ] escolher com arriba/abajo + okey
+       [ ] com dois objetos selecionados ao mesmo tempo
+       [ ] sobre um corpo do Projeto de peça (pinta-se também sua última operação)
+     Cores: rojo, naranja, amarillo, verde, celeste, azul, violeta, rosa,
+     marron, negro, blanco, gris (vermelho, laranja, amarelo, verde, azul-claro,
+     azul, violeta, rosa, marrom, preto, branco, cinza).
+     ATENÇÃO: a cor só foi verificada sem interface (não há vista); este é o primeiro
+     teste real.
+
+4.2  Material
+     Diga: "poner material"  (sinônimos: "elegir material", "material de pieza",
+           "material del objeto", "usar material")
+       [ ] "aluminio", "acero", "inoxidable", "cobre", "laton", "pla", "madera"...
+       [ ] o objeto muda de aspecto
+       [ ] verificar na árvore: propriedade ShapeMaterial do objeto
+     NÃO confundir: "cambiar material", "asignar material" e "material" abrem o
+     diálogo nativo do FreeCAD, que não se controla por voz (continuam iguais).
+
+Ideia para 4: pintar cada peça da tesoura de uma cor diferente e dar-lhe
+material (lâminas aço, cabos plástico, pino aço inoxidável) e olhar a
+montagem.
+
+==============================================================================
+5. IMPORTAR IMAGEM (Draft e Esboço)   [AINDA SEM COMMIT]
+==============================================================================
+Preparação: ter um PNG ou JPG em uma pasta (uma foto de um objeto, um desenho
+digitalizado, uma captura).
+
+5.1  Draft
+     Diga: banco de trabajo -> draft -> "importar imagen"
+     (sinônimos: "imagen de referencia", "imagen de fondo", "traer imagen")
+       [ ] plano: "XY" (ou arriba/abajo + okey)
+       [ ] navegador: escolher o arquivo (só mostra .png .jpg .jpeg .bmp)
+       [ ] largura: "ochenta enter"
+       [ ] "¿centrada en el origen?" (centralizada na origem?): "si"  e depois repetir com "no" + X/Y
+     Esperado: um plano com a imagem, proporção correta, no plano escolhido.
+     Testar os três planos: XY, XZ, YZ.
+
+5.2  Esboço
+     Diga: banco de trabajo -> croquis -> (novo esboço e ficar editando-o) ->
+           "importar imagen"
+       [ ] escolhe o arquivo e a largura: a imagem fica atrás do esboço
+       [ ] desenhar uma linha por cima: deve ser vista (a imagem não cobre)
+       [ ] sem esboço em edição: deve mostrar a lista de esboços
+           ("avanzar"/"buscar por deletreo")
+     Ideia de teste: importar a foto de uma peça e decalcar seu contorno com
+     linhas por voz.
+
+==============================================================================
+5b. RESTRIÇÕES DO ESBOÇO QUE ANTES PRECISAVAM DE MOUSE   [AINDA SEM COMMIT]
+==============================================================================
+Preparação: um esboço com 3 elementos: uma linha quase horizontal, uma quase
+vertical e um círculo (o esboço é escolhido de uma lista; os elementos por número,
+a partir de 1, na ordem em que foram desenhados).
+Rota: banco de trabajo -> croquis -> restricciones -> geometricas
+
+  [ ] "horizontal vertical"  -> esboço, número da linha. Esperado: fica
+      horizontal se for mais larga que alta, vertical se não. Em um círculo deve dizer
+      que é só para linhas.
+  [ ] "bloquear"  (ou "fijar posicion") -> esboço, elemento e ponto ("inicio",
+      "final" ou "centro"). Esperado: o ponto fica fixo onde estava. Em um círculo
+      não pergunta o ponto (usa o centro).
+  [ ] "coincidente unificado" -> igual a "coincidente": dois elementos e seus pontos.
+  [ ] "modo referencia"  (ou "alternar conductora") -> primeiro criar uma cota
+      (rota: restricciones -> radio, etc.). Diz o número da restrição na
+      tela; esperado: passa a "de referência"; repeti-lo a torna "condutora".
+  [ ] "activar restriccion"  (ou "alternar activa") -> número de qualquer
+      restrição. Esperado: desativa-se; repetido, reativa-se.
+  Erros a provocar: um número que não existe; em "modo referencia" escolher uma
+  restrição que não é cota (deve rejeitá-la).
+Ideia de teste: desenhar um retângulo solto por voz, fazer "horizontal vertical"
+em cada lado, fixar um canto com "bloquear" e cotar com "radio"/"dimensión".
+
+==============================================================================
+5c. MONTAGEM E EIXOS POR VOZ   [AINDA SEM COMMIT]
+==============================================================================
+Antes eram comandos nativos do FreeCAD que pedem mouse. Agora tudo se diz. Foram
+verificados com respostas simuladas no FreeCAD 1.1 sem interface (as 13 juntas, a
+peça nova, a lista de materiais, fixar e a estrutura da vista explodida);
+falta testá-los com a voz e com a janela real.
+Preparação: dois corpos com um cilindro cada (ver PREPARAÇÃO) e uma montagem:
+  banco de trabajo -> ensamblaje -> "nuevo ensamblaje"; depois "insertar vinculo" duas
+  vezes (avanzar / okey para escolher cada corpo).
+
+5c.1 Juntas a partir do nível Assembly  (rota: banco de trabajo -> ensamblaje)
+  Cada uma pede as duas peças (avanzar / okey) e a face de cada uma.
+  [ ] "ensamble fijo"            [ ] "bisagra"               [ ] "junta deslizante"
+  [ ] "junta cilindrica"         [ ] "junta esferica"        [ ] "junta paralela"
+  [ ] "junta perpendicular"
+  [ ] "junta por distancia"  -> além disso pede a distância (mm)
+  [ ] "junta por angulo"     -> além disso pede o ângulo (graus)
+  [ ] "junta de engranajes"  -> pede dois raios (mm)
+  [ ] "junta de correa"      -> pede dois raios (mm)
+  [ ] "junta de tornillo"    -> pede o raio de passo (mm)
+  [ ] "junta de cremallera"  -> pede o raio de passo (mm)
+  Esperado: aparece a junta na árvore (pasta Joints) e "resolver" move as peças.
+
+5c.2 As mesmas juntas pela pasta «junta»  (rota: ensamblaje -> junta -> ...)
+  Antes entravam no comando nativo (cliques sobre as faces); agora fazem o mesmo que
+  5c.1. Testar pelo menos três, por exemplo:
+  [ ] "junta" -> "esferica"      [ ] "junta" -> "distancia"     [ ] "junta" -> "tornillo"
+  Esperado: NÃO aparece nenhum painel de tarefas do FreeCAD; pede as peças por voz.
+
+5c.3 Fixar peça  ("fijar pieza", "fijar", "anclar")
+  [ ] Diz qual peça fixar (avanzar / okey). Esperado: aparece "GroundedJoint" em
+      Joints. Antes alternava o selecionado com o mouse.
+
+5c.4 Peça nova  ("nueva pieza", "crear pieza")
+  [ ] Esperado: cria-se uma peça vazia ("Pieza", "Pieza002"…) com seu Body e um
+      esboço com um círculo, fica inserida na montagem e seu Body fica
+      ativo. NÃO pede para salvar o documento nem outro arquivo (diferente do
+      comando nativo). Repeti-lo: o nome não é sobrescrito.
+
+5c.5 Lista de materiais  ("lista de materiales", "tabla de materiales")
+  [ ] Esperado: cria-se "Bill of Materials" com as colunas índice, nome,
+      descrição, arquivo e quantidade; abre-se a planilha. Sem painel de colunas.
+      Ver se a quantidade conta bem as peças repetidas.
+
+5c.6 Vista explodida  ("vista explosionada", "explosionar")
+  [ ] Pede a separação em mm ("treinta enter"). Esperado: aparece "Exploded View"
+      com um movimento radial. O MAIS DUVIDOSO: que a vista se veja explodida
+      (mostra-se com duplo clique em "Exploded View" na árvore, ou pelo seu menu) e que
+      "mas distancia" separe mais. Só foi verificada a estrutura dos objetos.
+  [ ] Com a montagem vazia deve dizer que não há peças.
+
+5c.7 Gerador de eixos  (rota: diseño de pieza -> administrar -> "generar ejes")
+  [ ] Pede a quantidade de trechos (1 a 12) e, por trecho, o comprimento e o diâmetro.
+      Teste: 3 trechos: 40 x 20, 30 x 30, 20 x 16. Esperado: um Body "Eje" de 90 mm
+      de comprimento sobre o eixo Z, com um único sólido válido (volume 37 793 mm3).
+  [ ] Cancelar no meio não deve deixar nada criado.
+  Atenção: já não calcula forças nem tensões como o assistente nativo; só monta a geometria.
+
+5c.8 Revolução por ângulo  ("revolucion por angulo", "girar perfil")
+  [ ] Escolhe o esboço de uma lista (avanzar / okey) e pede o ângulo; já não é preciso
+      selecioná-lo antes com o mouse. Testar 360 e 180, e um perfil que cruze o eixo
+      (deve avisar com um erro e não deixar objetos quebrados).
+
+5c.9 Exemplo "Haste roscada M30 com porcas"  (ejemplos -> escolher "Varilla roscada M30 con tuercas")
+  É PRECISO TESTÁ-LO NA INTERFACE: só foi testado sem janela (FreeCAD no console).
+  [ ] Os 16 quadros avançam em ordem e cada ação é executada ao dizer o quadro todo.
+  [ ] Rosca (quadros 2-4): o filete triangular se enrola em uma hélice de passo 3,5 e
+      27 voltas, sem erro. Demora uns 10 s para recalcular: é normal.
+  [ ] Cota do passo (quadro 5): de (15,0,2) a (15,0,5,5) marca 3,5 mm. NÃO foi testada
+      (precisa do módulo "measure" da janela real).
+  [ ] "junta de tornillo" (quadros 13-14): a lista de faces da haste é longa
+      ("abajo" 8 e 9 vezes); verificar que escolhe "Cara inferior" e "Cara superior".
+      Esperado: uma porca em cada ponta (z 0-24 e z 76-100), ambas sobre o eixo.
+  [ ] O MAIS DUVIDOSO: arrastar uma porca com o mouse. Deve girar e avançar 3,5 mm
+      por volta. No console o "resolver" não impõe esse avanço (só vale ao arrastar),
+      então, se a porca desliza sem girar, anotar.
+  [ ] Em português: "helice" sob "aditivo" deve ser reconhecida (a chave foi adicionada).
+  [ ] Os comandos reais: "junta de tornillo" dita à mão agora aproxima a peça livre
+      do eixo antes de resolver (_AlignForScrew); verificar que não quebra outras juntas.
+  [ ] A lista de faces agora reserva lugar para faces planas mesmo que a peça tenha
+      muitos cilindros; verificar que em peças simples a ordem não mudou.
+
+Ainda NÃO são por voz (continuam abrindo o painel ou diálogo do FreeCAD):
+  - "simulacion" (painel de movimentos e linha do tempo)
+  - "preferencias" da bancada Assembly (diálogo de configuração)
+
+==============================================================================
+6. O QUE MAIS PROVAVELMENTE FALHE (olhe isto primeiro)
+==============================================================================
+  1. "buscar por deletreo" dentro de uma lista: que a voz volte à lista ao
+     terminar. Se ficar "muda", é a transição entre quadros.
+  2. Eixo de simetria e cotas: requerem a página desenhada na tela.
+  3. Cor: primeiro teste com a vista real (DiffuseColor por face).
+  4. Que o reconhecedor distinga frases parecidas: "escala de vista" /
+     "posicion de vista" / "direccion de vista". Se confundir, anotar o que ouviu.
+  5. Imagem: a proporção quando o PNG é lido com PySide dentro do FreeCAD.
+  6. Vista explodida (5c.6): que se veja explodida com a janela real.
+  7. Juntas: que "junta esferica" dita de corrido e "junta" -> "esferica" façam o
+     mesmo; se o reconhecedor confundir "junta" com outra palavra, anotar o que ouviu.
+  8. Peça nova (5c.4): que o Body ativo permita modelar logo sem passos extras.
+  9. Exemplo da haste roscada (5c.9): arrastar uma porca com o mouse e que
+     gire avançando 3,5 mm por volta; e a cota do passo na janela real.
+
+Se algo falhar, passe-me: o que você disse, o que o DAV ouviu (o texto que mostra o quadro)
+e a mensagem que sai no console do FreeCAD (as que começam com [DAV]).

@@ -78,5 +78,5 @@ flowchart TD
 - **Otros diálogos no pasan por acá.** Los comandos que arman su propia conversación
   (elegir un plano, abrir un archivo, un ejemplo guiado) abren directamente su prompt
   con los helpers de `Workbench/_prompts.py`; ver
-  [`guia-contribuir-dav.md`](../guia-contribuir-dav.md).
+  [`guia-contribuir-dav.md`](../guia-desarrollo-dav.md).
 - **Probar sin micrófono:** `ExecuteEntry(Entry, SimulatedFinalTexts=["cinco okey"])`.

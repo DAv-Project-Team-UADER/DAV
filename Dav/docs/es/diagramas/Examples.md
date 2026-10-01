@@ -29,7 +29,7 @@ classDiagram
     }
 
     class ExampleModule {
-        <<_sketcher _draft _techdraw _partdesign _dado _arandela _bulontuerca>>
+        <<_sketcher _draft _techdraw _partdesign _dado _arandela _bulontuerca _tijeras _varilla>>
         +dict TITLE
         +steps() list
     }
@@ -67,6 +67,7 @@ classDiagram
 | `_dado` | Un dado: el 1 con un cilindro, del 2 al 6 con un boceto y un vaciado por cara | Cota 3D, seis vistas y «tres de» | 25 |
 | `_arandela` | Una arandela plana M6: dos círculos en un croquis, extrusión de 1,6 mm y una hoja de TechDraw con vista isométrica, vista del boceto y texto | Restricción de diámetro y cota 2D | 11 |
 | `_bulontuerca` | Un bulón M6 (simplificado de la DIN 931) y su tuerca en PartDesign, y un ensamblaje: vínculos insertados por voz, bulón anclado y junta cilíndrica por las caras elegidas | Ensamblaje y «tres de» | 11 |
+| `_varilla` | Una varilla roscada M30: núcleo cilíndrico y rosca real (filete de 60° en una hélice de paso 3,5), cota del paso, y dos tuercas hexagonales en un ensamblaje con juntas de tornillo por las caras de los extremos | Cota 3D, junta de tornillo y «tres de» | 16 |
 
 Cada módulo expone `TITLE` (por idioma) y `steps()`, que devuelve la lista de
 [`ExampleStep`](ExampleStep.md). Para sumar un ejemplo alcanza con crear el módulo

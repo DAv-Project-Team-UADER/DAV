@@ -31,6 +31,8 @@ TraduceToPt = {
 
     #Hélice aditiva
     'heliceaditiva':     additive['additivehelix'],
+    'helice aditiva':    additive['additivehelix'],
+    'helice':            additive['additivehelix'],
 
     #Loft aditivo
     'loftaditivo':      additive['additiveloft'],

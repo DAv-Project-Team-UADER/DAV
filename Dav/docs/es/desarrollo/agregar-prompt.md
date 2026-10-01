@@ -129,7 +129,7 @@ class ColorInputPrompt(BaseInputPrompt):
   hace `YesNoInputPrompt`, y aceptá las de los tres a la vez al comparar.
 - **No importes `FreeCAD` a nivel de módulo** en `InputPrompts/`: hacelo dentro de las
   funciones, así el prompt se puede probar sin FreeCAD.
-- **Docstrings en inglés, cabezal obligatorio**, y un diagrama en `docs/diagramas/`.
+- **Docstrings en inglés, cabezal obligatorio**, y un diagrama en `docs/es/diagramas/`.
 
 ---
 

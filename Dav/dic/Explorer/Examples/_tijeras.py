@@ -17,7 +17,7 @@
 
 """Assembly example: scissors made of 5 parts (2 blades, 2 handles and a pin), joined in an assembly.
 
-The full voice guide, with the open assembly and the ANSI B drawing, is ``Dav/docs/guia-tijeras-voz.md``.
+The full voice guide, with the open assembly and the ANSI B drawing, is ``Dav/docs/en/voice-scissors-guide.md``.
 """
 
 import FreeCAD as App

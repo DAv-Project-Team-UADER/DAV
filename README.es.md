@@ -7,7 +7,7 @@
 
 **DAV** es un desarrollo inclusivo pensado para promover la participación de personas con discapacidad motriz en el diseño 2D/3D.
 
-Nació como un proyecto académico en el marco de una **Práctica Educativa Territorial (PET)** ([Res. CD-FCYT N° 574-25](Dav/docs/normativas/Res.%20CD-FCYT%20N%C2%BA%20574-25%20-%20%20PET%20-%20DAV%20%28Dise%C3%B1o%20Asistido%20por%20Voz%29....pdf)) de la Facultad de Ciencia y Tecnología, sede Concepción del Uruguay, de la [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). Está orientado a la integración de comandos de voz en el software de modelado [**FreeCAD**](https://www.freecad.org/index.php).
+Nació como un proyecto académico en el marco de una **Práctica Educativa Territorial (PET)** ([Res. CD-FCYT N° 574-25](Dav/docs/es/normativas/Res.%20CD-FCYT%20N%C2%BA%20574-25%20-%20%20PET%20-%20DAV%20%28Dise%C3%B1o%20Asistido%20por%20Voz%29....pdf)) de la Facultad de Ciencia y Tecnología, sede Concepción del Uruguay, de la [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). Está orientado a la integración de comandos de voz en el software de modelado [**FreeCAD**](https://www.freecad.org/index.php).
 
 El objetivo del proyecto es permitir que personas con discapacidad motriz puedan crear y modificar modelos, dibujos y piezas 3D mediante comandos de voz. De esta manera, se busca ofrecer una alternativa de interacción por voz que complemente el teclado y el mouse dentro del entorno CAD, ampliando las posibilidades de participación y fomentando la accesibilidad tecnológica.
 

@@ -110,7 +110,7 @@ una página: banco de trabajo -> dibujo tecnico -> pagina -> plantilla ->
        [ ] elegir vista. Esperado: dos cotas (largo y alto) fuera de la figura.
      Sinónimos: "cota total", "medidas totales", "largo y alto".
 
-Idea para 2: reproducir el plano de la guía (docs/guia-tijeras-voz.md, pasos 42-47)
+Idea para 2: reproducir el plano de la guía (docs/es/guia-tijeras-voz.md, pasos 42-47)
 y compararlo con docs/ejemplo-tijeras/tijeras_dav.png.
 
 ==============================================================================
@@ -277,6 +277,25 @@ Preparación: dos cuerpos con un cilindro cada uno (ver PREPARACIÓN) y un ensam
       seleccionarlo antes con el mouse. Probar 360 y 180, y un perfil que cruce el eje
       (debe avisar con un error y no dejar objetos rotos).
 
+5c.9 Ejemplo "Varilla roscada M30 con tuercas"  (ejemplos -> elegir "Varilla roscada M30 con tuercas")
+  HAY QUE TESTEARLO EN LA INTERFAZ: solo se probó sin ventana (FreeCAD en consola).
+  [ ] Los 16 cuadros avanzan en orden y cada acción se ejecuta al decir todo el cuadro.
+  [ ] Rosca (cuadros 2-4): el filete triangular se enrolla en una hélice de paso 3,5 y
+      27 vueltas, sin error. Tarda unos 10 s en recalcular: es normal.
+  [ ] Cota del paso (cuadro 5): de (15,0,2) a (15,0,5,5) marca 3,5 mm. NO se probó
+      (necesita el módulo "measure" de la ventana real).
+  [ ] "junta de tornillo" (cuadros 13-14): la lista de caras de la varilla es larga
+      ("abajo" 8 y 9 veces); comprobar que elige "Cara inferior" y "Cara superior".
+      Esperado: una tuerca en cada punta (z 0-24 y z 76-100), ambas sobre el eje.
+  [ ] LO MÁS DUDOSO: arrastrar una tuerca con el mouse. Debe girar y avanzar 3,5 mm
+      por vuelta. En consola el "resolver" no impone ese avance (solo vale al arrastrar),
+      así que si la tuerca se desliza sin girar, anotarlo.
+  [ ] En portugués: "helice" bajo "aditivo" debe reconocerse (se agregó la clave).
+  [ ] Los comandos reales: "junta de tornillo" dicha a mano ahora acerca la pieza libre
+      al eje antes de resolver (_AlignForScrew); comprobar que no rompe otras juntas.
+  [ ] La lista de caras ahora reserva lugar para caras planas aunque la pieza tenga
+      muchos cilindros; comprobar que en piezas simples el orden no cambió.
+
 Todavía NO son por voz (siguen abriendo el panel o diálogo de FreeCAD):
   - "simulacion" (panel de movimientos y línea de tiempo)
   - "preferencias" del banco Assembly (diálogo de configuración)
@@ -295,6 +314,8 @@ Todavía NO son por voz (siguen abriendo el panel o diálogo de FreeCAD):
   7. Uniones: que "junta esferica" dicho de corrido y "junta" -> "esferica" hagan lo
      mismo; si el reconocedor confunde "junta" con otra palabra, anotar qué oyó.
   8. Pieza nueva (5c.4): que el Body activo permita modelar enseguida sin pasos extra.
+  9. Ejemplo de la varilla roscada (5c.9): arrastrar una tuerca con el mouse y que
+     gire avanzando 3,5 mm por vuelta; y la cota del paso en la ventana real.
 
 Si algo falla, pasame: qué dijiste, qué oyó DAV (el texto que muestra el cuadro)
 y el mensaje que sale en la consola de FreeCAD (los que empiezan con [DAV]).

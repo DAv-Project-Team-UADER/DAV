@@ -545,6 +545,31 @@ def perpendicular_joint() -> None:
     _SimpleJoint("Perpendicular", "Kept perpendicular")
 
 
+def _AlignForScrew(Doc, Assembly, Joint, Parts) -> None:
+    """Bring the free part onto the joint frame of the other one before the first solve.
+
+    The helical coupling of a screw joint only moves a part from where it already is, and the
+    solver does not converge when the two frames start far apart. So the part that is not
+    grounded is first set so that both frames coincide.
+
+    Args:
+        Doc: Active FreeCAD document.
+        Assembly: The assembly that holds the joint.
+        Joint: The screw joint, already connected to ``Parts``.
+        Parts: The two joined parts, in the order of the joint's frames.
+    """
+    grounded = [
+        getattr(obj, "ObjectToGround", None)
+        for obj in _JointGroup(Assembly).Group
+        if hasattr(obj, "ObjectToGround")
+    ]
+    moving, fixed = (Parts[1], Parts[0]) if Parts[1] not in grounded else (Parts[0], Parts[1])
+    frames = {Parts[0]: Joint.Placement1, Parts[1]: Joint.Placement2}
+    target = fixed.Placement.multiply(frames[fixed])
+    moving.Placement = target.multiply(frames[moving].inverse())
+    Doc.recompute()
+
+
 def _RatioJoint(JointTypeName: str, Verb: str, Radius1: float, Radius2: float | None) -> None:
     """Create a joint whose motion ratio comes from one or two dictated radii.
 
@@ -579,6 +604,8 @@ def _RatioJoint(JointTypeName: str, Verb: str, Radius1: float, Radius2: float | 
     joint.Distance = Radius1
     if Radius2 is not None:
         joint.Distance2 = Radius2
+    if JointTypeName == "Screw":
+        _AlignForScrew(doc, _ActiveAssembly(doc), joint, parts)
 
     doc.recompute()
     _RegisterObject(joint)

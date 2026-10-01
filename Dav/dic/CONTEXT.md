@@ -1,7 +1,7 @@
 # DAV — `Dav/dic/`: el árbol de comandos por voz
 
 > Proyecto DAV · UADER - FCyT. Este archivo explica **qué hay en `dic/` y cómo está
-> organizado**. Para *agregar* cosas, ver la [guía de desarrollo](../docs/guia-desarrollo-dav.md).
+> organizado**. Para *agregar* cosas, ver la [guía de desarrollo](../docs/es/guia-desarrollo-dav.md).
 
 ---
 
@@ -143,7 +143,7 @@ Lo que hay que saber de este recorrido:
   lo halla la busca por nombre. Por eso el diccionario maestro de una carpeta se llama
   como ella (`Print/Print.py`, `Workbench/workbench.py`).
 - **Las frases del nivel actual son la gramática de Vosk.** El reconocedor solo oye las
-  palabras del contexto: ver [`acortador-gramatica-vosk.md`](../docs/acortador-gramatica-vosk.md).
+  palabras del contexto: ver [`acortador-gramatica-vosk.md`](../docs/es/acortador-gramatica-vosk.md).
 - **Un archivo roto no tumba el motor**: si un diccionario falla al importar, el loader
   lo omite y sigue. Lo malo es que **falla en silencio**; ver las reglas.
 
@@ -198,10 +198,10 @@ simple que alcance.
 | **3. API de la vista o de Qt** | No hay comando equivalente | `'zoomin': lambda: Gui.ActiveDocument.ActiveView.zoomIn()` |
 
 Las funciones con **parámetros tipados** (`radius: float`) piden esos valores por voz
-solas: ver [`FlujoComandoConParametros`](../docs/diagramas/FlujoComandoConParametros.md).
+solas: ver [`FlujoComandoConParametros`](../docs/es/diagramas/FlujoComandoConParametros.md).
 Los comandos que arman su propia conversación (elegir un plano, abrir un archivo) usan
 los diálogos de `Workbench/_prompts.py`: ver
-[`agregar-prompt.md`](../docs/desarrollo/agregar-prompt.md).
+[`agregar-prompt.md`](../docs/es/desarrollo/agregar-prompt.md).
 
 ---
 
@@ -238,13 +238,13 @@ Cada submenú tiene su propia carpeta con el mismo esquema, y así hasta las hoj
 
 | Necesito… | Leer |
 | --- | --- |
-| Agregar una frase o un comando | [`agregar-comando.md`](../docs/desarrollo/agregar-comando.md) |
-| Crear una carpeta nueva | [`agregar-submenu.md`](../docs/desarrollo/agregar-submenu.md) |
-| Crear o reutilizar un diálogo de voz | [`agregar-prompt.md`](../docs/desarrollo/agregar-prompt.md) |
-| Probar sin abrir la interfaz | [`probando.md`](../docs/desarrollo/probando.md) |
-| Ver las clases del motor | [`diagramas/`](../docs/diagramas/README.md) |
-| Saber qué sigue abierto antes de tocar el árbol | [`pendientes-dav.md`](../docs/pendientes-dav.md) |
-| Saber qué ya se resolvió y por qué | [`completados-dav.md`](../docs/completados-dav.md) |
+| Agregar una frase o un comando | [`agregar-comando.md`](../docs/es/desarrollo/agregar-comando.md) |
+| Crear una carpeta nueva | [`agregar-submenu.md`](../docs/es/desarrollo/agregar-submenu.md) |
+| Crear o reutilizar un diálogo de voz | [`agregar-prompt.md`](../docs/es/desarrollo/agregar-prompt.md) |
+| Probar sin abrir la interfaz | [`probando.md`](../docs/es/desarrollo/probando.md) |
+| Ver las clases del motor | [`diagramas/`](../docs/es/diagramas/README.md) |
+| Saber qué sigue abierto antes de tocar el árbol | [`pendientes-dav.md`](../docs/es/pendientes-dav.md) |
+| Saber qué ya se resolvió y por qué | [`completados-dav.md`](../docs/es/completados-dav.md) |
 
 Los `AVANCES_*.md` de esta carpeta son el **registro histórico** de la auditoría de
 cada módulo (tickets cubiertos, correcciones aplicadas); no describen el estado

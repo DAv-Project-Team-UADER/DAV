@@ -45,7 +45,7 @@ DAV/
 | Extracción de sub-elementos (selección) | `Dav/scr/selection/` |
 | Validación de comandos | `Dav/scr/validation/` |
 | Modelos Vosk (no versionados) | `Dav/models/` |
-| Documentación del proyecto | `Dav/docs/` |
+| Documentación del proyecto | `Dav/docs/es/` (español) y `Dav/docs/en/` (inglés) |
 
 ## El árbol de comandos por voz (`Dav/dic/`)
 

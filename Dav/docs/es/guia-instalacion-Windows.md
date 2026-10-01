@@ -151,7 +151,7 @@ El script crea el enlace del workbench DAV en
 `~/.local/share/FreeCAD/v1-1/Mod/DAV` y abre FreeCAD.
 
 > Explicación paso a paso y solución de problemas de Linux: ver
-> **`Dav/docs/README-linux.md`**.
+> **`Dav/docs/es/README-linux.md`**.
 
 ---
 
@@ -171,5 +171,5 @@ El script crea el enlace del workbench DAV en
 
 | Tema                                                                                                  | Dónde está                                          |
 | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Guía de Linux detallada                                                                               | `Dav/docs/README-linux.md`                          |
+| Guía de Linux detallada                                                                               | `Dav/docs/es/README-linux.md`                          |
 | **Documentación técnica del instalador** (cómo se generó el `.exe`, cómo funciona y cómo regenerarlo) | `Dav/scr/ComponentesDAV/scripts/iexpress/README.md` |

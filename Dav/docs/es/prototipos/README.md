@@ -34,7 +34,7 @@ Sólo lo alcanzaba `cad_session.py`, así que se retira con él.
 
 ## Por qué se retiraron (2026-08-10)
 
-Ver `Dav/docs/pendientes-dav.md` §9. Resumen: llegaron a existir tres motores de
+Ver `Dav/docs/es/pendientes-dav.md` §9. Resumen: llegaron a existir tres motores de
 voz en paralelo por desarrollo simultáneo, no por diseño. Quedó uno.
 
 ## Nota para quien lo mueva de nuevo
