@@ -82,6 +82,14 @@ TraduceToEn = {
     "erase object": selection["delete"],
     "suppress": selection["delete"],
 
+    # spell — spell the name and keep the object that looks most like it
+    "search by spelling": selection["spell"],
+    "search spelling": selection["spell"],
+    "spell search": selection["spell"],
+    "search object": selection["spell"],
+    "spell": selection["spell"],
+    "search": selection["spell"],
+
     "help": ayuda,
 }
 

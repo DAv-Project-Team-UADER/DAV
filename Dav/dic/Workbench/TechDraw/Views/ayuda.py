@@ -15,3 +15,6 @@ def ayuda():
     print("  'complexSection' : Genera vistas de sección y cortes complejos del modelo. | Req: Vista activa y elementos de corte")
     print("  'draft'          : Proyecta un objeto bidimensional (2D) del workbench Draft. | Req: Objeto planar de Draft seleccionado")
     print("  'spreadsheet'    : Renderiza e integra una tabla de Hoja de Cálculo en la hoja. | Req: Hoja de cálculo activa")
+    print("  'vista de objeto': Crea una vista eligiendo todo por voz: objeto (lista o 'buscar por deletreo'), dirección, escala y posición. | Req: Página activa")
+    print("  'dirección de vista' / 'escala de vista' / 'posición de vista': Cambian la dirección, escala o posición de una vista. | Req: Vista existente")
+    print("  'proyección de página': Elige tercer ángulo (ASME) o primer ángulo (ISO) para la página. | Req: Página activa")

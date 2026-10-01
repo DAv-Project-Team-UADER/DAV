@@ -1,0 +1,1417 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1228 5698" width="1228" height="5698" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">GitFlow de DAV: historial real del repositorio</title>
+<desc id="dsc">Gráfico de ramas, merges, Pull Requests y tags del repositorio DAV entre 2026-04-27 y 2026-09-25, reconstruido desde git log.</desc>
+<defs>
+  <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#1e3a8a"/>
+  </linearGradient>
+  <filter id="sh" x="-5%" y="-5%" width="110%" height="120%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0f172a" flood-opacity=".12"/></filter>
+</defs>
+<rect width="1228" height="5698" fill="#ffffff"/>
+<rect x="0" y="0" width="1228" height="150" fill="url(#hdr)"/>
+<text x="40" y="58" font-size="32" font-weight="700" fill="#ffffff">GitFlow de DAV</text>
+<text x="40" y="86" font-size="17" fill="#bfdbfe">Historial real del repositorio · reconstruido a partir de <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="15" fill="#fde68a">git log --all</tspan></text>
+<text x="40" y="112.0" font-size="13" fill="#cbd5e1" xml:space="preserve">Las ramas Pruebas, DavCore, davcore-integracion y hot-fix-v1.0.1 ya fueron borradas del remoto; se reconstruyen desde los commits de merge y los tags. Cada nodo resume un grupo de</text>
+<text x="40" y="130.0" font-size="13" fill="#cbd5e1" xml:space="preserve">commits; #N es el Pull Request de GitHub.</text>
+<text x="1188" y="58" text-anchor="end" font-size="13" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#93c5fd">github.com/DAv-Project-Team-UADER/DAV</text>
+<g filter="url(#sh)"><rect x="40.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="40.0" y="168" width="6" height="66" rx="3" fill="#1d4ed8"/>
+<text x="60.0" y="200" font-size="22" font-weight="700" fill="#0f172a">776</text>
+<text x="60.0" y="220" font-size="12" fill="#64748b">commits totales</text>
+<g filter="url(#sh)"><rect x="206.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="206.0" y="168" width="6" height="66" rx="3" fill="#7c3aed"/>
+<text x="226.0" y="200" font-size="22" font-weight="700" fill="#0f172a">176</text>
+<text x="226.0" y="220" font-size="12" fill="#64748b">merges</text>
+<g filter="url(#sh)"><rect x="372.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="372.0" y="168" width="6" height="66" rx="3" fill="#0891b2"/>
+<text x="392.0" y="200" font-size="22" font-weight="700" fill="#0f172a">130</text>
+<text x="392.0" y="220" font-size="12" fill="#64748b">nodos en el gráfico</text>
+<g filter="url(#sh)"><rect x="538.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="538.0" y="168" width="6" height="66" rx="3" fill="#059669"/>
+<text x="558.0" y="200" font-size="22" font-weight="700" fill="#0f172a">35</text>
+<text x="558.0" y="220" font-size="12" fill="#64748b">ramas dibujadas</text>
+<g filter="url(#sh)"><rect x="704.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="704.0" y="168" width="6" height="66" rx="3" fill="#d97706"/>
+<text x="724.0" y="200" font-size="22" font-weight="700" fill="#0f172a">6</text>
+<text x="724.0" y="220" font-size="12" fill="#64748b">tags de release</text>
+<g filter="url(#sh)"><rect x="870.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="870.0" y="168" width="6" height="66" rx="3" fill="#db2777"/>
+<text x="890.0" y="200" font-size="22" font-weight="700" fill="#0f172a">#1–#271</text>
+<text x="890.0" y="220" font-size="12" fill="#64748b">Pull Requests</text>
+<g filter="url(#sh)"><rect x="1036.0" y="168" width="152.0" height="66" rx="10" fill="#ffffff" stroke="#e2e8f0"/></g>
+<rect x="1036.0" y="168" width="6" height="66" rx="3" fill="#475569"/>
+<text x="1056.0" y="200" font-size="17" font-weight="700" fill="#0f172a">04-27 → 09-25</text>
+<text x="1056.0" y="220" font-size="12" fill="#64748b">período (2026)</text>
+<text x="40" y="268" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1.2">LÍNEA DE TIEMPO</text>
+<rect x="40.0" y="380" width="66.4" height="26" rx="5" fill="#94a3b8"/>
+<text x="73.2" y="397" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff"></text>
+<rect x="108.4" y="380" width="370.5" height="26" rx="5" fill="#0891b2"/>
+<text x="293.7" y="397" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Fase 1 · Pruebas</text>
+<rect x="481.0" y="380" width="621.4" height="26" rx="5" fill="#059669"/>
+<text x="791.7" y="397" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Fase 2 · DavCore</text>
+<rect x="1104.4" y="380" width="81.6" height="26" rx="5" fill="#dc2626"/>
+<text x="1145.2" y="397" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Fase 3</text>
+<line x1="70.4" y1="406" x2="70.4" y2="416" stroke="#94a3b8"/>
+<text x="70.4" y="430" text-anchor="middle" font-size="11" fill="#64748b">Mayo</text>
+<line x1="306.1" y1="406" x2="306.1" y2="416" stroke="#94a3b8"/>
+<text x="306.1" y="430" text-anchor="middle" font-size="11" fill="#64748b">Junio</text>
+<line x1="534.2" y1="406" x2="534.2" y2="416" stroke="#94a3b8"/>
+<text x="534.2" y="430" text-anchor="middle" font-size="11" fill="#64748b">Julio</text>
+<line x1="769.9" y1="406" x2="769.9" y2="416" stroke="#94a3b8"/>
+<text x="769.9" y="430" text-anchor="middle" font-size="11" fill="#64748b">Agosto</text>
+<line x1="1005.5" y1="406" x2="1005.5" y2="416" stroke="#94a3b8"/>
+<text x="1005.5" y="430" text-anchor="middle" font-size="11" fill="#64748b">Septiembre</text>
+<line x1="1104.4" y1="380" x2="1104.4" y2="362" stroke="#d97706" stroke-width="1.5"/>
+<path d="M1104.4,357 l5,5 l-5,5 l-5,-5 z" fill="#f59e0b" stroke="#b45309"/>
+<text x="1094.4" y="366" text-anchor="end" font-size="12" font-weight="600" fill="#92400e">v1.0.0 · V.1.0 <tspan font-weight="400" fill="#94a3b8" font-size="11">· 09-14</tspan></text>
+<line x1="1150.0" y1="380" x2="1150.0" y2="345" stroke="#d97706" stroke-width="1.5"/>
+<path d="M1150.0,340 l5,5 l-5,5 l-5,-5 z" fill="#f59e0b" stroke="#b45309"/>
+<text x="1140.0" y="349" text-anchor="end" font-size="12" font-weight="600" fill="#92400e">v1.0.1 <tspan font-weight="400" fill="#94a3b8" font-size="11">· 09-20</tspan></text>
+<line x1="1157.6" y1="380" x2="1157.6" y2="328" stroke="#d97706" stroke-width="1.5"/>
+<path d="M1157.6,323 l5,5 l-5,5 l-5,-5 z" fill="#f59e0b" stroke="#b45309"/>
+<text x="1147.6" y="332" text-anchor="end" font-size="12" font-weight="600" fill="#92400e">V1.0.1 <tspan font-weight="400" fill="#94a3b8" font-size="11">· 09-21</tspan></text>
+<line x1="1186.0" y1="380" x2="1186.0" y2="311" stroke="#d97706" stroke-width="1.5"/>
+<path d="M1186.0,306 l5,5 l-5,5 l-5,-5 z" fill="#f59e0b" stroke="#b45309"/>
+<text x="1176.0" y="315" text-anchor="end" font-size="12" font-weight="600" fill="#92400e">v1.0.2 <tspan font-weight="400" fill="#94a3b8" font-size="11">· 09-25</tspan></text>
+<line x1="1186.0" y1="380" x2="1186.0" y2="294" stroke="#d97706" stroke-width="1.5"/>
+<path d="M1186.0,289 l5,5 l-5,5 l-5,-5 z" fill="#f59e0b" stroke="#b45309"/>
+<text x="1176.0" y="298" text-anchor="end" font-size="12" font-weight="600" fill="#92400e">V1.0.3 <tspan font-weight="400" fill="#94a3b8" font-size="11">· 09-25</tspan></text>
+<text x="40" y="458" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1.2">LEYENDA</text>
+<circle cx="48" cy="477" r="6" fill="#64748b" stroke="#fff" stroke-width="2"/><text x="62" y="481" font-size="12" fill="#334155">commit(s)</text>
+<circle cx="156" cy="477" r="8" fill="#fff" stroke="#64748b" stroke-width="3"/><circle cx="156" cy="477" r="3" fill="#64748b"/><text x="172" y="481" font-size="12" fill="#334155">merge (PR)</text>
+<circle cx="268" cy="477" r="12" fill="none" stroke="#f59e0b" stroke-width="2" opacity=".85"/><circle cx="268" cy="477" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/><text x="288" y="481" font-size="12" fill="#334155">tag de release</text>
+<circle cx="406" cy="477" r="7" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="406" y="480.5" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">R</text><text x="422" y="481" font-size="12" fill="#334155">revert</text>
+<rect x="40" y="506" width="44.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="51" cy="516" r="4" fill="#1d4ed8"/>
+<text x="60" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<rect x="92.8" y="506" width="64.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="103.8" cy="516" r="4" fill="#0891b2"/>
+<text x="112.8" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<rect x="165.7" y="506" width="64.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="176.7" cy="516" r="4" fill="#059669"/>
+<text x="185.7" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<rect x="238.6" y="506" width="145.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="249.6" cy="516" r="4" fill="#7c3aed"/>
+<text x="258.6" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<rect x="391.9" y="506" width="64.9" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="402.9" cy="516" r="4" fill="#db2777"/>
+<text x="411.9" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-*</text>
+<rect x="464.79999999999995" y="506" width="78.3" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="475.79999999999995" cy="516" r="4" fill="#dc2626"/>
+<text x="484.79999999999995" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-*</text>
+<rect x="551.0999999999999" y="506" width="111.8" height="20" rx="10" fill="#d97706" fill-opacity=".12" stroke="#d97706"/>
+<circle cx="562.0999999999999" cy="516" r="4" fill="#d97706"/>
+<text x="571.0999999999999" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#d97706">Tade-Cami-Mica</text>
+<rect x="670.8999999999999" y="506" width="118.5" height="20" rx="10" fill="#64748b" fill-opacity=".12" stroke="#64748b"/>
+<circle cx="681.8999999999999" cy="516" r="4" fill="#64748b"/>
+<text x="690.8999999999999" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">*-patch-N / web</text>
+<rect x="797.3999999999999" y="506" width="225.7" height="20" rx="10" fill="#0d9488" fill-opacity=".12" stroke="#0d9488"/>
+<circle cx="808.3999999999999" cy="516" r="4" fill="#0d9488"/>
+<text x="817.3999999999999" y="520" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488">ramas de tarea (color rotativo)</text>
+<rect x="30" y="554" width="1168" height="24" rx="6" fill="#0f172a"/>
+<text x="132" y="570" text-anchor="end" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="1">FECHA</text>
+<text x="164" y="570" text-anchor="start" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="1">GRAFO</text>
+<text x="372" y="570" text-anchor="start" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="1">RAMA</text>
+<text x="643.1" y="570" text-anchor="start" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="1">DESCRIPCIÓN (PR = Pull Request de GitHub)</text>
+<text x="1058.925" y="570" text-anchor="start" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="1">TAG</text>
+<rect x="30" y="590" width="1168" height="36" rx="8" fill="#94a3b8" fill-opacity=".10"/>
+<rect x="30" y="590" width="6" height="36" rx="3" fill="#94a3b8"/>
+<text x="48" y="613" font-size="14" font-weight="800" fill="#94a3b8" letter-spacing="1">ARRANQUE</text>
+<text x="372" y="613" font-size="15" font-weight="600" fill="#0f172a">main · commits iniciales del repositorio</text>
+<text x="1182" y="613" text-anchor="end" font-size="12" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8">04-27 → 05-06  ·  3 nodos  ·  0 merges</text>
+<line x1="30" y1="632.0" x2="1198" y2="632.0" stroke="#cbd5e1" stroke-dasharray="2 4"/>
+<text x="34" y="643.0" font-size="9.5" font-weight="700" fill="#94a3b8" letter-spacing="1">ABRIL</text>
+<rect x="362" y="632.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="632.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="692.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="692.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="30" y="730" width="1168" height="36" rx="8" fill="#0891b2" fill-opacity=".10"/>
+<rect x="30" y="730" width="6" height="36" rx="3" fill="#0891b2"/>
+<text x="48" y="753" font-size="14" font-weight="800" fill="#0891b2" letter-spacing="1">FASE 1</text>
+<text x="372" y="753" font-size="15" font-weight="600" fill="#0f172a">Pruebas · integración, mayo–junio</text>
+<text x="1182" y="753" text-anchor="end" font-size="12" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">05-06 → 06-23  ·  25 nodos  ·  7 merges</text>
+<line x1="30" y1="772.0" x2="1198" y2="772.0" stroke="#cbd5e1" stroke-dasharray="2 4"/>
+<text x="34" y="783.0" font-size="9.5" font-weight="700" fill="#94a3b8" letter-spacing="1">MAYO</text>
+<rect x="362" y="802.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="802.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="862.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="862.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="922.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="922.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="982.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="982.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1042.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1042.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1102.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1102.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1162.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1162.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1222.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1222.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1282.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1282.0" width="98" height="30" fill="#f8fafc"/>
+<line x1="30" y1="1342.0" x2="1198" y2="1342.0" stroke="#cbd5e1" stroke-dasharray="2 4"/>
+<text x="34" y="1353.0" font-size="9.5" font-weight="700" fill="#94a3b8" letter-spacing="1">JUNIO</text>
+<rect x="362" y="1342.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1342.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1402.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1402.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1462.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1462.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="30" y="1530" width="1168" height="36" rx="8" fill="#059669" fill-opacity=".10"/>
+<rect x="30" y="1530" width="6" height="36" rx="3" fill="#059669"/>
+<text x="48" y="1553" font-size="14" font-weight="800" fill="#059669" letter-spacing="1">FASE 2</text>
+<text x="372" y="1553" font-size="15" font-weight="600" fill="#0f172a">DavCore · integración, junio–septiembre</text>
+<text x="1182" y="1553" text-anchor="end" font-size="12" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">06-24 → 09-14  ·  80 nodos  ·  40 merges</text>
+<rect x="362" y="1572.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1572.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1632.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1632.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1692.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1692.0" width="98" height="30" fill="#f8fafc"/>
+<line x1="30" y1="1722.0" x2="1198" y2="1722.0" stroke="#cbd5e1" stroke-dasharray="2 4"/>
+<text x="34" y="1733.0" font-size="9.5" font-weight="700" fill="#94a3b8" letter-spacing="1">AGOSTO</text>
+<rect x="362" y="1752.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1752.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1812.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1812.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1872.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1872.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1932.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1932.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="1992.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="1992.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2052.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2052.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2112.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2112.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2172.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2172.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2232.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2232.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2292.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2292.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2352.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2352.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2412.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2412.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2472.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2472.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2532.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2532.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2592.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2592.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2652.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2652.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2712.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2712.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2772.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2772.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2832.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2832.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2892.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2892.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="2952.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="2952.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3012.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3012.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3072.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3072.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3132.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3132.0" width="98" height="30" fill="#f8fafc"/>
+<line x1="30" y1="3162.0" x2="1198" y2="3162.0" stroke="#cbd5e1" stroke-dasharray="2 4"/>
+<text x="34" y="3173.0" font-size="9.5" font-weight="700" fill="#94a3b8" letter-spacing="1">SEPTIEMBRE</text>
+<rect x="362" y="3192.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3192.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3252.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3252.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3312.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3312.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3372.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3372.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3432.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3432.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3492.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3492.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3552.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3552.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3612.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3612.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3672.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3672.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3732.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3732.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3792.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3792.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3852.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3852.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="3912.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="3912.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="30" y="3980" width="1168" height="36" rx="8" fill="#dc2626" fill-opacity=".10"/>
+<rect x="30" y="3980" width="6" height="36" rx="3" fill="#dc2626"/>
+<text x="48" y="4003" font-size="14" font-weight="800" fill="#dc2626" letter-spacing="1">FASE 3</text>
+<text x="372" y="4003" font-size="15" font-weight="600" fill="#0f172a">release 1.0 y hotfixes sobre main</text>
+<text x="1182" y="4003" text-anchor="end" font-size="12" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">09-14 → 09-25  ·  22 nodos  ·  7 merges</text>
+<rect x="362" y="4022.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4022.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4082.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4082.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4142.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4142.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4202.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4202.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4262.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4262.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4322.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4322.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4382.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4382.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4442.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4442.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4502.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4502.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4562.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4562.0" width="98" height="30" fill="#f8fafc"/>
+<rect x="362" y="4622.0" width="836" height="30" fill="#f8fafc"/>
+<rect x="30" y="4622.0" width="98" height="30" fill="#f8fafc"/>
+<path d="M164,647.0 L164,677.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,647.0 L164,677.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,677.0 L164,707.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,677.0 L164,707.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,707.0 C164,723.5 188,720.5 188,737.0 L188,787.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,707.0 C164,723.5 188,720.5 188,737.0 L188,787.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,787.0 C188,803.5 212,800.5 212,817.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,787.0 C188,803.5 212,800.5 212,817.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,787.0 L188,847.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,787.0 L188,847.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,817.0 C212,833.5 188,830.5 188,847.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,817.0 C212,833.5 188,830.5 188,847.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,847.0 L188,877.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,847.0 L188,877.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,707.0 L164,907.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,707.0 L164,907.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,907.0 L164,937.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,907.0 L164,937.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,937.0 L164,967.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,937.0 L164,967.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,877.0 L188,997.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,877.0 L188,997.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,997.0 L188,1027.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,997.0 L188,1027.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1027.0 L188,1057.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1027.0 L188,1057.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1057.0 L188,1087.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1057.0 L188,1087.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,817.0 L212,1117.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,817.0 L212,1117.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1087.0 L188,1147.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1087.0 L188,1147.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1117.0 C212,1133.5 188,1130.5 188,1147.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1117.0 C212,1133.5 188,1130.5 188,1147.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1147.0 C188,1163.5 260,1160.5 260,1177.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1147.0 C188,1163.5 260,1160.5 260,1177.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1147.0 L188,1207.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1147.0 L188,1207.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,1177.0 C260,1193.5 188,1190.5 188,1207.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,1177.0 C260,1193.5 188,1190.5 188,1207.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1207.0 C188,1223.5 284,1220.5 284,1237.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1207.0 C188,1223.5 284,1220.5 284,1237.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1207.0 L188,1267.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1207.0 L188,1267.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,1237.0 C284,1253.5 188,1250.5 188,1267.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,1237.0 C284,1253.5 188,1250.5 188,1267.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1267.0 C188,1283.5 260,1280.5 260,1297.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1267.0 C188,1283.5 260,1280.5 260,1297.0" fill="none" stroke="#c026d3" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1267.0 L188,1327.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1267.0 L188,1327.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,1297.0 C260,1313.5 188,1310.5 188,1327.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,1297.0 C260,1313.5 188,1310.5 188,1327.0" fill="none" stroke="#c026d3" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1327.0 L188,1357.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1327.0 L188,1357.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1117.0 L212,1387.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1117.0 L212,1387.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1357.0 L188,1417.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1357.0 L188,1417.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1387.0 C212,1403.5 188,1400.5 188,1417.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1387.0 C212,1403.5 188,1400.5 188,1417.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1387.0 L212,1447.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1387.0 L212,1447.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1417.0 L188,1477.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1417.0 L188,1477.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1447.0 C212,1463.5 188,1460.5 188,1477.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1447.0 C212,1463.5 188,1460.5 188,1477.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1477.0 L188,1507.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1477.0 L188,1507.0" fill="none" stroke="#0891b2" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1507.0 C188,1523.5 212,1520.5 212,1537.0 L212,1587.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1507.0 C188,1523.5 212,1520.5 212,1537.0 L212,1587.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1587.0 L212,1617.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1587.0 L212,1617.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,937.0 C164,953.5 236,950.5 236,967.0 L236,1647.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,937.0 C164,953.5 236,950.5 236,967.0 L236,1647.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1617.0 C212,1633.5 236,1630.5 236,1647.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1617.0 C212,1633.5 236,1630.5 236,1647.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1617.0 L212,1677.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1617.0 L212,1677.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1647.0 L236,1707.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1647.0 L236,1707.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1677.0 C212,1693.5 236,1690.5 236,1707.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1677.0 C212,1693.5 236,1690.5 236,1707.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1707.0 L236,1737.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1707.0 L236,1737.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,967.0 L164,1767.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,967.0 L164,1767.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1737.0 C236,1753.5 164,1750.5 164,1767.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1737.0 C236,1753.5 164,1750.5 164,1767.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1677.0 L212,1797.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1677.0 L212,1797.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1737.0 L236,1827.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1737.0 L236,1827.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1797.0 C212,1813.5 236,1810.5 236,1827.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1797.0 C212,1813.5 236,1810.5 236,1827.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1827.0 C236,1843.5 188,1840.5 188,1857.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1827.0 C236,1843.5 188,1840.5 188,1857.0" fill="none" stroke="#d97706" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1827.0 L236,1887.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1827.0 L236,1887.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1857.0 C188,1873.5 236,1870.5 236,1887.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1857.0 C188,1873.5 236,1870.5 236,1887.0" fill="none" stroke="#d97706" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1797.0 L212,1917.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1797.0 L212,1917.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1887.0 L236,1947.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1887.0 L236,1947.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1917.0 C212,1933.5 236,1930.5 236,1947.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1917.0 C212,1933.5 236,1930.5 236,1947.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1947.0 C236,1963.5 260,1960.5 260,1977.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1947.0 C236,1963.5 260,1960.5 260,1977.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,1947.0 L236,2007.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,1947.0 L236,2007.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,1977.0 C260,1993.5 236,1990.5 236,2007.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,1977.0 C260,1993.5 236,1990.5 236,2007.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,1767.0 C164,1783.5 284,1780.5 284,1797.0 L284,2037.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,1767.0 C164,1783.5 284,1780.5 284,1797.0 L284,2037.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,1767.0 L164,2067.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,1767.0 L164,2067.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,2037.0 C284,2053.5 164,2050.5 164,2067.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,2037.0 C284,2053.5 164,2050.5 164,2067.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,2067.0 C164,2083.5 308,2080.5 308,2097.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,2067.0 C164,2083.5 308,2080.5 308,2097.0" fill="none" stroke="#65a30d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,2067.0 L164,2127.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,2067.0 L164,2127.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M308,2097.0 C308,2113.5 164,2110.5 164,2127.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M308,2097.0 C308,2113.5 164,2110.5 164,2127.0" fill="none" stroke="#65a30d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2007.0 L236,2157.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2007.0 L236,2157.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,2037.0 L284,2127.0 C284,2143.5 236,2140.5 236,2157.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,2037.0 L284,2127.0 C284,2143.5 236,2140.5 236,2157.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2157.0 C236,2173.5 308,2170.5 308,2187.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2157.0 C236,2173.5 308,2170.5 308,2187.0" fill="none" stroke="#0284c7" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2157.0 L236,2217.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2157.0 L236,2217.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M308,2187.0 C308,2203.5 236,2200.5 236,2217.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M308,2187.0 C308,2203.5 236,2200.5 236,2217.0" fill="none" stroke="#0284c7" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,1977.0 L260,2247.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,1977.0 L260,2247.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2217.0 L236,2277.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2217.0 L236,2277.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2247.0 C260,2263.5 236,2260.5 236,2277.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2247.0 C260,2263.5 236,2260.5 236,2277.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2277.0 C236,2293.5 284,2290.5 284,2307.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2277.0 C236,2293.5 284,2290.5 284,2307.0" fill="none" stroke="#b45309" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2277.0 L236,2337.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2277.0 L236,2337.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,2307.0 C284,2323.5 236,2320.5 236,2337.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,2307.0 C284,2323.5 236,2320.5 236,2337.0" fill="none" stroke="#b45309" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2337.0 C236,2353.5 308,2350.5 308,2367.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2337.0 C236,2353.5 308,2350.5 308,2367.0" fill="none" stroke="#7e22ce" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2337.0 L236,2397.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2337.0 L236,2397.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M308,2367.0 C308,2383.5 236,2380.5 236,2397.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M308,2367.0 C308,2383.5 236,2380.5 236,2397.0" fill="none" stroke="#7e22ce" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,1857.0 L188,2427.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,1857.0 L188,2427.0" fill="none" stroke="#d97706" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2397.0 L236,2457.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2397.0 L236,2457.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,2427.0 C188,2443.5 236,2440.5 236,2457.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,2427.0 C188,2443.5 236,2440.5 236,2457.0" fill="none" stroke="#d97706" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2457.0 C236,2473.5 284,2470.5 284,2487.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2457.0 C236,2473.5 284,2470.5 284,2487.0" fill="none" stroke="#be123c" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2457.0 L236,2517.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2457.0 L236,2517.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,2487.0 C284,2503.5 236,2500.5 236,2517.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,2487.0 C284,2503.5 236,2500.5 236,2517.0" fill="none" stroke="#be123c" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,2127.0 C164,2143.5 332,2140.5 332,2157.0 L332,2547.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,2127.0 C164,2143.5 332,2140.5 332,2157.0 L332,2547.0" fill="none" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,2127.0 L164,2577.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,2127.0 L164,2577.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M332,2547.0 C332,2563.5 164,2560.5 164,2577.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M332,2547.0 C332,2563.5 164,2560.5 164,2577.0" fill="none" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2247.0 L260,2607.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2247.0 L260,2607.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2517.0 L236,2637.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2517.0 L236,2637.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2607.0 C260,2623.5 236,2620.5 236,2637.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2607.0 C260,2623.5 236,2620.5 236,2637.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2637.0 C236,2653.5 188,2650.5 188,2667.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2637.0 C236,2653.5 188,2650.5 188,2667.0" fill="none" stroke="#a16207" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2637.0 L236,2697.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2637.0 L236,2697.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,2667.0 C188,2683.5 236,2680.5 236,2697.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,2667.0 C188,2683.5 236,2680.5 236,2697.0" fill="none" stroke="#a16207" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2607.0 L260,2727.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2607.0 L260,2727.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2697.0 L236,2757.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2697.0 L236,2757.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2727.0 C260,2743.5 236,2740.5 236,2757.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2727.0 C260,2743.5 236,2740.5 236,2757.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2757.0 C236,2773.5 188,2770.5 188,2787.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2757.0 C236,2773.5 188,2770.5 188,2787.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2757.0 L236,2817.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2757.0 L236,2817.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,2787.0 C188,2803.5 236,2800.5 236,2817.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,2787.0 C188,2803.5 236,2800.5 236,2817.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2727.0 L260,2847.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2727.0 L260,2847.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2817.0 L236,2877.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2817.0 L236,2877.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2847.0 C260,2863.5 236,2860.5 236,2877.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2847.0 C260,2863.5 236,2860.5 236,2877.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,1917.0 L212,2907.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,1917.0 L212,2907.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2877.0 L236,2937.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2877.0 L236,2937.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,2907.0 C212,2923.5 236,2920.5 236,2937.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,2907.0 C212,2923.5 236,2920.5 236,2937.0" fill="none" stroke="#7c3aed" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2937.0 C236,2953.5 188,2950.5 188,2967.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2937.0 C236,2953.5 188,2950.5 188,2967.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2937.0 L236,2997.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2937.0 L236,2997.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,2967.0 C188,2983.5 236,2980.5 236,2997.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,2967.0 C188,2983.5 236,2980.5 236,2997.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2997.0 C236,3013.5 212,3010.5 212,3027.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2997.0 C236,3013.5 212,3010.5 212,3027.0" fill="none" stroke="#c026d3" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,2997.0 L236,3057.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,2997.0 L236,3057.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,3027.0 C212,3043.5 236,3040.5 236,3057.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,3027.0 C212,3043.5 236,3040.5 236,3057.0" fill="none" stroke="#c026d3" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3057.0 C236,3073.5 188,3070.5 188,3087.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3057.0 C236,3073.5 188,3070.5 188,3087.0" fill="none" stroke="#65a30d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3057.0 L236,3117.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3057.0 L236,3117.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3087.0 C188,3103.5 236,3100.5 236,3117.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3087.0 C188,3103.5 236,3100.5 236,3117.0" fill="none" stroke="#65a30d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3117.0 C236,3133.5 212,3130.5 212,3147.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3117.0 C236,3133.5 212,3130.5 212,3147.0" fill="none" stroke="#0284c7" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3117.0 L236,3177.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3117.0 L236,3177.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,3147.0 C212,3163.5 236,3160.5 236,3177.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,3147.0 C212,3163.5 236,3160.5 236,3177.0" fill="none" stroke="#0284c7" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3177.0 C236,3193.5 188,3190.5 188,3207.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3177.0 C236,3193.5 188,3190.5 188,3207.0" fill="none" stroke="#b45309" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3177.0 L236,3237.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3177.0 L236,3237.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3207.0 C188,3223.5 236,3220.5 236,3237.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3207.0 C188,3223.5 236,3220.5 236,3237.0" fill="none" stroke="#b45309" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,2847.0 L260,3267.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,2847.0 L260,3267.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3237.0 L236,3297.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3237.0 L236,3297.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,3267.0 C260,3283.5 236,3280.5 236,3297.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,3267.0 C260,3283.5 236,3280.5 236,3297.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3297.0 C236,3313.5 188,3310.5 188,3327.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3297.0 C236,3313.5 188,3310.5 188,3327.0" fill="none" stroke="#7e22ce" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3297.0 L236,3357.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3297.0 L236,3357.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3327.0 C188,3343.5 236,3340.5 236,3357.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3327.0 C188,3343.5 236,3340.5 236,3357.0" fill="none" stroke="#7e22ce" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3357.0 C236,3373.5 212,3370.5 212,3387.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3357.0 C236,3373.5 212,3370.5 212,3387.0" fill="none" stroke="#be123c" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3357.0 L236,3417.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3357.0 L236,3417.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,3387.0 C212,3403.5 236,3400.5 236,3417.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,3387.0 C212,3403.5 236,3400.5 236,3417.0" fill="none" stroke="#be123c" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3417.0 C236,3433.5 188,3430.5 188,3447.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3417.0 C236,3433.5 188,3430.5 188,3447.0" fill="none" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3417.0 L236,3477.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3417.0 L236,3477.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3447.0 C188,3463.5 236,3460.5 236,3477.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3447.0 C188,3463.5 236,3460.5 236,3477.0" fill="none" stroke="#15803d" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,3267.0 L260,3507.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,3267.0 L260,3507.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3477.0 L236,3537.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3477.0 L236,3537.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,3507.0 C260,3523.5 236,3520.5 236,3537.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,3507.0 C260,3523.5 236,3520.5 236,3537.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3537.0 C236,3553.5 188,3550.5 188,3567.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3537.0 C236,3553.5 188,3550.5 188,3567.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3537.0 L236,3597.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3537.0 L236,3597.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3567.0 C188,3583.5 236,3580.5 236,3597.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3567.0 C188,3583.5 236,3580.5 236,3597.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3597.0 C236,3613.5 212,3610.5 212,3627.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3597.0 C236,3613.5 212,3610.5 212,3627.0" fill="none" stroke="#a16207" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3597.0 L236,3657.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3597.0 L236,3657.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,3627.0 C212,3643.5 236,3640.5 236,3657.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,3627.0 C212,3643.5 236,3640.5 236,3657.0" fill="none" stroke="#a16207" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3567.0 L188,3687.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3567.0 L188,3687.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3657.0 L236,3717.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3657.0 L236,3717.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3687.0 C188,3703.5 236,3700.5 236,3717.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3687.0 C188,3703.5 236,3700.5 236,3717.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3717.0 C236,3733.5 212,3730.5 212,3747.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3717.0 C236,3733.5 212,3730.5 212,3747.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3717.0 L236,3777.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3717.0 L236,3777.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,3747.0 C212,3763.5 236,3760.5 236,3777.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,3747.0 C212,3763.5 236,3760.5 236,3777.0" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3777.0 C236,3793.5 284,3790.5 284,3807.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3777.0 C236,3793.5 284,3790.5 284,3807.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3777.0 L236,3837.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3777.0 L236,3837.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M284,3807.0 C284,3823.5 236,3820.5 236,3837.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M284,3807.0 C284,3823.5 236,3820.5 236,3837.0" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3687.0 L188,3867.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3687.0 L188,3867.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3837.0 L236,3897.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3837.0 L236,3897.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,3867.0 C188,3883.5 236,3880.5 236,3897.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,3867.0 C188,3883.5 236,3880.5 236,3897.0" fill="none" stroke="#64748b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,3507.0 L260,3927.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,3507.0 L260,3927.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3897.0 L236,3957.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3897.0 L236,3957.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M260,3927.0 C260,3943.5 236,3940.5 236,3957.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M260,3927.0 C260,3943.5 236,3940.5 236,3957.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,2577.0 L164,4037.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,2577.0 L164,4037.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M236,3957.0 L236,4007.0 C236,4023.5 164,4020.5 164,4037.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M236,3957.0 L236,4007.0 C236,4023.5 164,4020.5 164,4037.0" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4037.0 L164,4067.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4037.0 L164,4067.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4067.0 C164,4083.5 188,4080.5 188,4097.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4067.0 C164,4083.5 188,4080.5 188,4097.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4097.0 C188,4113.5 212,4110.5 212,4127.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4097.0 C188,4113.5 212,4110.5 212,4127.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4097.0 L188,4157.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4097.0 L188,4157.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4127.0 C212,4143.5 188,4140.5 188,4157.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4127.0 C212,4143.5 188,4140.5 188,4157.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4127.0 L212,4187.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4127.0 L212,4187.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4187.0 L212,4217.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4187.0 L212,4217.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4157.0 L188,4247.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4157.0 L188,4247.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4217.0 C212,4233.5 188,4230.5 188,4247.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4217.0 C212,4233.5 188,4230.5 188,4247.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4217.0 L212,4277.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4217.0 L212,4277.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4247.0 L188,4307.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4247.0 L188,4307.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4277.0 C212,4293.5 188,4290.5 188,4307.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4277.0 C212,4293.5 188,4290.5 188,4307.0" fill="none" stroke="#db2777" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4067.0 L164,4337.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4067.0 L164,4337.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4307.0 C188,4323.5 164,4320.5 164,4337.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4307.0 C188,4323.5 164,4320.5 164,4337.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4337.0 L164,4367.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4337.0 L164,4367.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4367.0 C164,4383.5 188,4380.5 188,4397.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4367.0 C164,4383.5 188,4380.5 188,4397.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4397.0 L188,4427.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4397.0 L188,4427.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4427.0 L188,4457.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4427.0 L188,4457.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4457.0 L188,4487.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4457.0 L188,4487.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4367.0 L164,4517.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4367.0 L164,4517.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M188,4487.0 C188,4503.5 164,4500.5 164,4517.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M188,4487.0 C188,4503.5 164,4500.5 164,4517.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4517.0 C164,4533.5 212,4530.5 212,4547.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4517.0 C164,4533.5 212,4530.5 212,4547.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4547.0 L212,4577.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4547.0 L212,4577.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4577.0 L212,4607.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4577.0 L212,4607.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4607.0 L212,4637.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4607.0 L212,4637.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M164,4517.0 L164,4667.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M164,4517.0 L164,4667.0" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M212,4637.0 C212,4653.5 164,4650.5 164,4667.0" fill="none" stroke="#ffffff" stroke-width="6.1" stroke-linecap="round"/><path d="M212,4637.0 C212,4653.5 164,4650.5 164,4667.0" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="164" cy="647.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<text x="132" y="651.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">04-27</text>
+<rect x="372" y="637.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="647.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="651.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="651.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Initial commit</text>
+<circle cx="164" cy="677.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="667.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="677.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="681.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="681.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Init</text>
+<circle cx="164" cy="707.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<text x="132" y="711.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">04-29</text>
+<rect x="372" y="697.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="707.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="711.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="711.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Init v1</text>
+<circle cx="188" cy="787.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="791.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-06</text>
+<rect x="372" y="777.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="787.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="791.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="791.5" font-size="12.5" fill="#1e293b" xml:space="preserve">GestorDeHilos + modelo Vosk</text>
+<text x="830.6" y="791.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="212" cy="817.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="821.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-11</text>
+<rect x="372" y="807.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="817.0" r="3.5" fill="#db2777"/>
+<text x="391" y="821.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-Pruebas</text>
+<text x="643.1" y="821.5" font-size="12.5" fill="#1e293b" xml:space="preserve">PR forks julianAO2002 <tspan font-weight="700" fill="#1e40af">#1</tspan> <tspan font-weight="700" fill="#1e40af">#7</tspan></text>
+<text x="830.6" y="821.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">Pruebas</tspan></text>
+<circle cx="188" cy="847.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="847.0" r="3" fill="#0891b2"/>
+<text x="132" y="851.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-11</text>
+<rect x="372" y="837.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="847.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="851.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="851.5" font-size="12.5" fill="#1e293b" xml:space="preserve">merge forks</text>
+<text x="726.6" y="851.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-Pruebas</tspan></text>
+<circle cx="188" cy="877.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="881.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-16</text>
+<rect x="372" y="867.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="877.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="881.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="881.5" font-size="12.5" fill="#1e293b" xml:space="preserve">DAV GUI + init.py</text>
+<circle cx="164" cy="907.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<text x="132" y="911.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-16</text>
+<rect x="372" y="897.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="907.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="911.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="911.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Structure</text>
+<circle cx="164" cy="937.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="927.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="937.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="941.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="941.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Structure v1</text>
+<circle cx="164" cy="967.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="957.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="967.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="971.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="971.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Update issue templates</text>
+<circle cx="188" cy="997.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1001.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-18</text>
+<rect x="372" y="987.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="997.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1001.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1001.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Licencia GPL + IEEE-830</text>
+<circle cx="188" cy="1027.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1031.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-18</text>
+<rect x="372" y="1017.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1027.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1031.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1031.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Modulo voz Vosk + comandos</text>
+<circle cx="188" cy="1057.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1061.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-22</text>
+<rect x="372" y="1047.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1057.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1061.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1061.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Workbench DAV + GUI temas/idiomas</text>
+<circle cx="188" cy="1087.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1091.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-23</text>
+<rect x="372" y="1077.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1087.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1091.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1091.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Explorer + diccionarios Draft/TechDraw/Part</text>
+<circle cx="212" cy="1117.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1121.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-25→05-30</text>
+<rect x="372" y="1107.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="1117.0" r="3.5" fill="#db2777"/>
+<text x="391" y="1121.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-Pruebas</text>
+<text x="643.1" y="1121.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #61</tspan> <tspan font-weight="700" fill="#1e40af">#68</tspan> <tspan font-weight="700" fill="#1e40af">#69</tspan> <tspan font-weight="700" fill="#1e40af">#86</tspan> <tspan font-weight="700" fill="#1e40af">#89</tspan></text>
+<circle cx="188" cy="1147.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1147.0" r="3" fill="#0891b2"/>
+<text x="132" y="1151.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-30</text>
+<rect x="372" y="1137.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1147.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1151.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1151.5" font-size="12.5" fill="#1e293b" xml:space="preserve">merge forks</text>
+<text x="726.6" y="1151.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-Pruebas</tspan></text>
+<circle cx="260" cy="1177.0" r="6" fill="#0d9488" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="1167.0" width="164.0" height="20" rx="10" fill="#0d9488" fill-opacity=".12" stroke="#0d9488"/>
+<circle cx="382" cy="1177.0" r="3.5" fill="#0d9488"/>
+<text x="391" y="1181.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488">task/traduce-feature</text>
+<text x="643.1" y="1181.5" font-size="12.5" fill="#1e293b" xml:space="preserve">TraduceTo ES/EN/PT</text>
+<text x="772.1" y="1181.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">Pruebas</tspan></text>
+<circle cx="188" cy="1207.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1207.0" r="3" fill="#0891b2"/>
+<text x="132" y="1211.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-28</text>
+<rect x="372" y="1197.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1207.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1211.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1211.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #70</tspan></text>
+<text x="694.1" y="1211.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488" xml:space="preserve">← <tspan font-weight="700">task/traduce-feature</tspan></text>
+<circle cx="284" cy="1237.0" r="6" fill="#4f46e5" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="1227.0" width="177.4" height="20" rx="10" fill="#4f46e5" fill-opacity=".12" stroke="#4f46e5"/>
+<circle cx="382" cy="1237.0" r="3.5" fill="#4f46e5"/>
+<text x="391" y="1241.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5">lucas/sketcher-issue75</text>
+<text x="643.1" y="1241.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Sketcher issue 75</text>
+<text x="765.6" y="1241.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">Pruebas</tspan></text>
+<circle cx="188" cy="1267.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1267.0" r="3" fill="#0891b2"/>
+<text x="132" y="1271.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-31</text>
+<rect x="372" y="1257.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1267.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1271.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1271.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #88</tspan></text>
+<text x="694.1" y="1271.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5" xml:space="preserve">← <tspan font-weight="700">lucas/sketcher-issue75</tspan></text>
+<circle cx="260" cy="1297.0" r="6" fill="#c026d3" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="1287.0" width="204.2" height="20" rx="10" fill="#c026d3" fill-opacity=".12" stroke="#c026d3"/>
+<circle cx="382" cy="1297.0" r="3.5" fill="#c026d3"/>
+<text x="391" y="1301.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#c026d3">feat/diccionarios-sketcher</text>
+<text x="643.1" y="1301.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Diccionarios Sketcher</text>
+<text x="791.6" y="1301.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">Pruebas</tspan></text>
+<circle cx="188" cy="1327.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1327.0" r="3" fill="#0891b2"/>
+<text x="132" y="1331.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">05-31</text>
+<rect x="372" y="1317.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1327.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1331.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1331.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #90</tspan></text>
+<text x="694.1" y="1331.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#c026d3" xml:space="preserve">← <tspan font-weight="700">feat/diccionarios-sketcher</tspan></text>
+<circle cx="188" cy="1357.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1361.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-08</text>
+<rect x="372" y="1347.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1357.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1361.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1361.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Reestructura ComponentesDAV + iconos SVG</text>
+<circle cx="212" cy="1387.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1391.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-03→06-11</text>
+<rect x="372" y="1377.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="1387.0" r="3.5" fill="#db2777"/>
+<text x="391" y="1391.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-Pruebas</text>
+<text x="643.1" y="1391.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #95</tspan> <tspan font-weight="700" fill="#1e40af">#96</tspan> <tspan font-weight="700" fill="#1e40af">#113</tspan> <tspan font-weight="700" fill="#1e40af">#115-#117</tspan></text>
+<circle cx="188" cy="1417.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1417.0" r="3" fill="#0891b2"/>
+<text x="132" y="1421.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-11</text>
+<rect x="372" y="1407.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1417.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1421.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1421.5" font-size="12.5" fill="#1e293b" xml:space="preserve">merge forks</text>
+<text x="726.6" y="1421.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-Pruebas</tspan></text>
+<circle cx="212" cy="1447.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1451.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-15→06-22</text>
+<rect x="372" y="1437.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="1447.0" r="3.5" fill="#db2777"/>
+<text x="391" y="1451.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-Pruebas</text>
+<text x="643.1" y="1451.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #134-#139</tspan> <tspan font-weight="700" fill="#1e40af">#162</tspan> <tspan font-weight="700" fill="#1e40af">#163</tspan></text>
+<circle cx="188" cy="1477.0" r="8" fill="#fff" stroke="#0891b2" stroke-width="3"/><circle cx="188" cy="1477.0" r="3" fill="#0891b2"/>
+<text x="132" y="1481.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-22</text>
+<rect x="372" y="1467.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1477.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1481.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1481.5" font-size="12.5" fill="#1e293b" xml:space="preserve">merge forks</text>
+<text x="726.6" y="1481.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-Pruebas</tspan></text>
+<circle cx="188" cy="1507.0" r="6" fill="#0891b2" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1511.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-23</text>
+<rect x="372" y="1497.0" width="76.9" height="20" rx="10" fill="#0891b2" fill-opacity=".12" stroke="#0891b2"/>
+<circle cx="382" cy="1507.0" r="3.5" fill="#0891b2"/>
+<text x="391" y="1511.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0891b2">Pruebas</text>
+<text x="643.1" y="1511.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Copyright + traducciones ES</text>
+<circle cx="212" cy="1587.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1591.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-24</text>
+<rect x="372" y="1577.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="1587.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="1591.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="1591.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Reestructura a layout Dav/scr, Dav/dic</text>
+<text x="902.1" y="1591.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">Pruebas</tspan></text>
+<circle cx="212" cy="1617.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="1607.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="1617.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="1621.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="1621.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Modulo validation/Validator</text>
+<circle cx="236" cy="1647.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="1647.0" r="3" fill="#059669"/>
+<text x="132" y="1651.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-24</text>
+<rect x="372" y="1637.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1647.0" r="3.5" fill="#059669"/>
+<text x="391" y="1651.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1651.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #166</tspan></text>
+<text x="700.6" y="1651.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed" xml:space="preserve">← <tspan font-weight="700">davcore-integracion</tspan></text>
+<text x="850.3" y="1651.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="212" cy="1677.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1681.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-25</text>
+<rect x="372" y="1667.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="1677.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="1681.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="1681.5" font-size="12.5" fill="#1e293b" xml:space="preserve">AVANCES diccionarios</text>
+<circle cx="236" cy="1707.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="1707.0" r="3" fill="#059669"/>
+<text x="132" y="1711.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">06-25</text>
+<rect x="372" y="1697.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1707.0" r="3.5" fill="#059669"/>
+<text x="391" y="1711.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1711.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #167</tspan></text>
+<text x="700.6" y="1711.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed" xml:space="preserve">← <tspan font-weight="700">davcore-integracion</tspan></text>
+<circle cx="236" cy="1737.0" r="6" fill="#059669" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1741.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-03</text>
+<rect x="372" y="1727.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1737.0" r="3.5" fill="#059669"/>
+<text x="391" y="1741.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1741.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Completed dictionaries</text>
+<circle cx="164" cy="1767.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="1767.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="1771.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-03</text>
+<rect x="372" y="1757.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="1767.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="1771.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="1771.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #169</tspan> DavCore a main</text>
+<text x="798.1" y="1771.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669" xml:space="preserve">← <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="212" cy="1797.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1801.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-06/07</text>
+<rect x="372" y="1787.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="1797.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="1801.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="1801.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Integracion voz <tspan font-weight="700" fill="#1e40af">#170</tspan> <tspan font-weight="700" fill="#1e40af">#172</tspan> <tspan font-weight="700" fill="#1e40af">#173</tspan></text>
+<circle cx="236" cy="1827.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="1827.0" r="3" fill="#059669"/>
+<text x="132" y="1831.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-07</text>
+<rect x="372" y="1817.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1827.0" r="3.5" fill="#059669"/>
+<text x="391" y="1831.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1831.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #173</tspan></text>
+<text x="700.6" y="1831.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed" xml:space="preserve">← <tspan font-weight="700">davcore-integracion</tspan></text>
+<circle cx="188" cy="1857.0" r="6" fill="#d97706" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1861.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-07</text>
+<rect x="372" y="1847.0" width="123.8" height="20" rx="10" fill="#d97706" fill-opacity=".12" stroke="#d97706"/>
+<circle cx="382" cy="1857.0" r="3.5" fill="#d97706"/>
+<text x="391" y="1861.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#d97706">Tade-Cami-Mica</text>
+<text x="643.1" y="1861.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Tade-Cami-Mica</text>
+<text x="746.1" y="1861.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="1887.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="1887.0" r="3" fill="#059669"/>
+<text x="132" y="1891.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-09</text>
+<rect x="372" y="1877.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1887.0" r="3.5" fill="#059669"/>
+<text x="391" y="1891.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1891.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #174</tspan></text>
+<text x="700.6" y="1891.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#d97706" xml:space="preserve">← <tspan font-weight="700">Tade-Cami-Mica</tspan></text>
+<circle cx="212" cy="1917.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1921.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-09/10</text>
+<rect x="372" y="1907.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="1917.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="1921.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="1921.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Integracion voz <tspan font-weight="700" fill="#1e40af">#175</tspan> <tspan font-weight="700" fill="#1e40af">#177</tspan> <tspan font-weight="700" fill="#1e40af">#178</tspan> <tspan font-weight="700" fill="#1e40af">#179</tspan></text>
+<circle cx="236" cy="1947.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="1947.0" r="3" fill="#059669"/>
+<text x="132" y="1951.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-10</text>
+<rect x="372" y="1937.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="1947.0" r="3.5" fill="#059669"/>
+<text x="391" y="1951.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="1951.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #179</tspan></text>
+<text x="700.6" y="1951.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed" xml:space="preserve">← <tspan font-weight="700">davcore-integracion</tspan></text>
+<circle cx="260" cy="1977.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="1981.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-10</text>
+<rect x="372" y="1967.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="1977.0" r="3.5" fill="#db2777"/>
+<text x="391" y="1981.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="1981.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Gramatica Vosk por contexto - SoPerez1 <tspan font-weight="700" fill="#1e40af">#176</tspan></text>
+<text x="934.6" y="1981.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2007.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2007.0" r="3" fill="#059669"/>
+<text x="132" y="2011.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-10</text>
+<rect x="372" y="1997.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2007.0" r="3.5" fill="#059669"/>
+<text x="391" y="2011.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2011.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #176</tspan></text>
+<text x="700.6" y="2011.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="284" cy="2037.0" r="6" fill="#64748b" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2027.0" width="157.3" height="20" rx="10" fill="#64748b" fill-opacity=".12" stroke="#64748b"/>
+<circle cx="382" cy="2037.0" r="3.5" fill="#64748b"/>
+<text x="391" y="2041.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">Abrilpoggio-patch-3</text>
+<text x="643.1" y="2041.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Patch README (web)</text>
+<text x="772.1" y="2041.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="164" cy="2067.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="2067.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="2071.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-14</text>
+<rect x="372" y="2057.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="2067.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="2071.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="2071.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #182</tspan></text>
+<text x="700.6" y="2071.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b" xml:space="preserve">← <tspan font-weight="700">Abrilpoggio-patch-3</tspan></text>
+<circle cx="308" cy="2097.0" r="7.5" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="308" y="2100.4" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">R</text>
+<rect x="372" y="2087.0" width="97.0" height="20" rx="10" fill="#65a30d" fill-opacity=".12" stroke="#65a30d"/>
+<circle cx="382" cy="2097.0" r="3.5" fill="#65a30d"/>
+<text x="391" y="2101.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#65a30d">revert-182</text>
+<text x="643.1" y="2101.5" font-size="12.5" fill="#b91c1c" xml:space="preserve">Revert <tspan font-weight="700" fill="#1e40af">PR #182</tspan></text>
+<text x="746.1" y="2101.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="164" cy="2127.0" r="7.5" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="164" y="2130.4" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">R</text>
+<text x="132" y="2131.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-14</text>
+<rect x="372" y="2117.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="2127.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="2131.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="2131.5" font-size="12.5" fill="#b91c1c" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #186</tspan> revert</text>
+<text x="746.1" y="2131.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#65a30d" xml:space="preserve">← <tspan font-weight="700">revert-182</tspan></text>
+<circle cx="236" cy="2157.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2157.0" r="3" fill="#059669"/>
+<text x="132" y="2161.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-14</text>
+<rect x="372" y="2147.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2157.0" r="3.5" fill="#059669"/>
+<text x="391" y="2161.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2161.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #187</tspan> reaplicado en DavCore</text>
+<text x="843.6" y="2161.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b" xml:space="preserve">← <tspan font-weight="700">Abrilpoggio-patch-3</tspan></text>
+<circle cx="308" cy="2187.0" r="6" fill="#0284c7" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2177.0" width="204.2" height="20" rx="10" fill="#0284c7" fill-opacity=".12" stroke="#0284c7"/>
+<circle cx="382" cy="2187.0" r="3.5" fill="#0284c7"/>
+<text x="391" y="2191.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0284c7">techDraw_-SketcherGeometry</text>
+<text x="643.1" y="2191.5" font-size="12.5" fill="#1e293b" xml:space="preserve">TechDraw + geometria Sketcher</text>
+<text x="843.6" y="2191.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2217.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2217.0" r="3" fill="#059669"/>
+<text x="132" y="2221.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-16</text>
+<rect x="372" y="2207.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2217.0" r="3.5" fill="#059669"/>
+<text x="391" y="2221.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2221.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #181</tspan></text>
+<text x="700.6" y="2221.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0284c7" xml:space="preserve">← <tspan font-weight="700">techDraw_-SketcherGeometry</tspan></text>
+<circle cx="260" cy="2247.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2251.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-16</text>
+<rect x="372" y="2237.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="2247.0" r="3.5" fill="#db2777"/>
+<text x="391" y="2251.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="2251.5" font-size="12.5" fill="#1e293b" xml:space="preserve">juan-mrtn <tspan font-weight="700" fill="#1e40af">#184</tspan>, brianschelll <tspan font-weight="700" fill="#1e40af">#185</tspan></text>
+<circle cx="236" cy="2277.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2277.0" r="3" fill="#059669"/>
+<text x="132" y="2281.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-16</text>
+<rect x="372" y="2267.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2277.0" r="3.5" fill="#059669"/>
+<text x="391" y="2281.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2281.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #185</tspan></text>
+<text x="700.6" y="2281.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="284" cy="2307.0" r="6" fill="#b45309" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2297.0" width="190.8" height="20" rx="10" fill="#b45309" fill-opacity=".12" stroke="#b45309"/>
+<circle cx="382" cy="2307.0" r="3.5" fill="#b45309"/>
+<text x="391" y="2311.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#b45309">feature-partdesign-benja</text>
+<text x="643.1" y="2311.5" font-size="12.5" fill="#1e293b" xml:space="preserve">PartDesign por voz</text>
+<text x="772.1" y="2311.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2337.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2337.0" r="3" fill="#059669"/>
+<text x="132" y="2341.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-16</text>
+<rect x="372" y="2327.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2337.0" r="3.5" fill="#059669"/>
+<text x="391" y="2341.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2341.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #192</tspan></text>
+<text x="700.6" y="2341.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#b45309" xml:space="preserve">← <tspan font-weight="700">feature-partdesign-benja</tspan></text>
+<circle cx="308" cy="2367.0" r="6" fill="#7e22ce" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2357.0" width="217.6" height="20" rx="10" fill="#7e22ce" fill-opacity=".12" stroke="#7e22ce"/>
+<circle cx="382" cy="2367.0" r="3.5" fill="#7e22ce"/>
+<text x="391" y="2371.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7e22ce">feature-pointplacement-benja</text>
+<text x="643.1" y="2371.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Point placement</text>
+<text x="752.6" y="2371.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2397.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2397.0" r="3" fill="#059669"/>
+<text x="132" y="2401.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-18</text>
+<rect x="372" y="2387.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2397.0" r="3.5" fill="#059669"/>
+<text x="391" y="2401.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2401.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #193</tspan></text>
+<text x="700.6" y="2401.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7e22ce" xml:space="preserve">← <tspan font-weight="700">feature-pointplacement-benja</tspan></text>
+<circle cx="188" cy="2427.0" r="6" fill="#d97706" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2431.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-18</text>
+<rect x="372" y="2417.0" width="123.8" height="20" rx="10" fill="#d97706" fill-opacity=".12" stroke="#d97706"/>
+<circle cx="382" cy="2427.0" r="3.5" fill="#d97706"/>
+<text x="391" y="2431.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#d97706">Tade-Cami-Mica</text>
+<text x="643.1" y="2431.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Merge DavCore + fix run_interfaz.bat</text>
+<circle cx="236" cy="2457.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2457.0" r="3" fill="#059669"/>
+<text x="132" y="2461.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-18</text>
+<rect x="372" y="2447.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2457.0" r="3.5" fill="#059669"/>
+<text x="391" y="2461.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2461.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #183</tspan></text>
+<text x="700.6" y="2461.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#d97706" xml:space="preserve">← <tspan font-weight="700">Tade-Cami-Mica</tspan></text>
+<circle cx="284" cy="2487.0" r="6" fill="#be123c" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2477.0" width="210.9" height="20" rx="10" fill="#be123c" fill-opacity=".12" stroke="#be123c"/>
+<circle cx="382" cy="2487.0" r="3.5" fill="#be123c"/>
+<text x="391" y="2491.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#be123c">fix/createobjects-draftwork</text>
+<text x="643.1" y="2491.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Fix CreateObjects Draft</text>
+<text x="804.6" y="2491.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2517.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2517.0" r="3" fill="#059669"/>
+<text x="132" y="2521.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-18</text>
+<rect x="372" y="2507.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2517.0" r="3.5" fill="#059669"/>
+<text x="391" y="2521.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2521.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #194</tspan></text>
+<text x="700.6" y="2521.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#be123c" xml:space="preserve">← <tspan font-weight="700">fix/createobjects-draftwork</tspan></text>
+<circle cx="332" cy="2547.0" r="6" fill="#15803d" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2537.0" width="251.1" height="20" rx="10" fill="#15803d" fill-opacity=".12" stroke="#15803d"/>
+<circle cx="382" cy="2547.0" r="3.5" fill="#15803d"/>
+<text x="391" y="2551.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#15803d">chore/remove-agents-issuetemplate</text>
+<text x="643.1" y="2551.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Quitar AGENTS e issue template</text>
+<text x="850.1" y="2551.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="164" cy="2577.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="2577.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="2581.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-18</text>
+<rect x="372" y="2567.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="2577.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="2581.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="2581.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #195</tspan></text>
+<text x="700.6" y="2581.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#15803d" xml:space="preserve">← <tspan font-weight="700">chore/remove-agents-issuetemplate</tspan></text>
+<circle cx="260" cy="2607.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2611.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-23</text>
+<rect x="372" y="2597.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="2607.0" r="3.5" fill="#db2777"/>
+<text x="391" y="2611.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="2611.5" font-size="12.5" fill="#1e293b" xml:space="preserve">brianschelll <tspan font-weight="700" fill="#1e40af">#196</tspan></text>
+<circle cx="236" cy="2637.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2637.0" r="3" fill="#059669"/>
+<text x="132" y="2641.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-23</text>
+<rect x="372" y="2627.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2637.0" r="3.5" fill="#059669"/>
+<text x="391" y="2641.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2641.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #196</tspan></text>
+<text x="700.6" y="2641.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="188" cy="2667.0" r="6" fill="#a16207" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2657.0" width="110.4" height="20" rx="10" fill="#a16207" fill-opacity=".12" stroke="#a16207"/>
+<circle cx="382" cy="2667.0" r="3.5" fill="#a16207"/>
+<text x="391" y="2671.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#a16207">ramatemporal</text>
+<text x="643.1" y="2671.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Rama temporal</text>
+<text x="739.6" y="2671.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2697.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2697.0" r="3" fill="#059669"/>
+<text x="132" y="2701.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-28</text>
+<rect x="372" y="2687.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2697.0" r="3.5" fill="#059669"/>
+<text x="391" y="2701.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2701.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #199</tspan></text>
+<text x="700.6" y="2701.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#a16207" xml:space="preserve">← <tspan font-weight="700">ramatemporal</tspan></text>
+<circle cx="260" cy="2727.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2731.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-28</text>
+<rect x="372" y="2717.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="2727.0" r="3.5" fill="#db2777"/>
+<text x="391" y="2731.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="2731.5" font-size="12.5" fill="#1e293b" xml:space="preserve">MaitenBlanc <tspan font-weight="700" fill="#1e40af">#201</tspan></text>
+<circle cx="236" cy="2757.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2757.0" r="3" fill="#059669"/>
+<text x="132" y="2761.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-28</text>
+<rect x="372" y="2747.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2757.0" r="3.5" fill="#059669"/>
+<text x="391" y="2761.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2761.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #201</tspan></text>
+<text x="700.6" y="2761.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="188" cy="2787.0" r="6" fill="#0d9488" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2777.0" width="170.7" height="20" rx="10" fill="#0d9488" fill-opacity=".12" stroke="#0d9488"/>
+<circle cx="382" cy="2787.0" r="3.5" fill="#0d9488"/>
+<text x="391" y="2791.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488">fix-techdraw-commands</text>
+<text x="643.1" y="2791.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Fix comandos TechDraw</text>
+<text x="791.6" y="2791.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2817.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2817.0" r="3" fill="#059669"/>
+<text x="132" y="2821.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-30</text>
+<rect x="372" y="2807.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2817.0" r="3.5" fill="#059669"/>
+<text x="391" y="2821.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2821.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #203</tspan></text>
+<text x="700.6" y="2821.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488" xml:space="preserve">← <tspan font-weight="700">fix-techdraw-commands</tspan></text>
+<circle cx="260" cy="2847.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2851.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="2837.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="2847.0" r="3.5" fill="#db2777"/>
+<text x="391" y="2851.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="2851.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Elluis1 techdraw-lista1 <tspan font-weight="700" fill="#1e40af">#207</tspan></text>
+<circle cx="236" cy="2877.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2877.0" r="3" fill="#059669"/>
+<text x="132" y="2881.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="2867.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2877.0" r="3.5" fill="#059669"/>
+<text x="391" y="2881.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2881.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #207</tspan></text>
+<text x="700.6" y="2881.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="212" cy="2907.0" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+<text x="132" y="2911.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="2897.0" width="157.3" height="20" rx="10" fill="#7c3aed" fill-opacity=".12" stroke="#7c3aed"/>
+<circle cx="382" cy="2907.0" r="3.5" fill="#7c3aed"/>
+<text x="391" y="2911.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed">davcore-integracion</text>
+<text x="643.1" y="2911.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Integracion <tspan font-weight="700" fill="#1e40af">#208</tspan> <tspan font-weight="700" fill="#1e40af">#209</tspan> <tspan font-weight="700" fill="#1e40af">#213</tspan> <tspan font-weight="700" fill="#1e40af">#215-#217</tspan></text>
+<circle cx="236" cy="2937.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2937.0" r="3" fill="#059669"/>
+<text x="132" y="2941.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="2927.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2937.0" r="3.5" fill="#059669"/>
+<text x="391" y="2941.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="2941.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #217</tspan></text>
+<text x="700.6" y="2941.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7c3aed" xml:space="preserve">← <tspan font-weight="700">davcore-integracion</tspan></text>
+<circle cx="188" cy="2967.0" r="6" fill="#4f46e5" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="2957.0" width="177.4" height="20" rx="10" fill="#4f46e5" fill-opacity=".12" stroke="#4f46e5"/>
+<circle cx="382" cy="2967.0" r="3.5" fill="#4f46e5"/>
+<text x="391" y="2971.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5">docs/pruebas-draftwork</text>
+<text x="643.1" y="2971.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Informe pruebas Draft</text>
+<text x="791.6" y="2971.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="2997.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="2997.0" r="3" fill="#059669"/>
+<text x="132" y="3001.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="2987.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="2997.0" r="3.5" fill="#059669"/>
+<text x="391" y="3001.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3001.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #214</tspan></text>
+<text x="700.6" y="3001.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5" xml:space="preserve">← <tspan font-weight="700">docs/pruebas-draftwork</tspan></text>
+<circle cx="212" cy="3027.0" r="6" fill="#c026d3" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3017.0" width="150.6" height="20" rx="10" fill="#c026d3" fill-opacity=".12" stroke="#c026d3"/>
+<circle cx="382" cy="3027.0" r="3.5" fill="#c026d3"/>
+<text x="391" y="3031.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#c026d3">traducciones-joint</text>
+<text x="643.1" y="3031.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Traducciones joints</text>
+<text x="778.6" y="3031.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3057.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3057.0" r="3" fill="#059669"/>
+<text x="132" y="3061.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="3047.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3057.0" r="3.5" fill="#059669"/>
+<text x="391" y="3061.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3061.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #200</tspan></text>
+<text x="700.6" y="3061.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#c026d3" xml:space="preserve">← <tspan font-weight="700">traducciones-joint</tspan></text>
+<circle cx="188" cy="3087.0" r="6" fill="#65a30d" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3077.0" width="204.2" height="20" rx="10" fill="#65a30d" fill-opacity=".12" stroke="#65a30d"/>
+<circle cx="382" cy="3087.0" r="3.5" fill="#65a30d"/>
+<text x="391" y="3091.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#65a30d">feature/selector-plano-voz</text>
+<text x="643.1" y="3091.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Selector de plano por voz</text>
+<text x="817.6" y="3091.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3117.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3117.0" r="3" fill="#059669"/>
+<text x="132" y="3121.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">08-31</text>
+<rect x="372" y="3107.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3117.0" r="3.5" fill="#059669"/>
+<text x="391" y="3121.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3121.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #218</tspan></text>
+<text x="700.6" y="3121.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#65a30d" xml:space="preserve">← <tspan font-weight="700">feature/selector-plano-voz</tspan></text>
+<circle cx="212" cy="3147.0" r="6" fill="#0284c7" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3137.0" width="210.9" height="20" rx="10" fill="#0284c7" fill-opacity=".12" stroke="#0284c7"/>
+<circle cx="382" cy="3147.0" r="3.5" fill="#0284c7"/>
+<text x="391" y="3151.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0284c7">feature/measure-integration</text>
+<text x="643.1" y="3151.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Integracion Measure</text>
+<text x="778.6" y="3151.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3177.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3177.0" r="3" fill="#059669"/>
+<text x="132" y="3181.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-01</text>
+<rect x="372" y="3167.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3177.0" r="3.5" fill="#059669"/>
+<text x="391" y="3181.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3181.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #220</tspan></text>
+<text x="700.6" y="3181.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0284c7" xml:space="preserve">← <tspan font-weight="700">feature/measure-integration</tspan></text>
+<circle cx="188" cy="3207.0" r="6" fill="#b45309" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3197.0" width="197.5" height="20" rx="10" fill="#b45309" fill-opacity=".12" stroke="#b45309"/>
+<circle cx="382" cy="3207.0" r="3.5" fill="#b45309"/>
+<text x="391" y="3211.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#b45309">fix/explorer-dictionaries</text>
+<text x="643.1" y="3211.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Fix diccionarios Explorer</text>
+<text x="817.6" y="3211.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3237.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3237.0" r="3" fill="#059669"/>
+<text x="132" y="3241.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-04</text>
+<rect x="372" y="3227.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3237.0" r="3.5" fill="#059669"/>
+<text x="391" y="3241.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3241.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #219</tspan></text>
+<text x="700.6" y="3241.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#b45309" xml:space="preserve">← <tspan font-weight="700">fix/explorer-dictionaries</tspan></text>
+<circle cx="260" cy="3267.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3271.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-04</text>
+<rect x="372" y="3257.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="3267.0" r="3.5" fill="#db2777"/>
+<text x="391" y="3271.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="3271.5" font-size="12.5" fill="#1e293b" xml:space="preserve">juan-mrtn <tspan font-weight="700" fill="#1e40af">#197</tspan></text>
+<circle cx="236" cy="3297.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3297.0" r="3" fill="#059669"/>
+<text x="132" y="3301.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-04</text>
+<rect x="372" y="3287.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3297.0" r="3.5" fill="#059669"/>
+<text x="391" y="3301.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3301.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #197</tspan></text>
+<text x="700.6" y="3301.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="188" cy="3327.0" r="6" fill="#7e22ce" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3317.0" width="244.4" height="20" rx="10" fill="#7e22ce" fill-opacity=".12" stroke="#7e22ce"/>
+<circle cx="382" cy="3327.0" r="3.5" fill="#7e22ce"/>
+<text x="391" y="3331.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7e22ce">feature/geometry-voz-parametrica</text>
+<text x="643.1" y="3331.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Geometria parametrica por voz</text>
+<text x="843.6" y="3331.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3357.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3357.0" r="3" fill="#059669"/>
+<text x="132" y="3361.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-05</text>
+<rect x="372" y="3347.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3357.0" r="3.5" fill="#059669"/>
+<text x="391" y="3361.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3361.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #223</tspan></text>
+<text x="700.6" y="3361.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#7e22ce" xml:space="preserve">← <tspan font-weight="700">feature/geometry-voz-parametrica</tspan></text>
+<circle cx="212" cy="3387.0" r="6" fill="#be123c" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3377.0" width="184.1" height="20" rx="10" fill="#be123c" fill-opacity=".12" stroke="#be123c"/>
+<circle cx="382" cy="3387.0" r="3.5" fill="#be123c"/>
+<text x="391" y="3391.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#be123c">feature/guia-desarrollo</text>
+<text x="643.1" y="3391.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Guia de desarrollo DAV</text>
+<text x="798.1" y="3391.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3417.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3417.0" r="3" fill="#059669"/>
+<text x="132" y="3421.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-07</text>
+<rect x="372" y="3407.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3417.0" r="3.5" fill="#059669"/>
+<text x="391" y="3421.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3421.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #225</tspan></text>
+<text x="700.6" y="3421.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#be123c" xml:space="preserve">← <tspan font-weight="700">feature/guia-desarrollo</tspan></text>
+<circle cx="188" cy="3447.0" r="6" fill="#15803d" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3437.0" width="251.1" height="20" rx="10" fill="#15803d" fill-opacity=".12" stroke="#15803d"/>
+<circle cx="382" cy="3447.0" r="3.5" fill="#15803d"/>
+<text x="391" y="3451.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#15803d">feature/sketcher-parametric-smile</text>
+<text x="643.1" y="3451.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Sketcher parametrico</text>
+<text x="785.1" y="3451.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3477.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3477.0" r="3" fill="#059669"/>
+<text x="132" y="3481.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-08</text>
+<rect x="372" y="3467.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3477.0" r="3.5" fill="#059669"/>
+<text x="391" y="3481.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3481.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #226</tspan></text>
+<text x="700.6" y="3481.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#15803d" xml:space="preserve">← <tspan font-weight="700">feature/sketcher-parametric-smile</tspan></text>
+<circle cx="260" cy="3507.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3511.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-08</text>
+<rect x="372" y="3497.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="3507.0" r="3.5" fill="#db2777"/>
+<text x="391" y="3511.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="3511.5" font-size="12.5" fill="#1e293b" xml:space="preserve">brianschelll <tspan font-weight="700" fill="#1e40af">#224</tspan>, MaitenBlanc <tspan font-weight="700" fill="#1e40af">#227</tspan> <tspan font-weight="700" fill="#1e40af">#228</tspan></text>
+<circle cx="236" cy="3537.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3537.0" r="3" fill="#059669"/>
+<text x="132" y="3541.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-08</text>
+<rect x="372" y="3527.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3537.0" r="3.5" fill="#059669"/>
+<text x="391" y="3541.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3541.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #228</tspan></text>
+<text x="700.6" y="3541.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<circle cx="188" cy="3567.0" r="6" fill="#64748b" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3571.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-08</text>
+<rect x="372" y="3557.0" width="150.6" height="20" rx="10" fill="#64748b" fill-opacity=".12" stroke="#64748b"/>
+<circle cx="382" cy="3567.0" r="3.5" fill="#64748b"/>
+<text x="391" y="3571.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">patch-branches-web</text>
+<text x="643.1" y="3571.5" font-size="12.5" fill="#1e293b" xml:space="preserve">AlexanderGBordaa-patch-1-1</text>
+<text x="824.1" y="3571.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3597.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3597.0" r="3" fill="#059669"/>
+<text x="132" y="3601.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-08</text>
+<rect x="372" y="3587.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3597.0" r="3.5" fill="#059669"/>
+<text x="391" y="3601.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3601.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #229</tspan></text>
+<text x="700.6" y="3601.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b" xml:space="preserve">← <tspan font-weight="700">patch-branches-web</tspan></text>
+<circle cx="212" cy="3627.0" r="6" fill="#a16207" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3617.0" width="231.0" height="20" rx="10" fill="#a16207" fill-opacity=".12" stroke="#a16207"/>
+<circle cx="382" cy="3627.0" r="3.5" fill="#a16207"/>
+<text x="391" y="3631.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#a16207">feat/global-dav-panel-controls</text>
+<text x="643.1" y="3631.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Controles globales panel DAV</text>
+<text x="837.1" y="3631.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3657.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3657.0" r="3" fill="#059669"/>
+<text x="132" y="3661.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-11</text>
+<rect x="372" y="3647.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3657.0" r="3.5" fill="#059669"/>
+<text x="391" y="3661.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3661.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #231</tspan></text>
+<text x="700.6" y="3661.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#a16207" xml:space="preserve">← <tspan font-weight="700">feat/global-dav-panel-controls</tspan></text>
+<circle cx="188" cy="3687.0" r="6" fill="#64748b" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3691.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3677.0" width="150.6" height="20" rx="10" fill="#64748b" fill-opacity=".12" stroke="#64748b"/>
+<circle cx="382" cy="3687.0" r="3.5" fill="#64748b"/>
+<text x="391" y="3691.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">patch-branches-web</text>
+<text x="643.1" y="3691.5" font-size="12.5" fill="#1e293b" xml:space="preserve">JoaquinPoggio-patch-1 x4 <tspan font-weight="700" fill="#1e40af">#232-#237</tspan></text>
+<circle cx="236" cy="3717.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3717.0" r="3" fill="#059669"/>
+<text x="132" y="3721.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3707.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3717.0" r="3.5" fill="#059669"/>
+<text x="391" y="3721.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3721.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #237</tspan></text>
+<text x="700.6" y="3721.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b" xml:space="preserve">← <tspan font-weight="700">patch-branches-web</tspan></text>
+<circle cx="212" cy="3747.0" r="6" fill="#0d9488" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3737.0" width="170.7" height="20" rx="10" fill="#0d9488" fill-opacity=".12" stroke="#0d9488"/>
+<circle cx="382" cy="3747.0" r="3.5" fill="#0d9488"/>
+<text x="391" y="3751.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488">README-Manual-usuario</text>
+<text x="643.1" y="3751.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Manual de usuario</text>
+<text x="765.6" y="3751.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3777.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3777.0" r="3" fill="#059669"/>
+<text x="132" y="3781.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3767.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3777.0" r="3.5" fill="#059669"/>
+<text x="391" y="3781.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3781.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #234</tspan></text>
+<text x="700.6" y="3781.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#0d9488" xml:space="preserve">← <tspan font-weight="700">README-Manual-usuario</tspan></text>
+<circle cx="284" cy="3807.0" r="6" fill="#4f46e5" stroke="#fff" stroke-width="2"/>
+<rect x="372" y="3797.0" width="197.5" height="20" rx="10" fill="#4f46e5" fill-opacity=".12" stroke="#4f46e5"/>
+<circle cx="382" cy="3807.0" r="3.5" fill="#4f46e5"/>
+<text x="391" y="3811.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5">feature/panel-commands-pt</text>
+<text x="643.1" y="3811.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Comandos panel en PT</text>
+<text x="785.1" y="3811.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">DavCore</tspan></text>
+<circle cx="236" cy="3837.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3837.0" r="3" fill="#059669"/>
+<text x="132" y="3841.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3827.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3837.0" r="3.5" fill="#059669"/>
+<text x="391" y="3841.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3841.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #239</tspan></text>
+<text x="700.6" y="3841.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#4f46e5" xml:space="preserve">← <tspan font-weight="700">feature/panel-commands-pt</tspan></text>
+<circle cx="188" cy="3867.0" r="6" fill="#64748b" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3871.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3857.0" width="150.6" height="20" rx="10" fill="#64748b" fill-opacity=".12" stroke="#64748b"/>
+<circle cx="382" cy="3867.0" r="3.5" fill="#64748b"/>
+<text x="391" y="3871.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">patch-branches-web</text>
+<text x="643.1" y="3871.5" font-size="12.5" fill="#1e293b" xml:space="preserve">BiancaTournour-patch-1</text>
+<circle cx="236" cy="3897.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3897.0" r="3" fill="#059669"/>
+<text x="132" y="3901.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3887.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3897.0" r="3.5" fill="#059669"/>
+<text x="391" y="3901.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3901.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #240</tspan></text>
+<text x="700.6" y="3901.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b" xml:space="preserve">← <tspan font-weight="700">patch-branches-web</tspan></text>
+<circle cx="260" cy="3927.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="3931.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="3917.0" width="117.1" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="3927.0" r="3.5" fill="#db2777"/>
+<text x="391" y="3931.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-DavCore</text>
+<text x="643.1" y="3931.5" font-size="12.5" fill="#1e293b" xml:space="preserve">juan-mrtn <tspan font-weight="700" fill="#1e40af">#241</tspan></text>
+<circle cx="236" cy="3957.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="236" cy="3957.0" r="8" fill="#fff" stroke="#059669" stroke-width="3"/><circle cx="236" cy="3957.0" r="3" fill="#059669"/>
+<rect x="372" y="3947.0" width="76.9" height="20" rx="10" fill="#059669" fill-opacity=".12" stroke="#059669"/>
+<circle cx="382" cy="3957.0" r="3.5" fill="#059669"/>
+<text x="391" y="3961.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669">DavCore</text>
+<text x="643.1" y="3961.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #241</tspan> cierre de DavCore</text>
+<text x="817.6" y="3961.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-DavCore</tspan></text>
+<g><rect x="1058.925" y="3947.0" width="78.4" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,3953.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="3957.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="3961.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.0</text></g>
+<circle cx="164" cy="4037.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="164" cy="4037.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="4037.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="4041.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="4027.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4037.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4041.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4041.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #242</tspan> DavCore a main</text>
+<text x="798.1" y="4041.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#059669" xml:space="preserve">← <tspan font-weight="700">DavCore</tspan></text>
+<g><rect x="1058.925" y="4027.0" width="71.0" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,4033.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="4037.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="4041.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V.1.0</text></g>
+<circle cx="164" cy="4067.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4071.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-14</text>
+<rect x="372" y="4057.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4067.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4071.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4071.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Actualizar README.es.md</text>
+<circle cx="188" cy="4097.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4101.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-15</text>
+<rect x="372" y="4087.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4097.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4101.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.1</text>
+<text x="643.1" y="4101.5" font-size="12.5" fill="#1e293b" xml:space="preserve">GitHub Action instalador Windows</text>
+<text x="863.1" y="4101.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="212" cy="4127.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4131.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-18</text>
+<rect x="372" y="4117.0" width="150.6" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="4127.0" r="3.5" fill="#db2777"/>
+<text x="391" y="4131.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-hotfix-1.0.1</text>
+<text x="643.1" y="4131.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Maiten <tspan font-weight="700" fill="#1e40af">#248</tspan>, FDavidGallo <tspan font-weight="700" fill="#1e40af">#256</tspan></text>
+<text x="843.6" y="4131.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">hot-fix-v1.0.1</tspan></text>
+<circle cx="188" cy="4157.0" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/><circle cx="188" cy="4157.0" r="3" fill="#dc2626"/>
+<text x="132" y="4161.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-18</text>
+<rect x="372" y="4147.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4157.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4161.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.1</text>
+<text x="643.1" y="4161.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #248</tspan> <tspan font-weight="700" fill="#1e40af">#256</tspan></text>
+<text x="733.1" y="4161.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-hotfix-1.0.1</tspan></text>
+<circle cx="212" cy="4187.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4191.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-19</text>
+<rect x="372" y="4177.0" width="150.6" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="4187.0" r="3.5" fill="#db2777"/>
+<text x="391" y="4191.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-hotfix-1.0.1</text>
+<text x="643.1" y="4191.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Luigi lista3 StandardViews <tspan font-weight="700" fill="#1e40af">#257</tspan></text>
+<circle cx="212" cy="4217.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4221.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-19</text>
+<rect x="372" y="4207.0" width="150.6" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="4217.0" r="3.5" fill="#db2777"/>
+<text x="391" y="4221.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-hotfix-1.0.1</text>
+<text x="643.1" y="4221.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Dialogos voz PartDesign/Part/Assembly <tspan font-weight="700" fill="#1e40af">#258</tspan></text>
+<circle cx="188" cy="4247.0" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/><circle cx="188" cy="4247.0" r="3" fill="#dc2626"/>
+<text x="132" y="4251.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-19</text>
+<rect x="372" y="4237.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4247.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4251.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.1</text>
+<text x="643.1" y="4251.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #257</tspan> <tspan font-weight="700" fill="#1e40af">#258</tspan></text>
+<text x="733.1" y="4251.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-hotfix-1.0.1</tspan></text>
+<circle cx="212" cy="4277.0" r="6" fill="#db2777" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4281.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-20</text>
+<rect x="372" y="4267.0" width="150.6" height="20" rx="10" fill="#db2777" fill-opacity=".12" stroke="#db2777"/>
+<circle cx="382" cy="4277.0" r="3.5" fill="#db2777"/>
+<text x="391" y="4281.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777">forks-hotfix-1.0.1</text>
+<text x="643.1" y="4281.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Ejemplos guiados, camara, proyecto <tspan font-weight="700" fill="#1e40af">#259-#264</tspan></text>
+<circle cx="188" cy="4307.0" r="8" fill="#fff" stroke="#dc2626" stroke-width="3"/><circle cx="188" cy="4307.0" r="3" fill="#dc2626"/>
+<text x="132" y="4311.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-20</text>
+<rect x="372" y="4297.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4307.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4311.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.1</text>
+<text x="643.1" y="4311.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #259-#264</tspan></text>
+<text x="733.1" y="4311.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#db2777" xml:space="preserve">← <tspan font-weight="700">forks-hotfix-1.0.1</tspan></text>
+<circle cx="164" cy="4337.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="164" cy="4337.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="4337.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="4341.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-20</text>
+<rect x="372" y="4327.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4337.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4341.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4341.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #265</tspan> hot-fix-v1.0.1</text>
+<text x="798.1" y="4341.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626" xml:space="preserve">← <tspan font-weight="700">hot-fix-v1.0.1</tspan></text>
+<g><rect x="1058.925" y="4327.0" width="78.4" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,4333.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="4337.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="4341.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.1</text></g>
+<circle cx="164" cy="4367.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="164" cy="4367.0" r="6" fill="#1d4ed8" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4371.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-21</text>
+<rect x="372" y="4357.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4367.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4371.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4371.5" font-size="12.5" fill="#1e293b" xml:space="preserve">gitignore issues</text>
+<g><rect x="1058.925" y="4357.0" width="78.4" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,4363.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="4367.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="4371.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V1.0.1</text></g>
+<circle cx="188" cy="4397.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4401.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-21</text>
+<rect x="372" y="4387.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4397.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4401.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">Hot-fix-v1.0.2</text>
+<text x="643.1" y="4401.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Estilos vista DAV y alias de voz</text>
+<text x="863.1" y="4401.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="188" cy="4427.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4431.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-24</text>
+<rect x="372" y="4417.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4427.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4431.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">Hot-fix-v1.0.2</text>
+<text x="643.1" y="4431.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Bug triangulo/rectangulo, ejemplo SVG</text>
+<circle cx="188" cy="4457.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4461.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-24</text>
+<rect x="372" y="4447.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4457.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4461.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">Hot-fix-v1.0.2</text>
+<text x="643.1" y="4461.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Manual do usuario PT, fix avancar</text>
+<circle cx="188" cy="4487.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4491.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4477.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4487.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4491.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">Hot-fix-v1.0.2</text>
+<text x="643.1" y="4491.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Readmes e iconos</text>
+<circle cx="164" cy="4517.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="164" cy="4517.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="4517.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="4521.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4507.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4517.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4521.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4521.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #269</tspan> Hot-fix-v1.0.2</text>
+<text x="798.1" y="4521.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626" xml:space="preserve">← <tspan font-weight="700">Hot-fix-v1.0.2</tspan></text>
+<g><rect x="1058.925" y="4507.0" width="78.4" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,4513.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="4517.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="4521.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.2</text></g>
+<circle cx="212" cy="4547.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4551.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4537.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4547.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4551.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.3</text>
+<text x="643.1" y="4551.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Conectores</text>
+<text x="720.1" y="4551.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#94a3b8" xml:space="preserve">↳ desde <tspan font-weight="700">main</tspan></text>
+<circle cx="212" cy="4577.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4581.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4567.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4577.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4581.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.3</text>
+<text x="643.1" y="4581.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Sinonimos EN/PT/ES, tema escuro, deletreo</text>
+<circle cx="212" cy="4607.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4611.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4597.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4607.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4611.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.3</text>
+<text x="643.1" y="4611.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Texto: bugs y mas letras</text>
+<circle cx="212" cy="4637.0" r="6" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+<text x="132" y="4641.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4627.0" width="123.8" height="20" rx="10" fill="#dc2626" fill-opacity=".12" stroke="#dc2626"/>
+<circle cx="382" cy="4637.0" r="3.5" fill="#dc2626"/>
+<text x="391" y="4641.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626">hot-fix-v1.0.3</text>
+<text x="643.1" y="4641.5" font-size="12.5" fill="#1e293b" xml:space="preserve">Nuevo proyecto</text>
+<circle cx="164" cy="4667.0" r="12.5" fill="#fef3c7" fill-opacity=".9" stroke="#f59e0b" stroke-width="2"/>
+<circle cx="164" cy="4667.0" r="8" fill="#fff" stroke="#1d4ed8" stroke-width="3"/><circle cx="164" cy="4667.0" r="3" fill="#1d4ed8"/>
+<text x="132" y="4671.0" text-anchor="end" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#64748b">09-25</text>
+<rect x="372" y="4657.0" width="56.8" height="20" rx="10" fill="#1d4ed8" fill-opacity=".12" stroke="#1d4ed8"/>
+<circle cx="382" cy="4667.0" r="3.5" fill="#1d4ed8"/>
+<text x="391" y="4671.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#1d4ed8">main</text>
+<text x="643.1" y="4671.5" font-size="12.5" fill="#1e293b" xml:space="preserve"><tspan font-weight="700" fill="#1e40af">PR #271</tspan> hot-fix-v1.0.3</text>
+<text x="798.1" y="4671.0" font-size="11" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#dc2626" xml:space="preserve">← <tspan font-weight="700">hot-fix-v1.0.3</tspan></text>
+<g><rect x="1058.925" y="4657.0" width="78.4" height="20" rx="10" fill="#fef3c7" stroke="#d97706"/><path d="M1067.925,4663.0 h5 l4,4 l-4,4 h-5 z" fill="#d97706"/><circle cx="1069.925" cy="4667.0" r="1.1" fill="#fef3c7"/><text x="1082.925" y="4671.0" font-size="11.5" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V1.0.3</text></g>
+<line x1="40" y1="4698" x2="1188" y2="4698" stroke="#e2e8f0" stroke-width="2"/>
+<text x="40" y="4728" font-size="20" font-weight="700" fill="#0f172a">Cómo leerlo</text>
+<rect x="40" y="4746" width="1148" height="28" rx="6" fill="#0f172a"/>
+<text x="52" y="4765" font-size="12" font-weight="700" fill="#e2e8f0" letter-spacing=".5">RAMA</text>
+<text x="242" y="4765" font-size="12" font-weight="700" fill="#e2e8f0" letter-spacing=".5">ROL</text>
+<text x="642" y="4765" font-size="12" font-weight="700" fill="#e2e8f0" letter-spacing=".5">VIDA</text>
+<text x="832" y="4765" font-size="12" font-weight="700" fill="#e2e8f0" letter-spacing=".5">SE INTEGRA EN</text>
+<rect x="40" y="4774" width="1148" height="34.0" fill="#f8fafc"/>
+<rect x="40" y="4774" width="5" height="34.0" fill="#1d4ed8"/>
+<text x="52" y="4796.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">main</tspan></text>
+<text x="242" y="4796.0" font-size="12.5" fill="#334155" xml:space="preserve">Producción / releases con tag</text>
+<text x="642" y="4796.0" font-size="12.5" fill="#334155" xml:space="preserve">04-27 → hoy</text>
+<text x="832" y="4796.0" font-size="12.5" fill="#334155" xml:space="preserve">—</text>
+<rect x="40" y="4808" width="1148" height="34.0" fill="#ffffff"/>
+<rect x="40" y="4808" width="5" height="34.0" fill="#0891b2"/>
+<text x="52" y="4830.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">Pruebas</tspan></text>
+<text x="242" y="4830.0" font-size="12.5" fill="#334155" xml:space="preserve">Integración de la fase 1 (equipo UADER)</text>
+<text x="642" y="4830.0" font-size="12.5" fill="#334155" xml:space="preserve">05-06 → 06-23</text>
+<text x="832" y="4830.0" font-size="12.5" fill="#334155" xml:space="preserve">Su contenido pasa a <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan> vía <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">davcore-integracion</tspan></text>
+<rect x="40" y="4842" width="1148" height="52.0" fill="#f8fafc"/>
+<rect x="40" y="4842" width="5" height="52.0" fill="#059669"/>
+<text x="52" y="4864.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan></text>
+<text x="242" y="4864.0" font-size="12.5" fill="#334155" xml:space="preserve">Integración de la fase 2, layout <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">Dav/scr</tspan> + <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">Dav/dic</tspan></text>
+<text x="642" y="4864.0" font-size="12.5" fill="#334155" xml:space="preserve">05-16 (creada) / 06-24 →</text>
+<text x="642" y="4882.0" font-size="12.5" fill="#334155" xml:space="preserve">09-14</text>
+<text x="832" y="4864.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">main</tspan> (PR #169 y #242)</text>
+<rect x="40" y="4894" width="1148" height="34.0" fill="#ffffff"/>
+<rect x="40" y="4894" width="5" height="34.0" fill="#7c3aed"/>
+<text x="52" y="4916.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">davcore-integracion</tspan></text>
+<text x="242" y="4916.0" font-size="12.5" fill="#334155" xml:space="preserve">Rama larga de un fork: reestructura + integración de voz</text>
+<text x="642" y="4916.0" font-size="12.5" fill="#334155" xml:space="preserve">06-24 → 08-31</text>
+<text x="832" y="4916.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan></text>
+<rect x="40" y="4928" width="1148" height="52.0" fill="#f8fafc"/>
+<rect x="40" y="4928" width="5" height="52.0" fill="#db2777"/>
+<text x="52" y="4950.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">forks-*</tspan></text>
+<text x="242" y="4950.0" font-size="12.5" fill="#334155" xml:space="preserve">Colapso de las ramas <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">usuario:Pruebas</tspan> / <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">usuario:DavCore</tspan> de</text>
+<text x="242" y="4968.0" font-size="12.5" fill="#334155" xml:space="preserve">cada fork</text>
+<text x="642" y="4950.0" font-size="12.5" fill="#334155" xml:space="preserve">según fase</text>
+<text x="832" y="4950.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">Pruebas</tspan> / <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan> / hotfix</text>
+<rect x="40" y="4980" width="1148" height="52.0" fill="#ffffff"/>
+<rect x="40" y="4980" width="5" height="52.0" fill="#0d9488"/>
+<text x="52" y="5002.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">feature/*</tspan>, <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">feat/*</tspan>,</text>
+<text x="52" y="5020.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">fix/*</tspan>, <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">docs/*</tspan></text>
+<text x="242" y="5002.0" font-size="12.5" fill="#334155" xml:space="preserve">Una tarea por rama</text>
+<text x="642" y="5002.0" font-size="12.5" fill="#334155" xml:space="preserve">horas a días</text>
+<text x="832" y="5002.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">Pruebas</tspan> o <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan></text>
+<rect x="40" y="5032" width="1148" height="52.0" fill="#f8fafc"/>
+<rect x="40" y="5032" width="5" height="52.0" fill="#64748b"/>
+<text x="52" y="5054.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">*-patch-N</tspan>,</text>
+<text x="52" y="5072.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">patch-branches-web</tspan></text>
+<text x="242" y="5054.0" font-size="12.5" fill="#334155" xml:space="preserve">Ediciones hechas desde la web de GitHub</text>
+<text x="642" y="5054.0" font-size="12.5" fill="#334155" xml:space="preserve">mismo día</text>
+<text x="832" y="5054.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">DavCore</tspan></text>
+<rect x="40" y="5084" width="1148" height="34.0" fill="#ffffff"/>
+<rect x="40" y="5084" width="5" height="34.0" fill="#dc2626"/>
+<text x="52" y="5106.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">hot-fix-v1.0.x</tspan></text>
+<text x="242" y="5106.0" font-size="12.5" fill="#334155" xml:space="preserve">Correcciones y ejemplos posteriores a la 1.0</text>
+<text x="642" y="5106.0" font-size="12.5" fill="#334155" xml:space="preserve">1 a 6 días</text>
+<text x="832" y="5106.0" font-size="12.5" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="11.5" fill="#9d174d">main</tspan></text>
+<rect x="40" y="4746" width="1148" height="372.0" rx="6" fill="none" stroke="#e2e8f0"/>
+<text x="40" y="5158" font-size="20" font-weight="700" fill="#0f172a">Tags de release</text>
+<g filter="url(#sh)"><rect x="40.0" y="5178" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M56.0,5197 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="60.0" cy="5204" r="1.6" fill="#fffbeb"/>
+<text x="84.0" y="5203" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.0</text>
+<text x="84.0" y="5221" font-size="11.5" fill="#78716c">PR #241 cierre de DavCore<tspan fill="#a8a29e"></tspan></text>
+<g filter="url(#sh)"><rect x="427.3" y="5178" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M443.3,5197 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="447.3" cy="5204" r="1.6" fill="#fffbeb"/>
+<text x="471.3" y="5203" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V.1.0</text>
+<text x="471.3" y="5221" font-size="11.5" fill="#78716c">PR #242 DavCore a main<tspan fill="#a8a29e"> · 09-14</tspan></text>
+<g filter="url(#sh)"><rect x="814.7" y="5178" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M830.7,5197 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="834.7" cy="5204" r="1.6" fill="#fffbeb"/>
+<text x="858.7" y="5203" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.1</text>
+<text x="858.7" y="5221" font-size="11.5" fill="#78716c">PR #265 hot-fix-v1.0.1<tspan fill="#a8a29e"> · 09-20</tspan></text>
+<g filter="url(#sh)"><rect x="40.0" y="5244" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M56.0,5263 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="60.0" cy="5270" r="1.6" fill="#fffbeb"/>
+<text x="84.0" y="5269" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V1.0.1</text>
+<text x="84.0" y="5287" font-size="11.5" fill="#78716c">gitignore issues<tspan fill="#a8a29e"> · 09-21</tspan></text>
+<g filter="url(#sh)"><rect x="427.3" y="5244" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M443.3,5263 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="447.3" cy="5270" r="1.6" fill="#fffbeb"/>
+<text x="471.3" y="5269" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">v1.0.2</text>
+<text x="471.3" y="5287" font-size="11.5" fill="#78716c">PR #269 Hot-fix-v1.0.2<tspan fill="#a8a29e"> · 09-25</tspan></text>
+<g filter="url(#sh)"><rect x="814.7" y="5244" width="373.3" height="54" rx="10" fill="#fffbeb" stroke="#fcd34d"/></g>
+<path d="M830.7,5263 h9 l7,7 l-7,7 h-9 z" fill="#d97706"/><circle cx="834.7" cy="5270" r="1.6" fill="#fffbeb"/>
+<text x="858.7" y="5269" font-size="15" font-weight="700" font-family="'Cascadia Mono',Consolas,'Courier New',monospace" fill="#92400e">V1.0.3</text>
+<text x="858.7" y="5287" font-size="11.5" fill="#78716c">PR #271 hot-fix-v1.0.3<tspan fill="#a8a29e"> · 09-25</tspan></text>
+<text x="40" y="5340" font-size="20" font-weight="700" fill="#0f172a">Desvíos respecto de GitFlow clásico</text>
+<rect x="40" y="5354" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5374.0" r="12" fill="#dc2626"/><text x="62" y="5378.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text>
+<text x="84" y="5379.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">hot-fix-v1.0.1</tspan> <tspan font-weight="600" fill="#0f172a">nace</tspan> <tspan font-weight="600" fill="#0f172a">de</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">DavCore</tspan><tspan font-weight="600" fill="#0f172a">,</tspan> <tspan font-weight="600" fill="#0f172a">no</tspan> <tspan font-weight="600" fill="#0f172a">de</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">main</tspan>: se ramificó en <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">a83fb75f</tspan> (<tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">v1.0.0</tspan>), y por eso su PR #265 llevó a <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">main</tspan> también lo que ya estaba en <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">DavCore</tspan>.</text>
+<rect x="40" y="5404" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5424.0" r="12" fill="#dc2626"/><text x="62" y="5428.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text>
+<text x="84" y="5429.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-weight="600" fill="#0f172a">No</tspan> <tspan font-weight="600" fill="#0f172a">hay</tspan> <tspan font-weight="600" fill="#0f172a">rama</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">develop</tspan>: <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">Pruebas</tspan> y luego <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">DavCore</tspan> hacen ese papel, y ninguna recibe los hotfixes de vuelta.</text>
+<rect x="40" y="5454" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5474.0" r="12" fill="#dc2626"/><text x="62" y="5478.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text>
+<text x="84" y="5479.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-weight="600" fill="#0f172a">Nombres</tspan> <tspan font-weight="600" fill="#0f172a">de</tspan> <tspan font-weight="600" fill="#0f172a">tag</tspan> <tspan font-weight="600" fill="#0f172a">mezclados</tspan>: <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">V.1.0</tspan>/<tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">v1.0.0</tspan> para la 1.0 y <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">v1.0.1</tspan>/<tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">V1.0.1</tspan> para la 1.0.1 (dos tags en commits distintos).</text>
+<rect x="40" y="5504" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5524.0" r="12" fill="#dc2626"/><text x="62" y="5528.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text>
+<text x="84" y="5529.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-weight="600" fill="#0f172a">Commits</tspan> <tspan font-weight="600" fill="#0f172a">directos</tspan> <tspan font-weight="600" fill="#0f172a">a</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">main</tspan> fuera de PR: <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">Update</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">issue</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">templates</tspan>, <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">Actualizar</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">README.es.md</tspan> y <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">gitignore</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">issues</tspan>.</text>
+<rect x="40" y="5554" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5574.0" r="12" fill="#dc2626"/><text x="62" y="5578.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5</text>
+<text x="84" y="5579.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-weight="600" fill="#0f172a">PR</tspan> <tspan font-weight="600" fill="#0f172a">#182</tspan> <tspan font-weight="600" fill="#0f172a">revertido</tspan> <tspan font-weight="600" fill="#0f172a">(#186)</tspan> <tspan font-weight="600" fill="#0f172a">y</tspan> <tspan font-weight="600" fill="#0f172a">reaplicado</tspan> <tspan font-weight="600" fill="#0f172a">en</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">DavCore</tspan> <tspan font-weight="600" fill="#0f172a">(#187)</tspan>: la misma rama <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">Abrilpoggio-patch-3</tspan> entró por dos destinos.</text>
+<rect x="40" y="5604" width="1148" height="40.0" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<circle cx="62" cy="5624.0" r="12" fill="#dc2626"/><text x="62" y="5628.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">6</text>
+<text x="84" y="5629.0" font-size="13" fill="#334155" xml:space="preserve"><tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">hot-fix-v1.0.3</tspan> <tspan font-weight="600" fill="#0f172a">incorporó</tspan> <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">main</tspan> con un merge (<tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">1a9ed6dd</tspan>) antes del PR #271; no se dibuja porque <tspan font-family="'Cascadia Mono',Consolas,'Courier New',monospace" font-size="12" fill="#9d174d">main</tspan> no había avanzado desde que se creó la rama.</text>
+<text x="614.0" y="5672" text-anchor="middle" font-size="11" fill="#94a3b8">Generado desde Dav/docs/gitflow-gitgraph.md · 130 nodos · 35 ramas · 8 carriles</text>
+</svg>

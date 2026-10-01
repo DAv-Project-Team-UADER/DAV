@@ -7,3 +7,4 @@ def ayuda():
     print(" current     - Show the name of the current object")
     print(" count       - Show the number of objects in the list")
     print(" delete      - Delete the currently selected object (use next/previous then delete/borrar)")
+    print(" spell       - Spell an object's name ('buscar por deletreo') and select the closest match")

@@ -85,6 +85,15 @@ TraduceToPt = {
     "deletar": selection["delete"],
     "deletar objeto": selection["delete"],
 
+    # spell — soletrar o nome e ficar com o objeto mais parecido
+    "buscar por soletração": selection["spell"],
+    "buscar por soletracao": selection["spell"],
+    "buscar soletração": selection["spell"],
+    "buscar objeto": selection["spell"],
+    "soletrar": selection["spell"],
+    "procurar": selection["spell"],
+    "buscar": selection["spell"],
+
     "ajuda": ayuda,
     "help": ayuda,
 }

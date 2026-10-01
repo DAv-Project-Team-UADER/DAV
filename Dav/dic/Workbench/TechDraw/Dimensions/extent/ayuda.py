@@ -19,3 +19,5 @@ def ayuda():
     print('=== Extent ===')
     print('  extent: Genera una cota horizontal automatica tomando bordes visibles de una vista TechDraw.')
     print('          Req: pagina TechDraw activa, vista DrawViewPart valida, referencias 2D seleccionables.')
+    print('  totals: Agrega el largo y el alto totales de una vista (cotas totales), eligiendo la vista por voz.')
+    print('          Req: pagina TechDraw activa y al menos una vista.')

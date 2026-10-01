@@ -22,6 +22,7 @@ except ImportError as _e:
     TechDraw = None  # type: ignore
     print(f"[DAV] TechDraw no disponible ({_e}); 'extent' queda como no-op.")
 from .ayuda import ayuda
+from ..._vistas import totalDimensions
 
 
 def _create_extent():
@@ -45,5 +46,6 @@ def _create_extent():
 
 extent = {
     'extent': lambda: _create_extent(),
+    'totals': totalDimensions,
     'help':   ayuda,
 }

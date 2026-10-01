@@ -44,6 +44,11 @@ TraduceToEn = {
     "face center":       addLines["center"],       
     "face center line":  addLines["center"],     
       
+    # axis — symmetry axis by voice, no need to pick vertices with the mouse
+    "symmetry axis":     addLines["axis"],
+    "axis of symmetry":  addLines["axis"],
+    "draw axis":         addLines["axis"],
+
     # help
     "help":              addLines["help"],
     "info":              addLines["help"],    

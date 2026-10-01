@@ -22,7 +22,13 @@ TraduceToEs = {
     # extent
     "extensión":          extent["extent"],
     "dimensión extensión": extent["extent"],  
-    "longitud total":     extent["extent"],   
+    "longitud total":     extent["extent"],
+
+    # totals — largo y alto totales de una vista, sin elegir aristas con el mouse
+    "cotas totales":      extent["totals"],
+    "cota total":         extent["totals"],
+    "medidas totales":    extent["totals"],
+    "largo y alto":       extent["totals"],
 
     # help
     "ayuda":              extent["help"],

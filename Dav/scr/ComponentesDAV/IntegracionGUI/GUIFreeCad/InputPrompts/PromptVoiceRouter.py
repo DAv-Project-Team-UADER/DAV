@@ -59,6 +59,15 @@ class PromptVoiceRouter:
             NumericGrammarSwitcher.RestoreCadGrammar()
 
     @classmethod
+    def GetActivePrompt(cls) -> Any | None:
+        """Return the prompt collecting voice input, or None.
+
+        Un diálogo que abre otro encima lo usa para devolverle la voz al cerrarse.
+        """
+        with cls._Lock:
+            return cls._ActivePrompt
+
+    @classmethod
     def HasActivePrompt(cls) -> bool:
         """Return True when a prompt is currently collecting voice input."""
         with cls._Lock:

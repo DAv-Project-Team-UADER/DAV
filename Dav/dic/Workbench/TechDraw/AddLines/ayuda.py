@@ -21,3 +21,4 @@ def ayuda():
     print("  'cosmetic'  : Traza una línea cosmética de referencia entre dos puntos. | Req: Vista base activa")
     print("  'decorate'  : Permite alterar el color, grosor o visibilidad de aristas. | Req: Aristas seleccionadas")
     print("  'center'    : Agrega una línea central o eje de simetría a una cara. | Req: Cara seleccionada")
+    print("  'axis'      : Traza el eje de simetría de una vista eligiendo todo por voz (horizontal/vertical, por el centro u origen). | Req: Vista existente")

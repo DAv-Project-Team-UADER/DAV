@@ -137,7 +137,7 @@ def askObject(doc, title: str, message: str, objectFilter, emptyMessage: str):
 
     prompt = ObjectSelectionInputPrompt(
         Title=title,
-        Message=f"{message}: 'avanzar' para cambiar, 'okey' para elegir",
+        Message=f"{message}: 'avanzar' para cambiar, 'buscar por deletreo' para buscar, 'okey' para elegir",
         ReturnObject=True,
         ObjectFilter=objectFilter,
     )
@@ -145,6 +145,54 @@ def askObject(doc, title: str, message: str, objectFilter, emptyMessage: str):
     if result is None or result.Cancelled or not result.Success:
         return None
     return result.Value
+
+
+def askObjectBySpelling(doc, title: str, objectFilter=None, alternatives: int = 3):
+    """Let the user spell an object's name and pick the one that looks most like it.
+
+    El reconocedor se equivoca en las letras que suenan parecido, así que se ofrecen
+    por turnos los más parecidos («¿Es Tijera abierta?»): «sí» elige, «no» pasa al
+    siguiente. Pensado para documentos con muchos objetos, donde recorrerlos de a uno
+    con «avanzar» no es práctico.
+
+    Args:
+        doc: Active FreeCAD document.
+        title: Dialog title (the operation being prepared).
+        objectFilter: Optional callable returning True for the objects to offer;
+            by default every object of the document is.
+        alternatives: How many of the closest objects are offered at most.
+
+    Returns:
+        The chosen object, or None when cancelled, nothing looks alike or all were refused.
+
+    Example::
+
+        view = askObjectBySpelling(doc, "Vista", lambda o: o.isDerivedFrom("App::Part"))
+    """
+    _ensure_input_prompts_on_path()
+    from InputPrompts.ObjectSelectionInputPrompt import ObjectSelectionInputPrompt
+
+    candidates = [obj for obj in doc.Objects if objectFilter is None or objectFilter(obj)]
+    if not candidates:
+        print("[DAV] Error: no hay ningún objeto para buscar.")
+        return None
+    spelled = askText(title, "Deletreá el nombre del objeto, letra por letra")
+    if not spelled:
+        return None
+    names = [(obj.Name, obj.Label) for obj in candidates]
+    ranked = ObjectSelectionInputPrompt._ImportSpellMatch().RankMatches(spelled, names, Limit=alternatives)
+    if not ranked:
+        print(f"[DAV] Nada se parece a «{spelled}».")
+        return None
+    for index, _score in ranked:
+        obj = candidates[index]
+        answer = askYesNo(title, f"¿Es «{obj.Label}» ({obj.Name})?")
+        if answer is None:
+            return None
+        if answer:
+            return obj
+    print("[DAV] No elegiste ninguno de los más parecidos a «" + spelled + "».")
+    return None
 
 
 def askSketch(doc, title: str):

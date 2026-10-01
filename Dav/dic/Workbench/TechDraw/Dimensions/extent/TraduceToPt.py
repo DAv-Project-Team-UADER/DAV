@@ -22,7 +22,11 @@ TraduceToPt = {
     # extent
     "extensão":           extent["extent"],
     "dimensão extensão":  extent["extent"],  
-    "comprimento total":  extent["extent"],  
+    "comprimento total":  extent["extent"],
+    # totals — comprimento e altura totais de uma vista, sem escolher arestas com o mouse
+    "cotas totais":       extent["totals"],
+    "cota total":         extent["totals"],
+    "medidas totais":     extent["totals"],
     # help
     "ajuda":              extent["help"],
     "informação":         extent["help"],    

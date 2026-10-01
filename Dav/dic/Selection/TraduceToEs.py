@@ -91,6 +91,14 @@ TraduceToEs = {
     "suprimir objeto": selection["delete"],
     "quitar objeto": selection["delete"],
 
+    # spell — deletrear el nombre y quedarse con el objeto que más se le parece
+    "buscar por deletreo": selection["spell"],
+    "buscar deletreo": selection["spell"],
+    "buscar objeto": selection["spell"],
+    "deletrear": selection["spell"],
+    "deletreo": selection["spell"],
+    "buscar": selection["spell"],
+
     "ayuda": ayuda,
     "help": ayuda,
 }

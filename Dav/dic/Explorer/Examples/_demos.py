@@ -17,7 +17,7 @@
 
 """Pick a guided example by voice and play it frame by frame."""
 
-from . import _arandela, _bulontuerca, _casa, _dado, _draft, _partdesign, _rotulo, _sketcher, _techdraw
+from . import _arandela, _bulontuerca, _casa, _dado, _draft, _partdesign, _rotulo, _sketcher, _techdraw, _tijeras
 
 # (clave, módulo). Cada módulo aporta TITLE (por idioma) y steps().
 _EXAMPLES = (
@@ -30,6 +30,7 @@ _EXAMPLES = (
     ("dado", _dado),
     ("arandela", _arandela),
     ("bulontuerca", _bulontuerca),
+    ("tijeras", _tijeras),
 )
 
 _CHOOSE_TITLE = {
