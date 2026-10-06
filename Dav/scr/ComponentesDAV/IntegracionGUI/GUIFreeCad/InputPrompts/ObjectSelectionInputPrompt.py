@@ -64,6 +64,15 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         "procurar",
     }
 
+    _GrammarWords: dict[str, list[str]] = {
+        "es": ["avanzar", "siguiente", "otro", "otra", "seleccionar", "elegir",
+               "buscar", "buscar por deletreo", "por deletreo", "deletreo", "deletrear"],
+        "en": ["advance", "next", "other", "select", "choose",
+               "search", "search by spelling", "spell", "spelling", "find"],
+        "pt": ["avancar", "avançar", "seguinte", "outro", "outra", "escolher",
+               "procurar", "soletrar"],
+    }
+
     # Cuántas alternativas se nombran en pantalla además de la elegida.
     SearchAlternatives: int = 2
 
@@ -115,6 +124,20 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         self._Selector.VectorSelection(self._ObjectNames)
         self.SetStatus(T(self._Language, "object_browse_confirm"))
         self._SelectNextObject()
+
+    @classmethod
+    def GrammarPhrases(cls, Language: str) -> list[str]:
+        """Return the Vosk phrases: browse, search by spelling, select, confirm, cancel.
+
+        Sin esto la lista corre con la gramática del contexto CAD, que no trae
+        «avanzar» ni «buscar por deletreo», y el reconocedor nunca las oye.
+        """
+        from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+        phrases = list(cls._GrammarWords.get(Language, cls._GrammarWords["es"]))
+        phrases.extend(PlaneGrammarSwitcher.PlanePhrases(Language)[2:])
+        seen: set[str] = set()
+        return [word for word in phrases if not (word in seen or seen.add(word))]
 
     def ProcessFinalText(self, Text: str) -> PromptResult:
         """Handle voice commands for browsing and confirming object selection."""
@@ -238,7 +261,8 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
                 PromptVoiceRouter.ClearActivePrompt(prompt)
             else:
                 PromptVoiceRouter.SetActivePrompt(previous)
-            PlaneGrammarSwitcher.RestoreCadGrammar()
+            # la voz vuelve a la lista: su gramática, no la del contexto CAD
+            PlaneGrammarSwitcher.ActivateGrammar(self.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage()))
         if result is None or result.Cancelled or not result.Success:
             return None
         return str(result.Value)

@@ -672,6 +672,37 @@ def rack_pinion_joint(pitch_radius: float) -> None:
     _RatioJoint("RackPinion", "Rack-and-pinioned", pitch_radius, None)
 
 
+def new_assembly() -> None:
+    """Create the assembly (with its Joints group) without FreeCAD's native command.
+
+    ``Assembly_CreateAssembly`` queda inactivo si hay un diálogo abierto o ya existe un
+    ensamblaje raíz, y ``runCommand`` falla en silencio: el comando figuraba como
+    ejecutado pero no se creaba nada. Acá se arma el mismo objeto a mano.
+
+    Example::
+
+        new_assembly()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[assembly] Error: no active document.")
+        return
+    existing = [obj for obj in doc.Objects if obj.isDerivedFrom("Assembly::AssemblyObject")]
+    if existing:
+        print(f"[assembly] Ya existe el ensamblaje '{existing[0].Label}'; se usa ese.")
+        return
+    assembly = doc.addObject("Assembly::AssemblyObject", "Assembly")
+    assembly.Type = "Assembly"
+    assembly.newObject("Assembly::JointGroup", "Joints")
+    doc.recompute()
+    try:
+        Gui.ActiveDocument.setEdit(assembly.Name)
+    except Exception:
+        # sin ventana (o sin modo edición) _ActiveAssembly lo encuentra por el documento
+        pass
+    print(f"[assembly] Assembly '{assembly.Label}' created")
+
+
 def _createPart(doc, name: str):
     """Create an empty ``App::Part`` holding a Body with a base sketch (a 5 mm circle).
 

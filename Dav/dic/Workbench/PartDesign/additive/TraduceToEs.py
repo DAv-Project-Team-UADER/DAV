@@ -166,9 +166,9 @@ TraduceToEs = {
     "cilindro por radio y altura": additive["cylinder_by_size"],
 
     # Revolucion por angulo dictado
-    "revolucion por angulo": additive["revolve_by_angle"],
-    "revolver por angulo": additive["revolve_by_angle"],
-    "girar perfil": additive["revolve_by_angle"],
+    "revolucion por angulo": additive["revolution"],
+    "revolver por angulo": additive["revolution"],
+    "girar perfil": additive["revolution"],
 
     # Primitivas por medidas dictadas
     "esfera por radio":      additive["sphere_by_radius"],

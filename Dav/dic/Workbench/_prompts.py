@@ -141,7 +141,10 @@ def askObject(doc, title: str, message: str, objectFilter, emptyMessage: str):
         ReturnObject=True,
         ObjectFilter=objectFilter,
     )
-    result = _requestPrompt(prompt)
+    from InputPrompts.PlaneGrammarSwitcher import PlaneGrammarSwitcher
+
+    phrases = prompt.GrammarPhrases(PlaneGrammarSwitcher.CurrentLanguage())
+    result = _askWithGrammar(prompt, phrases)
     if result is None or result.Cancelled or not result.Success:
         return None
     return result.Value

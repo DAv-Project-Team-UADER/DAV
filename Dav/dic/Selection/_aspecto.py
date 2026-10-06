@@ -24,6 +24,8 @@ seleccionado; si no hay nada, se elige el objeto de la lista (``avanzar``) o
 deletreando su nombre (``buscar por deletreo``).
 """
 
+from __future__ import annotations
+
 import FreeCAD as App
 
 try:
@@ -135,8 +137,11 @@ def _paint(obj, rgb) -> None:
             pass
 
 
-def paintObject() -> None:
+def paintObject(Key: str | None = None) -> None:
     """Change the colour of the selected objects, picking it by voice.
+
+    Args:
+        Key: Colour key of ``_COLORS`` already said ("pintar rojo"); None asks for it.
 
     Example::
 
@@ -146,7 +151,7 @@ def paintObject() -> None:
     objects = _targets(title)
     if not objects:
         return
-    key = _prompts().askChoice(title, "Elegí el color (arriba/abajo, okey)", _options(_COLORS))
+    key = Key or _prompts().askChoice(title, "Elegí el color (arriba/abajo, okey)", _options(_COLORS))
     if key is None:
         print(f"[DAV] {title} cancelado.")
         return
@@ -167,8 +172,11 @@ def _libraryMaterials() -> dict:
         return {}
 
 
-def setMaterial() -> None:
+def setMaterial(Key: str | None = None) -> None:
     """Change the material of the selected objects, picking it by voice.
+
+    Args:
+        Key: Library name of the material already said ("poner material acero"); None asks.
 
     El material de la biblioteca de FreeCAD trae también su aspecto: el objeto cambia de color
     y queda con la densidad del material.
@@ -186,7 +194,10 @@ def setMaterial() -> None:
     objects = _targets(title)
     if not objects:
         return
-    key = _prompts().askChoice(title, "Elegí el material (arriba/abajo, okey)", options)
+    if Key is not None and Key not in library:
+        print(f"[DAV] Error: este FreeCAD no tiene el material '{Key}'.")
+        return
+    key = Key or _prompts().askChoice(title, "Elegí el material (arriba/abajo, okey)", options)
     if key is None:
         print(f"[DAV] {title} cancelado.")
         return
@@ -202,3 +213,45 @@ def setMaterial() -> None:
         return
     App.activeDocument().recompute()
     print(f"[DAV] Material {label}: {', '.join(obj.Label for obj in objects)}.")
+
+
+# Verbos de las frases de una sola vez, por idioma: «pintar rojo», «poner material acero».
+_PAINT_VERBS = {
+    "es": ("pintar", "colorear", "pintar de", "poner color"),
+    "en": ("paint", "color", "set color"),
+    "pt": ("pintar", "colorir", "pintar de", "definir cor"),
+}
+_MATERIAL_VERBS = {
+    "es": ("poner material", "usar material", "material"),
+    "en": ("set material", "use material", "material"),
+    "pt": ("definir material", "usar material", "material"),
+}
+
+
+def oneShotPhrases(Language: str) -> dict:
+    """Return the phrases that name the colour or material in the same sentence.
+
+    Evitan el segundo cuadro (y el cambio de gramática) cuando el reconocedor ya oyó
+    todo: «pintar rojo» pinta, «poner material acero» asigna el material.
+
+    Args:
+        Language: "es", "en" or "pt".
+
+    Returns:
+        ``{spoken phrase: function without arguments}``, ready for ``TraduceToXx.update``.
+
+    Example::
+
+        TraduceToEs.update(oneShotPhrases("es"))
+    """
+    language = Language if Language in _PAINT_VERBS else "es"
+    phrases = {}
+    for row in _COLORS:
+        for word in row[-1].get(language, row[-1]["es"]):
+            for verb in _PAINT_VERBS[language]:
+                phrases[f"{verb} {word}"] = lambda key=row[0]: paintObject(key)
+    for row in _MATERIALS:
+        for word in row[-1].get(language, row[-1]["es"]):
+            for verb in _MATERIAL_VERBS[language]:
+                phrases[f"{verb} {word}"] = lambda key=row[0]: setMaterial(key)
+    return phrases

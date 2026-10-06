@@ -29,6 +29,7 @@ from ._parametric import (
     gears_joint,
     ground_part,
     insert_link,
+    new_assembly,
     new_part,
     parallel_joint,
     perpendicular_joint,
@@ -43,7 +44,7 @@ from ._parametric import (
 assembly = {}
 assembly.update({'joint': joint})
 assembly.update({
-    'create':      lambda: Gui.runCommand('Assembly_CreateAssembly', 0),
+    'create':      new_assembly,
     'newpart':     new_part,
     'link':        insert_link,
     'solve':       lambda: Gui.runCommand('Assembly_SolveAssembly', 0),

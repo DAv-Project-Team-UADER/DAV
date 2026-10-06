@@ -253,3 +253,8 @@ TraduceToEs.update ({
 from moveview import MoveView, MOVE_VIEW_PHRASES
 for _phrase in MOVE_VIEW_PHRASES['es']:
     TraduceToEs.setdefault(_phrase, MoveView)
+
+# «pintar rojo», «poner material acero»: el color o material dicho en la misma frase
+from ._aspecto import oneShotPhrases
+
+TraduceToEs.update(oneShotPhrases("es"))

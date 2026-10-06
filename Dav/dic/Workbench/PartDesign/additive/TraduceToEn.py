@@ -108,9 +108,9 @@ TraduceToEn = {
     "cylinder by radius and height": additive["cylinder_by_size"],
 
     # Revolution by dictated angle
-    "revolution by angle": additive["revolve_by_angle"],
-    "revolve by angle": additive["revolve_by_angle"],
-    "spin profile": additive["revolve_by_angle"],
+    "revolution by angle": additive["revolution"],
+    "revolve by angle": additive["revolution"],
+    "spin profile": additive["revolution"],
 
     # Primitives by dictated measures
     "sphere by radius":      additive["sphere_by_radius"],

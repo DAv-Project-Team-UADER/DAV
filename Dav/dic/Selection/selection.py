@@ -113,7 +113,7 @@ selection = {
     'count': ObjectCount,
     'delete': DeleteSelected,
     'spell': SpellSearch,
-    'color': paintObject,
-    'material': setMaterial,
+    'color': lambda: paintObject(),
+    'material': lambda: setMaterial(),
     'help': ayuda,
 }
