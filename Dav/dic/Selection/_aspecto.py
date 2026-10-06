@@ -166,8 +166,88 @@ def _setAppearance(view, rgb, material=None) -> bool:
     return False
 
 
+def _faceOwner(obj):
+    """Find the solid and face an auxiliary surface was copied from.
+
+    DAV crea un objeto ``Superficie N`` por cada cara de una pieza: es una copia de esa cara,
+    en el mismo lugar. Se busca en las piezas del documento la cara con la misma área, el
+    mismo centro y el mismo tipo de superficie.
+
+    Args:
+        obj: A candidate auxiliary surface (an object whose shape is one single face).
+
+    Returns:
+        ``(owner, face index)`` or None when ``obj`` is not a copy of a face.
+    """
+    shape = getattr(obj, "Shape", None)
+    if shape is None or shape.isNull() or shape.Solids or len(shape.Faces) != 1:
+        return None
+    face = shape.Faces[0]
+    for candidate in obj.Document.Objects:
+        if candidate is obj:
+            continue
+        owner_shape = getattr(candidate, "Shape", None)
+        if owner_shape is None or owner_shape.isNull() or not owner_shape.Solids:
+            continue
+        try:
+            if candidate.getParentGeoFeatureGroup() is not None:
+                continue  # lo que vive dentro de un cuerpo viaja con su cuerpo
+        except Exception:
+            pass
+        for index, other in enumerate(owner_shape.Faces):
+            if (
+                type(other.Surface) is type(face.Surface)
+                and abs(other.Area - face.Area) < 1e-6
+                and other.CenterOfMass.distanceToPoint(face.CenterOfMass) < 1e-6
+            ):
+                return candidate, index
+    return None
+
+
+def _paintFace(owner, index: int, rgb) -> int:
+    """Colour only face ``index`` of a solid (and of a body's last operation).
+
+    Returns:
+        How many views took the colour.
+    """
+    done = 0
+    for item in _withTip(owner):
+        view = getattr(item, "ViewObject", None)
+        shape = getattr(item, "Shape", None)
+        if view is None or shape is None or "ShapeAppearance" not in view.PropertiesList:
+            continue
+        count = len(shape.Faces)
+        if not 0 <= index < count:
+            continue
+        current = list(view.ShapeAppearance)
+        if not current:
+            current = [App.Material()]
+        looks = []
+        for position in range(count):
+            source = current[position] if len(current) == count else current[0]
+            look = App.Material()
+            for name in ("DiffuseColor", "AmbientColor", "SpecularColor", "EmissiveColor", "Shininess", "Transparency"):
+                try:
+                    setattr(look, name, getattr(source, name))
+                except (AttributeError, TypeError):
+                    pass
+            looks.append(look)
+        alpha = looks[index].DiffuseColor[3] if len(looks[index].DiffuseColor) > 3 else 1.0
+        looks[index].DiffuseColor = tuple(rgb) + (alpha,)
+        try:
+            view.ShapeAppearance = tuple(looks)
+            done += 1
+        except Exception as error:
+            print(f"[DAV] No se pudo pintar la cara de '{item.Label}': {error}")
+    return done
+
+
 def _paint(obj, rgb, material=None) -> int:
-    """Colour obj (and a body's last operation); return how many views took the colour."""
+    """Colour obj (and a body's last operation); return how many views took the colour.
+
+    Si ``obj`` es una superficie auxiliar (copia de una cara), esa cara también se pinta
+    en la pieza de la que salió.
+    """
     done = 0
     for item in _withTip(obj):
         view = getattr(item, "ViewObject", None)
@@ -177,6 +257,14 @@ def _paint(obj, rgb, material=None) -> int:
             done += bool(_setAppearance(view, rgb, material))
         except Exception as error:
             print(f"[DAV] No se pudo pintar '{item.Label}': {error}")
+    if material is None:
+        try:
+            found = _faceOwner(obj)
+        except Exception as error:
+            print(f"[DAV] No se pudo buscar la cara de '{obj.Label}': {error}")
+            found = None
+        if found is not None:
+            done += _paintFace(found[0], found[1], rgb)
     return done
 
 
