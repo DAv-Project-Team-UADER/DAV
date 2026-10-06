@@ -20,9 +20,9 @@
 Los comandos nativos de FreeCAD (Std_SetMaterial, el color de superficie) abren
 diálogos que no se manejan por voz. Acá el color y el material se eligen de una
 lista corta que se dice o se recorre con arriba/abajo. «color» y «material» se dicen
-solos, desde cualquier contexto: primero se elige de la lista y después se aplica a lo que
-esté seleccionado; si no hay nada, se elige el objeto de la lista (``avanzar``) o
-deletreando su nombre (``buscar por deletreo``).
+solos, desde cualquier contexto: primero se elige el color o material de la lista y después
+siempre se pregunta el objeto (``avanzar`` o ``buscar por deletreo``); la selección actual
+nunca se usa.
 """
 
 from __future__ import annotations
@@ -96,16 +96,15 @@ def _options(table, available=None):
 
 
 def _targets(title: str) -> list:
-    """Return the objects to change: the selected ones, else one chosen by list or spelling."""
+    """Return the object to change, always chosen by list or spelling.
+
+    Nunca se toma lo que esté seleccionado: siempre se pregunta cuál objeto
+    (``avanzar`` / ``buscar por deletreo`` / ``okey``).
+    """
     doc = App.activeDocument()
     if doc is None:
         print("[DAV] Error: no hay documento activo.")
         return []
-    selected = []
-    if Gui is not None:
-        selected = [obj for obj in Gui.Selection.getSelection(doc.Name) if hasattr(obj, "Shape")]
-    if selected:
-        return selected
     prompts = _prompts()
     obj = prompts.askObject(
         doc,
@@ -126,16 +125,70 @@ def _withTip(obj) -> list:
     return items
 
 
-def _paint(obj, rgb) -> None:
+def _setAppearance(view, rgb, material=None) -> bool:
+    """Give a view object one uniform colour (and, optionally, a library material's look).
+
+    FreeCAD 1.x guarda el aspecto en ``ShapeAppearance`` (una lista de ``App.Material``);
+    ``ShapeColor`` ya no existe en la vista, así que preguntar por ella no pinta nada.
+    Se deja un solo material para que no queden colores por cara tapando el nuevo.
+
+    Args:
+        view: The object's ``ViewObject``.
+        rgb: Colour as ``(r, g, b)`` in 0-1.
+        material: Optional library material whose shininess and transparency are copied.
+
+    Returns:
+        True when the view took the new look.
+    """
+    if "ShapeAppearance" in view.PropertiesList:
+        current = list(view.ShapeAppearance)
+        look = App.Material()
+        if current:  # App.Material no se copia a sí mismo: se pasan los campos
+            for name in ("AmbientColor", "SpecularColor", "EmissiveColor", "Shininess", "Transparency"):
+                try:
+                    setattr(look, name, getattr(current[0], name))
+                except (AttributeError, TypeError):
+                    pass
+        alpha = current[0].DiffuseColor[3] if current and len(current[0].DiffuseColor) > 3 else 1.0
+        look.DiffuseColor = tuple(rgb) + (alpha,)
+        if material is not None:
+            props = getattr(material, "AppearanceProperties", {}) or {}
+            for name in ("Shininess", "Transparency"):
+                try:
+                    setattr(look, name, float(props[name]))
+                except (KeyError, ValueError, TypeError, AttributeError):
+                    pass
+        view.ShapeAppearance = (look,)
+        return True
+    if "ShapeColor" in view.PropertiesList:  # FreeCAD anterior a 1.0
+        view.ShapeColor = rgb
+        return True
+    return False
+
+
+def _paint(obj, rgb, material=None) -> int:
+    """Colour obj (and a body's last operation); return how many views took the colour."""
+    done = 0
     for item in _withTip(obj):
         view = getattr(item, "ViewObject", None)
-        if view is None or not hasattr(view, "ShapeColor"):
+        if view is None:
             continue
-        view.ShapeColor = rgb
         try:
-            view.DiffuseColor = [rgb + (0.0,)]  # sin colores por cara que tapen el del objeto
-        except Exception:
-            pass
+            done += bool(_setAppearance(view, rgb, material))
+        except Exception as error:
+            print(f"[DAV] No se pudo pintar '{item.Label}': {error}")
+    return done
+
+
+def _materialColor(material):
+    """Return the ``(r, g, b)`` of a library material, or None when it has none."""
+    props = getattr(material, "AppearanceProperties", {}) or {}
+    text = props.get("DiffuseColor") or ""
+    try:
+        values = [float(part) for part in str(text).strip("() ").split(",")]
+    except ValueError:
+        return None
+    return tuple(values[:3]) if len(values) >= 3 else None
 
 
 def paintObject(Key: str | None = None) -> None:
@@ -149,7 +202,7 @@ def paintObject(Key: str | None = None) -> None:
         paintObject()
     """
     title = "Color del objeto"
-    # primero se elige el color; el objeto se pregunta después, solo si no hay selección
+    # primero se elige el color; después siempre se pregunta el objeto
     key = Key or _prompts().askChoice(title, "Elegí el color (arriba/abajo, okey)", _options(_COLORS))
     if key is None:
         print(f"[DAV] {title} cancelado.")
@@ -158,9 +211,11 @@ def paintObject(Key: str | None = None) -> None:
     if not objects:
         return
     name, rgb = next((row[1], row[2]) for row in _COLORS if row[0] == key)
-    for obj in objects:
-        _paint(obj, rgb)
+    painted = sum(_paint(obj, rgb) for obj in objects)
     App.activeDocument().recompute()
+    if not painted:
+        print("[DAV] Error: no se pudo cambiar el color (¿hay ventana 3D?).")
+        return
     print(f"[DAV] {name}: {', '.join(obj.Label for obj in objects)}.")
 
 
@@ -196,7 +251,7 @@ def setMaterial(Key: str | None = None) -> None:
     if Key is not None and Key not in library:
         print(f"[DAV] Error: este FreeCAD no tiene el material '{Key}'.")
         return
-    # primero se elige el material; el objeto se pregunta después, solo si no hay selección
+    # primero se elige el material; después siempre se pregunta el objeto
     key = Key or _prompts().askChoice(title, "Elegí el material (arriba/abajo, okey)", options)
     if key is None:
         print(f"[DAV] {title} cancelado.")
@@ -211,6 +266,10 @@ def setMaterial(Key: str | None = None) -> None:
             if "ShapeMaterial" in item.PropertiesList:
                 item.ShapeMaterial = library[key]
                 changed.append(item)
+        # FreeCAD no repinta si ya se había cambiado el color a mano: se fija el aspecto
+        color = _materialColor(library[key])
+        if color is not None:
+            _paint(obj, color, library[key])
     if not changed:
         print("[DAV] Error: los objetos elegidos no admiten material.")
         return

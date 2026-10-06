@@ -145,6 +145,51 @@ class OneShotPhrasesTest(unittest.TestCase):
         )
 
 
+class AlwaysAskObjectTest(unittest.TestCase):
+    def test_selection_is_never_used_to_pick_the_object(self):
+        aspecto = _loadAspecto()
+        chosen = object()
+        asked = []
+
+        class _Prompts:
+            @staticmethod
+            def askObject(doc, title, message, flt, empty):
+                asked.append(title)
+                return chosen
+
+            isShape = staticmethod(lambda obj: True)
+
+        class _Selection:
+            @staticmethod
+            def getSelection(*args):
+                raise AssertionError("the current selection must not be read")
+
+        aspecto.App.activeDocument = lambda: types.SimpleNamespace(Name="doc")
+        aspecto.Gui = types.SimpleNamespace(Selection=_Selection)
+        aspecto._prompts = lambda: _Prompts
+        self.assertEqual(aspecto._targets("Color del objeto"), [chosen])
+        self.assertEqual(asked, ["Color del objeto"])
+
+    def test_cancelling_the_list_changes_nothing(self):
+        aspecto = _loadAspecto()
+        aspecto.App.activeDocument = lambda: types.SimpleNamespace(Name="doc")
+        aspecto._prompts = lambda: types.SimpleNamespace(
+            askObject=lambda *a: None, isShape=lambda obj: True
+        )
+        self.assertEqual(aspecto._targets("Material del objeto"), [])
+
+
+class IconLocatorTest(unittest.TestCase):
+    def test_material_has_no_icon_but_others_keep_theirs(self):
+        sys.path.insert(0, str(dav_repo_root() / "ComponentesDAV" / "InterfazDAV"))
+        from IconLocator import IconLocator
+
+        locator = IconLocator()
+        self.assertEqual(locator.Find("material"), "")
+        self.assertEqual(locator.Find("Material"), "")
+        self.assertTrue(locator.Find("camera").endswith("camera.svg"))
+
+
 class SpellMatchCaseTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
