@@ -85,6 +85,31 @@ TraduceToPt = {
     "deletar": selection["delete"],
     "deletar objeto": selection["delete"],
 
+    # spell — soletrar o nome e ficar com o objeto mais parecido
+    "buscar por soletração": selection["spell"],
+    "buscar por soletracao": selection["spell"],
+    "buscar soletração": selection["spell"],
+    "buscar objeto": selection["spell"],
+    "soletrar": selection["spell"],
+    "procurar": selection["spell"],
+    "buscar": selection["spell"],
+
+    # cor — pintar a seleção (ou o objeto escolhido) com uma cor da lista
+    "pintar objeto": selection["color"],
+    "pintar peça": selection["color"],
+    "pintar peca": selection["color"],
+    "colorir objeto": selection["color"],
+    "mudar cor": selection["color"],
+    "escolher cor": selection["color"],
+    "definir cor": selection["color"],
+
+    # material — material da biblioteca do FreeCAD (alumínio, aço, PLA...)
+    "material do objeto": selection["material"],
+    "material da peça": selection["material"],
+    "material da peca": selection["material"],
+    "escolher material": selection["material"],
+    "trocar material": selection["material"],
+
     "ajuda": ayuda,
     "help": ayuda,
 }
@@ -257,3 +282,9 @@ TraduceToPt.update ({
 from moveview import MoveView, MOVE_VIEW_PHRASES
 for _phrase in MOVE_VIEW_PHRASES['pt']:
     TraduceToPt.setdefault(_phrase, MoveView)
+
+# «pintar rojo», «poner material acero»: el color o material dicho en la misma frase
+from ._aspecto import oneShotPhrases
+
+for _phrase, _target in oneShotPhrases("pt").items():
+    TraduceToPt[_phrase] = _target

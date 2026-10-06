@@ -31,6 +31,8 @@ TraduceToPt = {
 
     #Hélice aditiva
     'heliceaditiva':     additive['additivehelix'],
+    'helice aditiva':    additive['additivehelix'],
+    'helice':            additive['additivehelix'],
 
     #Loft aditivo
     'loftaditivo':      additive['additiveloft'],
@@ -111,8 +113,8 @@ TraduceToPt = {
     "cilindro por raio e altura": additive["cylinder_by_size"],
 
     # Revolucao por angulo ditado
-    "revolucao por angulo": additive["revolve_by_angle"],
-    "girar perfil": additive["revolve_by_angle"],
+    "revolucao por angulo": additive["revolution"],
+    "girar perfil": additive["revolution"],
 
     # Primitivas por medidas ditadas
     "esfera por raio":       additive["sphere_by_radius"],

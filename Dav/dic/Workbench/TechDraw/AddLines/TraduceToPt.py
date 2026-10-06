@@ -44,6 +44,12 @@ TraduceToPt = {
     "centro face":       addLines["center"],         
     "linha centro face": addLines["center"],     
 
+    # axis — eixo de simetria por voz, sem escolher vértices com o mouse
+    "eixo de simetria":  addLines["axis"],
+    "eixo simetria":     addLines["axis"],
+    "traçar eixo":       addLines["axis"],
+    "tracar eixo":       addLines["axis"],
+
     # help
     "ajuda":             addLines["help"],
     "informação":              addLines["help"],           

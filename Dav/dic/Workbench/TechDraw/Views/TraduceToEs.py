@@ -62,6 +62,36 @@ TraduceToEs = {
     "vista de hoja de calculo": views["spreadsheet"],
     "planilla": views["spreadsheet"],
 
+    # Vista de un objeto elegido por voz (de la lista o deletreando su nombre)
+    "vista de objeto": views["objectview"],
+    "vista por objeto": views["objectview"],
+    "vista con objeto": views["objectview"],
+    "vista de un objeto": views["objectview"],
+
+    # Dirección, escala, posición y proyección de una vista existente
+    "dirección de vista": views["direction"],
+    "direccion de vista": views["direction"],
+    "dirección de la vista": views["direction"],
+    "direccion de la vista": views["direction"],
+    "cambiar dirección": views["direction"],
+    "cambiar direccion": views["direction"],
+    "escala de vista": views["scale"],
+    "escala de la vista": views["scale"],
+    "cambiar escala": views["scale"],
+    "posición de vista": views["position"],
+    "posicion de vista": views["position"],
+    "posición de la vista": views["position"],
+    "posicion de la vista": views["position"],
+    "colocar vista": views["position"],
+    "proyección de página": views["projection"],
+    "proyeccion de pagina": views["projection"],
+    "proyección de hoja": views["projection"],
+    "proyeccion de hoja": views["projection"],
+    "tipo de proyección": views["projection"],
+    "tipo de proyeccion": views["projection"],
+    "tercer ángulo": views["projection"],
+    "tercer angulo": views["projection"],
+
     # Ayuda
     "ayuda": views["help"],
     "información": views["help"],

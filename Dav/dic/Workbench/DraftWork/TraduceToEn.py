@@ -21,6 +21,13 @@ from .ayuda import ayuda
 from measure import CreateDimension
 
 TraduceToEn = {
+    # image (PNG, JPG, BMP) as a reference, picked by voice
+    'import image':     draft['image'],
+    'reference image':  draft['image'],
+    'background image': draft['image'],
+    'bring image':      draft['image'],
+    'put image':        draft['image'],
+
     'annotation': draft['annotation'],
     'note':       draft['annotation'],
     'text':       draft['annotation'],

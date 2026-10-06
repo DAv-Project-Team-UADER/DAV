@@ -24,5 +24,8 @@ def ayuda():
   guardar   - Guarda el documento; si es nuevo pide carpeta y nombre
               (nombre sugerido o deletreado)
   exportar  - Elige el formato (STEP, IGES, STL, OBJ, DXF), carpeta y nombre
-              y exporta la selección o todo lo visible"""
+              y exporta la selección o todo lo visible
+  impresion 3d - Como exportar, pero solo piezas sólidas y formatos de
+              impresión 3D (3MF, STL, OBJ); el nombre se acepta sugerido
+              o deletreado, y al final dice el tamaño en mm"""
     show_help_dialog("Proyecto", content)

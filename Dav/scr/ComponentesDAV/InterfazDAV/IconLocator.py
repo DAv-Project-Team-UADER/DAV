@@ -100,6 +100,10 @@ class IconLocator:
         "vistaestandar": "standardviews",
     }
 
+    #: Claves que se muestran sin icono (el botón usa el texto de respaldo): el SVG que
+    #: les tocaba por nombre no representaba bien al comando.
+    _NO_ICON = {"material"}
+
     def Find(self, Key: str) -> str:
         """Path to the icon for that key.
 
@@ -115,6 +119,8 @@ class IconLocator:
         if self._index is None:
             self._index = self._BuildIndex()
         normalized = self._Normalize(Key)
+        if normalized in self._NO_ICON:
+            return ""
         found = self._index.get(normalized, "")
         if found:
             return found

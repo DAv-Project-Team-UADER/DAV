@@ -91,6 +91,34 @@ TraduceToEs = {
     "suprimir objeto": selection["delete"],
     "quitar objeto": selection["delete"],
 
+    # spell — deletrear el nombre y quedarse con el objeto que más se le parece
+    "buscar por deletreo": selection["spell"],
+    "buscar deletreo": selection["spell"],
+    "buscar objeto": selection["spell"],
+    "deletrear": selection["spell"],
+    "deletreo": selection["spell"],
+    "buscar": selection["spell"],
+
+    # color — pintar lo seleccionado (o el objeto elegido) con un color de la lista
+    "pintar objeto": selection["color"],
+    "pintar pieza": selection["color"],
+    "colorear objeto": selection["color"],
+    "colorear pieza": selection["color"],
+    "cambiar color": selection["color"],
+    "color de objeto": selection["color"],
+    "color de pieza": selection["color"],
+    "poner color": selection["color"],
+    "elegir color": selection["color"],
+
+    # material — material de la biblioteca de FreeCAD (aluminio, acero, PLA...)
+    "material de objeto": selection["material"],
+    "material de pieza": selection["material"],
+    "material del objeto": selection["material"],
+    "material de la pieza": selection["material"],
+    "poner material": selection["material"],
+    "elegir material": selection["material"],
+    "usar material": selection["material"],
+
     "ayuda": ayuda,
     "help": ayuda,
 }
@@ -225,3 +253,9 @@ TraduceToEs.update ({
 from moveview import MoveView, MOVE_VIEW_PHRASES
 for _phrase in MOVE_VIEW_PHRASES['es']:
     TraduceToEs.setdefault(_phrase, MoveView)
+
+# «pintar rojo», «poner material acero»: el color o material dicho en la misma frase
+from ._aspecto import oneShotPhrases
+
+for _phrase, _target in oneShotPhrases("es").items():
+    TraduceToEs[_phrase] = _target

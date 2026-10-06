@@ -16,6 +16,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from .._vistas import symmetryAxis
 
 addLines = {
     'twolines': lambda: Gui.runCommand('TechDraw_2LineCenterLine', 0),
@@ -23,5 +24,6 @@ addLines = {
     'cosmetic': lambda: Gui.runCommand('TechDraw_2PointCosmeticLine', 0),
     'decorate': lambda: Gui.runCommand('TechDraw_DecorateLine', 0),
     'center': lambda: Gui.runCommand('TechDraw_FaceCenterLine', 0),
+    'axis': symmetryAxis,
     'help': ayuda
 }

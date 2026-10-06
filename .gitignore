@@ -173,3 +173,6 @@ Dav/docs/guion-videotutorial.pdf
 
 # Salidas de prueba
 /*.out
+
+# Notas locales de pruebas por voz
+/pruebas-voz-nuevos-comandos.txt

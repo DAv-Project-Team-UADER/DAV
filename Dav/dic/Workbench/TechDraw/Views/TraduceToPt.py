@@ -60,6 +60,27 @@ TraduceToPt = {
     "folha de cálculo": views["spreadsheet"],
     "folha de calculo": views["spreadsheet"],
 
+    # Vista de um objeto escolhido por voz (da lista ou soletrando o nome)
+    "vista de objeto": views["objectview"],
+    "vista por objeto": views["objectview"],
+    "vista com objeto": views["objectview"],
+
+    # Direção, escala, posição e projeção de uma vista existente
+    "direção da vista": views["direction"],
+    "direcao da vista": views["direction"],
+    "mudar direção": views["direction"],
+    "escala da vista": views["scale"],
+    "mudar escala": views["scale"],
+    "posição da vista": views["position"],
+    "posicao da vista": views["position"],
+    "colocar vista": views["position"],
+    "projeção da página": views["projection"],
+    "projecao da pagina": views["projection"],
+    "projeção da folha": views["projection"],
+    "tipo de projeção": views["projection"],
+    "terceiro ângulo": views["projection"],
+    "terceiro angulo": views["projection"],
+
     # Ajuda
     "ajuda": views["help"],
     "informação": views["help"],

@@ -20,6 +20,14 @@ from .ayuda import ayuda
 from measure import CreateDimension
 
 TraduceToPt = {
+    # imagem (PNG, JPG, BMP) como referência, escolhida por voz
+    'importar imagem':      draft['image'],
+    'imagem de referência': draft['image'],
+    'imagem de referencia': draft['image'],
+    'imagem de fundo':      draft['image'],
+    'trazer imagem':        draft['image'],
+    'colocar imagem':       draft['image'],
+
     'anotacao':   draft['annotation'],
     'anotação':   draft['annotation'],
     'nota':       draft['annotation'],

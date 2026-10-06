@@ -39,6 +39,12 @@ TraduceToEs = {
     "centro":            addLines["center"],
     "centro cara":       addLines["center"],      
     "línea centro cara": addLines["center"],      
+    # axis — eje de simetría por voz, sin elegir vértices con el mouse
+    "eje de simetría":   addLines["axis"],
+    "eje de simetria":   addLines["axis"],
+    "eje simetría":      addLines["axis"],
+    "eje simetria":      addLines["axis"],
+    "trazar eje":        addLines["axis"],
     # help
     "ayuda":             addLines["help"],
     "información":              addLines["help"],       

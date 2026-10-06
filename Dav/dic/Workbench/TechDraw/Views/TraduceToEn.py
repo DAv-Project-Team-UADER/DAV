@@ -55,6 +55,23 @@ TraduceToEn = {
     "spreadsheet": views["spreadsheet"],
     "table view": views["spreadsheet"],
 
+    # View of an object picked by voice (from the list or by spelling its name)
+    "view of object": views["objectview"],
+    "object view": views["objectview"],
+    "view from object": views["objectview"],
+
+    # Direction, scale, position and projection of an existing view
+    "view direction": views["direction"],
+    "change direction": views["direction"],
+    "view scale": views["scale"],
+    "change scale": views["scale"],
+    "view position": views["position"],
+    "place view": views["position"],
+    "page projection": views["projection"],
+    "sheet projection": views["projection"],
+    "projection type": views["projection"],
+    "third angle": views["projection"],
+
     "help": views["help"],
     "info": views["help"],
     "options": views["help"],

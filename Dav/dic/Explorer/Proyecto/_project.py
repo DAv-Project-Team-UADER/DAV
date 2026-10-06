@@ -44,6 +44,13 @@ EXPORT_FORMATS = (
     ("dxf", "DXF (.dxf)", ("dxf", "deqf")),
 )
 
+# Lo que leen los programas de impresión 3D (laminadores). 3MF guarda unidades y colores.
+PRINT3D_FORMATS = (
+    ("3mf", "3MF (.3mf) — recomendado", ("3mf", "tres emefe")),
+    ("stl", "STL (.stl)", ("stl", "estl")),
+    ("obj", "OBJ (.obj)", ("obj",)),
+)
+
 _ORIGIN_TYPES = ("App::Origin", "App::Line", "App::Plane", "App::Point")
 
 
@@ -296,12 +303,78 @@ def exportProject() -> None:
         print("[DAV] Exportar cancelado.")
         return
 
+    if _runExport(extension, objects, path):
+        print(f"[DAV] Exportado '{path}' ({len(objects)} objeto/s).")
+
+
+def _runExport(extension: str, objects: list, path: Path) -> bool:
+    """Write ``objects`` to ``path`` with the first FreeCAD exporter that can; False (with a message) if none."""
     last_error = None
     for moduleName in App.getExportType(extension):
         try:
             importlib.import_module(moduleName).export(objects, str(path))
-            print(f"[DAV] Exportado '{path}' ({len(objects)} objeto/s).")
-            return
+            return True
         except Exception as error:
             last_error = error
     print(f"[DAV] Error: no se pudo exportar '{path}': {last_error}")
+    return False
+
+
+def _solidObjects(objects: list) -> list:
+    """Keep what a 3D printer can make: the objects whose shape holds a solid."""
+    solids = []
+    for obj in objects:
+        shape = getattr(obj, "Shape", None)
+        if shape is not None and not shape.isNull() and shape.Solids:
+            solids.append(obj)
+    return solids
+
+
+def export3dPrint() -> None:
+    """Export the selection (or all visible solids) for 3D printing, choosing format and file by voice.
+
+    Igual que ``exportProject`` pero con los formatos que leen los programas de
+    impresión 3D (3MF, STL, OBJ) y solo con piezas sólidas: un croquis o una vista
+    de TechDraw no se imprimen. El nombre del archivo se acepta sugerido o
+    deletreado letra por letra.
+
+    Example::
+
+        export3dPrint()
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("[DAV] Error: no hay documento activo para exportar.")
+        return
+    candidates = _exportObjects(doc)
+    objects = _solidObjects(candidates)
+    if not objects:
+        print("[DAV] Error: no hay ninguna pieza sólida para imprimir. Elegí una pieza o hacé visible alguna.")
+        return
+    if len(objects) < len(candidates):
+        print(f"[DAV] Se omiten {len(candidates) - len(objects)} objeto/s que no son sólidos.")
+
+    from Workbench._prompts import askChoice
+
+    formats = [item for item in PRINT3D_FORMATS if App.getExportType(item[0])]
+    if not formats:
+        print("[DAV] Error: esta instalación de FreeCAD no puede exportar 3MF, STL ni OBJ.")
+        return
+    extension = askChoice("Impresión 3D", "Elegí el formato para la impresora", formats)
+    if extension is None:
+        print("[DAV] Impresión 3D cancelada.")
+        return
+    defaultName = _safeName(objects[0].Label if len(objects) == 1 else doc.Label) or "pieza"
+    path = _askTarget(doc, "Impresión 3D", extension, defaultName)
+    if path is None:
+        print("[DAV] Impresión 3D cancelada.")
+        return
+    if not _runExport(extension, objects, path):
+        return
+    box = App.BoundBox()
+    for obj in objects:
+        box.add(obj.Shape.BoundBox)
+    print(
+        f"[DAV] Listo para imprimir '{path}' ({len(objects)} pieza/s, "
+        f"{box.XLength:.1f} x {box.YLength:.1f} x {box.ZLength:.1f} mm)."
+    )

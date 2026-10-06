@@ -13,6 +13,7 @@
 
 import FreeCADGui as Gui
 from .ayuda import ayuda
+from .._vistas import setProjection, setViewDirection, setViewPosition, setViewScale, viewFromObject
 
 def run_cmd(cmd):
     try:
@@ -29,5 +30,11 @@ views = {
     'complexsection': lambda: run_cmd('TechDraw_ComplexSection'),
     'draft': lambda: run_cmd('TechDraw_DraftView'),
     'spreadsheet': lambda: run_cmd('TechDraw_SpreadsheetView'),
+    # por voz de punta a punta: objeto (lista o deletreo), dirección, escala y posición
+    'objectview': viewFromObject,
+    'direction': setViewDirection,
+    'scale': setViewScale,
+    'position': setViewPosition,
+    'projection': setProjection,
     'help': ayuda
 }

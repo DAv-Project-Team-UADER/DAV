@@ -8,7 +8,7 @@
 
 **DAV** é um desenvolvimento inclusivo pensado para promover a participação de pessoas com deficiência motora no desenho 2D/3D.
 
-Nasceu como um projeto acadêmico no contexto de uma **Prática Educativa Territorial (PET)** ([Res. CD-FCYT N° 574-25](Dav/docs/normativas/Res.%20CD-FCYT%20N%C2%BA%20574-25%20-%20%20PET%20-%20DAV%20%28Dise%C3%B1o%20Asistido%20por%20Voz%29....pdf)) da Faculdade de Ciência e Tecnologia, sede Concepción del Uruguay, da [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). O projeto é voltado para a integração de comandos de voz no software de modelagem [**FreeCAD**](https://www.freecad.org/index.php).
+Nasceu como um projeto acadêmico no contexto de uma **Prática Educativa Territorial (PET)** ([Res. CD-FCYT N° 574-25](Dav/docs/es/normativas/Res.%20CD-FCYT%20N%C2%BA%20574-25%20-%20%20PET%20-%20DAV%20%28Dise%C3%B1o%20Asistido%20por%20Voz%29....pdf)) da Faculdade de Ciência e Tecnologia, sede Concepción del Uruguay, da [**Universidad Autónoma de Entre Ríos (UADER)**](https://uader.edu.ar/). O projeto é voltado para a integração de comandos de voz no software de modelagem [**FreeCAD**](https://www.freecad.org/index.php).
 
 O objetivo do projeto é permitir que pessoas com deficiência motora possam criar e modificar modelos, desenhos e peças 3D usando comandos de voz. Dessa forma, busca-se oferecer uma alternativa de interação por voz que complemente o teclado e o mouse dentro do ambiente CAD, ampliando as possibilidades de participação e promovendo a acessibilidade tecnológica.
 
@@ -48,12 +48,13 @@ O DAV está atualmente em uma fase inicial de **MVP** (*Minimum Viable Product*,
 ## Manual do Usuário
 
 - [Manual do Usuário (PDF)](Manual_do_Usuario.pdf)
+- [Documentação de desenvolvimento](Dav/docs/pt/README.md)
 
 ## Licença
 
 Este projeto é distribuído sob a licença [**GNU GPL v3**](https://www.gnu.org/licenses/gpl-3.0.html).
 
-Além disso, utiliza tecnologias e bibliotecas de terceiros sob diferentes licenças open source, incluindo componentes relacionados ao [**FreeCAD**](https://www.freecad.org/index.php), Qt/PySide e Vosk.
+Além disso, utiliza tecnologias e bibliotecas de terceiros sob diferentes licenças open source, incluindo componentes relacionados ao [**FreeCAD**](https://www.freecad.org/index.php), [Qt](https://www.qt.io/)/[PySide](https://doc.qt.io/qtforpython-6/) e [Vosk](https://alphacephei.com/vosk/).
 
 ## Agradecimentos
 
@@ -61,7 +62,7 @@ Queremos agradecer especialmente à [**Faculdade de Ciência e Tecnologia, sede 
 
 - Aos docentes responsáveis pelo projeto, Eduardo Velazquez e Guillermo Gerard.
 - A Jesús Valenzuela e Bernabe Arias, pela colaboração, acompanhamento e orientação durante o processo.
-- Aos comunicadores Naitria Peralta Montoya e Bruno Contigiani, pela colaboração e contribuições no desenvolvimento e na divulgação do projeto.
+- Aos comunicadores [Naitria Peralta Montoya](https://www.instagram.com/naitria?stkn=OWkwZnZuOXN6Y2h4) e [Bruno Contigiani](https://www.instagram.com/brunocontigiani_?stkn=OG1odzAybWI5OTVw), pela colaboração e contribuições no desenvolvimento e na divulgação do projeto.
 - Ao [**INTECLAB**](http://fcytcdelu.uader.edu.ar/investigacionlaboratoriointeclab), pelas revisões e orientação.
 
 A todas as pessoas que, de uma forma ou de outra, contribuíram para tornar este projeto possível, muito obrigado.

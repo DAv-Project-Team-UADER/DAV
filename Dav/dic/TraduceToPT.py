@@ -283,3 +283,11 @@ TraduceToPT.update ({
 from moveview import MoveView, MOVE_VIEW_PHRASES
 for _phrase in MOVE_VIEW_PHRASES['pt']:
     TraduceToPT.setdefault(_phrase, MoveView)
+
+# «color» y «material» dichos solos, en todos los contextos: abren la lista de colores o
+# de materiales para elegir. Un comando propio del contexto (por ejemplo el «material»
+# nativo de apariencia) tiene prioridad sobre estos.
+from Selection.selection import selection as _selection
+
+TraduceToPT["cor"] = _selection["color"]
+TraduceToPT["material"] = _selection["material"]

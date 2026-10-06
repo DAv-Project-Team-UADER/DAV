@@ -22,6 +22,7 @@ from pathlib import Path
 import FreeCAD as App
 
 from .ayuda import ayuda
+from ._aspecto import paintObject, setMaterial
 
 
 def _load_object_selection():
@@ -84,6 +85,25 @@ def DeleteSelected():
     SelectorInstance.DeleteSelected()
 
 
+def SpellSearch():
+    """Spell an object's name and select the one that looks most like it.
+
+    Dentro de las listas de objetos («avanzar» / «okey») la misma frase la atiende el
+    propio cuadro; esta es la versión suelta, para ubicar un objeto en el documento.
+    """
+    doc = App.activeDocument()
+    if doc is None:
+        print("Error: There is no active document in FreeCAD.")
+        return
+    try:
+        from Workbench._prompts import askObjectBySpelling
+    except ImportError:
+        from dic.Workbench._prompts import askObjectBySpelling
+    obj = askObjectBySpelling(doc, "Buscar por deletreo")
+    if obj is not None:
+        SelectorInstance.MonoSelection(obj)
+
+
 selection = {
     'next': SelectNext,
     'previous': SelectPrevious,
@@ -92,5 +112,8 @@ selection = {
     'current': CurrentObject,
     'count': ObjectCount,
     'delete': DeleteSelected,
+    'spell': SpellSearch,
+    'color': lambda: paintObject(),
+    'material': lambda: setMaterial(),
     'help': ayuda,
 }

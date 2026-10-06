@@ -39,6 +39,18 @@ TraduceToEs = {
     "exportar proyecto": proyecto["export"],
     "exportar archivo": proyecto["export"],
 
+    # impresión 3D: solo piezas sólidas y formatos de laminador (3MF, STL, OBJ)
+    "impresión 3d": proyecto["print3d"],
+    "impresion 3d": proyecto["print3d"],
+    "impresión tres de": proyecto["print3d"],
+    "impresion tres de": proyecto["print3d"],
+    "exportar para impresión": proyecto["print3d"],
+    "exportar para impresion": proyecto["print3d"],
+    "exportar impresión": proyecto["print3d"],
+    "exportar impresion": proyecto["print3d"],
+    "preparar impresión": proyecto["print3d"],
+    "preparar impresion": proyecto["print3d"],
+
     "ayuda": proyecto["help"],
     "información": proyecto["help"],
     "opciones": proyecto["help"],

@@ -433,7 +433,7 @@ class DavVoiceService:
             # InputPrompts no montado: es el caso normal, no se loguea.
             return False
         except Exception:
-            # pendientes-dav.md 9.c: este except se tragaba los fallos de
+            # este except se tragaba los fallos de
             # InputPrompts sin dejar rastro. Sigue sin interrumpir la voz,
             # pero ahora queda registrado.
             log.exception("PromptVoiceRouter fallo con %r", text)

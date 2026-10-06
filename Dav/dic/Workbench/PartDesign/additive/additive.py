@@ -18,6 +18,7 @@ import FreeCAD as App
 import FreeCADGui as Gui
 from .ayuda import ayuda
 from ..._display import showResult
+from .._placement import activeBody
 from ._parametric import (
     box_by_size,
     cone_by_size,
@@ -43,7 +44,8 @@ def _create_additive_primitive(type_id: str, default_name: str, is_3d: bool = Tr
     doc = App.activeDocument()
     if doc is None:
         doc = App.newDocument()
-    body = doc.addObject("PartDesign::Body", "Body")
+    # el cuerpo activo si lo hay; si no, uno nuevo
+    body = activeBody(doc) or doc.addObject("PartDesign::Body", "Body")
     obj = doc.addObject(type_id, default_name)
     body.addObject(obj)
     doc.recompute()

@@ -32,6 +32,8 @@ from ..Sketcher.new_sketch._faces import _AXIS_NAMES
 
 # tope de opciones: recorrerlas por voz se vuelve inmanejable con decenas de caras
 _MAX_OPTIONS = 12
+# una pieza con muchas caras curvas (una rosca) no debe dejar sin lugar a las caras planas
+_MIN_PLANES = 4
 
 
 def _shapeOf(part):
@@ -74,8 +76,8 @@ def listConnectors(part) -> list[tuple[str, str]]:
             normal = face.normalAt(u, v)
             key = tuple(int(round(c)) for c in (normal.x, normal.y, normal.z))
             planes.append((face.Area, f"Face{index}", f"Cara {_AXIS_NAMES.get(key, 'inclinada')}"))
-    ordered = sorted(cylinders, key=lambda item: -item[0]) + sorted(planes, key=lambda item: -item[0])
-    ordered = ordered[:_MAX_OPTIONS]
+    cylinders = sorted(cylinders, key=lambda item: -item[0])[: _MAX_OPTIONS - min(len(planes), _MIN_PLANES)]
+    ordered = (cylinders + sorted(planes, key=lambda item: -item[0]))[:_MAX_OPTIONS]
     labels = _numbered([label for _area, _name, label in ordered])
     return [(name, label) for (_area, name, _old), label in zip(ordered, labels)]
 

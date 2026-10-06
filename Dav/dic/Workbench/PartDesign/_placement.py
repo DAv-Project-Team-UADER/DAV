@@ -55,12 +55,29 @@ def chooseBody(doc, title: str):
     return body
 
 
+def activeBody(doc):
+    """Return the Body that is active in the 3D view for ``doc``, or None.
+
+    Sin ventana (FreeCAD en consola) o sin cuerpo activo devuelve None.
+    """
+    try:
+        import FreeCADGui as Gui
+
+        body = Gui.activeView().getActiveObject("pdbody")
+    except Exception:
+        return None
+    if body is None or getattr(body, "Document", None) is not doc:
+        return None
+    return body
+
+
 def bodyForAdditive(doc, title: str):
     """Return the body a new additive figure goes into.
 
-    Si ya hay cuerpos válidos pregunta "¿cuerpo nuevo?": con sí crea uno, con
-    no abre el menú para elegir uno existente y la figura se suma a él. Sin
-    cuerpos existentes crea uno nuevo sin preguntar.
+    Si hay un cuerpo activo se usa ese, sin preguntar. Sin cuerpo activo: si ya hay
+    cuerpos válidos pregunta "¿cuerpo nuevo?" (con sí crea uno, con no abre el menú para
+    elegir uno existente y la figura se suma a él); sin cuerpos crea uno nuevo sin
+    preguntar. Así una figura nunca se queda sin cuerpo donde ir.
 
     Args:
         doc: Active FreeCAD document.
@@ -69,6 +86,9 @@ def bodyForAdditive(doc, title: str):
     Returns:
         The body to build into, or None when the user cancelled.
     """
+    active = activeBody(doc)
+    if active is not None:
+        return active
     if any(isBody(obj) for obj in doc.Objects):
         wantsNew = askYesNo(
             title,

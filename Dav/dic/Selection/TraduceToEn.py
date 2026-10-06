@@ -82,6 +82,30 @@ TraduceToEn = {
     "erase object": selection["delete"],
     "suppress": selection["delete"],
 
+    # spell — spell the name and keep the object that looks most like it
+    "search by spelling": selection["spell"],
+    "search spelling": selection["spell"],
+    "spell search": selection["spell"],
+    "search object": selection["spell"],
+    "spell": selection["spell"],
+    "search": selection["spell"],
+
+    # color — paint the selection (or the chosen object) with a colour from the list
+    "paint object": selection["color"],
+    "paint part": selection["color"],
+    "color object": selection["color"],
+    "change color": selection["color"],
+    "set color": selection["color"],
+    "choose color": selection["color"],
+    "object color": selection["color"],
+
+    # material — material from the FreeCAD library (aluminum, steel, PLA...)
+    "object material": selection["material"],
+    "part material": selection["material"],
+    "pick material": selection["material"],
+    "choose material": selection["material"],
+    "define material": selection["material"],
+
     "help": ayuda,
 }
 
@@ -185,3 +209,9 @@ TraduceToEn.update ({
 from moveview import MoveView, MOVE_VIEW_PHRASES
 for _phrase in MOVE_VIEW_PHRASES['en']:
     TraduceToEn.setdefault(_phrase, MoveView)
+
+# «pintar rojo», «poner material acero»: el color o material dicho en la misma frase
+from ._aspecto import oneShotPhrases
+
+for _phrase, _target in oneShotPhrases("en").items():
+    TraduceToEn[_phrase] = _target

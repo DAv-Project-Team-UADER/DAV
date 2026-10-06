@@ -27,6 +27,13 @@ from .sketcher import sketcher
 from measure import CreateDimension
 
 TraduceToEn = {
+  # image (PNG, JPG, BMP) behind the sketch to trace, picked by voice
+  "import image": sketcher["image"],
+  "reference image": sketcher["image"],
+  "background image": sketcher["image"],
+  "bring image": sketcher["image"],
+  "put image": sketcher["image"],
+
 
     # Carpetas de Sketcher
     "geometry": sketcher["geometry"],

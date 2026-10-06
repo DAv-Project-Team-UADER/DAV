@@ -33,6 +33,7 @@ from .Root.root import root
 from .text.text import text
 from .slot.slot import slot
 from .new_sketch.new_sketch import _leave_sketch, _new_sketch
+from .._imagen import importImageSketch
 from _lenient import LenientDict
 
 
@@ -69,6 +70,7 @@ sketcher.update({'tools':       sketcher_tools})
 sketcher.update({'validate':    validate})
 sketcher.update({'view':        view})
 sketcher.update({
+    'image':              importImageSketch,
     'new':                _new_sketch,
     'leave':              _leave_sketch,
     'edit':               lambda: Gui.runCommand('Sketcher_EditSketch', 0),

@@ -53,7 +53,7 @@ class DavPanel(QWidget):
     bridge. It is fed through ``RenderContext`` / ``AddToHistory`` / ``SetStatus``
     and reports user intent through signals, so the same widget works as a
     standalone window today and as a ``QDockWidget`` inside FreeCAD after the
-    migration (see ``Dav/docs/plan-unificacion-guis.md``).
+    migration (see ``Dav/docs/en/gui-unification-plan.md``).
 
     Signals:
         CommandRequested(str): the user picked an entry; carries the spoken

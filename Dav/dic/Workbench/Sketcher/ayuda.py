@@ -22,6 +22,7 @@ def ayuda():
     print('  select        - Subconjunto: selección rápida (ejes, origen)')
     print('  external      - Subconjunto: geometría externa (proyección, intersección)')
     print('  view          - Subconjunto: alineación de cámara y secciones')
+    print("  image         - 'importar imagen': elige un PNG/JPG/BMP por voz y lo coloca detrás del croquis para calcar")
 
     print('  line          - Subconjunto para la creación de líneas rectas en croquis.')
     print('  point         - Subconjunto para la creación de puntos en croquis.')

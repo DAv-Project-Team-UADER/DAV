@@ -9,4 +9,5 @@ def ayuda():
     print('  dimension  - Subconjunto para la creación y edición de cotas (lineal, invertir).')
     print('  ellipse    - Subconjunto para la creación de elipses.')
     print('  facebinder - Subconjunto para crear superficies vinculadas a partir de caras.')
+    print("  image      - 'importar imagen': elige un PNG/JPG/BMP por voz y lo coloca en el plano XY, XZ o YZ.")
     print('               (Ejecutar ayuda de cada subconjunto para ver sus comandos en detalle)')

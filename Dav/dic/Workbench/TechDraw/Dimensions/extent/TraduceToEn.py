@@ -24,7 +24,12 @@ TraduceToEn = {
     "extent":           extent["extent"],
     "extent dimension": extent["extent"],         
     "span":             extent["extent"],         
-    "total length":     extent["extent"],    
+    "total length":     extent["extent"],
+
+    # totals — overall length and height of a view, no need to pick edges with the mouse
+    "total dimensions": extent["totals"],
+    "overall dimensions": extent["totals"],
+    "length and height": extent["totals"],
          
     # help
     "help":             extent["help"],
