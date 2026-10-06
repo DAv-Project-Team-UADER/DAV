@@ -368,7 +368,6 @@ def documento(idioma: str, iconos: Iconos, numeros: dict | None) -> tuple[str, l
     logo = AQUI / "img" / "logo.png"
     cuerpo.append(f"<p class='center'><img src='{logo.name}' width='170'></p>")
     cuerpo.append(f"<div class='titulo'>{esc(t['title'])}</div><div class='subtitulo'>{esc(t['subtitle'])}</div>")
-    cuerpo += [f"<p>{p}</p>" for p in t["lead"]]
 
     # Índice (se completa en la segunda pasada)
     cuerpo.append("@@TOC@@")

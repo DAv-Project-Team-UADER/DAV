@@ -116,8 +116,6 @@ T = {
     "es": {
         "lang_name": "Español", "html_lang": "es",
         "title": "DAV — Diseño Asistido por Voz", "subtitle": "Manual de Usuario",
-        "lead": ["<b>DAV</b> es un desarrollo inclusivo pensado para promover la participación de personas con discapacidad motriz en el diseño 2D/3D.",
-                 "El objetivo del proyecto es permitir que personas con discapacidad motriz puedan crear y modificar modelos, dibujos y piezas 3D mediante comandos de voz. De esta manera, se busca ofrecer una alternativa de interacción por voz que complemente el teclado y el mouse dentro del entorno CAD, ampliando las posibilidades de participación y fomentando la accesibilidad tecnológica."],
         "toc": "Índice", "header": "Manual de Usuario - Proyecto DAV",
         "col_icon": "Ícono", "col_cmd": "Comando (Español)", "col_what": "¿Qué hace?", "col_req": "Requisitos",
         "voice_access": "Acceso por voz", "group_word": "Grupo", "icon_word": "Ícono",
@@ -219,8 +217,6 @@ T = {
     "en": {
         "lang_name": "English", "html_lang": "en",
         "title": "DAV — Voice-Assisted Design", "subtitle": "User Manual",
-        "lead": ["<b>DAV</b> is an inclusive development designed to promote the participation of people with motor disabilities in 2D/3D design.",
-                 "The goal of the project is to enable people with motor disabilities to create and modify 3D models, drawings, and parts through spoken instructions. In doing so, it seeks to offer a voice-based alternative that complements the keyboard and mouse within the CAD environment, broadening opportunities for participation and promoting technological accessibility."],
         "toc": "Contents", "header": "User Manual - DAV Project",
         "col_icon": "Icon", "col_cmd": "Voice commands (English)", "col_what": "What does it do?", "col_req": "Requirements",
         "voice_access": "Voice access", "group_word": "Group", "icon_word": "Icon",
@@ -322,8 +318,6 @@ T = {
     "pt": {
         "lang_name": "Português", "html_lang": "pt",
         "title": "DAV — Desenho Assistido por Voz", "subtitle": "Manual do Usuário",
-        "lead": ["<b>DAV</b> é um desenvolvimento inclusivo pensado para promover a participação de pessoas com deficiência motora no desenho 2D/3D.",
-                 "O objetivo do projeto é permitir que pessoas com deficiência motora possam criar e modificar modelos, desenhos e peças 3D por meio de comandos de voz. Dessa forma, busca-se oferecer uma alternativa de interação por voz que complemente o teclado e o mouse no ambiente CAD, ampliando as possibilidades de participação e fomentando a acessibilidade tecnológica."],
         "toc": "Índice", "header": "Manual do Usuário - Projeto DAV",
         "col_icon": "Ícone", "col_cmd": "Comando (Português)", "col_what": "O que faz?", "col_req": "Requisitos",
         "voice_access": "Acesso por voz", "group_word": "Grupo", "icon_word": "Ícone",

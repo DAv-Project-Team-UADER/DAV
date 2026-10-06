@@ -27,7 +27,7 @@ D = {
     "workbench/assembly/joint/fixed": ("Junta fija: las dos piezas quedan rígidamente unidas.", "Fixed joint: the two parts are rigidly attached.", "Junta fixa: as duas peças ficam rigidamente unidas."),
     "workbench/assembly/joint/revolute": ("Junta de revolución (bisagra): giro sobre un eje.", "Revolute joint (hinge): rotation about one axis.", "Junta de revolução (dobradiça): giro em torno de um eixo."),
     "workbench/assembly/joint/slider": ("Junta deslizante: una pieza se desliza sobre un eje.", "Slider joint: one part slides along an axis.", "Junta deslizante: uma peça desliza sobre um eixo."),
-    "workbench/assembly/create": ("Crea un ensamblaje nuevo.", "Creates a new assembly.", "Cria uma montagem nova.", "doc"),
+    "workbench/assembly/create": ('Crea un ensamblaje nuevo, con su carpeta de uniones. Si el documento ya tiene uno, usa ese.', 'Creates a new assembly with its joints folder. If the document already has one, it uses that one.', 'Cria uma montagem nova, com a sua pasta de uniões. Se o documento já tiver uma, usa essa.', "doc"),
     "workbench/assembly/newpart": ('Crea una pieza vacía (Part con su Body) dentro del ensamblaje, sin diálogos.', 'Creates an empty part (Part with its Body) inside the assembly, with no dialogs.', 'Cria uma peça vazia (Part com o seu Body) dentro da montagem, sem diálogos.', 'asm'),
     "workbench/assembly/link": ("Inserta como vínculo un componente existente del documento.", "Inserts an existing document component as a link.", "Insere como vínculo um componente existente do documento."),
     "workbench/assembly/solve": ("Resuelve el ensamblaje y aplica todas las juntas.", "Solves the assembly and applies every joint.", "Resolve a montagem e aplica todas as juntas."),
