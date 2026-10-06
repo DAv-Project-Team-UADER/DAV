@@ -257,4 +257,5 @@ for _phrase in MOVE_VIEW_PHRASES['es']:
 # «pintar rojo», «poner material acero»: el color o material dicho en la misma frase
 from ._aspecto import oneShotPhrases
 
-TraduceToEs.update(oneShotPhrases("es"))
+for _phrase, _target in oneShotPhrases("es").items():
+    TraduceToEs[_phrase] = _target

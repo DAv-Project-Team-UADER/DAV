@@ -147,6 +147,13 @@ class SpellingInputPrompt(BaseInputPrompt):
         """Return the text built so far."""
         return self._Text
 
+    def GetCurrentText(self) -> str:
+        """Return the text without the ``_`` cursor shown in the dialog.
+
+        El botón Aceptar acepta lo que se ve; sin esto el texto salía con un «_» final.
+        """
+        return self._Text
+
     def ProcessPartialText(self, Text: str) -> None:
         """Ignore partials: a letter counts only in the final result."""
 

@@ -48,7 +48,6 @@ TraduceToEs = {
     # Patrones por medida dictada (sin dialogo)
     "patron lineal por medida":   transform["linear_pattern"],
     "repetir en linea":           transform["linear_pattern"],
-    "patron lineal":              transform["linear_pattern"],
 
     "patron lineal por separacion": transform["linear_pattern_by_spacing"],
     "repetir cada":               transform["linear_pattern_by_spacing"],

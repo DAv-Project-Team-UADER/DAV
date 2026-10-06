@@ -61,6 +61,50 @@ class ObjectListGrammarTest(unittest.TestCase):
         self.assertTrue({"buscar", "deletreo", "deletrear"} <= spoken & self.prompt.SearchWords)
 
 
+class _Fake:
+    def __init__(self, name, type_id="PartDesign::Feature", group=None):
+        self.Name, self.Label, self.TypeId, self.Group = name, name, type_id, group or []
+
+
+class BodyContentSpellingTest(unittest.TestCase):
+    def setUp(self):
+        try:
+            from InputPrompts.ObjectSelectionInputPrompt import ObjectSelectionInputPrompt
+        except ImportError as error:
+            self.skipTest(f"InputPrompts not importable here: {error}")
+        self.prompt = ObjectSelectionInputPrompt
+
+    def test_body_is_found_by_the_name_of_its_operations(self):
+        body = _Fake("Body001", "PartDesign::Body", [_Fake("Origin003", "App::Origin"), _Fake("Cylinder")])
+        names = self.prompt._SpellNames(body, "Body001")
+        self.assertIn("cylinder", names)
+        self.assertIn("body001", names)
+        self.assertIn("origin003", names)  # todo cuenta, sin orden jerárquico
+
+    def test_spelling_cylinder_picks_the_body_that_holds_it(self):
+        from selection import spell_match
+
+        body = _Fake("Body001", "PartDesign::Body", [_Fake("Cylinder")])
+        other = _Fake("Body002", "PartDesign::Body", [_Fake("Pad")])
+        names = [self.prompt._SpellNames(o, o.Name) for o in (other, body)]
+        self.assertEqual(spell_match.RankMatches("cylinder", names, Limit=1)[0][0], 1)
+
+    def test_object_without_group_still_works(self):
+        self.assertEqual(self.prompt._SpellNames(None, "Box"), ("box",))
+
+    def test_nested_content_is_found_at_any_depth(self):
+        deep = _Fake("Hoyo", "PartDesign::Pocket")
+        part = _Fake("Pieza", "App::Part", [_Fake("Body", "PartDesign::Body", [deep])])
+        self.assertIn("hoyo", self.prompt._SpellNames(part, "Pieza"))
+
+    def test_origin_features_are_searchable(self):
+        origin = _Fake("Origin", "App::Origin")
+        origin.OriginFeatures = [_Fake("XY_Plane", "App::Plane")]
+        body = _Fake("Body", "PartDesign::Body")
+        body.Origin = origin
+        self.assertIn("xy_plane", self.prompt._SpellNames(body, "Body"))
+
+
 class OneShotPhrasesTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -99,6 +143,28 @@ class OneShotPhrasesTest(unittest.TestCase):
         self.assertEqual(
             set(self.aspecto.oneShotPhrases("xx")), set(self.aspecto.oneShotPhrases("es"))
         )
+
+
+class SpellMatchCaseTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(dav_repo_root() / "scr"))
+        from selection import spell_match
+
+        cls.match = spell_match
+
+    def test_uppercase_spelling_finds_lowercase_name(self):
+        ranked = self.match.RankMatches("TAPA", [("Body", "eje"), ("Body001", "tapa")])
+        self.assertEqual(ranked[0][0], 1)
+        self.assertEqual(ranked[0][1], 1.0)
+
+    def test_lowercase_spelling_finds_uppercase_name(self):
+        ranked = self.match.RankMatches("tapa", [("Body", "EJE"), ("Body001", "TAPA")])
+        self.assertEqual(ranked[0][0], 1)
+
+    def test_ties_keep_the_first_in_the_document(self):
+        ranked = self.match.RankMatches("hoja", [("A", "hoja"), ("B", "HOJA")], Limit=1)
+        self.assertEqual(ranked, [(0, 1.0)])
 
 
 if __name__ == "__main__":

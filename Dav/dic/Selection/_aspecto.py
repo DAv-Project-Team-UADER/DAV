@@ -19,8 +19,9 @@
 
 Los comandos nativos de FreeCAD (Std_SetMaterial, el color de superficie) abren
 diálogos que no se manejan por voz. Acá el color y el material se eligen de una
-lista corta que se dice o se recorre con arriba/abajo. Se aplican a lo que esté
-seleccionado; si no hay nada, se elige el objeto de la lista (``avanzar``) o
+lista corta que se dice o se recorre con arriba/abajo. «color» y «material» se dicen
+solos, desde cualquier contexto: primero se elige de la lista y después se aplica a lo que
+esté seleccionado; si no hay nada, se elige el objeto de la lista (``avanzar``) o
 deletreando su nombre (``buscar por deletreo``).
 """
 
@@ -148,12 +149,13 @@ def paintObject(Key: str | None = None) -> None:
         paintObject()
     """
     title = "Color del objeto"
-    objects = _targets(title)
-    if not objects:
-        return
+    # primero se elige el color; el objeto se pregunta después, solo si no hay selección
     key = Key or _prompts().askChoice(title, "Elegí el color (arriba/abajo, okey)", _options(_COLORS))
     if key is None:
         print(f"[DAV] {title} cancelado.")
+        return
+    objects = _targets(title)
+    if not objects:
         return
     name, rgb = next((row[1], row[2]) for row in _COLORS if row[0] == key)
     for obj in objects:
@@ -191,15 +193,16 @@ def setMaterial(Key: str | None = None) -> None:
     if not options:
         print("[DAV] Error: esta instalación de FreeCAD no tiene biblioteca de materiales.")
         return
-    objects = _targets(title)
-    if not objects:
-        return
     if Key is not None and Key not in library:
         print(f"[DAV] Error: este FreeCAD no tiene el material '{Key}'.")
         return
+    # primero se elige el material; el objeto se pregunta después, solo si no hay selección
     key = Key or _prompts().askChoice(title, "Elegí el material (arriba/abajo, okey)", options)
     if key is None:
         print(f"[DAV] {title} cancelado.")
+        return
+    objects = _targets(title)
+    if not objects:
         return
     label = next(row[1] for row in _MATERIALS if row[0] == key)
     changed = []

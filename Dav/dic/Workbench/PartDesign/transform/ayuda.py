@@ -6,5 +6,7 @@ def ayuda():
     print('  multitransform - Aplica múltiples transformaciones sucesivas combinadas')
     print('  scaled         - Crea copias escaladas progresivamente (sub-herramienta de MultiTransform)')
     print('\nPrecondiciones:')
+    print('  - Patrón lineal, patrón polar, simetría y escalado se manejan por voz: eligen la operación de una lista ("avanzar" / "buscar por deletreo" / "okey") si no hay nada seleccionado, y piden eje o plano, copias y medidas.')
+    print('  - multitransform sigue abriendo el panel de FreeCAD.')
     print('  - Todos los comandos requieren que exista un Body activo.')
     print('  - Todos los comandos de transformación requieren seleccionar previamente una o más características/operaciones (features) en el árbol.')

@@ -213,8 +213,8 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
         labels = []
         for name in self._ObjectNames:
             obj = document.getObject(name) if document is not None else None
-            labels.append((name, getattr(obj, "Label", name)))
-        ranked = SpellMatch.RankMatches(spelled, labels, Limit=1 + self.SearchAlternatives)
+            labels.append(self._SpellNames(obj, name))
+        ranked = SpellMatch.RankMatches(spelled.lower(), labels, Limit=1 + self.SearchAlternatives)
         if not ranked:
             self.SetHeardText(spelled)
             self.SetStatus(T(self._Language, "object_search_none", text=spelled))
@@ -236,6 +236,37 @@ class ObjectSelectionInputPrompt(BaseInputPrompt):
                 others=T(self._Language, "object_search_others", names=", ".join(others)) if others else "",
             )
         )
+
+    @staticmethod
+    def _SpellNames(Obj, Name: str) -> tuple[str, ...]:
+        """Every lower-case name an object can be found by when spelling.
+
+        Se busca entre todo, sin orden jerárquico: un cuerpo también se encuentra por
+        el nombre de cualquier cosa que contenga, a cualquier profundidad (operaciones,
+        croquis, origen...). En las listas solo se ofrece el contenedor, y es el que
+        queda seleccionado.
+        """
+        names: list[str] = []
+        seen: set[int] = set()
+
+        def collect(item) -> None:
+            if item is None or id(item) in seen:
+                return
+            seen.add(id(item))
+            fallback = getattr(item, "Name", Name)
+            names.extend((str(fallback), str(getattr(item, "Label", fallback))))
+            for child in (getattr(item, "Group", None) or []):
+                collect(child)
+            # el origen de un cuerpo/pieza cuelga de su propiedad Origin
+            collect(getattr(item, "Origin", None))
+            for child in (getattr(item, "OriginFeatures", None) or []):
+                collect(child)
+
+        collect(Obj)
+        if not names:
+            names.extend((Name, Name))
+        names.append(Name)
+        return tuple(dict.fromkeys(name.lower() for name in names))
 
     def _AskSpelling(self) -> str | None:
         """Open the letter-by-letter dialog on top of this one; None when cancelled.
