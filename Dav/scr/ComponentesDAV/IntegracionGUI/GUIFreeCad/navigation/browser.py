@@ -439,6 +439,14 @@ class Browser:
     def _OnLanguageChanged(self, _previous: LanguageCode, _new: LanguageCode) -> None:
         self.ResetFromBase()
 
+    def GetBackPhrase(self) -> str | None:
+        """Frase del idioma activo que sube un nivel («up», «subir», «voltar»…).
+
+        Para los botones de la interfaz: una palabra fija en un idioma no la
+        entiende el Browser cuando el diccionario está en otro.
+        """
+        return self._FirstSpokenForNavAction("up")
+
     def _BuildBaseContextEntries(self) -> list[ContextEntry]:
         entries: list[ContextEntry] = []
         for internal_key, target in self._base_module.items():

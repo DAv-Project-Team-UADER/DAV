@@ -26,8 +26,10 @@ Há duas formas de instalar o DAV, conforme o que você quiser fazer:
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **FreeCAD 1.x**  | É o programa que o DAV controla. É **gratuito** e está em <https://www.freecad.org/downloads.php>. O DAV **não o inclui**: é preciso instalá-lo antes.                 |
 | **Microfone**    | Para usar os comandos de voz.                                                                                                                                         |
-| **Internet**     | Somente na primeira vez: o DAV baixa o modelo de voz Vosk (≈ 40 MB).                                                                                                  |
+| **Conexão com a Internet** | **Obrigatória durante a instalação** (na primeira vez): são instaladas as dependências do Python e é baixado o modelo de voz Vosk (≈ 40 MB). |
 | **Python 3.10+** | Somente na primeira vez: o DAV o usa para criar seu ambiente de voz. Se você não o tem, instale-o em <https://www.python.org/downloads/> marcando **"Add Python to PATH"**. |
+
+> **Importante:** sem conexão com a Internet a instalação falha. Depois de instalado, o DAV funciona offline.
 
 > **Não é preciso** baixar mais nada: nem o código do FreeCAD, nem modelos de voz, nem
 > editores. O DAV cuida de tudo isso sozinho, na primeira vez.
@@ -40,8 +42,8 @@ Para quem **só quer usar o DAV**, sem abrir o código. É um único arquivo com
 
 ### Passo 1 — Instale o FreeCAD
 
-1. Acesse <https://www.freecad.org/downloads.php>.
-2. Baixe e instale a versão **1.x** (Windows, 64 bits).
+1. [Baixe o instalador do FreeCAD 1.1.4 para Windows (64 bits)](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Windows-x86_64-py311-installer.exe) e execute-o.
+2. Se preferir outra versão, todas estão em <https://www.freecad.org/downloads.php> (use sempre a série **1.x**).
 3. **IMPORTANTE:** o DAV não traz o FreeCAD dentro. Sem o FreeCAD instalado, o DAV não pode ser aberto.
 
 ### Passo 2 — Baixe o instalador do DAV
@@ -92,7 +94,7 @@ Para **colegas da equipe** que querem trabalhar com o código do DAV e modificá
 #### 1. Instale os pré-requisitos
 
 - **Git** → <https://git-scm.com/downloads>
-- **FreeCAD 1.x** → <https://www.freecad.org/downloads.php>
+- **FreeCAD 1.1.4** → [instalador para Windows](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Windows-x86_64-py311-installer.exe)
 - **Python 3.10+** → <https://www.python.org/downloads/> (marque **"Add Python to PATH"**)
 
 #### 2. Clone o repositório
@@ -132,7 +134,7 @@ Se precisar de mais controle, converta-o no terminal:
 
 ### Linux — instalação a partir do repositório
 
-1. Baixe a AppImage do FreeCAD **1.1.3** para `~/Descargas/`.
+1. [Baixe a AppImage do FreeCAD **1.1.4**](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) para `~/Descargas/`.
 2. Clone o repositório:
 
    ```bash
@@ -140,15 +142,18 @@ Se precisar de mais controle, converta-o no terminal:
    cd DAV
    ```
 
-3. Execute o launcher do Linux:
+3. Execute o instalador do Linux:
 
    ```bash
-   chmod +x iniciar_dav.sh
-   ./iniciar_dav.sh
+   chmod +x LinuxInstaller.sh iniciar_dav.sh
+   ./LinuxInstaller.sh
    ```
 
-O script cria o link do workbench DAV em
-`~/.local/share/FreeCAD/v1-1/Mod/DAV` e abre o FreeCAD.
+O instalador cria o ambiente virtual, instala as dependências de voz, baixa os modelos
+de voz (se faltarem), vincula o workbench DAV em
+`~/.local/share/FreeCAD/v1-1/Mod/DAV` e cria os atalhos (pasta do projeto, menu de
+aplicativos e Área de Trabalho). Depois, abra o DAV pelo atalho **DAV** ou com
+`./iniciar_dav.sh`.
 
 > Explicação passo a passo e solução de problemas do Linux: veja
 > **`Dav/docs/es/README-linux.md`**.

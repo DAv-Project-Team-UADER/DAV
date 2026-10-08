@@ -21,10 +21,13 @@ There are two ways to install DAV on Linux, depending on what you need to do:
 
 | You need | What for |
 | :--- | :--- |
-| **FreeCAD 1.1.3 (AppImage)** | It is the base program. Download it from [FreeCAD](https://www.freecad.org/downloads.php) and save it in your **Downloads** folder (or **Descargas**). |
+| **FreeCAD 1.1.4 (AppImage)** | It is the base program. [Download the AppImage](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) and save it in your **Downloads** folder (or **Descargas**). |
 | **Microphone** | To use the voice commands. |
-| **Internet** | Only the first time: DAV downloads the Vosk voice model (≈ 40 MB) and dependencies. |
-| **Python 3.10+** | It usually comes installed by default on modern Linux distributions (Ubuntu, Mint, Fedora). |
+| **Internet connection** | **Required during installation** (the first time): system packages and Python dependencies are installed, and the Vosk voice model (≈ 40 MB) is downloaded. |
+| **Administrator password (sudo)** | The first time, the installer asks for it **only once** to install system packages (audio, FUSE) and grant microphone permissions. Nothing is shown on screen while you type it: that is normal. |
+| **Python 3.10+** | It usually comes installed by default on modern Linux distributions (Ubuntu, Mint, Fedora). To create DAV's environment you also need the `python3-venv` package (`sudo apt install python3 python3-venv python3-pip`). |
+
+> **Important:** the installation fails without an Internet connection. Once installed, DAV works offline.
 
 > You **do not need** to download voice models manually. DAV takes care of all that automatically the first time you open it.
 
@@ -35,8 +38,8 @@ There are two ways to install DAV on Linux, depending on what you need to do:
 For those who **just want to use DAV**, without opening the code or using the terminal. It is a single executable file.
 
 ### Step 1 — Download FreeCAD
-1. Go to <https://www.freecad.org/downloads.php>.
-2. Download the **1.x** version in `.AppImage` format (Linux).
+1. [Download FreeCAD 1.1.4 (AppImage for Linux)](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage).
+2. If you prefer another version, all of them are at <https://www.freecad.org/downloads.php> (always use the **1.x** series in `.AppImage` format).
 3. Save the file exactly in your personal **Downloads** folder (or **Descargas** if your system is in Spanish).
 4. **IMPORTANT:** Without the FreeCAD AppImage downloaded, DAV cannot open.
 
@@ -75,26 +78,42 @@ For **team members** who need access to the source code, to modify it and test c
 
 ### 1. Install the prerequisites
 * Make sure you have **Git** installed (`sudo apt install git`).
-* Download the **FreeCAD 1.1.3 AppImage** and leave it in your `~/Descargas/` folder.
+* Have **Python 3.10+** with venv and pip: `sudo apt install python3 python3-venv python3-pip`.
+* [Download the **FreeCAD 1.1.4 AppImage**](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) and leave it in your `~/Descargas/` folder.
 
 ### 2. Clone the repository
 Open a terminal and run:
 ```bash
-git clone [https://github.com/DAv-Project-Team-UADER/DAV.git](https://github.com/DAv-Project-Team-UADER/DAV.git)
+git clone https://github.com/DAv-Project-Team-UADER/DAV.git
 cd DAV
 ```
 
-### 3. Run the startup script
-Inside the project folder you just cloned, grant permissions and run the automation script:
+### 3. Run the installer
+Inside the project folder you just cloned, run the installer:
 ```bash
-chmod +x inicio_dav.sh
-./inicio_dav.sh
+chmod +x LinuxInstaller.sh iniciar_dav.sh
+./LinuxInstaller.sh
 ```
 
-The `inicio_dav.sh` script takes care of:
-1. Creating a symbolic link from your source code to `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
-2. Looking for the FreeCAD AppImage in your Downloads folder using a universal path (`$HOME`).
-3. Launching FreeCAD with your development environment loaded. Any change you save in the Python code will be reflected when FreeCAD is restarted.
+The installer sets everything up automatically. **It asks for your administrator password (`sudo`) only once**, because some steps install system packages and grant audio permissions:
+1. Creates the virtual environment (`GUIFreeCad/.venv`) and installs the voice dependencies (`PySide6`, `Vosk`, `sounddevice`, …).
+2. Downloads the Vosk voice models into `Dav/models/` (if they are already there, it does not download them again).
+3. Creates a symbolic link from your source code to `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
+4. Creates the shortcuts: `ejecutar.desktop` in the project folder, a **DAV** entry in the applications menu and `DAV_V1.desktop` on the Desktop (if it doesn't exist yet).
+5. Installs the system audio packages (PortAudio, ALSA) and, if missing, `libfuse2`, which the FreeCAD AppImage needs to open.
+6. Installs the voice dependencies (`sounddevice`, `vosk`) for FreeCAD's own Python too, in `GUIFreeCad/.freecad_deps`.
+7. Adds your user to the `audio` group so it can use the microphone. If it does, **log out and back in once** for it to take effect.
+8. Checks your machine and warns you, without stopping the installation, if there is no microphone, no default microphone, or if the CPU does not offer AVX (Vosk needs it).
+
+### 4. Open DAV
+Double-click the **DAV** shortcut (or run `./iniciar_dav.sh` in the terminal). The script looks for the FreeCAD AppImage in your Downloads folder using a universal path (`$HOME`) and launches FreeCAD with your code loaded. Any change you save in the Python code will be reflected when FreeCAD is restarted.
+
+Useful `iniciar_dav.sh` options:
+```bash
+./iniciar_dav.sh /path/to/FreeCAD.AppImage   # use a specific FreeCAD
+./iniciar_dav.sh --install-only              # only prepare the environment, without opening FreeCAD
+./iniciar_dav.sh --skip-models               # do not download the voice models
+```
 
 ---
 
@@ -104,5 +123,25 @@ The `inicio_dav.sh` script takes care of:
 | :--- | :--- |
 | **"Permission denied" when double-clicking** | You missed Step 3 of Path A. Right-click the file > Properties > Permissions > Allow executing as a program. |
 | **"FreeCAD not found"** | Check that the FreeCAD file ends in `.AppImage` and is directly in the `Descargas` (or `Downloads`) folder. |
-| **The microphone does not respond / Vosk error** | Audio dependencies may be missing on Linux. Open a terminal and run `sudo apt install portaudio19-dev python3-pyaudio`. |
+| **"Could not create GUIFreeCad/.venv"** | The virtual environment package is missing. Run `sudo apt install python3-venv python3-pip` and run the installer again. |
+| **The microphone does not respond / Vosk error** | Run `./iniciar_dav.sh` from the terminal and read the microphone check messages. If the installer added you to the `audio` group, log out and back in. If it still fails, install manually: `sudo apt install libportaudio2 portaudio19-dev python3-pyaudio`. |
+| **"No microphone was detected"** | DAV opens but cannot listen. In a **virtual machine** you must enable audio input: in VMware, the VM's sound card (*Sound Card*) connected and the host microphone available; in VirtualBox, *Settings > Audio > Enable Audio Input*. On a PC, plug in a microphone and select it as the input in the sound settings (`pavucontrol`). |
+| **"The CPU does not offer AVX" / `Illegal instruction`** | Vosk uses AVX instructions. In a virtual machine, use a recent hardware version and enable CPU virtualization (you can check with `grep -w avx /proc/cpuinfo`). DAV stays open and shows the error in FreeCAD's Report view; without AVX, speech recognition cannot work. |
+| **FreeCAD does not open or nothing happens when launching it (FUSE)** | The AppImage needs `libfuse2`. The installer tries to install it; if it cannot, DAV runs the AppImage without FUSE (it takes longer to open). Manually: `sudo apt install libfuse2` (on Ubuntu 24.04 it is called `libfuse2t64`). |
 | **The first time takes a long time** | This is normal, it is downloading the voice model in the background. |
+
+## If something fails: what to check and what to send
+
+DAV keeps logs in `Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/`:
+
+| File | What it contains |
+| :--- | :--- |
+| `dav.log` | What DAV does: voice start-up, errors and warnings. It is the first thing to look at. |
+| `dav_fault.log` | Created if FreeCAD closes abruptly because of a native failure; it records where in the code it was. |
+
+On Linux, speech recognition runs in a **separate process**: if that process crashes, FreeCAD stays open and the reason appears in FreeCAD's Report view and in `dav.log`.
+
+To report a problem, send:
+1. The last lines of `dav.log` (and the contents of `dav_fault.log`, if it exists).
+2. What the terminal shows when opening with `./iniciar_dav.sh`.
+3. Your Ubuntu/Lubuntu version and whether it is a virtual machine.

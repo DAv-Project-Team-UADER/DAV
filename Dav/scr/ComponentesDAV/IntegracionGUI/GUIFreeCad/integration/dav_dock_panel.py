@@ -22,6 +22,12 @@ import sys
 from pathlib import Path
 
 _DOCK_OBJECT_NAME = "DAV_Panel"
+
+# En Linux (X11) cambiar los flags de un dock flotante y rehacerlos en cada
+# cambio de estado puede tumbar FreeCAD. Ahí el panel arranca anclado y se deja
+# el manejo de la ventana a Qt; en Windows se mantiene el comportamiento actual.
+_IS_LINUX = sys.platform.startswith("linux")
+
 _dock = None
 _source = None
 _observer = None
@@ -183,8 +189,43 @@ class BrowserPanelSource:
         Panel.CommandRequested.connect(self.SendCommand)
         Panel.PreferencesRequested.connect(self.OpenPreferences)
         Panel.HelpRequested.connect(self.OpenHelp)
+        # Al cambiar el idioma el Browser recarga sus diccionarios (su callback
+        # se registró antes que este): hay que redibujar los botones, que si no
+        # siguen mandando frases del idioma anterior.
+        try:
+            from core.preferences import preferences
+            preferences.RegisterLanguageChange(self._OnLanguageChanged)
+        except Exception:  # noqa: BLE001 - sin esto solo no se redibuja solo
+            pass
         self.PublishContext()
         self.RefreshStatus()
+
+    def Detach(self) -> None:
+        """Desconecta esta fuente del panel y del cambio de idioma.
+
+        Hay que llamarlo antes de reemplazarla por otra sobre el mismo panel: si
+        no, las conexiones se acumulan y un clic ejecuta el comando varias veces.
+        """
+        try:
+            from core.preferences import preferences
+            preferences.UnregisterLanguageChange(self._OnLanguageChanged)
+        except Exception:  # noqa: BLE001
+            pass
+        panel = self._panel
+        if panel is not None:
+            for signal, slot in (
+                (panel.CommandRequested, self.SendCommand),
+                (panel.PreferencesRequested, self.OpenPreferences),
+                (panel.HelpRequested, self.OpenHelp),
+            ):
+                try:
+                    signal.disconnect(slot)
+                except (RuntimeError, TypeError):
+                    pass
+        self._panel = None
+
+    def _OnLanguageChanged(self, _previous, _new) -> None:
+        self.PublishContext()
 
     def RefreshStatus(self) -> None:
         """Sincroniza el cartel del microfono con el motor de voz real.
@@ -259,6 +300,8 @@ class BrowserPanelSource:
             view = ContextEntryView(entry.Spoken, entry.InternalKey, entry.IsSubContext())
             (submenus if entry.IsSubContext() else commands).append(view)
 
+        # El botón "volver" manda la palabra de subir del idioma activo
+        self._panel.SetBackPhrase(self._browser.GetBackPhrase())
         self._panel.RenderContext(
             ContextView(self._browser.ContextPath, submenus, commands)
         )
@@ -462,6 +505,10 @@ def install_dock_panel(browser, adapter):
     _ensure_interfaz_on_path()
     from DavPanel import DavPanel
 
+    # La fuente anterior sigue conectada al panel: se suelta antes de crear la
+    # nueva, o cada clic dispararía el comando una vez por cada fuente vieja.
+    if _source is not None:
+        _source.Detach()
     source = BrowserPanelSource(browser, adapter)
 
     existing = main_window.findChild(QDockWidget, _DOCK_OBJECT_NAME)
@@ -499,10 +546,14 @@ def install_dock_panel(browser, adapter):
 
     # Arranca como ventana flotante, no pegado al borde. El usuario lo ancla
     # cuando quiere, con el boton de la cabecera o arrastrando el titulo.
-    dock.setFloating(True)
-    dock.resize(560, 720)
-    _make_real_window(dock)
-    _center_on(dock, main_window)
+    if _IS_LINUX:
+        dock.setFloating(False)
+        dock.setMinimumWidth(420)
+    else:
+        dock.setFloating(True)
+        dock.resize(560, 720)
+        _make_real_window(dock)
+        _center_on(dock, main_window)
 
     source.Attach(panel)
     source.PublishTree()
@@ -527,6 +578,8 @@ def _make_real_window(dock) -> None:
     se puede minimizar, mandar atras y alt-tabear — sin perder la capacidad de
     volver a anclarse.
     """
+    if _IS_LINUX:
+        return
     try:
         from PySide6.QtCore import Qt
     except ImportError:
@@ -577,14 +630,24 @@ def _wire_dock_toggle(dock, panel) -> None:
             dock.raise_()
         _refresh()
 
+    busy = [False]
+
     def _refresh(*_args) -> None:
-        floating = dock.isFloating()
-        if floating:
-            # Qt rehace la ventana al volver a flotar y pierde los flags, con
-            # lo cual vuelve a quedar siempre encima y sin minimizar.
-            _make_real_window(dock)
-            dock.show()
-        panel.SetDockState(floating)
+        # Guarda de reentrada: rehacer la ventana puede volver a disparar
+        # topLevelChanged y, sin esto, entraría en un bucle.
+        if busy[0]:
+            return
+        busy[0] = True
+        try:
+            floating = dock.isFloating()
+            if floating:
+                # Qt rehace la ventana al volver a flotar y pierde los flags, con
+                # lo cual vuelve a quedar siempre encima y sin minimizar.
+                _make_real_window(dock)
+                dock.show()
+            panel.SetDockState(floating)
+        finally:
+            busy[0] = False
 
     if hasattr(panel, "DockToggleRequested"):
         panel.DockToggleRequested.connect(_toggle)
@@ -611,6 +674,8 @@ def remove_dock_panel() -> None:
             pass
         _observer = None
 
+    if _source is not None:
+        _source.Detach()
     if _dock is not None:
         _dock.setParent(None)
         _dock.deleteLater()

@@ -12,7 +12,7 @@ $DavRepo = Split-Path -Parent $PSScriptRoot
 function Resolve-GuiFreeCadRoot {
     param([string]$RepoRoot)
     $candidates = @(
-        (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
+        (Join-Path $RepoRoot "ComponentesDAV\IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )
@@ -56,7 +56,7 @@ else {
 Step 2 "InterfazDAV (asistente compañeros)"
 $interfaceRoot = Join-Path $DavRepo "InterfazDAV"
 if (-not (Test-Path -LiteralPath $interfaceRoot)) {
-    $interfaceRoot = Join-Path $DavRepo "componentesDAV\InterfazDAV"
+    $interfaceRoot = Join-Path $DavRepo "ComponentesDAV\InterfazDAV"
 }
 Push-Location $interfaceRoot
 & $GuiPy -c "from MainWindow import MainWindow; print('ok')" 2>$null
@@ -105,7 +105,7 @@ if ((Test-Path $FreeCADExe) -and (Test-Path $modPath)) {
 
 Write-Host ""
 Write-Host "Siguiente: probar manualmente" -ForegroundColor Cyan
-Write-Host "  1) GUIFreeCad:  cd componentesDAV\IntegracionGUI\GUIFreeCad && .venv\Scripts\activate && python main.py"
-Write-Host "  2) InterfazDAV: cd componentesDAV\InterfazDAV && ..\IntegracionGUI\GUIFreeCad\.venv\Scripts\python.exe main.py"
+Write-Host "  1) GUIFreeCad:  cd ComponentesDAV\IntegracionGUI\GUIFreeCad && .venv\Scripts\activate && python main.py"
+Write-Host "  2) InterfazDAV: cd ComponentesDAV\InterfazDAV && ..\IntegracionGUI\GUIFreeCad\.venv\Scripts\python.exe main.py"
 Write-Host "  3) FreeCAD:     cd scripts && .\run_freecad_dav.ps1 -FreeCADExe `"$FreeCADExe`""
 Write-Host ""
