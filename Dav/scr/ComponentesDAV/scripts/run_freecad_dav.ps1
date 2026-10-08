@@ -41,7 +41,7 @@ function Resolve-GuiFreeCadRoot {
         # Layouts previos.
         (Join-Path $parent "luigiIntegracionV1\GUIFreeCad"),
         (Join-Path $RepoRoot "luigiIntegracionV1\GUIFreeCad"),
-        (Join-Path $RepoRoot "componentesDAV\IntegracionGUI\GUIFreeCad"),
+        (Join-Path $RepoRoot "ComponentesDAV\IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "IntegracionGUI\GUIFreeCad"),
         (Join-Path $RepoRoot "GUIFreeCad")
     )
@@ -61,7 +61,7 @@ function Get-DavRepoPaths {
     $davCandidates = @(
         (Join-Path $repo "Dav\scr\ComponentesDAV\Dav"),
         (Join-Path $repo "Dav"),
-        (Join-Path $repo "componentesDAV\Dav")
+        (Join-Path $repo "ComponentesDAV\Dav")
     )
     $davMod = $davCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
 

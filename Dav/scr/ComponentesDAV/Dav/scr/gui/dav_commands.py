@@ -42,7 +42,7 @@ def _guifreecad_root() -> Path:
     if repo is not None:
         for candidate in (
             repo / "IntegracionGUI" / "GUIFreeCad",
-            repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad",
+            repo / "ComponentesDAV" / "IntegracionGUI" / "GUIFreeCad",
             repo / "luigiIntegracionV1" / "GUIFreeCad",
             repo / "GUIFreeCad",
         ):

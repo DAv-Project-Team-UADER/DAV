@@ -11,7 +11,7 @@ _INTEGRATION_DIR = "luigiIntegracionV1"
 def _gui_roots_from_dav_repo(dav_repo: Path) -> list[Path]:
     candidates = []
     if dav_repo.name.upper() != "COMPONENTESDAV":
-        candidates.append(dav_repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad")
+        candidates.append(dav_repo / "ComponentesDAV" / "IntegracionGUI" / "GUIFreeCad")
     candidates.extend([
         dav_repo / "IntegracionGUI" / "GUIFreeCad",
         dav_repo / _INTEGRATION_DIR / "GUIFreeCad",
@@ -28,7 +28,7 @@ def _first_gui_root(candidates: list[Path]) -> Path | None:
 
 
 def _mod_dir() -> Path | None:
-    from componentesDAV.Dav.scr.gui.mod_paths import get_mod_dir
+    from ComponentesDAV.Dav.scr.gui.mod_paths import get_mod_dir
 
     text = get_mod_dir()
     return Path(text) if text else None
