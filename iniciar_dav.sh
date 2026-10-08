@@ -328,6 +328,59 @@ if [ -z "$FREECAD_CMD" ]; then
     fi
 fi
 
+# 4b. Dependencias de voz (sounddevice, vosk) para el Python DE FREECAD.
+# El .venv de GUIFreeCad no le sirve a FreeCAD: el AppImage trae su propio
+# Python (el nombre lo dice, ej. FreeCAD_1.1.4-...-py311.AppImage) y no ve ese
+# venv, por eso en Preferencias salía "No module named 'sounddevice'". En
+# Windows lo resuelve check_freecad_deps.ps1 instalando en el python.exe de
+# FreeCAD. Acá se instalan en GUIFreeCad/.freecad_deps con ruedas compiladas
+# para esa versión de Python, y Dav/Init.py agrega la carpeta a sys.path.
+FC_DEPS_DIR="$GUI_ROOT/.freecad_deps"
+
+ensure_freecad_deps() {
+    [ -n "$FREECAD_CMD" ] || return 0
+
+    # Python de FreeCAD: del nombre del AppImage (pyXYZ) o, si no, el del sistema
+    local minor
+    minor="$(basename "$FREECAD_CMD" | grep -oE 'py3[0-9]+' | head -1 | sed 's/^py3//')"
+    local cross=1
+    if [ -z "$minor" ]; then
+        cross=0
+        minor="$("$VENV_PY" -c 'import sys; print(sys.version_info.minor)' 2>/dev/null)"
+    fi
+    [ -n "$minor" ] || return 0
+
+    local marker="$FC_DEPS_DIR/.py3$minor"
+    if [ -f "$marker" ] && ls "$FC_DEPS_DIR"/sounddevice-*.dist-info >/dev/null 2>&1 \
+        && ls "$FC_DEPS_DIR"/vosk-*.dist-info >/dev/null 2>&1; then
+        echo -e "  ${GREEN}OK${NC}  Dependencias de voz para el Python de FreeCAD (3.$minor)"
+        return 0
+    fi
+
+    echo "  Instalando sounddevice y vosk para el Python de FreeCAD (3.$minor)..."
+    rm -rf "$FC_DEPS_DIR"
+    local flags=()
+    if [ "$cross" -eq 1 ]; then
+        # Ruedas de Python 3.$minor aunque el sistema tenga otra versión
+        flags=(--only-binary=:all: --python-version "3.$minor" --implementation cp --abi "cp3$minor"
+            --platform manylinux2014_x86_64 --platform manylinux_2_17_x86_64
+            --platform manylinux_2_28_x86_64 --platform manylinux2010_x86_64
+            --platform manylinux_2_12_x86_64 --platform manylinux1_x86_64
+            --platform linux_x86_64)
+    fi
+    if as_user "$VENV_PY" -m pip install --target "$FC_DEPS_DIR" "${flags[@]}" sounddevice vosk; then
+        touch "$FC_DEPS_DIR/.py3$minor"
+        echo -e "  ${GREEN}OK${NC}  Dependencias de voz instaladas en $FC_DEPS_DIR"
+    else
+        rm -rf "$FC_DEPS_DIR"
+        echo -e "${YELLOW}Aviso: no se pudieron instalar las dependencias de voz para FreeCAD.${NC}"
+        echo "  El micrófono no funcionará hasta que se instalen (hace falta Internet)."
+    fi
+}
+
+ensure_freecad_deps
+[ -d "$FC_DEPS_DIR" ] && export DAV_FC_DEPS_DIR="$FC_DEPS_DIR"
+
 if [ "$INSTALL_ONLY" -eq 1 ]; then
     if [ -z "$FREECAD_CMD" ]; then
         echo -e "${YELLOW}Aviso: FreeCAD sigue sin estar instalado; se volverá a preguntar al abrir DAV.${NC}"

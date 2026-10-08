@@ -462,11 +462,15 @@ class PreferencesDialog(QDialog):
         if status.startswith("error:import:"):
             detail = status.split("error:import:", 1)[1]
             self._voice_status_badge.setText("⚠️ " + tr("voice_error", self._lang))
-            self._voice_label.setText(
-                detail
-                + "\n\npip en Python de FreeCAD:\n"
-                + '& "' + os.environ.get("DAV_FREECAD_PYTHON", "FreeCAD\\bin\\python.exe") + '" -m pip install sounddevice vosk'
-            )
+            if os.name == "nt":
+                hint = (
+                    "\n\npip en Python de FreeCAD:\n"
+                    + '& "' + os.environ.get("DAV_FREECAD_PYTHON", "FreeCAD\\bin\\python.exe")
+                    + '" -m pip install sounddevice vosk'
+                )
+            else:
+                hint = "\n\nCerrá FreeCAD y abrí DAV con ./iniciar_dav.sh (instala las dependencias de voz)."
+            self._voice_label.setText(detail + hint)
             return
         if status.startswith("error:"):
             self._voice_status_badge.setText("⚠️ " + tr("voice_error", self._lang))
