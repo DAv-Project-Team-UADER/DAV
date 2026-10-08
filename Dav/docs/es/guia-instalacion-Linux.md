@@ -21,10 +21,10 @@ Hay dos formas de instalar DAV en Linux, según lo que necesites hacer:
 
 | Necesitás | Para qué |
 | :--- | :--- |
-| **FreeCAD 1.1.3 (AppImage)** | Es el programa base. Descargalo desde [FreeCAD](https://www.freecad.org/downloads.php) y guardalo en tu carpeta de **Descargas** (o **Downloads**). |
+| **FreeCAD 1.1.4 (AppImage)** | Es el programa base. [Descargá el AppImage](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) y guardalo en tu carpeta de **Descargas** (o **Downloads**). |
 | **Micrófono** | Para usar los comandos de voz. |
 | **Internet** | Solo la primera vez: DAV descarga el modelo de voz Vosk (≈ 40 MB) y dependencias. |
-| **Python 3.10+** | Generalmente ya viene instalado por defecto en distribuciones Linux modernas (Ubuntu, Mint, Fedora). |
+| **Python 3.10+** | Generalmente ya viene instalado por defecto en distribuciones Linux modernas (Ubuntu, Mint, Fedora). Para crear el entorno de DAV también hace falta el paquete `python3-venv` (`sudo apt install python3 python3-venv python3-pip`). |
 
 > **No hace falta** descargar modelos de voz manualmente. DAV se encarga de todo eso automáticamente la primera vez que lo abrís.
 
@@ -35,8 +35,8 @@ Hay dos formas de instalar DAV en Linux, según lo que necesites hacer:
 Para quien **solo quiere usar DAV**, sin abrir el código ni usar la terminal. Es un solo archivo ejecutable.
 
 ### Paso 1 — Descargá FreeCAD
-1. Entrá a <https://www.freecad.org/downloads.php>.
-2. Bajá la versión **1.x** en formato `.AppImage` (Linux).
+1. [Descargá FreeCAD 1.1.4 (AppImage para Linux)](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage).
+2. Si preferís otra versión, todas están en <https://www.freecad.org/downloads.php> (usá siempre la **1.x** en formato `.AppImage`).
 3. Guardá el archivo exactamente en tu carpeta personal de **Descargas** (o **Downloads** si tu sistema está en inglés).
 4. **IMPORTANTE:** Sin el AppImage de FreeCAD descargado, DAV no puede abrirse.
 
@@ -75,26 +75,38 @@ Para **compañeros del equipo** que necesitan acceder al código fuente, modific
 
 ### 1. Instalá los prerrequisitos
 * Asegurate de tener **Git** instalado (`sudo apt install git`).
-* Descargá el **AppImage de FreeCAD 1.1.3** y dejalo en tu carpeta `~/Descargas/`.
+* Tener **Python 3.10+** con venv y pip: `sudo apt install python3 python3-venv python3-pip`.
+* [Descargá el **AppImage de FreeCAD 1.1.4**](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) y dejalo en tu carpeta `~/Descargas/`.
 
 ### 2. Cloná el repositorio
 Abrí una terminal y ejecutá:
 ```bash
-git clone [https://github.com/DAv-Project-Team-UADER/DAV.git](https://github.com/DAv-Project-Team-UADER/DAV.git)
+git clone https://github.com/DAv-Project-Team-UADER/DAV.git
 cd DAV
 ```
 
-### 3. Ejecutá el script de inicio
-Dentro de la carpeta del proyecto que acabas de clonar, otorgá permisos y ejecutá el automatizador:
+### 3. Ejecutá el instalador
+Dentro de la carpeta del proyecto que acabás de clonar, ejecutá el instalador:
 ```bash
-chmod +x inicio_dav.sh
-./inicio_dav.sh
+chmod +x LinuxInstaller.sh iniciar_dav.sh
+./LinuxInstaller.sh
 ```
 
-El script `inicio_dav.sh` se encarga de:
-1. Crear un enlace simbólico de tu código fuente hacia `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
-2. Buscar la AppImage de FreeCAD en tu carpeta de Descargas utilizando una ruta universal (`$HOME`).
-3. Lanzar FreeCAD con tu entorno de desarrollo cargado. Cualquier cambio que guardes en el código de Python se reflejará al reiniciar FreeCAD.
+El instalador prepara todo de forma automática, sin pasos manuales:
+1. Crea el entorno virtual (`GUIFreeCad/.venv`) e instala las dependencias de voz (`PySide6`, `Vosk`, `sounddevice`, …).
+2. Descarga los modelos de voz Vosk en `Dav/models/` (si ya están, no los vuelve a descargar).
+3. Crea un enlace simbólico de tu código fuente hacia `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
+4. Crea los accesos directos: `ejecutar.desktop` en la carpeta del proyecto, una entrada **DAV** en el menú de aplicaciones y, la primera vez, `DAV_V1.desktop` en el Escritorio.
+
+### 4. Abrí DAV
+Hacé doble clic en el acceso directo **DAV** (o ejecutá `./iniciar_dav.sh` en la terminal). El script busca la AppImage de FreeCAD en tu carpeta de Descargas, usando una ruta universal (`$HOME`), y lanza FreeCAD con tu código cargado. Cualquier cambio que guardes en el código de Python se reflejará al reiniciar FreeCAD.
+
+Opciones útiles de `iniciar_dav.sh`:
+```bash
+./iniciar_dav.sh /ruta/a/FreeCAD.AppImage   # usar un FreeCAD específico
+./iniciar_dav.sh --install-only             # solo preparar el entorno, sin abrir FreeCAD
+./iniciar_dav.sh --skip-models              # no descargar los modelos de voz
+```
 
 ---
 
@@ -104,5 +116,6 @@ El script `inicio_dav.sh` se encarga de:
 | :--- | :--- |
 | **"Permiso denegado" al hacer doble clic** | Te faltó el Paso 3 del Camino A. Clic derecho en el archivo > Propiedades > Permisos > Permitir ejecutar como programa. |
 | **"No se encuentra FreeCAD"** | Verificá que el archivo de FreeCAD termine en `.AppImage` y esté directamente en la carpeta `Descargas` (o `Downloads`). |
-| **El micrófono no responde / Error de Vosk** | Es posible que falten dependencias de audio en Linux. Abrí una terminal y ejecutá `sudo apt install portaudio19-dev python3-pyaudio`. |
+| **"No se pudo crear GUIFreeCad/.venv"** | Falta el paquete de entornos virtuales. Ejecutá `sudo apt install python3-venv python3-pip` y volvé a correr el instalador. |
+| **El micrófono no responde / Error de Vosk** | Es posible que falten dependencias de audio en Linux. Abrí una terminal y ejecutá `sudo apt install libportaudio2 portaudio19-dev python3-pyaudio`. |
 | **La primera vez tarda mucho** | Es normal, está descargando el modelo de voz en segundo plano. |

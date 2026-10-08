@@ -44,6 +44,11 @@ DAV se encuentra actualmente en una etapa temprana de **MVP** (*Minimum Viable P
 - **Almacenamiento:** 2.5 GB de espacio libre en disco.
 - **Micrófono:** necesario para los comandos de voz; se recomienda una dicción clara y un ambiente con poco ruido.
 
+## ¿Cómo instalarlo?
+
+- [Windows 10 o superior](Dav/docs/es/guia-instalacion-Windows.md)
+- [Linux 64 bits](Dav/docs/es/guia-instalacion-Linux.md)
+
 ## Manual de Usuario
 
 - [Manual de Usuario (PDF)](Manual_Usuario.pdf)
