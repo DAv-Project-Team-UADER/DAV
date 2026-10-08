@@ -7,6 +7,25 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+# Uso:
+#   ./iniciar_dav.sh                      prepara el entorno y abre FreeCAD con DAV
+#   ./iniciar_dav.sh /ruta/a/FreeCAD      igual, indicando el ejecutable de FreeCAD
+#   ./iniciar_dav.sh --install-only       solo prepara (venv, deps, modelos, workbench)
+#   ./iniciar_dav.sh --skip-models        no descarga los modelos Vosk
+# El resto de los argumentos se pasan a FreeCAD.
+
+INSTALL_ONLY=0
+SKIP_MODELS=0
+PASS_ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --install-only) INSTALL_ONLY=1 ;;
+        --skip-models) SKIP_MODELS=1 ;;
+        *) PASS_ARGS+=("$arg") ;;
+    esac
+done
+set -- "${PASS_ARGS[@]}"
+
 echo -e "${GREEN}=== Iniciando DAV en Linux / Ubuntu ===${NC}"
 
 # 1. Manejo seguro de permisos (evitar ensuciar /root si se ejecuta con sudo)
@@ -29,6 +48,126 @@ if [ ! -f "$WORKBENCH_PATH/InitGui.py" ]; then
 fi
 echo -e "¡InitGui.py encontrado en: ${BLUE}$WORKBENCH_PATH${NC}!"
 
+# 2b. Preparar GUIFreeCad (venv, dependencias y modelos Vosk), igual que
+# iniciar_dav.ps1 en Windows. Es idempotente: si ya está todo, no hace nada.
+GUI_ROOT="$SCRIPT_DIR/Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad"
+VENV_DIR="$GUI_ROOT/.venv"
+VENV_PY="$VENV_DIR/bin/python"
+REQ_FILE="$GUI_ROOT/requirements.txt"
+SETUP_MODELS="$GUI_ROOT/scripts/setup_models.py"
+DAV_MODELS_DEFAULT="$SCRIPT_DIR/Dav/models"
+
+# Ejecuta como el usuario real aunque el script se haya lanzado con sudo,
+# para no dejar el venv ni los modelos a nombre de root.
+as_user() {
+    if [ "$EUID" -eq 0 ] && [ -n "$SUDO_USER" ]; then
+        sudo -u "$REAL_USER" "$@"
+    else
+        "$@"
+    fi
+}
+
+find_system_python() {
+    local py
+    for py in python3 python; do
+        if command -v "$py" >/dev/null 2>&1 && "$py" -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" 2>/dev/null; then
+            command -v "$py"
+            return 0
+        fi
+    done
+    return 1
+}
+
+ensure_gui_venv() {
+    if [ -x "$VENV_PY" ]; then
+        echo -e "  ${GREEN}OK${NC}  Entorno virtual en GUIFreeCad/.venv"
+        return 0
+    fi
+
+    local sys_py
+    sys_py="$(find_system_python)" || {
+        echo -e "${RED}Error: no se encontró Python 3.10 o superior.${NC}"
+        echo "  Ubuntu/Debian: sudo apt install python3 python3-venv python3-pip"
+        return 1
+    }
+
+    echo "  Creando .venv en GUIFreeCad..."
+    as_user "$sys_py" -m venv "$VENV_DIR"
+    if [ ! -x "$VENV_PY" ]; then
+        echo -e "${RED}Error: no se pudo crear GUIFreeCad/.venv.${NC}"
+        echo "  Ubuntu/Debian: sudo apt install python3-venv python3-pip"
+        return 1
+    fi
+    echo -e "  ${GREEN}OK${NC}  Entorno virtual creado"
+}
+
+ensure_gui_dependencies() {
+    if as_user "$VENV_PY" -c "import PySide6, vosk, sounddevice" >/dev/null 2>&1; then
+        echo -e "  ${GREEN}OK${NC}  Dependencias Python de GUIFreeCad"
+        return 0
+    fi
+
+    echo "  Instalando requirements.txt..."
+    as_user "$VENV_PY" -m pip install --upgrade pip >/dev/null 2>&1
+    if ! as_user "$VENV_PY" -m pip install -r "$REQ_FILE"; then
+        echo -e "${RED}Error: falló pip install en GUIFreeCad.${NC}"
+        return 1
+    fi
+    echo -e "  ${GREEN}OK${NC}  Dependencias instaladas"
+
+    # sounddevice necesita PortAudio en el sistema
+    if command -v ldconfig >/dev/null 2>&1 && ! ldconfig -p 2>/dev/null | grep -q libportaudio; then
+        echo -e "${YELLOW}Aviso: no se encontró libportaudio. Para el micrófono:${NC}"
+        echo "  Ubuntu/Debian: sudo apt install libportaudio2"
+    fi
+}
+
+# Un modelo cuenta como presente si su carpeta existe y no está vacía.
+model_present() {
+    local dir
+    for dir in "$DAV_MODELS_DEFAULT" "$GUI_ROOT/models"; do
+        if [ -d "$dir/vosk-model-small-es-0.42" ] && [ -n "$(ls -A "$dir/vosk-model-small-es-0.42" 2>/dev/null)" ]; then
+            echo "$dir/vosk-model-small-es-0.42"
+            return 0
+        fi
+    done
+    return 1
+}
+
+ensure_vosk_models() {
+    if [ "$SKIP_MODELS" -eq 1 ]; then
+        echo -e "  ${YELLOW}!!${NC}  Omitiendo descarga de modelos (--skip-models)"
+        return 0
+    fi
+
+    local present
+    if present="$(model_present)"; then
+        echo -e "  ${GREEN}OK${NC}  Modelo Vosk ES presente: $present"
+        return 0
+    fi
+
+    echo "  Descargando modelos Vosk (solo la primera vez, puede tardar)..."
+    if ! as_user env DAV_MODELS_DIR="${DAV_MODELS_DIR:-$DAV_MODELS_DEFAULT}" "$VENV_PY" "$SETUP_MODELS"; then
+        echo -e "${RED}Error: falló scripts/setup_models.py.${NC}"
+        return 1
+    fi
+    echo -e "  ${GREEN}OK${NC}  Modelos Vosk listos"
+}
+
+if [ ! -d "$GUI_ROOT" ]; then
+    echo -e "${RED}Error: No se encontró GUIFreeCad en:${NC} $GUI_ROOT"
+    exit 1
+fi
+
+echo -e "\n${BLUE}== GUIFreeCad (venv, deps, modelos) ==${NC}"
+ensure_gui_venv || exit 1
+ensure_gui_dependencies || exit 1
+ensure_vosk_models || exit 1
+
+# Variables que usa el workbench (las mismas que setea run_freecad_dav.ps1)
+export DAV_GUI_FREECAD_ROOT="$GUI_ROOT"
+export DAV_MODELS_DIR="${DAV_MODELS_DIR:-$DAV_MODELS_DEFAULT}"
+
 # 3. Vincular Workbench en las rutas de módulos de FreeCAD
 # A) Ruta estándar de FreeCAD en Linux (~/.local/share/FreeCAD/v1-1/Mod)
 MOD_DIR_NATIVE="$USER_HOME/.local/share/FreeCAD/v1-1/Mod"
@@ -45,6 +184,8 @@ if [ -d "$USER_HOME/.var/app/org.freecad.FreeCAD" ]; then
 fi
 
 # 4. Búsqueda y detección automática del ejecutable de FreeCAD
+# (función para poder repetirla después de instalar FreeCAD)
+detect_freecad() {
 FREECAD_CMD=""
 
 # Prioridad 1: Argumento por línea de comandos (ej: ./iniciar_dav.sh /ruta/a/freecad)
@@ -85,6 +226,72 @@ else
             FREECAD_CMD="flatpak run org.freecad.FreeCAD"
         fi
     fi
+fi
+}
+
+# Pregunta (ventana emergente en inglés; si no hay entorno gráfico, en la
+# terminal) si se quiere instalar FreeCAD. Devuelve 0 solo si el usuario acepta.
+ask_install_freecad() {
+    local title="FreeCAD not installed"
+    local text="FreeCAD is not installed. Do you want to install it?\n\n(Requires internet access)"
+
+    if [ -n "$DISPLAY$WAYLAND_DISPLAY" ]; then
+        if command -v zenity >/dev/null 2>&1; then
+            as_user zenity --question --title="$title" --text="$text" \
+                --ok-label="Yes" --cancel-label="No" 2>/dev/null
+            return $?
+        elif command -v kdialog >/dev/null 2>&1; then
+            as_user kdialog --title "$title" --yesno "$(echo -e "$text")" 2>/dev/null
+            return $?
+        fi
+    fi
+
+    # Sin diálogo gráfico disponible: preguntar por terminal
+    if [ -t 0 ]; then
+        echo -e "${YELLOW}$title.${NC}"
+        read -r -p "$(echo -e "$text") [y/N] " answer
+        case "$answer" in [yY]|[yY][eE][sS]) return 0 ;; esac
+    fi
+    return 1
+}
+
+install_freecad() {
+    if ! command -v apt >/dev/null 2>&1; then
+        echo -e "${RED}Error: apt no está disponible en este sistema.${NC}"
+        echo "Instala FreeCAD manualmente (https://www.freecad.org/downloads.php)."
+        return 1
+    fi
+
+    echo -e "${BLUE}Instalando FreeCAD (sudo apt update && sudo apt install -y freecad)...${NC}"
+    if [ "$EUID" -eq 0 ]; then
+        apt update && apt install -y freecad
+    else
+        sudo apt update && sudo apt install -y freecad
+    fi
+}
+
+detect_freecad "$1"
+
+if [ -z "$FREECAD_CMD" ]; then
+    echo -e "${YELLOW}FreeCAD no está instalado.${NC}"
+    if ask_install_freecad; then
+        if install_freecad; then
+            hash -r
+            detect_freecad "$1"
+        else
+            echo -e "${RED}Error: falló la instalación de FreeCAD.${NC}"
+        fi
+    else
+        echo "Instalación de FreeCAD omitida."
+    fi
+fi
+
+if [ "$INSTALL_ONLY" -eq 1 ]; then
+    if [ -z "$FREECAD_CMD" ]; then
+        echo -e "${YELLOW}Aviso: FreeCAD sigue sin estar instalado; se volverá a preguntar al abrir DAV.${NC}"
+    fi
+    echo -e "${GREEN}Instalación lista (--install-only): no se inicia FreeCAD.${NC}"
+    exit 0
 fi
 
 # 5. Validación final y ejecución

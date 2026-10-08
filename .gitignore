@@ -81,16 +81,7 @@ CLAUDE.md
 *.swp
 *.autosave
 
-# =============================================================
-# Archivos grandes / modelos (MODELO/ y models/)
-# Estos binarios pesados no deben estar en git; usar Git LFS
-# o almacenamiento externo.
-# =============================================================
-/Dav/models/
-MODELO/*.zip
-MODELO/*.tar.gz
-MODELO/*.gz
-MODELO/*.whl
+
 
 # =============================================================
 # Configuración local
