@@ -159,6 +159,52 @@ ensure_gui_dependencies() {
     echo -e "  ${GREEN}OK${NC}  Dependencias instaladas"
 }
 
+# Micrófono: avisa (sin cortar la instalación) si PortAudio no carga, si no hay
+# ninguna entrada de audio o si no hay una por defecto. Es lo que deja a DAV con
+# "Voz activa" pero sin escuchar, sobre todo en máquinas virtuales.
+check_microphone() {
+    local result
+    result="$(as_user "$VENV_PY" - 2>/dev/null <<'PY'
+import sys
+try:
+    import sounddevice as sd
+except OSError:
+    print("NOPORTAUDIO"); sys.exit(0)
+except ImportError:
+    print("NOSOUNDDEVICE"); sys.exit(0)
+try:
+    devs = sd.query_devices()
+    inputs = [d for d in devs if d.get("max_input_channels", 0) > 0]
+    default_in = sd.default.device[0]
+except Exception as exc:
+    print("ERROR:%s" % exc); sys.exit(0)
+if not inputs:
+    print("NOINPUT")
+elif default_in is None or default_in < 0:
+    print("NODEFAULT")
+else:
+    print("OK:" + devs[default_in]["name"])
+PY
+)"
+    result="$(echo "$result" | tail -1)"
+
+    case "$result" in
+        OK:*)
+            echo -e "  ${GREEN}OK${NC}  Micrófono por defecto: ${result#OK:}" ;;
+        NOPORTAUDIO)
+            echo -e "  ${YELLOW}!!${NC}  No se pudo cargar PortAudio: sudo apt install libportaudio2" ;;
+        NOINPUT)
+            echo -e "  ${YELLOW}!!${NC}  No se detectó ningún micrófono: DAV abrirá, pero no podrá escuchar."
+            echo "      - Máquina virtual (VirtualBox): Configuración de la VM > Audio > Habilitar entrada de audio."
+            echo "      - PC: conectá un micrófono y revisá la entrada en los ajustes de sonido (pavucontrol)." ;;
+        NODEFAULT)
+            echo -e "  ${YELLOW}!!${NC}  No hay un micrófono por defecto: elegí uno en los ajustes de sonido (pavucontrol)." ;;
+        ERROR:*)
+            echo -e "  ${YELLOW}!!${NC}  No se pudo consultar el audio: ${result#ERROR:}" ;;
+    esac
+    return 0
+}
+
 # Un modelo cuenta como presente si su carpeta existe y no está vacía.
 model_present() {
     local dir
@@ -201,6 +247,7 @@ ensure_system_packages
 ensure_gui_venv || exit 1
 ensure_gui_dependencies || exit 1
 ensure_vosk_models || exit 1
+check_microphone
 
 # Variables que usa el workbench (las mismas que setea run_freecad_dav.ps1)
 export DAV_GUI_FREECAD_ROOT="$GUI_ROOT"
@@ -380,6 +427,40 @@ ensure_freecad_deps() {
 
 ensure_freecad_deps
 [ -d "$FC_DEPS_DIR" ] && export DAV_FC_DEPS_DIR="$FC_DEPS_DIR"
+
+# 4c. AppImage y FUSE: el AppImage se monta con libfuse2 y /dev/fuse. Sin eso no
+# abre (Ubuntu 24.04 ya no trae libfuse2). Se intenta instalarla y, si no se
+# puede, se pide al AppImage que se extraiga y corra solo (abre más lento).
+has_libfuse2() {
+    local ldc
+    ldc="$(command -v ldconfig || echo /sbin/ldconfig)"
+    "$ldc" -p 2>/dev/null | grep -q 'libfuse\.so\.2'
+}
+
+ensure_fuse() {
+    case "$FREECAD_CMD" in
+        *.AppImage|*.appimage) ;;
+        *) return 0 ;;
+    esac
+
+    if ! has_libfuse2 && command -v apt-get >/dev/null 2>&1; then
+        echo -e "${YELLOW}Falta libfuse2 (los AppImage la necesitan para abrirse).${NC}"
+        local sudo_cmd="" pkg="libfuse2"
+        [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
+        # Ubuntu 24.04+ la llama libfuse2t64
+        apt-cache show libfuse2t64 >/dev/null 2>&1 && pkg="libfuse2t64"
+        $sudo_cmd apt-get install -y "$pkg" >/dev/null 2>&1
+    fi
+
+    if has_libfuse2 && [ -e /dev/fuse ]; then
+        return 0
+    fi
+
+    echo -e "${YELLOW}FUSE no está disponible: el AppImage se extraerá y ejecutará solo (tarda más en abrir).${NC}"
+    export APPIMAGE_EXTRACT_AND_RUN=1
+}
+
+ensure_fuse
 
 if [ "$INSTALL_ONLY" -eq 1 ]; then
     if [ -z "$FREECAD_CMD" ]; then
