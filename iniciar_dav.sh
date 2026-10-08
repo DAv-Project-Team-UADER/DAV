@@ -69,10 +69,28 @@ as_user() {
 
 # Paquetes del sistema que necesita DAV (Python, venv/pip y audio para el micrófono).
 APT_PACKAGES=(python3 python3-venv python3-pip ca-certificates
-    libportaudio2 portaudio19-dev python3-pyaudio
+    libportaudio2 portaudio19-dev python3-pyaudio libasound2-plugins alsa-utils libgomp1
     libgl1 libegl1 libglib2.0-0 libdbus-1-3 libfontconfig1 libxkbcommon0 libxkbcommon-x11-0
     libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0
     libxcb-render-util0 libxcb-shape0 libxcb-xinerama0 libxcb-xkb1)
+
+# Pide la contraseña de sudo UNA sola vez y la mantiene viva mientras dura el
+# script, para que los pasos de instalación no la repitan. Solo se llama cuando
+# de verdad hace falta un paso con privilegios: en una corrida normal, con todo
+# ya instalado, no se pide nada.
+SUDO_READY=0
+SUDO_KEEPALIVE_PID=""
+ensure_sudo() {
+    [ "$SUDO_READY" -eq 1 ] && return 0
+    if [ "$EUID" -eq 0 ]; then SUDO_READY=1; return 0; fi
+    command -v sudo >/dev/null 2>&1 || return 1
+    echo -e "${BLUE}Hacen falta permisos de administrador para preparar el sistema (la contraseña se pide una sola vez).${NC}"
+    sudo -v || return 1
+    ( while kill -0 "$$" 2>/dev/null; do sudo -n true 2>/dev/null; sleep 50; done ) &
+    SUDO_KEEPALIVE_PID=$!
+    trap '[ -n "$SUDO_KEEPALIVE_PID" ] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
+    SUDO_READY=1
+}
 
 # Instala con apt los paquetes que falten. Es idempotente: si ya están todos, no hace nada.
 ensure_system_packages() {
@@ -92,6 +110,7 @@ ensure_system_packages() {
     fi
 
     echo "  Instalando paquetes del sistema: ${missing[*]}"
+    ensure_sudo || { echo -e "${YELLOW}Aviso: sin sudo no se pueden instalar: ${missing[*]}${NC}"; return 0; }
     local sudo_cmd=""
     [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
     $sudo_cmd apt-get update
@@ -157,6 +176,55 @@ ensure_gui_dependencies() {
         return 1
     fi
     echo -e "  ${GREEN}OK${NC}  Dependencias instaladas"
+}
+
+# Permisos del usuario para usar el micrófono: pertenecer al grupo 'audio'.
+# Mira /etc/group (no la sesión actual) para no pedir sudo en cada arranque
+# mientras el usuario no cierre sesión.
+ensure_audio_group() {
+    getent group audio >/dev/null 2>&1 || return 0
+    if getent group audio | cut -d: -f4 | tr ',' '\n' | grep -qx "$REAL_USER"; then
+        return 0
+    fi
+    ensure_sudo || return 0
+    local sudo_cmd=""
+    [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
+    if $sudo_cmd usermod -aG audio "$REAL_USER"; then
+        echo -e "  ${YELLOW}!!${NC}  Se agregó a $REAL_USER al grupo 'audio'. Cerrá sesión y volvé a entrar para que el micrófono lo use."
+    fi
+}
+
+# Si alguna vez se corrió el instalador con sudo, parte del venv, los modelos o
+# los logs quedaron a nombre de root y DAV no puede escribirlos. Se devuelven al
+# usuario (solo dentro de la carpeta de DAV, nunca permisos abiertos para todos).
+ensure_ownership() {
+    local dirs=("$GUI_ROOT" "$DAV_MODELS_DEFAULT") d wrong=0
+    for d in "${dirs[@]}"; do
+        [ -d "$d" ] || continue
+        [ -n "$(find "$d" ! -user "$REAL_USER" -print -quit 2>/dev/null)" ] && wrong=1
+    done
+    [ "$wrong" -eq 1 ] || return 0
+    ensure_sudo || return 0
+    local sudo_cmd="" group
+    [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
+    group="$(id -gn "$REAL_USER" 2>/dev/null || echo "$REAL_USER")"
+    for d in "${dirs[@]}"; do
+        [ -d "$d" ] && $sudo_cmd chown -R "$REAL_USER:$group" "$d"
+    done
+    echo -e "  ${GREEN}OK${NC}  Permisos de las carpetas de DAV devueltos a $REAL_USER"
+}
+
+# Vosk (Kaldi) usa instrucciones AVX. Sin ellas el proceso de voz se cierra con
+# "Illegal instruction" (típico de una máquina virtual que no las expone).
+check_cpu() {
+    [ -r /proc/cpuinfo ] || return 0
+    if grep -qw avx /proc/cpuinfo; then
+        echo -e "  ${GREEN}OK${NC}  La CPU ofrece AVX (necesario para Vosk)"
+    else
+        echo -e "  ${YELLOW}!!${NC}  La CPU (o la máquina virtual) no ofrece AVX, que Vosk puede necesitar."
+        echo "      El reconocimiento de voz podría cerrarse con 'Illegal instruction' (DAV seguirá abierto y lo avisará)."
+        echo "      En una máquina virtual: usá una versión de hardware reciente y activá la virtualización de CPU."
+    fi
 }
 
 # Micrófono: avisa (sin cortar la instalación) si PortAudio no carga, si no hay
@@ -247,6 +315,9 @@ ensure_system_packages
 ensure_gui_venv || exit 1
 ensure_gui_dependencies || exit 1
 ensure_vosk_models || exit 1
+ensure_ownership
+ensure_audio_group
+check_cpu
 check_microphone
 
 # Variables que usa el workbench (las mismas que setea run_freecad_dav.ps1)
@@ -457,7 +528,9 @@ ensure_fuse() {
         [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
         # Ubuntu 24.04+ la llama libfuse2t64
         apt-cache show libfuse2t64 >/dev/null 2>&1 && pkg="libfuse2t64"
-        $sudo_cmd apt-get install -y "$pkg" >/dev/null 2>&1
+        if ensure_sudo; then
+            $sudo_cmd apt-get install -y "$pkg" >/dev/null 2>&1
+        fi
     fi
 
     if has_libfuse2 && [ -e /dev/fuse ]; then
@@ -494,6 +567,9 @@ if [ -f "$FREECAD_CMD" ] && [ ! -x "$FREECAD_CMD" ]; then
     echo -e "${YELLOW}Asignando permisos de ejecución (chmod +x) a:${NC} $FREECAD_CMD"
     chmod +x "$FREECAD_CMD"
 fi
+
+# El sudo ya no hace falta: se corta el mantenimiento de la sesión antes de lanzar
+[ -n "$SUDO_KEEPALIVE_PID" ] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null
 
 # Si se corrió con sudo, degradar permisos para no ejecutar FreeCAD como root
 if [ "$EUID" -eq 0 ] && [ -n "$SUDO_USER" ]; then

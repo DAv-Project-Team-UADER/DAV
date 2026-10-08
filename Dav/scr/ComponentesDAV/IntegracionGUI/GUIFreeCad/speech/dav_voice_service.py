@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import json
+import os
 import queue
+import signal
+import subprocess
+import sys
 import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable, Literal
 
 from core.dav_log import get_logger
@@ -17,6 +22,55 @@ from speech.voice_commands import _buffer_to_bytes, match_command
 log = get_logger("voz")
 
 VoiceMode = Literal["idle", "cad", "preferences"]
+
+# Variables que el AppImage de FreeCAD le pone al entorno para sus propias
+# librerias. Heredadas por un proceso hijo con otro Python hacen que cargue
+# librerias que no son las suyas, asi que se las saca.
+_APPIMAGE_ENV_VARS = (
+    "LD_LIBRARY_PATH", "LD_PRELOAD", "PYTHONHOME", "PYTHONPATH", "PYTHONSTARTUP",
+    "APPDIR", "APPIMAGE", "ARGV0", "OWD", "QT_PLUGIN_PATH", "QML2_IMPORT_PATH",
+)
+
+_WORKER_PREFIX = "@DAV "
+
+
+def _worker_python() -> str | None:
+    """Python del .venv de GUIFreeCad si el micrófono debe correr en un proceso aparte.
+
+    En Linux, PortAudio y libvosk cargados dentro de FreeCAD pueden tumbarlo con
+    una caída nativa que no se puede atrapar; en un proceso hijo solo se cae el
+    hijo. Devuelve None en otros sistemas, si no existe el venv o si se fuerza el
+    modo anterior con ``DAV_VOICE_INPROCESS=1``.
+    """
+    if not sys.platform.startswith("linux"):
+        return None
+    if os.environ.get("DAV_VOICE_INPROCESS") == "1":
+        return None
+    root = os.environ.get("DAV_GUI_FREECAD_ROOT", "").strip()
+    if not root:
+        return None
+    python = Path(root) / ".venv" / "bin" / "python"
+    if python.is_file() and os.access(python, os.X_OK):
+        return str(python)
+    return None
+
+
+def _describe_exit(code: int | None) -> str:
+    """Texto legible de un código de salida; los negativos son señales."""
+    if code is None:
+        return "sin código"
+    if code < 0:
+        try:
+            name = signal.Signals(-code).name
+        except ValueError:
+            return f"señal {-code}"
+        if name == "SIGILL":
+            return (
+                "SIGILL (instrucción ilegal): la CPU o la máquina virtual no "
+                "ofrece las instrucciones (AVX) que usa Vosk"
+            )
+        return name
+    return f"código {code}"
 
 
 @dataclass
@@ -257,7 +311,7 @@ class DavVoiceService:
             return True
         self._stop_event.clear()
         self._thread = threading.Thread(
-            target=self._listen_loop,
+            target=self._listen_entry,
             args=(str(model_path),),
             name="DAV-VoiceService",
             daemon=True,
@@ -282,12 +336,151 @@ class DavVoiceService:
         if prefs and prefs.on_status:
             self._safe_call(prefs.on_status, message)
 
+    def _listen_entry(self, model_path: str) -> None:
+        """Elige dónde corre el micrófono: proceso aparte (Linux) o este proceso."""
+        python = _worker_python()
+        if python is not None:
+            self._listen_loop_worker(model_path, python)
+        else:
+            self._listen_loop(model_path)
+
+    def _listen_loop_worker(self, model_path: str, python: str) -> None:
+        """Micrófono y Vosk en un proceso hijo (speech/voice_worker.py).
+
+        Si el hijo se cae (PortAudio, libvosk, CPU sin AVX...) FreeCAD sigue
+        vivo: se registra el motivo y se muestra como error de micrófono.
+        """
+        log.info("hilo de voz arrancando (proceso aparte): modelo=%s", model_path)
+        worker = Path(__file__).with_name("voice_worker.py")
+        env = {k: v for k, v in os.environ.items() if k not in _APPIMAGE_ENV_VARS}
+        env["PYTHONIOENCODING"] = "utf-8"
+        try:
+            proc = subprocess.Popen(
+                [python, "-u", str(worker), model_path, "16000"],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                bufsize=1,
+                env=env,
+            )
+        except OSError as exc:
+            log.exception("no se pudo lanzar el proceso de voz: %s", python)
+            self._emit_prefs_status(f"error:mic:No se pudo lanzar el proceso de voz: {exc}")
+            self._running = False
+            return
+
+        lines: queue.Queue[str | None] = queue.Queue()
+
+        def _reader() -> None:
+            try:
+                for line in proc.stdout:
+                    lines.put(line)
+            finally:
+                lines.put(None)  # EOF: el hijo termino
+
+        threading.Thread(target=_reader, name="DAV-VoiceReader", daemon=True).start()
+
+        def _send(message: dict) -> None:
+            try:
+                proc.stdin.write(json.dumps(message, ensure_ascii=False) + "\n")
+                proc.stdin.flush()
+            except (OSError, ValueError):
+                pass
+
+        reported_error = False
+        applied_grammar: str | None = None
+        try:
+            while not self._stop_event.is_set():
+                # Solo la ultima gramatica; el hijo hace el Reset() que Vosk exige.
+                grammar = None
+                while not self._grammar_queue.empty():
+                    try:
+                        grammar = self._grammar_queue.get_nowait()
+                    except queue.Empty:
+                        break
+                if grammar and grammar != applied_grammar:
+                    log.info("enviando gramatica: %d frases", grammar.count(",") + 1)
+                    _send({"cmd": "grammar", "json": grammar})
+                    applied_grammar = grammar
+
+                try:
+                    line = lines.get(timeout=0.3)
+                except queue.Empty:
+                    continue
+                if line is None:
+                    break
+                line = line.rstrip("\n")
+                if not line.startswith(_WORKER_PREFIX):
+                    if line.strip():
+                        log.info("proceso de voz: %s", line)
+                    continue
+                try:
+                    message = json.loads(line[len(_WORKER_PREFIX):])
+                except ValueError:
+                    continue
+
+                kind = message.get("t")
+                if kind == "ready":
+                    log.info("proceso de voz listo, microfono abierto")
+                    self._accept_callbacks = True
+                    self._mic_open = True
+                    self._emit_prefs_status("active")
+                elif kind == "text":
+                    self._dispatch_text(message.get("text", ""), final=bool(message.get("final")))
+                elif kind == "audio":
+                    with self._lock:
+                        prefs = self._prefs
+                    if prefs and prefs.on_audio and self._mode == "preferences" and self._prefs_enabled:
+                        self._safe_call(prefs.on_audio)
+                elif kind == "error":
+                    reported_error = True
+                    err_kind = message.get("kind", "mic")
+                    detail = message.get("msg", "")
+                    log.error("el proceso de voz informo un error (%s): %s", err_kind, detail)
+                    self._emit_prefs_status(f"error:{err_kind}:{detail}")
+        except Exception as exc:  # noqa: BLE001 - nada de esto debe tumbar FreeCAD
+            log.exception("fallo manejando el proceso de voz")
+            self._emit_prefs_status(f"error:mic:{exc}")
+            reported_error = True
+        finally:
+            self._accept_callbacks = False
+            self._mic_open = False
+            self._running = False
+            _send({"cmd": "stop"})
+            try:
+                proc.wait(timeout=2.0)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait()
+            code = proc.returncode
+            if not self._stop_event.is_set() and not reported_error and code != 0:
+                reason = _describe_exit(code)
+                log.error("el proceso de voz termino inesperadamente: %s", reason)
+                self._emit_prefs_status(f"error:mic:El proceso de voz se cerro ({reason})")
+            log.info(
+                "hilo de voz terminado (proceso aparte, salida=%s, stop_event=%s)",
+                _describe_exit(code),
+                self._stop_event.is_set(),
+            )
+
     def _listen_loop(self, model_path: str) -> None:
         log.info("hilo de voz arrancando: modelo=%s", model_path)
+        # Cada paso se loguea ANTES de ejecutarse: si FreeCAD se cae de golpe
+        # (caida nativa, sin traceback de Python), la ultima linea del log dice
+        # en cual estaba. importar sounddevice inicializa PortAudio, y vosk carga
+        # libvosk.so: ambos son candidatos en Linux.
         try:
+            log.info("importando sounddevice (inicializa PortAudio)")
             import sounddevice as sd
+            log.info("sounddevice importado")
+            log.info("importando vosk (carga libvosk.so)")
             from vosk import KaldiRecognizer, Model
-        except ImportError as exc:
+            log.info("vosk importado")
+        except (ImportError, OSError) as exc:
+            # OSError: libvosk.so o PortAudio no cargan (libreria del sistema ausente)
             log.exception("faltan dependencias de voz (sounddevice/vosk)")
             self._emit_prefs_status(f"error:import:{exc}")
             self._running = False
@@ -295,6 +488,7 @@ class DavVoiceService:
 
         sample_rate = 16000
         try:
+            log.info("cargando modelo Vosk")
             model = Model(model_path)
             recognizer = KaldiRecognizer(model, sample_rate)
         except Exception as exc:
