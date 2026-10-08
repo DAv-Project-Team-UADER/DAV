@@ -98,7 +98,7 @@ El instalador prepara todo de forma automática, sin pasos manuales:
 1. Crea el entorno virtual (`GUIFreeCad/.venv`) e instala las dependencias de voz (`PySide6`, `Vosk`, `sounddevice`, …).
 2. Descarga los modelos de voz Vosk en `Dav/models/` (si ya están, no los vuelve a descargar).
 3. Crea un enlace simbólico de tu código fuente hacia `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
-4. Crea los accesos directos: `ejecutar.desktop` en la carpeta del proyecto, una entrada **DAV** en el menú de aplicaciones y, la primera vez, `DAV_V1.desktop` en el Escritorio.
+4. Crea los accesos directos: `ejecutar.desktop` en la carpeta del proyecto, una entrada **DAV** en el menú de aplicaciones y `DAV_V1.desktop` en el Escritorio (si todavía no existe).
 
 ### 4. Abrí DAV
 Hacé doble clic en el acceso directo **DAV** (o ejecutá `./iniciar_dav.sh` en la terminal). El script busca la AppImage de FreeCAD en tu carpeta de Descargas, usando una ruta universal (`$HOME`), y lanza FreeCAD con tu código cargado. Cualquier cambio que guardes en el código de Python se reflejará al reiniciar FreeCAD.

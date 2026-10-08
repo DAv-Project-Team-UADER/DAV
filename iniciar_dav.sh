@@ -206,6 +206,14 @@ ensure_vosk_models || exit 1
 export DAV_GUI_FREECAD_ROOT="$GUI_ROOT"
 export DAV_MODELS_DIR="${DAV_MODELS_DIR:-$DAV_MODELS_DEFAULT}"
 
+# Arranque automático: activa el workbench, arranca la voz y, con la voz, abre
+# el panel DAV (sin esto FreeCAD abre vacío y hay que darle a "Iniciar voz DAV").
+# En Windows run_freecad_dav.ps1 hace lo mismo. Se pueden apagar exportando
+# DAV_AUTO_START_VOICE=0 / DAV_AUTOLOAD_WORKBENCH=0 antes de lanzar.
+export DAV_AUTOLOAD_WORKBENCH="${DAV_AUTOLOAD_WORKBENCH:-1}"
+export DAV_AUTO_START_VOICE="${DAV_AUTO_START_VOICE:-1}"
+export DAV_OPEN_PREFS_ON_START="${DAV_OPEN_PREFS_ON_START:-0}"
+
 # 3. Vincular Workbench en las rutas de módulos de FreeCAD
 # A) Ruta estándar de FreeCAD en Linux (~/.local/share/FreeCAD/v1-1/Mod)
 MOD_DIR_NATIVE="$USER_HOME/.local/share/FreeCAD/v1-1/Mod"

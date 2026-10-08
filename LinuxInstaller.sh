@@ -22,10 +22,9 @@
 # Las rutas se calculan desde la ubicación del script, así que funciona
 # en cualquier clon del repo. Correrlo una vez después de clonar.
 #
-# La primera vez (cuando "ejecutar.desktop" todavía no existe) también deja
-# una copia en el Escritorio llamada "DAV_V1.desktop", con el mismo icono y
-# destino. Las siguientes veces solo regenera "ejecutar.desktop": no pisa ni
-# recrea la copia del Escritorio, por si el usuario la movió o la borró.
+# También deja una copia en el Escritorio llamada "DAV_V1.desktop", con el
+# mismo icono y destino, si todavía no hay una ahí. Si ya existe no la pisa,
+# por si el usuario la personalizó.
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -58,9 +57,6 @@ if ! "$LANZADOR" --install-only; then
     echo "al abrir DAV se volverá a intentar."
 fi
 
-ES_PRIMERA_VEZ=0
-[ -e "$DESKTOP_FILE" ] || ES_PRIMERA_VEZ=1
-
 # Los valores de Exec/Path/Icon con espacios van entre comillas dobles.
 cat > "$DESKTOP_FILE" <<EOF
 [Desktop Entry]
@@ -87,20 +83,25 @@ if mkdir -p "$APPS_DIR" 2>/dev/null; then
     echo -e "${GREEN}Entrada en el menú de aplicaciones:${NC} $APPS_DIR/DAV.desktop"
 fi
 
-if [ "$ES_PRIMERA_VEZ" -eq 1 ]; then
-    # Respeta el nombre localizado del Escritorio (Desktop / Escritorio / ...)
-    ESCRITORIO=""
-    if command -v xdg-user-dir >/dev/null 2>&1; then
-        ESCRITORIO="$(xdg-user-dir DESKTOP 2>/dev/null)"
-    fi
-    if [ -z "$ESCRITORIO" ] || [ ! -d "$ESCRITORIO" ]; then
-        for d in "$HOME/Desktop" "$HOME/Escritorio"; do
-            [ -d "$d" ] && ESCRITORIO="$d" && break
-        done
-    fi
+# Copia en el Escritorio: solo si todavía no existe, para no pisar una que el
+# usuario haya movido o personalizado. Se decide mirando el Escritorio (no
+# "ejecutar.desktop"), así una corrida anterior no deja al usuario sin icono.
+# Respeta el nombre localizado del Escritorio (Desktop / Escritorio / ...)
+ESCRITORIO=""
+if command -v xdg-user-dir >/dev/null 2>&1; then
+    ESCRITORIO="$(xdg-user-dir DESKTOP 2>/dev/null)"
+fi
+if [ -z "$ESCRITORIO" ] || [ ! -d "$ESCRITORIO" ]; then
+    for d in "$HOME/Desktop" "$HOME/Escritorio"; do
+        [ -d "$d" ] && ESCRITORIO="$d" && break
+    done
+fi
 
-    if [ -n "$ESCRITORIO" ] && [ -d "$ESCRITORIO" ]; then
-        COPIA="$ESCRITORIO/DAV_V1.desktop"
+if [ -n "$ESCRITORIO" ] && [ -d "$ESCRITORIO" ]; then
+    COPIA="$ESCRITORIO/DAV_V1.desktop"
+    if [ -e "$COPIA" ]; then
+        echo -e "${GREEN}La copia del Escritorio ya existe, no se modifica:${NC} $COPIA"
+    else
         cp -f "$DESKTOP_FILE" "$COPIA"
         chmod +x "$COPIA"
         # GNOME exige marcar el lanzador como confiable para ejecutarlo
@@ -108,9 +109,9 @@ if [ "$ES_PRIMERA_VEZ" -eq 1 ]; then
             gio set "$COPIA" metadata::trusted true 2>/dev/null
         fi
         echo -e "${GREEN}Copia en el Escritorio:${NC} $COPIA"
-    else
-        echo "No se encontró la carpeta Escritorio; no se creó la copia."
     fi
+else
+    echo "No se encontró la carpeta Escritorio; no se creó la copia."
 fi
 
 [ "$INSTALACION_OK" -eq 1 ] || exit 1
