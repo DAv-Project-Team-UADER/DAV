@@ -26,8 +26,10 @@ Hay dos formas de instalar DAV, según lo que quieras hacer:
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **FreeCAD 1.x**  | Es el programa que maneja DAV. Es **gratis** y está en <https://www.freecad.org/downloads.php>. DAV **no lo incluye**: hay que instalarlo antes.                     |
 | **Micrófono**    | Para usar los comandos de voz.                                                                                                                                       |
-| **Internet**     | Solo la primera vez: DAV descarga el modelo de voz Vosk (≈ 40 MB).                                                                                                   |
+| **Conexión a Internet** | **Obligatoria durante la instalación** (la primera vez): se instalan las dependencias de Python y se descarga el modelo de voz Vosk (≈ 40 MB). |
 | **Python 3.10+** | Solo la primera vez: DAV lo usa para crear su entorno de voz. Si no lo tenés, instalalo desde <https://www.python.org/downloads/> marcando **"Add Python to PATH"**. |
+
+> **Importante:** sin conexión a Internet la instalación falla. Una vez instalado, DAV funciona sin conexión.
 
 > **No hace falta** descargar nada más: ni el código de FreeCAD, ni modelos de voz, ni
 > editores. DAV se encarga de todo eso solo, la primera vez.

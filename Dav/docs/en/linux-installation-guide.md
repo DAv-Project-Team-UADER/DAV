@@ -23,8 +23,10 @@ There are two ways to install DAV on Linux, depending on what you need to do:
 | :--- | :--- |
 | **FreeCAD 1.1.4 (AppImage)** | It is the base program. [Download the AppImage](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) and save it in your **Downloads** folder (or **Descargas**). |
 | **Microphone** | To use the voice commands. |
-| **Internet** | Only the first time: DAV downloads the Vosk voice model (≈ 40 MB) and dependencies. |
+| **Internet connection** | **Required during installation** (the first time): system packages and Python dependencies are installed, and the Vosk voice model (≈ 40 MB) is downloaded. |
 | **Python 3.10+** | It usually comes installed by default on modern Linux distributions (Ubuntu, Mint, Fedora). To create DAV's environment you also need the `python3-venv` package (`sudo apt install python3 python3-venv python3-pip`). |
+
+> **Important:** the installation fails without an Internet connection. Once installed, DAV works offline.
 
 > You **do not need** to download voice models manually. DAV takes care of all that automatically the first time you open it.
 

@@ -67,6 +67,49 @@ as_user() {
     fi
 }
 
+# Paquetes del sistema que necesita DAV (Python, venv/pip y audio para el micrófono).
+APT_PACKAGES=(python3 python3-venv python3-pip ca-certificates
+    libportaudio2 portaudio19-dev python3-pyaudio
+    libgl1 libegl1 libglib2.0-0 libdbus-1-3 libfontconfig1 libxkbcommon0 libxkbcommon-x11-0
+    libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0
+    libxcb-render-util0 libxcb-shape0 libxcb-xinerama0 libxcb-xkb1)
+
+# Instala con apt los paquetes que falten. Es idempotente: si ya están todos, no hace nada.
+ensure_system_packages() {
+    if ! command -v apt-get >/dev/null 2>&1 || ! command -v dpkg >/dev/null 2>&1; then
+        echo -e "  ${YELLOW}!!${NC}  apt no disponible: instala manualmente Python 3, venv, pip y PortAudio"
+        return 0
+    fi
+
+    local missing=() pkg
+    for pkg in "${APT_PACKAGES[@]}"; do
+        dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+
+    if [ ${#missing[@]} -eq 0 ]; then
+        echo -e "  ${GREEN}OK${NC}  Paquetes del sistema"
+        return 0
+    fi
+
+    echo "  Instalando paquetes del sistema: ${missing[*]}"
+    local sudo_cmd=""
+    [ "$EUID" -ne 0 ] && sudo_cmd="sudo"
+    $sudo_cmd apt-get update
+    if ! $sudo_cmd apt-get install -y "${missing[@]}"; then
+        # Algún paquete puede no existir en esta versión de la distro: reintentar uno a uno
+        local failed=()
+        for pkg in "${missing[@]}"; do
+            $sudo_cmd apt-get install -y "$pkg" >/dev/null 2>&1 || failed+=("$pkg")
+        done
+        if [ ${#failed[@]} -gt 0 ]; then
+            echo -e "${YELLOW}Aviso: no se pudieron instalar: ${failed[*]}${NC}"
+            echo "  Manualmente: sudo apt install ${failed[*]}"
+            return 0
+        fi
+    fi
+    echo -e "  ${GREEN}OK${NC}  Paquetes del sistema instalados"
+}
+
 find_system_python() {
     local py
     for py in python3 python; do
@@ -114,12 +157,6 @@ ensure_gui_dependencies() {
         return 1
     fi
     echo -e "  ${GREEN}OK${NC}  Dependencias instaladas"
-
-    # sounddevice necesita PortAudio en el sistema
-    if command -v ldconfig >/dev/null 2>&1 && ! ldconfig -p 2>/dev/null | grep -q libportaudio; then
-        echo -e "${YELLOW}Aviso: no se encontró libportaudio. Para el micrófono:${NC}"
-        echo "  Ubuntu/Debian: sudo apt install libportaudio2"
-    fi
 }
 
 # Un modelo cuenta como presente si su carpeta existe y no está vacía.
@@ -160,6 +197,7 @@ if [ ! -d "$GUI_ROOT" ]; then
 fi
 
 echo -e "\n${BLUE}== GUIFreeCad (venv, deps, modelos) ==${NC}"
+ensure_system_packages
 ensure_gui_venv || exit 1
 ensure_gui_dependencies || exit 1
 ensure_vosk_models || exit 1
@@ -274,15 +312,11 @@ detect_freecad "$1"
 
 if [ -z "$FREECAD_CMD" ]; then
     echo -e "${YELLOW}FreeCAD no está instalado.${NC}"
-    if ask_install_freecad; then
-        if install_freecad; then
-            hash -r
-            detect_freecad "$1"
-        else
-            echo -e "${RED}Error: falló la instalación de FreeCAD.${NC}"
-        fi
+    if install_freecad; then
+        hash -r
+        detect_freecad "$1"
     else
-        echo "Instalación de FreeCAD omitida."
+        echo -e "${RED}Error: falló la instalación de FreeCAD.${NC}"
     fi
 fi
 
