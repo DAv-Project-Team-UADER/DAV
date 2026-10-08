@@ -261,6 +261,14 @@ export DAV_AUTOLOAD_WORKBENCH="${DAV_AUTOLOAD_WORKBENCH:-1}"
 export DAV_AUTO_START_VOICE="${DAV_AUTO_START_VOICE:-1}"
 export DAV_OPEN_PREFS_ON_START="${DAV_OPEN_PREFS_ON_START:-0}"
 
+# Si FreeCAD se cierra de golpe (segfault de Qt/PortAudio), imprime en esta
+# terminal en qué línea de Python pasó, en vez de morir sin dejar rastro.
+export PYTHONFAULTHANDLER="${PYTHONFAULTHANDLER:-1}"
+
+# PortAudio intenta arrancar un servidor JACK si lo encuentra, y sin audio real
+# (VM) eso puede colgar o caer; así solo usa JACK si ya está corriendo.
+export JACK_NO_START_SERVER="${JACK_NO_START_SERVER:-1}"
+
 # 3. Vincular Workbench en las rutas de módulos de FreeCAD
 # A) Ruta estándar de FreeCAD en Linux (~/.local/share/FreeCAD/v1-1/Mod)
 MOD_DIR_NATIVE="$USER_HOME/.local/share/FreeCAD/v1-1/Mod"

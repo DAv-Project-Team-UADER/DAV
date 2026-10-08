@@ -22,6 +22,12 @@ import sys
 from pathlib import Path
 
 _DOCK_OBJECT_NAME = "DAV_Panel"
+
+# En Linux (X11) cambiar los flags de un dock flotante y rehacerlos en cada
+# cambio de estado puede tumbar FreeCAD. Ahí el panel arranca anclado y se deja
+# el manejo de la ventana a Qt; en Windows se mantiene el comportamiento actual.
+_IS_LINUX = sys.platform.startswith("linux")
+
 _dock = None
 _source = None
 _observer = None
@@ -499,10 +505,14 @@ def install_dock_panel(browser, adapter):
 
     # Arranca como ventana flotante, no pegado al borde. El usuario lo ancla
     # cuando quiere, con el boton de la cabecera o arrastrando el titulo.
-    dock.setFloating(True)
-    dock.resize(560, 720)
-    _make_real_window(dock)
-    _center_on(dock, main_window)
+    if _IS_LINUX:
+        dock.setFloating(False)
+        dock.setMinimumWidth(420)
+    else:
+        dock.setFloating(True)
+        dock.resize(560, 720)
+        _make_real_window(dock)
+        _center_on(dock, main_window)
 
     source.Attach(panel)
     source.PublishTree()
@@ -527,6 +537,8 @@ def _make_real_window(dock) -> None:
     se puede minimizar, mandar atras y alt-tabear — sin perder la capacidad de
     volver a anclarse.
     """
+    if _IS_LINUX:
+        return
     try:
         from PySide6.QtCore import Qt
     except ImportError:
@@ -577,14 +589,24 @@ def _wire_dock_toggle(dock, panel) -> None:
             dock.raise_()
         _refresh()
 
+    busy = [False]
+
     def _refresh(*_args) -> None:
-        floating = dock.isFloating()
-        if floating:
-            # Qt rehace la ventana al volver a flotar y pierde los flags, con
-            # lo cual vuelve a quedar siempre encima y sin minimizar.
-            _make_real_window(dock)
-            dock.show()
-        panel.SetDockState(floating)
+        # Guarda de reentrada: rehacer la ventana puede volver a disparar
+        # topLevelChanged y, sin esto, entraría en un bucle.
+        if busy[0]:
+            return
+        busy[0] = True
+        try:
+            floating = dock.isFloating()
+            if floating:
+                # Qt rehace la ventana al volver a flotar y pierde los flags, con
+                # lo cual vuelve a quedar siempre encima y sin minimizar.
+                _make_real_window(dock)
+                dock.show()
+            panel.SetDockState(floating)
+        finally:
+            busy[0] = False
 
     if hasattr(panel, "DockToggleRequested"):
         panel.DockToggleRequested.connect(_toggle)

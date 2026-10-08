@@ -321,11 +321,25 @@ class DavVoiceService:
 
         stream = None
         try:
+            # Abrir un stream de entrada sin micrófono (típico de una VM sin
+            # audio) puede colgar o tumbar PortAudio en Linux: se comprueba
+            # antes y se informa como error de micrófono en vez de intentarlo.
+            devices = sd.query_devices()
+            input_ids = [
+                i for i, d in enumerate(devices) if d.get("max_input_channels", 0) > 0
+            ]
+            if not input_ids:
+                raise RuntimeError("No hay ningún micrófono disponible")
+            device = None  # el predeterminado del sistema
+            default_in = sd.default.device[0]
+            if default_in is None or default_in < 0:
+                device = input_ids[0]  # sin predeterminado: el primero que haya
             stream = sd.RawInputStream(
                 samplerate=sample_rate,
                 blocksize=4000,
                 dtype="int16",
                 channels=1,
+                device=device,
                 callback=callback,
             )
             self._accept_callbacks = True
