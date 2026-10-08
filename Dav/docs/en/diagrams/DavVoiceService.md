@@ -94,6 +94,35 @@ FreeCAD's UI. On each iteration:
 Details on why `Reset()` is mandatory (Vosk aborts the process without it):
 [`vosk-grammar-shortener.md`](../vosk-grammar-shortener.md).
 
+## On Linux: the microphone runs in a separate process
+
+Inside FreeCAD (AppImage), loading PortAudio and `libvosk.so` can take down the
+whole process with a native crash (segfault, or `Illegal instruction` if the CPU
+does not offer AVX) that Python cannot catch. That is why, on Linux,
+`_listen_entry` picks `_listen_loop_worker`, which launches `speech/voice_worker.py`
+as a child process using the Python from GUIFreeCad's `.venv`
+(`DAV_GUI_FREECAD_ROOT/.venv/bin/python`) and without the AppImage environment
+variables (`LD_LIBRARY_PATH`, `PYTHONHOME`, …). If something crashes, the child
+dies and FreeCAD stays open.
+
+| Direction | Messages (one line each) |
+| :--- | :--- |
+| child → DAV (stdout, `@DAV ` prefix + JSON) | `{"t":"ready"}` · `{"t":"text","text":…,"final":bool}` · `{"t":"audio"}` · `{"t":"error","kind":"import\|model\|mic","msg":…}` |
+| DAV → child (stdin) | `{"cmd":"grammar","json":…}` · `{"cmd":"stop"}` |
+
+- Lines without the prefix (Kaldi logs) are dumped into `dav.log`.
+- If stdin closes (FreeCAD died), the child exits on its own.
+- The grammar is applied in the child with the same `Reset()` + `SetGrammar()`.
+- If the child exits with a non-zero code without reporting, DAV emits
+  `error:mic:El proceso de voz se cerró (<reason>)`. For signals it shows the
+  name; `SIGILL` means a CPU or virtual machine without AVX. `dav.log` gets
+  `el proceso de voz termino inesperadamente` and the final line
+  `hilo de voz terminado (proceso aparte, salida=…)`.
+- On Windows (or another system, or if there is no `.venv`) the in-FreeCAD thread
+  described above is used. `DAV_VOICE_INPROCESS=1` forces that mode on Linux too.
+- If FreeCAD dies from another native cause, `dav_fault.log` (next to `dav.log`)
+  records where every Python thread was.
+
 ## Design notes
 
 - **`_ensure_mic` restarts the thread if the language or the model size changed**,

@@ -24,6 +24,7 @@ Hay dos formas de instalar DAV en Linux, según lo que necesites hacer:
 | **FreeCAD 1.1.4 (AppImage)** | Es el programa base. [Descargá el AppImage](https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage) y guardalo en tu carpeta de **Descargas** (o **Downloads**). |
 | **Micrófono** | Para usar los comandos de voz. |
 | **Conexión a Internet** | **Obligatoria durante la instalación** (la primera vez): se instalan paquetes del sistema y dependencias de Python, y se descarga el modelo de voz Vosk (≈ 40 MB). |
+| **Contraseña de administrador (sudo)** | La primera vez, el instalador la pide **una sola vez** para instalar paquetes del sistema (audio, FUSE) y dar permisos de micrófono. Al escribirla no se ve nada en pantalla: es normal. |
 | **Python 3.10+** | Generalmente ya viene instalado por defecto en distribuciones Linux modernas (Ubuntu, Mint, Fedora). Para crear el entorno de DAV también hace falta el paquete `python3-venv` (`sudo apt install python3 python3-venv python3-pip`). |
 
 > **Importante:** sin conexión a Internet la instalación falla. Una vez instalado, DAV funciona sin conexión.
@@ -94,11 +95,15 @@ chmod +x LinuxInstaller.sh iniciar_dav.sh
 ./LinuxInstaller.sh
 ```
 
-El instalador prepara todo de forma automática, sin pasos manuales:
+El instalador prepara todo de forma automática. **Te pide la contraseña de administrador (`sudo`) una sola vez**, porque algunos pasos instalan paquetes del sistema y dan permisos de audio:
 1. Crea el entorno virtual (`GUIFreeCad/.venv`) e instala las dependencias de voz (`PySide6`, `Vosk`, `sounddevice`, …).
 2. Descarga los modelos de voz Vosk en `Dav/models/` (si ya están, no los vuelve a descargar).
 3. Crea un enlace simbólico de tu código fuente hacia `~/.local/share/FreeCAD/v1-1/Mod/DAV`.
 4. Crea los accesos directos: `ejecutar.desktop` en la carpeta del proyecto, una entrada **DAV** en el menú de aplicaciones y `DAV_V1.desktop` en el Escritorio (si todavía no existe).
+5. Instala los paquetes de audio del sistema (PortAudio, ALSA) y, si falta, `libfuse2`, que el AppImage de FreeCAD necesita para abrirse.
+6. Instala las dependencias de voz (`sounddevice`, `vosk`) también para el Python de FreeCAD, en `GUIFreeCad/.freecad_deps`.
+7. Agrega tu usuario al grupo `audio`, para que pueda usar el micrófono. Si lo agrega, **cerrá sesión y volvé a entrar una vez** para que tenga efecto.
+8. Revisa tu equipo y te avisa, sin frenar la instalación, si no hay micrófono, si no hay uno por defecto o si la CPU no ofrece AVX (Vosk lo necesita).
 
 ### 4. Abrí DAV
 Hacé doble clic en el acceso directo **DAV** (o ejecutá `./iniciar_dav.sh` en la terminal). El script busca la AppImage de FreeCAD en tu carpeta de Descargas, usando una ruta universal (`$HOME`), y lanza FreeCAD con tu código cargado. Cualquier cambio que guardes en el código de Python se reflejará al reiniciar FreeCAD.
@@ -119,5 +124,24 @@ Opciones útiles de `iniciar_dav.sh`:
 | **"Permiso denegado" al hacer doble clic** | Te faltó el Paso 3 del Camino A. Clic derecho en el archivo > Propiedades > Permisos > Permitir ejecutar como programa. |
 | **"No se encuentra FreeCAD"** | Verificá que el archivo de FreeCAD termine en `.AppImage` y esté directamente en la carpeta `Descargas` (o `Downloads`). |
 | **"No se pudo crear GUIFreeCad/.venv"** | Falta el paquete de entornos virtuales. Ejecutá `sudo apt install python3-venv python3-pip` y volvé a correr el instalador. |
-| **El micrófono no responde / Error de Vosk** | Es posible que falten dependencias de audio en Linux. Abrí una terminal y ejecutá `sudo apt install libportaudio2 portaudio19-dev python3-pyaudio`. |
+| **El micrófono no responde / Error de Vosk** | Ejecutá `./iniciar_dav.sh` desde la terminal y mirá los avisos del paso del micrófono. Si el instalador te agregó al grupo `audio`, cerrá sesión y volvé a entrar. Si aun así falla, instalá a mano: `sudo apt install libportaudio2 portaudio19-dev python3-pyaudio`. |
+| **"No se detectó ningún micrófono"** | DAV abre pero no puede escuchar. En una **máquina virtual** hay que habilitar el audio de entrada: en VMware, la tarjeta de sonido (*Sound Card*) de la VM conectada y el micrófono del equipo anfitrión disponible; en VirtualBox, *Configuración > Audio > Habilitar entrada de audio*. En una PC, conectá un micrófono y elegilo como entrada en los ajustes de sonido (`pavucontrol`). |
+| **"La CPU no ofrece AVX" / `Illegal instruction`** | Vosk usa instrucciones AVX. En una máquina virtual, usá una versión de hardware reciente y activá la virtualización de CPU (podés comprobarlo con `grep -w avx /proc/cpuinfo`). DAV sigue abierto y muestra el error en el Informe de FreeCAD; sin AVX el reconocimiento de voz no puede funcionar. |
+| **FreeCAD no abre o no pasa nada al lanzarlo (FUSE)** | El AppImage necesita `libfuse2`. El instalador intenta instalarla; si no puede, DAV ejecuta el AppImage sin FUSE (tarda más en abrir). A mano: `sudo apt install libfuse2` (en Ubuntu 24.04 se llama `libfuse2t64`). |
 | **La primera vez tarda mucho** | Es normal, está descargando el modelo de voz en segundo plano. |
+
+## Si algo falla: qué revisar y qué enviar
+
+DAV guarda registros en `Dav/scr/ComponentesDAV/IntegracionGUI/GUIFreeCad/config/`:
+
+| Archivo | Qué contiene |
+| :--- | :--- |
+| `dav.log` | Lo que hace DAV: arranque de la voz, errores y avisos. Es lo primero que hay que mirar. |
+| `dav_fault.log` | Se crea si FreeCAD se cierra de golpe por una falla nativa; guarda en qué punto del código estaba. |
+
+En Linux el reconocimiento de voz corre en un **proceso aparte**: si ese proceso se cae, FreeCAD sigue abierto y el motivo aparece en el Informe de FreeCAD y en `dav.log`.
+
+Para reportar un problema, enviá:
+1. Las últimas líneas de `dav.log` (y el contenido de `dav_fault.log`, si existe).
+2. Lo que muestra la terminal al abrir con `./iniciar_dav.sh`.
+3. Tu versión de Ubuntu/Lubuntu y si es una máquina virtual.

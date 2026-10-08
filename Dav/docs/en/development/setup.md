@@ -115,6 +115,12 @@ The pop-up confirm/abort commands (shared by the prompts):
 
 - **The microphone uses PyAudio/SoundDevice** — if the stream does not open, check
   that the device is available and not in use.
+- **On Linux the microphone runs in a separate process** (`speech/voice_worker.py`,
+  using the `.venv` Python): if PortAudio or Vosk crash, FreeCAD stays open and the
+  error shows up in the Report view. To use the previous mode (inside FreeCAD)
+  export `DAV_VOICE_INPROCESS=1`.
+- **If FreeCAD closes abruptly** — look at `GUIFreeCad/config/dav.log` (its last
+  line says which step it was in) and `dav_fault.log` (created on a native crash).
 - **The model did not load** → confirm it exists in `Dav/models/<language>` or
   that `setup_models.py` downloaded it.
 - **The grammar is restricted by context** — certain prompts (numeric, plane
