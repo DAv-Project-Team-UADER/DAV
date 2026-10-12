@@ -43,8 +43,6 @@ $RepoRoot = Resolve-DavRepoRoot
 function Find-RunScript([string]$StartRepo) {
     $candidates = @(
         (Join-Path $StartRepo "Dav\scr\ComponentesDAV\scripts\run_freecad_dav.ps1"),
-        (Join-Path $StartRepo "Dav\scr\ComponentesDAV\scripts\run_freecad_dav.ps1"),
-        (Join-Path $StartRepo "ComponentesDAV\scripts\run_freecad_dav.ps1"),
         (Join-Path $StartRepo "ComponentesDAV\scripts\run_freecad_dav.ps1"),
         (Join-Path $StartRepo "scripts\run_freecad_dav.ps1")
     )

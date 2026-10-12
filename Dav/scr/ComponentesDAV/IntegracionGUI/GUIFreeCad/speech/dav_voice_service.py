@@ -331,10 +331,21 @@ class DavVoiceService:
             pass
 
     def _emit_prefs_status(self, message: str) -> None:
+        """Send a status line ("active", "error:...") to the attached preferences.
+
+        Unlike recognition callbacks, statuses ignore ``_accept_callbacks``: the
+        errors happen exactly when the mic is not (or no longer) accepting audio
+        — failed import, no microphone, crashed voice process — and filtering
+        them dropped every one of them before reaching the UI.
+        """
         with self._lock:
             prefs = self._prefs
-        if prefs and prefs.on_status:
-            self._safe_call(prefs.on_status, message)
+        if not prefs or not prefs.on_status:
+            return
+        try:
+            prefs.on_status(message)
+        except Exception:  # noqa: BLE001 - el destino (Qt) pudo haberse cerrado
+            pass
 
     def _listen_entry(self, model_path: str) -> None:
         """Elige dónde corre el micrófono: proceso aparte (Linux) o este proceso."""

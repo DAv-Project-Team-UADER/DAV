@@ -35,7 +35,8 @@ if [ "$EUID" -eq 0 ] && [ -n "$SUDO_USER" ]; then
     REAL_USER="$SUDO_USER"
 else
     USER_HOME="$HOME"
-    REAL_USER="$USER"
+    # $USER puede venir vacío (lanzado sin sesión de login): se pregunta a id
+    REAL_USER="${USER:-$(id -un)}"
 fi
 
 # 2. Directorio base del repositorio (resuelto de forma dinámica)
@@ -100,8 +101,12 @@ ensure_system_packages() {
     fi
 
     local missing=() pkg
+    # Desde Ubuntu 24.04 varias librerías se renombraron con sufijo t64
+    # (libglib2.0-0 -> libglib2.0-0t64): el nombre viejo sigue sirviendo para
+    # apt install, pero dpkg -s no lo encuentra y se pedía sudo en cada arranque.
     for pkg in "${APT_PACKAGES[@]}"; do
-        dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+        dpkg -s "$pkg" >/dev/null 2>&1 || dpkg -s "${pkg}t64" >/dev/null 2>&1 \
+            || missing+=("$pkg")
     done
 
     if [ ${#missing[@]} -eq 0 ]; then
@@ -427,14 +432,38 @@ ask_install_freecad() {
     return 1
 }
 
+freecad_manual_hint() {
+    echo "Descargá el AppImage de FreeCAD 1.x desde https://www.freecad.org/downloads.php"
+    echo "y guardalo en Descargas (o pasá la ruta: ./iniciar_dav.sh /ruta/a/FreeCAD.AppImage)."
+}
+
 install_freecad() {
     if ! command -v apt >/dev/null 2>&1; then
         echo -e "${RED}Error: apt no está disponible en este sistema.${NC}"
-        echo "Instala FreeCAD manualmente (https://www.freecad.org/downloads.php)."
+        freecad_manual_hint
         return 1
     fi
 
-    echo -e "${BLUE}Instalando FreeCAD (sudo apt update && sudo apt install -y freecad)...${NC}"
+    # DAV necesita FreeCAD 1.x (PySide6). Varias distros traen por apt una
+    # versión anterior (Ubuntu 24.04: 0.21), que no carga DAV: ahí no se
+    # ofrece instalarla y se indica bajar el AppImage.
+    local candidate major
+    candidate="$(apt-cache policy freecad 2>/dev/null | awk '/Candidate:/ {print $2}')"
+    [ "$candidate" = "(none)" ] && candidate=""
+    major="$(echo "$candidate" | sed 's/^[0-9]*://' | cut -d. -f1)"
+    if ! [[ "$major" =~ ^[0-9]+$ ]] || [ "$major" -lt 1 ]; then
+        echo -e "${YELLOW}El FreeCAD de apt (${candidate:-no disponible}) no sirve para DAV, que necesita FreeCAD 1.x.${NC}"
+        freecad_manual_hint
+        return 1
+    fi
+
+    if ! ask_install_freecad; then
+        echo "No se instala FreeCAD."
+        freecad_manual_hint
+        return 1
+    fi
+
+    echo -e "${BLUE}Instalando FreeCAD $candidate (sudo apt update && sudo apt install -y freecad)...${NC}"
     if [ "$EUID" -eq 0 ]; then
         apt update && apt install -y freecad
     else
@@ -443,14 +472,19 @@ install_freecad() {
 }
 
 detect_freecad "$1"
+# Si la ruta de FreeCAD vino como argumento, no se le pasa también a FreeCAD
+# (intentaba abrir el propio AppImage como si fuera un documento)
+if [ -n "$1" ] && [ "$FREECAD_CMD" = "$1" ]; then
+    shift
+fi
 
 if [ -z "$FREECAD_CMD" ]; then
     echo -e "${YELLOW}FreeCAD no está instalado.${NC}"
     if install_freecad; then
         hash -r
-        detect_freecad "$1"
+        detect_freecad
     else
-        echo -e "${RED}Error: falló la instalación de FreeCAD.${NC}"
+        echo -e "${YELLOW}FreeCAD no se instaló.${NC}"
     fi
 fi
 
@@ -571,9 +605,24 @@ fi
 # El sudo ya no hace falta: se corta el mantenimiento de la sesión antes de lanzar
 [ -n "$SUDO_KEEPALIVE_PID" ] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null
 
+# Un archivo va entre comillas (la ruta puede tener espacios); si no existe
+# como archivo es un comando compuesto ("flatpak run org.freecad.FreeCAD").
+if [ -e "$FREECAD_CMD" ]; then
+    FREECAD_ARGV=("$FREECAD_CMD")
+else
+    read -r -a FREECAD_ARGV <<< "$FREECAD_CMD"
+fi
+
 # Si se corrió con sudo, degradar permisos para no ejecutar FreeCAD como root
 if [ "$EUID" -eq 0 ] && [ -n "$SUDO_USER" ]; then
-    sudo -u "$REAL_USER" $FREECAD_CMD "$@"
+    # sudo limpia el entorno: las variables que lee el workbench se pasan a mano
+    KEEP_ENV=()
+    for var in DAV_GUI_FREECAD_ROOT DAV_MODELS_DIR DAV_AUTOLOAD_WORKBENCH DAV_AUTO_START_VOICE \
+        DAV_OPEN_PREFS_ON_START DAV_FC_DEPS_DIR PYTHONFAULTHANDLER JACK_NO_START_SERVER \
+        APPIMAGE_EXTRACT_AND_RUN DISPLAY WAYLAND_DISPLAY XAUTHORITY; do
+        [ -n "${!var}" ] && KEEP_ENV+=("$var=${!var}")
+    done
+    sudo -u "$REAL_USER" env "${KEEP_ENV[@]}" "${FREECAD_ARGV[@]}" "$@"
 else
-    exec $FREECAD_CMD "$@"
+    exec "${FREECAD_ARGV[@]}" "$@"
 fi
