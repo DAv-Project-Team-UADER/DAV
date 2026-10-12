@@ -94,6 +94,36 @@ UI do FreeCAD. A cada volta:
 Detalhe de por que o `Reset()` é obrigatório (o Vosk aborta o processo sem ele):
 [`encurtador-gramatica-vosk.md`](../encurtador-gramatica-vosk.md).
 
+## No Linux: o microfone roda em um processo separado
+
+Dentro do FreeCAD (AppImage), carregar o PortAudio e a `libvosk.so` pode derrubar
+o processo inteiro com uma queda nativa (segfault, ou `Illegal instruction` se a
+CPU não oferece AVX) que o Python não consegue capturar. Por isso, no Linux,
+`_listen_entry` escolhe `_listen_loop_worker`, que lança `speech/voice_worker.py`
+como processo filho com o Python do `.venv` do GUIFreeCad
+(`DAV_GUI_FREECAD_ROOT/.venv/bin/python`) e sem as variáveis de ambiente do
+AppImage (`LD_LIBRARY_PATH`, `PYTHONHOME`, …). Se algo cair, morre o filho e o
+FreeCAD continua aberto.
+
+| Sentido | Mensagens (uma linha cada) |
+| :--- | :--- |
+| filho → DAV (stdout, prefixo `@DAV ` + JSON) | `{"t":"ready"}` · `{"t":"text","text":…,"final":bool}` · `{"t":"audio"}` · `{"t":"error","kind":"import\|model\|mic","msg":…}` |
+| DAV → filho (stdin) | `{"cmd":"grammar","json":…}` · `{"cmd":"stop"}` |
+
+- As linhas sem o prefixo (logs do Kaldi) vão para o `dav.log`.
+- Se o stdin fechar (o FreeCAD morreu), o filho termina sozinho.
+- A gramática é aplicada no filho com o mesmo `Reset()` + `SetGrammar()`.
+- Se o filho terminar com código diferente de 0 sem avisar, o DAV emite
+  `error:mic:El proceso de voz se cerró (<motivo>)`. Para sinais mostra o nome;
+  `SIGILL` indica uma CPU ou máquina virtual sem AVX. No `dav.log` ficam
+  `el proceso de voz termino inesperadamente` e a linha final
+  `hilo de voz terminado (proceso aparte, salida=…)`.
+- No Windows (ou outro sistema, ou se não existir o `.venv`) usa-se a thread
+  dentro do FreeCAD descrita acima. `DAV_VOICE_INPROCESS=1` força esse modo
+  também no Linux.
+- Se o FreeCAD cair por outra causa nativa, o `dav_fault.log` (ao lado do
+  `dav.log`) registra onde estava cada thread do Python.
+
 ## Notas de design
 
 - **`_ensure_mic` reinicia a thread se o idioma ou o tamanho do modelo mudou**,

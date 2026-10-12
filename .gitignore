@@ -82,17 +82,6 @@ CLAUDE.md
 *.autosave
 
 # =============================================================
-# Archivos grandes / modelos (MODELO/ y models/)
-# Estos binarios pesados no deben estar en git; usar Git LFS
-# o almacenamiento externo.
-# =============================================================
-/Dav/models/
-MODELO/*.zip
-MODELO/*.tar.gz
-MODELO/*.gz
-MODELO/*.whl
-
-# =============================================================
 # Configuración local
 # =============================================================
 local_config.py
@@ -143,6 +132,16 @@ coverage/
 htmlcov/
 MODELO/vosk-model-small-es-0.42/
 vosk-model*/
+
+# Modelos Vosk (Dav/models): solo se versionan los modelos pequeños y el
+# README; cualquier otra carpeta de modelos se ignora y no puede subirse.
+# Para permitir un modelo nuevo, agregar su línea "!" aquí. Este bloque va
+# después de "vosk-model*/" para que la excepción tenga efecto.
+/Dav/models/*
+!/Dav/models/README.md
+!/Dav/models/vosk-model-small-en-us-0.15/
+!/Dav/models/vosk-model-small-es-0.42/
+!/Dav/models/vosk-model-small-pt-0.3/
 
 # Material de referencia del profe — no es código implementado por el equipo
 luigiIntegracionV1/archivo_tarea_grupo/

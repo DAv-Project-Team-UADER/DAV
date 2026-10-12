@@ -103,6 +103,7 @@ class DavPanel(QWidget):
         self._palette = LIGHT if Theme == "light" else DARK
         self._lang = Lang
         self._texts = TEXTS.get(Lang, TEXTS["es"])
+        self._backPhrase = self.BACK_PHRASE
 
         self._BuildUi()
         self.RenderContext(self._context)
@@ -494,11 +495,18 @@ class DavPanel(QWidget):
         button.setToolTip("Volver")
         button.setFont(QFont(FONT_SANS, 18, QFont.Bold))
         button.setStyleSheet(self._BackButtonQss())
-        button.clicked.connect(lambda: self._OnEntryClicked(self.BACK_PHRASE))
+        # La frase se lee al hacer clic: cambia con el idioma (ver SetBackPhrase).
+        button.clicked.connect(lambda: self._OnEntryClicked(self._backPhrase))
         return button
 
-    #: Frase que el Browser interpreta como "subir un nivel" (Dav/dic/NavCommands).
+    #: Frase por defecto que el Browser interpreta como "subir un nivel"
+    #: (Dav/dic/NavCommands). Solo vale para español: SetBackPhrase la reemplaza
+    #: por la del idioma activo.
     BACK_PHRASE = "subir"
+
+    def SetBackPhrase(self, Phrase: str | None) -> None:
+        """Set the phrase the back button sends (depends on the active language)."""
+        self._backPhrase = Phrase or self.BACK_PHRASE
 
     def _OnEntryClicked(self, Spoken: str) -> None:
         self.Flash()

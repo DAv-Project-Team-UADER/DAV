@@ -115,6 +115,13 @@ Los comandos de confirmación/aborto de pop-ups (compartidos por los prompts):
 
 - **El micrófono usa PyAudio/SoundDevice** — si no se abre el stream, revisá
   que el dispositivo esté disponible y desocupado.
+- **En Linux el micrófono corre en un proceso aparte** (`speech/voice_worker.py`,
+  con el Python del `.venv`): si PortAudio o Vosk se caen, FreeCAD sigue abierto y
+  el error aparece en el Informe. Para usar el modo anterior (dentro de FreeCAD)
+  exportá `DAV_VOICE_INPROCESS=1`.
+- **Si FreeCAD se cierra de golpe** — mirá `GUIFreeCad/config/dav.log` (la última
+  línea indica en qué paso estaba) y `dav_fault.log` (se crea ante una caída
+  nativa).
 - **No se cargó el modelo** → confirmá que exista en `Dav/models/<idioma>` o
   que `setup_models.py` lo haya descargado.
 - **La gramática está acotada por contexto** — ciertos prompts (numéricos, de

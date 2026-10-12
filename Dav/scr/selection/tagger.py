@@ -93,7 +93,6 @@ def _LanguageFromPreferences() -> LanguageCode:
         repo = Path(__file__).resolve().parents[1]
         candidates = (
             repo / "ComponentesDAV" / "IntegracionGUI" / "GUIFreeCad",
-            repo / "componentesDAV" / "IntegracionGUI" / "GUIFreeCad",
             repo / "luigiIntegracionV1" / "GUIFreeCad",
             repo / "GUIFreeCad",
         )

@@ -48,6 +48,7 @@ _MAX_BYTES = 1_000_000
 _BACKUP_COUNT = 1
 
 _configured = False
+_fault_file = None  # referencia viva: faulthandler escribe en el archivo hasta el final
 
 
 def log_file_path() -> Path:
@@ -82,6 +83,28 @@ def _build_handler(path: Path) -> logging.Handler:
     return handler
 
 
+def _enable_faulthandler(log_path: Path) -> None:
+    """Dump the Python stack of every thread into ``dav_fault.log`` on a native crash.
+
+    A segfault/abort inside PortAudio, Vosk or Qt kills the process without a
+    Python traceback, and the terminal is often gone by then. faulthandler is
+    the one thing that can still write while the process is dying.
+    """
+    global _fault_file
+    try:
+        import faulthandler
+        import time
+
+        _fault_file = open(
+            log_path.with_name("dav_fault.log"), "a", buffering=1, encoding="utf-8"
+        )
+        stamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        _fault_file.write(f"--- {stamp} arranque pid={os.getpid()} ---\n")
+        faulthandler.enable(file=_fault_file, all_threads=True)
+    except Exception:  # noqa: BLE001 - no poder abrir el archivo no debe impedir arrancar
+        pass
+
+
 def _configure() -> None:
     """Attach the file handler once per process."""
     global _configured
@@ -96,6 +119,7 @@ def _configure() -> None:
 
     if not logger.handlers:
         logger.addHandler(_build_handler(log_file_path()))
+        _enable_faulthandler(log_file_path())
 
     _configured = True
 

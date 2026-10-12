@@ -45,6 +45,11 @@ DAV is currently in an early **MVP** (*Minimum Viable Product*) stage. It focuse
 - **Storage:** 2.5 GB of free disk space.
 - **Microphone:** required for voice commands; clear speech and a low-noise environment are recommended.
 
+## How to install it?
+
+- [Windows 10 or higher](Dav/docs/en/windows-installation-guide.md)
+- [Linux 64-bit](Dav/docs/en/linux-installation-guide.md)
+
 ## Documentation
 
 - [User Manual (PDF)](User_Manual.pdf)

@@ -1,4 +1,5 @@
-"""Registro en la carpeta Inicio de Windows para DAV + FreeCAD + voz."""
+"""Inicio automatico de DAV + FreeCAD + voz: carpeta Inicio en Windows,
+~/.config/autostart en Linux."""
 
 from __future__ import annotations
 
@@ -8,6 +9,7 @@ import sys
 from pathlib import Path
 
 SHORTCUT_NAME = "DAV-FreeCAD.lnk"
+AUTOSTART_NAME = "DAV.desktop"
 _STARTUP_ARGS = "-StartVoice -SkipModels"
 
 
@@ -45,7 +47,65 @@ def resolve_iniciar_dav_bat() -> Path | None:
     return None
 
 
+def _linux_autostart_file() -> Path:
+    base = os.environ.get("XDG_CONFIG_HOME", "").strip() or str(Path.home() / ".config")
+    return Path(base) / "autostart" / AUTOSTART_NAME
+
+
+def resolve_iniciar_dav_sh() -> Path | None:
+    """Ruta a iniciar_dav.sh (raiz del repo DAV)."""
+    try:
+        from integration.dav_paths import dav_repo_root
+
+        repo = dav_repo_root()
+    except FileNotFoundError:
+        return None
+
+    candidate = repo / "iniciar_dav.sh"
+    return candidate.resolve() if candidate.is_file() else None
+
+
+def _sync_linux_autostart(enabled: bool) -> tuple[bool, str]:
+    """Crea o quita ~/.config/autostart/DAV.desktop (equivalente a Inicio de Windows)."""
+    entry = _linux_autostart_file()
+    if enabled == entry.is_file():
+        return True, ""
+
+    if not enabled:
+        try:
+            entry.unlink()
+            return True, "Se quito DAV del inicio automatico."
+        except OSError as exc:
+            return False, f"No se pudo quitar el inicio automatico: {exc}"
+
+    script = resolve_iniciar_dav_sh()
+    if script is None:
+        return False, "No se encontro iniciar_dav.sh en el repo DAV."
+
+    # Exec va entre comillas dobles por si la ruta tiene espacios
+    exec_path = str(script).replace("\\", "\\\\").replace('"', '\\"')
+    lines = [
+        "[Desktop Entry]",
+        "Type=Application",
+        "Name=DAV",
+        "Comment=DAV + FreeCAD con voz al iniciar sesion",
+        f'Exec="{exec_path}" --skip-models',
+        f"Path={script.parent}",
+        "Terminal=false",
+        "X-GNOME-Autostart-enabled=true",
+    ]
+    content = "\n".join(lines) + "\n"
+    try:
+        entry.parent.mkdir(parents=True, exist_ok=True)
+        entry.write_text(content, encoding="utf-8")
+        return True, "DAV se abrira con FreeCAD y voz al iniciar sesion."
+    except OSError as exc:
+        return False, f"No se pudo crear la entrada de inicio automatico: {exc}"
+
+
 def is_windows_startup_registered() -> bool:
+    if sys.platform.startswith("linux"):
+        return _linux_autostart_file().is_file()
     if sys.platform != "win32":
         return False
     try:
@@ -61,8 +121,10 @@ def sync_windows_startup(enabled: bool) -> tuple[bool, str]:
     Returns:
         (ok, mensaje para el usuario; vacio si no hubo cambios)
     """
+    if sys.platform.startswith("linux"):
+        return _sync_linux_autostart(enabled)
     if sys.platform != "win32":
-        return False, "Solo disponible en Windows."
+        return False, "Solo disponible en Windows y Linux."
 
     registered = is_windows_startup_registered()
     if enabled and registered:

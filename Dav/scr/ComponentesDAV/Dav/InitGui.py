@@ -32,7 +32,7 @@ if _d:
         if _parent == _curr:
             break
         found = False
-        for name in ("ComponentesDAV", "componentesDAV"):
+        for name in ("ComponentesDAV",):
             if os.path.isdir(os.path.join(_parent, name)):
                 if _parent not in sys.path:
                     sys.path.insert(0, _parent)
@@ -40,9 +40,6 @@ if _d:
                     if name not in sys.modules:
                         mod = __import__(name)
                         sys.modules[name] = mod
-                    other_name = "componentesDAV" if name == "ComponentesDAV" else "ComponentesDAV"
-                    if other_name not in sys.modules and name in sys.modules:
-                        sys.modules[other_name] = sys.modules[name]
                 except Exception:
                     pass
                 found = True
@@ -66,9 +63,9 @@ class DAVWorkbench(Gui.Workbench):
     ToolTip = "DAV (UADER)"
 
     def Initialize(self):
-        import componentesDAV.Dav.scr.gui.freecad_wb
+        import ComponentesDAV.Dav.scr.gui.freecad_wb
 
-        componentesDAV.Dav.scr.gui.freecad_wb.setup_workbench(self)
+        ComponentesDAV.Dav.scr.gui.freecad_wb.setup_workbench(self)
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"

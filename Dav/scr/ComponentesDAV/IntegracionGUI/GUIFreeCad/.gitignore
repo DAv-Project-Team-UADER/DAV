@@ -11,3 +11,6 @@ models/*.zip
 models/vosk-model*/
 !.gitkeep
 !models/README.md
+
+# Dependencias de voz instaladas para el Python de FreeCAD (iniciar_dav.sh)
+.freecad_deps/
